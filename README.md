@@ -10,8 +10,9 @@ Javascript UI Library <b>AXISJ</b>
 <br/>
 <br/>
 <a href="http://www.axisj.com" target="_blank">http://www.axisj.com</a><br/>
-<a href="http://www.axisj.com" target="_blank">http://support.axisj.com</a><br/>
-<a href="http://www.axisj.com" target="_blank">http://dev.axisj.com</a><br/>
+<a href="http://support.axisj.com" target="_blank">http://support.axisj.com</a><br/>
+<a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a><br/>
+<a href="http://http://facebook.com/axisj" target="_blank">http://facebook.com/axisj</a><br/>
 <br/>
 Javascript UI tool based on jQuery<br/>
 <br/>
