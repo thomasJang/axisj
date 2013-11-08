@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXISJ</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<style type="text/css">
+
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript">
+		
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+		},
+		maskOpen: function(blink){
+			toast.push("마스크를 클릭하면 마스크가 사라집니다");
+			
+			if(blink){
+				//mask.setCSS({backgroundColor:"#ff0000"});
+				mask.open();
+				mask.blink([
+	    			{
+	    				css:{
+	    					opacity: "0.1"
+	    				}, time:500
+	    			},
+	    			{
+	    				css:{
+	    					opacity: "0.8"
+	    				}, time:500
+	    			}
+	    		]);
+			}else{
+				mask.setCSS({opacity:"0.6"});	
+				mask.open();
+			}
+			
+			setTimeout(function(){
+	    		$(document.body).bind("click", function(){
+	    			mask.stopBlink();
+	    			mask.close();
+	    			$(document.body).unbind("click");
+	    		});
+	    	}, 1);
+			
+		}
+	};
+	$(document).ready(fnObj.pageStart);
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">String</a>
+				<a href="Number.html" class="AXTab Blue">Number</a>
+				<a href="Date.html" class="AXTab Blue">Date</a>
+				<a href="Array.html" class="AXTab Blue">Array</a>
+				<a href="Error.html" class="AXTab Blue">Error</a>
+				<a href="AXUtil.html" class="AXTab Blue">AXUtil</a>
+				<a href="AXJ.html" class="AXTab Blue">AXJ</a>
+				<a href="AXReq.html" class="AXTab Blue">AXReq</a>
+				<a href="AXMask.html" class="AXTab Blue on">AXMask</a>
+				<a href="AXCalendar.html" class="AXTab Blue">AXCalendar</a>
+				<a href="AXContextMenu.html" class="AXTab Blue">AXContextMenu</a>
+				<a href="AXTooltip.html" class="AXTab Blue">AXTooltip</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h1>AXMask</h1>		
+		
+		
+		<div class="Hspace20"></div>
+		<fieldset class="AXscriptSource" id="AXscriptSource1">
+			<legend>AXMask</legend>
+			<textarea class="fieldsetBody" rows="10">
+mask.open(); // 열기 명령
+
+mask.blink([
+	{css:{opacity: "0.1"}, time:500},
+	{css:{opacity: "0.8"}, time:500}
+]);
+
+mask.close(); // 닫기 명령
+			</textarea>
+		</fieldset>
+		
+		<div style="padding:20px;">
+			<input type="button" value="마스크열기" class="AXButton" onclick="fnObj.maskOpen();" />
+			<input type="button" value="마스크열기(깜박이기)" class="AXButton" onclick="fnObj.maskOpen('blink');" />
+		</div>
+		
+	</div>	
+</body>
+</html>

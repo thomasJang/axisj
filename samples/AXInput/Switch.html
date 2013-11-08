@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXInput</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			
+			$("#AXInputSwitch").bindSwitch({off:"AM", on:"PM", onChange:function(){
+					toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));
+			}});
+			$("#AXInputSwitch2").bindSwitch({off:"UP SIDE", on:"DOWN SIDE", onChange:function(){
+					toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));	
+			}});
+			
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="Number.html" class="AXTab Blue">Number</a>
+				<a href="Switch.html" class="AXTab Blue on">Switch</a>
+				<a href="Segment.html" class="AXTab Blue">Segment</a>
+				<a href="Slider.html" class="AXTab Blue">Slider</a>
+				<a href="Selector.html" class="AXTab Blue">Selector</a>
+				<a href="calendar.html" class="AXTab Blue">Date</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXInput bind Switch</h2>
+
+		<input type="text" name="" value="AM" id="AXInputSwitch" class="AXInput W40" />
+		<input type="text" name="" value="UP SIDE" id="AXInputSwitch2" class="AXInput W80" />
+
+		<div style="padding:10px 0px;">
+			<input type="button" value="AM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('AM');" />
+			<input type="button" value="PM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('PM');" />
+			
+			<input type="button" value="UP SIDE" class="AXButton" onclick="$('#AXInputSwitch2').setValueInput('UP SIDE');" />
+			<input type="button" value="DOWN SIDE" class="AXButton" onclick="$('#AXInputSwitch2').setValueInput('DOWN SIDE');" />
+		</div>
+		
+		<div class="Hspace20"></div>
+		
+
+	</div>
+
+</body>
+</html>

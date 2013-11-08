@@ -1,0 +1,727 @@
+/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ *
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+
+/** horizen **/
+/** .AXTabs.Classic **/
+.AXTabs .AXTabsTray .AXTab.Classic{
+	border:1px solid #82898f;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicRegular.png) repeat-x;
+}
+.AXTabs .AXTabsTray .AXTab.Classic:hover, .AXTabs .AXTabsTray .AXTab.Classic:focus{
+	border-top:1px solid #383f45;border-left:1px solid #383f45;border-right:1px solid #383f45;
+	background-position:0px -26px;
+	color:#fff;text-shadow:0px -1px #000;
+}
+.AXTabs .AXTabsTray .AXTab.Classic:active{
+	border-top:1px solid #454c56;border-left:1px solid #454c56;border-right:1px solid #454c56;
+	background-position:0px -52px;
+	color:#c7d0d7;
+	text-shadow:0px 1px #515c65;
+}
+.AXTabs .AXTabsTray .AXTab.Classic.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsSmall .AXTabsTray .AXTab.Classic{
+	border:1px solid #82898f;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicSmall.png) repeat-x;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Classic:hover, .AXTabsSmall .AXTabsTray .AXTab.Classic:focus{
+	border-top:1px solid #383f45;border-left:1px solid #383f45;border-right:1px solid #383f45;
+	background-position:0px -20px;
+	color:#fff;text-shadow:0px -1px #000;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Classic:active{
+	border-top:1px solid #454c56;border-left:1px solid #454c56;border-right:1px solid #454c56;
+	background-position:0px -40px;
+	color:#c7d0d7;
+	text-shadow:0px 1px #515c65;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Classic.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsLarge .AXTabsTray .AXTab.Classic{
+	border:1px solid #82898f;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicLarge.png) repeat-x;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Classic:hover, .AXTabsLarge .AXTabsTray .AXTab.Classic:focus{
+	border-top:1px solid #383f45;border-left:1px solid #383f45;border-right:1px solid #383f45;
+	background-position:0px -46px;
+	color:#fff;text-shadow:0px -1px #000;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Classic:active{
+	border-top:1px solid #454c56;border-left:1px solid #454c56;border-right:1px solid #454c56;
+	background-position:0px -92px;
+	color:#c7d0d7;
+	text-shadow:0px 1px #515c65;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Classic.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+/** .AXTabs.Blue **/
+.AXTabs .AXTabsTray .AXTab.Blue{
+	border:1px solid #3d7fb3;
+	color:#d0ebff;text-shadow:0px -1px #5692c2;
+	background:url(img/blueRegular.png) repeat-x;
+}
+.AXTabs .AXTabsTray .AXTab.Blue:hover, .AXTabs .AXTabsTray .AXTab.Blue:focus{
+	border-top:1px solid #2e6492;border-left:1px solid #2e6492;border-right:1px solid #2e6492;
+	background-position:0px -26px;
+	color:#fff;text-shadow:0px -1px #2a4861;
+}
+.AXTabs .AXTabsTray .AXTab.Blue:active{
+	border-top:1px solid #296190;border-left:1px solid #296190;border-right:1px solid #296190;
+	background-position:0px -52px;
+	color:#b5d5ea;
+	text-shadow:0px 1px #436582;
+}
+.AXTabs .AXTabsTray .AXTab.Blue.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsSmall .AXTabsTray .AXTab.Blue{
+	border:1px solid #3d7fb3;
+	color:#d0ebff;text-shadow:0px -1px #5692c2;
+	background:url(img/BlueSmall.png) repeat-x;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Blue:hover, .AXTabsSmall .AXTabsTray .AXTab.Blue:focus{
+	border-top:1px solid #2e6492;border-left:1px solid #2e6492;border-right:1px solid #2e6492;
+	background-position:0px -20px;
+	color:#fff;text-shadow:0px -1px #2a4861;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Blue:active{
+	border-top:1px solid #296190;border-left:1px solid #296190;border-right:1px solid #296190;
+	background-position:0px -40px;
+	color:#b5d5ea;
+	text-shadow:0px 1px #436582;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Blue.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsLarge .AXTabsTray .AXTab.Blue{
+	border:1px solid #3d7fb3;
+	color:#d0ebff;text-shadow:0px -1px #5692c2;
+	background:url(img/BlueLarge.png) repeat-x;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Blue:hover, .AXTabsLarge .AXTabsTray .AXTab.Blue:focus{
+	border-top:1px solid #2e6492;border-left:1px solid #2e6492;border-right:1px solid #2e6492;
+	background-position:0px -46px;
+	color:#fff;text-shadow:0px -1px #2a4861;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Blue:active{
+	border-top:1px solid #296190;border-left:1px solid #296190;border-right:1px solid #296190;
+	background-position:0px -92px;
+	color:#b5d5ea;
+	text-shadow:0px 1px #436582;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Blue.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+/** .AXTabs.Green **/
+.AXTabs .AXTabsTray .AXTab.Green{
+	border:1px solid #69994d;
+	color:#deffbb;text-shadow:0px -1px #729a59;
+	background:url(img/greenRegular.png) repeat-x;
+}
+.AXTabs .AXTabsTray .AXTab.Green:hover, .AXTabs .AXTabsTray .AXTab.Green:focus{
+	border-top:1px solid #54813e;border-left:1px solid #54813e;border-right:1px solid #54813e;
+	background-position:0px -26px;
+	color:#fff;text-shadow:0px -1px #405632;
+}
+.AXTabs .AXTabsTray .AXTab.Green:active{
+	border-top:1px solid #5e8846;border-left:1px solid #5e8846;border-right:1px solid #5e8846;
+	background-position:0px -52px;
+	color:#e1edaf;
+	text-shadow:0px 1px #5e7d58;
+}
+.AXTabs .AXTabsTray .AXTab.Green.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsSmall .AXTabsTray .AXTab.Green{
+	border:1px solid #69994d;
+	color:#deffbb;text-shadow:0px -1px #729a59;
+	background:url(img/GreenSmall.png) repeat-x;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Green:hover, .AXTabsSmall .AXTabsTray .AXTab.Green:focus{
+	border-top:1px solid #54813e;border-left:1px solid #54813e;border-right:1px solid #54813e;
+	background-position:0px -20px;
+	color:#fff;text-shadow:0px -1px #405632;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Green:active{
+	border-top:1px solid #5e8846;border-left:1px solid #5e8846;border-right:1px solid #5e8846;
+	background-position:0px -40px;
+	color:#e1edaf;
+	text-shadow:0px 1px #5e7d58;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Green.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsLarge .AXTabsTray .AXTab.Green{
+	border:1px solid #69994d;
+	color:#deffbb;text-shadow:0px -1px #729a59;
+	background:url(img/GreenLarge.png) repeat-x;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Green:hover, .AXTabsLarge .AXTabsTray .AXTab.Green:focus{
+	border-top:1px solid #54813e;border-left:1px solid #54813e;border-right:1px solid #54813e;
+	background-position:0px -46px;
+	color:#fff;text-shadow:0px -1px #405632;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Green:active{
+	border-top:1px solid #5e8846;border-left:1px solid #5e8846;border-right:1px solid #5e8846;
+	background-position:0px -92px;
+	color:#e1edaf;
+	text-shadow:0px 1px #5e7d58;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Green.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+/** .AXTabs.Red **/
+.AXTabs .AXTabsTray .AXTab.Red{
+	border:1px solid #882f29;
+	color:#ffccc8;text-shadow:0px -1px #aa4949;
+	background:url(img/redRegular.png) repeat-x;
+}
+.AXTabs .AXTabsTray .AXTab.Red:hover, .AXTabs .AXTabsTray .AXTab.Red:focus{
+	border-top:1px solid #7e201e;border-left:1px solid #7e201e;border-right:1px solid #7e201e;
+	background-position:0px -26px;
+	color:#fff;text-shadow:0px -1px #5b2122;
+}
+.AXTabs .AXTabsTray .AXTab.Red:active{
+	border-top:1px solid #731c22;border-left:1px solid #731c22;border-right:1px solid #731c22;
+	background-position:0px -52px;
+	color:#ffc1af;
+	text-shadow:0px 1px #7a4247;
+}
+.AXTabs .AXTabsTray .AXTab.Red.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsSmall .AXTabsTray .AXTab.Red{
+	border:1px solid #882f29;
+	color:#ffccc8;text-shadow:0px -1px #aa4949;
+	background:url(img/RedSmall.png) repeat-x;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Red:hover, .AXTabsSmall .AXTabsTray .AXTab.Red:focus{
+	border-top:1px solid #7e201e;border-left:1px solid #7e201e;border-right:1px solid #7e201e;
+	background-position:0px -20px;
+	color:#fff;text-shadow:0px -1px #5b2122;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Red:active{
+	border-top:1px solid #731c22;border-left:1px solid #731c22;border-right:1px solid #731c22;
+	background-position:0px -40px;
+	color:#ffc1af;
+	text-shadow:0px 1px #7a4247;
+}
+.AXTabsSmall .AXTabsTray .AXTab.Red.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabsLarge .AXTabsTray .AXTab.Red{
+	border:1px solid #882f29;
+	color:#ffccc8;text-shadow:0px -1px #aa4949;
+	background:url(img/RedLarge.png) repeat-x;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Red:hover, .AXTabsLarge .AXTabsTray .AXTab.Red:focus{
+	border-top:1px solid #7e201e;border-left:1px solid #7e201e;border-right:1px solid #7e201e;
+	background-position:0px -46px;
+	color:#fff;text-shadow:0px -1px #5b2122;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Red:active{
+	border-top:1px solid #731c22;border-left:1px solid #731c22;border-right:1px solid #731c22;
+	background-position:0px -92px;
+	color:#ffc1af;
+	text-shadow:0px 1px #7a4247;
+}
+.AXTabsLarge .AXTabsTray .AXTab.Red.on{
+	color:#6e7a86;text-shadow:none;
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+
+/** vertical **/
+/** .AXTabsVertical.Classic **/
+.AXTabsVertical .AXTabsTray .AXTab.Classic{
+	border:1px solid #82898f;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicRegularVertical.png) repeat-y;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Classic:hover, .AXTabsVertical .AXTabsTray .AXTab.Classic:focus{
+	border-top:1px solid #383f45;border-bottom:1px solid #383f45;
+	background-position:-26px 0px;
+	color:#fff;text-shadow:0px -1px #000;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Classic:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab.Classic:focus{
+	border-left:1px solid #383f45;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Classic:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab.Classic:focus{
+	border-right:1px solid #383f45;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Classic:active{
+	border-top:1px solid #454c56;border-bottom:1px solid #454c56;
+	background-position:-52px 0px ;
+	color:#c7d0d7;text-shadow:0px 1px #515c65;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Classic:active{
+	border-left:1px solid #454c56;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Classic:active{
+	border-right:1px solid #454c56;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Classic.on{
+	color:#6e7a86;text-shadow:none;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Classic.on{
+	background:#fff;border-right:1px solid #fff;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Classic.on{
+	background:#fff;border-left:1px solid #fff;
+}
+
+.AXTabsSmallVertical .AXTabsTray .AXTab.Classic{
+	border:1px solid #82898f;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicSmallVertical.png) repeat-y;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Classic:hover, .AXTabsSmallVertical .AXTabsTray .AXTab.Classic:focus{
+	border-top:1px solid #383f45;border-left:1px solid #383f45;border-bottom:1px solid #383f45;
+	background-position:-20px 0px ;
+	color:#fff;text-shadow:0px -1px #000;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Classic:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Classic:focus{
+	border-left:1px solid #383f45;
+}
+.AXTabsSmallVertical.rihgtSide .AXTabsTray .AXTab.Classic:hover, .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Classic:focus{
+	border-right:1px solid #383f45;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Classic:active{
+	border-top:1px solid #454c56;border-left:1px solid #454c56;border-bottom:1px solid #454c56;
+	background-position:-40px 0px ;
+	color:#c7d0d7;
+	text-shadow:0px 1px #515c65;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Classic:active{
+	border-left:1px solid #454c56;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Classic:active{
+	border-right:1px solid #454c56;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Classic.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Classic.on{
+	border-right:1px solid #fff;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Classic.on{
+	border-left:1px solid #fff;
+}
+
+.AXTabsLargeVertical .AXTabsTray .AXTab.Classic{
+	border:1px solid #82898f;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicLargeVertical.png) repeat-y;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Classic:hover, .AXTabsLargeVertical .AXTabsTray .AXTab.Classic:focus{
+	border-top:1px solid #383f45;border-left:1px solid #383f45;border-bottom:1px solid #383f45;
+	background-position:-46px 0px;
+	color:#fff;text-shadow:0px -1px #000;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Classic:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Classic:focus{
+	border-left:1px solid #383f45;
+}
+.AXTabsLargeVertical.rihgtSide .AXTabsTray .AXTab.Classic:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Classic:focus{
+	border-right:1px solid #383f45;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Classic:active{
+	border-top:1px solid #454c56;border-left:1px solid #454c56;border-bottom:1px solid #454c56;
+	background-position:-92px 0px;
+	color:#c7d0d7;
+	text-shadow:0px 1px #515c65;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Classic:active{
+	border-left:1px solid #454c56;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Classic:active{
+	border-right:1px solid #454c56;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Classic.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Classic.on{
+	border-right:1px solid #fff;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Classic.on{
+	border-left:1px solid #fff;
+}
+
+/** .AXTabsVertical.Blue **/
+.AXTabsVertical .AXTabsTray .AXTab.Blue{
+	border:1px solid #3d7fb3;
+	color:#d0ebff;text-shadow:0px -1px #5692c2;
+	background:url(img/blueRegularVertical.png) repeat-y;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Blue:hover, .AXTabsVertical .AXTabsTray .AXTab.Blue:focus{
+	border-top:1px solid #2e6492;border-left:1px solid #2e6492;border-bottom:1px solid #2e6492;
+	background-position:-26px 0px;
+	color:#fff;text-shadow:0px -1px #2a4861;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Blue:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab.Blue:focus{
+	border-left:1px solid #2e6492;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Blue:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab.Blue:focus{
+	border-right:1px solid #2e6492;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Blue:active{
+	border-top:1px solid #296190;border-left:1px solid #296190;border-bottom:1px solid #296190;
+	background-position:-52px 0px;
+	color:#b5d5ea;
+	text-shadow:0px 1px #436582;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Blue:active{
+	border-left:1px solid #296190;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Blue:active{
+	border-right:1px solid #296190;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Blue.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Blue.on{
+	border-right:1px solid #fff;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Blue.on{
+	border-left:1px solid #fff;
+}
+
+.AXTabsSmallVertical .AXTabsTray .AXTab.Blue{
+	border:1px solid #3d7fb3;
+	color:#d0ebff;text-shadow:0px -1px #5692c2;
+	background:url(img/BlueSmallVertical.png) repeat-y;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Blue:hover, .AXTabsSmallVertical .AXTabsTray .AXTab.Blue:focus{
+	border-top:1px solid #2e6492;border-left:1px solid #2e6492;border-bottom:1px solid #2e6492;
+	background-position:-20px 0px;
+	color:#fff;text-shadow:0px -1px #2a4861;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Blue:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Blue:focus{
+	border-left:1px solid #2e6492;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Blue:hover, .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Blue:focus{
+	border-right:1px solid #2e6492;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Blue:active{
+	border-top:1px solid #296190;border-left:1px solid #296190;border-bottom:1px solid #296190;
+	background-position:-40px 0px;
+	color:#b5d5ea;
+	text-shadow:0px 1px #436582;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Blue:active{
+	border-left:1px solid #296190;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Blue:active{
+	border-right:1px solid #296190;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Blue.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Blue.on{
+	border-right:1px solid #fff;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Blue.on{
+	border-left:1px solid #fff;
+}
+
+.AXTabsLargeVertical .AXTabsTray .AXTab.Blue{
+	border:1px solid #3d7fb3;
+	color:#d0ebff;text-shadow:0px -1px #5692c2;
+	background:url(img/BlueLargeVertical.png) repeat-y;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Blue:hover, .AXTabsLargeVertical .AXTabsTray .AXTab.Blue:focus{
+	border-top:1px solid #2e6492;border-left:1px solid #2e6492;border-bottom:1px solid #2e6492;
+	background-position:-46px 0px;
+	color:#fff;text-shadow:0px -1px #2a4861;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Blue:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Blue:focus{
+	border-left:1px solid #2e6492;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Blue:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Blue:focus{
+	border-right:1px solid #2e6492;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Blue:active{
+	border-top:1px solid #296190;border-left:1px solid #296190;border-bottom:1px solid #296190;
+	background-position:-92px 0px;
+	color:#b5d5ea;
+	text-shadow:0px 1px #436582;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Blue:active{
+	border-left:1px solid #296190;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Blue:active{
+	border-right:1px solid #296190;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Blue.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Blue.on{
+	border-right:1px solid #fff;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Blue.on{
+	border-left:1px solid #fff;
+}
+
+/** .AXTabsVertical.Green **/
+.AXTabsVertical .AXTabsTray .AXTab.Green{
+	border:1px solid #69994d;
+	color:#deffbb;text-shadow:0px -1px #729a59;
+	background:url(img/greenRegularVertical.png) repeat-y;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Green:hover, .AXTabsVertical .AXTabsTray .AXTab.Green:focus{
+	border-top:1px solid #54813e;border-left:1px solid #54813e;border-bottom:1px solid #54813e;
+	background-position:-26px 0px;
+	color:#fff;text-shadow:0px -1px #405632;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Green:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab.Green:focus{
+	border-left:1px solid #54813e;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Green:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab.Green:focus{
+	border-right:1px solid #54813e;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Green:active{
+	border-top:1px solid #5e8846;border-left:1px solid #5e8846;border-bottom:1px solid #5e8846;
+	background-position:-52px 0px;
+	color:#e1edaf;
+	text-shadow:0px 1px #5e7d58;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Green:active{
+	border-left:1px solid #5e8846;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Green:active{
+	border-right:1px solid #5e8846;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Green.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Green.on{
+	border-right:1px solid #fff;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Green.on{
+	border-left:1px solid #fff;
+}
+
+.AXTabsSmallVertical .AXTabsTray .AXTab.Green{
+	border:1px solid #69994d;
+	color:#deffbb;text-shadow:0px -1px #729a59;
+	background:url(img/GreenSmallVertical.png) repeat-y;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Green:hover, .AXTabsSmallVertical .AXTabsTray .AXTab.Green:focus{
+	border-top:1px solid #54813e;border-left:1px solid #54813e;border-bottom:1px solid #54813e;
+	background-position:-20px 0px;
+	color:#fff;text-shadow:0px -1px #405632;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Green:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Green:focus{
+	border-left:1px solid #54813e;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Green:hover, .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Green:focus{
+	border-right:1px solid #54813e;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Green:active{
+	border-top:1px solid #5e8846;border-left:1px solid #5e8846;border-bottom:1px solid #5e8846;
+	background-position:-40px 0px;
+	color:#e1edaf;
+	text-shadow:0px 1px #5e7d58;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Green:active{
+	border-left:1px solid #5e8846;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Green:active{
+	border-right:1px solid #5e8846;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Green.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Green.on{
+	border-right:1px solid #fff;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Green.on{
+	border-left:1px solid #fff;
+}
+
+.AXTabsLargeVertical .AXTabsTray .AXTab.Green{
+	border:1px solid #69994d;
+	color:#deffbb;text-shadow:0px -1px #729a59;
+	background:url(img/GreenLargeVertical.png) repeat-y;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Green:hover, .AXTabsLargeVertical .AXTabsTray .AXTab.Green:focus{
+	border-top:1px solid #54813e;border-left:1px solid #54813e;border-bottom:1px solid #54813e;
+	background-position:-46px 0px;
+	color:#fff;text-shadow:0px -1px #405632;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Green:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Green:focus{
+	border-left:1px solid #54813e;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Green:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Green:focus{
+	border-right:1px solid #54813e;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Green:active{
+	border-top:1px solid #5e8846;border-left:1px solid #5e8846;border-bottom:1px solid #5e8846;
+	background-position:-92px 0px;
+	color:#e1edaf;
+	text-shadow:0px 1px #5e7d58;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Green:active{
+	border-left:1px solid #5e8846;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Green:active{
+	border-right:1px solid #5e8846;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Green.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Green.on{
+	border-right:1px solid #fff;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Green.on{
+	border-left:1px solid #fff;
+}
+
+/** .AXTabsVertical.Red **/
+.AXTabsVertical .AXTabsTray .AXTab.Red{
+	border:1px solid #882f29;
+	color:#ffccc8;text-shadow:0px -1px #aa4949;
+	background:url(img/redRegularVertical.png) repeat-y;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Red:hover, .AXTabsVertical .AXTabsTray .AXTab.Red:focus{
+	border-top:1px solid #7e201e;border-left:1px solid #7e201e;border-bottom:1px solid #7e201e;
+	background-position:-26px 0px;
+	color:#fff;text-shadow:0px -1px #5b2122;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Red:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab.Red:focus{
+	border-left:1px solid #7e201e;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Red:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab.Red:focus{
+	border-right:1px solid #7e201e;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Red:active{
+	border-top:1px solid #731c22;border-left:1px solid #731c22;border-bottom:1px solid #731c22;
+	background-position:-52px 0px;
+	color:#ffc1af;
+	text-shadow:0px 1px #7a4247;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Red:active{
+	border-left:1px solid #731c22;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Red:active{
+	border-right:1px solid #731c22;
+}
+.AXTabsVertical .AXTabsTray .AXTab.Red.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.Red.on{
+	border-right:1px solid #fff;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.Red.on{
+	border-left:1px solid #fff;
+}
+
+
+.AXTabsSmallVertical .AXTabsTray .AXTab.Red{
+	border:1px solid #882f29;
+	color:#ffccc8;text-shadow:0px -1px #aa4949;
+	background:url(img/RedSmallVertical.png) repeat-y;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Red:hover, .AXTabsSmallVertical .AXTabsTray .AXTab.Red:focus{
+	border-top:1px solid #7e201e;border-left:1px solid #7e201e;border-bottom:1px solid #7e201e;
+	background-position:-20px 0px;
+	color:#fff;text-shadow:0px -1px #5b2122;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Red:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Red:focus{
+	border-left:1px solid #7e201e;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Red:hover, .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Red:focus{
+	border-right:1px solid #7e201e;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Red:active{
+	border-top:1px solid #731c22;border-left:1px solid #731c22;border-bottom:1px solid #731c22;
+	background-position:-40px 0px;
+	color:#ffc1af;
+	text-shadow:0px 1px #7a4247;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Red:active{
+	border-left:1px solid #731c22;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Red:active{
+	border-right:1px solid #731c22;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab.Red.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.Red.on{
+	border-right:1px solid #fff;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.Red.on{
+	border-left:1px solid #fff;
+}
+
+.AXTabsLargeVertical .AXTabsTray .AXTab.Red{
+	border:1px solid #882f29;
+	color:#ffccc8;text-shadow:0px -1px #aa4949;
+	background:url(img/RedLargeVertical.png) repeat-y;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Red:hover, .AXTabsLargeVertical .AXTabsTray .AXTab.Red:focus{
+	border-top:1px solid #7e201e;border-left:1px solid #7e201e;border-bottom:1px solid #7e201e;
+	background-position:-46px 0px;
+	color:#fff;text-shadow:0px -1px #5b2122;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Red:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Red:focus{
+	border-left:1px solid #7e201e;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Red:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Red:focus{
+	border-right:1px solid #7e201e;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Red:active{
+	border-top:1px solid #731c22;border-left:1px solid #731c22;border-bottom:1px solid #731c22;
+	background-position:-92px 0px;
+	color:#ffc1af;
+	text-shadow:0px 1px #7a4247;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Red:active{
+	border-left:1px solid #731c22;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Red:active{
+	border-right:1px solid #731c22;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab.Red.on{
+	color:#6e7a86;text-shadow:none;background:#fff;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.Red.on{
+	border-right:1px solid #fff;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Red.on{
+	border-left:1px solid #fff;
+}

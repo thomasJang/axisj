@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXSearch</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var mySearch = new AXSearch();
+	var mySearch2 = new AXSearch();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			//검색도구 설정 01 ---------------------------------------------------------
+			mySearch.setConfig({
+				targetID:"AXSearchTarget",
+				theme : "AXSearch",
+				onsubmit: function(){
+					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
+				},
+				rows:[
+					{display:true, addClass:"gray", style:"", list:[
+						{label:"공개설정", labelWidth:"100", type:"link", width:"", key:"openType", addClass:"", valueBoxStyle:"", value:"open",
+							options:[
+								{optionValue:"all", optionText:"전체보기"},
+								{optionValue:"open", optionText:"공개"},
+								{optionValue:"close", optionText:"비공개"},
+								{optionValue:"close2", optionText:"비공개2", display:false},
+								{optionValue:"close3", optionText:"비공개3", display:false},
+								{optionValue:"close4", optionText:"비공개4", display:false}
+							],
+							onChange: function(selectedObject, value){
+								//아래 3개의 값을 사용 하실 수 있습니다.
+								dialog.push(Object.toJSON(this));
+								dialog.push(Object.toJSON(selectedObject));
+								dialog.push(value);
+							}
+						}
+					]},
+					{display:false, addClass:"", style:"", list:[
+						{label:"EXIF정보", labelWidth:"100", type:"link", width:"", key:"exif", addClass:"", valueBoxStyle:"", value:"close",
+							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						}
+					]},
+					{display:true, addClass:"", style:"", list:[
+						{label:"체크박스류", labelWidth:"100", type:"checkBox", width:"", key:"checkbox", addClass:"", valueBoxStyle:"", value:"open,close",
+							options:[{optionValue:"all", optionText:"전체보기", title:"체크박스"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(selectedObject, value){
+								//아래 3개의 값을 사용 하실 수 있습니다.
+								dialog.push(Object.toJSON(this));
+								dialog.push(Object.toJSON(selectedObject));
+								dialog.push(value);
+							}
+						},
+						{label:"라디오류", labelWidth:"100", type:"radioBox", width:"", key:"radiobox", addClass:"secondItem", valueBoxStyle:"", value:"close",
+							options:[{optionValue:"all", optionText:"전체보기", title:"라디오타이틀"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(selectedObject, value){
+								//아래 3개의 값을 사용 하실 수 있습니다.
+								dialog.push(Object.toJSON(this));
+								dialog.push(Object.toJSON(selectedObject));
+								dialog.push(value);
+							}
+						}
+					]},
+					{display:true, addClass:"", style:"", list:[
+						{label:"선택입력", labelWidth:"100", type:"selectBox", width:"", key:"selectbox", addClass:"", valueBoxStyle:"", value:"close",
+							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							AXBind:{
+								type:"select", config:{
+									onChange:function(){
+										//toast.push(Object.toJSON(this));
+										
+									}
+								}
+							}
+						},
+						{label:"", labelWidth:"", type:"inputText", width:"150", key:"inputText", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"ABCD",
+							onChange: function(changedValue){
+								//아래 2개의 값을 사용 하실 수 있습니다.
+								dialog.push(Object.toJSON(this));
+								dialog.push(changedValue);						
+							}
+						},
+						{label:"입력2", labelWidth:"60", type:"inputText", width:"250", key:"inputText2", addClass:"secondItem", valueBoxStyle:"", value:"입력2", title:"타이틀정보",
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"기능1",
+							onclick: function(){
+								alert(mySearch.getItemId("inputText2"));
+								mySearch.setItemValue("inputText2");
+								//AXUtil.alert(this);
+								
+								var myID = mySearch.getItemId("selectbox");
+								$("#"+myID).append("<option value='1'>222222</option>")
+								$("#"+myID).bindSelect();
+								
+							}
+						},
+						{label:"", labelWidth:"", type:"submit", width:"80", key:"button", addClass:"Classic", valueBoxStyle:"padding-left:0px;", value:"기능2",
+							onclick: function(){
+								AXUtil.alert(this);
+							}
+						}
+					]},
+					{display:false, addClass:"", style:"", list:[
+						{label:"생각없이만들기", labelWidth:"100", type:"checkBox", width:"", key:"checkbox2", addClass:"", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"radioBox", width:"", key:"radiobox2", addClass:"secondItem", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						}
+					]},
+					{display:false, addClass:"", style:"", list:[
+						{label:"생각없이만들기", labelWidth:"100", type:"checkBox", width:"", key:"checkbox3", addClass:"", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"radioBox", width:"", key:"radiobox3", addClass:"secondItem", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						}
+					]}
+				]
+			});
+			//검색도구 설정 01 ---------------------------------------------------------
+			
+			
+			//검색도구 설정 02 ---------------------------------------------------------
+			mySearch2.setConfig({
+				targetID:"AXSearchTarget2",
+				theme : "AXSearch",
+				rows:[
+					{display:true, addClass:"gray", style:"", list:[
+						{label:"Selector", labelWidth:"", type:"inputText", width:"150", key:"inputTextSelector", addClass:"", valueBoxStyle:"", value:"123",
+							AXBind:{
+								type:"selector", config:{
+									appendable:true,
+									ajaxUrl:"/samples/AXInput/selectorData.asp", 
+									ajaxPars:"",
+									onChange:function(){
+										toast.push(Object.toJSON(this));
+									}
+								}
+							}
+						},
+						{label:"Date", labelWidth:"", type:"inputText", width:"110", key:"inputTextDate", addClass:"secondItem", valueBoxStyle:"", value:"",
+							AXBind:{
+								type:"date", config:{
+									align:"right", valign:"top", defaultDate:"2013-05-01", 
+									onChange:function(){
+										toast.push(Object.toJSON(this));
+									}
+								}
+							}
+						}
+					]},
+					{display:false, addClass:"", style:"", list:[
+						{label:"", labelWidth:"100", type:"selectBox", width:"", key:"selectbox", addClass:"", valueBoxStyle:"", value:"",
+							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							AXBind:{
+								type:"select", config:{
+									onChange:function(){
+										toast.push(Object.toJSON(this));
+									}
+								}
+							}
+						},
+						{label:"", labelWidth:"", type:"inputText", width:"150", key:"inputText", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"",
+							onChange: function(){}
+						},
+						{label:"기간", labelWidth:"", type:"inputText", width:"70", key:"inputText1", addClass:"secondItem", valueBoxStyle:"", value:"",
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"inputText", width:"90", key:"inputText2", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"",
+							AXBind:{
+								type:"twinDate", config:{
+									align:"right", valign:"top", startTargetID:"inputText1", 
+									onChange:function(){
+										toast.push(Object.toJSON(this));
+									}
+								}
+							}
+						},
+						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"검색하기",
+							onclick: function(){
+								var pars = mySearch2.getParam();
+								toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
+								trace(pars);
+							}
+						}
+					]}
+				]
+			});
+			//검색도구 설정 02 ---------------------------------------------------------
+			
+			$("#expandHandle").click(function(){
+				if($(this).data("expand") == "open"){
+					$(this).data("expand", "close");
+					$(".expandShowHideTarget").hide();
+					$(this).html("상세검색");
+				}else{
+					$(this).data("expand", "open");
+					$(".expandShowHideTarget").show();
+					$(this).html("상세검색창 닫기");
+				}
+			});
+		},
+		search1: function(){
+			var pars = mySearch.getParam();
+			toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
+			trace(pars);
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 100);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<h2>AXSearch</h2>
+
+			<h3>style 1</h3>
+
+			<div id="AXSearchTarget" style="border-top:1px solid #ccc;"></div>
+			
+			<div style="padding:10px;" align="center">
+				<input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search1();" />
+			</div>
+			
+			<div class="Hspace20"></div>
+
+			<h3>style 2</h3>
+			<div id="AXSearchTarget2" style="border-top:1px solid #ccc;"></div>
+			
+			<div class="Hspace20"></div>
+			
+			<h3>style 3 - 스타일시트 가이드</h3>
+			
+			<div>
+				<table cellpadding="0" cellspacing="0" class="AXSearchTable">
+					<colgroup>
+						<col width="100" />
+						<col />
+						<col width="100" />
+						<col />
+					</colgroup>
+					<tbody>
+						<tr class="gray">
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td>
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+								</div>
+							</td>
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+									<input type="button" class="AXButton" value="Search" />
+								</div>
+							</td>	
+						</tr>
+						<tr class="expandShowHideTarget" style="display:none;">
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td>
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+								</div>
+							</td>
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+									<input type="button" class="AXButton" value="Search" />
+								</div>
+							</td>	
+						</tr>
+						<tr class="expandShowHideTarget" style="display:none;">
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td>
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+								</div>
+							</td>
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+									<input type="button" class="AXButton" value="Search" />
+								</div>
+							</td>	
+						</tr>
+					</tbody>
+				</table>
+				<div class="AXSearch">
+					<a href="#axexec" class="expandHandle" id="expandHandle">상세검색</a>
+				</div>
+			</div>
+			
+			
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXAddress</title>
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var myModal = new AXModal();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			myModal.setConfig({windowID:"myModalCT"});
+		},
+		addr: {
+			search: function(){
+				myModal.open({
+					method:"get",
+					url:"addrFinder.html",
+					pars:"",
+					top:50, width:500
+				});				
+			},
+			set: function(obj){
+				var frm = document.regForm;
+				frm.zipnum.value = obj.zipnum;
+				frm.addr.value = obj.addr;
+				frm.dtlsaddr.focus();				
+			}	
+		}
+	};
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+	<div style="padding:20px">
+
+		<h2>AXAddress</h2>
+		<div class="Hspace20"></div>
+		
+		<form name="regForm" method="post">
+		<table cellpadding="0" cellspacing="0" class="AXFormTable">
+			<colgroup>
+				<col width="100" />
+				<col />
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>
+						<div class="tdRel">우편번호</div>
+					</th>	
+					<td class="last">
+						<div class="tdRel">
+							<input type="text" name="zipnum" value="" class="AXInput W60" readonly="readonly" />
+							<input type="button" value="주소검색창 열기" class="AXButton" onclick="fnObj.addr.search();" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<div class="tdRel">주소</div>
+					</th>	
+					<td class="last">
+						<div class="tdRel">
+							<input type="text" name="addr" value="" class="AXInput W200" readonly="readonly" />
+							<input type="text" name="dtlsaddr" value="" class="AXInput W200" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
+		
+		<div class="Hspace20"></div>
+		
+		<div>
+			아래의 링크를 참조 하시면 공공데이터 포털에서 관련 서비스 정보를 얻으 실 수 있습니다.	
+		</div>
+		<div class="Hspace20"></div>
+		
+		<input type="button" value="도로명주소조회 서비스" class="AXButton" onclick="window.open('https://www.data.go.kr/#L2NvbW0vY29tbW9uU2VhcmNoL29wZW5hcGkkQF5tMDIkQF5wYmxvbnNpcFJlc3JjZVBrPXVkZGk6YmRhNzM0ZWYtZWZjYi00YzhiLWIxYmItOTUwN2RlMjM3N2NmJEBeSXJvc1NlYXJjaF9kZXRhaWxGbGFnPU9QRU5BUEk=');" />
+		<input type="button" value="지번주소조회 서비스" class="AXButton" onclick="window.open('https://www.data.go.kr/#L2NvbW0vY29tbW9uU2VhcmNoL29wZW5hcGkkQF5tMDIkQF5wYmxvbnNpcFJlc3JjZVBrPXVkZGk6ODk2ZDVlNzAtNTM2Yi00ZWQzLWIzNzEtZTBlMTk0YjVkNDg2JEBeSXJvc1NlYXJjaF9kZXRhaWxGbGFnPU9QRU5BUEk=');" />
+
+	</div>
+</body>
+</html>

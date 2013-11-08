@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXISJ</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<style type="text/css">
+
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript">
+		
+	var fnObj = {
+		pageStart: function(){
+			
+			var list = [
+				{no:1, name:"aaa1", pno:0},
+				{no:2, name:"aaa2", pno:0},
+				{no:3, name:"aaa3", pno:0},
+				{no:4, name:"aaa4", pno:1},
+				{no:5, name:"aaa4", pno:1}
+			];
+			trace(list.convertTree("pno", "no", 5));
+			
+			AXCode.bind(); // 소스보기
+
+			var myarray = [
+				{a:99},{a:11},{a:22},{a:23},{a:24},{a:25},{a:26},{a:27}
+			];
+			
+			//desc
+			var newArrayDesc = myarray.sort(function(prevItem, nowItem){
+				var v1 = prevItem["a"];
+				var v2 = nowItem["a"];
+				if (v1 < v2) return 1;
+				else if (v1 > v2) return -1;
+				else if (v1 == v2) return 0;
+			});
+			//trace(newArrayDesc);
+
+			//asc
+			var newArrayAsc = myarray.sort(function(prevItem, nowItem){
+				var v1 = prevItem["a"];
+				var v2 = nowItem["a"];
+				if (v1 < v2) return -1;
+				else if (v1 > v2) return 1;
+				else if (v1 == v2) return 0;
+			});
+			//trace(newArrayAsc);
+
+		}
+	};
+	$(document).ready(fnObj.pageStart);
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">String</a>
+				<a href="Number.html" class="AXTab Blue">Number</a>
+				<a href="Date.html" class="AXTab Blue">Date</a>
+				<a href="Array.html" class="AXTab Blue on">Array</a>
+				<a href="Error.html" class="AXTab Blue">Error</a>
+				<a href="AXUtil.html" class="AXTab Blue">AXUtil</a>
+				<a href="AXJ.html" class="AXTab Blue">AXJ</a>
+				<a href="AXReq.html" class="AXTab Blue">AXReq</a>
+				<a href="AXMask.html" class="AXTab Blue">AXMask</a>
+				<a href="AXCalendar.html" class="AXTab Blue">AXCalendar</a>
+				<a href="AXContextMenu.html" class="AXTab Blue">AXContextMenu</a>
+				<a href="AXTooltip.html" class="AXTab Blue">AXTooltip</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h1>Array</h1>		
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				clear()
+			</div>
+			<div class="methodDesc">
+				<div class="desc">(반환형식 Array)</div>
+				[1,2,3].clear() -> []
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				first()
+			</div>
+			<div class="methodDesc">
+				[1,2,3].first() -> 1<br/>
+				["1","2","3"].first() -> "1"<br/>
+				[{a:1},{a:2},{a:3}].first() -> {a:1}
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				last()
+			</div>
+			<div class="methodDesc">
+				[1,2,3].last() -> 3<br/>
+				["1","2","3"].last() -> "3"<br/>
+				[{a:1},{a:2},{a:3}].last() -> {a:3}
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				getToSeq(Number)
+			</div>
+			<div class="methodDesc">
+				[1,2,3].getToSeq(2) -> 3<br/>
+				["1","2","3"].getToSeq(2) -> "3"<br/>
+				[{a:1},{a:2},{a:3}].getToSeq(2) -> {a:3}<br/>
+				[{a:1},{a:2},{a:3}].getToSeq(3) -> null
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				toJSON()
+			</div>
+			<div class="methodDesc">
+				[1,2,3].toJSON() -> [1,2,3]<br/>
+				["1","2","3"].toJSON() -> ["1","2","3"]<br/>
+				[{a:1},{a:2},{a:3}].toJSON() -> [{"a":1},{"a":2},{"a":3}]
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				remove(Function)
+			</div>
+			<div class="methodDesc">
+				var myArr = [1,2,3].remove(function(){<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;// this.index, this.item 변수 사용가능 index는 순번, item은 Array 해당 아이템<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;return (this.item < 2);<br/>
+				}); -> [2,3] (return true 이면 제거)<br/>								
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				search(Function)
+			</div>
+			<div class="methodDesc">
+				var searchLen = [1,2,3].search(function(){<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;// this.index, this.item 변수 사용가능 index는 순번, item은 Array 해당 아이템<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;return (this.item < 3);<br/>
+				}); -> 2 (return true 이면 갯수 증가)<br/>								
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				has(Function)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">조건에 부합되는 첫번째 item 반환</div>
+				var item = [1,2,3].has(function(){<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;// this.index, this.item 변수 사용가능 index는 순번, item은 Array 해당 아이템<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;return (this.item < 3);<br/>
+				}); -> 1 (검색된 첫번째 아이템)<br/>								
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				searchObject(Function)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">조건에 부합되는 모든 item 반환</div>
+				var collect = [1,2,3].searchObject(function(){<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;// this.index, this.item 변수 사용가능 index는 순번, item은 Array 해당 아이템<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;return (this.item < 3);<br/>
+				}); -> [1,2] (return true 된 모드 아이템)<br/>								
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				getIndex(Function)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">조건에 부합되는 첫번째 아이템과 아이템인덱스를 반환합니다.</div>
+				var collect = [1,2,3].getIndex(function(){<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;// this.index, this.item 변수 사용가능 index는 순번, item은 Array 해당 아이템<br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;return (this.item == 2);<br/>
+				}); -> {index:1, item:2} (return true 된 모드 아이템)<br/>								
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+	</div>	
+</body>
+</html>

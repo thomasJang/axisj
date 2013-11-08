@@ -1,0 +1,86 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Table style guide</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="Description" />
+	    
+	    <meta property="og:image" content="/img/axisj_sns.png" /> 
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<!-- css block -->
+		<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+		
+		<!-- js block -->
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXExcelConvert.js"></script>
+		
+		<style type="text/css">
+			
+		</style>
+		<script type="text/javascript">
+		var myExcel = new AXExcelConvert();
+		var fnObj = {
+			pageStart: function(){
+				AXCode.bind(); // 소스보기
+				
+				myExcel.setConfig({
+					targetID:"excelConverter",
+					ctWidth:1090, ctHeight:310,
+					colnames:[
+						{nm:"inDate", val:"입고일"},
+						{nm:"inNo", val:"입고번호"},
+						{nm:"styleNo", val:"구매오더번호"},
+						{nm:"styleNM", val:"제지(스타일)번호"},
+						{nm:"CScode", val:"자재코드"},
+						{nm:"oAmt", val:"구매오더수량"},
+						{nm:"calcAmt", val:"정산수량"},
+						{nm:"danga", val:"단가"},
+						{nm:"price", val:"금액"},
+						{nm:"taxNo", val:"세금계산서번호"},
+						{nm:"deliNo", val:"송장번호"}
+					],
+					onClose: fnObj.myExcel.onClose, //닫기
+					onConvert: fnObj.myExcel.onConvert //변환완료
+				});
+
+			},
+			myExcel: {
+				ds:[],
+				cs:[],
+				open: function(){
+					$("#excelConverter").fadeIn();
+					myExcel.readyData();
+				},
+				onClose: function(){
+					$("#excelConverter").hide();
+				},
+				onConvert: function(res){
+					fnObj.myExcel.ds = res.ds; //데이터 복제
+					fnObj.myExcel.cs = res.cols;
+					
+					AXUtil.alert(res);
+					
+					//mask.open(0);
+					//fnObj.myExcel.dataSend(0);
+				}
+			}
+		}
+		$(document).ready(fnObj.pageStart);
+		</script>
+	</head>
+	<body>
+		<div style="padding:20px;">
+			<div class="divFinder" id="excelConverter" style="left:0px;top:0px;width:1100px;height:400px;z-index:1001;display:none;overflow:auto;">
+				
+		    </div>
+		    
+		    <input type="button" class="AXButton" value="엑셀변환기 열기" class="AXButton" onclick="fnObj.myExcel.open();" />
+		    
+		</div>
+	</body>
+</html>

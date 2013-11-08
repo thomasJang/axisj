@@ -1,0 +1,321 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>AXValidator</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="Description" />
+	    
+	    <meta property="og:image" content="/img/axisj_sns.png" /> 
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<!-- css block -->
+		<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+		
+		<!-- js block -->
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXValidator.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+		
+		<style type="text/css">
+		/* view Style table */
+		.viewTBL{
+			border:1px solid #c1c1c1;border-bottom:0px none;
+			width:100%;table-layout:fixed;
+			font-size:12px;
+			box-shadow:1px 1px 3px #eee;
+		}
+		.viewTBL td .tdRel, .viewTBL th .tdRel{
+			padding:7px 10px;
+		}
+		.viewTBL tbody td{
+			min-height:36px;overflow:visible;
+			border-bottom:1px solid #c1c1c1;
+			color:#666;
+			background:url(/_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px;
+		}
+		.viewTBL tbody th{
+			min-height:36px;overflow:visible;
+			border-bottom:1px solid #c1c1c1;
+			color:#444;
+			text-align:center;
+			background:url(/_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px #F5F5F5;
+		}
+		.viewTBL tbody tr.gray td, .viewTBL tbody tr.gray th{
+			background-color:#F5F5F5;
+		}
+		.viewTBL tbody tr.red td, .viewTBL tbody tr.red th{
+			background-color:#FFE8E8;
+		}
+		.viewTBL tbody tr.green td, .viewTBL tbody tr.green th{
+			background-color:#F7FDEA;
+		}
+		.viewTBL tbody tr.blue td, .viewTBL tbody tr.blue th{
+			background-color:#EAF5FD;
+		}
+		.viewTBL tbody tr.yellow td, .viewTBL tbody tr.yellow th{
+			background-color:#FEFEE9;
+		}
+			.viewTBL tbody td.last, .viewTBL tbody th.last{
+				background:url() repeat-y 100% 0px;	
+			}
+			
+		.white_save{
+			padding-left:20px;
+			background:url(/_AXJ/ui/buttonIcons/white_save.png) no-repeat 0px;
+		}
+		</style>
+		<script type="text/javascript">
+		var myValidator = new AXValidator(); // Validator 선언
+		var fnObj = {
+			pageStart: function(){
+				AXCode.bind(); // 소스보기
+				
+            $("#regdate").bindDate({
+                align:"left", valign:"top", separator:"-", selectType:"d", 
+                onChange:{
+                    earlierThan:"enddate", err:"종료일보다 빠른 날짜를 선택하세요", onChange: function() {
+                        
+                    }
+                }
+            });
+
+            //element AX bind
+            $("#enddate").bindDate({
+                align:"left", valign:"top", separator:"-", selectType:"d",
+                onChange:{                    
+                    laterThan:"regdate", err:"시작일보다 느린 날짜를 선택하세요"
+                }
+            });
+				
+				myValidator.setConfig({
+					targetFormName : "myForm",
+				});
+
+				myValidator.add({
+				    id: "userID",
+				    label: "아이디",
+				    config: {
+				        required: true,
+				        minbyte:10,
+				        maxbyte:20
+				    },
+				    realtime: {
+				        event: "keydown",
+				        response: function () {
+				        	if(this.result){
+				        		$("#userID_realtime").html("OK");
+				        	}else{
+				            	$("#userID_realtime").html(this.message);
+				           }
+							if (this.validateKey == "maxbyte" || this.validateKey == "maxlength") {
+							    return false; //키 입력 중지
+							} else {
+							    return true; //키 입력 제어 안함
+							}
+				        }
+				    },
+					onblur: function(){
+						trace(this);
+					}
+				});
+
+				myValidator.add({
+					id:"regdate", label:"등록일",
+					config:{isdate:true, earlierThan:{id:"enddate", label:"종료일"}},
+					onblur: function(){
+						trace(this);
+					}
+				});
+				
+				myValidator.add({
+					id:"enddate", label:"종료일",
+					config:{isdate:true, laterThan:{id:"regdate", label:"등록일"}},
+					onblur: function(){
+				
+					}
+				});    
+				
+			},
+			saveForm: function(){
+				var validateResult = myValidator.validate();
+				if (!validateResult) {
+					var msg = myValidator.getErrorMessage("{message}");
+					AXUtil.alert(msg);
+					myValidator.getErrorElement().focus();
+					return false;
+				}else{
+					alert(	validateResult );
+				}
+			}
+		}
+		$(document).ready(fnObj.pageStart);
+		</script>
+	</head>
+	<body>
+		<div style="padding:20px;">
+			<h2>AXValidator</h2>
+			
+			<div style="padding:0px;width:800px;">
+				<form name="myForm" method="post">
+				<table cellpadding="0" cellspacing="0" class="viewTBL">
+					<colgroup>
+						<col width="100" />
+						<col />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>
+								<div class="tdRel">realtime</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="userID" id="userID" placeholder="아이디" value="" class="AXInput W200 av-required" />
+									<span id="userID_realtime">아이디를 입력하세요</span>
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">required</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="required" placeholder="required" value="" class="AXInput W200 av-required" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">email</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="email" placeholder="email required" value="" class="AXInput W200 av-email av-required" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">hangul</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="hangul" placeholder="hangul required" value="" class="AXInput W200 av-hangul av-required" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">engonly</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="engonly" placeholder="engonly" value="" class="AXInput W200 av-engonly" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">residentno</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="residentno" placeholder="residentno" value="" class="AXInput W200 av-residentno" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">foreignerno</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="foreignerno" placeholder="foreignerno" value="" class="AXInput W200 av-foreignerno" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">bizno</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="bizno" placeholder="bizno" value="" class="AXInput W200 av-bizno" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">phone</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="phone" placeholder="phone" value="" class="AXInput W200 av-phone" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">isdate</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="isdate" placeholder="isdate" value="" class="AXInput W200 av-isdate" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">zip</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="zip" placeholder="zip" value="" class="AXInput W200 av-zip" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">money</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="money" placeholder="money" value="" class="AXInput W200 av-money" />
+								</div>
+							</td>	
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">기간</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<div class="inlineBlock">
+										<input type="text" name="regdate" id="regdate" class="AXInput W100"  tabindex="5" />
+									</div>
+									~
+									<div class="inlineBlock">
+										<input type="text" name="enddate" id="enddate" class="AXInput W100"  tabindex="5" />
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</form>
+				
+				<div style="padding:10px;">
+					<button class="AXButton Blue" onclick="fnObj.saveForm();"><div class="white_save">저장</div></button>
+				</div>
+
+			</div>
+
+		</div>
+	</body>
+</html>

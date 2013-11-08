@@ -1,0 +1,407 @@
+﻿html, body{
+	height:100%;
+}
+
+.masterMenu{
+	position:fixed;left:0px;top:0px;
+	width:218px;height:100%;
+	border-right:1px solid #ababab;
+	background:#fff;
+	box-shadow:0px 0px 6px #ccc;
+	z-index:100;
+}
+
+.masterMenu .logo{
+	height:69px;
+	background:url(img/logo.png) no-repeat center center;
+	border-bottom:1px solid #ccc;
+}
+
+.masterMenu .menuHandle{
+	display:block;
+	position:absolute;right:-10px;top:25px;
+	width:30px;height:30px;
+	background:url(img/menuHandleClose.png) no-repeat;
+	text-indent:-1000px;overflow:hidden;
+}
+
+.masterMenu .menuContainer{
+
+}
+
+.masterMenu .menuContainer .menuBlockLabel{
+	display:none;
+	height:40px;line-height:40px;
+	border-bottom:1px solid #ccc;
+	text-indent:-1000px;overflow:hidden;
+}
+.masterMenu .menuContainer .menuBlockLabel.on{
+	background-color:#e7e7e7;
+}
+	.masterMenu .menuContainer .menuBlockLabel.icon01{
+		background-image:url(img/menuIcon01.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon02{
+		background-image:url(img/menuIcon02.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon03{
+		background-image:url(img/menuIcon03.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon04{
+		background-image:url(img/menuIcon04.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon05{
+		background-image:url(img/menuIcon05.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon06{
+		background-image:url(img/menuIcon06.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon07{
+		background-image:url(img/menuIcon07.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+	.masterMenu .menuContainer .menuBlockLabel.icon08{
+		background-image:url(img/menuIcon08.png);
+		background-repeat:no-repeat;
+		background-position:6px center;
+	}
+
+.masterMenu .menuContainer .menuBlock{
+	border-bottom:1px solid #ccc;
+}
+.masterMenu .menuContainer .menuBlock.on{
+	background-color:#e7e7e7;
+}
+	.masterMenu .menuContainer .menuBlock .title{
+		display:block;height:40px;line-height:40px;
+		color:#616161;text-decoration:none;
+		padding-left:40px;
+	}
+	.masterMenu .menuContainer .menuBlock.on .title{
+		color:#f86417;
+	}
+		.masterMenu .menuContainer .menuBlock .title.icon01{
+			background:url(img/menuIcon01.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon02{
+			background:url(img/menuIcon02.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon03{
+			background:url(img/menuIcon03.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon04{
+			background:url(img/menuIcon04.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon05{
+			background:url(img/menuIcon05.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon06{
+			background:url(img/menuIcon06.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon07{
+			background:url(img/menuIcon07.png) no-repeat 6px center;
+		}
+		.masterMenu .menuContainer .menuBlock .title.icon08{
+			background:url(img/menuIcon08.png) no-repeat 6px center;
+		}
+	.masterMenu .menuContainer .menuBlock .contentBlock{
+		padding:0px 10px 10px 10px;
+		display:none;
+	}
+	.masterMenu .menuContainer .menuBlock.on .contentBlock{
+		display:block;
+	}
+		.masterMenu .menuContainer .contentBlock .item{
+			display:block;
+			height:26px;line-height:26px;
+			padding:0px 12px;
+			background:#fff;
+			border:1px solid #ccc;border-bottom:0px none;
+			text-decoration:none;
+			color:#616161;
+			font-size:11px;
+		}
+		.masterMenu .menuContainer .contentBlock .item.Tdepth{
+			display:block;
+			height:26px;line-height:26px;
+			padding:0px 12px 0px 20px;
+			background:#eee;
+			border:1px solid #ccc;
+			border-bottom:0px none;border-left:0px none;
+			text-decoration:none;
+			color:#616161;
+			font-size:11px;
+		}
+		.masterMenu .menuContainer .contentBlock .item:hover{
+			color:#f86417;
+		}
+		.masterMenu .menuContainer .contentBlock .item.last{
+			border-bottom:1px solid #ccc;
+		}
+		.masterMenu .menuContainer .contentBlock .item.on{
+			background:url(img/grayDotBG.png);
+			color:#f86417;
+		}
+
+
+
+/*  .close */
+.masterMenu.close{
+	width:38px;
+}
+.masterMenu.close .logo{
+	background:#fff;
+}
+.masterMenu.close .menuHandle{
+	background:url(img/menuHandleOpen.png) no-repeat;
+}
+.masterMenu.close .menuContainer .menuBlockLabel{
+	display:block;
+}
+.masterMenu.close .menuContainer .menuBlock{
+	display:none;
+}
+.masterMenu.close .menuContainer .menuBlock.pop{
+	display:block;
+	position:absolute;left:38px;top:0px;
+	width:217px;
+	border:1px solid #ababab;
+	background-color:#e7e7e7;
+	box-shadow:0px 0px 6px #ccc;
+}
+	.masterMenu.close .menuContainer .menuBlock.pop .contentBlock{
+		display:block;
+	}
+	.masterMenu .menuContainer .menuBlock.pop .title{
+		padding-left:15px;
+		background:#e7e7e7;
+	}
+
+/* masterBodyPath */
+.masterBodyPath{
+	padding-left:219px;
+	position:relative;
+}
+	.masterBodyPath .masterBodyLogo{
+		height:39px;
+		background:#e7e7e7;
+		border-bottom:1px solid #ccc;
+	}
+	.masterBodyPath .pathContainer{
+		max-width:none;
+		height:29px;
+		background:#fff;
+		border-bottom:1px solid #ccc;
+		padding-left:12px;
+	}
+		.masterBodyPath .pathContainer .home{
+			display:inline-block;
+			height:29px;line-height:29px;
+			text-decoration:none;
+			color:#616161;
+			background:url(img/home.png) no-repeat 0px center;
+			padding-left:24px;
+			padding-right:5px;
+		}
+		.masterBodyPath .pathContainer .pathItem{
+			display:inline-block;
+			height:29px;line-height:29px;
+			text-decoration:none;
+			color:#616161;
+			background:url(img/path.png) no-repeat 0px center;
+			padding-left:20px;
+		}
+		.masterBodyPath .pathContainer a:hover{
+			color:#f86417;
+		}
+
+/* masterBodyPath expand */
+.masterBodyPath.expand{
+	padding-left:39px;
+}
+	.masterBodyPath.expand .masterBodyLogo{
+		background:url(img/logo2.png) no-repeat 10px center #e7e7e7;
+	}
+
+.masterBody{
+	padding-left:219px;
+	position:relative;
+	min-width: 1000px;
+	/*min-width: 771px;*/
+}
+.masterBody.expand{
+	padding-left:39px;
+}
+
+.masterModalBody{
+	padding:20px;
+	position:relative;
+}
+
+.modalProgramTitle{
+	height:49px;line-height:49px;
+	color:#282828;font-size:14px;font-weight:bold;
+	padding-left:15px;
+	border-bottom:1px solid #ccc;
+}
+.modalButtonBox{
+	padding:10px;border-top:1px solid #ccc;
+}
+
+.masterBody .programTitle{
+	height:49px;line-height:49px;
+	color:#282828;font-size:14px;font-weight:bold;
+	padding-left:20px;
+	background:url(img/grayDotBG.png);
+	border-bottom:1px solid #ccc;
+}
+
+.programBody{
+	padding:15px;
+}
+
+.programBody .gridTitle{
+	height:25px;line-height:25px;
+	padding-bottom:10px;
+	color:#282828;font-size:13px;font-weight:bold;
+	padding-left:0px;
+}
+.programBody .gridFunction{
+	border-top:1px solid #ccc;
+	padding:10px 5px;
+}
+.programBody .gridBody{
+
+}
+
+		.layoutTBL{
+			width:100%;table-layout:fixed;
+		}
+
+		/* list Style table */
+		.gridTBL{
+			border:1px solid #c1c1c1;border-bottom:0px none;
+			width:100%;table-layout:fixed;
+			font-size:12px;
+			box-shadow:1px 1px 3px #eee;
+			background:url(/_AXJ/ui/default/img/gridheadBG.png) repeat-x;
+		}
+
+		.gridTBL thead td{
+			background:url(/_AXJ/ui/default/img/gridheadBorder.png) no-repeat 100% 0px;
+			height:30px;line-height:30px;
+			border-bottom:1px solid #c1c1c1;
+			color:#222;
+			}
+			.gridTBL thead td .tdRel{
+				padding:0px 10px;
+				text-align:center;color:#000;
+			}
+			.gridTBL thead td.last{
+				background:url() repeat-y 100% 0px;
+			}
+
+		.gridTBL tbody td{
+			height:36px;line-height:30px;
+			border-bottom:1px solid #c1c1c1;
+			color:#666;
+			text-align:center;
+			background:url(/_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px;
+		}
+			.gridTBL tbody td.last{
+				background:url() repeat-y 100% 0px;
+			}
+
+		/* view Style table */
+		.viewTBL{
+			border:1px solid #c1c1c1;border-bottom:0px none;
+			width:100%;table-layout:fixed;
+			font-size:12px;
+			box-shadow:1px 1px 3px #eee;
+		}
+		.viewTBL td .tdRel, .viewTBL th .tdRel{
+			padding:0px 7px;
+		}
+		.viewTBL tbody td{
+			min-height:36px;height:36px;overflow:visible;
+			border-bottom:1px solid #c1c1c1;
+			color:#666;
+			background:url(/_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px;
+		}
+		.viewTBL tbody th{
+			min-height:36px;height:36px;overflow:visible;
+			border-bottom:1px solid #c1c1c1;
+			color:#444;
+			text-align:center;
+			background:url(/_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px #F5F5F5;
+		}
+		.viewTBL tbody tr.gray td, .viewTBL tbody tr.gray th{
+			background-color:#F5F5F5;
+		}
+		.viewTBL tbody tr.red td, .viewTBL tbody tr.red th{
+			background-color:#FFE8E8;
+		}
+		.viewTBL tbody tr.green td, .viewTBL tbody tr.green th{
+			background-color:#F7FDEA;
+		}
+		.viewTBL tbody tr.blue td, .viewTBL tbody tr.blue th{
+			background-color:#EAF5FD;
+		}
+		.viewTBL tbody tr.yellow td, .viewTBL tbody tr.yellow th{
+			background-color:#FEFEE9;
+		}
+			.viewTBL tbody td.last, .viewTBL tbody th.last{
+				background:url() repeat-y 100% 0px;
+			}
+
+
+/* 첨부파일 */
+.attFile{padding:10px 0 0 7px;}
+.attFile a{text-decoration:none;color:#444;}
+.attFile a:hover{color:#5fa23b;}
+
+/* comment */
+.commentContainer{
+	/*
+	padding:5px;
+	border:1px solid #c1c1c1;box-shadow:1px 1px 3px #eee;
+	*/
+}
+
+.AXBCForm {width:100%}
+.AXBCForm textarea.commentContent {width:100%;height:43px;overflow:auto;border:1px solid #999;}
+
+.eofMSG{text-align:center;padding:10px 0;}
+
+.BoardType01{table-layout:fixed;}
+.BoardType01 tbody th{border-bottom:1px solid #eee;font-size:12px;padding:6px 0px;text-overflow:ellipsis;overflow:hidden;}
+.BoardType01 tbody td{border-bottom:1px solid #f3f3f3;font-size:12px;padding:6px 0px;text-overflow:ellipsis;overflow:hidden;}
+.BoardType01 tbody td.AXBC_cont{padding-right:10px;} 
+.BoardType01 tbody td a{margin-left:3px;line-height:1.5em;}
+.BoardType01 tbody td a.deleteComment{display:inline-block;text-indent:-1000px;background:url(/_AXJ/ui/default/img/comment/cmdel.gif) 0px 0px  no-repeat;width:20px;}
+
+
+
+/* pagingDiv */
+.pagingDiv {padding:10px 0;text-align:center;color:#000;height:18px;line-height:18px;}
+.pagingDiv a{display:inline-block;width:20px;height:18px;text-decoration:none;}
+
+.pagingDiv a.first	{background:url(/_AXJ/ui/default/img/comment/pgprev.png) 3px 1px no-repeat;text-indent:-1000px;overflow:hidden;}
+.pagingDiv a.prev	{background:url(/_AXJ/ui/default/img/comment/prev0.gif) 3px 1px no-repeat;text-indent:-1000px;overflow:hidden;}
+.pagingDiv a.next	{background:url(/_AXJ/ui/default/img/comment/next0.gif) 3px 0px no-repeat;text-indent:-1000px;overflow:hidden;}
+.pagingDiv a.last	{background:url(/_AXJ/ui/default/img/comment/pgnext.png) 3px 1px no-repeat;text-indent:-1000px;overflow:hidden;}
+
+

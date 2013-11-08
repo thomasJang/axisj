@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXTree</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTree.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTree.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript">
+	var myTree = new AXTree();
+	var youTree = new AXTree();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+			myTree.setConfig({
+				targetID : "AXTreeTarget",
+				theme: "AXTree",
+				//height:"auto",
+				xscroll:false,
+				checkboxRelationFixed:true, // true | false | null
+				reserveKeys:{
+					parentHashKey:"pHash", // 부모 트리 포지션
+					hashKey:"hash", // 트리 포지션
+					openKey:"open", // 확장여부
+					subTree:"subTree", // 자식개체키
+					displayKey:"display" // 표시여부
+				},
+				relation:{
+					parentKey:"parentcd",
+					childKey:"nodeID"
+				},
+				colGroup: [
+					{
+						key:"nodeID", label:"번호", width:"30", align:"center", formatter:"checkbox", 
+						disabled:function(){
+							return false;
+						},
+						checked:function(){
+							return (this.item.ckd == 1) ? true : false;	
+						}
+					},
+					{
+						key:"nodenm",
+						label:"제목",
+						width:"300", align:"left",
+						indent:true,
+						getIconClass: function(){
+							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+							var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+							var iconName = "file";
+							if(this.item.type) iconName = iconNames[this.item.type];
+							return iconName;
+						},
+						formatter:function(){
+							return (this.item.nodenm||"").dec();
+						}
+					}
+				],
+				colHead: {
+					display:false
+				},
+				body: {
+					onclick:function(idx, item){
+						toast.push(Object.toJSON(this.item));
+					},
+					/* ondblclick 선언하면 onclick 이벤트가 0.25 초 지연 발생 됩니다. 주의 하시기 바람니다. */
+					ondblclick:function(idx, item){
+						toast.push("더블클릭");
+					},
+					oncheck:function(){
+						//사용 가능한 변수
+						//this.index
+						//this.target
+						//this.checked
+						//this.r
+						//this.c
+						//this.list
+						//this.item
+						//alert(this.index);
+					},
+					onexpand: function(){
+						if(this.subTree.length == 0){ //자식개체가 없으므로.. subTree 호출 처리 합니다.
+							var index = this.index, item = this.item;
+							myTree.setLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+							var url = "loadTree.asp";
+							var pars = "no="+this.item.no;
+							new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
+								if(res.result == AXUtil.ajaxOkCode){
+									trace(res.tree);
+									myTree.appendTree(index, item, res.tree);
+								}else{
+									trace(res);
+								}
+								myTree.endLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+							}, onerr:null});
+						}
+					}
+				}
+			});
+
+			var Tree = [
+				{nodeID:"1","nodenm":"ETRI",open:true, nodeType:"company","parentcd":"","parentnm":"","sortnum":1,"ckd":0,"treeno":"l001", subTree:[
+						{nodeID:"2","nodenm":"%ec%9e%84%ec%8b%9c%ec%9a%a9%eb%b6%80%ec%84%9c",open:true, nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":1,"ckd":0,"treeno":"l001_001"},
+						{nodeID:"20130618001","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002", subTree:[
+							{nodeID:"20130618002","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:true,nodeType:"folder","parentcd":"20130618001","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003"},
+							{nodeID:"20130618003","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"20130618001","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004", subTree:[
+								{nodeID:"20130618004","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"20130618003","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004"}	
+							]}
+						]},
+						{nodeID:"20130618009","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003"},
+						{nodeID:"201306180091","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004"}
+					]
+				}
+			];
+			myTree.setTree(Tree);
+			
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div class="contentContainer">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="setList.html" class="AXTab Blue">setList</a>
+				<a href="ajax.html" class="AXTab Blue">ajax</a>
+				<a href="control.html" class="AXTab Blue">control</a>
+				<a href="control2.html" class="AXTab Blue">control2</a>
+				<a href="treeCheckbox.html" class="AXTab Blue on">treeCheckbox</a>
+				<a href="connectionType.html" class="AXTab Blue">connectionType</a>
+				<a href="help.html" class="AXTab Blue">도움말</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXTree</h2>
+		
+		<div id="AXTreeTarget" style="height:400px;"></div>
+
+		<div class="Hspace20"></div>
+		
+		<div>
+			<input type="button" value="myTree.relationFixedSync();" onclick="myTree.relationFixedSync();" class="AXButton" />
+			<input type="button" value="myTree.getCheckedList(0);" onclick="trace(myTree.getCheckedList(0));" class="AXButton" />
+		</div>
+
+		<div>
+		<h2>checkboxRelationFixed : 기본값 true</h2>
+		: 
+		체크박스 체크 언체크 이벤트 발생 시 부모자식 관계에 따른 체크 처리 옵션 입니다. 설정에 관계 없이 부모 아이템이 선택 되면 자식은 함께 선택이 됩니다. 하지만 자식이 모두 체크 해제 되었을 때 
+		checkboxRelationFixed : true 인경우엔 부모 아이템이 체크 해제 되지만 false 인 경우엔 부모 아이템이 체크 해제 되지 않습니다. <br/>
+		checkboxRelationFixed : null 인경우에는 체크 시에만 관계가 작동하고 언체크 시에는 아무런 액션이 없게 됩니다. <br/>
+		(단 현재 버전에서 colGroup 에 checked 함수를 이용하여 체크를 구현 한 경우에는 사용자 이벤트와 동시 처리 되지 않아 다르게 인식 될 수 있습니다. 차후에는 지원 예정입니다. checked 설정을 부모 자식 관계에 맞추어 주셔야 합니다.)
+		
+		<h2>relationFixedSync()</h2>
+		:
+		자식 항목에 체크된 경우 부모 값을 체크된 상태로 변경 해주는 메서드 입니다.
+
+		<h2>myTree.getCheckedList(colSeq) return [Json Array]</h2>
+		:
+		colGroup 순번을 전달하여 해당순번에 있는 체크박스가 체크된 아이템 리스트를 반환 하여 줍니다.
+		</div>
+
+
+
+		<div class="Hspace20"></div>
+
+	</div>
+
+</body>
+</html>

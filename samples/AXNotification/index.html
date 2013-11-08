@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXUINotification</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+		},
+		btnOnConfirm: function(arg){
+			alert(arg);
+		},
+		btnClick: function(arg){
+			alert(arg);
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	
+	<div style="padding:20px;">
+		
+		<h2>AXNotification</h2>
+		
+		<h3>toast</h3>
+		
+		<input type="button" value="Complete" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!');" />
+		<input type="button" value="Complete X2" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !! 1');toast.push('<b>Complete</b> Complete messange send !! 2');" />
+		<input type="button" value="Complete X3" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!1');toast.push('<b>Complete</b> Complete messange send !! 2');toast.push('<b>Complete</b> Complete messange send !! 3.');" />
+		<input type="button" value="Warning" class="AXButton Classic" onclick="toast.push({body:'<b>Warning</b> Warning messange send !!', type:'Warning'});" />
+		<input type="button" value="Caution" class="AXButton Red" onclick="toast.push({body:'<b>Caution</b> Caution messange send !!', type:'Caution'});" />
+
+		<div class="Hspace10"></div>
+		
+		
+		<h3>dialog</h3>
+		
+		<input type="button" value="alert" class="AXButton" onclick="dialog.push('<b>Alert</b> Application Call dialog push');" />
+		<input type="button" value="alert Warning" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning'});" />
+		<input type="button" value="alert Caution" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" />
+		
+		<input type="button" value="choose alert Caution" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', buttons:[
+			{buttonValue:'button1', buttonClass:'Red W100', onClick:fnObj.btnClick, data:'data1'},
+			{buttonValue:'button2', buttonClass:'Blue', onClick:fnObj.btnClick, data:'data2'},
+			{buttonValue:'button3', buttonClass:'Green', onClick:fnObj.btnClick, data:'data3'}
+		]});" />
+		
+		<div class="Hspace10"></div>
+		
+
+		
+	</div>
+
+</body>
+</html>

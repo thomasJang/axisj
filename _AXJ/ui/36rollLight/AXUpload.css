@@ -1,0 +1,55 @@
+.AXUploadButton{
+		
+}
+.AXUploadButton .buttonMsg{
+	font-size:11px;color:#6e7a86;line-height:1em;font-family:Dotum;letter-spacing:-1px;
+	padding:5px 0px 0px 10px;;
+}
+
+.AXUploadQueueBox{
+	border:1px solid #ccc;background:#fff;
+	border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+}
+
+.readyselect{cursor:pointer;}
+.beSelected{background:#F0F8FF;border:1px solid #66B3FF ! important;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+.AXUploadQueueBox .AXUploadItem{position:relative;float:left;padding:5px;margin:5px 0px 0px 5px;width:80px;height:110px;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border:1px solid #fff;}
+.AXUploadQueueBox .AXUploadItem .AXUploadIcon{width:72px;height:72px;border:1px solid #ccc;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+.AXUploadQueueBox .AXUploadItem .AXUploadTit{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#444;font-size:12px;line-height:1.5em;padding-top:3px;}
+.AXUploadQueueBox .AXUploadItem .AXUploadType{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#444;font-size:12px;line-height:1.2em;}
+.AXUploadQueueBox .AXUploadItem .AXUploadSize{font-size:11px;color:#888;}
+.AXUploadQueueBox .AXUploadItem .AXUploadProcess{position:absolute;left:11px;top:67px;height:5px;width:60px;background:#fff;border:1px solid #ccc;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;font-size:1px;line-height:1px;}
+.AXUploadQueueBox .AXUploadItem .AXUploadProcess .AXUploadProcessBar{background:url(img/redSmall.png) repeat-x 0px center;height:5px;width:0px;}
+.AXUploadQueueBox .AXUploadItem .AXUploadBtns{position:absolute;left:-3px;top:-3px;line-height:1em;}
+.AXUploadQueueBox .AXUploadItem .AXUploadBtns .AXUploadBtnsA{display:block;width:16px;height:16px;background:url(img/cross-circle-frame.png) no-repeat;text-indent:-1000px;overflow:hidden;}
+
+.AXUploadSingle{}
+.AXUploadSingle tbody tr td{border:0px none;background:none;}
+	.AXUploadSingle .AXUploadButton{
+		
+	}
+	.AXUploadSingle .AXUploadDisplay{
+		position:relative;
+		padding:0px 0px 0px 5px;
+	}
+
+	.AXUploadSingle .AXUploadDisplay .AXUploadProcess{
+		position:relative;width:120px;background:#fff;
+		border:1px solid #000;border-radius:7px;
+		font-size:1px;line-height:1px;
+		box-shadow:0px 0px 3px #ccc;
+		overflow:hidden;
+	}
+	.AXUploadSingle .AXUploadDisplay .AXUploadProcess .AXUploadProcessBar{
+		background:url(img/redSmall.png) repeat-x 0px center;height:10px;width:0px;
+		border-radius:5px;border:1px solid #fff;
+	}
+	.AXUploadSingle .AXUploadDisplay .AXFileDelete{
+		display:inline-block;
+		background:url(img/cross-button.png) no-repeat 100% center;
+		height:24px;line-height:24px;
+		padding-right:24px;
+		text-decoration:none;
+		color:#444;
+	}
+	

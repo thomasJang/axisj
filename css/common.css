@@ -1,0 +1,132 @@
+/*----- default tag styleCSS -----*/
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body, select, input, a, button{
+	font-family:'Apple SD Gothic Neo', 'Nanum Gothic';
+	font-size:12px;
+	line-height:1.6em;
+}
+  
+* { -webkit-tap-highlight-color: rgba(0,0,0,0);} 
+body{background:#fff;margin:0px;padding:0px;}
+select{vertical-align:middle;}
+input{vertical-align:middle;}
+form{margin:0px;padding:0px;}
+img{border:0px;}
+a{}
+
+
+/*----- default class styleCSS -----*/
+.clear{clear:both;}
+.Hspace1{font-size:1px;line-height:1px;height:1px;}
+.Hspace2{font-size:1px;line-height:1px;height:2px;}
+.Hspace3{font-size:1px;line-height:1px;height:3px;}
+.Hspace5{font-size:1px;line-height:1px;height:5px;}
+.Hspace10{font-size:1px;line-height:1px;height:10px;}
+.Hspace15{font-size:1px;line-height:1px;height:15px;}
+.Hspace20{font-size:1px;line-height:1px;height:20px;}
+.Hspace30{font-size:1px;line-height:1px;height:30px;}
+.padding5{padding:5px;}
+.padding10{padding:10px;}
+.noBorder{border:0px none ! important;}
+.rel{position:relative;}
+.abs{position:absolute;}
+.Ablock{display:block}
+.nowrap{white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+
+/*----- 폰트 색상 class styleCSS -----*/
+.font00{color:#2c2c2c;}
+.font01{color:#335997;}
+.red{color:#ff3300;}
+.fontEA{font-size:10px;color:#888;font-family:Arial;}
+.fontTiny{font-size:11px;letter-spacing:-1px;}
+
+/*----- box class styleCSS -----*/
+
+
+/*----- support form class styleCSS -----*/
+.textarea{border:1px solid #eee;}
+.textarea textarea{border:0px none;width:100%;margin:0px;padding:0px;}
+.int{text-align:right;}
+.float{text-align:left;}
+.inlineBlock{
+	position:relative;
+	display:inline-block;
+}
+
+
+/*----- -------------------------------------------------------------- common end -------------------------------------------------------------- -----*/
+
+
+
+
+
+/*----- title style -----*/
+h3{padding:5px 5px 5px 20px;margin:0px;font-size:15px;}
+.description{padding-left:20px;color:#888;}
+
+.method{position:relative;border:1px solid #000;font-family:Consolas;}
+.method .methodName{padding:10px;font-size:14px;font-weight:bold;border-bottom:1px solid #000;background:#f3f3f3;}
+.method .methodDesc{padding:10px;padding-left:10px;}
+.method .methodDesc .desc{color:#888;padding-bottom:5px;}
+.method .methodDesc ul{padding:0px;margin:0px;}
+.method .methodDesc ul li{padding:3px;font-size:14px;}
+.method .methodDesc ul ul{padding-left:20px;}
+.method .methodDesc .methodDescContent{
+	padding:5px 10px;
+	color:#444;border:1px solid #ccc;border-radius:5px;
+	background:#FFFFEC;box-shadow:inset 1px 1px 3px #eee;
+}
+.method .methodExam{padding:10px;border-top:1px dashed #000;background:#FFFFEC;padding-left:50px;position:relative;}
+
+.method table{
+	border-top:1px solid #E3E3E3;
+	width:100%;
+}
+.method table caption{
+	text-align:left;padding:10px;color:#0080C0;
+}
+.method table th{
+	border-right:1px solid #E3E3E3;
+	background:#E1F0FF;
+}
+.method table th, .method table td{
+	border-bottom:1px solid #E3E3E3;
+}
+
+.contentContainer{padding:20px;}
+
+
+
+table.setConfig {
+	border:1px solid #E3E3E3;
+	width:100%;
+	border-collapse:collapse;
+}
+table.setConfig caption{
+	text-align:left;padding:10px;color:#0080C0;
+}
+table.setConfig th{
+	border:1px solid #E3E3E3;
+	background:#E1F0FF;
+}
+
+table.setConfig td{
+	border:1px solid #E3E3E3;
+}
+
+table.setConfig td.ti5{
+	text-indent:5px;
+}
+
+table.setConfig td.ti10{
+	text-indent:10px;
+}
+
+table.setConfig td.ti20{
+	text-indent:20px;
+}
+
+.tac {text-align:center;}
+
+table.setConfig pre{margin:0px;}

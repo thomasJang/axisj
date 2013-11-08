@@ -1,0 +1,42 @@
+﻿/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ * 
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+
+/** .AXprogress **/
+.AXprogressTray{
+	position:fixed;left:0px;top:0px;
+	width:100%;
+	z-index:5001;
+}
+.AXprogressTitle{
+	padding:5px;
+	color:#b5bec7;font-size:12px;
+}
+.AXprogress{
+	position:relative;
+	padding:5px 0px;
+}
+	.AXprogress .AXprogressContainer{
+		position:relative;
+		background:#b2b2b2;height:16px;
+		border-radius:10px;
+		padding:1px;
+		box-shadow:0px 0px 3px #ccc;
+	}
+		.AXprogress .AXprogressContainer .AXprogressBar{
+			position:relative;
+			height:14px;
+			border:1px solid #e9e9e9;
+			background:url(img/progressBar.png) repeat-x !important;
+			border-radius:8px;
+		}
+		.AXprogress .AXprogressContainer .AXprogressBar .AXprogressLoadedText{
+			position:absolute;right:0px;top:20px;
+			color:#b5bec7;
+			font-size:11px;font-family:Arial;
+		}

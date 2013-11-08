@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXInput</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+
+			AXCode.bind(); // 소스보기
+			
+			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"y", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateMiddle").bindDate({align:"left", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateRight").bindDate({align:"right", valign:"top", onChange:function(){toast.push(Object.toJSON(this));}, defaultDate:"2013-05-01"});
+			
+			$("#AXInputDate2").bindDate({separator:"/", selectType:"m"});
+			$("#AXInputDate3").bindDate({selectType:"y"});
+			
+			$("#AXInputDate4").bindDateTime();
+			
+			$("#AXInputDateED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){toast.push(Object.toJSON(this));}});
+			
+			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){toast.push(Object.toJSON(this));}});
+			
+			$("#AXInputDateMED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateMST", selectType:"m", onChange:function(){toast.push(Object.toJSON(this));}});
+			
+			$("#AXInputDateTimeED").bindTwinDateTime({align:"right", valign:"top", separator:"/", startTargetID:"AXInputDateTimeST", onChange:function(){toast.push(Object.toJSON(this));}});
+			
+			$("#AXInputDate_earlier").bindDate({align:"right", valign:"bottom", onChange:{
+					earlierThan:"AXInputDate_later", err:"종료일보다 빠른 날짜를 선택하세요", 
+					onChange:function(){
+				
+					}
+				}
+			});
+			$("#AXInputDate_later").bindDate({align:"right", valign:"bottom", onChange:{laterThan:"AXInputDate_earlier", err:"시작일보다 느린 날짜를 선택하세요"}});
+			
+		},
+        unbindInput: function () {
+            $("#AXInputDate").unbindInput();
+        },
+        bindInput: function () {
+            $("#AXInputDate").bindDate({align:"right", valign:"top", separator:"/", onChange:function(){toast.push(Object.toJSON(this));}});
+        }
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="Number.html" class="AXTab Blue">Number</a>
+				<a href="Switch.html" class="AXTab Blue">Switch</a>
+				<a href="Segment.html" class="AXTab Blue">Segment</a>
+				<a href="Slider.html" class="AXTab Blue">Slider</a>
+				<a href="Selector.html" class="AXTab Blue">Selector</a>
+				<a href="calendar.html" class="AXTab Blue on">Date</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+		
+		<div class="Hspace20"></div>
+		
+		<input type="button" value="AXInputDate unbind" class="AXButton Red" onclick="fnObj.unbindInput();" />
+		<input type="button" value="AXInputDate bind" class="AXButton Red" onclick="fnObj.bindInput();" />
+
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind Date</h2>
+
+		<input type="text" name="" id="AXInputDate" class="AXInput W100" />
+		<input type="text" name="" id="AXInputDateMiddle" class="AXInput W100" />
+		<input type="text" name="" id="AXInputDateMiddle2" class="AXInput W100" />
+		<input type="text" name="" id="AXInputDateRight" class="AXInput W100" />
+		
+		<div class="Hspace20"></div>
+
+		
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind Date (year, month)</h2>
+
+		<input type="text" name="" id="AXInputDate2" class="AXInput W70" />
+		<input type="text" name="" id="AXInputDate3" class="AXInput W50" />
+		
+		<div class="Hspace20"></div>
+		
+
+		
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind DateTime</h2>
+
+		<input type="text" name="" id="AXInputDate4" class="AXInput W120" />
+		
+		<div class="Hspace20"></div>
+
+
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind TwinDate</h2>
+		
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateST" class="AXInput W80" /></div>
+		~
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateED" class="AXInput W80" /></div>
+
+
+&nbsp;&nbsp;&nbsp;
+
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateYST" class="AXInput W50" /></div>
+		~
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateYED" class="AXInput W50" /></div>
+
+&nbsp;&nbsp;&nbsp;
+		
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateMST" class="AXInput W70" /></div>
+		~
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateMED" class="AXInput W70" /></div>
+
+		
+		<div class="Hspace20"></div>
+		
+
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind TwinDateTime</h2>
+
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateTimeST" class="AXInput W120" /></div>
+		~
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDateTimeED" class="AXInput W120" /></div>
+		
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind earlierThan / laterThan</h2>
+
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDate_earlier" class="AXInput W100" /></div>
+		~
+		<div class="inlineBlock"><input type="text" name="" id="AXInputDate_later" class="AXInput W100" /></div>
+
+
+	</div>
+
+</body>
+</html>

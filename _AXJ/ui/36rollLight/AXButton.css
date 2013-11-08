@@ -1,0 +1,82 @@
+﻿/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ * 
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+
+
+/** .AXButton.Gray **/
+.AXButton.Gray{
+	border:1px solid #3a3a3a;
+	color:#f8f8f8;text-shadow:0px -1px #2e2e2e;
+	background:url(img/buttonBgGray.png) repeat-x;
+	box-shadow:0px 1px 0px #ccc;
+}
+.AXButton.Gray:hover, .AXButton.Gray:focus{
+	border:1px solid #3a3a3a;
+	color:#f8f8f8;text-shadow:0px -1px #2e2e2e;
+	background-position:0px -26px;
+	box-shadow:0px 1px 0px #ccc;
+}
+.AXButton.Gray:active{
+	border:1px solid #3a3a3a;
+	color:#f8f8f8;text-shadow:0px -1px #2e2e2e;
+	background-position:0px -52px;
+	box-shadow:0px 1px 0px #fff;
+}
+
+/** .AXButton.Yellow **/
+.AXButton.Yellow{
+	border:1px solid #b78c00;
+	color:#fff;text-shadow:0px -1px #9d7612;
+	background:url(img/buttonBgYellow.png) repeat-x;
+	box-shadow:0px 1px 0px #ccc;
+}
+.AXButton.Yellow:hover, .AXButton.Yellow:focus{
+	border:1px solid #b78c00;
+	color:#fff;text-shadow:0px -1px #9d7612;
+	background-position:0px -26px;
+	box-shadow:0px 1px 0px #ccc;
+}
+.AXButton.Yellow:active{
+	border:1px solid #b78c00;
+	color:#fff;text-shadow:0px -1px #9d7612;
+	background-position:0px -52px;
+	box-shadow:0px 1px 0px #fff;
+}
+/** .AXButtonSmall.Red **/
+.AXButton.Red{
+	border:1px solid #882929;
+	color:#f8f8f8;text-shadow:0px -1px #82171d;
+	background:url(img/buttonBgRed.png) repeat-x;
+	box-shadow:0px 1px 0px #ccc;
+}
+.AXButton.Red:hover, .AXButton.Red:focus{
+	border:1px solid #882929;
+	color:#f8f8f8;text-shadow:0px -1px #82171d;
+	background-position:0px -26px;
+	box-shadow:0px 1px 0px #ccc;
+}
+.AXButton.Red:active{
+	border:1px solid #882929;
+	color:#f8f8f8;text-shadow:0px -1px #82171d;
+	background-position:0px -52px;
+	box-shadow:0px 1px 0px #fff;
+}
+
+/* disabled cotrol */
+.AXButton[disabled]{
+	border:1px solid #ccc;
+	background-position:0px -78px;
+	box-shadow:none;
+	color:#fff;text-shadow:0px -1px #b7b7b7;
+}
+.AXButton[disabled]:hover, .AXButton[disabled]:focus, .AXButton[disabled]:active{
+	border:1px solid #ccc;
+	background-position:0px -78px;
+	box-shadow:none;
+	color:#fff;text-shadow:0px -1px #b7b7b7;	
+}

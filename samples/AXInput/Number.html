@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXInput</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	// AXConfig.AXInput.errorPrintType = "alert"; 에러출력 방식을 바꿀 수 있습니다. toast, dialog, alert
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			$("#AXInputNumber").bindNumber();
+			$("#AXInputNumber2").bindNumber();
+			$("#AXInputNumber3").bindNumber(
+				{
+					min:1, 
+					max:100, 
+					onChange : function(){
+						trace(this);
+					}
+				}
+			);
+			$("#AXInputNumber4").bindNumber({min:20});
+
+			$("#AXInputMoney").bindMoney({
+				min:10, 
+				max:9000000
+			});
+			
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="Number.html" class="AXTab Blue on">Number</a>
+				<a href="Switch.html" class="AXTab Blue">Switch</a>
+				<a href="Segment.html" class="AXTab Blue">Segment</a>
+				<a href="Slider.html" class="AXTab Blue">Slider</a>
+				<a href="Selector.html" class="AXTab Blue">Selector</a>
+				<a href="calendar.html" class="AXTab Blue">Date</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXInput bind Number</h2>
+		<div style="position:relative;">
+			<div class="inlineBlock">
+				<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />
+				&nbsp;
+				range(1~100)
+			</div>
+			<div class="inlineBlock">
+				<input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
+			</div>
+			&nbsp;
+			range(20~)
+			<div class="inlineBlock">
+				<input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div style="position:relative;">
+			<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
+		</div>
+		
+		
+		<div class="Hspace20"></div>
+
+		
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind Money</h2>
+		<div style="position:relative;">
+			<input type="text" name="inputMoney" id="AXInputMoney" value="" class="AXInput" />
+		</div>
+
+		<div class="Hspace20"></div>
+
+
+		<div class="Hspace20"></div>
+
+	</div>
+
+</body>
+</html>

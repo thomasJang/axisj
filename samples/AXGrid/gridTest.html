@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var myGrid = new AXGrid();
+	var itemSum = 0;
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+            myGrid.setConfig({
+                targetID: "AXGridMaster",
+                fitToWidth:true,    // true 일경우 비율에 맡게 꽉참
+                colGroup: [
+                    {key:"rownum"        , label:"순번"              , width:"50" , align:"center"                                 }, 
+                    {key:"chcker_nm"     , label:"성명"              , width:"200", align:"center", formatter:"dec"                },
+                    {key:"chcker_id"     , label:"검토자개인번호"    , width:"10" , align:"center", formatter:"dec", display:false },
+                    {key:"role_nm"       , label:"역할"              , width:"100", align:"center", formatter:"dec"                },
+                    {key:"role"          , label:"역할코드"          , width:"10" , align:"left"  , formatter:"dec", display:false },
+                    {key:"exmnt_edc_nm"  , label:"검토교육 여부"     , width:"100", align:"center", formatter:"dec"                },
+                    {key:"exmnt_edc_yn"  , label:"검토교육 여부(Y/N)", width:"10" , align:"center", formatter:"dec", display:false }
+                ],
+                body: {
+                    onclick: function() {
+                    },
+                    ondblclick: function() {
+                        myGrid.setEditor(this.item, this.index);
+                    }
+                },
+                page: {
+                    paging: false,
+                    pageNo: 1,
+                    pageSize: 10,
+                    status:{formatter: null}
+                },
+                editor: {
+                    rows: [
+                        [
+                            {key:"rownum"      , align:"center",  valign:"middle", formatter: function() { return this.item.rownum;            }},
+                            {key:"chcker_nm"   , align:"center",  valign:"middle", formatter: function() { return (this.item.chcker_nm||"").dec();  }},
+                            {key:"chcker_id"   , align:"center",  valign:"middle", formatter: function() { return (this.item.chcker_id||"").dec();  }},
+                            {key:"role_nm"     , align:"center",  valign:"middle", 
+                                form: {
+                                    type:"text", value: function() {
+                                        return this.value.dec();
+                                    }
+                                },
+                                AXBind: {
+                                    type:"selector",
+                                    config: {
+                                        appendable: false,
+                                        options:[
+											{optionValue:1, optionText:"Seoul"},
+											{optionValue:2, optionText:"대구"},
+											{optionValue:3, optionText:"대전"},
+											{optionValue:4, optionText:"창원"},
+											{optionValue:5, optionText:"마산"},
+											{optionValue:6, optionText:"구례"},
+											{optionValue:7, optionText:"제주도"},
+											{optionValue:8, optionText:"전주"},
+											{optionValue:4, optionText:"창원"},
+											{optionValue:5, optionText:"마산"},
+											{optionValue:6, optionText:"구례"},
+											{optionValue:7, optionText:"제주도"},
+											{optionValue:8, optionText:"전주"},
+											{optionValue:9, optionText:"Gwangju"}
+										],
+                                        onChange: function() {
+                                            if (this.selectedOption) {
+                                                trace(this.selectedOption);
+                                                myGrid.setEditorForm({
+                                                    key: "role",
+                                                    position: [0, 4],
+                                                    value: (this.selectedOption.optionValue || "")
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {key:"role"        , align:"center",  valign:"middle", formatter: function() { return (this.item.role||"").dec();        }},
+                            {key:"exmnt_edc_nm", align:"center",  valign:"middle",
+                                form: {
+                                    type:"text", value: function() {
+                                        return (this.value||"").dec();
+                                    }
+                                },
+                                AXBind: {
+                                    type:"selector",
+                                    config: {
+                                        appendable: false,
+                                        options:[
+											{optionValue:1, optionText:"Seoul"},
+											{optionValue:2, optionText:"대구"},
+											{optionValue:3, optionText:"대전"},
+											{optionValue:4, optionText:"창원"},
+											{optionValue:5, optionText:"마산"},
+											{optionValue:6, optionText:"구례"},
+											{optionValue:7, optionText:"제주도"},
+											{optionValue:8, optionText:"전주"},
+											{optionValue:4, optionText:"창원"},
+											{optionValue:5, optionText:"마산"},
+											{optionValue:6, optionText:"구례"},
+											{optionValue:7, optionText:"제주도"},
+											{optionValue:8, optionText:"전주"},
+											{optionValue:9, optionText:"Gwangju"}
+										]
+                                    }
+                                }
+                            },
+                            {key:"exmnt_edc_yn", align:"center",  valign:"middle", formatter: function() { return (this.exmnt_edc_yn||"").dec();     }}
+                        ]
+                    ],
+                    response: function() {
+                        if (this.index == null) {   // 추가
+						
+                        } else {
+                        	trace(this.res.item);
+                            AXUtil.overwriteObject(this.list[this.index], this.res.item, true);
+                            myGrid.updateList(this.index, this.list[this.index]);
+                        }
+                    }
+                }
+            });
+			
+			var list = [
+				{rownum:1, chcker_nm:"장기영", chcker_id:"011", role_nm:"마스터", role:"03", exmnt_edc_nm:"abc", exmnt_edc_yn:"Y"},
+				{rownum:2, chcker_nm:"장기영", chcker_id:"011", role_nm:"마스터", role:"03", exmnt_edc_nm:"abc", exmnt_edc_yn:"Y"},
+				{rownum:3, chcker_nm:"장기영", chcker_id:"011", role_nm:"마스터", role:"03", exmnt_edc_nm:"abc", exmnt_edc_yn:"Y"}			
+			];
+			myGrid.setList(list);
+			//myGrid.setDataSet({price:123000, amount:10});
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="colhead.html" class="AXTab Blue">colHead</a>
+				<a href="fixedColSeq.html" class="AXTab Blue">fixedColSeq</a>
+				<a href="body.html" class="AXTab Blue">body</a>
+				<a href="headfoot.html" class="AXTab Blue">head&foot</a>
+				<a href="marker.html" class="AXTab Blue">marker</a>
+				<a href="editor.html" class="AXTab Blue on">editor</a>
+				<a href="ajax.html" class="AXTab Blue">ajax & paging</a>
+				<a href="passive.html" class="AXTab Blue">passive</a>
+				<a href="viewMode.html" class="AXTab Blue">viewMode</a>
+				<a href="help.html" class="AXTab Blue">도움말</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXGrid</h2>
+
+		<div id="AXGridMaster" style="height:400px;"></div>
+
+		<div style="padding:10px 0px;">
+			<input type="button"	value="추가하기" class="AXButton Red" onclick="fnObj.appendGrid();" />
+			<input type="button"	value="추가하기 (index : 3)" class="AXButton Red" onclick="fnObj.appendGrid(3);" />
+			<input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
+			<input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
+			<input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />
+			<input type="button"	value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
+		</div>
+
+		<div class="Hspace20"></div>
+
+		
+		<div style="padding:20px;">
+			<ul>
+				<li>
+					checkbox 개체를 checked 된 상태로 만들기
+					<div>
+						<pre style="color:#0080C0;">
+setConfig > colGroup > formatter:"checkbox", checked:function(){
+	//사용 가능한 변수
+	//this.index
+	//this.item
+	//this.list
+	return (this.index % 2 == 0); // return true 이면 checked 됩니다.
+}
+						</pre>
+					</div>
+				</li>
+				<li>
+					checkbox 개체를 click 할때 이벤트 체크
+					<div>
+						<pre style="color:#0080C0;">
+setConfig > body > oncheck: function(){
+	//사용 가능한 변수
+	//this.itemIndex
+	//this.target
+	//this.checked
+	//this.r
+	//this.c
+	//this.list
+	//this.item
+	toast.push(this.checked); // oncheck 함수를 편집하여 사용 하세요
+}
+						</pre>
+					</div>
+				</li>
+			</ul>
+			
+		</div>
+				
+	</div>
+</body>
+</html>

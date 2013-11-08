@@ -1,0 +1,422 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<!-- htmlHead-->
+	<title>AXISJ Control Tower</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="Description" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../html/common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" >
+	<link rel="stylesheet" type="text/css" href="../html/content.css" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+
+	<script type="text/javascript" src="../html/js/content.js"></script>
+
+
+	<!-- htmlHead-->
+	<style>
+		.topList{width:490px;float:left;padding:0 10px 15px 0;}
+		.topList.last{padding:0px;}
+		.topListTitle{display:block;padding-bottom:10px;font-size:13px;font-weight:bold;}
+		.readMore {text-decoration:none;color:#000;}
+	</style>
+	
+	<script type="text/javascript">
+	var programID = "";
+	var myModal = new AXModal();
+	var authArr = [];
+	var bugTypeArr = [];
+	
+	var donateGrid = new AXGrid();
+	var mailGrid = new AXGrid();
+	var memberGrid = new AXGrid();
+	var bugGrid = new AXGrid();
+	var suggestGrid = new AXGrid();
+	var memberBoardGrid = new AXGrid();
+	
+	var fnObj = {
+		pageStart: function(){
+			fnObj.grid01.init();
+			fnObj.grid02.init();
+			fnObj.grid03.init();
+			fnObj.grid04.init();
+			fnObj.grid05.init();
+			fnObj.grid06.init();
+		},
+		
+		pageResize: function(){
+
+		},
+		
+		grid01: {
+			init: function () {
+		        donateGrid.setConfig({
+		            targetID: "donateGridTarget",
+		            theme: "AXGrid",
+		            colGroup: [
+					    { key: "rowseq", label: "번호", width: "50", align: "right" },
+					    { key: "donateType", label: "후원종류", width: "70", align: "center", formatter: function(){
+					    	var dt = this.item.donateType.toUpperCase();
+					    	if (dt == "GAP") dt = "<span style='color:red;'>"+dt+"</span>";
+					    	return dt;
+					    } },
+		                { key: "name", label: "후원자", width: "70", align: "center", formatter: "dec" },
+		                { key: "email", label: "이메일", width: "200", formatter: "dec" },
+		                { key: "regiDate", label: "후원신청일", width: "100" },
+		                { key: "accountCheck", label: "입금확인", width: "70", align: "center" },
+		                { key: "accountCheckDate", label: "입금확인일", width: "100" }
+		            ],
+  
+		            body: {
+		                onclick: function () {
+		                    /*
+		                    fnObj.setFormValue({ index: this.index, r: this.r, c: this.c, item: this.item, page: this.page }, "codeForm");
+		                    //toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item, page:this.page}));
+							*/
+							myModal.open({
+								url:"",
+								pars:{idx:this.item.idx, from:'main'},
+								top:100,
+								width:500
+							});
+		                }
+		            },
+		            page: {
+		                paging: true,
+		                pageNo: 1,
+		                pageSize: 100,
+		                status: { formatter: null }
+		            }
+		        });
+
+		        fnObj.grid01.search();
+		    },
+		    
+		    search: function () {
+		    	var pars = "type=topList";
+				//donateGrid.setList({ ajaxUrl: "", ajaxPars: pars });
+				return false;
+		    }
+		},
+		
+		grid02: {
+			init: function () {
+		        mailGrid.setConfig({
+		            targetID: "mailGridTarget",
+		            theme: "AXGrid",
+		            colGroup: [
+					    { key: "rowseq", label: "번호", width: "50", align: "right" },
+					    { key: "name", label: "이름", width: "100", formatter: "dec" },
+		                { key: "email", label: "Email", width: "150", formatter: "dec" },
+		                { key: "companyName", label: "회사", width: "100", formatter: "dec" },
+		                { key: "regiDate", label: "등록일", width: "135" },
+		                { key: "denial", label: "수신거부", width: "65", align: "center"  },
+		                { key: "denialDate", label: "수신거부일", width: "100" }
+		            ],
+
+		            body: {
+		                onclick: function () {
+							myModal.open({
+								url:"",
+								pars:{idx:this.item.idx, from:'main'},
+								top:100,
+								width:500
+							});
+		                }
+		            },
+		            page: {
+		                paging: true,
+		                pageNo: 1,
+		                pageSize: 100,
+		                status: { formatter: null }
+		            }
+		        });
+
+		        fnObj.grid02.search();
+		    },
+		    
+		    search: function () {
+		    	var pars = "type=topList";
+				//mailGrid.setList({ ajaxUrl: "", ajaxPars: pars });
+				return false;
+		    }
+		},
+		
+		grid03: {
+			init: function () {
+		        memberGrid.setConfig({
+		            targetID: "memberGridTarget",
+		            theme: "AXGrid",
+		            colGroup: [
+					    { key: "rowseq", label: "번호", width: "50", align: "right" },
+					    { key: "name", label: "이름", width: "100", formatter: "dec" },
+					    { key: "pwd", label: "비밀번호", width: "100" },
+		                { key: "email", label: "Email", width: "150", formatter: "dec" },
+		                { key: "auth", label: "권한", width: "80", align: "center", formatter:function(){
+		                	return fnObj.grid03.authFormmater( this.item.auth );
+		                } },
+		                { key: "regiDate", label: "등록일", width: "135" },
+		                { key: "IP", label: "IP", width: "120"},
+		                { key: "secession", label: "탈퇴", width: "50", align:"center" },
+		                { key: "secessionDate", label: "탈퇴일", width: "135" },
+		                { key: "secessionIP", label: 	"IP", width: "120"}
+		            ],
+
+		            body: {
+		                onclick: function () {
+							myModal.open({
+								url:"",
+								pars:{idx:this.item.idx, from:'main'},
+								top:100,
+								width:500
+							});
+		                }
+		            },
+		            page: {
+		                paging: true,
+		                pageNo: 1,
+		                pageSize: 100,
+		                status: { formatter: null }
+		            }
+		        });
+
+		        fnObj.grid03.search();
+		    },
+		    
+		    search: function () {
+		    	var pars = "type=topList";
+				//memberGrid.setList({ ajaxUrl: "", ajaxPars: pars });
+				return false;
+		    },
+		    
+			authFormmater: function(vv){
+            	var returnValue = "";
+            	$.each(authArr, function(idx, o){
+            		if ( vv == o.cNo.number() ) returnValue = o.desc;
+            	});
+            	return (returnValue);
+		    }
+		},
+		
+		grid04: {
+	    	init: function () {
+		        bugGrid.setConfig({
+		            targetID: "bugGridTarget",
+		            theme: "AXGrid",
+		            colGroup: [
+			            { key: "rowseq", label: "번호", width: "40", align: "right"},
+					    { key: "title", label: "제목", width: "200", formatter: "dec" },
+		                { key: "writer", label: "작성자", width: "100", formatter: "dec" },
+		                { key: "email", label: "이메일", width: "150", formatter: "dec" },
+		                { key: "bugType", label: "타입", width: "70", align: "center", formatter: function(){
+		                	var rtnStr = '';
+					    	var bugType = this.item.bugType;
+					    	$.each(bugTypeArr, function(idx, o){
+					    		if (o.cNo == bugType) rtnStr = o.desc;
+					    	});
+					    	return rtnStr;
+		                } },
+		                { key: "versionName", label: "버젼", width: "100" },
+		                { key: "IP", label: "IP", width: "120" },
+		                { key: "regiDate", label: "작성일", width: "135" }
+		            ],
+		            body: {
+		                onclick: function () {
+							myModal.open({
+								url:"",
+								pars:{docuNo:this.item.docuNo, tableNo:2, programTitle:"버그리포트", programID:"BUGREPORT", from:'main' },
+								top:50,
+								width:1000
+							});
+		                }
+		            },
+		            page: {
+		                paging: true,
+		                pageNo: 1,
+		                pageSize: 100,
+		                status: { formatter: null }
+		            }
+		        });
+	
+		        fnObj.grid04.search();
+		    },
+
+		    search: function () {
+		    	var pars = "type=topList&tableNo=2";
+				//bugGrid.setList({ ajaxUrl: "", ajaxPars: pars });
+				return false;
+		    }
+		},
+		
+		grid05: {
+		    init: function () {
+		        suggestGrid.setConfig({
+		            targetID: "suggestGridTarget",
+		            theme: "AXGrid",
+		            colGroup: [
+			            { key: "rowseq", label: "번호", width: "40", align: "right"},
+					    { key: "title", label: "제목", width: "150", formatter: "dec" },
+		                { key: "writer", label: "작성자", width: "100", formatter: "dec" },
+		                { key: "email", label: "이메일", width: "150", formatter: "dec" },
+		                { key: "IP", label: "IP", width: "120" },
+		                { key: "regiDate", label: "작성일", width: "100" }
+		            ],
+		            body: {
+		                onclick: function () {
+							myModal.open({
+								url:"",
+								pars:{docuNo:this.item.docuNo, tableNo:3, programTitle:"제안", programID:"SUGGEST", from:'main' },
+								top:50,
+								width:1000
+							});
+		                }
+		            },
+		            page: {
+		                paging: true,
+		                pageNo: 1,
+		                pageSize: 100,
+		                status: { formatter: null }
+		            }
+		        });
+
+		        fnObj.grid05.search();
+		    },
+		    
+		    search: function () {
+		    	var pars = "type=topList&tableNo=3";
+				//suggestGrid.setList({ ajaxUrl: "", ajaxPars: pars });
+				return false;
+		    }
+		},
+		
+		grid06: {
+		    init: function () {
+		        memberBoardGrid.setConfig({
+		            targetID: "memberBoardGridTarget",
+		            theme: "AXGrid",
+		            colGroup: [
+			            { key: "rowseq", label: "번호", width: "40", align: "right"},
+					    { key: "title", label: "제목", width: "150", formatter: "dec" },
+		                { key: "writer", label: "작성자", width: "100", formatter: "dec" },
+		                { key: "email", label: "이메일", width: "150", formatter: "dec" },
+		                { key: "IP", label: "IP", width: "120" },
+		                { key: "regiDate", label: "작성일", width: "100" }
+		            ],
+		            body: {
+		                onclick: function () {
+							myModal.open({
+								url:"",
+								pars:{docuNo:this.item.docuNo, tableNo:5, programTitle:"회원게시판", programID:"MEMBERBOARD", from:'main' },
+								top:50,
+								width:1000
+							});
+		                }
+		            },
+		            page: {
+		                paging: true,
+		                pageNo: 1,
+		                pageSize: 100,
+		                status: { formatter: null }
+		            }
+		        });
+
+		        fnObj.grid06.search();
+		    },
+		    
+		    search: function () {
+		    	var pars = "type=topList&tableNo=5";
+				//memberBoardGrid.setList({ ajaxUrl: "", ajaxPars: pars });
+				return false;
+		    }
+		}
+		
+		
+	};
+	</script>
+</head>
+<body>
+	<!-- masterMenu ------------------------------------------>
+	<div class="masterMenu" id="masterMenu">
+		<div class="logo cp" onclick="window.open('http://www.axisj.com');" ></div>
+		<div class="menuContainer" id="masterMenuContainer"></div>
+		<a href="#Axexec" onclick="masterMenu.toggle();" class="menuHandle">Handle</a>
+	</div>
+	<div class="masterBodyPath" id="masterBodyPath">
+		<div class="masterBodyLogo">
+			<div class="accountDiv abs" style="top:7px;right:7px;">
+				<button class="AXButton Classic" onclick="fcObj.logout();">Logout</button>
+			</div>
+		</div>
+		<div class="pathContainer" id="pathContainer">
+			
+		</div>
+	</div>
+	<!-- masterMenu ------------------------------------------>
+	
+	<div class="masterBody" id="masterBody">
+		<div class="contentArea">
+			<div class="topList">
+				<a href="#" class="readMore" ><span class="topListTitle">후원관리</span></a>
+				<div>
+					<div id="donateGridTarget" style="height:200px;"></div>
+				</div>
+			</div>
+			
+			<div class="topList">
+				<a href="#" class="readMore" ><span class="topListTitle">메일링회원관리</span></a>
+				<div>
+					<div id="mailGridTarget" style="height:200px;"></div>
+				</div>
+			</div>
+			
+						
+			<div class="topList">
+				<a href="#" class="readMore" ><span class="topListTitle">회원관리</span></a>
+				<div>
+					<div id="memberGridTarget" style="height:200px;"></div>
+				</div>
+			</div>
+			
+			<div class="topList">
+				<a href="#" class="readMore" ><span class="topListTitle">버그리포트</span></a>
+				<div>
+					<div id="bugGridTarget" style="height:200px;"></div>
+				</div>
+			</div>
+			
+						
+			<div class="topList">
+				<a href="#" class="readMore" ><span class="topListTitle">제안</span></a>
+				<div>
+					<div id="suggestGridTarget" style="height:200px;"></div>
+				</div>
+			</div>
+			
+			<div class="topList last">
+				<a href="#" class="readMore" ><span class="topListTitle">회원게시판</span></a>
+				<div>
+					<div id="memberBoardGridTarget" style="height:200px;"></div>
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+</body>
+</html>

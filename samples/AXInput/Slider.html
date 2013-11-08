@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXInput</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			$("#AXInputSlider").bindSlider({min:0, max:100, snap:10, unit:"%"});
+			$("#AXInputSlider2").bindSlider({min:1000, max:100000, snap:100});
+			$("#AXInputSlider3").bindSlider({min:0, max:1, snap:0.01});
+			$("#AXInputTwinSlider").bindTwinSlider({min:0, max:1000, separator:"~", unit:"", snap:100}); // onChange 함수 바인드
+			
+			// 슬라이더에 값 지정 하기 $("#AXInputSlider2").setValueInput(this.value);
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="Number.html" class="AXTab Blue">Number</a>
+				<a href="Switch.html" class="AXTab Blue">Switch</a>
+				<a href="Segment.html" class="AXTab Blue">Segment</a>
+				<a href="Slider.html" class="AXTab Blue on">Slider</a>
+				<a href="Selector.html" class="AXTab Blue">Selector</a>
+				<a href="calendar.html" class="AXTab Blue">Date</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXInput bind Slider</h2>
+		<div style="position:relative;">
+			<input type="text" name="inputSlider" id="AXInputSlider" value="50" class="AXInput W200" />
+			&nbsp;&nbsp;
+			<input type="text" name="inputSlider" id="AXInputSlider2" value="10000" class="AXInput" style="width:400px;" />
+			
+			&nbsp;&nbsp;
+			<input type="text" name="inputSlider" id="AXInputSlider3" value="0" class="AXInput" style="width:400px;" />
+		</div>
+
+		<div class="Hspace20"></div>
+
+
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind TwinSlider</h2>
+		<div style="position:relative;">
+			<input type="text" name="inputTwinSlider" id="AXInputTwinSlider" value="200~700" class="AXInput W200" />
+		</div>
+
+		<div class="Hspace20"></div>
+
+
+
+	</div>
+
+</body>
+</html>

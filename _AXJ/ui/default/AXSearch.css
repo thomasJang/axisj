@@ -1,0 +1,93 @@
+﻿/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ * 
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+
+/** . **/
+.AXSearch{
+	position:relative;
+	 
+}
+	.AXSearch .expandHandle{
+		display:block;
+		border-bottom:1px solid #ccc;
+		background:#eee;
+		text-align:center;
+		color:#888;
+		text-decoration:none;
+		font-size:11px;line-height:20px;height:20px;
+	}
+	.AXSearch .searchGroup{
+		position:relative;
+		background: #fff;
+		min-height:40px;
+	}
+	.AXSearch .searchGroup.gray{
+		background: #f5f5f5;
+		padding:0px;
+		min-height:25px;
+	}
+		.AXSearch .searchGroup .searchItem{
+			float:left;
+			line-height:25px;min-height:25px;
+			padding:0px;
+			text-align:center;
+			position:relative;
+		}
+		
+		.AXSearch .searchGroup .searchItem .itemTable{
+			
+		}
+		
+		.AXSearch .searchGroup .searchItem .itemTable tr th{
+			color:#616161;
+			border-right:1px dashed #ccc;
+			min-height:40px;
+		}
+		.AXSearch .searchGroup .searchItem.secondItem .itemTable tr th{
+			border-left:1px dashed #ccc;
+		}
+		.AXSearch .searchGroup .searchItem .itemTable tr td{
+			padding:7px 10px 7px 10px;text-align:left;position:relative;
+		}
+		.AXSearch .searchGroup .searchItem.rightPadding0 .itemTable tr td{
+			padding-right:0px;
+		}
+		.AXSearch .searchGroup .searchItem.leftPadding0 .itemTable tr td{
+			padding-left:0px;
+		}
+		.AXSearch .searchGroup .searchItem.padding0 .itemTable tr td{
+			padding:10px 0px;
+		}
+		
+		.AXSearch .searchGroup .searchItem.searchLabel{
+			background: #f3f3f3;
+			font-weight:bold;
+			font-size:11px;
+			color:#444;
+		} 
+		
+		.AXSearch .searchGroup.gray .searchItem.searchLabel{ background: #eee; }
+		
+		.AXSearch .searchGroup .searchItem.searchLink{
+			color:#ccc;
+		}
+		.AXSearch .searchGroup .searchItem.searchLink .searchLinkItem{
+			color:#616161;
+			text-decoration:none;padding:0px 3px;	
+		}
+		.AXSearch .searchGroup .searchItem.searchLink .searchLinkItem.on{
+			color:#616161;
+			font-weight:bold;
+			text-decoration:underline;
+		}
+		
+		.AXSearch .searchGroup .groupClear{
+			font-size:1px;line-height:1px;height:1px;
+			background:#ccc;
+			clear:both;
+		}

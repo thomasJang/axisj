@@ -1,0 +1,199 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<!-- htmlHead-->
+	<title>AXISJ Control Tower</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="Description" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../html/common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" >
+	<link rel="stylesheet" type="text/css" href="../html/content.css" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+
+	<script type="text/javascript" src="../html/js/content.js"></script>
+
+	<!-- htmlHead-->
+    <style type="text/css">
+
+	</style>
+
+	<script type="text/javascript">
+	    var programID = "MEM01";
+	    
+	    var fnObj = {
+		    pageStart: function(){
+
+		    },
+		    pageResize: function(){
+
+		    }
+	    };
+	</script>
+</head>
+<body>
+	<!-- masterMenu ------------------------------------------>
+	<div class="masterMenu" id="masterMenu">
+		<div class="logo cp" onclick="window.open('http://www.axisj.com');" ></div>
+		<div class="menuContainer" id="masterMenuContainer"></div>
+		<a href="#Axexec" onclick="masterMenu.toggle();" class="menuHandle">Handle</a>
+	</div>
+	<div class="masterBodyPath" id="masterBodyPath">
+		<div class="masterBodyLogo">
+			<div class="accountDiv abs" style="top:7px;right:7px;">
+				<button class="AXButton Classic" onclick="fcObj.logout();">Logout</button>
+			</div>
+		</div>
+		<div class="pathContainer" id="pathContainer">
+			
+		</div>
+	</div>
+	<!-- masterMenu ------------------------------------------>
+	
+	<div class="masterBody" id="masterBody">
+		<div class="programTitle">
+			사용방법안내
+		</div>
+
+        <div class="contentArea">
+        	<ol>
+        		<li>
+        			master > html 안에 css, img, js 파일이 위치 합니다.
+        		</li>
+        		<li>
+        			master > html common.css / content.css 에서 메뉴구성 및 레이아웃 CSS 
+        		</li>
+        		<li>
+        			master > html > js content.css 공통 함수와 메뉴 구조 선언이 되어 있습니다. 메뉴 구조 데이터 선언은 다른 곳에서 하셔도 무방합니다.
+        		</li>
+        	</ol>
+        	
+        	<div class="Hspace20"></div>
+			<div style="width:500px;">
+				<table cellpadding="0" cellspacing="0" class="formTable">
+					<colgroup>
+						<col width="100" />
+						<col />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" class="AXInput" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<select name="" class="AXSelect">
+										<option value="">옵션항목</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<textarea class="AXTextarea"></textarea>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="Hspace20"></div>
+			<div style="width:500px;">
+				<table cellpadding="0" cellspacing="0" class="viewTBL">
+					<colgroup>
+						<col width="100" />
+						<col />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" class="AXInput" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<select name="" class="AXSelect">
+										<option value="">옵션항목</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr class="red">
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel" style="padding:5px;">
+									<textarea class="AXTextarea"></textarea>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<div class="tdRel">컬럼 TH</div>
+							</th>
+							<td class="last">
+								<div class="tdRel" style="padding:5px;">
+									<button type="button" class="AXButton">버튼스타일</button>
+									<button type="button" class="AXButton Red">버튼스타일</button>
+									<button type="button" class="AXButton Blue">버튼스타일</button>
+									<button type="button" class="AXButton Green">버튼스타일</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div style="padding:20px;">
+				<button type="button" class="AXButton">버튼스타일</button>
+				<button type="button" class="AXButton Red">버튼스타일</button>
+				<button type="button" class="AXButton Blue">버튼스타일</button>
+				<button type="button" class="AXButton Green">버튼스타일</button>
+				<button type="button" class="AXButton Classic">버튼스타일</button>
+			</div>
+			
+			--- 2013-09-25 오후 1:29:13 계속 보강해 나가 겠습니다.
+			
+		</div>
+	</div>
+</body>
+</html>

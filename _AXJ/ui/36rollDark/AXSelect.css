@@ -1,0 +1,66 @@
+﻿/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ * 
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+
+/** .AXbindSearch **/
+.AXanchorSelect{
+	position:absolute;left:0px;top:0px;
+	padding:0px;
+	margin:0px;
+}
+.AXanchorSelect .selectedTextBox{
+	display:block;
+	border:1px solid #b6b6b6;
+	background:url(img/defaultRegular.png) repeat-x;
+	box-shadow:0px 1px 1px #e9eced;
+	border-radius:4px;
+	cursor:pointer;
+	text-decoration:none;
+	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.AXanchorSelect .selectedTextBox .selectedText{
+	color:#717b85;text-shadow:0px 1px #fff;
+	
+}
+.AXanchorSelect .rootSelectBox{
+	position:absolute;left:0px;top:0px;
+	-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);
+}
+.AXanchorSelect .selectBoxArrow{
+	position:absolute;display:block;
+	right:0px;top:0px;
+	width:24px;height:18px;
+	background:url(img/slideDownArrow.png) center center no-repeat;
+	overflow:hidden;text-indent:-2000px;	
+}
+.AXanchorSelect .selectBoxArrow.on{
+	background:url(img/slideUpArrow.png) center center no-repeat;
+}
+
+.AXselectExpandBox{
+	z-index:4999;
+	position:absolute;left:0px;top:0px;
+	border:1px solid #b9babc;border-radius:4px;
+	background:#fff;
+	box-shadow:0px 1px #e9eced;
+	overflow:hidden;
+}
+.AXselectExpandBox .selectExpandScroll{
+	padding:2px 0px;
+}
+.AXselectExpandBox a{
+	display:block;padding:3px 8px;
+	font-size:12px;line-height:18px;color:#888888;text-decoration:none;
+	border-bottom:1px solid #d8d9db;background:#fff;
+	}
+	.AXselectExpandBox a.on{
+		background:#d7dde3;
+	}
+	.AXselectExpandBox a:hover{
+		background:#5ea3db;color:#fff;
+	}

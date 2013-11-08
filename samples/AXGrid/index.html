@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	
+	.lineRed td{background:#ff3300;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var myGrid = new AXGrid();
+	var myGrid2 = new AXGrid();
+	var fnObj = {
+		getColGroup: function(){
+			return [
+					{key:"no", label:"번호", width:"50", align:"right"},
+					{
+						key:"title", label:"제목", width:"200", tooltip:function(){
+							return this.item.no + "." + this.item.title;
+						}
+					},
+					{key:"writer", label:"작성자", width:"100"},
+					{key:"regDate", label:"작성일", width:"100"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"200"}
+				];
+		},
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+			myGrid.setConfig({
+				targetID : "AXGridTarget",
+				//sort:false, 정렬을 원하지 않을 경우 (tip 
+				fitToWidth:true, // 너비에 자동 맞춤
+				colGroup : fnObj.getColGroup(),
+				colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+				body : {
+					onclick: function(){
+						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						//alert(this.list);
+						//alert(this.page);
+					},
+					/* ondblclick 선언하면 onclick 이벤트가 0.25 초 지연 발생 됩니다. 주의 하시기 바람니다. */
+					ondblclick: function(){
+						toast.push("더블클릭");
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						//alert(this.list);
+						//alert(this.page);
+					},
+					addClass: function(){
+						// red, green, blue, yellow
+						/*
+						if(this.index % 2 == 0){
+							return "green";
+						}else{
+							return "red";
+						}
+						*/
+					}
+				},
+				page: {
+                    paging: false
+                }
+			});
+			
+
+			myGrid2.setConfig({
+				targetID : "AXGridTargetAutoHeight",
+				height:"auto",
+				colHeadAlign: "center", // 헤드의 기본 정렬 값
+				colGroup : [
+					{key:"no", label:"번호", width:"50", align:"right"}, 
+					{key:"title", label:"제목", width:"*"},
+					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"regDate", label:"작성일", width:"100", align:"center"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"*"}
+				],
+				body : {
+					onclick: function(){
+						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+					},
+					/* ondblclick 선언하면 onclick 이벤트가 0.25 초 지연 발생 됩니다. 주의 하시기 바람니다. */
+					ondblclick: function(){
+						toast.push("더블클릭");
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						//alert(this.list);
+						//alert(this.page);
+					},
+				},
+				page:{
+					paging:false, 
+					status:{formatter: null}
+				}
+			});
+
+			var list = [
+				{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10}, // item
+				{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:3, title:"AXGrid 세번째 줄 입니다.", writer:"한기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:5, title:"AXGrid 세번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:7, title:"AXGrid 세번째 줄 입니다.", writer:"소기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"재기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+				{no:9, title:"AXGrid 두번째 줄 입니다.", writer:"원기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:10, title:"AXGrid 세번째 줄 입니다.", writer:"고기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
+			];
+			myGrid.setList(list);
+			trace(myGrid.getSortParam());
+			myGrid2.setList(list);
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div class="contentContainer">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue on">Default</a>
+				<a href="colhead.html" class="AXTab Blue">colHead</a>
+				<a href="fixedColSeq.html" class="AXTab Blue">fixedColSeq</a>
+				<a href="body.html" class="AXTab Blue">body</a>
+				<a href="headfoot.html" class="AXTab Blue">head&foot</a>
+				<a href="marker.html" class="AXTab Blue">marker</a>
+				<a href="editor.html" class="AXTab Blue">editor</a>
+				<a href="ajax.html" class="AXTab Blue">ajax & paging</a>
+				<a href="passive.html" class="AXTab Blue">passive</a>
+				<a href="viewMode.html" class="AXTab Blue">viewMode</a>
+				<a href="help.html" class="AXTab Blue">도움말</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXGrid</h2>
+
+		<div id="AXGridTarget" style="height:300px;"></div>
+
+		<div class="Hspace20"></div>
+
+		<h2>AXGrid autoHeight</h2>
+
+		<div id="AXGridTargetAutoHeight" style="height:400px;"></div>
+
+</body>
+</html>

@@ -1,0 +1,1364 @@
+﻿/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ *
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+.AXHspace1{font-size:1px;line-height:1px;height:1px;}
+.AXHspace2{font-size:1px;line-height:1px;height:2px;}
+.AXHspace3{font-size:1px;line-height:1px;height:3px;}
+.AXHspace4{font-size:1px;line-height:1px;height:4px;}
+.AXHspace5{font-size:1px;line-height:1px;height:5px;}
+.AXHspace10{font-size:1px;line-height:1px;height:10px;}
+.AXHspace15{font-size:1px;line-height:1px;height:15px;}
+.AXHspace20{font-size:1px;line-height:1px;height:20px;}
+
+.AXUserSelectNone{
+	user-select:none;-moz-user-select:none;-webkit-user-select:none;-khtml-user-select:none;-o-user-select:none;
+}
+
+.AXMask{
+	z-index:5000;
+	position:fixed;top:0px;left:0px;width:100%;height:100%;
+	background:#000;-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+}
+
+.AXLoading{
+	min-height:50px;
+	background:url(img/AXUIProgressAnimate02_black.gif) no-repeat center center;
+}
+
+.AXLoadingSmall{
+	min-height:25px;
+	background:url(img/AXUIProgressAnimate01_black.gif) no-repeat center center;
+}
+
+.AXCodeViewer{
+	position:fixed;right:10px;bottom:10px;
+	z-index:5001;
+}
+
+.AXCodeViewer .Textbox{
+	position:absolute;right:0px;bottom:0px;
+	width:500px;height:500px;
+	border:1px solid #444;background:#fff;
+	padding:5px;margin:0px 0px 0px 0px;
+	box-shadow:0px 0px 3px #888;
+	border-radius:5px;
+	font-size:12px;color:#525252;
+	display:none;
+}
+.AXCodeViewer .Textbox .closeBtn{
+	position:absolute;right:-10px;top:-10px;
+	display:block;width:24px;height:24px;background:url(img/dialogClose.png) no-repeat;
+	overflow:hidden;text-indent:-1000px;
+}
+
+/* ------------------ AXScroll ----------------------- */
+.AXScroll{
+	position:relative;overflow:hidden;
+}
+	.AXScroll .scrollTrack{
+		z-index:100;
+		position:absolute;right:3px;top:2px;
+		width:7px;height:100%;background:#000;
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScroll .scrollTrack_hover{
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+	}
+	.AXScroll .scrollBar{
+		z-index:100;
+		position:absolute;right:3px;top:2px;
+		width:7px;min-height:10px;background:#000;
+		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScroll .scrollBar_hover{
+		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+	}
+	.AXScroll .scrollTarget{
+		position:absolute;left:0px;top:0px;
+	}
+
+.AXScrollSmall{
+	position:relative;overflow:hidden;
+}
+	.AXScrollSmall .scrollTrack{
+		position:absolute;right:3px;top:2px;
+		width:6px;height:100%;background:#000;
+		-moz-opacity: 0.1;opacity:.10;filter: alpha(opacity=10);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScrollSmall .scrollTrack_hover{
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+	}
+	.AXScrollSmall .scrollBar{
+		position:absolute;right:3px;top:2px;
+		width:6px;min-height:10px;background:#000;
+		-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScrollSmall .scrollBar_hover{
+		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+	}
+	.AXScrollSmall .scrollTarget{
+		position:absolute;left:0px;top:0px;
+	}
+/* ------------------ AXScroll ----------------------- */
+
+
+
+/* ------------------ AXButton ----------------------- */
+.AXButton{
+	position:relative;
+	cursor:pointer;
+	height:24px;
+	padding:0px 5px;
+	margin:0px 0px;
+	border:1px solid #3a3a3a;border-radius:2px;
+	font-size:12px;color:#ccc;text-shadow:0px -1px 0px #343434;
+	line-height:1em;
+	background:url(img/buttonBgDefault.png) repeat-x;
+	box-shadow:0px 1px 0px #2d2d2d;
+	outline:none;
+}
+.AXButton:hover, .AXButton:focus{
+	border:1px solid #3a3a3a;
+	background-position:0px -26px;
+	box-shadow:0px 1px 0px #2b2b2b;
+	color:#f9bb21;
+	text-shadow:0px -1px 0px #343434;
+}
+.AXButton:active{
+	border:1px solid #3a3a3a;
+	background-position:0px -52px;
+	box-shadow:0px 1px 0px #494949;
+	color:#f9bb21;
+	text-shadow:0px -1px 0px #343434;
+}
+.AXButton SPAN{
+	display:block;
+	height:24px;line-height:24px;
+	vertical-align:middle;
+}
+
+.AXButtonSmall{
+	cursor:pointer;
+	height:20px;
+	padding:0px 5px;
+	margin:0px 0px;
+	border:1px solid #b9babc;border-radius:4px;
+	font-size:11px;color:#6e7a86;line-height:19px;
+	background:url(img/defaultSmall.png) repeat-x;
+	box-shadow:0px 1px #d9d9d9;
+	outline:none;
+}
+.AXButtonSmall:hover, .AXButtonSmall:focus{
+	border:1px solid #949fa8;
+	background-position:0px -20px;
+	box-shadow:0px 1px 3px #c8cacd;
+	text-shadow:0px 1px #fff;
+}
+.AXButtonSmall:active{
+	border:1px solid #b9babc;
+	background-position:0px -40px;
+	box-shadow:none;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXButtonSmall SPAN{
+	display:block;
+	height:20px;line-height:20px;
+	vertical-align:middle;
+}
+
+
+.AXButtonLarge{
+	cursor:pointer;
+	height:46px;
+	padding:0px 10px;
+	margin:0px 0px;
+	border:1px solid #b9babc;border-radius:4px;
+	font-size:12px;color:#6e7a86;line-height:46px;
+	background:url(img/defaultLarge.png) repeat-x;
+	box-shadow:0px 1px #d9d9d9;
+	outline:none;
+}
+.AXButtonLarge:hover, .AXButtonLarge:focus{
+	border:1px solid #949fa8;
+	background-position:0px -46px;
+	box-shadow:0px 1px 3px #c8cacd;
+	text-shadow:0px 1px #fff;
+}
+.AXButtonLarge:active{
+	border:1px solid #b9babc;
+	background-position:0px -92px;
+	box-shadow:none;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXButtonLarge SPAN{
+	display:block;
+	height:46px;line-height:46px;
+	vertical-align:middle;
+}
+
+.AXButtonSmall.W30{width:30px;padding:0px;}
+.AXButtonSmall.W40{width:40px;padding:0px;}
+.AXButtonSmall.W50{width:50px;padding:0px;}
+.AXButtonSmall.W60{width:60px;padding:0px;}
+.AXButtonSmall.W70{width:70px;padding:0px;}
+.AXButtonSmall.W80{width:80px;padding:0px;}
+.AXButtonSmall.W90{width:90px;padding:0px;}
+.AXButtonSmall.W100{width:100px;padding:0px;}
+.AXButtonSmall.W110{width:110px;padding:0px;}
+.AXButtonSmall.W120{width:120px;padding:0px;}
+.AXButtonSmall.W130{width:130px;padding:0px;}
+.AXButtonSmall.W140{width:140px;padding:0px;}
+.AXButtonSmall.W150{width:150px;padding:0px;}
+.AXButtonSmall.W160{width:160px;padding:0px;}
+.AXButtonSmall.W170{width:170px;padding:0px;}
+.AXButtonSmall.W180{width:180px;padding:0px;}
+.AXButtonSmall.W190{width:190px;padding:0px;}
+.AXButtonSmall.W200{width:200px;padding:0px;}
+
+.AXButton.W30{width:30px;padding:0px;}
+.AXButton.W40{width:40px;padding:0px;}
+.AXButton.W50{width:50px;padding:0px;}
+.AXButton.W60{width:60px;padding:0px;}
+.AXButton.W70{width:70px;padding:0px;}
+.AXButton.W80{width:80px;padding:0px;}
+.AXButton.W90{width:90px;padding:0px;}
+.AXButton.W100{width:100px;padding:0px;}
+.AXButton.W110{width:110px;padding:0px;}
+.AXButton.W120{width:120px;padding:0px;}
+.AXButton.W130{width:130px;padding:0px;}
+.AXButton.W140{width:140px;padding:0px;}
+.AXButton.W150{width:150px;padding:0px;}
+.AXButton.W160{width:160px;padding:0px;}
+.AXButton.W170{width:170px;padding:0px;}
+.AXButton.W180{width:180px;padding:0px;}
+.AXButton.W190{width:190px;padding:0px;}
+.AXButton.W200{width:200px;padding:0px;}
+
+.AXButtonLarge.W30{width:30px;padding:0px;}
+.AXButtonLarge.W40{width:40px;padding:0px;}
+.AXButtonLarge.W50{width:50px;padding:0px;}
+.AXButtonLarge.W60{width:60px;padding:0px;}
+.AXButtonLarge.W70{width:70px;padding:0px;}
+.AXButtonLarge.W80{width:80px;padding:0px;}
+.AXButtonLarge.W90{width:90px;padding:0px;}
+.AXButtonLarge.W100{width:100px;padding:0px;}
+.AXButtonLarge.W110{width:110px;padding:0px;}
+.AXButtonLarge.W120{width:120px;padding:0px;}
+.AXButtonLarge.W130{width:130px;padding:0px;}
+.AXButtonLarge.W140{width:140px;padding:0px;}
+.AXButtonLarge.W150{width:150px;padding:0px;}
+.AXButtonLarge.W160{width:160px;padding:0px;}
+.AXButtonLarge.W170{width:170px;padding:0px;}
+.AXButtonLarge.W180{width:180px;padding:0px;}
+.AXButtonLarge.W190{width:190px;padding:0px;}
+.AXButtonLarge.W200{width:200px;padding:0px;}
+
+/* ------------------ AXButton ----------------------- */
+
+.AXNotificationTray{
+	position:fixed;right:10px;top:0px;z-index:5001;
+}
+.AXNotificationTrayDialog{
+	position:fixed;left:0px;top:50px;
+	width:340px;
+	z-index:5001;
+}
+.AXNotification{
+	width:300px;
+	border:1px solid #c5c5c5;background:#ebebeb;
+	padding:10px;margin:10px 0px;
+	-moz-opacity: 0.9;opacity:.90;filter: alpha(opacity=90);
+	box-shadow:0px 0px 5px #b2b2b2;
+	border-radius:5px;
+	font-size:12px;color:#525252;
+}
+
+.AXNotificationTrayDialog .AXNotification{
+	width:340px;
+	border:1px solid #444;background:#ebebeb;
+	padding:0px;margin:0px 0px;
+	-moz-opacity: 1;opacity:1.00;filter: alpha(opacity=100);
+	box-shadow:0px 0px 3px #888;
+	border-radius:5px;
+	font-size:12px;color:#525252;
+	overflow:hidden;
+}
+
+	.AXNotification .AXNotificationHead{
+		font-weight:bold;
+		color:#717b85;text-shadow:0px 1px #fff;
+		padding:5px 15px;height:20px;line-height:20px;
+		background:url(img/dialogTitle.png) repeat-x;
+		text-align:center;
+	}
+	.AXNotification .AXNotificationTable{
+		width:100%;border:0px none !important;background:#ebebeb;
+	}
+	.AXNotificationTrayDialog .AXNotification .AXNotificationTable{
+
+	}
+	.AXNotificationTrayDialog .AXNotificationCT{
+		padding:10px;
+	}
+		.AXNotification .AXNotificationTable td, .AXNotification .AXNotificationTable th{
+			border:0px none !important;background:#ebebeb;
+		}
+	.AXNotification .AXNotificationIcon{
+		width:42px;height:42px;
+		background:url(img/notificationComplete.png) no-repeat center 5px !important;
+	}
+	.AXNotification .AXNotificationBody{
+		font-size:12px;color:#525252;padding-right:5px;
+		line-height:1.6em;
+	}
+
+		.AXNotification .AXNotificationBody B{
+			color:#477e47;
+		}
+	.AXNotification .AXNotificationButton{
+		width:45px;
+	}
+	.AXNotification .AXNotificationButtons{
+		padding:10px 0px;
+		text-align:center;background:#ebebeb;
+	}
+
+	/* Warning */
+	.AXNotification.Warning .AXNotificationIcon{
+		width:42px;height:42px;
+		background:url(img/notificationWarning.png) no-repeat center center !important;
+	}
+		.AXNotification.Warning .AXNotificationBody B{
+			color:#bf601b;
+		}
+
+	/* Caution */
+	.AXNotification.Caution .AXNotificationIcon{
+		width:42px;height:42px;
+		background:url(img/notificationCaution.png) no-repeat center center !important;
+	}
+	.AXNotification.Caution .AXNotificationBody B{
+		color:#7e302c;
+	}
+
+
+/* ---------------------------- AXInput ------------------------------- */
+.AXanchor{
+	position:absolute;height:0px;left:0px;top:0px;display:none;
+	vertical-align:middle;
+}
+.AXInput{
+	border:1px solid #424242;background:#222;
+	box-shadow:inset 0px 1px 2px #000;
+	border-radius:4px;
+	font-size:12px;line-height:15px;height:15px;
+	padding:4px;
+	margin:0px auto;
+	color:#777;text-shadow:0px -1px #000;
+}
+
+.AXInput:focus{
+	border:1px solid #fac126;
+	box-shadow:inset 0px 0px 3px #000;
+	color:#fac126;text-shadow:0px -1px #000;
+}
+
+.AXInputSmall{
+	border:1px solid #b6b6b6;
+	box-shadow:inset 0px 1px 1px #dddddd;
+	border-radius:4px;
+	font-size:12px;line-height:14px;height:12px;
+	padding:3px 3px;
+	margin:0px auto;
+}
+.AXInputSmall:focus{
+	border:1px solid #949fa8;
+	box-shadow:inset 0px 0px 3px #949fa8;
+}
+
+.AXInput.W30{width:30px;}
+.AXInput.W40{width:40px;}
+.AXInput.W50{width:50px;}
+.AXInput.W60{width:60px;}
+.AXInput.W70{width:70px;}
+.AXInput.W80{width:80px;}
+.AXInput.W90{width:90px;}
+.AXInput.W100{width:100px;}
+.AXInput.W110{width:110px;}
+.AXInput.W120{width:120px;}
+.AXInput.W130{width:130px;}
+.AXInput.W140{width:140px;}
+.AXInput.W150{width:150px;}
+.AXInput.W160{width:160px;}
+.AXInput.W170{width:170px;}
+.AXInput.W180{width:180px;}
+.AXInput.W190{width:190px;}
+.AXInput.W200{width:200px;}
+.AXInput.W300{width:300px;}
+.AXInput.W400{width:400px;}
+.AXInput.W500{width:500px;}
+
+.AXInputSmall.W30{width:30px;}
+.AXInputSmall.W40{width:40px;}
+.AXInputSmall.W50{width:50px;}
+.AXInputSmall.W60{width:60px;}
+.AXInputSmall.W70{width:70px;}
+.AXInputSmall.W80{width:80px;}
+.AXInputSmall.W90{width:90px;}
+.AXInputSmall.W100{width:100px;}
+.AXInputSmall.W110{width:110px;}
+.AXInputSmall.W120{width:120px;}
+.AXInputSmall.W130{width:130px;}
+.AXInputSmall.W140{width:140px;}
+.AXInputSmall.W150{width:150px;}
+.AXInputSmall.W160{width:160px;}
+.AXInputSmall.W170{width:170px;}
+.AXInputSmall.W180{width:180px;}
+.AXInputSmall.W190{width:190px;}
+.AXInputSmall.W200{width:200px;}
+.AXInputSmall.W300{width:300px;}
+.AXInputSmall.W400{width:400px;}
+.AXInputSmall.W500{width:500px;}
+
+.AXInput.Round{border-radius:15px;padding:4px 10px;}
+.AXInputSmall.Round{border-radius:15px;padding:3px 7px;}
+.AXInput[disabled]{}
+
+.AXInput[disabled]{
+	border:1px solid #424242;
+	background:#343434;
+	color:#545454;text-shadow:0px -1px #000;
+	box-shadow:inset 0px 0px 2px #1a1a19;
+}
+
+.AXInputSmall[disabled]{
+	background:url(img/DefaultSmall.png) repeat-x;
+	background-position:0px -60px;
+	color:#fff;text-shadow:0px -1px #b7b7b7;
+	box-shadow:inset 0px 1px 2px #b1b1b1;
+}
+
+.AXCheckbox{
+	position:relative;display:inline-block;
+	height:26px;line-height:26px;
+	padding:1px 0 0 30px;margin:0 0px 0 0;
+	font-weight:normal;vertical-align:top;white-space:nowrap;cursor:pointer;
+	overflow:hidden;
+	background:url(img/AXCheckbox.png) no-repeat left 0px;
+}
+.AXCheckbox:focus{
+	border:1px dotted #ccc;
+}
+.AXCheckbox.checked{
+	background-position:left -26px;
+}
+.AXCheckbox input[type="checkbox"]{
+	position:absolute;left:-56px;
+}
+
+/* ---------------------------- AXSelect ------------------------------- */
+.AXSelect{
+	border:1px solid #b6b6b6;background:#fff;
+	box-shadow:0px 1px 1px #e9eced;
+	border-radius:4px;
+	font-size:12px;line-height:19px;height:25px;
+	padding:2px;
+	margin:0px auto;
+}
+
+.AXSelectSmall{
+	border:1px solid #b6b6b6;background:#fff;
+	box-shadow:0px 1px 1px #e9eced;
+	border-radius:4px;
+	font-size:11px;line-height:14px;height:20px;
+	padding:2px;
+	margin:0px auto;
+}
+
+.AXTextarea{
+	border:1px solid #b6b6b6;background:#fff;
+	box-shadow:inset 0px 1px 2px #dddddd;
+	border-radius:4px;
+	font-size:12px;line-height:15px;
+	padding:4px;
+	margin:0px auto;
+}
+
+/* ---------------------------- AXscriptSource ------------------------------- */
+.AXscriptSource{
+	padding:5px 10px 10px 10px;border:1px solid #b6b6b6;background:#FFFFEC;border-radius:0px;position:relative;overflow:hidden;
+	box-shadow:inset 1px 1px 2px #ccc;
+	}
+.AXscriptSource legend{font-size:12px;font-weight:bold;background:#b6b6b6;color:#fff;padding:3px 7px;border-radius:4px;}
+.AXscriptSource textarea.fieldsetBody{
+	display:block;border:0px none;font-size:12px;line-height:16px;font-family:Consolas;
+	background:transparent;
+	width:100%;overflow:auto;
+}
+.AXscriptSource .fieldsetBodyMirror{
+	font-size:12px;line-height:16px;font-family:Consolas;
+	overflow:auto;
+}
+.AXscriptSource .AXscriptSourceLineNumber{
+	position:absolute;left:-35px;top:0px;
+	width:25px;padding-right:2px;
+	background:#ccc;border-right:1px solid #b6b6b6;
+	font-size:12px;line-height:16px;font-family:Consolas;overflow:hidden;
+	color:#fff;text-shadow:0px -1px #b6b6b6;
+	text-align:right;
+}
+
+/* ---------------------------- AXTabs ------------------------------- */
+	/* horizen AXTabs */
+.AXTabs{
+	position:relative;min-height:30px;
+	overflow:hidden;
+}
+.AXTabs .AXTabsTray{
+	background:url(img/AXTabBg.png);
+}
+.AXTabs .AXTabsTray .trayScroll{
+	position:absolute;
+	left:0px;top:0px;
+	height:30px;
+}
+.AXTabs .AXTabsTray .AXTab{
+	display:block;float:left;
+	cursor:pointer;
+	height:26px;min-width:50px;
+	padding:0px 10px;
+	margin:2px 0px 0px 2px;
+	border:1px solid #b9babc;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
+	text-decoration:none;
+	background:url(img/defaultRegular.png) repeat-x;
+	outline:none;
+}
+.AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+	background-position:0px -26px;
+	text-shadow:0px 1px #fff;
+}
+.AXTabs .AXTabsTray .AXTab:active{
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+	background-position:0px -52px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXTabs .AXTabsTray .AXTab.on{
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+.AXTabs .leftArrowHandleBox{
+	position:absolute;
+	left:0px;top:0px;
+	width:29px;height:30px;
+	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+} 
+.AXTabs .leftArrowHandleBox .tabArrow{
+	display:block;width:29px;height:30px;
+	background:url(img/leftArrows.png) no-repeat center 0px;
+	text-indent:-1000px;overflow:hidden;
+}
+.AXTabs .leftArrowHandleBox .tabArrow:hover{
+	background:url(img/leftArrows.png) no-repeat center -30px;
+}
+	
+.AXTabs .rightArrowHandleBox{
+	position:absolute;
+	right:0px;top:0px;
+	width:29px;height:30px;
+	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+} 
+.AXTabs .rightArrowHandleBox .tabArrow{
+	display:block;width:29px;height:30px;
+	background:url(img/rightArrows.png) no-repeat center 0px;
+	text-indent:-1000px;overflow:hidden;
+}
+.AXTabs .rightArrowHandleBox .tabArrow:hover{
+	background:url(img/rightArrows.png) no-repeat center -30px;
+}
+
+	/* horizen AXTabsLarge */
+.AXTabsLarge{
+	position:relative;min-height:46px;
+	overflow:hidden;
+}
+.AXTabsLarge .AXTabsTray{
+	background:url(img/AXTabBgLarge.png);
+}
+.AXTabsLarge .AXTabsTray .trayScroll{
+	position:absolute;
+	left:0px;top:0px;
+	height:46px;
+}
+.AXTabsLarge .AXTabsTray .AXTab{
+	display:block;float:left;
+	cursor:pointer;
+	height:40px;min-width:100px;
+	padding:0px 10px;
+	margin:4px 0px 0px 4px;
+	border:1px solid #b9babc;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
+	text-decoration:none;
+	background:url(img/defaultLarge.png) repeat-x;
+	outline:none;
+}
+.AXTabsLarge .AXTabsTray .AXTab:hover, .AXTabsLarge .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+	background-position:0px -46px;
+	text-shadow:0px 1px #fff;
+}
+.AXTabsLarge .AXTabsTray .AXTab:active{
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+	background-position:0px -92px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXTabsLarge .AXTabsTray .AXTab.on{
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+	/* horizen AXTabsSmall */
+.AXTabsSmall{
+	position:relative;min-height:24px;
+	overflow:hidden;
+}
+.AXTabsSmall .AXTabsTray{
+	background:url(img/AXTabBgSmall.png);
+}
+.AXTabsSmall .AXTabsTray .trayScroll{
+	position:absolute;
+	left:0px;top:0px;
+	height:24px;
+}
+.AXTabsSmall .AXTabsTray .AXTab{
+	display:block;float:left;
+	cursor:pointer;
+	height:20px;min-width:60px;
+	padding:0px 10px;
+	margin:2px 0px 0px 1px;
+	border:1px solid #b9babc;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
+	text-decoration:none;
+	background:url(img/defaultSmall.png) repeat-x;
+	outline:none;
+}
+.AXTabsSmall .AXTabsTray .AXTab:hover, .AXTabsSmall .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+	background-position:0px -20px;
+	text-shadow:0px 1px #fff;
+}
+.AXTabsSmall .AXTabsTray .AXTab:active{
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+	background-position:0px -40px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXTabsSmall .AXTabsTray .AXTab.on{
+	background:#fff;border-bottom:1px solid #fff;
+}
+
+
+.AXTabsSmall .leftArrowHandleBox{
+	position:absolute;
+	left:0px;top:0px;
+	width:29px;height:24px;
+	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+} 
+.AXTabsSmall .leftArrowHandleBox .tabArrow{
+	display:block;width:29px;height:24px;
+	background:url(img/leftArrows.png) no-repeat center -3px;
+	text-indent:-1000px;overflow:hidden;
+}
+.AXTabsSmall .leftArrowHandleBox .tabArrow:hover{
+	background:url(img/leftArrows.png) no-repeat center -33px;
+}
+	
+.AXTabsSmall .rightArrowHandleBox{
+	position:absolute;
+	right:0px;top:0px;
+	width:29px;height:24px;
+	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+} 
+.AXTabsSmall .rightArrowHandleBox .tabArrow{
+	display:block;width:29px;height:24px;
+	background:url(img/rightArrows.png) no-repeat center -3px;
+	text-indent:-1000px;overflow:hidden;
+}
+.AXTabsSmall .rightArrowHandleBox .tabArrow:hover{
+	background:url(img/rightArrows.png) no-repeat center -33px;
+}
+
+	/* AXTabsVertical */
+.AXTabsVertical{
+	position:relative;min-width:30px;
+}
+.AXTabsVertical .AXTabsTray{
+	width:30px;
+}
+.AXTabsVertical.leftSide .AXTabsTray{
+	background:url(img/AXTabBgVerticalLeft.png);
+}
+.AXTabsVertical.rightSide .AXTabsTray{
+	background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
+}
+.AXTabsVertical .AXTabsTray .AXTab{
+	display:block;
+	cursor:pointer;
+	width:26px;min-height:80px;
+	padding:10px 0px;
+	margin:2px 0 0 2px;
+	border:1px solid #b9babc;
+	font-size:12px;color:#6e7a86;
+	text-decoration:none;
+	outline:none;
+	position:relative;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab{
+	border-top-left-radius:4px;border-bottom-left-radius:4px;
+	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab{
+	border-top-right-radius:4px;border-bottom-right-radius:4px;
+	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
+}
+.AXTabsVertical .AXTabsTray .AXTab:hover, .AXTabsVertical .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+	background-position:-26px 0px;
+	text-shadow:0px 1px #fff;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab:focus{
+	border-left:1px solid #949fa8;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab:focus{
+	border-right:1px solid #949fa8;
+}
+.AXTabsVertical .AXTabsTray .AXTab:active{
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+	background-position:-52px 0px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab:active{
+	border-left:1px solid #b9babc;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab:active{
+	border-right:1px solid #b9babc;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab.on{
+	background:#fff;border-right:1px solid #fff;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.on{
+	background:#fff;border-left:1px solid #fff;
+}
+.AXTabsVertical .AXTabsTray .AXTab .AXTabText{
+	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
+	display:block;
+	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
+	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+
+	transform:rotate(-90deg) translateX(-70px) translateY(19px); transform-origin:0 100%;
+	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+}
+
+.AXTabsVertical.leftSide .AXTabsTray .AXTab .AXTabText{
+	left:5px;top:4px;
+	transform:rotate(-90deg) translateX(-70px) translateY(19px); transform-origin:0 100%;
+	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+}
+
+.AXTabsVertical.rightSide .AXTabsTray .AXTab .AXTabText{
+	left:2px;top:4px;
+	transform:rotate(90deg) translateX(-20px) translateY(0px); transform-origin:0 100%;
+	-o-transform:rotate(90deg) translateX(-20px) translateY(0px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(90deg) translateX(-20px) translateY(0px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(90deg) translateX(-20px) translateY(0px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+}
+
+	/* AXTabsLargeVertical */
+.AXTabsLargeVertical{
+	position:relative;min-width:46px;
+}
+.AXTabsLargeVertical .AXTabsTray{
+	width:46px;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray{
+	background:url(img/AXTabBgLargeVerticalLeft.png);
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray{
+	background:url(img/AXTabBgLargeVerticalLeft.png) -41px 0px;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab{
+	display:block;
+	cursor:pointer;
+	width:40px;min-height:100px;
+	padding:10px 0px;
+	margin:4px 0 0 4px;
+	border:1px solid #b9babc;
+	font-size:14px;color:#6e7a86;
+	text-decoration:none;
+	outline:none;
+	position:relative;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab{
+	border-top-left-radius:4px;border-bottom-left-radius:4px;
+	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab{
+	border-top-right-radius:4px;border-bottom-right-radius:4px;
+	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab:hover, .AXTabsLargeVertical .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+	background-position:-46px 0px;
+	text-shadow:0px 1px #fff;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:focus{
+	border-left:1px solid #949fa8;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:focus{
+	border-right:1px solid #949fa8;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab:active{
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+	background-position:-92px 0px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:active{
+	border-left:1px solid #b9babc;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:active{
+	border-right:1px solid #b9babc;
+}
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.on{
+	background:#fff;border-right:1px solid #fff;
+}
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.on{
+	background:#fff;border-left:1px solid #fff;
+}
+.AXTabsLargeVertical .AXTabsTray .AXTab .AXTabText{
+	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
+	display:block;
+	position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
+	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+
+	transform:rotate(-90deg) translateX(-82px) translateY(31px); transform-origin:0 100%;
+	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+}
+
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab .AXTabText{
+
+	transform:rotate(-90deg) translateX(-82px) translateY(31px); transform-origin:0 100%;
+	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+}
+
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab .AXTabText{
+
+	transform:rotate(90deg) translateX(-30px) translateY(1px); transform-origin:0 100%;
+	-o-transform:rotate(90deg) translateX(-30px) translateY(1px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(90deg) translateX(-30px) translateY(1px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(90deg) translateX(-30px) translateY(1px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+}
+
+	/* AXTabsSmallVertical */
+.AXTabsSmallVertical{
+	position:relative;min-width:24px;
+}
+.AXTabsSmallVertical .AXTabsTray{
+	width:24px;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray{
+	background:url(img/AXTabBgSmallVerticalLeft.png)-1px 0px;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray{
+	background:url(img/AXTabBgSmallVerticalLeft.png) -22px 0px;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab{
+	display:block;
+	cursor:pointer;
+	width:20px;min-height:60px;
+	padding:10px 0px;
+	margin:2px 0 0 1px;
+	border:1px solid #b9babc;
+	font-size:11px;color:#6e7a86;
+	text-decoration:none;
+	outline:none;
+	position:relative;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab{
+	border-top-left-radius:4px;border-bottom-left-radius:4px;
+	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab{
+	border-top-right-radius:4px;border-bottom-right-radius:4px;
+	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab:hover, .AXTabsSmallVertical .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+	background-position:-20px 0px;
+	text-shadow:0px 1px #fff;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:focus{
+	border-left:1px solid #949fa8;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.rihgtSide .AXTabsTray .AXTab:focus{
+	border-right:1px solid #949fa8;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab:active{
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+	background-position:-40px 0px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:active{
+	border-left:1px solid #b9babc;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:active{
+	border-right:1px solid #b9babc;
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.on{
+	background:#fff;border-right:1px solid #fff;
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.on{
+	background:#fff;border-left:1px solid #fff;
+}
+.AXTabsSmallVertical .AXTabsTray .AXTab .AXTabText{
+	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
+	display:block;
+	position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
+	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+
+	transform:rotate(-90deg) translateX(-57px) translateY(19px); transform-origin:0 100%;
+	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+}
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab .AXTabText{
+	left:2px;top:2px;
+	transform:rotate(-90deg) translateX(-57px) translateY(19px); transform-origin:0 100%;
+	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+}
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab .AXTabText{
+	left:0px;top:2px;
+	transform:rotate(90deg) translateX(-18px) translateY(0px); transform-origin:0 100%;
+	-o-transform:rotate(90deg) translateX(-18px) translateY(0px); -o-transform-origin:0 100%;
+	-moz-transform:rotate(90deg) translateX(-18px) translateY(0px); -moz-transform-origin:0 100%;
+	-webkit-transform:rotate(90deg) translateX(-18px) translateY(0px); -webkit-transform-origin:0 100%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+}
+
+
+/* ---------------------------- AXCalendar ------------------------------- */
+
+.AXCalendar{
+	position:relative;width:181px;
+}
+	.AXCalendar table.calendarPage{
+		table-layout:fixed;width:100%;
+	}
+	.AXCalendar table.calendarPage thead td{
+		font-size:8px;font-family:'Arial';
+		height:20px;line-height:20px;
+		padding:0px;text-align:center;
+		border-right:1px solid #f2f2f3;
+		border-bottom:1px solid #b9babc;
+	}
+	.AXCalendar table.calendarPage thead td.head_0{
+
+	}
+	.AXCalendar table.calendarPage thead td.head_6{
+		border-right:0px none;
+	}
+
+	.AXCalendar table.calendarPage tbody td{
+		height:25px;line-height:25px;
+		padding:0px;text-align:center;
+		border-right:1px solid #b9babc;
+		border-bottom:1px solid #b9babc;
+		background:url(img/calendarBgs.png) repeat-x 0px -26px;
+	}
+
+	.AXCalendar table.calendarPage tbody td.bodyCol_6{
+		border-right:0px none;
+	}
+	.AXCalendar table.calendarPage tbody td.bodyRow_5{
+		border-bottom:0px none;
+	}
+	.AXCalendar table.calendarPage tbody td.setDate{
+		background:url(img/calendarBgs.png) repeat-x 0px -76px;
+	}
+	.AXCalendar table.calendarPage tbody td A.calendarDate{
+		display:block;height:25px;line-height:25px;
+		text-decoration:none;color:#6d6e71;
+		font-size:11px;font-family:Arial;font-weight:bold;
+	}
+	.AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate{
+		color:#c78b82;
+	}
+	.AXCalendar table.calendarPage tbody td A.calendarDate.notThisMonth{
+		color:#bfbfc1;
+	}
+
+	.AXCalendar table.calendarPage tbody td A.calendarDate:hover{
+		background:#d8e1e7;
+	}
+	.AXCalendar table.calendarPage tbody td A.calendarDate:active{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
+	}
+	.AXCalendar table.calendarPage tbody td A.calendarDate.selected{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
+	}
+
+
+
+
+	.AXCalendar table.calendarPageMonth{
+		table-layout:fixed;width:100%;
+	}
+	.AXCalendar table.calendarPageMonth tbody td{
+		height:43px;line-height:43px;
+		padding:0px;text-align:center;
+		border-right:1px solid #b9babc;
+		border-bottom:1px solid #b9babc;
+		background:url(img/calendarBgs.png) repeat-x 0px -101px;
+	}
+	.AXCalendar table.calendarPageMonth tbody td.bodyCol_2{
+		border-right:0px none;
+	}
+	.AXCalendar table.calendarPageMonth tbody td.bodyRow_3{
+		border-bottom:0px none;padding-bottom:1px;
+	}
+	.AXCalendar table.calendarPageMonth tbody td.setDate{
+		background:#f3e2df;
+	}
+	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth{
+		display:block;height:43px;line-height:43px;
+		text-decoration:none;color:#6d6e71;
+		font-size:12px;font-family:Arial;font-weight:bold;
+	}
+	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth:hover{
+		background:#d8e1e7;
+	}
+	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth:active{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
+	}
+	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth.selected{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
+	}
+
+	.AXCalendar .timeBox{
+		position:relative;height:90px;
+	}
+		.AXCalendar .timeBox .hourTitle{
+			position:absolute;left:5px;top:18px;
+			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			text-shadow:0px 1px #fff;
+		}
+		.AXCalendar .timeBox .hourSlider{
+			position:absolute;left:45px;top:15px;
+		}
+		.AXCalendar .timeBox .minuteTitle{
+			position:absolute;left:5px;top:53px;
+			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			text-shadow:0px 1px #fff;
+		}
+		.AXCalendar .timeBox .minuteSlider{
+			position:absolute;left:45px;top:50px;
+		}
+		.AXCalendar .timeBox .timeDisplay{
+			position:absolute;left:5px;top:90px;
+			border:1px solid #7f8d9c;background:#a3b0b9;box-shadow:inset 0px 1px 2px #828282;
+			border-radius:5px;
+			padding:0px 20px;margin:0px;
+			font-size:12px;color:#fff;font-family:Arial;line-height:22px;
+			text-shadow:0px -1px #8a939e;
+			outline:none;
+		}
+		.AXCalendar .timeBox .AMPM{
+			position:absolute;right:10px;top:90px;
+		}
+
+
+/* AXModal *************************************************************************** */
+.AXModalBox{
+	position:absolute;left:10px;top:10px;z-index:5001;
+}
+.AXModalBox .windowbox{
+	border:6px solid #4c4c4c;border-radius:5px;
+	background:url(/html/ui/dark/img/bodyBg.jpg) #000;
+	box-shadow:0px 0px 5px #000;
+	padding:0px;margin:0px 0px 10px 0px;
+	font-size:12px;color:#525252;
+}
+.AXModalBox .windowbox .windowboxFrame{
+	background:url(/html/ui/dark/img/bodyBg.jpg) #000;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=00);
+}
+.AXModalBox .windowbox .windowboxFrame.loaded{
+	-moz-opacity: 1.0;opacity:1;filter: alpha(opacity=100);
+}
+.AXModalBox .windowbox .closeBtn{
+	position:absolute;right:14px;top:14px;
+	display:block;width:30px;height:30px;
+	background:url(img/axmodalClose.png) no-repeat;
+	overflow:hidden;text-indent:-1000px;
+}
+/**************************************************************************** AXModal */
+
+
+
+/* AXContextMenu *************************************************************************** */
+.AXContextMenu{
+	z-index:4999;
+	position:absolute;left:0px;top:0px;
+	width:140px;
+	background:#fff;
+	border:1px solid #b1b1b1;border-radius:5px;
+	box-shadow:0px 0px 5px #ccc;
+}
+	.AXContextMenu .contextMenuItem{
+		position:relative;
+		display:block;
+		height:30px;
+		line-height:30px;padding:0px 5px 0px 30px;
+		color:#5e5e5e;text-decoration:none;
+		background-image:url(img/contextMenuIcon_doc.png);
+		background-repeat:no-repeat;
+		background-position:0px center;
+	}
+	.AXContextMenu .hline{
+		display:block;
+		height:1px;line-height:1px;font-size:1px;
+		background:#b1b1b1;
+	}
+	.AXContextMenu .contextMenuItem:hover{
+		background-color:#eee;	
+	}
+	.AXContextMenu .contextMenuItem .contextSubMenuIcon{
+		position:absolute;right:0px;top:0px;
+		width:30px;height:30px;
+		background-image:url(img/contextSubMenuIcon.png);
+		background-repeat:no-repeat;
+		background-position:0px center;
+	}
+		.AXContextMenu .contextMenuItem.first{
+			border-top-left-radius:5px;border-top-right-radius:5px;
+		}
+		.AXContextMenu .contextMenuItem.last{
+			border-bottom:0px none;
+			border-bottom-left-radius:5px;border-bottom-right-radius:5px;
+		}
+		.AXContextMenu .contextMenuItem.docline{
+			background-image:url(img/contextMenuIcon_docline.png);
+		}
+
+		.AXContextMenu .contextMenuItem.plus{
+			background-image:url(img/contextMenuIcon_plus.png);
+		}
+        .AXContextMenu .contextMenuItem.minus{
+			background-image:url(img/contextMenuIcon_minus.png);
+		}
+        .AXContextMenu .contextMenuItem.group{
+			background-image:url(img/contextMenuIcon_group.png);
+		}
+        .AXContextMenu .contextMenuItem.edit{
+			background-image:url(img/contextMenuIcon_edit.png);
+		}
+        .AXContextMenu .contextMenuItem.copy{
+			background-image:url(img/contextMenuIcon_copy.png);
+		}
+        .AXContextMenu .contextMenuItem.cut{
+			background-image:url(img/contextMenuIcon_cut.png);
+		}
+        .AXContextMenu .contextMenuItem.paste{
+			background-image:url(img/contextMenuIcon_paste.png);
+		}
+        .AXContextMenu .contextMenuItem.up{
+			background-image:url(img/contextMenuIcon_up.png);
+		}
+        .AXContextMenu .contextMenuItem.down{
+			background-image:url(img/contextMenuIcon_down.png);
+		}
+        .AXContextMenu .contextMenuItem.left{
+			background-image:url(img/contextMenuIcon_left.png);
+		}
+        .AXContextMenu .contextMenuItem.right{
+			background-image:url(img/contextMenuIcon_right.png);
+		}
+        .AXContextMenu .contextMenuItem.link{
+			background-image:url(img/contextMenuIcon_link.png);
+		}
+        .AXContextMenu .contextMenuItem.unlink{
+			background-image:url(img/contextMenuIcon_unlink.png);
+		}
+        .AXContextMenu .contextMenuItem.openall{
+			background-image:url(img/contextMenuIcon_openall.png);
+		}
+        .AXContextMenu .contextMenuItem.closeall{
+			background-image:url(img/contextMenuIcon_closeall.png);
+		}
+
+/**************************************************************************** AXContextMenu */
+
+/* AXPopOver *************************************************************************** */
+.AXPopOver{
+	z-index:4999;
+	position:absolute;left:0px;top:0px;
+	width:140px;
+	padding:6px;
+	background:#5c5c5c;
+	border:1px solid #000;border-radius:5px;
+	box-shadow:0px 0px 5px #000;
+}
+	.AXPopOver .arrowTop{
+		position:absolute;left:0px;top:-8px;
+		width:100%;height:8px;
+		background:url(img/AXPopOverArrow.png) no-repeat center 0px;
+	}
+	.AXPopOver .blockContainer{
+		background:#333333;
+		border-radius:3px;
+	}
+	.AXPopOver .contextMenuBody{
+		color:#fac126;
+		text-shadow:0px -1px 0px #000;
+		background:#232323;
+	}
+	.AXPopOver .contextMenuItem{
+		position:relative;
+		display:block;
+		height:30px;
+		line-height:30px;padding:0px 10px 0px 10px;
+		color:#b8b8b8;text-decoration:none;
+		text-shadow:0px -1px 0px #000;
+		background-repeat:no-repeat;
+		background-position:0px center;
+		border-bottom:1px solid #000;
+		border-top:1px solid #4c4c4c;
+	}
+	.AXPopOver .hline{
+		display:block;
+		height:1px;line-height:1px;font-size:1px;
+		background:#b1b1b1;
+	}
+	.AXPopOver .contextMenuItem:hover{
+		
+	}
+	.AXPopOver .contextMenuItem .contextSubMenuIcon{
+		position:absolute;right:0px;top:0px;
+		width:30px;height:30px;
+		background-image:url(img/contextSubMenuIcon.png);
+		background-repeat:no-repeat;
+		background-position:0px center;
+	}
+		.AXPopOver .contextMenuItem.first{
+			border-top-left-radius:3px;border-top-right-radius:3px;
+		}
+		.AXPopOver .contextMenuItem.last{
+			border-bottom:0px none;
+			border-bottom-left-radius:3px;border-bottom-right-radius:3px;
+		}
+		.AXPopOver .contextMenuItem.groupName{
+			color:#fac126;
+			text-shadow:0px -1px 0px #000;
+			background:#232323;
+		}
+		.AXPopOver .contextMenuItem.docline{
+			padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_docline.png);
+		}
+		.AXPopOver .contextMenuItem.plus{
+			padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_plus.png);
+		}
+        .AXPopOver .contextMenuItem.minus{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_minus.png);
+		}
+        .AXPopOver .contextMenuItem.group{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_group.png);
+		}
+        .AXPopOver .contextMenuItem.edit{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_edit.png);
+		}
+        .AXPopOver .contextMenuItem.copy{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_copy.png);
+		}
+        .AXPopOver .contextMenuItem.cut{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_cut.png);
+		}
+        .AXPopOver .contextMenuItem.paste{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_paste.png);
+		}
+        .AXPopOver .contextMenuItem.up{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_up.png);
+		}
+        .AXPopOver .contextMenuItem.down{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_down.png);
+		}
+        .AXPopOver .contextMenuItem.left{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_left.png);
+		}
+        .AXPopOver .contextMenuItem.right{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_right.png);
+		}
+        .AXPopOver .contextMenuItem.link{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_link.png);
+		}
+        .AXPopOver .contextMenuItem.unlink{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_unlink.png);
+		}
+        .AXPopOver .contextMenuItem.openall{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_openall.png);
+		}
+        .AXPopOver .contextMenuItem.closeall{
+        	padding:0px 5px 0px 30px;
+			background-image:url(img/contextMenuIcon_closeall.png);
+		}
+
+/**************************************************************************** AXPopOver */

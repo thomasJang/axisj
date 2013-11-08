@@ -1,0 +1,428 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<title>AXButton</title>
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<style type="text/css">
+	H2{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+		}
+	};
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 100);
+	});
+	</script>
+	<!-- js block -->
+
+		<style type="text/css">
+		.white_close{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_close.png) no-repeat 100%;
+		}
+		.white_copy{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_copy.png) no-repeat 100%;
+		}
+		.white_del{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_del.png) no-repeat 100%;
+		}
+		.white_edit{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_edit.png) no-repeat 100%;
+		}
+		.white_email{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_email.png) no-repeat 100%;
+		}
+		.white_excel{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_excel.png) no-repeat 100%;
+		}
+		.white_new{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_new.png) no-repeat 100%;
+		}
+		.white_open{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_open.png) no-repeat 100%;
+		}
+		.white_pdf{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_pdf.png) no-repeat 100%;
+		}
+		.white_search{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_search.png) no-repeat 100%;
+		}
+		.white_view{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_view.png) no-repeat 100%;
+		}
+		.white_save{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_save.png) no-repeat 100%;
+		}
+		.white_help{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_help.png) no-repeat 100%;
+		}
+		.white_sangsin {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_sangsin.png) no-repeat 100%;
+		}
+		.white_write {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_write.png) no-repeat 100%;
+		}
+		.white_deny {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_deny.png) no-repeat 100%;
+		}
+		.white_allow {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/white_allow.png) no-repeat 100%;
+		}
+		
+		.black_close{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_close.png) no-repeat 100%;
+		}
+		.black_copy{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_copy.png) no-repeat 100%;
+		}
+		.black_del{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_del.png) no-repeat 100%;
+		}
+		.black_edit{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_edit.png) no-repeat 100%;
+		}
+		.black_email{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_email.png) no-repeat 100%;
+		}
+		.black_excel{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_excel.png) no-repeat 100%;
+		}
+		.black_new{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_new.png) no-repeat 100%;
+		}
+		.black_open{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_open.png) no-repeat 100%;
+		}
+		.black_pdf{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_pdf.png) no-repeat 100%;
+		}
+		.black_search{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_search.png) no-repeat 100%;
+		}
+		.black_view{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_view.png) no-repeat 100%;
+		}
+		.black_save{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_save.png) no-repeat 100%;
+		}
+		.black_help{
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_help.png) no-repeat 100%;
+		}
+		.black_sangsin {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_sangsin.png) no-repeat 100%;
+		}
+		.black_write {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_write.png) no-repeat 100%;
+		}
+		.black_deny {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_deny.png) no-repeat 100%;
+		}
+		.black_allow {
+			padding-right:20px;
+			background:url(../../_AXJ/ui/buttonIcons/black_allow.png) no-repeat 100%;
+		}
+
+		</style>
+
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		
+		<h2>AXButton</h2>
+		
+		<input type="button" value="AXButton" class="AXButton" />
+		<input type="button" value="AXButton Classic" class="AXButton Classic" />
+		<input type="button" value="AXButton Blue" class="AXButton Blue" />
+		<input type="button" value="AXButton Green" class="AXButton Green" />
+		<input type="button" value="AXButton Red" class="AXButton Red" />
+		
+		<div style="height:10px;"></div>
+		
+		<input type="button" value="AXButton Red W200" class="AXButton Red W200" />
+		<input type="button" value="AXButton Blue W150" class="AXButton Blue W150" />
+		
+		<div style="height:10px;"></div>
+		
+		<input type="button" value="AXButton Red W150" class="AXButton Red W150" disabled="disabled" />
+
+		<div style="height:20px;"></div>
+		
+		
+		<h2>AXButtonSmall</h2>
+		
+		<input type="button" value="AXButtonSmall" class="AXButtonSmall" />
+		<input type="button" value="AXButtonSmall Classic" class="AXButtonSmall Classic" />
+		<input type="button" value="AXButtonSmall Blue" class="AXButtonSmall Blue" />
+		<input type="button" value="AXButtonSmall Green" class="AXButtonSmall Green" />
+		<input type="button" value="AXButtonSmall Red" class="AXButtonSmall Red" />
+		
+		<div style="height:10px;"></div>
+		
+		<input type="button" value="AXButtonSmall Red W200" class="AXButtonSmall Red W200" />
+		<input type="button" value="AXButtonSmall Blue W150" class="AXButtonSmall Blue W150" />
+		
+		<div style="height:10px;"></div>
+		
+		<input type="button" value="AXButtonSmall Red W150" class="AXButtonSmall Red W150" disabled="disabled" />
+		
+		<div style="height:20px;"></div>
+		
+		
+		<h2>AXButtonLarge</h2>
+		
+		<input type="button" value="AXButtonLarge" class="AXButtonLarge" />
+		<input type="button" value="AXButtonLarge Classic" class="AXButtonLarge Classic" />
+		<input type="button" value="AXButtonLarge Blue" class="AXButtonLarge Blue" />
+		<input type="button" value="AXButtonLarge Green" class="AXButtonLarge Green" />
+		<input type="button" value="AXButtonLarge Red" class="AXButtonLarge Red" />
+		
+		<div style="height:10px;"></div>
+		
+		<input type="button" value="AXButtonLarge Red W200" class="AXButtonLarge Red W200" />
+		<input type="button" value="AXButtonLarge Blue W200" class="AXButtonLarge Blue W200" />
+		
+		<div style="height:10px;"></div>
+		
+		<input type="button" value="AXButtonLarge Red W200" class="AXButtonLarge Red W200" disabled="disabled" />
+		
+		<div style="height:20px;"></div>
+		
+		
+		<h2>AXButton icon</h2>
+			
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButton" onclick=""><span class="black_search">검색</span></button>    
+	    <button class="AXButton" onclick=""><span class="black_new">신규</span></button>
+	    <button class="AXButton" onclick=""><span class="black_edit">수정</span></button>
+	    <button class="AXButton" onclick=""><span class="black_del">삭제</span></button>
+	    <button class="AXButton" onclick=""><span class="black_save">저장</span></button>
+	    <button class="AXButton" onclick=""><span class="black_view">조회</span></button>
+	    <button class="AXButton" onclick=""><span class="black_excel">엑셀보기</span></button>
+	    <button class="AXButton" onclick=""><span class="black_pdf">PDF보기</span></button>
+	
+	    <button class="AXButton" onclick=""><span class="black_open">열기</span></button>
+	    <button class="AXButton" onclick=""><span class="black_close">닫기</span></button>
+	    <button class="AXButton" onclick=""><span class="black_copy">복사</span></button>
+	    <button class="AXButton" onclick=""><span class="black_email">이메일</span></button>
+	
+
+        <button class="AXButton" onclick=""><span class="black_help">도움말</span></button>
+        <button class="AXButton" onclick=""><span class="black_sangsin">결재상신</span></button>
+        <button class="AXButton" onclick=""><span class="black_write">승인요청</span></button>
+        <button class="AXButton" onclick=""><span class="black_deny">반려</span></button>
+        <button class="AXButton" onclick=""><span class="black_allow">승인</span></button>
+        
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButtonSmall" onclick=""><span class="black_search">검색</span></button>    
+	    <button class="AXButtonSmall" onclick=""><span class="black_new">신규</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_edit">수정</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_del">삭제</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_save">저장</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_view">조회</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_excel">엑셀보기</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_pdf">PDF보기</span></button>
+	
+	    <button class="AXButtonSmall" onclick=""><span class="black_open">열기</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_close">닫기</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_copy">복사</span></button>
+	    <button class="AXButtonSmall" onclick=""><span class="black_email">이메일</span></button>
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButton Blue" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButton Blue" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButton Blue" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButton Blue" onclick=""><span class="white_email">이메일</span></button>
+
+        <button class="AXButton Blue" onclick=""><span class="white_help">도움말</span></button>
+        <button class="AXButton Blue" onclick=""><span class="white_sangsin">결재상신</span></button>
+        <button class="AXButton Blue" onclick=""><span class="white_write">승인요청</span></button>
+        <button class="AXButton Blue" onclick=""><span class="white_deny">반려</span></button>
+        <button class="AXButton Blue" onclick=""><span class="white_allow">승인</span></button>
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButtonSmall Blue" onclick=""><span class="white_email">이메일</span></button>
+	    
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButton Red" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButton Red" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButton Red" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButton Red" onclick=""><span class="white_email">이메일</span></button>
+	
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButtonSmall Red" onclick=""><span class="white_email">이메일</span></button>
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButton Green" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButton Green" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButton Green" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButton Green" onclick=""><span class="white_email">이메일</span></button>
+	
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButtonSmall Green" onclick=""><span class="white_email">이메일</span></button>
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButton Classic" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButton Classic" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButton Classic" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButton Classic" onclick=""><span class="white_email">이메일</span></button>
+	
+	
+	    <div class="Hspace10"></div>
+	
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_search">검색</span></button>    
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_new">신규</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_edit">수정</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_del">삭제</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_save">저장</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_view">조회</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_excel">엑셀보기</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_pdf">PDF보기</span></button>
+	
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_open">열기</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_close">닫기</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_copy">복사</span></button>
+	    <button class="AXButtonSmall Classic" onclick=""><span class="white_email">이메일</span></button>
+
+		
+		<span style="height:20px;"></span>
+		
+	</div>
+</body>
+</html>
