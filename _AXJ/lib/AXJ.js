@@ -919,8 +919,8 @@ var AXUtil = {
 		return tg;
 	},
 	copyObject: function (obj) {
-		return Object.clone(obj);
-		//Object.toJSON(obj).object();
+		//return Object.clone(obj);
+		return Object.toJSON(obj).object();
 	},
 	consonantKR: function (cword) {
 		var cons = [
