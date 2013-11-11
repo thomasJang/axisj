@@ -2419,7 +2419,7 @@ var AXMultiSelect = Class.create(AXJ, {
 			if (selectElement) {
 				if (event.shiftKey) {
 					this.shiftSelects(selectElement);
-				} else if (event.ctrlKey) {
+				} else if (event.metaKey || event.ctrlKey) {
 					this.toggleSelects(selectElement);
 				} else {
 					this.clickSelects(selectElement);
@@ -2506,7 +2506,7 @@ var AXMultiSelect = Class.create(AXJ, {
 			}
 			if(this === Obj) si = stIndex;
 		});
-		trace({si:si, li:li});
+		
 		if (selectedLength == 0) {
 			this.clickSelects(Obj);
 		} else {
@@ -2561,13 +2561,7 @@ var AXMultiSelect = Class.create(AXJ, {
 			this.helperAppened = false;
 			this.helper.remove();
 			
-			/* selected change */
-			this.selects.clear();
-			var addSelect = function (Obj) {
-				this.selects.push(Obj);
-			};
-			var addSelectBind = addSelect.bind(this);
-			
+			/* selected change */			
 			this._selectTargets.each(function(){
 				var selectTarget = $.data(this, "selectableItem");
 				if (selectTarget.selecting) {
@@ -2575,9 +2569,8 @@ var AXMultiSelect = Class.create(AXJ, {
 					selectTarget.selecting = false;
 					selectTarget.$element.addClass(cfg.beselectClassName);
 					selectTarget.selected = true;
-					addSelectBind(selectTarget.element);
 				}else if(selectTarget.selected){
-					addSelectBind(selectTarget.element);
+
 				}
 			});
 		}
@@ -2628,7 +2621,7 @@ var AXMultiSelect = Class.create(AXJ, {
 						selectTarget.selecting = false;
 					}
 					if (selectTarget.selected) {
-						if (!event.shiftKey && !event.ctrlKey) {
+						if (!event.metaKey && !event.shiftKey && !event.ctrlKey) {
 							selectTarget.$element.removeClass(cfg.beselectClassName);
 							selectTarget.selected = false;
 						}
