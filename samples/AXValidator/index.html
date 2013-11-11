@@ -76,6 +76,7 @@
 			pageStart: function(){
 				AXCode.bind(); // 소스보기
 				
+/*
             $("#regdate").bindDate({
                 align:"left", valign:"top", separator:"-", selectType:"d", 
                 onChange:{
@@ -85,14 +86,13 @@
                 }
             });
 
-            //element AX bind
             $("#enddate").bindDate({
                 align:"left", valign:"top", separator:"-", selectType:"d",
                 onChange:{                    
                     laterThan:"regdate", err:"시작일보다 느린 날짜를 선택하세요"
                 }
             });
-				
+*/				
 				myValidator.setConfig({
 					targetFormName : "myForm",
 				});
@@ -128,8 +128,72 @@
 				myValidator.add({
 					id:"regdate", label:"등록일",
 					config:{isdate:true, earlierThan:{id:"enddate", label:"종료일"}},
+				    realtime: {
+				        //event: "keyup.validate keypress.validate",
+				        response: function() {
+				            //trace(this);
+				            if (!this.result) { //false 오류 리턴
+				                if (this.validateKey == "number" || this.validateKey == "engonly") {
+				                	//trace(this);
+				                	if (this.validateKey == "number") $("#" + this.element.id).val(this.value.replace(/\D/g, ""));
+				                	if (this.validateKey == "engonly") $("#" + this.element.id).val(this.value.replace(/\W/g, ""));
+				                    AXUtil.alert(this.message);
+				                }
+				                if (this.validateKey == "maxlength") {
+				                    return false;
+				                } else if (this.validateKey == "maxbyte") {
+				                    return false;
+				                } else if (this.validateKey == "number") {
+				                    return false;
+				                } else if (this.validateKey == "money") {
+				                    return false;                    
+				                } else {
+				                    return true; //키 입력 제어 안함
+				                }                
+				            }
+				        }
+				    },
 					onblur: function(){
-						trace(this);
+
+				    	if (!this.result && this.validateKey != "required") { //false 오류 리턴
+				    		if (this.validateKey == "earlierThan" || this.validateKey == "laterThan") {
+				    			return true;
+				    		} else {
+				    			AXUtil.alert(this.message);
+				    			$("#" + this.element.id).endFocus();
+				
+				    			var event = window.event || e;
+				    			if (event.preventDefault) event.preventDefault();
+				    			if (event.stopPropagation) event.stopPropagation();
+				    			event.cancelBubble = true;
+				    			return false;
+				    		}
+				
+				        } else if (this.result && this.value != "") {
+				        	var _this = this;
+				        	$.each(_this.config, function(k, v){
+								if (k == "phone") {
+								    var value = _this.value.phone();
+								    $("#" + _this.element.id).val(value);
+								} else if (k == "zip") {
+								    var num = _this.value.replace(/\-/g, "");
+								    var pattern = /([0-9]{3})([0-9]{3})/;
+								    var dataFormat = "$1-$2";
+								    var value = num.replace(pattern, dataFormat);
+								    $("#" + _this.element.id).val(value);                
+								} else if (k == "isdate") {
+									/*
+								    dateObj.setDate(_this.value);
+								    var value = dateObj.getDate();
+								    $("#" + _this.element.id).val(value);
+								    */
+								}
+								else if (k == "money") {
+								    var value = _this.value.number().money();
+								    $("#" + _this.element.id).val(value);
+								}
+				        	});
+				        }
 					}
 				});
 				

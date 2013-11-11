@@ -88,7 +88,9 @@
 
 .AXUpload5QueueBox .AXUploadItem.readyselect{cursor:pointer;}
 .AXUpload5QueueBox .AXUploadItem.beSelected{background:#68adcf;color:#fff;}
+.AXUpload5QueueBox .AXUploadItem.AX_selecting{background:#68adcf;color:#fff;}
 .AXUpload5QueueBox .AXUploadItem.beSelected .AXUploadBtns .AXUploadBtnsA{background:url(img/AXUpload5/removeIcon_white.png) no-repeat center center;}
+.AXUpload5QueueBox .AXUploadItem.AX_selecting .AXUploadBtns .AXUploadBtnsA{background:url(img/AXUpload5/removeIcon_white.png) no-repeat center center;}
 
 .AXUpload5Single{}
 .AXUpload5Single tbody tr td{border:0px none;background:none;}

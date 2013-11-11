@@ -1619,3 +1619,9 @@
 	.AXSearchTable tbody td.last, .AXSearchTable tbody th.last{
 		background:url() repeat-y 100% 0px;	
 	}
+	
+/* ---------------------------- AXMultiselectorHelper ------------------------------- */
+.AXMultiselectorHelper{
+	position:absolute;
+	border:1px dotted #000;
+}

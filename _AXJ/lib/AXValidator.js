@@ -313,12 +313,17 @@
 					var val = targetElem.val();
 					if (!validateFormatter(Elem, val, k, v, "")) {
 						returnObject = raiseError(Elem, val, k, v);
+						returnObject.config = Elem.config;
 						returnObject.result = false;
 						return false;
 					}
 				});
+				if(returnObject.result){
+					returnObject.element = Elem;
+					returnObject.value = targetElem.val();
+					returnObject.config = Elem.config;
+				}
 				var responseResult = Elem.onblur.call(returnObject);
-
 			});
 		}
 
@@ -733,7 +738,7 @@
 				if (value.length > 4 && value.length < 7) {
 					dataFormat = "$1-$2";
 					parintPattern = /([0-9]{4})([0-9]+)/;
-				} else if (value.length == 8) {
+				} else if (value.length < 10) {
 					dataFormat = "$1-$2-$3";
 					parintPattern = /([0-9]{4})([0-9]{2})([0-9]+)/;
 				}

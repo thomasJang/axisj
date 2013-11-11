@@ -2131,7 +2131,7 @@ var AXUpload5 = Class.create(AXJ, {
 						});
 					}
 					// --------------------- e
-								
+					
 					jQuery("#"+itemID).addClass("readyselect");
 					
 				});
