@@ -2366,10 +2366,14 @@ var AXCalendar = Class.create(AXJ, {
 
 /* ** AXMultiSelect ********************************************** */
 var AXMultiSelect = Class.create(AXJ, {
-	version: "AXMultiSelect v1.5",
-	author: "SQUALL",
-	createDate: "2013-01-31 오후 5:01:12",
-	lastModifyDate: "2013-01-31 오후 5:01:15",
+	version: "AXMultiSelect v1.7",
+	author: "tom@axisj.com",
+    logs: [
+    	"2013-01-31 오후 5:01:12",
+		"2013-11-12 오전 9:19:09 - tom : 버그픽스",
+		"2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결"
+	],
+	
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.selects = [];
@@ -2391,15 +2395,30 @@ var AXMultiSelect = Class.create(AXJ, {
 			mouseClick(this, event);
 		});
 		
-		this.helper = $("<div class='AXMultiselectorHelper'></div>");
+		this.helper = jQuery("<div class='AXMultiselectorHelper'></div>");
 		this.collect();
 		
-		jQuery(window).bind("resize", this.collect.bind(this));
-		jQuery(window).bind("keydown", this.onKeydown.bind(this));
+		jQuery(window).bind("resize.AXMultiSelect", this.collect.bind(this));
+		jQuery(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
+		this._selectStage.bind("scroll", this.onScrollStage.bind(this));
 	},
 	onKeydown: function (event) {
 		if (event.keyCode == AXUtil.Event.KEY_ESC) {
 			this.clearSelects();
+		}
+	},
+	onScrollStage: function(event){
+		var cfg = this.config;
+		if(this.helperAppened || this.helperAppenedReady){
+			this.moveSens = 0;
+			jQuery(document.body).unbind("mousemove.AXMultiSelect");
+			jQuery(document.body).unbind("mouseup.AXMultiSelect");
+			jQuery(document.body).unbind("mouseleave.AXMultiSelect");
+			jQuery(document.body).removeAttr("onselectstart");
+			jQuery(document.body).removeClass("AXUserSelectNone");
+			this.helperAppenedReady = false;
+			this.helperAppened = false;
+			this.helper.remove();
 		}
 	},
 	/* ------------------------------------------------------------------------------------------------------------------ */
@@ -2411,7 +2430,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var myTarget = this.getEventTarget({
 			evt : eventTarget, evtIDs : eid,
 			until:function(evt, evtIDs){ return (AXgetId(evt.parentNode) == AXgetId(cfg.selectStage)) ? true:false; },
-			find:function(evt, evtIDs){ return ($(evt).hasClass(cfg.selectClassName)) ? true : false; }
+			find:function(evt, evtIDs){ return (jQuery(evt).hasClass(cfg.selectClassName)) ? true : false; }
 		});
 		//trace("click");
 		if(myTarget){
@@ -2426,6 +2445,7 @@ var AXMultiSelect = Class.create(AXJ, {
 				}
 			}
 		}else{
+
 			if(event.target.id == cfg.selectStage && AXUtil.browser.name != "ie") this.clearSelects();
 			return;
 		}
@@ -2439,29 +2459,29 @@ var AXMultiSelect = Class.create(AXJ, {
 		var scrollLeft = this._selectStage.scrollLeft().number();
 		var scrollTop = this._selectStage.scrollTop().number();
 		this._selectTargets.each(function(){
-			var $this = $(this), pos = $this.position();
-			$.data(this, "selectableItem", {
+			var jQuerythis = jQuery(this), pos = jQuerythis.position();
+			jQuery.data(this, "selectableItem", {
 				element: this,
-				$element: $this,
+				jQueryelement: jQuerythis,
 				left: pos.left + scrollLeft,
 				top: pos.top + scrollTop,
-				right: pos.left + scrollLeft + $this.outerWidth(),
-				bottom: pos.top + scrollTop + $this.outerHeight(),
-				selected: $this.hasClass(cfg.beselectClassName),
-				selecting: $this.hasClass(cfg.selectingClassName)
+				right: pos.left + scrollLeft + jQuerythis.outerWidth(),
+				bottom: pos.top + scrollTop + jQuerythis.outerHeight(),
+				selected: jQuerythis.hasClass(cfg.beselectClassName),
+				selecting: jQuerythis.hasClass(cfg.selectingClassName)
 			});
 		});
 	},
 	clearSelects: function () {
 		var cfg = this.config;		
 		this._selectTargets.each(function(){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if (selectTarget.selecting) {
-				selectTarget.$element.removeClass(cfg.selectingClassName);
+				selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 				selectTarget.selecting = false;
 			}
 			if(selectTarget.selected){
-				selectTarget.$element.removeClass(cfg.beselectClassName);
+				selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 				selectTarget.selected = false;
 			}
 		});
@@ -2477,19 +2497,19 @@ var AXMultiSelect = Class.create(AXJ, {
 		
 		this.clearSelects();
 		
-		var selectTarget = $.data(Obj, "selectableItem");
-			selectTarget.$element.addClass(cfg.beselectClassName);
+		var selectTarget = jQuery.data(Obj, "selectableItem");
+			selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 			selectTarget.selected = true;
 	},
 	toggleSelects: function (Obj) {
 		var cfg = this.config;
 		
-		var selectTarget = $.data(Obj, "selectableItem");
+		var selectTarget = jQuery.data(Obj, "selectableItem");
 		if(selectTarget.selected){
-			selectTarget.$element.removeClass(cfg.beselectClassName);
+			selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 			selectTarget.selected = false;
 		}else{
-			selectTarget.$element.addClass(cfg.beselectClassName);
+			selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 			selectTarget.selected = true;			
 		}
 	},
@@ -2499,7 +2519,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var selectedLength = 0;
 		var li, si;
 		this._selectTargets.each(function(stIndex, ST){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if(selectTarget.selected){
 				selectedLength++;
 				li = stIndex;
@@ -2520,34 +2540,39 @@ var AXMultiSelect = Class.create(AXJ, {
 				li = temp;
 			}
 			this._selectTargets.each(function(stIndex, ST){
-				var selectTarget = $.data(this, "selectableItem");
+				var selectTarget = jQuery.data(this, "selectableItem");
 				if(si <= stIndex && li >= stIndex){
-					selectTarget.$element.addClass(cfg.beselectClassName);
+					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 					selectTarget.selected = true;
 				}
 			});
 		}
-		//this.collect();
+		/*this.collect();*/
 	},
 	mousedown: function(event){
 		var cfg = this.config;
+
 		jQuery(document.body).bind("mousemove.AXMultiSelect", this.mousemove.bind(this));
 		jQuery(document.body).bind("mouseup.AXMultiSelect", this.mouseup.bind(this));
 		jQuery(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
 		
 		jQuery(document.body).attr("onselectstart", "return false");
 		jQuery(document.body).addClass("AXUserSelectNone");
+		
+		this.helperAppenedReady = true;
 	},
 	mousemove: function(event){
 		var cfg = this.config;
 		if (!event.pageX) return;
+		
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
 		if (this.moveSens == this.config.moveSens) this.selectorHelperMove(event);
 	},
 	mouseup: function(event){
 		var cfg = this.config;
-
+		
+		this.helperAppenedReady = false;
 		this.moveSens = 0;
 
 		jQuery(document.body).unbind("mousemove.AXMultiSelect");
@@ -2557,17 +2582,19 @@ var AXMultiSelect = Class.create(AXJ, {
 		jQuery(document.body).removeAttr("onselectstart");
 		jQuery(document.body).removeClass("AXUserSelectNone");
 		
+		
+		
 		if(this.helperAppened){
 			this.helperAppened = false;
 			this.helper.remove();
 			
 			/* selected change */			
 			this._selectTargets.each(function(){
-				var selectTarget = $.data(this, "selectableItem");
+				var selectTarget = jQuery.data(this, "selectableItem");
 				if (selectTarget.selecting) {
-					selectTarget.$element.removeClass(cfg.selectingClassName);
+					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 					selectTarget.selecting = false;
-					selectTarget.$element.addClass(cfg.beselectClassName);
+					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 					selectTarget.selected = true;
 				}else if(selectTarget.selected){
 
@@ -2579,50 +2606,50 @@ var AXMultiSelect = Class.create(AXJ, {
 	selectorHelperMove: function(event){
 		var cfg = this.config;
 		if(this.helperAppened){
+			
+			var _helperPos = this.helperPos;
 			var tmp,
 				x1 = this.helperPos.x,
 				y1 = this.helperPos.y,
-				x2 = event.pageX,
-				y2 = event.pageY;
+				x2 = event.pageX - _helperPos.bodyLeft,
+				y2 = event.pageY - _helperPos.bodyTop;
 			if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
 			if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
 			this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
-
-			var _helperPos = this.helperPos;
-						
+			
 			this._selectTargets.each(function(){
 				
-				var selectTarget = $.data(this, "selectableItem"), hit = false;
+				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
 				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */				
 				if(!selectTarget) return;
 
 				var stL = selectTarget.left.number(), stR = selectTarget.right.number(), stT = selectTarget.top.number(), stB = selectTarget.bottom.number();
-				stL = stL + _helperPos.stageX - _helperPos.scrollLeft;
-				stR = stR + _helperPos.stageX - _helperPos.scrollLeft;
-				stT = stT + _helperPos.stageY - _helperPos.scrollTop;
-				stB = stB + _helperPos.stageY - _helperPos.scrollTop;
+				stL = stL + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stR = stR + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stT = stT + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
+				stB = stB + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
 
 				hit = ( !(stL > x2 || stR < x1 || stT > y2 || stB < y1) ); /* touch */
 				/* hit = (selectTarget.left > x1 && selectTarget.right < x2 && selectTarget.top > y1 && selectTarget.bottom < y2); fit */
 				if(hit){
 					/* SELECT */
 					if (selectTarget.selected) {
-						selectTarget.$element.removeClass(cfg.beselectClassName);
+						selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 						selectTarget.selected = false;
 					}
 					if (!selectTarget.selecting) {
-						selectTarget.$element.addClass(cfg.selectingClassName);
+						selectTarget.jQueryelement.addClass(cfg.selectingClassName);
 						selectTarget.selecting = true;
 					}
 				}else{
 					/* UNSELECT */
 					if (selectTarget.selecting) {
-						selectTarget.$element.removeClass(cfg.selectingClassName);
+						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 						selectTarget.selecting = false;
 					}
 					if (selectTarget.selected) {
 						if (!event.metaKey && !event.shiftKey && !event.ctrlKey) {
-							selectTarget.$element.removeClass(cfg.beselectClassName);
+							selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 							selectTarget.selected = false;
 						}
 					}
@@ -2632,7 +2659,8 @@ var AXMultiSelect = Class.create(AXJ, {
 		}else{
 			this.helperAppened = true;
 			jQuery(document.body).append(this.helper);
-			var css = {left:event.pageX, top:event.pageY, width:0, height:0};
+
+			var css = {left:(event.pageX - jQuery(document.body).offset().left), top:(event.pageY - jQuery(document.body).offset().top), width:0, height:0};
 			this.helper.css(css);
 			var stagePos = this._selectStage.offset();
 			this.helperPos = {
@@ -2641,7 +2669,9 @@ var AXMultiSelect = Class.create(AXJ, {
 				x:css.left.number(), 
 				y:css.top.number(), 
 				scrollLeft:this._selectStage.scrollLeft().number(),
-				scrollTop:this._selectStage.scrollTop().number()
+				scrollTop:this._selectStage.scrollTop().number(),
+				bodyLeft:jQuery(document.body).offset().left,
+				bodyTop:jQuery(document.body).offset().top
 			};
 		}
 	},
@@ -2649,7 +2679,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;
 		var selects = [];
 		this._selectTargets.each(function(){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if(selectTarget.selected){
 				selects.push(selectTarget.element);
 			}
@@ -2660,7 +2690,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;
 		var selects = [];
 		this._selectTargets.each(function(){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if(selectTarget.selected){
 				selects.push(selectTarget.element);
 			}
@@ -2669,6 +2699,25 @@ var AXMultiSelect = Class.create(AXJ, {
 	}
 });
 /* ********************************************** AXMultiSelect ** */
+
+/* ** AXResizable ********************************************** */
+var AXResizable = Class.create(AXJ, {
+	version: "AXResizable v1.0",
+	author: "tom@axisj.com",
+    logs: [
+    	"2013-11-12 오전 10:22:06"
+	],
+	initialize: function (AXJ_super) {
+		AXJ_super();
+
+		this.moveSens = 0;
+		this.config.moveSens = 5;
+	},
+	init: function () {
+				
+	}
+});
+/* ********************************************** AXResizable ** */
 
 /* ** AXContextMenu ********************************************** */
 var AXContextMenuClass = Class.create(AXJ, {

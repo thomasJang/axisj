@@ -59,6 +59,23 @@ var AXCodeView = Class.create(AXJ, {
 		}catch(e){
 			
 		}
+		
+		if(window.location.hostname != "localhost" && window.location.hostname != ""){
+			/* 구글 코드 삽입 */
+			
+			
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-38119279-1']);
+			  _gaq.push(['_setDomainName', 'axisj.com']);
+			  _gaq.push(['_trackPageview']);
+			
+			  (function() {
+			    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+	
+		}
 	},
 	viewCode: function(){
 		var mySource = this.mySource;
