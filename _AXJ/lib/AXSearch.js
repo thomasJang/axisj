@@ -8,12 +8,13 @@
  */
 
 var AXSearch = Class.create(AXJ, {
-    version: "AXSearch V1.1",
+    version: "AXSearch V1.2",
     author: "tom@axisj.com",
 	logs: [
 		"2013-06-04 오후 2:00:44 - tom@axisj.com",
 		"2013-07-29 오전 9:35:19 - expandToggle 버그픽스 - tom",
-		"2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom"
+		"2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom",
+		"2013-11-12 오후 6:13:03 - tom : setItemValue bugFix"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
@@ -442,8 +443,27 @@ var AXSearch = Class.create(AXJ, {
     	for(;gr<cfg.rows.length;){
 			jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
 				if(item.key == key){
-					var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
-					jQuery("#"+itemID).val((value||""));
+					if(item.type == "checkBox" || item.type == "radioBox"){
+						var values = [];
+						if(Object.isArray(value)){
+							values = value;
+						}else if(value == ""){
+							
+						}else{
+							values.push(value);
+						}
+			    		jQuery.each(item.options, function(idx, Opt){
+			    			var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx;			
+			    			var isCheck = false;
+			    			jQuery.each(values, function(){ if(this == Opt.optionValue){ isCheck = true; return false; } });
+			    			AXgetId(itemID).checked = isCheck;
+			    			itemID = null;
+			    		});
+					}else{
+						var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
+						jQuery("#"+itemID).val((value||""));
+						itemID = null;
+					}
 				}
 			});
 			gr++;
