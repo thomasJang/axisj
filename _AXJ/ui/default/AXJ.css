@@ -1625,3 +1625,16 @@
 	position:absolute;
 	border:1px dotted #000;
 }
+
+/* ---------------------------- AXResizable ------------------------------- */
+.AXResizable{
+	position:relative;
+}
+
+.AXResizable .handle{
+	position:absolute;
+	width:18px;height:18px;
+	right:1px;bottom:1px;
+	cursor:se-resize;
+	background:url(img/resizableHandle.png) no-repeat;
+}

@@ -2712,11 +2712,75 @@ var AXResizable = Class.create(AXJ, {
 		AXJ_super();
 		this.moveSens = 0;
 		this.config.moveSens = 5;
+		this.objects = [];
+		this.config.bindResiableHandle = "AXResizableHandle";
 	},
 	init: function () {
 		
+	},
+	bind: function(obj){
+		var cfg = this.config;
+		if (!obj.id) {
+			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
+			return;
+		}
+		if (!AXgetId(obj.id)) {
+			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
+			return;
+		}
+		var objID = obj.id;
+		var objSeq = null;
+
+		jQuery.each(this.objects, function (idx, O) {
+			//if (this.id == objID && this.isDel == true) objSeq = idx;
+			if (this.id == objID) {
+				objSeq = idx;
+			}
+		});
+		if (objSeq == null) {
+			objSeq = this.objects.length;
+			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj, bindType: obj.bindType });
+		} else {
+			this.objects[objSeq].isDel = undefined;
+			this.objects[objSeq].config = obj;
+		}
+	},
+	unbind: function (obj) {
+		var cfg = this.config;
+		var removeIdx;
+		jQuery.each(this.objects, function (idx, O) {
+			if (O.id != obj.id) {
+			} else {
+				if (O.isDel != true) {
+					removeIdx = idx;
+				}
+			}
+		});
+		if(removeIdx != undefined){
+			this.objects[removeIdx].isDel = true;
+			/* unbind 구문 */
+		}
 	}
 });
+var AXResizableBinder = new AXResizable();
+AXResizableBinder.setConfig({ targetID: "defaultResiable" });
+
+jQuery.fn.bindAXResizable = function (config) {
+	jQuery.each(this, function () {
+		config = config || {}; config.id = this.id;
+		AXResizableBinder.bind(config);
+		return this;
+	});
+};
+
+jQuery.fn.unbindAXResizable = function (config) {
+	jQuery.each(this, function () {
+		if (config == undefined) config = {};
+		config.id = this.id;
+		AXResizableBinder.unbind(config);
+		return this;
+	});
+};
 /* ********************************************** AXResizable ** */
 
 /* ** AXContextMenu ********************************************** */
