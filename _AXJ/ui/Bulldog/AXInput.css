@@ -115,6 +115,11 @@
 	.AXanchorSelectorExpandBox a:hover{
 		background:#5ea3db;color:#fff;
 	}
+.AXanchorSelectorExpandBox .empty{
+	display:block;padding:3px 8px;
+	font-size:12px;line-height:20px;color:#888888;text-decoration:none;
+	border-bottom:1px solid #d8d9db;background:#fff;
+}
 	
 .AXanchorSliderBox{
 	position:absolute;left:0px;top:-3px;	

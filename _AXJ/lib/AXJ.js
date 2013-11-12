@@ -855,7 +855,8 @@ var AXConfig = {
 		contentDivClass: "bodyHeightDiv"
 	},
 	AXInput: {
-		errorPrintType: "toast"
+		errorPrintType: "toast",
+		selectorOptionEmpty: "목록이 없습니다."
 	}
 };
 

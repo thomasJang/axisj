@@ -531,7 +531,6 @@ var AXInputConverter = Class.create(AXJ, {
 			po.push("</div>");
 		}
 
-
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
@@ -562,7 +561,6 @@ var AXInputConverter = Class.create(AXJ, {
 				});
 			}
 		}
-
 
 		/*
 		var bindSelectorInputChange = this.bindSelectorInputChange.bind(this);
@@ -698,6 +696,11 @@ var AXInputConverter = Class.create(AXJ, {
 			if (descStr != "") descStr = " - " + descStr;
 			po.push("<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
 		});
+		if(po.length == 0){
+			var selectorOptionEmpty = "";
+			if(AXConfig.AXInput) selectorOptionEmpty = (AXConfig.AXInput.selectorOptionEmpty || "empty options");
+			po.push("<div class=\"empty\">" + selectorOptionEmpty + "</div>");
+		}
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
 
 		var expandScrollHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").height();

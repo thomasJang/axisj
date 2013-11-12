@@ -11,6 +11,9 @@ inputSelector = request.form("inputSelector")
 {
 	result:"ok",
 	options:[
+	<% if inputSelector = "null" then %>
+	
+	<% else %>
 		{optionValue:1, optionText:"<%=inputSelector%> Seoul", desc:"부가설명글"},
 		{optionValue:2, optionText:"대구"},
 		{optionValue:3, optionText:"대전", optionDesc:"부가설명글"},
@@ -25,6 +28,7 @@ inputSelector = request.form("inputSelector")
 		{optionValue:7, optionText:"제주도"},
 		{optionValue:8, optionText:"전주"},
 		{optionValue:9, optionText:"Gwangju"}
+	<% end if %>
 	],
 	etcs:""
 }
