@@ -429,8 +429,15 @@ var AXSearch = Class.create(AXJ, {
     	for(;gr<cfg.rows.length;){
 			jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
 				if(item.key == key){
-					itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
-					return false;
+					if(item.type == "checkBox" || item.type == "radioBox"){
+						itemID = [];
+						jQuery.each(item.options, function(idx, Opt){
+							itemID.push(cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx);
+						}
+					}else{
+						itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
+						return false;
+					}
 				}
 			});
 			gr++;

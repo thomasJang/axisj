@@ -2710,12 +2710,11 @@ var AXResizable = Class.create(AXJ, {
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
-
 		this.moveSens = 0;
 		this.config.moveSens = 5;
 	},
 	init: function () {
-				
+		
 	}
 });
 /* ********************************************** AXResizable ** */
