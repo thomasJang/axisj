@@ -151,6 +151,13 @@
 			myGrid.setList(list);
 			trace(myGrid.getSortParam());
 			myGrid2.setList(list);
+		},
+		changeTab: function(){
+			$('#grid0').toggle();
+			$('#grid1').toggle();
+			
+			myGrid.redrawGrid();
+			myGrid2.redrawGrid();
 		}
 	};
 	
@@ -182,15 +189,20 @@
 			</div>
 		</div>
 
-		<h2>AXGrid</h2>
-
-		<div id="AXGridTarget" style="height:300px;"></div>
-
 		<div class="Hspace20"></div>
-
-		<h2>AXGrid autoHeight</h2>
-
-		<div id="AXGridTargetAutoHeight" style="height:400px;"></div>
+		<input type="button" value="changeTab" class="AXButton" onclick="fnObj.changeTab();" />
+		
+		<div id="grid0" style="display:none;">
+			<h2>AXGrid</h2>
+			<div id="AXGridTarget" style="height:300px;"></div>
+		</div>
+		<!--
+		<div class="Hspace20"></div>
+		-->
+		<div id="grid1">
+			<h2>AXGrid autoHeight</h2>
+			<div id="AXGridTargetAutoHeight" style="height:400px;"></div>
+		</div>
 
 </body>
 </html>

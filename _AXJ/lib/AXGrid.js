@@ -337,8 +337,13 @@ var AXGrid = Class.create(AXJ, {
 					}
 
 					if (myCG != null) {
-						if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
-						else AXUtil.overwriteObject(CH, myCG, false);
+						if (rewrite){
+							/*var formatter = CH.formatter;*/
+							AXUtil.overwriteObject(CH, myCG, false);
+							/*CH.formatter = formatter;*/
+						}else{
+							AXUtil.overwriteObject(CH, myCG, false);
+						}
 					} else {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
@@ -862,6 +867,8 @@ var AXGrid = Class.create(AXJ, {
 		/* define part --------------------------------- */
 		this.defineConfig(); /* config object define */
 		/* define part --------------------------------- */
+
+		//alert(cfg.body.rows[0][4].formatter);
 
 		/*page setting */
 		if (!cfg.page) this.paging.hide();
@@ -2081,7 +2088,7 @@ var AXGrid = Class.create(AXJ, {
 				result = formatter.call(sendObj, itemIndex, item);
 			}catch(e){
 				result = value;
-				trace(e);	
+				trace(e);
 			}
 		}
 		return result;
@@ -2169,7 +2176,6 @@ var AXGrid = Class.create(AXJ, {
 						var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
 						var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
 						var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
-
 						/*trace({r:r, CHidx:CHidx, fixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
 
 						var bodyNodeClass = "";
@@ -2504,7 +2510,6 @@ var AXGrid = Class.create(AXJ, {
 			this.body.find(".bodyViewIcon .viewIconButtonsItem").bind("click", function (event) {
 				iconButtonClickBind(event);
 			});
-
 		}
 		this.selectedCells.clear(); /* selectedCells clear */
 
@@ -4500,7 +4505,9 @@ var AXGrid = Class.create(AXJ, {
 	},
 	setStatus: function (listLength) {
 		var cfg = this.config;
-		jQuery("#" + cfg.targetID + "_AX_gridStatus").html("전체 <b>" + listLength.number().money() + "</b>개의 목록이 있습니다.");
+		var page; if(this.page) page = this.page;
+		var listCount = (page.listCount || listLength);
+		jQuery("#" + cfg.targetID + "_AX_gridStatus").html("전체 <b>" + listCount.number().money() + "</b>개의 목록이 있습니다.");
 	},
 	getSortParam: function (ty) {
 		var cfg = this.config;

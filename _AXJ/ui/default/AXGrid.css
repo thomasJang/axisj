@@ -171,8 +171,10 @@
 		{
 			padding:0px;
 			background:url(img/gridbodyBorder.png) repeat-y 100% 0px #FFFFEC;
+			/*border-right:1px solid #c8c8c8;*/
 			vertical-align:bottom;
 			border-bottom:1px solid #c8c8c8;
+			
 			cursor:pointer;
 		}
 		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable thead tr td,
