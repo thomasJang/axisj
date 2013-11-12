@@ -1631,7 +1631,7 @@
 	position:relative;
 }
 
-.AXResizable .handle{
+.AXResizable .AXResizableHandle{
 	position:absolute;
 	width:18px;height:18px;
 	right:1px;bottom:1px;

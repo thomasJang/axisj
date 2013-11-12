@@ -433,7 +433,7 @@ var AXSearch = Class.create(AXJ, {
 						itemID = [];
 						jQuery.each(item.options, function(idx, Opt){
 							itemID.push(cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx);
-						}
+						});
 					}else{
 						itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
 						return false;

@@ -2713,6 +2713,7 @@ var AXResizable = Class.create(AXJ, {
 		this.moveSens = 0;
 		this.config.moveSens = 5;
 		this.objects = [];
+		this.config.bindResiableContainer = "AXResizable";
 		this.config.bindResiableHandle = "AXResizableHandle";
 	},
 	init: function () {
@@ -2732,18 +2733,24 @@ var AXResizable = Class.create(AXJ, {
 		var objSeq = null;
 
 		jQuery.each(this.objects, function (idx, O) {
-			//if (this.id == objID && this.isDel == true) objSeq = idx;
+			/*if (this.id == objID && this.isDel == true) objSeq = idx;*/
 			if (this.id == objID) {
 				objSeq = idx;
 			}
 		});
 		if (objSeq == null) {
 			objSeq = this.objects.length;
-			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj, bindType: obj.bindType });
+			this.objects.push({
+				id: objID, 
+				element:AXgetId(objID), 
+				jQueryElement:jQuery("#"+objID), 
+				config: obj
+			});
 		} else {
 			this.objects[objSeq].isDel = undefined;
 			this.objects[objSeq].config = obj;
 		}
+		this.bindResizer(objID, objSeq);
 	},
 	unbind: function (obj) {
 		var cfg = this.config;
@@ -2760,6 +2767,15 @@ var AXResizable = Class.create(AXJ, {
 			this.objects[removeIdx].isDel = true;
 			/* unbind 구문 */
 		}
+	},
+	bindResizer: function(objID, objSeq){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		var po = [];
+		po.push("<div class=\"" + cfg.bindResiableHandle + "\"></div>");
+		obj.jQueryElement.addClass(cfg.bindResiableContainer);
+		obj.jQueryElement.append(po.join(''));
 	}
 });
 var AXResizableBinder = new AXResizable();
