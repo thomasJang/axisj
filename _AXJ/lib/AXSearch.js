@@ -121,7 +121,7 @@ var AXSearch = Class.create(AXJ, {
     		po.push("</table>");
     		po.push("</div>");
     	}else if(item.type == "selectBox"){
-    		po.push("<div class=\"searchItem searchSelectbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");    		
+    		po.push("<div class=\"searchItem searchSelectbox ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");    		
 			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
 			po.push("	<tbody>");
 			po.push("		<tr>");
@@ -129,7 +129,8 @@ var AXSearch = Class.create(AXJ, {
 				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
 			}
 			po.push("			<td style=\"",(item.valueBoxStyle||""),"\">");
-			po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem", itemAddClass.join(" "),"\" >");
+			var selectWidth = (item.width) ? item.width+"px" : "auto";
+			po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem", itemAddClass.join(" "),"\" style=\"width:", selectWidth,";\" >");
 			
 			var values = item.value.split(/,/g);
     		jQuery.each(item.options, function(idx, Opt){

@@ -2392,6 +2392,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		this._selectStage.css({"position":"relative"});
 		
 		this._selectStage.bind("mousedown", this.mousedown.bind(this));
+		this._selectStage.bind("touchstart", this.touchstart.bind(this));
 		this._selectStage.bind("click", function (event) {
 			mouseClick(this, event);
 		});
@@ -2550,6 +2551,8 @@ var AXMultiSelect = Class.create(AXJ, {
 		}
 		/*this.collect();*/
 	},
+	
+	/* mouser helper */
 	mousedown: function(event){
 		var cfg = this.config;
 
@@ -2674,6 +2677,12 @@ var AXMultiSelect = Class.create(AXJ, {
 			};
 		}
 	},
+	
+	/* touch helper */
+	touchstart: function(event){
+		
+	},
+	
 	getSelects: function () {
 		var cfg = this.config;
 		var selects = [];
