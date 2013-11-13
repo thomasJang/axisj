@@ -2583,8 +2583,6 @@ var AXMultiSelect = Class.create(AXJ, {
 		jQuery(document.body).removeAttr("onselectstart");
 		jQuery(document.body).removeClass("AXUserSelectNone");
 		
-		
-		
 		if(this.helperAppened){
 			this.helperAppened = false;
 			this.helper.remove();
@@ -2711,13 +2709,13 @@ var AXResizable = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.moveSens = 0;
-		this.config.moveSens = 5;
+		this.config.moveSens = 2;
 		this.objects = [];
 		this.config.bindResiableContainer = "AXResizable";
 		this.config.bindResiableHandle = "AXResizableHandle";
 	},
 	init: function () {
-		
+		this.helper = jQuery("<div class='AXResizableHelper'></div>");
 	},
 	bind: function(obj){
 		var cfg = this.config;
@@ -2769,13 +2767,146 @@ var AXResizable = Class.create(AXJ, {
 		}
 	},
 	bindResizer: function(objID, objSeq){
+		var _this = this;
 		var cfg = this.config;
+		
 		var obj = this.objects[objSeq];
 		
 		var po = [];
 		po.push("<div class=\"" + cfg.bindResiableHandle + "\"></div>");
 		obj.jQueryElement.addClass(cfg.bindResiableContainer);
 		obj.jQueryElement.append(po.join(''));
+		
+		//obj.jQueryElement.bind("mousedown.AXResizable", function(){_this.mousedown(objID, objSeq, event)});
+		obj.jQueryElement.bind("mousedown.AXResizable", this.mousedown.bind(this, objID, objSeq));
+	},
+	mousedown: function(objID, objSeq, event){
+		var _this = this;
+		var cfg = this.config;
+		
+		jQuery(window).bind("mousemove.AXResizable", this.mousemove.bind(this, objID, objSeq));
+		jQuery(window).bind("mouseup.AXResizable", this.mouseup.bind(this, objID, objSeq));
+		/*jQuery(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
+		
+		jQuery(document.body).attr("onselectstart", "return false");
+		jQuery(document.body).addClass("AXUserSelectNone");
+		
+		this.helperAppenedReady = true;
+	},
+	mousemove: function(objID, objSeq, event){
+		var cfg = this.config;
+		if (!event.pageX) return;
+		
+		/*드래그 감도 적용 */
+		if (this.config.moveSens > this.moveSens) this.moveSens++;
+		if (this.moveSens == this.config.moveSens) this.selectorHelperMove(objID, objSeq, event);
+	},
+	mouseup: function(objID, objSeq, event){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		this.helperAppenedReady = false;
+		this.moveSens = 0;
+		
+		jQuery(window).unbind("mousemove.AXResizable");
+		jQuery(window).unbind("mouseup.AXResizable");
+		/*jQuery(document.body).unbind("mouseleave.AXResizable");*/
+		
+		jQuery(document.body).removeAttr("onselectstart");
+		jQuery(document.body).removeClass("AXUserSelectNone");
+		
+		if(this.helperAppened){
+			this.helperAppened = false;
+			
+			var newWidth = this.helper.width();
+			var newHeight = this.helper.height();
+			
+			var paddingLeft = obj.jQueryElement.css("padding-left");
+			var paddingRight = obj.jQueryElement.css("padding-right");
+			var paddingTop = obj.jQueryElement.css("padding-top");
+			var paddingBottom = obj.jQueryElement.css("padding-bottom");
+			var paddingW = paddingLeft.number() + paddingRight.number();
+			var paddingH = paddingTop.number() + paddingBottom.number();
+			
+			if(obj.config.animate){
+				obj.jQueryElement.animate(
+					{width:newWidth-paddingW, height:newHeight-paddingH},
+					(obj.config.animate.duration||300), (obj.config.animate.easing||"liner"), 
+					function(){
+						if(obj.config.onChange){
+							obj.config.onChange.call(obj, obj);
+						}
+					}
+				);
+			}else{
+				obj.jQueryElement.css({width:newWidth-paddingW, height:newHeight-paddingH});
+				if(obj.config.onChange){
+					obj.config.onChange.call(obj, obj);
+				}
+			}
+			
+			this.helper.remove();
+		}
+	},
+	selectorHelperMove: function(objID, objSeq, event){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		if(this.helperAppened){
+			
+			var _helperPos = this.helperPos;
+			var tmp,
+				x1 = this.helperPos.x,
+				y1 = this.helperPos.y,
+				x2 = event.pageX - _helperPos.bodyLeft,
+				y2 = event.pageY - _helperPos.bodyTop;
+			
+			var minWidth = (obj.config.minWidth||0), 
+				minHeight = (obj.config.minHeight||0), 
+				maxWidth = (obj.config.maxWidth||0), 
+				maxHeight = (obj.config.maxHeight||0);
+			
+			var myWidth = x2-x1, myHeight = y2-y1;
+			
+			if(minWidth != 0 && myWidth < minWidth) myWidth = minWidth;
+			if(minHeight != 0 && myHeight < minHeight) myHeight = minHeight;
+			if(maxWidth != 0 && myWidth > maxWidth) myWidth = maxWidth;
+			if(maxHeight != 0 && myHeight > maxHeight) myHeight = maxHeight;
+			
+			if(obj.config.aspectRatio){
+				myWidth = myHeight * obj.config.aspectRatio;
+			}
+			
+			if(obj.config.snap){
+				myWidth = obj.config.snap * (myWidth / obj.config.snap).ceil();
+				myHeight = obj.config.snap * (myHeight / obj.config.snap).ceil();
+			}
+			//trace({width: myWidth, height: myHeight});
+			this.helper.css({width: myWidth, height: myHeight});
+
+		}else{
+			this.helperAppened = true;
+			jQuery(document.body).append(this.helper);
+			
+			var bodyLeft = jQuery(document.body).offset().left;
+			var bodyTop = jQuery(document.body).offset().top;
+						
+			var pos = obj.jQueryElement.offset();
+			var css = {
+				left: pos.left + bodyLeft,
+				top: pos.top + bodyLeft,
+				width: obj.jQueryElement.outerWidth(),
+				height: obj.jQueryElement.outerHeight()
+			};
+			this.helper.css(css);
+
+			this.helperPos = {
+				x:css.left,
+				y:css.top,
+				bodyLeft: jQuery(document.body).offset().left,
+				bodyTop: jQuery(document.body).offset().top
+			};
+		}
 	}
 });
 var AXResizableBinder = new AXResizable();

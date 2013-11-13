@@ -116,7 +116,9 @@
 						},
 						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"기능1",
 							onclick: function(){
-								alert(mySearch.getItemId("inputText2"));
+								//alert(mySearch.getItemId("checkbox"));
+								mySearch.setItemValue("checkbox", ["all","open"]);
+								mySearch.setItemValue("radiobox");
 								mySearch.setItemValue("inputText2");
 								//AXUtil.alert(this);
 								

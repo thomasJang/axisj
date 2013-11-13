@@ -38,127 +38,40 @@
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
 
-            myGrid.setConfig({
-                targetID: "AXGridMaster",
-                fitToWidth:true,    // true 일경우 비율에 맡게 꽉참
-                colGroup: [
-                    {key:"rownum"        , label:"순번"              , width:"50" , align:"center"                                 }, 
-                    {key:"chcker_nm"     , label:"성명"              , width:"200", align:"center", formatter:"dec"                },
-                    {key:"chcker_id"     , label:"검토자개인번호"    , width:"10" , align:"center", formatter:"dec", display:false },
-                    {key:"role_nm"       , label:"역할"              , width:"100", align:"center", formatter:"dec"                },
-                    {key:"role"          , label:"역할코드"          , width:"10" , align:"left"  , formatter:"dec", display:false },
-                    {key:"exmnt_edc_nm"  , label:"검토교육 여부"     , width:"100", align:"center", formatter:"dec"                },
-                    {key:"exmnt_edc_yn"  , label:"검토교육 여부(Y/N)", width:"10" , align:"center", formatter:"dec", display:false }
-                ],
-                body: {
-                    onclick: function() {
-                    },
-                    ondblclick: function() {
-                        myGrid.setEditor(this.item, this.index);
-                    }
-                },
-                page: {
-                    paging: false,
-                    pageNo: 1,
-                    pageSize: 10,
-                    status:{formatter: null}
-                },
-                editor: {
-                    rows: [
-                        [
-                            {key:"rownum"      , align:"center",  valign:"middle", formatter: function() { return this.item.rownum;            }},
-                            {key:"chcker_nm"   , align:"center",  valign:"middle", formatter: function() { return (this.item.chcker_nm||"").dec();  }},
-                            {key:"chcker_id"   , align:"center",  valign:"middle", formatter: function() { return (this.item.chcker_id||"").dec();  }},
-                            {key:"role_nm"     , align:"center",  valign:"middle", 
-                                form: {
-                                    type:"text", value: function() {
-                                        return this.value.dec();
-                                    }
-                                },
-                                AXBind: {
-                                    type:"selector",
-                                    config: {
-                                        appendable: false,
-                                        options:[
-											{optionValue:1, optionText:"Seoul"},
-											{optionValue:2, optionText:"대구"},
-											{optionValue:3, optionText:"대전"},
-											{optionValue:4, optionText:"창원"},
-											{optionValue:5, optionText:"마산"},
-											{optionValue:6, optionText:"구례"},
-											{optionValue:7, optionText:"제주도"},
-											{optionValue:8, optionText:"전주"},
-											{optionValue:4, optionText:"창원"},
-											{optionValue:5, optionText:"마산"},
-											{optionValue:6, optionText:"구례"},
-											{optionValue:7, optionText:"제주도"},
-											{optionValue:8, optionText:"전주"},
-											{optionValue:9, optionText:"Gwangju"}
-										],
-                                        onChange: function() {
-                                            if (this.selectedOption) {
-                                                trace(this.selectedOption);
-                                                myGrid.setEditorForm({
-                                                    key: "role",
-                                                    position: [0, 4],
-                                                    value: (this.selectedOption.optionValue || "")
-                                                });
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            {key:"role"        , align:"center",  valign:"middle", formatter: function() { return (this.item.role||"").dec();        }},
-                            {key:"exmnt_edc_nm", align:"center",  valign:"middle",
-                                form: {
-                                    type:"text", value: function() {
-                                        return (this.value||"").dec();
-                                    }
-                                },
-                                AXBind: {
-                                    type:"selector",
-                                    config: {
-                                        appendable: false,
-                                        options:[
-											{optionValue:1, optionText:"Seoul"},
-											{optionValue:2, optionText:"대구"},
-											{optionValue:3, optionText:"대전"},
-											{optionValue:4, optionText:"창원"},
-											{optionValue:5, optionText:"마산"},
-											{optionValue:6, optionText:"구례"},
-											{optionValue:7, optionText:"제주도"},
-											{optionValue:8, optionText:"전주"},
-											{optionValue:4, optionText:"창원"},
-											{optionValue:5, optionText:"마산"},
-											{optionValue:6, optionText:"구례"},
-											{optionValue:7, optionText:"제주도"},
-											{optionValue:8, optionText:"전주"},
-											{optionValue:9, optionText:"Gwangju"}
-										]
-                                    }
-                                }
-                            },
-                            {key:"exmnt_edc_yn", align:"center",  valign:"middle", formatter: function() { return (this.exmnt_edc_yn||"").dec();     }}
-                        ]
-                    ],
-                    response: function() {
-                        if (this.index == null) {   // 추가
-						
-                        } else {
-                        	trace(this.res.item);
-                            AXUtil.overwriteObject(this.list[this.index], this.res.item, true);
-                            myGrid.updateList(this.index, this.list[this.index]);
-                        }
-                    }
-                }
-            });
+			myGrid.setConfig({
+				targetID : "AXGridMaster",
+                fitToWidth:true,    // 너비에 자동 맞춤
+				colGroup : [
+                    {key:"rownum", label:"순번", width:"50", align:"center", formatter:'checkbox'}, 
+					{key:"rownum", label:"순번", width:"50", align:"center"}, 
+					{key:"propse_agrem_bsns_no", label:"협약사업번호", width:"100", align:"center"},
+					{key:"bsns_nm", label:"사업명", width:"300", align:"left", formatter:"dec"},
+                    {key:"smrize_rsrch_rspnber_nm", label:"사업책임자", width:"80", align:"center", formatter:"dec"},
+                    {key:"rsrch_rspnber_indvdl_no", label:"개인번호", width:"80", align:"center", formatter:"dec"},
+                    {key:"rank_nm", label:"직급", width:"80", align:"center", formatter:"dec"},
+                    {key:"dept_nm", label:"부서", width:"140", align:"center", formatter:"dec"},
+                    {key:"tot_bsns_begin_dt", label:"총 사업 시작일자", width:"120", align:"center"},
+                    {key:"tot_bsns_end_dt", label:"총 사업 종료일자", width:"120", align:"center"},
+                    {key:"tot_wct", label:"총 사업비", width:"180", align:"right", formatter:'money'},
+                    {key:"bsns_sttus_cd_name", label:"상태", width:"100", align:"center", formatter:"dec"},
+                    {key:"rgst_dt", label:"등록일", width:"100", align:"center", formatter:"dec"}
+				],
+				body : {
+					onclick: function(){
+					},
+					ondblclick: function(){
+                        var sn = this.item.propse_agrem_bsns_no;
+                        fnObj.openForm(sn);
+					}
+				},
+				page:{paging:true,status:{formatter: null}},
+			});
 			
+
 			var list = [
-				{rownum:1, chcker_nm:"장기영", chcker_id:"011", role_nm:"마스터", role:"03", exmnt_edc_nm:"abc", exmnt_edc_yn:"Y"},
-				{rownum:2, chcker_nm:"장기영", chcker_id:"011", role_nm:"마스터", role:"03", exmnt_edc_nm:"abc", exmnt_edc_yn:"Y"},
-				{rownum:3, chcker_nm:"장기영", chcker_id:"011", role_nm:"마스터", role:"03", exmnt_edc_nm:"abc", exmnt_edc_yn:"Y"}			
 			];
 			myGrid.setList(list);
+
 			//myGrid.setDataSet({price:123000, amount:10});
 		}
 	};

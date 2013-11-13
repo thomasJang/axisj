@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.34",
+	version: "AXGrid v1.35",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -36,7 +36,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom",
 		"2013-10-23 오후 2:48:24 formatter radio 지원 - tom",
 		"2013-10-24 오후 10:01:27 colGroup formatter - displayLabel:true 옵션추가 - tom",
-		"2013-10-28 오전 9:37:26 page count 버그 픽스 / $ 키워드 제거 - tom"
+		"2013-10-28 오전 9:37:26 page count 버그 픽스 / $ 키워드 제거 - tom",
+		"2013-11-13 오전 10:09:14 tom : fitToWidth 창 최대화 최소화 버그 픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -145,10 +146,17 @@ var AXGrid = Class.create(AXJ, {
 				var zoomRatio = bodyWidth / this.colWidth;
 				colWidth = 0;
 				jQuery.each(cfg.colGroup, function (cidx, CG) {
-					if (!rewrite) CG._owidth = CG.width; /* 최초의 너비값 기억 하기 */
 					CG.width = (CG._owidth * zoomRatio).ceil();
 					if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
 					else CG.width = _bodyWidth;
+					if (CG.display) colWidth += CG.width.number();
+				});
+				this.colWidth = colWidth;
+			}else{
+				var zoomRatio = 1;
+				colWidth = 0;
+				jQuery.each(cfg.colGroup, function (cidx, CG) {
+					CG.width = CG._owidth.number();
 					if (CG.display) colWidth += CG.width.number();
 				});
 				this.colWidth = colWidth;

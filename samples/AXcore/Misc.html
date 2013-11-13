@@ -15,20 +15,17 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<style type="text/css">
 	.item{
-		margin:10px 0px 0px 10px;
+		margin:10px;
 		border:1px solid #000;
 		border-radius:5px;
 		box-shadow:0px 0px 5px #888;
 		padding:5px;	
-		width:100px;height:100px;float:left;
+		width:200px;height:200px;
 		background:#ffffee;
+		float:left;
 	}
-	.item.beSelected{
-		background:#68adcf;color:#fff;
-	}
-	.AX_selecting{
-		background:#CFE4EF;
-	}
+	.item.beSelected{background:#68adcf;color:#fff;}
+	.AX_selecting{background:#CFE4EF;}
 	</style>
 	<!-- css block -->
 	
@@ -37,27 +34,43 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 	<script type="text/javascript">
-	var multiSelector;
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
-		
-			multiSelector = new AXMultiSelect();
-			multiSelector.setConfig({
-				selectStage       : "selectStageBox",
-				selectClassName   : "readyselect",
-				beselectClassName : "beSelected",
-				selectingClassName: "AX_selecting"
-			});
 			
-		},
-		getSelect: function(){
-			var selectsId = [];
-			var selectedElements = multiSelector.getSelects();
-			$.each(selectedElements, function(){
-				selectsId.push(this.id);
+			$("#resizableBox_0").bindAXResizable();
+			
+			$("#resizableBox_1").bindAXResizable({
+				minWidth:50, minHeight:50, 
+				maxWidth:200, maxHeight:200
 			});
-			toast.push(selectsId.join(","));
+			$("#resizableBox_2").bindAXResizable({
+				snap:50
+			});
+			$("#resizableBox_3").bindAXResizable({
+				animate: {easing:"bounceOut", duration:500},
+				onChange: function(){
+					toast.push(this.id);
+				}
+			});
+			$("#resizableBox_4").bindAXResizable({
+				animate: {easing:"bounceOut", duration:500},
+				aspectRatio: 9 / 16,
+				snap:10,
+				onChange: function(){
+					toast.push(this.id);
+				}
+			});
+			$("#resizableBox_5").bindAXResizable({
+				minWidth:50, minHeight:50, 
+				maxWidth:200, maxHeight:200,
+				animate: {easing:"bounceOut", duration:500},
+				aspectRatio: 2/1,
+				snap:10,
+				onChange: function(){
+					toast.push(this.id);
+				}
+			});
 		}
 	};
 	$(document).ready(fnObj.pageStart);
@@ -82,46 +95,39 @@
 				<a href="AXCalendar.html" class="AXTab Blue">AXCalendar</a>
 				<a href="AXContextMenu.html" class="AXTab Blue">AXContextMenu</a>
 				<a href="AXTooltip.html" class="AXTab Blue">AXTooltip</a>
-				<a href="AXMultiSelect.html" class="AXTab Blue on">AXMultiSelect</a>
-				<a href="Misc.html" class="AXTab Blue">Misc.</a>
+				<a href="AXMultiSelect.html" class="AXTab Blue">AXMultiSelect</a>
+				<a href="Misc.html" class="AXTab Blue on">Misc.</a>
 				<div class="clear"></div>
 			</div>
 		</div>
 		
-		<h1>AXMultiSelect</h1>		
+		<h1>AXResizable</h1>
+		
+		<div class="item" id="resizableBox_0">
+			Default
+		</div>
 
-		<div id="selectStageBox" class="" style="height:320px;border:1px solid #000;overflow:auto;">
-				
-			<div class="readyselect item" id="item0">0</div>
-			<div class="readyselect item" id="item1">1</div>
-			<div class="readyselect item" id="item2">2</div>
-			<div class="readyselect item" id="item3">3</div>
-			<div class="readyselect item" id="item4">4</div>
-			<div class="readyselect item" id="item5">5</div>
-			<div class="readyselect item" id="item6">6</div>
-			<div class="readyselect item" id="item7">7</div>
-			<div class="readyselect item" id="item8">8</div>
-			<div class="readyselect item" id="item9">9</div>
-			<div class="readyselect item" id="item10">10</div>
-			<div class="readyselect item" id="item11">11</div>
-			<div class="readyselect item" id="item12">12</div>
-			<div class="readyselect item" id="item13">13</div>
-			<div class="readyselect item" id="item14">14</div>
-			<div class="readyselect item" id="item15">15</div>
-			<div class="readyselect item" id="item16">16</div>
-			<div class="readyselect item" id="item17">17</div>
-			<div class="readyselect item" id="item18">18</div>
-			<div class="readyselect item" id="item19">19</div>
-			<div class="readyselect item" id="item20">20</div>
-			
-			<div class="clear Hspace10"></div>
-			
+		<div class="item" id="resizableBox_1">
+			min & max (50~200)
+		</div>
+
+		<div class="item" id="resizableBox_2">
+			snap 50
 		</div>
 		
-		<div style="padding:10px;">
-			<input type="button" value="getSelects" onclick="fnObj.getSelect();" />	
+		<div class="item" id="resizableBox_3">
+			animate
 		</div>
-
+		
+		<div class="item" id="resizableBox_4">
+			aspectRatio
+		</div>
+		
+		<div class="item" id="resizableBox_5">
+			all
+		</div>
+		
+		<div class="clear"></div>
 	</div>	
 </body>
 </html>

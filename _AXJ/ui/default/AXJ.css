@@ -1638,3 +1638,10 @@
 	cursor:se-resize;
 	background:url(img/resizableHandle.png) no-repeat;
 }
+
+.AXResizableHelper{
+	position:absolute;
+	border:1px dotted #000;
+	cursor:se-resize;
+	background:url(img/resizableHandle.png) no-repeat 100% 100%;
+}
