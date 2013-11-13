@@ -2367,12 +2367,13 @@ var AXCalendar = Class.create(AXJ, {
 
 /* ** AXMultiSelect ********************************************** */
 var AXMultiSelect = Class.create(AXJ, {
-	version: "AXMultiSelect v1.7",
+	version: "AXMultiSelect v1.8",
 	author: "tom@axisj.com",
     logs: [
     	"2013-01-31 오후 5:01:12",
 		"2013-11-12 오전 9:19:09 - tom : 버그픽스",
-		"2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결"
+		"2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
+		"2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
 	],
 	
 	initialize: function (AXJ_super) {
@@ -2391,8 +2392,12 @@ var AXMultiSelect = Class.create(AXJ, {
 		this._selectStage = jQuery("#" + this.config.selectStage);
 		this._selectStage.css({"position":"relative"});
 		
+		if(AXUtil.browser.mobile){
+			this._selectStage.css({"overflow":"visible", "min-height":this._selectStage.innerHeight(), "height":"auto"});	
+		}
+		
 		this._selectStage.bind("mousedown", this.mousedown.bind(this));
-		this._selectStage.bind("touchstart", this.touchstart.bind(this));
+		
 		this._selectStage.bind("click", function (event) {
 			mouseClick(this, event);
 		});
@@ -2403,6 +2408,8 @@ var AXMultiSelect = Class.create(AXJ, {
 		jQuery(window).bind("resize.AXMultiSelect", this.collect.bind(this));
 		jQuery(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
 		this._selectStage.bind("scroll", this.onScrollStage.bind(this));
+		
+		this._selectStage.bind("touchstart", this.touchstart.bind(this));
 	},
 	onKeydown: function (event) {
 		if (event.keyCode == AXUtil.Event.KEY_ESC) {
@@ -2411,6 +2418,7 @@ var AXMultiSelect = Class.create(AXJ, {
 	},
 	onScrollStage: function(event){
 		var cfg = this.config;
+		
 		if(this.helperAppened || this.helperAppenedReady){
 			this.moveSens = 0;
 			jQuery(document.body).unbind("mousemove.AXMultiSelect");
@@ -2422,6 +2430,7 @@ var AXMultiSelect = Class.create(AXJ, {
 			this.helperAppened = false;
 			this.helper.remove();
 		}
+		
 	},
 	/* ------------------------------------------------------------------------------------------------------------------ */
 	/* observe method ~~~~~~ */
@@ -2680,9 +2689,146 @@ var AXMultiSelect = Class.create(AXJ, {
 	
 	/* touch helper */
 	touchstart: function(event){
+		var cfg = this.config;
+				
+		var touchEnd = this.touchEnd.bind(this);
+		this.touchEndBind = function () {
+			touchEnd(event);
+		};
+
+		var touchMove = this.touchMove.bind(this);
+		this.touchMoveBind = function () {
+			touchMove(event);
+		};
+
+		if (document.addEventListener) {
+			document.addEventListener("touchend", this.touchEndBind, false);
+			document.addEventListener("touchmove", this.touchMoveBind, false);
+		}
 		
+		this.helperAppenedReady = true;
+		/*
+		if (event.preventDefault) event.preventDefault();
+		else return false;
+		*/
 	},
-	
+	touchMove: function(event){
+		var cfg = this.config;
+		var event = window.event || e;
+		var touch = event.touches[0];		
+		if (!touch.pageX) return;
+		
+		/*드래그 감도 적용 */
+		if (this.config.moveSens > this.moveSens) this.moveSens++;
+		if (this.moveSens == this.config.moveSens) this.selectorHelperMoveByTouch(event);
+		//this.stopEvent();
+		if (event.preventDefault) event.preventDefault();
+		else return false;
+	},
+	selectorHelperMoveByTouch: function(e){
+		var cfg = this.config;
+		var event = window.event || e;
+		var touch = event.touches[0];
+
+		if(this.helperAppened){
+			
+			var _helperPos = this.helperPos;
+			var tmp,
+				x1 = this.helperPos.x,
+				y1 = this.helperPos.y,
+				x2 = touch.pageX - _helperPos.bodyLeft,
+				y2 = touch.pageY - _helperPos.bodyTop;
+			if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
+			if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
+			this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
+			
+			this._selectTargets.each(function(){
+				
+				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
+				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */				
+				if(!selectTarget) return;
+
+				var stL = selectTarget.left.number(), stR = selectTarget.right.number(), stT = selectTarget.top.number(), stB = selectTarget.bottom.number();
+				stL = stL + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stR = stR + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stT = stT + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
+				stB = stB + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
+
+				hit = ( !(stL > x2 || stR < x1 || stT > y2 || stB < y1) ); /* touch */
+				/* hit = (selectTarget.left > x1 && selectTarget.right < x2 && selectTarget.top > y1 && selectTarget.bottom < y2); fit */
+				if(hit){
+					/* SELECT */
+					if (selectTarget.selected) {
+						selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
+						selectTarget.selected = false;
+					}
+					if (!selectTarget.selecting) {
+						selectTarget.jQueryelement.addClass(cfg.selectingClassName);
+						selectTarget.selecting = true;
+					}
+				}else{
+					/* UNSELECT */
+					if (selectTarget.selecting) {
+						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+						selectTarget.selecting = false;
+					}
+					if (selectTarget.selected) {
+						if (!event.metaKey && !event.shiftKey && !event.ctrlKey) {
+							selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
+							selectTarget.selected = false;
+						}
+					}
+				}
+			});
+			
+		}else{
+			this.helperAppened = true;
+			jQuery(document.body).append(this.helper);
+
+			var css = {left:(touch.pageX - jQuery(document.body).offset().left), top:(touch.pageY - jQuery(document.body).offset().top), width:0, height:0};
+			this.helper.css(css);
+			var stagePos = this._selectStage.offset();
+			this.helperPos = {
+				stageX:stagePos.left.number(),
+				stageY:stagePos.top.number(),
+				x:css.left.number(), 
+				y:css.top.number(), 
+				scrollLeft:this._selectStage.scrollLeft().number(),
+				scrollTop:this._selectStage.scrollTop().number(),
+				bodyLeft:jQuery(document.body).offset().left,
+				bodyTop:jQuery(document.body).offset().top
+			};
+		}
+	},
+	touchEnd: function(e){
+		var cfg = this.config;
+		var event = window.event || e;
+		this.helperAppenedReady = false;
+		this.moveSens = 0;
+
+		if (document.removeEventListener) {
+			document.removeEventListener("touchend", this.touchEndBind, false);
+			document.removeEventListener("touchmove", this.touchMoveBind, false);
+		}
+		
+		if(this.helperAppened){
+			this.helperAppened = false;
+			this.helper.remove();
+			
+			/* selected change */			
+			this._selectTargets.each(function(){
+				var selectTarget = jQuery.data(this, "selectableItem");
+				if (selectTarget.selecting) {
+					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+					selectTarget.selecting = false;
+					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
+					selectTarget.selected = true;
+				}else if(selectTarget.selected){
+
+				}
+			});
+		}
+	},
 	getSelects: function () {
 		var cfg = this.config;
 		var selects = [];
