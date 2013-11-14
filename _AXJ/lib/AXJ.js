@@ -2392,9 +2392,11 @@ var AXMultiSelect = Class.create(AXJ, {
 		this._selectStage = jQuery("#" + this.config.selectStage);
 		this._selectStage.css({"position":"relative"});
 		
+		/*
 		if(AXUtil.browser.mobile){
 			this._selectStage.css({"overflow":"visible", "min-height":this._selectStage.innerHeight(), "height":"auto"});	
 		}
+		*/
 		
 		this._selectStage.bind("mousedown", this.mousedown.bind(this));
 		
@@ -2418,17 +2420,18 @@ var AXMultiSelect = Class.create(AXJ, {
 	},
 	onScrollStage: function(event){
 		var cfg = this.config;
-		
-		if(this.helperAppened || this.helperAppenedReady){
-			this.moveSens = 0;
-			jQuery(document.body).unbind("mousemove.AXMultiSelect");
-			jQuery(document.body).unbind("mouseup.AXMultiSelect");
-			jQuery(document.body).unbind("mouseleave.AXMultiSelect");
-			jQuery(document.body).removeAttr("onselectstart");
-			jQuery(document.body).removeClass("AXUserSelectNone");
-			this.helperAppenedReady = false;
-			this.helperAppened = false;
-			this.helper.remove();
+		if(!AXUtil.browser.mobile){
+			if(this.helperAppened || this.helperAppenedReady){
+				this.moveSens = 0;
+				jQuery(document.body).unbind("mousemove.AXMultiSelect");
+				jQuery(document.body).unbind("mouseup.AXMultiSelect");
+				jQuery(document.body).unbind("mouseleave.AXMultiSelect");
+				jQuery(document.body).removeAttr("onselectstart");
+				jQuery(document.body).removeClass("AXUserSelectNone");
+				this.helperAppenedReady = false;
+				this.helperAppened = false;
+				this.helper.remove();
+			}
 		}
 		
 	},
@@ -2707,10 +2710,6 @@ var AXMultiSelect = Class.create(AXJ, {
 		}
 		
 		this.helperAppenedReady = true;
-		/*
-		if (event.preventDefault) event.preventDefault();
-		else return false;
-		*/
 	},
 	touchMove: function(event){
 		var cfg = this.config;
@@ -2718,10 +2717,20 @@ var AXMultiSelect = Class.create(AXJ, {
 		var touch = event.touches[0];		
 		if (!touch.pageX) return;
 		
+		if(this.moveSens == 0){
+			this.touchStartXY = {x:touch.pageX, y:touch.pageY, scrollTop:this._selectStage.scrollTop()};
+		}
+		
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
-		if (this.moveSens == this.config.moveSens) this.selectorHelperMoveByTouch(event);
-		//this.stopEvent();
+		if (this.moveSens == this.config.moveSens){
+			if((this.touchStartXY.x - touch.pageX).abs() > 10 && (this.touchStartXY.y - touch.pageY).abs() > 3){
+				this.selectorHelperMoveByTouch(event);
+			}else{
+				this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
+			}
+		}
+
 		if (event.preventDefault) event.preventDefault();
 		else return false;
 	},
@@ -2729,7 +2738,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;
 		var event = window.event || e;
 		var touch = event.touches[0];
-
+		
 		if(this.helperAppened){
 			
 			var _helperPos = this.helperPos;
