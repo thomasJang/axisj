@@ -2384,6 +2384,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		this.config.unselectingClassName = "AX_unselecting";
 		this.moveSens = 0;
 		this.config.moveSens = 5;
+		this.touchMode;
 	},
 	init: function () {
 
@@ -2715,6 +2716,9 @@ var AXMultiSelect = Class.create(AXJ, {
 		var event = window.event || e;
 		var touch = event.touches[0];		
 		if (!touch.pageX) return;
+		var offset = this._selectStage.offset();
+		var right = offset.left + this._selectStage.width();
+		var bottom = offset.top + this._selectStage.height();
 		
 		if(this.moveSens == 0){
 			this.touchStartXY = {x:touch.pageX, y:touch.pageY, scrollTop:this._selectStage.scrollTop()};
@@ -2723,10 +2727,27 @@ var AXMultiSelect = Class.create(AXJ, {
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
 		if (this.moveSens == this.config.moveSens){
-			if((this.touchStartXY.x - touch.pageX).abs() > 10 && (this.touchStartXY.y - touch.pageY).abs() > 3){
+			if(this.touchMode == "drag"){
+				if(bottom < touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (bottom - touch.pageY));
+				else if(offset.top > touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (offset.top - touch.pageY));
+				if(right < touch.pageX) this._selectStage.scrollLeft(this.touchStartXY.scrollLeft - (right - touch.pageX));
+				else if(offset.left > touch.pageX) this._selectStage.scrollLeft(this.touchStartXY.scrollLeft - (offset.left - touch.pageX));
 				this.selectorHelperMoveByTouch(event);
-			}else{
+			}else if(this.touchMode == "scrollTop"){
 				this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
+			}else if(this.touchMode == "scrollLeft"){
+				this._selectStage.scrollLeft(this.touchStartXY.scrollLeft + (this.touchStartXY.x - touch.pageX));
+			}else{
+				if(((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5){
+					this.touchMode = "drag"
+					this.selectorHelperMoveByTouch(event);
+				}else if((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()){
+					this.touchMode = "scrollTop";
+					this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
+				}else if((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()){
+					this.touchMode = "scrollLeft";
+					this._selectStage.scrollLeft(this.touchStartXY.scrollLeft + (this.touchStartXY.x - touch.pageX));
+				}
 			}
 		}
 
@@ -2813,6 +2834,8 @@ var AXMultiSelect = Class.create(AXJ, {
 		var event = window.event || e;
 		this.helperAppenedReady = false;
 		this.moveSens = 0;
+
+		this.touchMode = false;
 
 		if (document.removeEventListener) {
 			document.removeEventListener("touchend", this.touchEndBind, false);
