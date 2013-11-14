@@ -855,7 +855,8 @@ var AXConfig = {
 		contentDivClass: "bodyHeightDiv"
 	},
 	AXInput: {
-		errorPrintType: "toast"
+		errorPrintType: "toast",
+		selectorOptionEmpty: "목록이 없습니다."
 	}
 };
 
@@ -2366,10 +2367,15 @@ var AXCalendar = Class.create(AXJ, {
 
 /* ** AXMultiSelect ********************************************** */
 var AXMultiSelect = Class.create(AXJ, {
-	version: "AXMultiSelect v1.5",
-	author: "SQUALL",
-	createDate: "2013-01-31 오후 5:01:12",
-	lastModifyDate: "2013-01-31 오후 5:01:15",
+	version: "AXMultiSelect v1.8",
+	author: "tom@axisj.com",
+    logs: [
+    	"2013-01-31 오후 5:01:12",
+		"2013-11-12 오전 9:19:09 - tom : 버그픽스",
+		"2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
+		"2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
+	],
+	
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.selects = [];
@@ -2379,6 +2385,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		this.config.unselectingClassName = "AX_unselecting";
 		this.moveSens = 0;
 		this.config.moveSens = 5;
+		this.touchMode;
 	},
 	init: function () {
 
@@ -2386,21 +2393,48 @@ var AXMultiSelect = Class.create(AXJ, {
 		this._selectStage = jQuery("#" + this.config.selectStage);
 		this._selectStage.css({"position":"relative"});
 		
+		/*
+		if(AXUtil.browser.mobile){
+			this._selectStage.css({"overflow":"visible", "min-height":this._selectStage.innerHeight(), "height":"auto"});	
+		}
+		*/
+		
 		this._selectStage.bind("mousedown", this.mousedown.bind(this));
+		
 		this._selectStage.bind("click", function (event) {
 			mouseClick(this, event);
 		});
 		
-		this.helper = $("<div class='AXMultiselectorHelper'></div>");
+		this.helper = jQuery("<div class='AXMultiselectorHelper'></div>");
 		this.collect();
 		
-		jQuery(window).bind("resize", this.collect.bind(this));
-		jQuery(window).bind("keydown", this.onKeydown.bind(this));
+		jQuery(window).bind("resize.AXMultiSelect", this.collect.bind(this));
+		jQuery(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
+		this._selectStage.bind("scroll", this.onScrollStage.bind(this));
+		
+		this._selectStage.bind("touchstart", this.touchstart.bind(this));
 	},
 	onKeydown: function (event) {
 		if (event.keyCode == AXUtil.Event.KEY_ESC) {
 			this.clearSelects();
 		}
+	},
+	onScrollStage: function(event){
+		var cfg = this.config;
+		if(!AXUtil.browser.mobile){
+			if(this.helperAppened || this.helperAppenedReady){
+				this.moveSens = 0;
+				jQuery(document.body).unbind("mousemove.AXMultiSelect");
+				jQuery(document.body).unbind("mouseup.AXMultiSelect");
+				jQuery(document.body).unbind("mouseleave.AXMultiSelect");
+				jQuery(document.body).removeAttr("onselectstart");
+				jQuery(document.body).removeClass("AXUserSelectNone");
+				this.helperAppenedReady = false;
+				this.helperAppened = false;
+				this.helper.remove();
+			}
+		}
+		
 	},
 	/* ------------------------------------------------------------------------------------------------------------------ */
 	/* observe method ~~~~~~ */
@@ -2411,7 +2445,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var myTarget = this.getEventTarget({
 			evt : eventTarget, evtIDs : eid,
 			until:function(evt, evtIDs){ return (AXgetId(evt.parentNode) == AXgetId(cfg.selectStage)) ? true:false; },
-			find:function(evt, evtIDs){ return ($(evt).hasClass(cfg.selectClassName)) ? true : false; }
+			find:function(evt, evtIDs){ return (jQuery(evt).hasClass(cfg.selectClassName)) ? true : false; }
 		});
 		//trace("click");
 		if(myTarget){
@@ -2426,6 +2460,7 @@ var AXMultiSelect = Class.create(AXJ, {
 				}
 			}
 		}else{
+
 			if(event.target.id == cfg.selectStage && AXUtil.browser.name != "ie") this.clearSelects();
 			return;
 		}
@@ -2439,29 +2474,29 @@ var AXMultiSelect = Class.create(AXJ, {
 		var scrollLeft = this._selectStage.scrollLeft().number();
 		var scrollTop = this._selectStage.scrollTop().number();
 		this._selectTargets.each(function(){
-			var $this = $(this), pos = $this.position();
-			$.data(this, "selectableItem", {
+			var jQuerythis = jQuery(this), pos = jQuerythis.position();
+			jQuery.data(this, "selectableItem", {
 				element: this,
-				$element: $this,
+				jQueryelement: jQuerythis,
 				left: pos.left + scrollLeft,
 				top: pos.top + scrollTop,
-				right: pos.left + scrollLeft + $this.outerWidth(),
-				bottom: pos.top + scrollTop + $this.outerHeight(),
-				selected: $this.hasClass(cfg.beselectClassName),
-				selecting: $this.hasClass(cfg.selectingClassName)
+				right: pos.left + scrollLeft + jQuerythis.outerWidth(),
+				bottom: pos.top + scrollTop + jQuerythis.outerHeight(),
+				selected: jQuerythis.hasClass(cfg.beselectClassName),
+				selecting: jQuerythis.hasClass(cfg.selectingClassName)
 			});
 		});
 	},
 	clearSelects: function () {
 		var cfg = this.config;		
 		this._selectTargets.each(function(){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if (selectTarget.selecting) {
-				selectTarget.$element.removeClass(cfg.selectingClassName);
+				selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 				selectTarget.selecting = false;
 			}
 			if(selectTarget.selected){
-				selectTarget.$element.removeClass(cfg.beselectClassName);
+				selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 				selectTarget.selected = false;
 			}
 		});
@@ -2477,19 +2512,19 @@ var AXMultiSelect = Class.create(AXJ, {
 		
 		this.clearSelects();
 		
-		var selectTarget = $.data(Obj, "selectableItem");
-			selectTarget.$element.addClass(cfg.beselectClassName);
+		var selectTarget = jQuery.data(Obj, "selectableItem");
+			selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 			selectTarget.selected = true;
 	},
 	toggleSelects: function (Obj) {
 		var cfg = this.config;
 		
-		var selectTarget = $.data(Obj, "selectableItem");
+		var selectTarget = jQuery.data(Obj, "selectableItem");
 		if(selectTarget.selected){
-			selectTarget.$element.removeClass(cfg.beselectClassName);
+			selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 			selectTarget.selected = false;
 		}else{
-			selectTarget.$element.addClass(cfg.beselectClassName);
+			selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 			selectTarget.selected = true;			
 		}
 	},
@@ -2499,7 +2534,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var selectedLength = 0;
 		var li, si;
 		this._selectTargets.each(function(stIndex, ST){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if(selectTarget.selected){
 				selectedLength++;
 				li = stIndex;
@@ -2520,34 +2555,41 @@ var AXMultiSelect = Class.create(AXJ, {
 				li = temp;
 			}
 			this._selectTargets.each(function(stIndex, ST){
-				var selectTarget = $.data(this, "selectableItem");
+				var selectTarget = jQuery.data(this, "selectableItem");
 				if(si <= stIndex && li >= stIndex){
-					selectTarget.$element.addClass(cfg.beselectClassName);
+					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 					selectTarget.selected = true;
 				}
 			});
 		}
-		//this.collect();
+		/*this.collect();*/
 	},
+	
+	/* mouser helper */
 	mousedown: function(event){
 		var cfg = this.config;
+
 		jQuery(document.body).bind("mousemove.AXMultiSelect", this.mousemove.bind(this));
 		jQuery(document.body).bind("mouseup.AXMultiSelect", this.mouseup.bind(this));
 		jQuery(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
 		
 		jQuery(document.body).attr("onselectstart", "return false");
 		jQuery(document.body).addClass("AXUserSelectNone");
+		
+		this.helperAppenedReady = true;
 	},
 	mousemove: function(event){
 		var cfg = this.config;
 		if (!event.pageX) return;
+		
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
 		if (this.moveSens == this.config.moveSens) this.selectorHelperMove(event);
 	},
 	mouseup: function(event){
 		var cfg = this.config;
-
+		
+		this.helperAppenedReady = false;
 		this.moveSens = 0;
 
 		jQuery(document.body).unbind("mousemove.AXMultiSelect");
@@ -2563,11 +2605,11 @@ var AXMultiSelect = Class.create(AXJ, {
 			
 			/* selected change */			
 			this._selectTargets.each(function(){
-				var selectTarget = $.data(this, "selectableItem");
+				var selectTarget = jQuery.data(this, "selectableItem");
 				if (selectTarget.selecting) {
-					selectTarget.$element.removeClass(cfg.selectingClassName);
+					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 					selectTarget.selecting = false;
-					selectTarget.$element.addClass(cfg.beselectClassName);
+					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 					selectTarget.selected = true;
 				}else if(selectTarget.selected){
 
@@ -2579,50 +2621,50 @@ var AXMultiSelect = Class.create(AXJ, {
 	selectorHelperMove: function(event){
 		var cfg = this.config;
 		if(this.helperAppened){
+			
+			var _helperPos = this.helperPos;
 			var tmp,
 				x1 = this.helperPos.x,
 				y1 = this.helperPos.y,
-				x2 = event.pageX,
-				y2 = event.pageY;
+				x2 = event.pageX - _helperPos.bodyLeft,
+				y2 = event.pageY - _helperPos.bodyTop;
 			if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
 			if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
 			this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
-
-			var _helperPos = this.helperPos;
-						
+			
 			this._selectTargets.each(function(){
 				
-				var selectTarget = $.data(this, "selectableItem"), hit = false;
+				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
 				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */				
 				if(!selectTarget) return;
 
 				var stL = selectTarget.left.number(), stR = selectTarget.right.number(), stT = selectTarget.top.number(), stB = selectTarget.bottom.number();
-				stL = stL + _helperPos.stageX - _helperPos.scrollLeft;
-				stR = stR + _helperPos.stageX - _helperPos.scrollLeft;
-				stT = stT + _helperPos.stageY - _helperPos.scrollTop;
-				stB = stB + _helperPos.stageY - _helperPos.scrollTop;
+				stL = stL + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stR = stR + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stT = stT + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
+				stB = stB + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
 
 				hit = ( !(stL > x2 || stR < x1 || stT > y2 || stB < y1) ); /* touch */
 				/* hit = (selectTarget.left > x1 && selectTarget.right < x2 && selectTarget.top > y1 && selectTarget.bottom < y2); fit */
 				if(hit){
 					/* SELECT */
 					if (selectTarget.selected) {
-						selectTarget.$element.removeClass(cfg.beselectClassName);
+						selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 						selectTarget.selected = false;
 					}
 					if (!selectTarget.selecting) {
-						selectTarget.$element.addClass(cfg.selectingClassName);
+						selectTarget.jQueryelement.addClass(cfg.selectingClassName);
 						selectTarget.selecting = true;
 					}
 				}else{
 					/* UNSELECT */
 					if (selectTarget.selecting) {
-						selectTarget.$element.removeClass(cfg.selectingClassName);
+						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 						selectTarget.selecting = false;
 					}
 					if (selectTarget.selected) {
 						if (!event.metaKey && !event.shiftKey && !event.ctrlKey) {
-							selectTarget.$element.removeClass(cfg.beselectClassName);
+							selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 							selectTarget.selected = false;
 						}
 					}
@@ -2632,7 +2674,8 @@ var AXMultiSelect = Class.create(AXJ, {
 		}else{
 			this.helperAppened = true;
 			jQuery(document.body).append(this.helper);
-			var css = {left:event.pageX, top:event.pageY, width:0, height:0};
+
+			var css = {left:(event.pageX - jQuery(document.body).offset().left), top:(event.pageY - jQuery(document.body).offset().top), width:0, height:0};
 			this.helper.css(css);
 			var stagePos = this._selectStage.offset();
 			this.helperPos = {
@@ -2641,15 +2684,185 @@ var AXMultiSelect = Class.create(AXJ, {
 				x:css.left.number(), 
 				y:css.top.number(), 
 				scrollLeft:this._selectStage.scrollLeft().number(),
-				scrollTop:this._selectStage.scrollTop().number()
+				scrollTop:this._selectStage.scrollTop().number(),
+				bodyLeft:jQuery(document.body).offset().left,
+				bodyTop:jQuery(document.body).offset().top
 			};
+		}
+	},
+	
+	/* touch helper */
+	touchstart: function(event){
+		var cfg = this.config;
+				
+		var touchEnd = this.touchEnd.bind(this);
+		this.touchEndBind = function () {
+			touchEnd(event);
+		};
+
+		var touchMove = this.touchMove.bind(this);
+		this.touchMoveBind = function () {
+			touchMove(event);
+		};
+
+		if (document.addEventListener) {
+			document.addEventListener("touchend", this.touchEndBind, false);
+			document.addEventListener("touchmove", this.touchMoveBind, false);
+		}
+		
+		this.helperAppenedReady = true;
+	},
+	touchMove: function(event){
+		var cfg = this.config;
+		var event = window.event || e;
+		var touch = event.touches[0];
+		if (!touch.pageX) return;
+		var offset = this._selectStage.offset();
+		var bottom = offset.top + this._selectStage.height();
+
+		if(this.moveSens == 0){
+			this.touchStartXY = {x:touch.pageX, y:touch.pageY, scrollTop:this._selectStage.scrollTop()};
+		}
+
+		/*드래그 감도 적용 */
+		if (this.config.moveSens > this.moveSens) this.moveSens++;
+		if (this.moveSens == this.config.moveSens){
+			if(this.touchMode == "drag"){
+				if(bottom < touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (bottom - touch.pageY));
+				else if(offset.top > touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (offset.top - touch.pageY));
+				this.selectorHelperMoveByTouch(event);
+			}else if(this.touchMode == "scrollTop"){
+				this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
+			}else if(this.touchMode == "scrollLeft"){
+				this._selectStage.scrollLeft(this.touchStartXY.scrollLeft + (this.touchStartXY.x - touch.pageX));
+			}else{
+				if(((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5){
+					this.touchMode = "drag"
+					this.selectorHelperMoveByTouch(event);
+				}else if((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()){
+					this.touchMode = "scrollTop";
+					this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
+				}else if((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()){
+					this.touchMode = "scrollLeft";
+					this._selectStage.scrollLeft(this.touchStartXY.scrollLeft + (this.touchStartXY.x - touch.pageX));
+				}
+			}
+		}
+
+		if (event.preventDefault) event.preventDefault();
+		else return false;
+	},
+	selectorHelperMoveByTouch: function(e){
+		var cfg = this.config;
+		var event = window.event || e;
+		var touch = event.touches[0];
+		
+		if(this.helperAppened){
+			
+			var _helperPos = this.helperPos;
+			var tmp,
+				x1 = this.helperPos.x,
+				y1 = this.helperPos.y,
+				x2 = touch.pageX - _helperPos.bodyLeft,
+				y2 = touch.pageY - _helperPos.bodyTop;
+			if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
+			if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
+			this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
+			
+			this._selectTargets.each(function(){
+				
+				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
+				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */				
+				if(!selectTarget) return;
+
+				var stL = selectTarget.left.number(), stR = selectTarget.right.number(), stT = selectTarget.top.number(), stB = selectTarget.bottom.number();
+				stL = stL + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stR = stR + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
+				stT = stT + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
+				stB = stB + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
+
+				hit = ( !(stL > x2 || stR < x1 || stT > y2 || stB < y1) ); /* touch */
+				/* hit = (selectTarget.left > x1 && selectTarget.right < x2 && selectTarget.top > y1 && selectTarget.bottom < y2); fit */
+				if(hit){
+					/* SELECT */
+					if (selectTarget.selected) {
+						selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
+						selectTarget.selected = false;
+					}
+					if (!selectTarget.selecting) {
+						selectTarget.jQueryelement.addClass(cfg.selectingClassName);
+						selectTarget.selecting = true;
+					}
+				}else{
+					/* UNSELECT */
+					if (selectTarget.selecting) {
+						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+						selectTarget.selecting = false;
+					}
+					if (selectTarget.selected) {
+						if (!event.metaKey && !event.shiftKey && !event.ctrlKey) {
+							selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
+							selectTarget.selected = false;
+						}
+					}
+				}
+			});
+			
+		}else{
+			this.helperAppened = true;
+			jQuery(document.body).append(this.helper);
+
+			var css = {left:(touch.pageX - jQuery(document.body).offset().left), top:(touch.pageY - jQuery(document.body).offset().top), width:0, height:0};
+			this.helper.css(css);
+			var stagePos = this._selectStage.offset();
+			this.helperPos = {
+				stageX:stagePos.left.number(),
+				stageY:stagePos.top.number(),
+				x:css.left.number(), 
+				y:css.top.number(), 
+				scrollLeft:this._selectStage.scrollLeft().number(),
+				scrollTop:this._selectStage.scrollTop().number(),
+				bodyLeft:jQuery(document.body).offset().left,
+				bodyTop:jQuery(document.body).offset().top
+			};
+		}
+	},
+	touchEnd: function(e){
+		var cfg = this.config;
+		var event = window.event || e;
+		this.helperAppenedReady = false;
+		this.moveSens = 0;
+
+		this.touchMode = false;
+
+		if (document.removeEventListener) {
+			document.removeEventListener("touchend", this.touchEndBind, false);
+			document.removeEventListener("touchmove", this.touchMoveBind, false);
+		}
+		
+		if(this.helperAppened){
+			this.helperAppened = false;
+			this.helper.remove();
+			
+			/* selected change */			
+			this._selectTargets.each(function(){
+				var selectTarget = jQuery.data(this, "selectableItem");
+				if (selectTarget.selecting) {
+					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+					selectTarget.selecting = false;
+					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
+					selectTarget.selected = true;
+				}else if(selectTarget.selected){
+
+				}
+			});
 		}
 	},
 	getSelects: function () {
 		var cfg = this.config;
 		var selects = [];
 		this._selectTargets.each(function(){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if(selectTarget.selected){
 				selects.push(selectTarget.element);
 			}
@@ -2660,7 +2873,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;
 		var selects = [];
 		this._selectTargets.each(function(){
-			var selectTarget = $.data(this, "selectableItem");
+			var selectTarget = jQuery.data(this, "selectableItem");
 			if(selectTarget.selected){
 				selects.push(selectTarget.element);
 			}
@@ -2669,6 +2882,237 @@ var AXMultiSelect = Class.create(AXJ, {
 	}
 });
 /* ********************************************** AXMultiSelect ** */
+
+/* ** AXResizable ********************************************** */
+var AXResizable = Class.create(AXJ, {
+	version: "AXResizable v1.0",
+	author: "tom@axisj.com",
+    logs: [
+    	"2013-11-12 오전 10:22:06"
+	],
+	initialize: function (AXJ_super) {
+		AXJ_super();
+		this.moveSens = 0;
+		this.config.moveSens = 2;
+		this.objects = [];
+		this.config.bindResiableContainer = "AXResizable";
+		this.config.bindResiableHandle = "AXResizableHandle";
+	},
+	init: function () {
+		this.helper = jQuery("<div class='AXResizableHelper'></div>");
+	},
+	bind: function(obj){
+		var cfg = this.config;
+		if (!obj.id) {
+			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
+			return;
+		}
+		if (!AXgetId(obj.id)) {
+			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
+			return;
+		}
+		var objID = obj.id;
+		var objSeq = null;
+
+		jQuery.each(this.objects, function (idx, O) {
+			/*if (this.id == objID && this.isDel == true) objSeq = idx;*/
+			if (this.id == objID) {
+				objSeq = idx;
+			}
+		});
+		if (objSeq == null) {
+			objSeq = this.objects.length;
+			this.objects.push({
+				id: objID, 
+				element:AXgetId(objID), 
+				jQueryElement:jQuery("#"+objID), 
+				config: obj
+			});
+		} else {
+			this.objects[objSeq].isDel = undefined;
+			this.objects[objSeq].config = obj;
+		}
+		this.bindResizer(objID, objSeq);
+	},
+	unbind: function (obj) {
+		var cfg = this.config;
+		var removeIdx;
+		jQuery.each(this.objects, function (idx, O) {
+			if (O.id != obj.id) {
+			} else {
+				if (O.isDel != true) {
+					removeIdx = idx;
+				}
+			}
+		});
+		if(removeIdx != undefined){
+			this.objects[removeIdx].isDel = true;
+			/* unbind 구문 */
+		}
+	},
+	bindResizer: function(objID, objSeq){
+		var _this = this;
+		var cfg = this.config;
+		
+		var obj = this.objects[objSeq];
+		
+		var po = [];
+		po.push("<div class=\"" + cfg.bindResiableHandle + "\"></div>");
+		obj.jQueryElement.addClass(cfg.bindResiableContainer);
+		obj.jQueryElement.append(po.join(''));
+		
+		//obj.jQueryElement.bind("mousedown.AXResizable", function(){_this.mousedown(objID, objSeq, event)});
+		obj.jQueryElement.bind("mousedown.AXResizable", this.mousedown.bind(this, objID, objSeq));
+	},
+	mousedown: function(objID, objSeq, event){
+		var _this = this;
+		var cfg = this.config;
+		
+		jQuery(window).bind("mousemove.AXResizable", this.mousemove.bind(this, objID, objSeq));
+		jQuery(window).bind("mouseup.AXResizable", this.mouseup.bind(this, objID, objSeq));
+		/*jQuery(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
+		
+		jQuery(document.body).attr("onselectstart", "return false");
+		jQuery(document.body).addClass("AXUserSelectNone");
+		
+		this.helperAppenedReady = true;
+	},
+	mousemove: function(objID, objSeq, event){
+		var cfg = this.config;
+		if (!event.pageX) return;
+		
+		/*드래그 감도 적용 */
+		if (this.config.moveSens > this.moveSens) this.moveSens++;
+		if (this.moveSens == this.config.moveSens) this.selectorHelperMove(objID, objSeq, event);
+	},
+	mouseup: function(objID, objSeq, event){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		this.helperAppenedReady = false;
+		this.moveSens = 0;
+		
+		jQuery(window).unbind("mousemove.AXResizable");
+		jQuery(window).unbind("mouseup.AXResizable");
+		/*jQuery(document.body).unbind("mouseleave.AXResizable");*/
+		
+		jQuery(document.body).removeAttr("onselectstart");
+		jQuery(document.body).removeClass("AXUserSelectNone");
+		
+		if(this.helperAppened){
+			this.helperAppened = false;
+			
+			var newWidth = this.helper.width();
+			var newHeight = this.helper.height();
+			
+			var paddingLeft = obj.jQueryElement.css("padding-left");
+			var paddingRight = obj.jQueryElement.css("padding-right");
+			var paddingTop = obj.jQueryElement.css("padding-top");
+			var paddingBottom = obj.jQueryElement.css("padding-bottom");
+			var paddingW = paddingLeft.number() + paddingRight.number();
+			var paddingH = paddingTop.number() + paddingBottom.number();
+			
+			if(obj.config.animate){
+				obj.jQueryElement.animate(
+					{width:newWidth-paddingW, height:newHeight-paddingH},
+					(obj.config.animate.duration||300), (obj.config.animate.easing||"liner"), 
+					function(){
+						if(obj.config.onChange){
+							obj.config.onChange.call(obj, obj);
+						}
+					}
+				);
+			}else{
+				obj.jQueryElement.css({width:newWidth-paddingW, height:newHeight-paddingH});
+				if(obj.config.onChange){
+					obj.config.onChange.call(obj, obj);
+				}
+			}
+			
+			this.helper.remove();
+		}
+	},
+	selectorHelperMove: function(objID, objSeq, event){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		if(this.helperAppened){
+			
+			var _helperPos = this.helperPos;
+			var tmp,
+				x1 = this.helperPos.x,
+				y1 = this.helperPos.y,
+				x2 = event.pageX - _helperPos.bodyLeft,
+				y2 = event.pageY - _helperPos.bodyTop;
+			
+			var minWidth = (obj.config.minWidth||0), 
+				minHeight = (obj.config.minHeight||0), 
+				maxWidth = (obj.config.maxWidth||0), 
+				maxHeight = (obj.config.maxHeight||0);
+			
+			var myWidth = x2-x1, myHeight = y2-y1;
+			
+			if(minWidth != 0 && myWidth < minWidth) myWidth = minWidth;
+			if(minHeight != 0 && myHeight < minHeight) myHeight = minHeight;
+			if(maxWidth != 0 && myWidth > maxWidth) myWidth = maxWidth;
+			if(maxHeight != 0 && myHeight > maxHeight) myHeight = maxHeight;
+			
+			if(obj.config.aspectRatio){
+				myWidth = myHeight * obj.config.aspectRatio;
+			}
+			
+			if(obj.config.snap){
+				myWidth = obj.config.snap * (myWidth / obj.config.snap).ceil();
+				myHeight = obj.config.snap * (myHeight / obj.config.snap).ceil();
+			}
+			//trace({width: myWidth, height: myHeight});
+			this.helper.css({width: myWidth, height: myHeight});
+
+		}else{
+			this.helperAppened = true;
+			jQuery(document.body).append(this.helper);
+			
+			var bodyLeft = jQuery(document.body).offset().left;
+			var bodyTop = jQuery(document.body).offset().top;
+						
+			var pos = obj.jQueryElement.offset();
+			var css = {
+				left: pos.left + bodyLeft,
+				top: pos.top + bodyLeft,
+				width: obj.jQueryElement.outerWidth(),
+				height: obj.jQueryElement.outerHeight()
+			};
+			this.helper.css(css);
+
+			this.helperPos = {
+				x:css.left,
+				y:css.top,
+				bodyLeft: jQuery(document.body).offset().left,
+				bodyTop: jQuery(document.body).offset().top
+			};
+		}
+	}
+});
+var AXResizableBinder = new AXResizable();
+AXResizableBinder.setConfig({ targetID: "defaultResiable" });
+
+jQuery.fn.bindAXResizable = function (config) {
+	jQuery.each(this, function () {
+		config = config || {}; config.id = this.id;
+		AXResizableBinder.bind(config);
+		return this;
+	});
+};
+
+jQuery.fn.unbindAXResizable = function (config) {
+	jQuery.each(this, function () {
+		if (config == undefined) config = {};
+		config.id = this.id;
+		AXResizableBinder.unbind(config);
+		return this;
+	});
+};
+/* ********************************************** AXResizable ** */
 
 /* ** AXContextMenu ********************************************** */
 var AXContextMenuClass = Class.create(AXJ, {
