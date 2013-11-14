@@ -117,6 +117,7 @@
 .AXButton{
 	position:relative;
 	cursor:pointer;
+	vertical-align:middle;
 	height:26px;
 	padding:0px 10px;
 	margin:0px 0px;

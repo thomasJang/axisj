@@ -2141,12 +2141,18 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	getUploadedList: function(arg){
 		if(arg == "param"){
-			var pars = [];
-			jQuery.each(this.uploadedList, function(){
-				pars.push(jQuery.param(this));
-			});
-			return pars.join("&");
-			pars = null;
+			try{
+				var pars = [];
+				if(this.uploadedList){
+					jQuery.each(this.uploadedList, function(){
+						if(this != "") pars.push(jQuery.param(this));
+					});
+				}
+				return pars.join("&");
+				pars = null;
+			}catch(e){
+				trace(e);	
+			}
 		}else{
 			return this.uploadedList;
 		}

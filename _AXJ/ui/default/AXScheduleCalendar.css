@@ -2,11 +2,12 @@
 
 .AXScheduleCalendar{
 	position:relative;
-	border-top:2px solid #3286bd;
+	border:1px solid #b1b1b1;
 }
 .AXScheduleCalendar .schduleItem {
     position:absolute;left:0px;top:0px;
-    border:1px solid #3286bd;background:#eff7fa;
+    border:1px solid #ccc;background:#eee;
+    border-radius:4px;
     height:18px;line-height:18px;color:#222;
     text-indent:3px;font-size:11px;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -14,8 +15,7 @@
 }
 
     .AXScheduleCalendar .schduleItem span {
-        font-size:10px;color:#000;
-        
+        font-size:10px;color:#000;   
         padding-left:3px;
     }
 
@@ -31,9 +31,9 @@
 		font-size:10px;
 		height:30px;line-height:20px;
 		padding:0px;text-align:center;
-		background:#eff7fa;
-		border-right:1px solid #f2f2f3;
-		border-bottom:1px solid #d8d8d8;
+		background:url(img/gridheadBG.png) repeat-x 0px 0px #fff;
+		border-right:1px solid #b1b1b1;
+		border-bottom:1px solid #b1b1b1;
 	}
 	.AXScheduleCalendar table.calendarPage thead td.head_0{
 
