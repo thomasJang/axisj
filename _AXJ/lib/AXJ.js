@@ -2490,13 +2490,15 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;		
 		this._selectTargets.each(function(){
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if (selectTarget.selecting) {
-				selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
-				selectTarget.selecting = false;
-			}
-			if(selectTarget.selected){
-				selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
-				selectTarget.selected = false;
+			if(selectTarget){
+				if (selectTarget.selecting) {
+					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+					selectTarget.selecting = false;
+				}
+				if(selectTarget.selected){
+					selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
+					selectTarget.selected = false;
+				}
 			}
 		});
 	},
@@ -2534,9 +2536,11 @@ var AXMultiSelect = Class.create(AXJ, {
 		var li, si;
 		this._selectTargets.each(function(stIndex, ST){
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget.selected){
-				selectedLength++;
-				li = stIndex;
+			if(selectTarget){
+				if(selectTarget.selected){
+					selectedLength++;
+					li = stIndex;
+				}
 			}
 			if(this === Obj) si = stIndex;
 		});
@@ -2555,13 +2559,14 @@ var AXMultiSelect = Class.create(AXJ, {
 			}
 			this._selectTargets.each(function(stIndex, ST){
 				var selectTarget = jQuery.data(this, "selectableItem");
-				if(si <= stIndex && li >= stIndex){
-					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
-					selectTarget.selected = true;
+				if(selectTarget){
+					if(si <= stIndex && li >= stIndex){
+						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
+						selectTarget.selected = true;
+					}
 				}
 			});
 		}
-		/*this.collect();*/
 	},
 	
 	/* mouser helper */
@@ -2605,13 +2610,15 @@ var AXMultiSelect = Class.create(AXJ, {
 			/* selected change */			
 			this._selectTargets.each(function(){
 				var selectTarget = jQuery.data(this, "selectableItem");
-				if (selectTarget.selecting) {
-					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
-					selectTarget.selecting = false;
-					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
-					selectTarget.selected = true;
-				}else if(selectTarget.selected){
-
+				if(selectTarget){
+					if (selectTarget.selecting) {
+						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+						selectTarget.selecting = false;
+						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
+						selectTarget.selected = true;
+					}else if(selectTarget.selected){
+	
+					}
 				}
 			});
 		}
@@ -2849,13 +2856,15 @@ var AXMultiSelect = Class.create(AXJ, {
 			/* selected change */			
 			this._selectTargets.each(function(){
 				var selectTarget = jQuery.data(this, "selectableItem");
-				if (selectTarget.selecting) {
-					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
-					selectTarget.selecting = false;
-					selectTarget.jQueryelement.addClass(cfg.beselectClassName);
-					selectTarget.selected = true;
-				}else if(selectTarget.selected){
-
+				if(selectTarget){
+					if (selectTarget.selecting) {
+						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
+						selectTarget.selecting = false;
+						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
+						selectTarget.selected = true;
+					}else if(selectTarget.selected){
+	
+					}
 				}
 			});
 		}
@@ -2865,8 +2874,10 @@ var AXMultiSelect = Class.create(AXJ, {
 		var selects = [];
 		this._selectTargets.each(function(){
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget.selected){
-				selects.push(selectTarget.element);
+			if(selectTarget){
+				if(selectTarget.selected){
+					selects.push(selectTarget.element);
+				}
 			}
 		});
 		return selects;
@@ -2876,8 +2887,10 @@ var AXMultiSelect = Class.create(AXJ, {
 		var selects = [];
 		this._selectTargets.each(function(){
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget.selected){
-				selects.push(selectTarget.element);
+			if(selectTarget){
+				if(selectTarget.selected){
+					selects.push(selectTarget.element);
+				}
 			}
 		});
 		return selects.length;

@@ -2042,6 +2042,8 @@ var AXUpload5 = Class.create(AXJ, {
 		});
 		this.uploadedList = newUploadedList;
 		newUploadedList = null;
+		
+		this.multiSelector.collect();
 	},
 	showMSG: function(msg){
 		dialog.push(msg);
