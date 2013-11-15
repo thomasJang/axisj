@@ -44,7 +44,7 @@
 				targetID : "AXGridTarget",
 				theme : "AXGrid",
 				fixedColSeq:3,
-				fitToWidth:true,
+				fitToWidth:false,
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right"}, 
 					{key:"title", label:"제목", width:"200"},
@@ -55,7 +55,7 @@
 					{key:"cost", label:"금액", width:"100", align:"right", formatter:"money", formatter:function(){
 						return (this.item.price.number() * this.item.amount.number()).money();
 					}},
-					{key:"desc", label:"비고", width:"200"}
+					{key:"desc", label:"비고", width:"*"}
 				],				
 				body : {
 					rows: [

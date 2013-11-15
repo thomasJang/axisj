@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 	
 	<script type="text/javascript">
@@ -158,6 +158,11 @@
 			
 			myGrid.redrawGrid();
 			myGrid2.redrawGrid();
+		},
+		forExcelConvert: function(type){
+			var obj = myGrid2.getExcelFormat(type);
+			trace(obj);
+			$("#printout").html(Object.toJSON(obj));
 		}
 	};
 	
@@ -191,6 +196,7 @@
 
 		<div class="Hspace20"></div>
 		<input type="button" value="changeTab" class="AXButton" onclick="fnObj.changeTab();" />
+		<div class="Hspace20"></div>
 		
 		<div id="grid0" style="display:none;">
 			<h2>AXGrid</h2>
@@ -202,7 +208,15 @@
 		<div id="grid1">
 			<h2>AXGrid autoHeight</h2>
 			<div id="AXGridTargetAutoHeight" style="height:400px;"></div>
+			<div style="padding:10px;">
+				<input type="button" value="forExcel html" class="AXButton" onclick="$('#printout').html(myGrid2.getExcelFormat('html'));" />
+				<input type="button" value="forExcel json" class="AXButton" onclick="fnObj.forExcelConvert('json');" />
+			</div>
 		</div>
+
+<div id="printout">
+	
+</div>
 
 </body>
 </html>

@@ -4529,5 +4529,260 @@ var AXGrid = Class.create(AXJ, {
 		} else {
 			return "";
 		}
+	},
+
+	getExcelColHeadTd: function (arg) {
+		var cfg = this.config;
+		var po = [];
+
+		if (arg.formatter == "html" || arg.formatter == "checkbox") {
+			if(!arg.displayLabel){
+				colHeadTdText = " colHeadTdHtml";
+				toolUse = false;
+				if (arg.formatter == "checkbox") {
+					colHeadTdText = " colHeadTdCheck";
+					arg.tdHtml = "<input type=\"checkbox\" name=\"checkAll\" />";
+				}
+			}
+		}
+
+		po.push("<td" + arg.valign + arg.rowspan + arg.colspan + ">");
+		po.push(arg.tdHtml);
+		po.push("</td>");
+
+		return po.join('');
+	},
+	getExcelItem: function (itemIndex, item) {
+		var cfg = this.config;
+		var tpo = [];
+		var evenClassName = "line" + (itemIndex % 2);
+		var getFormatterValue = this.getFormatterValue.bind(this);
+		var getTooltipValue = this.getTooltipValue.bind(this);
+		var trAddClass = "";
+		
+		for (var r = 0; r < cfg.body.rows.length; r++) {
+
+			tpo.push("<tr>");
+			var colCount = 0;
+			jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+				if (CH.display && CH.colspan > 0) {
+
+					colCount += CH.colspan;
+					/*radio, check exception */
+					var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+					var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+					var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+
+					var bodyNodeClass = "";
+
+					var tooltipValue = "";
+					if (CH.tooltip) {
+						tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
+					}
+
+					tpo.push("<td" + valign + rowspan + colspan + ">");
+						if (CH.formatter) {
+							tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
+						} else {
+							tpo.push(item[CH.key]);
+						}
+					tpo.push("</td>");
+				}
+			});
+			tpo.push("</tr>");
+		}
+		return tpo.join('');
+	},
+	getExcelItemMarker: function (itemIndex, item, isfix) {
+		var cfg = this.config;
+		var tpo = [];
+		var evenClassName = "gridBodyMarker";
+		var getFormatterValue = this.getFormatterValue.bind(this);
+		
+		for (var r = 0; r < cfg.body.marker.rows.length; r++) {
+			var isLastTR = (cfg.body.marker.rows.length - 1 == r);
+			tpo.push("<tr>");
+			var colCount = 0;
+			jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+				if (CH.display && CH.colspan > 0) {
+					
+					colCount += CH.colspan;
+
+					/*radio, check exception */
+					var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+					var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+					var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+
+					tpo.push("<td" + valign + rowspan + colspan + ">");
+						if (CH.formatter) {
+							tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
+						} else {
+							tpo.push(item[CH.key]);
+						}
+					tpo.push("</td>");
+					
+				}
+			});
+			tpo.push("</tr>");
+		}
+		return tpo.join('');
+	},
+	getExcelHeadDataSet: function (dataSet, isfix) {
+		var cfg = this.config;
+		var tpo = [];
+		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
+		/*dataSet 빈 Key 채우기 */
+		jQuery.each(cfg.colGroup, function () {
+			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
+		});
+		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
+
+		for (var r = 0; r < cfg.head.rows.length; r++) {
+			var isLastTR = (cfg.head.rows.length - 1 == r);
+			tpo.push("<tr>");
+			var colCount = 0;
+
+			jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+				if (CH.display && CH.colspan > 0) {
+
+						colCount += CH.colspan;
+
+						/*radio, check exception */
+						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+						var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+
+						var bodyNodeClass = "";
+						if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
+						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
+
+						tpo.push("<td" + valign + rowspan + colspan + ">");
+							if (CH.formatter) {
+								tpo.push(getDataSetFormatterValue(CH.formatter, dataSet, dataSet[CH.key], CH.key, CH));
+							} else {
+								tpo.push(dataSet[CH.key]);
+							}
+						tpo.push("</td>");
+					}
+			});
+			tpo.push("</tr>");
+		}
+		return tpo.join('');
+	},
+	getExcelFootDataSet: function (dataSet, isfix) {
+		var cfg = this.config;
+		var tpo = [];
+		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
+		/*dataSet 빈 Key 채우기 */
+		jQuery.each(cfg.colGroup, function () {
+			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
+		});
+		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
+		var hasFixed = this.hasFixed;
+
+		for (var r = 0; r < cfg.foot.rows.length; r++) {
+			var isLastTR = (cfg.foot.rows.length - 1 == r);
+			tpo.push("<tr>");
+			var colCount = 0;
+
+			jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+				if (CH.display && CH.colspan > 0) {
+						colCount += CH.colspan;
+
+						/*radio, check exception */
+						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+						var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+						var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
+						var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
+
+						var bodyNodeClass = "";
+						if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
+						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
+
+						tpo.push("<td" + valign + rowspan + colspan + ">");
+							if (CH.formatter) {
+								tpo.push(getDataSetFormatterValue(CH.formatter, dataSet, dataSet[CH.key], CH.key, CH));
+							} else {
+								tpo.push(dataSet[CH.key]);
+							}
+						tpo.push("</td>");
+				}
+			});
+			tpo.push("</tr>");
+		}
+		return tpo.join('');
+	},
+	getExcelFormat: function(format){
+		var cfg = this.config;
+		var getExcelColHeadTd = this.getExcelColHeadTd.bind(this);
+		
+		var bodyHasMarker = this.bodyHasMarker;
+		var getExcelItem = this.getExcelItem.bind(this);
+		var getExcelItemMarker = this.getExcelItemMarker.bind(this);
+		var getMarkerDisplay = this.getMarkerDisplay.bind(this);
+		var getHeadDataSet = this.getExcelHeadDataSet.bind(this);
+		var getFootDataSet = this.getExcelFootDataSet.bind(this);
+		
+		var po = [];
+		
+		if(format == "html"){
+
+			po.push("<table border='1'>");
+			po.push("	<thead>");
+			for (var r = 0; r < cfg.colHead.rows.length; r++) {
+				var isLastTR = (cfg.colHead.rows.length - 1 == r);
+				po.push("<tr>");
+				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+					if (CH.display && CH.colspan > 0) {
+						var tdHtml = CH.label || "untitle";
+						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+						var valign = " valign=\"" + CH.valign + "\"";
+
+						po.push(getExcelColHeadTd({
+							valign: valign, 
+							rowspan: rowspan, 
+							colspan: colspan, 
+							align: CH.align, 
+							colSeq: CH.colSeq, 
+							formatter: CH.formatter, 
+							sort: CH.sort, 
+							tdHtml: tdHtml,
+							displayLabel: CH.displayLabel
+						}));
+					}
+				});
+				po.push("</tr>");
+			}
+			po.push("	</thead>");
+			po.push("	<tbody>");
+			
+			if (cfg.head) po.push(getHeadDataSet(this.dataSet));
+
+			jQuery.each(this.list, function (itemIndex, item) {
+				po.push(getExcelItem(itemIndex, item));
+				if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
+					po.push(getExcelItemMarker(itemIndex, item));
+				}
+			});
+			
+			if (cfg.foot) po.push(getFootDataSet(this.dataSet));
+			
+			po.push("	</tbody>");
+			po.push("</table>");
+			
+			return po.join('');
+			
+		}else if(format == "json"){
+			
+			return {
+				colGroup: cfg.colGroup,
+				list: this.list
+			}
+			
+		}
+		
+		
 	}
 });

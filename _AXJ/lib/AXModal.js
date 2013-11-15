@@ -8,7 +8,7 @@
  */
 
 var AXModal = Class.create(AXJ, {
-	version: "AXModal V1.32",
+	version: "AXModal V1.33",
 	author: "tom@axisj.com",
 	logs: [
 		"2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -18,7 +18,8 @@ var AXModal = Class.create(AXJ, {
 		"2013-08-21 오후 4:46:51 - openNew 버그 픽스 : tom ",
 		"2013-08-22 오전 10:56:20 - resize 버그 픽스 : tom ",
 		"2013-08-24 - openNew 메소드 기능 확장 : tom ",
-		"2013-10-14 오전 6:54:40 - resize 기능 보강 : tom "
+		"2013-10-14 오전 6:54:40 - resize 기능 보강 : tom ",
+		"2013-11-15 오후 4:01:29 - tom : openDiv scroll 버그 패치"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -260,9 +261,19 @@ var AXModal = Class.create(AXJ, {
 
 		if (AXgetId(modalID)) {
 			jQuery("#" + modalID).show();
-
-			/* div modal인  경우 windowID 에 modalID를 넣어준다. */
+			
+			trace("here");
+			
 			this.config.windowID = modalID;
+	
+			var maskTop = this.config.defaultTop;
+			if (args.top != undefined) {
+				maskTop = jQuery(window).scrollTop() + args.top;
+			} else {
+				maskTop = jQuery(window).scrollTop() + 50;
+			}
+
+			jQuery("#" + modalID).css({"top":maskTop});
 			
 			if(args.closeByEscKey){
 				var keydown = this.keydown.bind(this);
@@ -291,8 +302,11 @@ var AXModal = Class.create(AXJ, {
 
 		var maskTop = this.config.defaultTop;
 		if (args.top != undefined) {
-			maskTop = args.top;
+			maskTop = jQuery(window).scrollTop() + args.top;
+		} else {
+			maskTop = jQuery(window).scrollTop() + 50;
 		}
+		
 
 		if (maskLeft < 0) maskLeft = 0;
 

@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXFrameSet</title>
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXFrameSet.css" />
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXFrameSet.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<style type="text/css">
+	html, body{height:100%;}
+	</style>
+
+
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function (h, w) {
+	        AXCode.bind(); // 소스보기
+			
+		},
+		pageResize: function () {
+	
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+	<div class="AXFrameSet" id="AXFrameSetTarget">
+		
+		<div id="panel00"></div>
+		<div id="panel01"></div>
+		<div id="panel02"></div>
+		
+		<div id="panel03"></div>
+		<div id="panel04"></div>
+		<div id="panel05"></div>
+		
+		<div id="panel06"></div>
+		<div id="panel07"></div>
+		<div id="panel08"></div>
+		
+	</div>
+</body>
+</html>
