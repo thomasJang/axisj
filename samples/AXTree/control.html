@@ -76,6 +76,10 @@
 					onclick:function(idx, item){
 						toast.push(Object.toJSON(item));
 						//myTree.setEditor(this.item, this.index);
+					},
+					addClass: function(){
+						// this.index, this.item, this.list 으로 프로그램 구문 작성 가능
+						return "myClass";	
 					}
 				},
 				contextMenu: {
