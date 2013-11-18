@@ -8,7 +8,7 @@
  */
 
 var AXModal = Class.create(AXJ, {
-	version: "AXModal V1.33",
+	version: "AXModal V1.34",
 	author: "tom@axisj.com",
 	logs: [
 		"2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -19,7 +19,8 @@ var AXModal = Class.create(AXJ, {
 		"2013-08-22 오전 10:56:20 - resize 버그 픽스 : tom ",
 		"2013-08-24 - openNew 메소드 기능 확장 : tom ",
 		"2013-10-14 오전 6:54:40 - resize 기능 보강 : tom ",
-		"2013-11-15 오후 4:01:29 - tom : openDiv scroll 버그 패치"
+		"2013-11-15 오후 4:01:29 - tom : openDiv scroll 버그 패치",
+		"2013-11-18 오후 5:16:02 - tom resize 버그 패치"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -36,23 +37,22 @@ var AXModal = Class.create(AXJ, {
 	init: function () {
 		var cfg = this.config;
 		this.mask = jQuery("<div class=\"" + cfg.maskCss + "\"></div>");
-		jQuery(window).unbind("resize.AXModal").bind("resize.AXModal", this.onDocResize.bind(this));
 	},
 	setWidth: function (width) {
 		var cfg = this.config;
 		if (width) {
 			cfg.width = width;
+			this.config.fixedWidth = true;
 		} else {
 			cfg.width = undefined;
+			this.config.fixedWidth = false;
 		}
-		
+
 		jQuery("#" + cfg.windowID).css({ width: width });
 		var maskWidth = jQuery("#" + cfg.windowID).outerWidth();
 		var maskLeft = (jQuery(document.body).width() / 2) - (maskWidth / 2);
 		if (maskLeft < 0) maskLeft = 0;
 		jQuery("#" + cfg.windowID).css({ left: maskLeft });
-		
-		jQuery(window).unbind("resize.AXModal").bind("resize.AXModal", this.onDocResize.bind(this));
 	},
 	open: function (http) {
 		var cfg = this.config;
@@ -66,14 +66,17 @@ var AXModal = Class.create(AXJ, {
 		if (this.config.width) {
 			var maskWidth = this.config.width;
 			var maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
+			this.config.fixedWidth = true;
 		} else {
 			var maskWidth = jQuery(document.body).width() - 50;
 			var maskLeft = 10;
+			this.config.fixedWidth = false;
 		}
 
 		if (http.width) {
 			maskWidth = http.width;
 			maskLeft = (jQuery(document.body).width() / 2) - (http.width / 2);
+			this.config.fixedWidth = true;
 		}
 
 		var maskTop = this.config.defaultTop;
@@ -87,14 +90,14 @@ var AXModal = Class.create(AXJ, {
 		var po = [];
 		po.push("<div id='" + this.config.windowID + "' class='" + this.config.windowBoxCss + "' style='top:" + maskTop + "px;left:" + maskLeft + "px;width:" + maskWidth + "px;'>");
 		po.push("	<div class='windowbox' id='" + this.winID + "_box' style='padding:" + this.config.padding + "px'>");
-		if(cfg.displayLoading){
+		if (cfg.displayLoading) {
 			po.push("		<div id='" + this.config.windowID + "_loading' style='position:absolute;left:0px;top:0px;width:" + maskWidth + "px;padding:50px 0px 0px 0px;' align='center'>");
 			po.push("		<div class=\"AXLoading\"></div>");
 			po.push("		<br/><br><font class='blue'>페이지를 로딩 중입니다. 잠시만 기다려 주세요.</font></div>");
 		}
 		po.push("		<a href='#modsExecption' id='" + this.config.windowID + "_close' class='closeBtn'>닫기</a>");
 
-		po.push("		<form name='" + this.frmID + "' method='"+ (http.method||"post") +"' target='" + this.winID + "' action='" + http.url + "'>");
+		po.push("		<form name='" + this.frmID + "' method='" + (http.method || "post") + "' target='" + this.winID + "' action='" + http.url + "'>");
 		po.push("		<input type='hidden' name='winID' value='" + this.winID + "' />");
 
 		if (isNaN(http.pars.length)) {
@@ -129,25 +132,28 @@ var AXModal = Class.create(AXJ, {
 			var myIframe = window[_winID];
 
 			var bodyHeight = jQuery(myIframe.document).innerHeight();
-			if (jQuery(myIframe.document.body).find("."+cfg.contentDivClass).get(0)) {
-				bodyHeight = jQuery(myIframe.document.body).find("."+cfg.contentDivClass).outerHeight();
+			if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
+				bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
 			}
 			jQuery(this).animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 			jQuery("#" + _winID + "_box").animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
-			if(cfg.displayLoading) jQuery("#" + loadingID).fadeOut("slow");
+			if (cfg.displayLoading) jQuery("#" + loadingID).fadeOut("slow");
 			jQuery("#" + _winID).addClass("loaded");
-			
-			if(http.closeByEscKey){
+
+			if (http.closeByEscKey) {
 				jQuery(myIframe.document.body).bind("keydown.AXModal", keydown);
 			}
 		});
 		jQuery("#" + this.config.windowID + "_close").bind("click", this.close.bind(this));
 
-		if(http.closeByEscKey){
+		if (http.closeByEscKey) {
 			jQuery(document.body).bind("keydown.AXModal", keydown);
 		}
 
 		this._windowOpend = true;
+
+		jQuery(window).unbind("resize.AXModal");
+		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
 	},
 	openI: function (http) {
 		var cfg = this.config;
@@ -161,14 +167,17 @@ var AXModal = Class.create(AXJ, {
 		if (this.config.width) {
 			var maskWidth = this.config.width;
 			var maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
+			this.config.fixedWidth = true;
 		} else {
 			var maskWidth = jQuery(document.body).width() - 50;
 			var maskLeft = 10;
+			this.config.fixedWidth = false;
 		}
 
 		if (http.width) {
 			maskWidth = http.width;
 			maskLeft = (jQuery(document.body).width() / 2) - (http.width / 2);
+			this.config.fixedWidth = true;
 		}
 
 		var maskTop = this.config.defaultTop;
@@ -203,10 +212,10 @@ var AXModal = Class.create(AXJ, {
 			});
 		}
 		po.push("		</form>");
-		
-		if(http.maxHeight){
+
+		if (http.maxHeight) {
 			po.push("		<iframe src='' name='" + this.winID + "' id='" + this.winID + "' frameborder='0' class='windowboxFrame' style='width:100%;overflow:-y:hidden;' scrolling='auto'></iframe>");
-		}else{
+		} else {
 			po.push("		<iframe src='' name='" + this.winID + "' id='" + this.winID + "' frameborder='0' class='windowboxFrame' style='width:100%;overflow:-y:hidden;' scrolling='no'></iframe>");
 		}
 
@@ -230,15 +239,15 @@ var AXModal = Class.create(AXJ, {
 			var myIframe = window[_winID];
 
 			var bodyHeight = jQuery(myIframe.document).innerHeight();
-			if (jQuery(myIframe.document.body).find("."+cfg.contentDivClass).get(0)) {
-				bodyHeight = jQuery(myIframe.document.body).find("."+cfg.contentDivClass).outerHeight();
+			if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
+				bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
 			}
-			if(http.maxHeight){
-				if(http.maxHeight < (bodyHeight.number() + maskTop.number() + 10)){
+			if (http.maxHeight) {
+				if (http.maxHeight < (bodyHeight.number() + maskTop.number() + 10)) {
 					bodyHeight = http.maxHeight - maskTop.number() - 10;
 				}
 			}
-			
+
 			jQuery(this).animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 			jQuery("#" + _winID + "_box").animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 			jQuery("#" + loadingID).fadeOut("slow");
@@ -253,6 +262,9 @@ var AXModal = Class.create(AXJ, {
         */
 		//window.scroll(0, 0);
 		this._windowOpend = true;
+
+		jQuery(window).unbind("resize.AXModal");
+		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
 	},
 	openDiv: function (args) {
 		mask.open();
@@ -261,11 +273,11 @@ var AXModal = Class.create(AXJ, {
 
 		if (AXgetId(modalID)) {
 			jQuery("#" + modalID).show();
-			
+
 			trace("here");
-			
+
 			this.config.windowID = modalID;
-	
+
 			var maskTop = this.config.defaultTop;
 			if (args.top != undefined) {
 				maskTop = jQuery(window).scrollTop() + args.top;
@@ -273,16 +285,16 @@ var AXModal = Class.create(AXJ, {
 				maskTop = jQuery(window).scrollTop() + 50;
 			}
 
-			jQuery("#" + modalID).css({"top":maskTop});
-			
-			if(args.closeByEscKey){
+			jQuery("#" + modalID).css({ "top": maskTop });
+
+			if (args.closeByEscKey) {
 				var keydown = this.keydown.bind(this);
-				var keydownBind = function(){
+				var keydownBind = function () {
 					keydown(event, modalID);
 				};
 				jQuery(document.body).bind("keydown.AXModal", keydownBind);
 			}
-			
+
 			return;
 		}
 
@@ -290,14 +302,17 @@ var AXModal = Class.create(AXJ, {
 		if (this.config.width) {
 			maskWidth = this.config.width;
 			maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
+			this.config.fixedWidth = true;
 		} else {
 			maskWidth = jQuery(document.body).width() - 50;
 			maskLeft = 10;
+			this.config.fixedWidth = false;
 		}
 
 		if (args.width) {
 			maskWidth = args.width;
 			maskLeft = (jQuery(document.body).width() / 2) - (args.width / 2);
+			this.config.fixedWidth = true;
 		}
 
 		var maskTop = this.config.defaultTop;
@@ -306,7 +321,7 @@ var AXModal = Class.create(AXJ, {
 		} else {
 			maskTop = jQuery(window).scrollTop() + 50;
 		}
-		
+
 
 		if (maskLeft < 0) maskLeft = 0;
 
@@ -330,19 +345,22 @@ var AXModal = Class.create(AXJ, {
 		};
 		jQuery("#" + modalID + "_close").bind("click", closeModal);
 
-		if(args.closeByEscKey){
+		if (args.closeByEscKey) {
 			var keydown = this.keydown.bind(this);
-			var keydownBind = function(){
+			var keydownBind = function () {
 				keydown(event, modalID);
 			};
 			jQuery(document.body).bind("keydown.AXModal", keydownBind);
 		}
-		
+
 		/*
         if (this.mask) {
             if (this.config.autoHide) this.mask.bind("click", close);
         }
         */
+
+		jQuery(window).unbind("resize.AXModal");
+		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
 	},
 	openNew: function (http) {
 		this.winID = "mdw" + AXUtil.timekey();
@@ -354,14 +372,14 @@ var AXModal = Class.create(AXJ, {
 			this.openWindow.close();
 		}
 
-		this.openWindow = window.open("", (http.name||this.winID), http.options);
+		this.openWindow = window.open("", (http.name || this.winID), http.options);
 		this.openWindow.focus();
-		
+
 		if (AXgetId(this.config.windowID)) jQuery("#" + this.config.windowID).remove();
 
 		var po = [];
 		po.push("<div id='" + this.config.windowID + "'>");
-		po.push("		<form name='" + this.frmID + "' method='" + (http.method || "post") + "' target='" + (http.name||this.winID) + "' action='" + http.url + "'>");
+		po.push("		<form name='" + this.frmID + "' method='" + (http.method || "post") + "' target='" + (http.name || this.winID) + "' action='" + http.url + "'>");
 		po.push("		<input type='hidden' name='winID' value='" + this.winID + "' />");
 
 		if (isNaN(http.pars.length)) {
@@ -381,8 +399,8 @@ var AXModal = Class.create(AXJ, {
 		document[this.frmID].submit();
 		jQuery("#" + this.config.windowID).remove();
 	},
-	keydown: function(event, modalID){
-		if(event.keyCode == AXUtil.Event.KEY_ESC){
+	keydown: function (event, modalID) {
+		if (event.keyCode == AXUtil.Event.KEY_ESC) {
 			this.close(event, modalID);
 		}
 	},
@@ -402,15 +420,15 @@ var AXModal = Class.create(AXJ, {
 			mask.close();
 		} else {
 
-			if(window[this.winID]){
+			if (window[this.winID]) {
 				window[this.winID].location.href = "about:blank";
 				var windowID = this.config.windowID;
-				
-				
+
+
 				setTimeout(function () {
 					jQuery("#" + windowID).remove();
 				}, 1);
-				
+
 				mask.close();
 				this._windowOpend = false;
 			}
@@ -449,13 +467,13 @@ var AXModal = Class.create(AXJ, {
 		setTimeout(function () {
 			var myIframe = window[_winID];
 			var bodyHeight = jQuery(myIframe.document).innerHeight();
-			if (jQuery(myIframe.document.body).find("."+cfg.contentDivClass).get(0)) {
-				bodyHeight = jQuery(myIframe.document.body).find("."+cfg.contentDivClass).outerHeight();
+			if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
+				bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
 			}
 			jQuery("#" + _winID).animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 			jQuery("#" + _winID + "_box").animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 
-			trace({ h: jQuery(myIframe.document.body).find("."+cfg.contentDivClass).height() });
+			trace({ h: jQuery(myIframe.document.body).find("." + cfg.contentDivClass).height() });
 			//trace(bodyHeight);
 			try {
 				parent.fcObj.contentResetHeight();
@@ -472,8 +490,8 @@ var AXModal = Class.create(AXJ, {
 	},
 	onDocResize: function () {
 		var cfg = this.config;
-		try{
-			if (cfg.width) {
+		try {
+			if (cfg.fixedWidth) {
 				var maskWidth = jQuery("#" + cfg.windowID).outerWidth();
 				var maskLeft = (jQuery(document.body).width() / 2) - (maskWidth / 2);
 				if (maskLeft < 0) maskLeft = 0;

@@ -22,16 +22,34 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXFrameSet.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sunburst"></script>
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 	
 	<style type="text/css">
 	html, body{height:100%;}
 	</style>
 
-
 	<script type="text/javascript">
+	var myFrameSet = new AXFrameSet();
 	var fnObj = {
-		pageStart: function (h, w) {
+		pageStart: function () {
 	        AXCode.bind(); // 소스보기
+			
+			myFrameSet.setConfig({
+				targetID:"AXFrameSetTarget",
+				frameSetRows: [
+					{elementId:"", height:""}, /* width 속성은 무시됨 */
+					{
+						frameSetCols:[
+							{elementId:"", width:""},
+							{elementId:"", width:""},
+							{elementId:"", width:""}
+						],
+						height:""
+					},
+					{elementId:"", height:""}
+				]
+			});
 			
 		},
 		pageResize: function () {
@@ -48,16 +66,12 @@
 	<div class="AXFrameSet" id="AXFrameSetTarget">
 		
 		<div id="panel00"></div>
+		
 		<div id="panel01"></div>
 		<div id="panel02"></div>
-		
 		<div id="panel03"></div>
-		<div id="panel04"></div>
-		<div id="panel05"></div>
 		
-		<div id="panel06"></div>
-		<div id="panel07"></div>
-		<div id="panel08"></div>
+		<div id="panel04"></div>
 		
 	</div>
 </body>

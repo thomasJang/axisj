@@ -32,7 +32,7 @@
 
 			AXCode.bind(); // 소스보기
 			
-			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"y", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"d", onChange:function(){toast.push(Object.toJSON(this));}});
 			$("#AXInputDateMiddle").bindDate({align:"left", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
 			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
 			$("#AXInputDateRight").bindDate({align:"right", valign:"top", onChange:function(){toast.push(Object.toJSON(this));}, defaultDate:"2013-05-01"});

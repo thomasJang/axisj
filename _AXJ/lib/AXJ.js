@@ -406,7 +406,7 @@ Object.extend(Date.prototype, (function () {
 			var yy = aDate.getFullYear();
 			var mm = aDate.getMonth();
 			var dd = aDate.getDate();
-			if (mm == 0 && dd == 1) yy += 1;
+			/*if (mm == 0 && dd == 1) yy += 1;*/
 			yy = yy + parseInt(daynum / 12);
 			mm += daynum % 12;
 			var mxdd = AXUtil.dayLen(yy, mm);
