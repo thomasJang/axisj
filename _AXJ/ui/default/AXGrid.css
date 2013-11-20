@@ -210,6 +210,12 @@
 		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.yellow td{
 			background-color:#FEFEE9;
 		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.white td{
+			background-color:#fff;
+		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.gray td{
+			background-color:#f7f7f7;
+		}
 		
 		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td.selected{
 			background-color:#D2D9DF;box-shadow:inset 0px 0px 2px #000;

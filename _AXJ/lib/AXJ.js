@@ -139,8 +139,8 @@ Object.extend(String.prototype, (function () {
 	function right(strLen) { return this.substring(this.length - strLen, this.length); }
 	function dec() { return (this) ? decodeURIComponent(this.replace(/\+/g, " ")) : this; }
 	function enc() { return (this) ? encodeURIComponent(this) : this; }
-	function object() { try { var res = this.evalJSON(); } catch (e) { res = { result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; try { mask.close(); } catch (e) { } } return res; }
-	function array() { try { var res = this.split(/,/g); } catch (e) { res = { result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; } return res; }
+	function object() { try { var res = this.evalJSON(); } catch (e) { res = { error:"syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; try { mask.close(); } catch (e) { } } return res; }
+	function array() { try { var res = this.split(/,/g); } catch (e) { res = { error:"syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; } return res; }
 	function toDate(separator, defaultDate) {
 		if (this.length == 10) {
 			try {
@@ -236,7 +236,7 @@ Object.extend(String.prototype, (function () {
 	function blank() { return /^\s*$/.test(this); }
 	function isJSON() { var str = this; if (str.isBlank()) return false; str = this.replace(/\\./g, '@').replace(/"[^"\\\n\r]*"/g, ''); return (/^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/).test(str); } //"
 	function unfilterJSON(filter) { return this.replace(filter || AXUtil.JSONFilter, '$1'); }
-	function evalJSON(sanitize) { var json = this.unfilterJSON(); try { if (!sanitize || json.isJSON()) return eval("(" + json + ")"); else return { result: "syntaxerr", msg: "JSON syntax error. fail to convert Object\n" + this }; } catch (e) { return { result: "err", msg: "JSON syntax error.\n" + this, body: this }; } }
+	function evalJSON(sanitize) { var json = this.unfilterJSON(); try { if (!sanitize || json.isJSON()) return eval("(" + json + ")"); else return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error. fail to convert Object\n" + this }; } catch (e) { return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error.\n" + this, body: this }; } }
 	function queryToObject(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v); } else { returnObj[k] = v; } i++; } return returnObj; }
 	function crlf(replaceTarget, replacer) { return this.replace((replaceTarget || /\n/g), (replacer || "<br/>")); }
 	function ecrlf(replaceTarget, replacer) { return this.replace((replaceTarget || /%0A/g), (replacer || "<br/>")); }
@@ -304,6 +304,7 @@ Object.extend(String.prototype, (function () {
 	}
 	function getAnchorData() {
 		var idx = this.indexOf("#", 0);
+		if(idx < 0) return "";
 		var cnt = this.length;
 		var str = this.substring(idx + 1, cnt);
 		return str;
@@ -345,7 +346,7 @@ Object.extend(String.prototype, (function () {
 		ucase: ucase,
 		getByte: getByte,
 		phone: toPhoneString,
-		anchorData: getAnchorData,
+		getAnchorData: getAnchorData,
 		print: print
 	}
 })());
@@ -427,7 +428,7 @@ Object.extend(Date.prototype, (function () {
 		var d1 = this.getDate();
 		var hh1 = this.getHours();
 		var mm1 = this.getMinutes();
-		var dd1 = new Date(y1, m1, d1, hh1, mm1);
+		var dd1 = new Date(y1, m1, d1, hh1, mm1, this.getSeconds());
 
 		var day2 = edDate.date();
 		var y2 = day2.getFullYear();
@@ -435,21 +436,23 @@ Object.extend(Date.prototype, (function () {
 		var d2 = day2.getDate();
 		var hh2 = day2.getHours();
 		var mm2 = day2.getMinutes();
-		var dd2 = new Date(y2, m2, d2, hh1, mm1);
+		var dd2 = new Date(y2, m2, d2, hh2, mm2, this.getSeconds());
 
 		if (tp != undefined) {
 			if (tp == "D") {
 				DyMilli = ((1000 * 60) * 60) * 24;
+				dd2 = new Date(y2, m2, d2, hh1, mm1, this.getSeconds());
 			} else if (tp == "H") {
 				DyMilli = ((1000 * 60) * 60);
 			} else if (tp == "mm") {
 				DyMilli = (1000 * 60);
 			} else {
 				DyMilli = ((1000 * 60) * 60) * 24;
+				dd2 = new Date(y2, m2, d2, hh1, mm1, this.getSeconds());
 			}
 		}
 
-		return ((dd2 - dd1) / DyMilli).floor();
+		return ((dd2.getTime() - dd1.getTime()) / DyMilli).floor();
 
 	}
 	function toString(format) {
@@ -503,9 +506,11 @@ Object.extend(Date.prototype, (function () {
 		}
 	}
 
-	function getTimeAgo(rDate) {
+	function getTimeAgo() {
+		
 		var rtnStr = ""
-		var nMinute = Math.abs((new Date()).diff(rDate, "mm"));
+		var nMinute = Math.abs((new Date()).diff(this, "mm"));
+		
 		var wknames = []
 		wknames.push("일", "월", "화", "수", "목", "금", "토");
 
@@ -513,12 +518,12 @@ Object.extend(Date.prototype, (function () {
 			rtnStr = "알수없음";
 		} else {
 			if (parseInt(nMinute / 60 / 24) >= 1) {
-				rtnStr = rDate.date().print("yyyy년 mm월 dd일") + " " + wknames[rDate.date().getDay()];
+				rtnStr = this.print("yyyy년 mm월 dd일") + " " + wknames[this.getDay()];
 			} else {
 				rtnStr = nMinute;
 
-				if (parseInt(nMinute / 60) > 1) {
-					rtnStr = parseInt(nMinute / 60) + "시간" + (nMinute % 60) + "분 전";
+				if ((nMinute / 60) > 1) {
+					rtnStr = parseInt(nMinute / 60) + "시간 " + (nMinute % 60) + "분 전";
 				} else {
 					rtnStr = nMinute + "분 전";
 				}
@@ -580,7 +585,7 @@ Object.extend(Array.prototype, (function () {
 		var _self = this;
 		var collect = [];
 		jQuery.each(this, function (index, O) {
-			if (!callBack.call({ index: index, item: O })) collect.push(O);
+			if (!callBack.call({ index: index, item: O }, index, O)) collect.push(O);
 		});
 		return collect;
 	}
@@ -588,7 +593,7 @@ Object.extend(Array.prototype, (function () {
 		var _self = this;
 		var collect = [];
 		jQuery.each(this, function (index, O) {
-			if (callBack.call({ index: index, item: O })) collect.push(O);
+			if (callBack.call({ index: index, item: O }, index, O)) collect.push(O);
 		});
 		return collect.length;
 	}
@@ -596,7 +601,7 @@ Object.extend(Array.prototype, (function () {
 		var _self = this;
 		var collect = [];
 		jQuery.each(this, function (index, O) {
-			if (callBack.call({ index: index, item: O })) collect.push(O);
+			if (callBack.call({ index: index, item: O }, index, O)) collect.push(O);
 		});
 		return collect;
 	}
@@ -604,7 +609,7 @@ Object.extend(Array.prototype, (function () {
 		var _self = this;
 		var collect = null;
 		jQuery.each(this, function (index, O) {
-			if (callBack.call({ index: index, item: O })) {
+			if (callBack.call({ index: index, item: O }, index, O)) {
 				collect = O;
 				return false;
 			}
@@ -1234,8 +1239,10 @@ var AXReqQue = Class.create({
 		var ontimeout = this.ontimeout.bind(this);
 		var onsucc = this.onsucc.bind(this);
 
-		if (AXConfig.AXReq.dataSendMethod != "json") {
+		
 
+		if (AXConfig.AXReq.dataSendMethod != "json") {
+			
 		} else {
 			if (typeof myQue.configs.pars == "object") {
 				myQue.configs.pars.dummy = AXUtil.timekey();
@@ -1267,10 +1274,14 @@ var AXReqQue = Class.create({
 			var myQue = this.que.first();
 			try {
 				if (myQue.configs.debug) trace("onsucc" + req);
-				if ((typeof req) == "string") {
-					var res = req.object();
-				} else {
-					var res = AXConfig.AXReq.resultFormatter.call(req);
+				if(myQue.configs.responseType == "text/html"){
+					var res = req;
+				}else{
+					if ((typeof req) == "string") {
+						var res = req.object();
+					} else {
+						var res = AXConfig.AXReq.resultFormatter.call(req);
+					}
 				}
 
 				if (res.result == "syntaxerr") {
@@ -1279,7 +1290,11 @@ var AXReqQue = Class.create({
 					if (myQue.configs.onsucc) myQue.configs.onsucc(res);
 				}
 			} catch (e) {
-				res.e = e;
+				if(myQue.configs.responseType == "text/html"){
+					
+				}else{
+					res.e = e;
+				}
 				if (myQue.configs.onerr) myQue.configs.onerr(res);
 			}
 

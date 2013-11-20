@@ -1165,6 +1165,7 @@ var AXUpload5 = Class.create(AXJ, {
 		if(!AXConfig.AXUpload5){
 			AXConfig.AXUpload5 = {buttonTxt:"Upload files"};
 		}
+		this.config.buttonTxt = AXConfig.AXUpload5.buttonTxt;
 		this.config.fileKeys = { // 서버에서 리턴하는 json key 정의 (id 는 예약어 입니다.)
 			name:"name",
 			type:"type",
@@ -1210,7 +1211,7 @@ var AXUpload5 = Class.create(AXJ, {
 		po.push('<div style="position:relative;">');
 		po.push('	<table style="table-layout:fixed;width:100%;"><tbody><tr><td id="'+cfg.targetID+'_AX_selectorTD">');
 		po.push('	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />');
-		po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(AXConfig.AXUpload5.buttonTxt||"Upload files")+'</span></button>');
+		po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(cfg.buttonTxt)+'</span></button>');
 		po.push('	</td>');
 		
 		if(cfg.isSingleUpload){
@@ -1228,7 +1229,26 @@ var AXUpload5 = Class.create(AXJ, {
 		jQuery('#'+cfg.targetID+'_AX_files').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth(),height:jQuery('#'+cfg.targetID+'_AX_selector').outerHeight()});
 		
 		var pauseQueue = this.pauseQueue.bind(this);
-		jQuery('#'+cfg.targetID+'_AX_selector').click(function(){
+		var _this = this;
+		jQuery('#'+cfg.targetID+'_AX_selector').click(function(event){
+
+			if(cfg.onbeforeFileSelect){
+				if(!cfg.onbeforeFileSelect.call({
+					uploadedList:_this.uploadedList,
+					uploadMaxFileSize:cfg.uploadMaxFileSize,
+					uploadMaxFileCount:cfg.uploadMaxFileCount
+				})){
+					return false;
+				}
+			}
+			
+			if(!cfg.isSingleUpload){
+				if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
+					cfg.onError("fileCount");
+					return false;
+				}
+			}
+			
 			pauseQueue();
 			jQuery('#'+cfg.targetID+'_AX_files').click();
 		});
@@ -1277,7 +1297,35 @@ var AXUpload5 = Class.create(AXJ, {
 				dragZone.addEventListener('dragover', function(evt){onFileDragOver(evt)}, false);
 				
 				var dropZone = document.getElementById(cfg.dropBoxID+"_dropZoneBox");
-				dropZone.addEventListener('drop', function(evt){onFileDrop(evt)}, false);
+				dropZone.addEventListener('drop', function(evt){
+					
+					if(cfg.onbeforeFileSelect){
+						if(!cfg.onbeforeFileSelect.call({
+							uploadedList:_this.uploadedList,
+							uploadMaxFileSize:cfg.uploadMaxFileSize,
+							uploadMaxFileCount:cfg.uploadMaxFileCount
+						})){
+							evt.stopPropagation();
+							evt.preventDefault();
+							jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
+							jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
+							return false;
+						}
+					}
+					
+					if(!cfg.isSingleUpload){
+						if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
+							evt.stopPropagation();
+							evt.preventDefault();
+							jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
+							jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
+							cfg.onError("fileCount");
+							return false;
+						}
+					}
+
+					onFileDrop(evt)
+				}, false);
 			}
 			
 			if(cfg.queueBoxID){
@@ -1297,7 +1345,7 @@ var AXUpload5 = Class.create(AXJ, {
 		var po = [];
 		po.push('<div style="position:relative;">');
 		po.push('	<table style="table-layout:fixed;width:100%;"><tbody><tr><td id="'+cfg.targetID+'_AX_selectorTD">');
-		po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(AXConfig.AXUpload5.buttonTxt||"Upload files")+'</span></button>');
+		po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(cfg.buttonTxt)+'</span></button>');
 		po.push('	<span id="spanButtonPlaceholder" class="AXUpload5flashUploadButton"></span>');
 		po.push('	</td>');
 		

@@ -53,11 +53,13 @@
 					},
 					
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
-					uploadMaxFileCount:0, // 업로드될 파일갯수 제한 0 은 무제한
+					uploadMaxFileCount:3, // 업로드될 파일갯수 제한 0 은 무제한
 					uploadUrl:"uploadFile.asp",
 					uploadPars:{userID:'tom', userName:'액시스'},
 					deleteUrl:"deleteFile.asp",
 					deletePars:{userID:'tom', userName:'액시스'},
+					
+					buttonTxt:"파일올리기",
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
 						name:"name",
@@ -66,6 +68,11 @@
 						fileSize:"fileSize",
 						uploadedPath:"uploadedPath",
 						thumbPath:"thumbUrl" // 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
+					},
+					
+					onbeforeFileSelect: function(){
+						trace(this);
+						return true;
 					},
 					
 					onUpload: function(){
