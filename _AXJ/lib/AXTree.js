@@ -2158,18 +2158,18 @@ var AXTree = Class.create(AXJ, {
 									expandNodeClass += " noChild";
 								}
 								
-								tpo.push("<a href=\"#AXexec\" class=\"bodyNodeIndent" + expandNodeClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIndent_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth - 20) + "px;");
+								tpo.push("<a class=\"bodyNodeIndent" + expandNodeClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIndent_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth - 20) + "px;");
 								//if (item.__subTreeLength == 0) tpo.push("display:none;");
 								tpo.push("\"></a>");								
 							}else{
-								tpo.push("<a href=\"#AXexec\" class=\"bodyNodeIndent" + expandNodeClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIndent_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth - 20) + "px;");
+								tpo.push("<a class=\"bodyNodeIndent" + expandNodeClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIndent_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth - 20) + "px;");
 								if (item.__subTreeLength == 0) tpo.push("display:none;");
 								tpo.push("\"></a>");
 							}
 						}
 						if (CH.getIconClass) {
 							iconClass = getIconClassValue(CH.getIconClass, item, itemIndex, item[CH.key], CH.key, CH);
-							tpo.push("<a href=\"#AXexec\" class=\"bodyNodeIcon " + iconClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIcon_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth) + "px;\"></a>");
+							tpo.push("<a class=\"bodyNodeIcon " + iconClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIcon_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth) + "px;\"></a>");
 						}
 
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
@@ -3391,31 +3391,32 @@ var AXTree = Class.create(AXJ, {
 		this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 		this.selectedRow.push(itemIndex);
 
-		var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-		var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
-
-		var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-		var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
-
-		if (trTop.number() + trHeight.number() > bodyHeight) {
-			var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
-			this.contentScrollContentSync({ top: scrollTop });
-		} else {
-			if (trTop.number() == 0) {
-				var scrollTop = 0;
+		if(cfg.height != "auto"){
+			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
+			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+	
+			var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+			var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+			var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+			var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+	
+			if (trTop.number() + trHeight.number() > bodyHeight) {
+				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 				this.contentScrollContentSync({ top: scrollTop });
+			} else {
+				if (trTop.number() == 0) {
+					var scrollTop = 0;
+					jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					this.contentScrollContentSync({ top: scrollTop });
+				}
 			}
 		}
 	},
-	click: function (itemIndex, open) {
+	click: function (itemIndex, open, doNotCallBack) {
 		var cfg = this.config;
 		var reserveKeys = cfg.reserveKeys;
 		
-
 		var item = this.list[itemIndex];
 
 		var hashs = item.hash.split(/_/g);
@@ -3432,8 +3433,8 @@ var AXTree = Class.create(AXJ, {
 			}
 		});
 		opendPath.pop();
-
-		if (cfg.body.onclick) {
+		
+		if (cfg.body.onclick && !doNotCallBack) {
 			var sendObj = {
 				index: itemIndex,
 				list: this.list,
@@ -3462,7 +3463,9 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		this.setFocus(itemIndex);
-
+		
+		return {focusedID:this.body.find(".gridBodyTr_" + itemIndex).attr("id")};
+		
 		/*
 		if (event.preventDefault) event.preventDefault();
 		if (event.stopPropagation) event.stopPropagation();

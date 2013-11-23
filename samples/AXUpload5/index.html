@@ -159,7 +159,7 @@
 			</div>
 		</div>
 
-		<h2>AXUpload5 (Beta)</h2>
+		<h2>AXUpload5</h2>
 
 		<div class="AXUpload5" id="AXUpload5"></div>
 		<div class="Hspace10"></div>
@@ -205,6 +205,8 @@ myUpload.setConfig({
 	deleteUrl:"deleteFile.asp",
 	deletePars:{userID:'tom', userName:'액시스'},
 	
+	buttonTxt:"파일올리기",
+	
 	fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
 		name:"name",
 		type:"type",
@@ -212,6 +214,10 @@ myUpload.setConfig({
 		fileSize:"fileSize",
 		uploadedPath:"uploadedPath",
 		thumbPath:"thumbUrl" // 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
+	},
+	onbeforeFileSelect: function(){
+		trace(this);
+		return true;
 	},
 	onUpload: function(){
 		trace(this);

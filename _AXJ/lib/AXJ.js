@@ -2093,6 +2093,7 @@ var AXScroll = Class.create(AXJ, {
 			if ((Cheight - myNewTop) < CTheight) {
 				myNewTop = Cheight - CTheight;
 			}
+			if(myNewTop < 0) myNewTop = 0;
 			this.scrollScrollID.css({ top: -myNewTop });
 			this.setSBPosition();
 		}

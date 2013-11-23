@@ -258,7 +258,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var placeholder = jQuery("#" + objID).attr("placeholder");
 		if (placeholder == "undefined") placeholder = "";
 
-		var po = ["<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;line-height:" + h + "px;\">" + placeholder + "</a>"];
+		var po = ["<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;line-height:" + h + "px;\">" + placeholder + "</a>"];
 		//append to anchor
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		//bind handle
@@ -296,10 +296,10 @@ var AXInputConverter = Class.create(AXJ, {
 		var po = [];
 
 		if (AXUtil.browser.name == "ie" && AXUtil.browser.version < 10 && placeholder != "") {
-			po.push("<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" ");
+			po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" ");
 			po.push(" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;line-height:" + h + "px;\">" + placeholder + "</a>");
 		}
-		po.push("<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Search\" class=\"" + cfg.anchorSearchClassName + "\" ");
+		po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Search\" class=\"" + cfg.anchorSearchClassName + "\" ");
 		po.push(" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">Search</a>");
 		//append to anchor
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
@@ -340,8 +340,8 @@ var AXInputConverter = Class.create(AXJ, {
 		var DNh = parseInt((h - 2) / 2) - 2;
 		//trace(UPh+"//"+DNh);
 		po.push("<div class=\"" + cfg.anchorNumberContainerClassName + "\" style=\"right:0px;top:0px;width:" + (h - 2) + "px;height:" + (h - 2) + "px;\">");
-		po.push("	<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + UPh + "px;\">increase</a>");
-		po.push("	<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + h + "px;height:" + DNh + "px;\">decrease</a>");
+		po.push("	<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + UPh + "px;\">increase</a>");
+		po.push("	<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + h + "px;height:" + DNh + "px;\">decrease</a>");
 		po.push("</div>");
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
@@ -523,11 +523,11 @@ var AXInputConverter = Class.create(AXJ, {
 		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height") - 2;
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleContainerClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">");
-		po.push("	<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Handle\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">expand</a>");
+		po.push("	<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Handle\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">expand</a>");
 		po.push("</div>");
 		if (obj.config.finder) {
 			po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_FinderContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorFinderContainerClassName + "\" style=\"right:" + h + "px;top:0px;width:" + h + "px;height:" + h + "px;\">");
-			po.push("	<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Finder\" class=\"bindSelectorNodes " + cfg.anchorSelectorFinderClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">finder</a>");
+			po.push("	<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Finder\" class=\"bindSelectorNodes " + cfg.anchorSelectorFinderClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">finder</a>");
 			po.push("</div>");
 		}
 
@@ -694,7 +694,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			var descStr = (O.desc || O.optionDesc || "").dec();
 			if (descStr != "") descStr = " - " + descStr;
-			po.push("<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
+			po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
 		});
 		if(po.length == 0){
 			var selectorOptionEmpty = "";
@@ -998,12 +998,12 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox\" class=\"" + cfg.anchorSliderBoxClassName + "\" style=\"left:0px;width:" + w + "px;height:" + h + "px;\">");
-		po.push("	<a href=\"#AXexec\" class=\"AXanchorSliderMinTitle\">" + obj.config.min.number().money() + obj.config.unit + "</a>");
+		po.push("	<a href=\"javascript:;\" class=\"AXanchorSliderMinTitle\">" + obj.config.min.number().money() + obj.config.unit + "</a>");
 		po.push("	<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar\" class=\"AXanchorSliderBar\">");
 		po.push("		<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside\" class=\"AXanchorSliderBarInside\"><div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle\" class=\"AXanchorSliderHandleTitle\">" + objVal.number().money() + obj.config.unit + "</div></div>");
-		po.push("		<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle\" class=\"AXanchorSliderHandle\">handle</a>");
+		po.push("		<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle\" class=\"AXanchorSliderHandle\">handle</a>");
 		po.push("	</div>");
-		po.push("	<a href=\"#AXexec\" class=\"AXanchorSliderMaxTitle\">" + obj.config.max.number().money() + obj.config.unit + "</a>");
+		po.push("	<a href=\"javascript:;\" class=\"AXanchorSliderMaxTitle\">" + obj.config.max.number().money() + obj.config.unit + "</a>");
 		po.push("</div>");
 
 		//append to anchor
@@ -1264,14 +1264,14 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox\" class=\"" + cfg.anchorSliderBoxClassName + "\" style=\"left:0px;width:" + w + "px;height:" + h + "px;\">");
-		po.push("	<a href=\"#AXexec\" class=\"AXanchorSliderMinTitle\">" + obj.config.min.number().money() + obj.config.unit + "</a>");
-		po.push("	<a href=\"#AXexec\" class=\"AXanchorSliderMaxTitle\">" + obj.config.max.number().money() + obj.config.unit + "</a>");
+		po.push("	<a href=\"javascript:;\" class=\"AXanchorSliderMinTitle\">" + obj.config.min.number().money() + obj.config.unit + "</a>");
+		po.push("	<a href=\"javascript:;\" class=\"AXanchorSliderMaxTitle\">" + obj.config.max.number().money() + obj.config.unit + "</a>");
 		po.push("	<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar\" class=\"AXanchorSliderBar\">");
 		po.push("		<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside\" class=\"AXanchorSliderBarInside\"></div>");
 		po.push("		<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle\" class=\"AXanchorSliderHandleMinTitle\">" + objVal.min.number().money() + obj.config.unit + "</div>");
 		po.push("		<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle\" class=\"AXanchorSliderHandleMaxTitle\">" + objVal.max.number().money() + obj.config.unit + "</div>");
-		po.push("		<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin\" class=\"AXanchorSliderHandleMin\">handleMin</a>");
-		po.push("		<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax\" class=\"AXanchorSliderHandleMax\">handleMax</a>");
+		po.push("		<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin\" class=\"AXanchorSliderHandleMin\">handleMin</a>");
+		po.push("		<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax\" class=\"AXanchorSliderHandleMax\">handleMax</a>");
 		po.push("	</div>");
 		po.push("</div>");
 
@@ -1586,7 +1586,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox\" class=\"" + cfg.anchorSwitchBoxClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;\">");
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay\" class=\"AXanchorSwitchDisplay\">" + switchValue + "</div>");
-		po.push("<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\">handle</a>");
+		po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\">handle</a>");
 		po.push("</div>");
 
 		//append to anchor
@@ -1698,7 +1698,7 @@ var AXInputConverter = Class.create(AXJ, {
 			else if (idx == segmentOptions.length - 1) addClass = " segmentRight";
 			if (obj.selectedSegmentIndex == idx) addClass += " on";
 			if (seg.addClass) addClass += " " + seg.addClass;
-			po.push("<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + idx + "\" class=\"AXanchorSegmentHandle" + addClass + "\" style=\"width:" + handleWidth + "px;\">" + seg.optionText + "</a>");
+			po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + idx + "\" class=\"AXanchorSegmentHandle" + addClass + "\" style=\"width:" + handleWidth + "px;\">" + seg.optionText + "</a>");
 		});
 		po.push("</div>");
 
@@ -1797,7 +1797,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
 		var po = [];
-		po.push("<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
+		po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
@@ -1898,10 +1898,10 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
 		po.push("	<div>");
 		po.push("		<div class=\"dateControlBox\">");
-		po.push("			<a href=\"#axexec\" class=\"yearbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlYear\">" + myYear + "년</a>");
-		po.push("			<a href=\"#axexec\" class=\"monthbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth\">" + myMonth + "월</a>");
-		po.push("			<a href=\"#axexec\" class=\"prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev\">P</a>");
-		po.push("			<a href=\"#axexec\" class=\"nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext\">N</a>");
+		po.push("			<a href=\"javascript:;\" class=\"yearbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlYear\">" + myYear + "년</a>");
+		po.push("			<a href=\"javascript:;\" class=\"monthbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth\">" + myMonth + "월</a>");
+		po.push("			<a href=\"javascript:;\" class=\"prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev\">P</a>");
+		po.push("			<a href=\"javascript:;\" class=\"nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext\">N</a>");
 		po.push("		</div>");
 		po.push("		<div class=\"dateDisplayBox\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_displayBox\"></div>");
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
@@ -2460,7 +2460,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
 		var po = [];
-		po.push("<a href=\"#AXscript\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
+		po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
@@ -2599,10 +2599,10 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("					<td style=\"padding-right:3px;\">");
 		po.push("					<div class=\"dateTypeName\">START</div>");
 		po.push("					<div class=\"dateControlBox\">");
-		po.push("						<a href=\"#axexec\" class=\"yearbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1\">" + myYear1 + "년</a>");
-		po.push("						<a href=\"#axexec\" class=\"monthbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1\">" + myMonth1 + "월</a>");
-		po.push("						<a href=\"#axexec\" class=\"prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev1\">P</a>");
-		po.push("						<a href=\"#axexec\" class=\"nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext1\">N</a>");
+		po.push("						<a href=\"javascript:;\" class=\"yearbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1\">" + myYear1 + "년</a>");
+		po.push("						<a href=\"javascript:;\" class=\"monthbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1\">" + myMonth1 + "월</a>");
+		po.push("						<a href=\"javascript:;\" class=\"prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev1\">P</a>");
+		po.push("						<a href=\"javascript:;\" class=\"nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext1\">N</a>");
 		po.push("					</div>");
 		po.push("					<div class=\"dateDisplayBox\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_displayBox1\"></div>");
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
@@ -2612,10 +2612,10 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("					<td style=\"padding-left:3px;\">");
 		po.push("					<div class=\"dateTypeName\">END</div>");
 		po.push("					<div class=\"dateControlBox\">");
-		po.push("						<a href=\"#axexec\" class=\"yearbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2\">" + myYear2 + "년</a>");
-		po.push("						<a href=\"#axexec\" class=\"monthbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2\">" + myMonth2 + "월</a>");
-		po.push("						<a href=\"#axexec\" class=\"prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev2\">P</a>");
-		po.push("						<a href=\"#axexec\" class=\"nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext2\">N</a>");
+		po.push("						<a href=\"javascript:;\" class=\"yearbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2\">" + myYear2 + "년</a>");
+		po.push("						<a href=\"javascript:;\" class=\"monthbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2\">" + myMonth2 + "월</a>");
+		po.push("						<a href=\"javascript:;\" class=\"prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev2\">P</a>");
+		po.push("						<a href=\"javascript:;\" class=\"nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext2\">N</a>");
 		po.push("					</div>");
 		po.push("					<div class=\"dateDisplayBox\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_displayBox2\"></div>");
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
