@@ -185,7 +185,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox\" class=\"" + cfg.anchorSelectClassName + "\" style=\"width:" + w + "px;height:" + h + "px;\">");
-		po.push("<a href=\"#AXexec\" class=\"selectedTextBox\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox\" style=\"height:" + (h - 2) + "px;\"");
+		po.push("<a href=\"javascript:;\" class=\"selectedTextBox\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox\" style=\"height:" + (h - 2) + "px;\"");
 		if(tabIndex != undefined) po.push(" tabindex=\""+tabIndex+"\"");
 		po.push(">");
 		po.push("	<span class=\"selectedText\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectText\" style=\"line-height:" + (h - 2) + "px;padding:0px 4px;font-size:" + fontSize + "px;\"></span>");
@@ -442,7 +442,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var po = [];
 
 		jQuery.each(obj.config.options, function (index, O) {
-			po.push("<a href=\"#AXexec\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\">" + O.optionText.dec() + "</a>");
+			po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\">" + O.optionText.dec() + "</a>");
 		});
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
 

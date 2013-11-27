@@ -71,7 +71,6 @@
 				{no:5, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
 				{no:6, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
 				{no:7, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{AXTreeSplit:true},
 				{no:8, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
 				{no:9, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
 				{no:10, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
@@ -85,16 +84,6 @@
 			myTree.setConfig({
 				targetID : "AXTreeTarget",
 				theme: "AXTree_none",
-				//height:"auto",
-				xscroll:false,
-				showConnectionLine:true,
-				reserveKeys:{
-					parentHashKey:"pHash", // 부모 트리 포지션
-					hashKey:"hash", // 트리 포지션
-					openKey:"open", // 확장여부
-					subTree:"subTree", // 자식개체키
-					displayKey:"display" // 표시여부
-				},
 				relation:{
 					parentKey:"pno",
 					childKey:"no"
@@ -106,9 +95,8 @@
 						width:"100%", align:"left",
 						indent:true,
 						getIconClass: function(){
-							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
 							var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
-							var iconName = "file";
+							var iconName = "";
 							if(this.item.type) iconName = iconNames[this.item.type];
 							return iconName;
 						},
@@ -117,9 +105,6 @@
 						}
 					}
 				],
-				colHead: {
-					display:false
-				},
 				body: {
 					onclick:function(idx, item){
 						toast.push(Object.toJSON(item));

@@ -153,7 +153,7 @@ var AXSearch = Class.create(AXJ, {
     		po.push("</table>");
     		po.push("</div>");
     	}else if(item.type == "inputText"){
-    		po.push("<div class=\"searchItem ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");	
+    		po.push("<div class=\"searchItem ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");
 			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
 			po.push("	<tbody>");
 			po.push("		<tr>");

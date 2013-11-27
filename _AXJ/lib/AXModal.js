@@ -366,7 +366,6 @@ var AXModal = Class.create(AXJ, {
 		this.winID = "mdw" + AXUtil.timekey();
 		this.frmID = "frm" + AXUtil.timekey();
 
-
 		if (this.openWindow) {
 			//top.mask.close();
 			this.openWindow.close();

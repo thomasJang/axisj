@@ -573,7 +573,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
+		var jqueryTargetObjID = jQuery("#" + cfg.targetID + "_AX_" + objID);
 		//trace({objID:objID, objSeq:objSeq});
 
 		if (jQuery("#" + cfg.targetID + "_AX_" + objID).data("blurEvent")) {
@@ -593,8 +593,8 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 		//Expand Box 생성 구문 작성
-		var anchorWidth = jQuery("#" + cfg.targetID + "_AX_" + objID).width() - 2; // anchor width
-		var anchorHeight = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height") - 1;
+		var anchorWidth = jqueryTargetObjID.width() - 2; // anchor width
+		var anchorHeight = jqueryTargetObjID.data("height") - 1;
 		var styles = [];
 		styles.push("top:" + anchorHeight + "px");
 		styles.push("width:" + anchorWidth + "px");
@@ -611,7 +611,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
 		var expBoxHeight = expandBox.outerHeight();
-		var offset = jQuery("#" + cfg.targetID + "_AX_" + objID).offset();
+		var offset = (expandBox.css("position") == "fixed") ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
 		var css = {};
 		css.top = offset.top + anchorHeight;
 		css.left = offset.left;

@@ -170,7 +170,7 @@ var AXGrid = Class.create(AXJ, {
 
 		if (!cfg.colHead) cfg.colHead = {};
 		if (!cfg.body) cfg.body = {};
-		if (!cfg.page) cfg.page = { paging: false, status: { formatter: null } };
+		if (!cfg.page) cfg.page = { display:false, paging: false, status: { formatter: null } };
 		if (cfg.colHead.rowsEmpty) cfg.colHead.rows = undefined;
 		if (cfg.body.rowsEmpty) cfg.body.rows = undefined;
 
@@ -881,19 +881,23 @@ var AXGrid = Class.create(AXJ, {
 		//alert(cfg.body.rows[0][4].formatter);
 
 		/*page setting */
-		if (!cfg.page) this.paging.hide();
-		else {
+		if (!cfg.page){
+			this.pageBody.hide();
+		}else {
 			this.page.pageNo = (cfg.page.pageNo || 1);
 			this.page.pageSize = (cfg.page.pageSize || (AXConfig.AXGrid.pageSize || 100));
 
-			if (cfg.page.paging) {
-				this.setPaging();
-			} else {
-				this.pagingUnit.hide();
-			}
-
-			if (cfg.page.status == false) {
-				this.status.hide();
+			if(cfg.page.display == false){
+				this.pageBody.hide();
+			}else{
+				if (cfg.page.paging) {
+					this.setPaging();
+				} else {
+					this.pagingUnit.hide();
+				}
+				if (cfg.page.status == false) {
+					this.status.hide();
+				}
 			}
 		}
 
@@ -983,6 +987,7 @@ var AXGrid = Class.create(AXJ, {
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
 		} else {
 			var pageBodyHeight = this.pageBody.outerHeight();
+			if(cfg.page.display == false) pageBodyHeight = 0;			
 			var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
 			this.scrollBody.css({ height: scrollBodyHeight }); /*colhead + body height */
 			var colHeadHeight = this.colHead.outerHeight();

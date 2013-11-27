@@ -982,33 +982,67 @@ var AXUtil = {
 	},
 	console: function (obj) {
 		var po = "";
-		var type = (typeof obj).toLowerCase();
-		if (type == "undefined" || type == "function") {
-			po = type;
-		} else if (type == "boolean" || type == "number" || type == "string") {
-			po = obj;
-		} else if (type == "object") {
-			po = Object.toJSON(obj);
+		if(arguments.length > 1){
+			for (i = 0; i < arguments.length; i++){
+				var obji = arguments[i];
+				var objStr = "";
+				var type = (typeof obji).toLowerCase();
+				if (type == "undefined" || type == "function") {
+					objStr = type;
+				} else if (type == "boolean" || type == "number" || type == "string") {
+					objStr = obji;
+				} else if (type == "object") {
+					objStr = Object.toJSON(obji);
+				}	
+				if(po != "") po += ", ";
+				po += "arg["+i+"] : " + objStr;
+			}
+		}else{	
+			var type = (typeof obj).toLowerCase();
+			if (type == "undefined" || type == "function") {
+				po = type;
+			} else if (type == "boolean" || type == "number" || type == "string") {
+				po = obj;
+			} else if (type == "object") {
+				po = Object.toJSON(obj);
+			}		
 		}
+
 		if (window.console == undefined) {
-			//toast.push("console's say : " + po);
 		} else {
 			try {
-				//console.log(AXUtil.timekey() + " : " + po);
 				console.log(po);
 			} catch (e) {
+				
 			}
 		}
 	},
 	alert: function (obj) {
 		var po = "";
-		var type = (typeof obj).toLowerCase();
-		if (type == "undefined" || type == "function") {
-			po = type;
-		} else if (type == "boolean" || type == "number" || type == "string") {
-			po = obj;
-		} else if (type == "object") {
-			po = Object.toJSON(obj);
+		if(arguments.length > 1){
+			for (i = 0; i < arguments.length; i++){
+				var obji = arguments[i];
+				var objStr = "";
+				var type = (typeof obji).toLowerCase();
+				if (type == "undefined" || type == "function") {
+					objStr = type;
+				} else if (type == "boolean" || type == "number" || type == "string") {
+					objStr = obji;
+				} else if (type == "object") {
+					objStr = Object.toJSON(obji);
+				}	
+				if(po != "") po += ", ";
+				po += "arguments["+i+"] : " + objStr;
+			}
+		}else{	
+			var type = (typeof obj).toLowerCase();
+			if (type == "undefined" || type == "function") {
+				po = type;
+			} else if (type == "boolean" || type == "number" || type == "string") {
+				po = obj;
+			} else if (type == "object") {
+				po = Object.toJSON(obj);
+			}		
 		}
 		alert(po);
 	},

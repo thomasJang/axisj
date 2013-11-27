@@ -8,7 +8,7 @@
  */
 
 var AXTree = Class.create(AXJ, {
-	version: "AXTree v1.40",
+	version: "AXTree v1.42",
 	author: "tom@axisj.com",
 	logs: [
 		"2013-02-14 오후 2:36:35",
@@ -26,7 +26,9 @@ var AXTree = Class.create(AXJ, {
 		"2013-09-04 오후 2:49:54 AXConfig에서 설정값 바인딩 구조로 변경 처리 - tom",
 		"2013-09-04 오후 9:46:17 checkboxRelationFixed 속성 추가 / 체크 박스 부모자식 관계 처리 - tom ",
 		"2013-10-03 오후 9:24:42 AXTreeSplit 속성 추가 ui 클래스 포함 - tom",
-		"2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom"
+		"2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom",
+		"2013-11-26 오후 1:48:19 tom : appendTree 버그픽스",
+		"2013-11-26 오후 2:07:40 tom : body.oncontract 기능 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -913,7 +915,7 @@ var AXTree = Class.create(AXJ, {
 		if (suffix != "FC" && suffix != "FB" && suffix != "FE") {
 			jQuery.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display) {
-					if (cfg.width == "auto") {
+					if (cfg.width == "auto" || cfg.width == "*") {
 						po.push("<col style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
 					} else {
 						po.push("<col width=\"" + (CG.width || "") + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
@@ -925,7 +927,7 @@ var AXTree = Class.create(AXJ, {
 			//fixedCol 존재
 			jQuery.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
-					if (cfg.width == "auto") {
+					if (cfg.width == "auto" || cfg.width == "*") {
 						po.push("<col style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
 					} else {
 						po.push("<col width=\"" + (CG.width || "") + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
@@ -2456,6 +2458,20 @@ var AXTree = Class.create(AXJ, {
 			//clear select
 
 			this.clearFocus();
+			
+			if (cfg.body.oncontract) {
+				//itemIndex, item, subTree
+				//dialog.push(Object.toJSON(subTree));
+				var sendObj = {
+					index: itemIndex,
+					list: this.list,
+					list: this.tree,
+					item: item,
+					subTree: subTree,
+					itemID: this.body.find(".gridBodyTr_" + itemIndex).attr("id")
+				};
+				cfg.body.oncontract.call(sendObj, itemIndex, item);
+			}
 
 		} else { // 자식개체 열기
 
@@ -2523,7 +2539,8 @@ var AXTree = Class.create(AXJ, {
 					list: this.list,
 					list: this.tree,
 					item: item,
-					subTree: subTree
+					subTree: subTree,
+					itemID: this.body.find(".gridBodyTr_" + itemIndex).attr("id")
 				};
 				cfg.body.onexpand.call(sendObj, itemIndex, item);
 			}
@@ -3021,7 +3038,8 @@ var AXTree = Class.create(AXJ, {
 
 			var scrollYHandleHeight = ((bodyHeight - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()) * scrollTrackYHeight) / scrollHeight;
 			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
-
+			
+			
 
 		} else {
 			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
@@ -3763,11 +3781,12 @@ var AXTree = Class.create(AXJ, {
 		if (itemIndex == null || itemIndex == undefined || item == null || item == undefined) {
 
 			var tree = this.tree;
+			
 			jQuery.each(subTree, function () {
 				this[cfg.reserveKeys.subTree] = [];
 				tree.push(this);
 			});
-
+			
 			var pushedList = this.appendSubTree("0".setDigit(cfg.hashDigit), true, subTree, this.tree);
 			this.printList();
 			
@@ -3809,8 +3828,9 @@ var AXTree = Class.create(AXJ, {
 		var returnList = [];
 		var appendIndex = this.list.length;
 		var parentSubTreeLength = 0;
-		if (parentArr[reserveKeys.subTree]) parentSubTreeLength = parentArr[reserveKeys.subTree].length;
+		if (parentHash != "0".setDigit(cfg.hashDigit)) parentSubTreeLength = parentArr[reserveKeys.subTree].length;
 		else parentSubTreeLength = parentArr.length;
+
 		jQuery.each(arr, function (idx, A) {
 			var pushItem = {};
 			var hasOpenKey = false, hasSubTree = false;
@@ -3829,12 +3849,10 @@ var AXTree = Class.create(AXJ, {
 				}
 			});
 
-			//trace(pushItem[reserveKeys.openKey]);
-
 			pushItem[reserveKeys.parentHashKey] = parentHash;
 			pushItem[reserveKeys.hashKey] = parentHash + cfg.hashSpliter + (idx + parentSubTreeLength - 1).setDigit(cfg.hashDigit);
 			if (!hasOpenKey) pushItem[reserveKeys.openKey] = true;
-
+			
 			//trace(pushItem[reserveKeys.openKey]);
 
 			if (!hasSubTree) pushItem.__subTreeLength = 0;
@@ -4555,7 +4573,32 @@ var AXTree = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_treeBody").find(".gridBodyTr_"+lidx+" .treeCheckBox_body").each(function(){
 				this.checked = L.__checked;
 			});
+		});	
+	},
+	expandAll: function(){
+		var cfg = this.config;
+		var _body = this.body;
+		jQuery.each(this.list, function (itemIndex, item) {
+			item[cfg.reserveKeys.openKey] = true;
+			item[reserveKeys.displayKey] = true;
 		});
-		
+		this.printList();
+	},
+	contractAll: function(){
+		var cfg = this.config;
+		var _body = this.body;
+		jQuery.each(this.list, function (itemIndex, item) {
+			item[cfg.reserveKeys.openKey] = false;
+			item[reserveKeys.displayKey] = false;
+			/*
+			if(item[cfg.relation.parentKey] == 0){
+				item[cfg.reserveKeys.openKey] = false;
+			}else{
+				if(item.__subTreeLength > 0) item[cfg.reserveKeys.openKey] = false;
+				item[reserveKeys.displayKey] = false;
+			}
+			*/
+		});
+		this.printList();
 	}
 });

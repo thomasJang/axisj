@@ -209,7 +209,7 @@
 			saveForm: function(){
 				var validateResult = myValidator.validate();
 				if (!validateResult) {
-					var msg = myValidator.getErrorMessage("{message}");
+					var msg = myValidator.getErrorMessage();
 					AXUtil.alert(msg);
 					myValidator.getErrorElement().focus();
 					return false;

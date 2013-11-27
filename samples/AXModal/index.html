@@ -59,6 +59,14 @@
 				top:100,
 				closeByEscKey:true
 			});
+		},
+		newOpen: function(){
+			myModal.openNew({
+				url:"modal.asp",
+				pars:"",
+				name:"mymodal_new",
+				options: "width=600,height=400,resizable=yes"
+			});
 		}
 	};
 	
@@ -79,6 +87,8 @@
 		
 		<input type="button" value="DIV열기" class="AXButton" onclick="fnObj.modalOpenDiv();" />
 		<input type="button" value="DIV열기" class="AXButton" onclick="fnObj.modalOpenDiv2();" />
+		
+		<input type="button" value="새창열기" class="AXButton" onclick="fnObj.newOpen();" />
 
 		<div style="display:none;">
 			<div id="modalContent" style="padding:20px;">

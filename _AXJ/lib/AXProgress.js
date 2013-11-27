@@ -95,8 +95,6 @@ var AXProgress = Class.create(AXJ, {
 		var progressID = this.progressID;
 		var loadedRate = (loadedCount / (totalCount.number()+1) * 100).round(1);
 
-		
-				
 		jQuery("#"+progressID+"_AX_loadedText").html(loadedRate+"%<span>"+loadedCount.money()+"/"+totalCount.money()+"</span>");
 		
 		if(theme == "AXlineProgress"){
@@ -116,7 +114,6 @@ var AXProgress = Class.create(AXJ, {
 			);
 		}else{
 			//circle
-
 			setTimeout(function(){
 				jQuery("#"+progressID+"_AX_bar").addClass("percent"+((loadedCount / totalCount * 100).round(0) / 5).round() * 5);
 				if(config.callBack){
