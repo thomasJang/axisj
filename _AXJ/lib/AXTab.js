@@ -73,7 +73,7 @@ var AXTabClass = Class.create(AXJ, {
 
 				var selectedIndex = null;
 				jQuery.each(obj.config.options, function(oidx, O){
-					po.push("<a href=\"#axexec\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
+					po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
 					if(O.optionValue == obj.config.value){
 						selectedIndex = oidx;
 						po.push(" on");	
@@ -86,8 +86,8 @@ var AXTabClass = Class.create(AXJ, {
 				po.push("	<div class=\"clear\"></div>");
 			if(obj.config.overflow != "visible"){
 			po.push("	</div>");
-			po.push("	<div class=\"leftArrowHandleBox\"><a href=\"#axexec\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Left\">arrow</a></div>");
-			po.push("	<div class=\"rightArrowHandleBox\"><a href=\"#axexec\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Right\">arrow</a></div>");
+			po.push("	<div class=\"leftArrowHandleBox\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Left\">arrow</a></div>");
+			po.push("	<div class=\"rightArrowHandleBox\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Right\">arrow</a></div>");
 			}
 		po.push("	</div>");
 		po.push("</div>");

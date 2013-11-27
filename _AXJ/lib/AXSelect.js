@@ -175,6 +175,8 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelect: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		if(!obj.config.onChange) obj.config.onChange = obj.config.onchange;
+		
 		var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
 		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
 

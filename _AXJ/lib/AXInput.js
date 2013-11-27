@@ -432,8 +432,12 @@ var AXInputConverter = Class.create(AXJ, {
 				jQuery("#" + objID).val(nval);
 			}
 		}
+		
 		if (obj.config.onChange) {
 			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: jQuery("#" + objID).val() });
+		}
+		if (obj.config.onchange) {
+			obj.config.onchange.call({ objID: objID, objSeq: objSeq, value: jQuery("#" + objID).val() });
 		}
 	},
 	/* money ~~~~~~~~~~~~~~~ */
@@ -610,8 +614,11 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").addClass("on");
 
 		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+		if(obj.config.positionFixed){
+			expandBox.css({"position":"fixed"});
+		}
 		var expBoxHeight = expandBox.outerHeight();
-		var offset = (expandBox.css("position") == "fixed") ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
+		var offset = (obj.config.positionFixed) ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
 		var css = {};
 		css.top = offset.top + anchorHeight;
 		css.left = offset.left;
@@ -659,14 +666,15 @@ var AXInputConverter = Class.create(AXJ, {
 					jQuery("#" + objID).val(myVal);
 				}
 
-				if (obj.config.onChange) {
+				if (obj.config.onChange || obj.config.onchange) {
 					var sendObj = {
 						targetID: objID,
 						options: obj.config.options,
 						selectedIndex: obj.config.selectedIndex,
 						selectedOption: obj.config.selectedObject
 					}
-					obj.config.onChange.call(sendObj);
+					if(obj.config.onChange) obj.config.onChange.call(sendObj);
+					else if(obj.config.onchange) obj.config.onchange.call(sendObj);
 				}
 				obj.config.isChangedSelect = false;
 			}
@@ -901,6 +909,8 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.config.focusedIndex = null;
 			if (obj.config.onChange) {
 				obj.config.onChange(null);
+			}else if(obj.config.onchange) {
+				obj.config.onchange(null);
 			}
 		}
 	},
@@ -922,14 +932,15 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.config.isChangedSelect = true;
 			jQuery("#" + objID).val(obj.config.selectedObject.optionText.dec());
 
-			if (obj.config.onChange) {
+			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
 					targetID: objID,
 					options: obj.config.options,
 					selectedIndex: obj.config.selectedIndex,
 					selectedOption: obj.config.selectedObject
 				}
-				obj.config.onChange.call(sendObj);
+				if(obj.config.onChange) obj.config.onChange.call(sendObj);
+				else if(obj.config.onchange) obj.config.onchange.call(sendObj);
 			}
 		}
 	},
@@ -1209,9 +1220,8 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: stX });
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
 		jQuery("#" + objID).val(objVal);
-		if (obj.config.onChange) {
-			obj.config.onChange(objID, objVal);
-		}
+		if (obj.config.onChange) obj.config.onChange(objID, objVal);
+		else if(obj.config.onchange) obj.config.onchange(objID, objVal);
 	},
 	sliderTouchEnd: function (objID, objSeq, event) {
 		var cfg = this.config;
@@ -1547,9 +1557,8 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 		var separator = obj.config.separator || "~";
 		jQuery("#" + objID).val(obj.vals.min + separator + obj.vals.max);
-		if (obj.config.onChange) {
-			obj.config.onChange(objID, obj.vals.min + separator + obj.vals.max);
-		}
+		if (obj.config.onChange) obj.config.onChange(objID, obj.vals.min + separator + obj.vals.max);
+		else if (obj.config.onchange) obj.config.onchange(objID, obj.vals.min + separator + obj.vals.max);
 	},
 	twinSliderTouchEnd: function (objID, objSeq, event) {
 		var cfg = this.config;
@@ -1621,14 +1630,15 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + objID).val(obj.config.on);
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.on);
 		}
-		if (obj.config.onChange) {
+		if (obj.config.onChange || obj.config.onchange) {
 			var sendObj = {
 				targetID: objID,
 				on: obj.config.on,
 				off: obj.config.off,
 				value: jQuery("#" + objID).val()
 			}
-			obj.config.onChange.call(sendObj);
+			if(obj.config.onChange) obj.config.onChange.call(sendObj);
+			if(obj.config.onchange) obj.config.onchange.call(sendObj);
 		}
 	},
 	bindSwitchSetValue: function (objID, objSeq, value) {
@@ -1656,14 +1666,15 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + objID).val(obj.config.on);
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.on);
 		}
-		if (obj.config.onChange) {
+		if (obj.config.onChange || obj.config.onchange) {
 			var sendObj = {
 				targetID: objID,
 				on: obj.config.on,
 				off: obj.config.off,
 				value: jQuery("#" + objID).val()
 			}
-			obj.config.onChange.call(sendObj);
+			if(obj.config.onChange) obj.config.onChange.call(sendObj);
+			else if(obj.config.onchange) obj.config.onchange.call(sendObj);
 		}
 	},
 	/* segment ~~~~~~~~~~~~~~~ */
@@ -1742,14 +1753,15 @@ var AXInputConverter = Class.create(AXJ, {
 			//strace(obj.selectedSegment.optionValue);
 			jQuery("#" + objID).val(obj.selectedSegment.optionValue);
 			//trace(jQuery("#"+objID).val());
-			if (obj.config.onChange) {
+			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
 					targetID: objID,
 					options: segmentOptions,
 					selectedIndex: obj.selectedSegmentIndex,
 					selectedOption: obj.selectedSegment
 				};
-				obj.config.onChange.call(sendObj);
+				if(obj.config.onChange) obj.config.onChange.call(sendObj);
+				else if(obj.config.onchange) obj.config.onchange.call(sendObj);
 			}
 
 		}
@@ -1780,14 +1792,15 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).addClass("on");
 		}
 
-		if (obj.config.onChange) {
+		if (obj.config.onChange || obj.config.onchange) {
 			var sendObj = {
 				targetID: objID,
 				options: segmentOptions,
 				selectedIndex: obj.selectedSegmentIndex,
 				selectedOption: obj.selectedSegment
 			};
-			obj.config.onChange.call(sendObj);
+			if(obj.config.onChange) obj.config.onChange.call(sendObj);
+			else if(obj.config.onchange) obj.config.onchange.call(sendObj);
 		}
 
 	},
@@ -2079,6 +2092,8 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 			}
 
+			if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
+
 			if (obj.config.onChange) {
 				if (jQuery.isFunction(obj.config.onChange)) {
 					obj.config.onChange.call({
@@ -2103,6 +2118,11 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					if(obj.config.onChange.onChange){
 						obj.config.onChange.onChange.call({
+							objID: objID,
+							value: jQuery("#" + objID).val()
+						});
+					}else if(obj.config.onChange.onchange){
+						obj.config.onChange.onchange.call({
 							objID: objID,
 							value: jQuery("#" + objID).val()
 						});
@@ -2225,6 +2245,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
+		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
 			if (jQuery("#" + objID).data("val") != jQuery("#" + objID).val()) {
 
@@ -2250,6 +2271,11 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					if(obj.config.onChange.onChange){
 						obj.config.onChange.onChange.call({
+							objID: objID,
+							value: jQuery("#" + objID).val()
+						});
+					}else if(obj.config.onChange.onchange){
+						obj.config.onChange.onchange.call({
 							objID: objID,
 							value: jQuery("#" + objID).val()
 						});
@@ -2861,6 +2887,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
+			if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 			if (obj.config.onChange) {
 				obj.config.onChange.call({
 					ST_objID: obj.config.startTargetID,
@@ -3319,6 +3346,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
+		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
 			obj.config.onChange.call({
 				ST_objID: obj.config.startTargetID,

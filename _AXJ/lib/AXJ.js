@@ -2238,7 +2238,7 @@ var AXCalendar = Class.create(AXJ, {
 				var tdClass = [];
 				if (roopDate.getMonth() != monthStartDate.getMonth()) addClass.push("notThisMonth");
 				if (setDate.diff(roopDate) == 0) tdClass.push("setDate");
-				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"#axexec\" class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue + "</a></td>");
+				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue + "</a></td>");
 				k++;
 				roopDate = roopDate.add(1);
 			}
@@ -2274,7 +2274,7 @@ var AXCalendar = Class.create(AXJ, {
 			var k = 0; while (k < 3) {
 				var tdClass = [];
 				if (m == (setDate.getMonth() + 1)) tdClass.push("setDate");
-				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"#axexec\" class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_month\" title=\"\">" + m + "월</a></td>");
+				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_month\" title=\"\">" + m + "월</a></td>");
 				k++;
 				m++;
 			}
@@ -2308,7 +2308,7 @@ var AXCalendar = Class.create(AXJ, {
 			var k = 0; while (k < 3) {
 				var tdClass = [];
 				if (m == year) tdClass.push("setDate");
-				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"#axexec\" class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_year\" title=\"\">" + m + "년</a></td>");
+				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_year\" title=\"\">" + m + "년</a></td>");
 				k++;
 				m++;
 			}
@@ -3264,7 +3264,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			if (filter(objSeq, objID, myobj, menu)) {
 				var className = (menu.className) ? menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-				po.push("<a href=\"#AXexec\" class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
+				po.push("<a href=\"javascript:;\" class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
 				po.push(menu.label);
 				if (menu.subMenu) {
 					if (menu.subMenu.length > 0) {
@@ -3320,7 +3320,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 				}
 				var className = (menu.className) ? " " + menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-				po.push("<a href=\"#AXexec\" class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+				po.push("<a href=\"javascript:;\" class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
 				po.push(menu.label);
 				if (menu.subMenu) {
 					if (menu.subMenu.length > 0) {
@@ -3663,7 +3663,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 					}
 					var className = (menu.className) ? " " + menu.className : "";
 					var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-					po.push("<a href=\"#AXexec\" class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+					po.push("<a href=\"javascript:;\" class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
 					po.push(menu.label);
 					if (menu.subMenu) {
 						if (menu.subMenu.length > 0) {
