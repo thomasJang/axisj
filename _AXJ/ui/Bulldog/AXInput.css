@@ -115,6 +115,11 @@
 	.AXanchorSelectorExpandBox a:hover{
 		background:#5ea3db;color:#fff;
 	}
+	.AXanchorSelectorExpandBox a span{
+		color:#aaa;
+		padding-left:7px;
+	}
+	
 .AXanchorSelectorExpandBox .empty{
 	display:block;padding:3px 8px;
 	font-size:12px;line-height:20px;color:#888888;text-decoration:none;

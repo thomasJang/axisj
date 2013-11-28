@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.24",
+	version: "AXInputConverter v1.25",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -19,7 +19,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-06-20 오전 12:49:06 twinbindDate - 아이디 체크 버그 픽스",
 		"2013-08-28 오후 4:16:01 bindMoney - 성능개선",
 		"2013-09-29 오전 12:39:49 bindSlider 연속호출 버그 패치 - tom",
-		"2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom"
+		"2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom",
+		"2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -601,7 +602,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var anchorHeight = jqueryTargetObjID.data("height") - 1;
 		var styles = [];
 		styles.push("top:" + anchorHeight + "px");
-		styles.push("width:" + anchorWidth + "px");
+		styles.push("width:" + (obj.config.anchorWidth||anchorWidth) + "px");
 		styles.push("z-index:5100");
 
 		var po = [];
@@ -619,6 +620,12 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 		var expBoxHeight = expandBox.outerHeight();
 		var offset = (obj.config.positionFixed) ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
+		if(obj.config.position){
+			offset = jqueryTargetObjID.offset();
+			if(obj.config.position.top != undefined){
+				offset.top = obj.config.position.top;
+			}
+		}
 		var css = {};
 		css.top = offset.top + anchorHeight;
 		css.left = offset.left;
@@ -626,7 +633,9 @@ var AXInputConverter = Class.create(AXJ, {
 
 		//_AX_expandBox set options
 		//trace(obj.config.ajaxUrl);
-		if (obj.config.ajaxUrl) {
+		if(obj.config.onsearch){
+			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
+		}else if (obj.config.ajaxUrl) {
 			// AJAX호출
 			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
 		} else {
@@ -701,7 +710,7 @@ var AXInputConverter = Class.create(AXJ, {
 				if (index > optionPrintLength - 1) return false;
 			}
 			var descStr = (O.desc || O.optionDesc || "").dec();
-			if (descStr != "") descStr = " - " + descStr;
+			if (descStr != "") descStr = "<span>" + descStr + "</span>";
 			po.push("<a href=\"javascript:;\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
 		});
 		if(po.length == 0){
@@ -710,11 +719,11 @@ var AXInputConverter = Class.create(AXJ, {
 			po.push("<div class=\"empty\">" + selectorOptionEmpty + "</div>");
 		}
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
-
-		var expandScrollHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").height();
+		
+		var expandScrollHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").outerHeight();
 		if (expandScrollHeight > maxHeight) expandScrollHeight = maxHeight;
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").css({ height: expandScrollHeight + "px" });
-
+		
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
@@ -723,6 +732,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.inputKeyup = function (event) {
 			bindSelectorKeyup(objID, objSeq, event);
 		}
+		
 		jQuery(document).unbind("click.AXInputSelector");
 		jQuery(document).bind("click.AXInputSelector", obj.documentclickEvent);
 		jQuery("#" + objID).unbind("keydown.AXInputSelector");
@@ -736,6 +746,7 @@ var AXInputConverter = Class.create(AXJ, {
 			scrollID: cfg.targetID + "_AX_" + objID + "_AX_expandScroll",
 			touchDirection: false
 		});
+		obj.myUIScroll.scrollTop(0);
 
 		if (obj.config.selectedIndex != undefined) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
@@ -783,6 +794,9 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!isSelectorClick) {
 			this.bindSelectorClose(objID, objSeq, event); // 셀럭터 외의 영역이 므로 닫기
 		} else {
+			
+			eid = myTarget.id.split(/_AX_/g);
+			
 			if (eid.last() == "option") {
 				var selectedIndex = eid[eid.length - 2];
 				obj.config.selectedIndex = selectedIndex;
@@ -858,7 +872,24 @@ var AXInputConverter = Class.create(AXJ, {
 		var objVal = jQuery("#" + objID).val();
 		var bindSelectorSearch = this.bindSelectorSearch.bind(this);
 
-		if (obj.config.ajaxUrl) {
+		if(obj.config.onsearch){
+			
+			var res = obj.config.onsearch.call({
+				id:objID,
+				value:objVal	
+			}, objID, objVal);
+			
+			if(!res){
+				res = {options:[]};
+			}
+			obj.config.options = res.options;
+			obj.config.selectedIndex = null;
+			obj.config.focusedIndex = null;
+			obj.config.selectedObject = null;
+			obj.config.isChangedSelect = true;
+			this.bindSelectorSetOptions(objID, objSeq);
+			
+		}else if (obj.config.ajaxUrl) {
 			// AJAX호출
 			// 2. AJAX request
 			// 3. AJAX 결과로 bindSelectorSetOptions 처리하기

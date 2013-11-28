@@ -2502,16 +2502,13 @@ var AXTree = Class.create(AXJ, {
 			var getAddHashs = function (_tree, pfHash) {
 				addHashs.push(pfHash);
 				jQuery.each(_tree, function (treeIndex, nTree) {
-					//addHashs.push(preFixHash + "_" + treeIndex);
-					//trace(nTree[cfg.reserveKeys.openKey]);
 					if (nTree.subTree.length > 0 && nTree[cfg.reserveKeys.openKey]) getAddHashs(nTree.subTree, pfHash + "_" + treeIndex.setDigit(cfg.hashDigit));
 				});
 			};
 			getAddHashs(myTree.subTree, preFixHash);
-
+			
 			myTree[cfg.reserveKeys.openKey] = true;
 
-			//trace(addHashs);
 			var subTree = [];
 			var _list = this.list;
 			var itemChangeDisplay = this.itemChangeDisplay.bind(this);
@@ -2526,7 +2523,6 @@ var AXTree = Class.create(AXJ, {
 			});
 
 			this.contentScrollResize();
-
 
 			this.contentScrollXAttr = null;
 			this.contentScrollYAttr = null;
@@ -4581,7 +4577,10 @@ var AXTree = Class.create(AXJ, {
 		jQuery.each(this.list, function (itemIndex, item) {
 			item[cfg.reserveKeys.openKey] = true;
 			item[reserveKeys.displayKey] = true;
+			item[reserveKeys.parentHashKey] = undefined;
+			item[reserveKeys.hashKey] = undefined;
 		});
+		this.list = this.positioningHashList(this.list);
 		this.printList();
 	},
 	contractAll: function(){
@@ -4589,16 +4588,15 @@ var AXTree = Class.create(AXJ, {
 		var _body = this.body;
 		jQuery.each(this.list, function (itemIndex, item) {
 			item[cfg.reserveKeys.openKey] = false;
-			item[reserveKeys.displayKey] = false;
-			/*
 			if(item[cfg.relation.parentKey] == 0){
-				item[cfg.reserveKeys.openKey] = false;
+				item[cfg.reserveKeys.displayKey] = true;
 			}else{
-				if(item.__subTreeLength > 0) item[cfg.reserveKeys.openKey] = false;
-				item[reserveKeys.displayKey] = false;
+				item[cfg.reserveKeys.displayKey] = false;
 			}
-			*/
+			item[reserveKeys.parentHashKey] = undefined;
+			item[reserveKeys.hashKey] = undefined;
 		});
+		this.list = this.positioningHashList(this.list);
 		this.printList();
 	}
 });
