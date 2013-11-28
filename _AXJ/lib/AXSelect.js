@@ -8,7 +8,7 @@
  */
 
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v1.8",
+	version: "AXSelectConverter v1.9",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-19 오후 12:00:43",
@@ -21,7 +21,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		"2013-09-27 오후 1:29:14 - onLoad 추가 : tom",
 		"2013-10-02 오후 6:15:38 - bindSelectDisabled 기능 추가 : tom",
 		"2013-10-24 오후 5:54:05 - resizeAnchor 기능 추가 : tom",
-		"2013-11-06 오후 12:47:53 - tabindex 속성 가져오기 기능 추가 : tom"
+		"2013-11-06 오후 12:47:53 - tabindex 속성 가져오기 기능 추가 : tom",
+		"2013-11-27 오후 8:03:57 - tom : positionFixed 기능 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -344,9 +345,10 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelectExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		var jqueryTargetObjID = jQuery("#"+ cfg.targetID + "_AX_" + objID);
 		//Selector Option box Expand
 		
-		if(jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled")) return;
+		if(jqueryTargetObjID.data("disabled")) return;
 		
 		if (isToggle) { // 활성화 여부가 토글 이면
 			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -382,8 +384,18 @@ var AXSelectConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").addClass("on");
 
 		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+		if(obj.config.positionFixed){
+			expandBox.css({"position":"fixed"});
+		}
 		var expBoxHeight = expandBox.outerHeight();
-		var offset = jQuery("#" + cfg.targetID + "_AX_" + objID).offset();
+		var offset = (obj.config.positionFixed) ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
+		
+		if(obj.config.position){
+			offset = jqueryTargetObjID.offset();
+			if(obj.config.position.top != undefined){
+				offset.top = obj.config.position.top;
+			}
+		}
 		var css = {};
 		css.top = offset.top + anchorHeight;
 		//css.top = offset.top;
@@ -392,16 +404,18 @@ var AXSelectConverter = Class.create(AXJ, {
 		var bodyHeight;
 		(AXUtil.docTD == "Q") ? bodyHeight = document.body.scrollHeight : bodyHeight = document.documentElement.scrollHeight;
 		//trace({bodyHeight:bodyHeight, top:css.top});
-
-		if (bodyHeight < css.top.number() + expBoxHeight) {
-			css = {
-				top: offset.top - expBoxHeight,
-				left: offset.left
+		
+		if(!obj.config.positionFixed){
+			if (bodyHeight < css.top.number() + expBoxHeight) {
+				css = {
+					top: offset.top - expBoxHeight,
+					left: offset.left
+				}
 			}
 		}
-		//trace(css);
+		
 		expandBox.css(css);
-
+	
 		this.bindSelectSetOptions(objID, objSeq);
 	},
 	bindSelectClose: function (objID, objSeq, event) {
@@ -435,6 +449,7 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelectSetOptions: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var jqueryTargetObjID = jQuery("#" + cfg.targetID + "_AX_" + objID);
 		var maxHeight = obj.config.maxHeight || 200;
 
 		if (!obj.config.options) return;
@@ -483,18 +498,29 @@ var AXSelectConverter = Class.create(AXJ, {
 		(AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
 		//trace({bodyHeight:bodyHeight, top:css.top});
 
-		var anchorHeight = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height") - 1;
+		var anchorHeight = jqueryTargetObjID.data("height") - 1;
 		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
 		var expBoxHeight = expandBox.outerHeight();
-		var offset = jQuery("#" + cfg.targetID + "_AX_" + objID).offset();
+		
+		var offset = (obj.config.positionFixed) ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
+		
+		if(obj.config.position){
+			offset = jqueryTargetObjID.offset();
+			if(obj.config.position.top != undefined){
+				offset.top = obj.config.position.top;
+			}
+		}
+		
 		var css = {};
 		css.top = offset.top + anchorHeight;
-		if (bodyHeight < css.top.number() + expBoxHeight) {
-			css = {
-				top: offset.top - expBoxHeight,
-				left: offset.left
+		if(!obj.config.positionFixed){
+			if (bodyHeight < css.top.number() + expBoxHeight) {
+				css = {
+					top: offset.top - expBoxHeight,
+					left: offset.left
+				}
+				expandBox.css(css);
 			}
-			expandBox.css(css);
 		}
 		// 위치 재 정의 필요하면 정의 할 것 ----------------------------------
 

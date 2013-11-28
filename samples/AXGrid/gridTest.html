@@ -32,45 +32,73 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 	
 	<script type="text/javascript">
-	var myGrid = new AXGrid();
+	var myGridEditor = new AXGrid();
 	var itemSum = 0;
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
+		
 
-			myGrid.setConfig({
-				targetID : "AXGridMaster",
-                fitToWidth:true,    // 너비에 자동 맞춤
+			myGridEditor.setConfig({
+				targetID : "AXGridTarget_setEditor",
 				colGroup : [
-                    {key:"rownum", label:"순번", width:"50", align:"center", formatter:'checkbox'}, 
-					{key:"rownum", label:"순번", width:"50", align:"center"}, 
-					{key:"propse_agrem_bsns_no", label:"협약사업번호", width:"100", align:"center"},
-					{key:"bsns_nm", label:"사업명", width:"300", align:"left", formatter:"dec"},
-                    {key:"smrize_rsrch_rspnber_nm", label:"사업책임자", width:"80", align:"center", formatter:"dec"},
-                    {key:"rsrch_rspnber_indvdl_no", label:"개인번호", width:"80", align:"center", formatter:"dec"},
-                    {key:"rank_nm", label:"직급", width:"80", align:"center", formatter:"dec"},
-                    {key:"dept_nm", label:"부서", width:"140", align:"center", formatter:"dec"},
-                    {key:"tot_bsns_begin_dt", label:"총 사업 시작일자", width:"120", align:"center"},
-                    {key:"tot_bsns_end_dt", label:"총 사업 종료일자", width:"120", align:"center"},
-                    {key:"tot_wct", label:"총 사업비", width:"180", align:"right", formatter:'money'},
-                    {key:"bsns_sttus_cd_name", label:"상태", width:"100", align:"center", formatter:"dec"},
-                    {key:"rgst_dt", label:"등록일", width:"100", align:"center", formatter:"dec"}
+					{key:"no", label:"번호", width:"50", align:"right"},
+					{key:"title", label:"제목", width:"200"},
+					{key:"writer", label:"작성자", width:"100"},
+					{key:"regDate", label:"작성일", width:"100"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"*"}
 				],
 				body : {
 					onclick: function(){
-					},
-					ondblclick: function(){
-                        var sn = this.item.propse_agrem_bsns_no;
-                        fnObj.openForm(sn);
+						//toast.push(Object.toJSON(this.item));
+						trace(this);
+						myGridEditor.setEditor(this.item, this.index);
 					}
 				},
-				page:{paging:true,status:{formatter: null}},
+				editor: {
+					rows:[
+						[
+							{colSeq:0, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:1, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:2, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:3, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:4, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:5, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:6, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}},
+							{colSeq:7, align:"center", valign:"middle", form:{type:"text", value:"itemValue"}}
+						]
+					]	
+				}
 			});
-			
-
+		
 			var list = [
+				{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10}, // item
+				{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:3, title:"AXGrid 세번째 줄 입니다.", writer:"한기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:5, title:"AXGrid 세번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:7, title:"AXGrid 세번째 줄 입니다.", writer:"소기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"재기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+				{no:9, title:"AXGrid 두번째 줄 입니다.", writer:"원기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:10, title:"AXGrid 세번째 줄 입니다.", writer:"고기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
 			];
-			myGrid.setList(list);
+			myGridEditor.setList(list);
 
 			//myGrid.setDataSet({price:123000, amount:10});
 		}
@@ -86,76 +114,9 @@
 <body>
 	<div style="padding:20px;">
 
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue">Default</a>
-				<a href="colhead.html" class="AXTab Blue">colHead</a>
-				<a href="fixedColSeq.html" class="AXTab Blue">fixedColSeq</a>
-				<a href="body.html" class="AXTab Blue">body</a>
-				<a href="headfoot.html" class="AXTab Blue">head&foot</a>
-				<a href="marker.html" class="AXTab Blue">marker</a>
-				<a href="editor.html" class="AXTab Blue on">editor</a>
-				<a href="ajax.html" class="AXTab Blue">ajax & paging</a>
-				<a href="passive.html" class="AXTab Blue">passive</a>
-				<a href="viewMode.html" class="AXTab Blue">viewMode</a>
-				<a href="help.html" class="AXTab Blue">도움말</a>
-				<div class="clear"></div>
-			</div>
-		</div>
-
 		<h2>AXGrid</h2>
 
-		<div id="AXGridMaster" style="height:400px;"></div>
-
-		<div style="padding:10px 0px;">
-			<input type="button"	value="추가하기" class="AXButton Red" onclick="fnObj.appendGrid();" />
-			<input type="button"	value="추가하기 (index : 3)" class="AXButton Red" onclick="fnObj.appendGrid(3);" />
-			<input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
-			<input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
-			<input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />
-			<input type="button"	value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
-		</div>
-
-		<div class="Hspace20"></div>
-
-		
-		<div style="padding:20px;">
-			<ul>
-				<li>
-					checkbox 개체를 checked 된 상태로 만들기
-					<div>
-						<pre style="color:#0080C0;">
-setConfig > colGroup > formatter:"checkbox", checked:function(){
-	//사용 가능한 변수
-	//this.index
-	//this.item
-	//this.list
-	return (this.index % 2 == 0); // return true 이면 checked 됩니다.
-}
-						</pre>
-					</div>
-				</li>
-				<li>
-					checkbox 개체를 click 할때 이벤트 체크
-					<div>
-						<pre style="color:#0080C0;">
-setConfig > body > oncheck: function(){
-	//사용 가능한 변수
-	//this.itemIndex
-	//this.target
-	//this.checked
-	//this.r
-	//this.c
-	//this.list
-	//this.item
-	toast.push(this.checked); // oncheck 함수를 편집하여 사용 하세요
-}
-						</pre>
-					</div>
-				</li>
-			</ul>
-			
-		</div>
+		<div id="AXGridTarget_setEditor" style="height:300px;"></div>
 				
 	</div>
 </body>
