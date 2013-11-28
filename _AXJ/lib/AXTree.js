@@ -4583,7 +4583,7 @@ var AXTree = Class.create(AXJ, {
 		this.list = this.positioningHashList(this.list);
 		this.printList();
 	},
-	contractAll: function(){
+	collapseAll: function(){
 		var cfg = this.config;
 		var _body = this.body;
 		jQuery.each(this.list, function (itemIndex, item) {

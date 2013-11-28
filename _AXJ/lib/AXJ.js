@@ -1997,8 +1997,11 @@ var AXScroll = Class.create(AXJ, {
 			Sy = 0;
 			eventCancle = true;
 		}
+		
+		//trace(Sh+" + "+Sy+" < "+TGh );
+
 		if ((Sh + Sy) < TGh) {
-			Sy = -(Sh - TGh);
+			Sy = (TGh - Sh);
 			eventCancle = true;
 		}
 		this.scrollScrollID.css({ top: Sy });
@@ -2071,14 +2074,11 @@ var AXScroll = Class.create(AXJ, {
 		var config = this.config;
 		//wheel control event is not jquery event !
 		var Sy = this.scrollScrollID.position().top;
-		var STh = this.scrollTrack.height() + 4;
+		var STh = this.scrollTrack.height();
 		var Sh = this.scrollScrollID.outerHeight();
+		var SBh = this.scrollBar.outerHeight();
 
 		var SBy = (-Sy * STh) / Sh;
-		/*
-		trace(Sy+", "+STh+", "+Sh+", "+SBy);
-		if(SBy < 2) SBy = 2;
-		*/
 
 		var addTop = 0;
 		if (this.minHeightSB.TF) {
@@ -2089,10 +2089,9 @@ var AXScroll = Class.create(AXJ, {
 		if (SBy < 2) {
 			SBy = 2;
 		} else {
-			//trace(Sy+", "+STh+", "+Sh+", "+SBy+", "+addTop);
 			SBy = SBy - addTop;
-			if (SBy > STh - 10 - 2) {
-				SBy = STh - 10 - 2;
+			if ((SBy + SBh) > STh) {
+				SBy = STh - SBh + 2;
 			}
 		}
 		this.scrollBar.css({ top: SBy });
