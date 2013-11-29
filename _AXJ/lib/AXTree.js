@@ -4576,9 +4576,9 @@ var AXTree = Class.create(AXJ, {
 		var _body = this.body;
 		jQuery.each(this.list, function (itemIndex, item) {
 			item[cfg.reserveKeys.openKey] = true;
-			item[reserveKeys.displayKey] = true;
-			item[reserveKeys.parentHashKey] = undefined;
-			item[reserveKeys.hashKey] = undefined;
+			item[cfg.reserveKeys.displayKey] = true;
+			item[cfg.reserveKeys.parentHashKey] = undefined;
+			item[cfg.reserveKeys.hashKey] = undefined;
 		});
 		this.list = this.positioningHashList(this.list);
 		this.printList();
@@ -4593,8 +4593,8 @@ var AXTree = Class.create(AXJ, {
 			}else{
 				item[cfg.reserveKeys.displayKey] = false;
 			}
-			item[reserveKeys.parentHashKey] = undefined;
-			item[reserveKeys.hashKey] = undefined;
+			item[cfg.reserveKeys.parentHashKey] = undefined;
+			item[cfg.reserveKeys.hashKey] = undefined;
 		});
 		this.list = this.positioningHashList(this.list);
 		this.printList();

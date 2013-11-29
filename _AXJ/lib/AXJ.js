@@ -1367,7 +1367,7 @@ var AXReq = Class.create({
 	initialize: function (url, configs) {
 
 		if (window.location.toString().left(4) != "http") {
-			dialog.push("현재 파일시스템으로 샘플 코드를 보고 계십니다. ajax 통신 관련한 기능은 정상 작동하지 않게 됩니다. ");
+			//dialog.push("현재 파일시스템으로 샘플 코드를 보고 계십니다. ajax 통신 관련한 기능은 정상 작동하지 않게 됩니다. ");
 		}
 
 		myAXreqQue.add({ url: url, configs: configs });
@@ -1869,6 +1869,8 @@ var AXScroll = Class.create(AXJ, {
 
 
 		}
+		
+		this.tractActive(event);
 	},
 	SBtouchend: function (e) {
 		var event = window.event || e;
@@ -1887,6 +1889,7 @@ var AXScroll = Class.create(AXJ, {
 				document.removeEventListener("touchmove", this.SBtouchmoveBind, false);
 			}
 		}
+		this.tractInActive(event);
 	},
 	SBtouchmove: function (e) {
 		var event = window.event || e;
@@ -2145,6 +2148,9 @@ var AXScroll = Class.create(AXJ, {
 	},
 	unbind: function () {
 		var config = this.config;
+		
+		this.scroll = false;
+		
 		this.scrollTrack.remove();
 		this.scrollBar.remove();
 
