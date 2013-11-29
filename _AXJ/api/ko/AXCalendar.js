@@ -2,7 +2,7 @@
 {
 	id:"/API/Classes/AXCalendar",
 	head:{
-		type:"Class", 
+		type:"Class",
 		name:"AXCalendar",
 		flnm:"Classes.AXCalendar",
 		file:"_AXJ/lib/AXJ.js",

@@ -9,10 +9,11 @@ Javascript UI Library <b>AXISJ</b>
 <br/>
 <br/>
 <br/>
-<a href="http://www.axisj.com" target="_blank">http://www.axisj.com</a><br/>
-<a href="http://support.axisj.com" target="_blank">http://support.axisj.com</a><br/>
-<a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a><br/>
-<a href="http://http://facebook.com/axisj" target="_blank">http://facebook.com/axisj</a><br/>
+<a href="http://jdoc.axisj.com" target="_blank">http://jdoc.axisj.com</a> Documentation<br/>
+<a href="http://www.axisj.com" target="_blank">http://www.axisj.com</a> webSite<br/>
+<a href="http://support.axisj.com" target="_blank">http://support.axisj.com</a> support<br/>
+<a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a> Dev<br/>
+<a href="http://facebook.com/axisj" target="_blank">http://facebook.com/axisj</a> FaceBook<br/>
 <br/>
 Javascript UI tool based on jQuery<br/>
 <br/>
