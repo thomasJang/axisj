@@ -1341,7 +1341,7 @@ var AXUpload5 = Class.create(AXJ, {
 	swfinit: function(reset){
 		var cfg = this.config;
 		this.target = jQuery("#"+cfg.targetID);
-		
+
 		var po = [];
 		po.push('<div style="position:relative;">');
 		po.push('	<table style="table-layout:fixed;width:100%;"><tbody><tr><td id="'+cfg.targetID+'_AX_selectorTD">');
@@ -1404,9 +1404,8 @@ var AXUpload5 = Class.create(AXJ, {
 				}
 			}else{
 				//cfg.uploadMaxFileCount
-				var uploadedCount = this.uploadedList.length;
 				if(cfg.uploadMaxFileCount != 0){
-					if(uploadedCount <= cfg.uploadMaxFileCount){
+					if(this.uploadedList.length >= cfg.uploadMaxFileCount){
 						cfg.onError("fileCount");
 						this.cancelUpload();
 						return;
@@ -1917,6 +1916,32 @@ var AXUpload5 = Class.create(AXJ, {
 	uploadComplete: function(){
 		var cfg = this.config;
 		//trace("uploadComplete");
+		if(AXgetId(cfg.targetID+'_AX_files')){
+			
+			jQuery('#'+cfg.targetID+'_AX_files').remove();
+			
+			var inputFileMultiple = 'multiple="multiple"';
+			var inputFileAccept = cfg.file_types;
+			if(cfg.isSingleUpload){
+				inputFileMultiple = '';
+			}
+			if(!this.supportHtml5){
+				inputFileMultiple = '';
+			}
+
+			var  po = ['	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />'];
+			$("#"+cfg.targetID+"_AX_selectorTD").prepend(po.join(''));
+			jQuery('#'+cfg.targetID+'_AX_files').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth(),height:jQuery('#'+cfg.targetID+'_AX_selector').outerHeight()});
+
+			var onFileSelect = this.onFileSelect.bind(this);
+			var fileSelector = document.getElementById(cfg.targetID+'_AX_files');
+			if(AXUtil.browser.name == "ie" && AXUtil.browser.version < 9){
+				
+			}else{
+				fileSelector.addEventListener('change', onFileSelect, false);
+			}
+
+		}
 		if(cfg.queueBoxID){
 			this.multiSelector.collect();
 		}
