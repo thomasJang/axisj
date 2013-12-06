@@ -1743,9 +1743,10 @@ var AXScroll = Class.create(AXJ, {
 		}
 		if(cfg.xscroll){
 			this.xscrollTrack.css({ width: CTwidth - 4 });
+		}else{
+			this.scrollScrollID.css({ width: CTwidth });
 		}
-		
-		/*this.scrollScrollID.css({ width: CTwidth });*/
+
 		var Cheight = this.scrollScrollID.outerHeight();
 		var Cwidth = this.scrollScrollID.outerWidth();
 
