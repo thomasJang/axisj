@@ -15,19 +15,17 @@
 	<style type="text/css">
 	H2{font-family:consolas;}
 	
-	
-	.myTable{
-		border:1px solid #E3E3E3;
-		width:100%;
+	.modelControlGrid{
 		border-collapse:collapse;
 	}
-	.myTable th{
-		background:#eee;
-	}
-	.myTable th,.myTable td{
+	.modelControlGrid td{
 		border:1px solid #E3E3E3;
 		padding:5px;
 	}
+	.modelControlGrid .colHeadTable td{
+		background:#f3f3f3;
+	}
+	
 	</style>
 	<!-- css block -->
 
@@ -46,33 +44,125 @@
 		pageStart: function(){
 
 			myModelGrid.setConfig({
+				theme:"modelControlGrid",
 				targetID:"AXModelControlListTarget",
 				colGroup:[
-					{key:"no", label:"번호", width:"50"},
-					{key:"title", label:"제목", width:"200"},
-					{key:"writer", label:"작성자", width:"100"},
-					{key:"regDate", label:"작성일", width:"100"},
-					{key:"price", label:"가격", width:"100"},
-					{key:"amount", label:"수량", width:"80"},
-					{key:"cost", label:"금액", width:"100"},
-					{key:"desc", label:"비고", width:"200"}
+					{label:"번호", width:"50"},
+					{label:"Name", width:"200"},
+					{label:"Email", width:"100"},
+					{label:"투숙일", width:"100"},
+					
+					{label:"투숙객", width:"100"},
+					{label:"RoomType", width:"80"},
+					{label:"RoomPrice", width:"100"},
+					{label:"R/C", width:"200"},
+					
+					{label:"Cmoking", width:"200"},
+					{label:"EXT.BED", width:"200"},
+					{label:"B/F", width:"200"},
+					{label:"Notice", width:"200"}
 				],
 				body:{
-					row:[
-						[
-							{key:"no"},
-							{key:"title"}, 
-							{key:"writer"}, 
-							{key:"regDate"}, 
-							{key:"price"},
-							{key:"amount"},
-							{key:"cost"},
-							{key:"desc"}
-						]
-					],
-					onclick:function(){
+					form:[
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
 						
-					}
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							},
+							onclick: function(){}
+						}
+					]
 				}
 			});
 			myModelGrid.setList([]);

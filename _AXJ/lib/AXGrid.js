@@ -815,6 +815,7 @@ var AXGrid = Class.create(AXJ, {
 			});
 			this.fixedColWidth = fixedColWidth;
 		}
+		
 	},
 	init: function () {
 		var cfg = this.config;
@@ -826,12 +827,12 @@ var AXGrid = Class.create(AXJ, {
 			trace("need colGroup - setConfig({colGroup:[]})");
 			return;
 		}
-
+		
 		var targetInnerHeight = jQuery("#" + cfg.targetID).innerHeight();
 		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXGrid.pageHeight || 400);
 		this.theme = (cfg.theme) ? cfg.theme : "AXGrid"; /* 테마기본값 지정*/
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; /* 그리드 높이 지정 */
-
+		
 		this.target = jQuery("#" + cfg.targetID);
 		var theme = this.theme;
 		var gridCss = [];
@@ -1264,6 +1265,7 @@ var AXGrid = Class.create(AXJ, {
 		var po = [];
 
 		var getColHeadTd = this.getColHeadTd.bind(this);
+		
 		if (!this.hasFixed) {  /* 일반 colHead 구현 */
 
 			var tableWidth = this.colWidth;

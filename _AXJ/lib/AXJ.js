@@ -1677,7 +1677,11 @@ var AXScroll = Class.create(AXJ, {
 		this.scrollBarAttr = {};
 		this.Observer = null;
 		this.config.touchDirection = false;
+		this.config.yscroll = true;
+		this.config.xscroll = false;
+		
 		this.minHeightSB = { TF: false, h: 0 };
+		this.minWidthSB = { TF: false, w: 0 };
 	},
 	init: function () {
 		var config = this.config;
@@ -1696,49 +1700,100 @@ var AXScroll = Class.create(AXJ, {
 		this.initScroll();
 		this.bindEvent();
 	},
+	updateScroll: function(){
+		this.initScroll();
+	},
 	initScroll: function () {
-		var config = this.config;
+		var cfg = this.config;
 		if (!this.scroll) {
 			var po = [];
-			po.push("<div class=\"scrollTrack\" id=\"" + config.targetID + "_AX_scrollTrack\"></div>");
-			po.push("<div class=\"scrollBar\" id=\"" + config.targetID + "_AX_scrollBar\"></div>");
+			if(cfg.yscroll){
+				po.push("<div class=\"scrollTrack\" id=\"" + cfg.targetID + "_AX_scrollTrack\"></div>");
+				po.push("<div class=\"scrollBar\" id=\"" + cfg.targetID + "_AX_scrollBar\"></div>");
+			}else{
+				this.scrollTargetID.css({height:this.scrollScrollID.outerHeight()});
+			}
+			if(cfg.xscroll){
+				po.push("<div class=\"xscrollTrack\" id=\"" + cfg.targetID + "_AX_xscrollTrack\"></div>");
+				po.push("<div class=\"xscrollBar\" id=\"" + cfg.targetID + "_AX_xscrollBar\"></div>");
+			}
+			
 			this.scrollTargetID.append(po.join(''));
 			this.scroll = true;
 			
-			this.scrollTrack = jQuery("#" + config.targetID + "_AX_scrollTrack");
-			this.scrollBar = jQuery("#" + config.targetID + "_AX_scrollBar");
+			if(cfg.yscroll){
+				this.scrollTrack = jQuery("#" + cfg.targetID + "_AX_scrollTrack");
+				this.scrollBar = jQuery("#" + cfg.targetID + "_AX_scrollBar");
+			}
+			if(cfg.xscroll){
+				this.xscrollTrack = jQuery("#" + cfg.targetID + "_AX_xscrollTrack");
+				this.xscrollBar = jQuery("#" + cfg.targetID + "_AX_xscrollBar");				
+			}
+		}else{
+			if(!cfg.yscroll){
+				this.scrollTargetID.css({height:this.scrollScrollID.outerHeight()});
+			}	
 		}
 
 		var CTheight = this.scrollTargetID.innerHeight();
 		var CTwidth = this.scrollTargetID.innerWidth();
-		this.scrollTrack.css({ height: CTheight - 4 });
-		this.scrollScrollID.css({ width: CTwidth });
-		var Cheight = this.scrollScrollID.outerHeight();
-
-		var SBheight = CTheight * (CTheight - 4) / Cheight;
-		this.scrollBar.css({ height: Math.ceil(SBheight) });
-		if (SBheight < 10) {
-			this.minHeightSB.TF = true;
-			this.minHeightSB.h = SBheight;
+		
+		if(cfg.yscroll){
+			this.scrollTrack.css({ height: CTheight - 4 });
 		}
+		if(cfg.xscroll){
+			this.xscrollTrack.css({ width: CTwidth - 4 });
+		}
+		
+		/*this.scrollScrollID.css({ width: CTwidth });*/
+		var Cheight = this.scrollScrollID.outerHeight();
+		var Cwidth = this.scrollScrollID.outerWidth();
 
-		if (CTheight == Cheight || CTheight > Cheight) {
-			this.scrollTrack.hide();
-			this.scrollBar.hide();
-		} else {
-			this.scrollTrack.show();
-			this.scrollBar.show();
+		if(cfg.yscroll){
+			var SBheight = CTheight * (CTheight - 4) / Cheight;
+			this.scrollBar.css({ height: Math.ceil(SBheight) });
+			if (SBheight < 10) {
+				this.minHeightSB.TF = true;
+				this.minHeightSB.h = SBheight;
+			}
+			if (CTheight == Cheight || CTheight > Cheight) {
+				this.scrollTrack.hide();
+				this.scrollBar.hide();
+			} else {
+				this.scrollTrack.show();
+				this.scrollBar.show();
+			}
+		}
+		if(cfg.xscroll){
+			var SBwidth = CTwidth * (CTwidth - 4) / Cwidth;
+			this.xscrollBar.css({ width: Math.ceil(SBwidth) });
+			if (SBwidth < 10) {
+				this.minWidthSB.TF = true;
+				this.minWidthSB.w = SBwidth;
+			}
+			if (CTwidth == Cwidth || CTwidth > Cwidth) {
+				this.xscrollTrack.hide();
+				this.xscrollBar.hide();
+			} else {
+				this.xscrollTrack.show();
+				this.xscrollBar.show();
+			}
 		}
 	},
 	resizeScroll: function () {
 		this.initScroll();
 	},
 	bindEvent: function () {
-		var config = this.config;
+		var cfg = this.config;
 
 		var CTheight = this.scrollTargetID.innerHeight();
 		var Cheight = this.scrollScrollID.outerHeight();
-
+		
+		if(cfg.xscroll){
+			var CTwidth = this.scrollTargetID.innerWidth();
+			var Cwidth = this.scrollScrollID.outerWidth();			
+		}
+		
 		/* event 선언자 */
 		var tractActive = this.tractActive.bind(this);
 		this.tractActiveBind = function (event) {
@@ -1774,26 +1829,55 @@ var AXScroll = Class.create(AXJ, {
 
 		this.scrollTargetID.bind("mouseover", this.tractActiveBind);
 		this.scrollTargetID.bind("mouseout", this.tractInActiveBind);
+		
+		if(cfg.yscroll){
+			this.scrollBar.bind("dragstart", this.cancelEventBind);
+			this.scrollBar.bind("mousedown", this.SBonMouseDownBind);
+		}
 
-		this.scrollBar.bind("dragstart", this.cancelEventBind);
-		this.scrollBar.bind("mousedown", this.SBonMouseDownBind);
+		if(cfg.xscroll){
+			var SBonMouseDownX = this.SBonMouseDownX.bind(this);
+			this.SBonMouseDownXBind = function (event) {
+				SBonMouseDownX(event);
+			}
+			var SBonMouseMoveX = this.SBonMouseMoveX.bind(this);
+			this.SBonMouseMoveXBind = function (event) {
+				SBonMouseMoveX(event);
+			}
+			var SBonMouseUpX = this.SBonMouseUpX.bind(this);
+			this.SBonMouseUpXBind = function (event) {
+				SBonMouseUpX(event);
+			}
+			
+			this.xscrollBar.bind("dragstart", this.cancelEventBind);
+			this.xscrollBar.bind("mousedown", this.SBonMouseDownXBind);
+		}
 
 		//if(CTheight < Cheight ) {
 		var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 		if (document.attachEvent) { //if IE (and Opera depending on user setting)
-			if (AXgetId(config.targetID)) AXgetId(config.targetID).attachEvent("on" + mousewheelevt, this.SBonWheelBind);
+			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).attachEvent("on" + mousewheelevt, this.SBonWheelBind);
 		} else if (document.addEventListener) { //WC3 browsers
-			if (AXgetId(config.targetID)) AXgetId(config.targetID).addEventListener(mousewheelevt, this.SBonWheelBind, false);
+			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).addEventListener(mousewheelevt, this.SBonWheelBind, false);
 		}
 		if (document.addEventListener) {
-			if (AXgetId(config.targetID)) AXgetId(config.targetID).addEventListener("touchstart", this.SBtouchstartBind, false)
+			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).addEventListener("touchstart", this.SBtouchstartBind, false)
 		}
 		//}
 	},
 	tractActive: function (event) {
-		var config = this.config;
-		this.scrollBar.addClass("scrollBar_hover");
-		this.scrollTrack.addClass("scrollTrack_hover");
+		var cfg = this.config;
+		
+		if(cfg.yscroll){
+			this.scrollBar.addClass("scrollBar_hover");
+			this.scrollTrack.addClass("scrollTrack_hover");
+		}
+		
+		if(cfg.xscroll){
+			this.xscrollBar.addClass("xscrollBar_hover");
+			this.xscrollTrack.addClass("xscrollTrack_hover");				
+		}
+		
 		if (this.Observer) clearTimeout(this.Observer); //닫기 명령 제거
 		this.initScroll();
 	},
@@ -1804,12 +1888,12 @@ var AXScroll = Class.create(AXJ, {
 		}, 500);
 	},
 	getMousePosition: function (event) {
-		var config = this.config;
-		var pos = this.scrollTrack.offset();
-		//trace(pos);
-		var x = (event.pageX - pos.left);
+		var config = this.config;		
+		var pos = (this.scrollTrack) ? this.scrollTrack.offset() : {left:0, top:0};
+		var posx = (this.xscrollTrack) ? this.xscrollTrack.offset() : {left:0, top:0};
+
+		var x = (event.pageX - posx.left);
 		var y = (event.pageY - pos.top);
-		//trace({x:x, y:y});
 		return { x: x, y: y };
 	},
 	getTouchPosition: function (event) {
@@ -1938,11 +2022,11 @@ var AXScroll = Class.create(AXJ, {
 		var SBh = this.scrollBar.height();
 		var STh = this.scrollTrack.height();
 		var Ch = this.scrollScrollID.outerHeight();
-
+		
 		this.Ch = Ch;
 		this.STh = STh;
 
-		this.scrollBarAttr = { y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh };
+		this.scrollBarAttr = { x:(SBpos.left - pos.x).number(), y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh };
 		//trace("y:"+SBpos.top +" - "+ pos.y +", h:"+ SBh +", sth:"+STh+", calc y : "+(SBpos.top - pos.y).number());
 
 		jQuery(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveBind);
@@ -1980,6 +2064,58 @@ var AXScroll = Class.create(AXJ, {
 		jQuery(document.body).unbind("mouseup.AXScroll");
 		jQuery(document.body).unbind("mouseleave.AXScroll");
 	},
+	
+	SBonMouseDownX: function (event) {
+		var config = this.config;
+		this.scrollBarMove = true;
+		var pos = this.getMousePosition(event);
+		var SBpos = this.xscrollBar.position();
+		var SBw = this.xscrollBar.width();
+		var STw = this.xscrollTrack.width();
+		var Cw = this.scrollScrollID.outerWidth();
+		
+		this.Cw = Cw;
+		this.STw = STw;
+
+		this.scrollBarAttr = { x:(SBpos.left - pos.x).number(), w: SBw.number(), stw: STw };
+
+		jQuery(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveXBind);
+		jQuery(document.body).bind("mouseup.AXScroll", this.SBonMouseUpXBind);
+		jQuery(document.body).bind("mouseleave.AXScroll", this.SBonMouseUpXBind);
+	},
+	SBonMouseMoveX: function (event) {
+		var config = this.config;
+		if (this.scrollBarMove) {
+			
+			jQuery(document.body).attr("onselectstart", "return false");
+			jQuery(document.body).addClass("AXUserSelectNone");
+			var pos = this.getMousePosition(event);
+
+			var SBx = pos.x + this.scrollBarAttr.x;
+			//trace(SBy +" = "+ pos.y +"+"+ this.scrollBarAttr.y);
+
+			if (SBx < 2) SBx = 2;
+			if ((SBx + this.scrollBarAttr.w) > this.scrollBarAttr.stw) {
+				SBx = this.scrollBarAttr.stw - this.scrollBarAttr.w + 2;
+			}
+			
+			this.xscrollBar.css({ left: SBx });
+			this.setContentPosition("xscroll");
+			//this.setScrollbarPositionForWheel();
+		}
+	},
+	SBonMouseUpX: function (event) {
+		if (this.scrollBarMove) {
+			var config = this.config;
+			this.scrollBarMove = false;
+			jQuery(document.body).removeAttr("onselectstart");
+			jQuery(document.body).removeClass("AXUserSelectNone");
+		}
+		jQuery(document.body).unbind("mousemove.AXScroll");
+		jQuery(document.body).unbind("mouseup.AXScroll");
+		jQuery(document.body).unbind("mouseleave.AXScroll");
+	},
+	
 	SBonWheel: function (e) {
 		//content top handle
 		var config = this.config;
@@ -2023,58 +2159,90 @@ var AXScroll = Class.create(AXJ, {
 	SBonWheelEnd: function () {
 		if (this.scrollBarMove) return;
 		var config = this.config;
-		this.scrollBar.removeClass("scrollBar_hover");
-		this.scrollTrack.removeClass("scrollTrack_hover");
+		
+		if(config.yscroll){
+			this.scrollBar.removeClass("scrollBar_hover");
+			this.scrollTrack.removeClass("scrollTrack_hover");
+		}
+		
+		if(config.xscroll){
+			this.xscrollBar.removeClass("xscrollBar_hover");
+			this.xscrollTrack.removeClass("xscrollTrack_hover");
+		}
+		
 	},
 	cancelEvent: function (event) {
 		event.stopPropagation(); // disable  event
 		return false;
 	},
-	setContentPosition: function () {
+	setContentPosition: function (xscroll) {
 		var config = this.config;
-		var SBy = this.scrollBar.position().top;
-		var STh = this.STh;
-		var Ch = this.Ch;
-
-		var CTheight = this.CTheight;
-		var Cheight = this.Cheight;
-		var SBheight = CTheight * (CTheight - 4) / Cheight;
-
-		if (SBheight < 10) { //스크롤 바가 최소값일 때
-			//SBy + 5;
-			/*
-			if(SBy == 2) SBy = 0;
-			var Ctop = SBy * Ch / STh;
-			*/
-			var addTop, Ctop;
-
-			if (SBy == 2) SBy = 0;
-
-			addTop = ((10 - this.minHeightSB.h) / (STh - 10)) * SBy;
-			addTop = addTop == 0 ? addTop = 0 : addTop = addTop - 1;
-
-			if (STh - 10 > SBy) {
-				Ctop = (SBy + addTop) * Ch / STh;
+		
+		if(xscroll == "xscroll"){
+			var SBx = this.xscrollBar.position().left;
+			var STw = this.STw;
+			var Cw = this.Cw;
+	
+			var CTwidth = this.CTwidth;
+			var Cwidth = this.Cwidth;
+			var SBwidth = CTwidth * (CTwidth - 4) / Cwidth;
+	
+			if (SBwidth < 10) { //스크롤 바가 최소값일 때
+				var addLeft, Cleft;
+				if (SBx == 2) SBx = 0;
+				addLeft = ((10 - this.minWidthSB.w) / (STw - 10)) * SBx;
+				addLeft = addLeft == 0 ? addLeft = 0 : addLeft = addLeft - 1;
+				if (STw - 10 > SBx) {
+					Cleft = (SBx + addLeft) * Cw / STw;
+				} else {
+					Cleft = Cw - CTwidth;
+				}
+				if ((SBx) == STw) {
+					Cleft = Cw - CTwidth;
+				}
 			} else {
-				Ctop = Ch - CTheight;
+				SBx = SBx == 2 ? SBx = 0 : SBx = SBx - 2;	
+				var Cleft = SBx * Cw / STw;
 			}
-
-			if ((SBy) == STh) {
-				Ctop = Ch - CTheight;
+			this.scrollScrollID.css({ left: -(Cleft.round()) });
+		}else{
+			var SBy = this.scrollBar.position().top;
+			var STh = this.STh;
+			var Ch = this.Ch;
+	
+			var CTheight = this.CTheight;
+			var Cheight = this.Cheight;
+			var SBheight = CTheight * (CTheight - 4) / Cheight;
+	
+			if (SBheight < 10) { //스크롤 바가 최소값일 때
+				var addTop, Ctop;
+				if (SBy == 2) SBy = 0;
+				addTop = ((10 - this.minHeightSB.h) / (STh - 10)) * SBy;
+				addTop = addTop == 0 ? addTop = 0 : addTop = addTop - 1;
+				if (STh - 10 > SBy) {
+					Ctop = (SBy + addTop) * Ch / STh;
+				} else {
+					Ctop = Ch - CTheight;
+				}
+				if ((SBy) == STh) {
+					Ctop = Ch - CTheight;
+				}
+			} else {
+				SBy = SBy == 2 ? SBy = 0 : SBy = SBy - 2;	
+				var Ctop = SBy * Ch / STh;
 			}
-		} else {
-			SBy = SBy == 2 ? SBy = 0 : SBy = SBy - 2;
-			//trace({SBy:SBy, Ch:Ch, STh:STh});			
-			var Ctop = SBy * Ch / STh;
+			this.scrollScrollID.css({ top: -(Ctop.round()) });
 		}
-		this.scrollScrollID.css({ top: -(Ctop.round()) });
-		//this.scrollScrollID[0].style.top = -Ctop.round();
+
 	},
 
 	setScrollbarPositionForWheel: function () {
 		//scrollbar top position handle for wheel
 
 		var config = this.config;
+		
+		if(!config.yscroll) return false;
+		
 		//wheel control event is not jquery event !
 		var Sy = this.scrollScrollID.position().top;
 		var STh = this.scrollTrack.height();
@@ -2148,7 +2316,6 @@ var AXScroll = Class.create(AXJ, {
 	},
 	unbind: function () {
 		var config = this.config;
-		
 		this.scroll = false;
 		
 		this.scrollTrack.remove();

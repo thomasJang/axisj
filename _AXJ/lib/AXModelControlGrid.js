@@ -15,7 +15,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
-        this.config.theme = "ModelControlGrid";
+        this.config.theme = "modelControlGrid";
     },
     init: function() {
 		var cfg = this.config;
@@ -37,15 +37,103 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.target.append(ol.join(''));
 		/* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
 		
+		this.gridBody = jQuery("#" + cfg.targetID + "_AX_grid");
+		this.scrollBody = jQuery("#" + cfg.targetID + "_AX_gridScrollBody");
+		this.colHead = jQuery("#" + cfg.targetID + "_AX_gridColHead");
+		this.body = jQuery("#" + cfg.targetID + "_AX_gridBody");
+				
 		/*colHead setting */
 		this.setColHead();
 		
+		this.scrollBody.css({height:this.scrollBody.outerHeight()+13});
+		
+		this.myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+		this.myUIScroll.setConfig({
+			targetID : cfg.targetID + "_AX_grid",
+			scrollID : cfg.targetID + "_AX_gridScrollBody",
+			touchDirection : false,
+			yscroll:false,
+			xscroll:true
+		});
     },
-    setColHead: function(){
+    
+	getHeadItem: function (arg) {
+		var cfg = this.config;
+		var po = [];
+		
+		po.push("<td class=\"colHeadTd\">");
+		po.push("	<div class=\"tdRelBlock\">");
+		po.push("	<div class=\"colHeadNode\" align=\"" + (arg.align|"") + "\">");
+		
+		if(arg.html){
+			var html = arg.html.call({
+				rowIndex: arg.rowIndex, 
+				colIndex: arg.colIndex, 
+				data: arg.data
+			});
+			po.push(html);
+		}else{
+			po.push(arg.label);
+		}
+		
+		po.push("	</div>");;
+		po.push("</td>");
+
+		return po.join('');
+	},
+    
+    setColHead: function(rewrite){
+    	var cfg = this.config;
+    	var bodyWidth = this.body.width();
+    	var colWidth = 0;
+    	var astricCount = 0;
     	
+		jQuery.each(cfg.colGroup, function (cidx, CG) {
+			if (!rewrite){
+				if(CG.width == "*"){
+					CG.width = 0;
+					CG.widthAstric = true;
+					astricCount++;
+				}
+				CG._owidth = CG.width; /* 최초의 너비값 기억 하기 */
+			}else{
+				if(CG.widthAstric){
+					CG.width = 0;
+					CG._owidth = CG.width;
+					astricCount++;
+				}
+			}
+			colWidth += (CG._owidth||0).number();
+		});
+    	this.colWidth = colWidth;
+		this.scrollBody.css({width:this.colWidth});
+		
+		var getHeadItem = this.getHeadItem.bind(this);
+		
+		var po = [];
+		po.push("<table class=\"colHeadTable\" style=\"width:" + this.colWidth + "px;\">");
+		po.push("<tbody>");
+		po.push("<tr>");
+		var colCount = 0;
+		jQuery.each(cfg.colGroup, function (CHidx, CH) {
+
+			po.push(getHeadItem({
+				rowIndex:0, colIndex:CHidx, label:CH.label, html:CH.html, data:CH.data
+			}));
+
+			colCount += CH.colspan;
+		});
+		po.push("</tr>");
+		po.push("</tbody>");
+		po.push("</table>");
+		
+		this.colHead.empty();
+		this.colHead.append(po.join(''));
+		
     },
     setList: function(){
     	var cfg = this.config;
-    	
+		
     }
 });
+
