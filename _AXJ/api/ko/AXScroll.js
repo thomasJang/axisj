@@ -102,6 +102,6 @@
 			example:[],
 			exampleFn:[],
 			reference:	[]
-		}
+		}		
 	]
 }

@@ -108,6 +108,7 @@
 	
 	.w70{width:70px;}
 	.w80{width:80px;}
+	.w90{width:90px;}
 	.w20{width:20px;}
 	</style>
 	<!-- css block -->
@@ -133,7 +134,7 @@
 				colGroup:[
 					{label:"번호", width:"40", align:"center",
 						html:function(){
-						return '<button class="AXButtonSmall Red">del</button>';
+						return '<button class="AXButtonSmall Red" onclick="fnObj.del();">del</button>';
 					}},
 					{label:"Name / Email", width:"120", align:"center"},
 					{label:"투숙일", width:"200"},
@@ -151,6 +152,7 @@
 				body:{
 					form:[
 						{ // 체크박스
+							id:"",
 							align:"center",
 							data:{},
 							html:function(){
@@ -160,6 +162,7 @@
 							}
 						},
 						{ // 이름과 이메일
+							id:"",
 							data:{},
 							html:function(){
 								var po = [];
@@ -174,15 +177,16 @@
 							}
 						},
 						{ // 투숙일
+							id:"",
 							data:{},
 							html:function(){
 								var po = [];
 								po.push('<div class="rel inlineBlock">');
-								po.push('<input type="text" name="sttdt" id="sttdt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w70" placeholder="시작일" value="" />');
+								po.push('<input type="text" name="sttdt" id="sttdt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w70" placeholder="시작일" value="' + (this.item.stdt || "")  + '" />');
 								po.push(' ~ ');
-								po.push('<input type="text" name="enddt" id="enddt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w80" placeholder="종료일" value="" />');
+								po.push('<input type="text" name="enddt" id="enddt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w90" placeholder="종료일" value="' + (this.item.eddt || "")  + '" />');
 								po.push('<div class="Hspace3"></div>');
-								po.push('<input type="text" name="deptnm" id="dept_' + this.rowIndex + '" class="AXInputSmall v-req w20" title="부서" value="" /> D');
+								po.push('<input type="text" name="count" id="count_' + this.rowIndex + '" class="AXInputSmall v-req w20" value="' + (this.item.count || "")  + '" /> D');
 								po.push('</div>');
 								return po.join('');
 							},
@@ -193,12 +197,15 @@
 									align:"right", valign:"bottom", startTargetID:"sttdt_@rowIndex"
 								},
 								onchange: function(){
-									$("#dept_"+this.rowIndex).val( this.ST_value.date().diff(this.ED_value).number() + 1 );
+									/*$("#count_"+this.rowIndex).val( this.ST_value.date().diff(this.ED_value).number() + 1 );*/
+									var count = this.ST_value.date().diff(this.ED_value).number() + 1;
+									myModelGrid.updateItem(this.rowIndex, {stdt:this.ST_value, eddt:this.ED_value, count:count});
 								}
 							}
 						},
 						
 						{ // 투숙객
+							id:"",
 							align:"center",
 							data:{},
 							html:function(){
@@ -209,11 +216,12 @@
 							}
 						},
 						{ // 룸타입
+							id:"roomType",
 							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
-								po.push('<select class="AXSelectSmall" title="전화번호">');
+								po.push('<select name="roomType" class="AXSelectSmall" title="전화번호">');
 								po.push('	<option value="01">TBL</option>');
 								po.push('	<option value="02">DXC</option>');
 								po.push('</select>');
@@ -221,11 +229,12 @@
 							}
 						},
 						{ // 룸가격
+							id:"roomPrice",
 							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
-								po.push('<button class="AXButtonSmall" onclick="alert(\'' + this.rowIndex + '\')">240,000</button>');
+								po.push('<button class="AXButtonSmall" onclick="toast.push(Object.toJSON(myModelGrid.list[', this.rowIndex,'].subList));">' + (this.item.price * this.item.count).money() + '</button>');
 								po.push('<div class="Hspace3"></div>');
 								po.push('<input type="checkBox" name="comp" id="comp_' + this.rowIndex + '" value="Y" title="comp" />');
 								return po.join('');
@@ -254,24 +263,27 @@
 							}
 						},
 						{ // EXT.BED
+							id:"EXT.BED",
 							align:"right",
 							data:{},
 							html:function(){
 								var po = [];
-								po.push("55,500");
+								po.push( (this.item.price * this.item.count).money() );
 								return po.join('');
 							}
 						},
 						{ // B/F
+							id:"BF",
 							align:"right",
 							data:{},
 							html:function(){
 								var po = [];
-								po.push("16,500");
+								po.push( (this.item.price * this.item.count).money() );
 								return po.join('');
 							}
 						},
 						{ // NOTICE
+							id:"NOTICE",
 							data:{},
 							html:function(){
 								var po = [];
@@ -281,28 +293,33 @@
 								return po.join('');
 							}
 						}
-					],
-					onchange: function(){
-						
-					}
+					]
 				}
 			});
+			
 			myModelGrid.setList([
 				{
 					name:"장기영",
 					subList:[
-						
-					]
+						{name:"abc"}, {name:"abc"}
+					],
+					price:11000,
+					stdt:"2013-12-06",
+					eddt:"2013-12-06",
+					count:1
 				},
 				{
 					name:"장서우",
 					subList:[
-						
-					]
+						{name:"abc1"}, {name:"abc1"}
+					],
+					price:11000,
+					stdt:"2013-12-06",
+					eddt:"2013-12-06",
+					count:1
 				}
 			]);
-			
-			
+
 			//-----------------------
 			AXCode.bind(); // 소스보기
 		},
@@ -310,14 +327,28 @@
 			var item = {
 				name:"장기영1",
 				subList:[
-						
-				]
+					{name:"abc2"}, {name:"abc2"}
+				],
+				price:11000,
+				stdt:"2013-12-06",
+				eddt:"2013-12-06",
+				count:1
 			};
 			myModelGrid.appendList(item);
+		},
+		del: function(){
+			var objs = myModelGrid.getCheckedValue("rowIndex");
+			// input name="rowIndex" 의 값을 가져옵니다.
+			
+			myModelGrid.removeItem(objs);
+		},
+		output: function(){
+			var list = myModelGrid.getList();
+			trace(list);
 		}
 	};
 	$(document.body).ready(function(){
-		fnObj.pageStart.delay(0.1);
+		fnObj.pageStart.delay(0.01);
 	});
 	</script>
 	<!-- js block -->
@@ -338,10 +369,13 @@
 
 		<div style="padding:10px;">
 			<button class="AXButton" onclick="fnObj.add();">add</button>
-			<button class="AXButton" onclick="fnObj.del();">del</button>
 		</div>
 		
 		<div id="AXModelControlListTarget"></div>
+
+		<div style="padding:10px;">
+			<button class="AXButton" onclick="fnObj.output();">데이터추출</button>
+		</div>
 		
 	</div>
 </body>

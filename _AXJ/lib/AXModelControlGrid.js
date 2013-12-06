@@ -170,7 +170,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.printList();
 		//this.scrollBody.css({height:this.scrollBody.outerHeight()+13});
 		
-		this.myUIScroll.updateScroll();
+		this.myUIScroll.resizeScroll();
     },
     appendList: function(item){
     	var cfg = this.config;
@@ -179,7 +179,7 @@ var AXModelControlGrid = Class.create(AXJ, {
     	var lidx = this.list.length-1;
     	this.printItem(lidx, this.list[lidx]);
     	
-    	this.myUIScroll.updateScroll();
+    	this.myUIScroll.resizeScroll();
     },
     getItem: function(arg){
     	var cfg = this.config;
@@ -223,14 +223,14 @@ var AXModelControlGrid = Class.create(AXJ, {
 			printItem(lidx, L);
 		});
     },
-    printItem: function(lidx, L){
+    printItem: function(lidx, L, update){
     	var cfg = this.config;
     	var getItem = this.getItem.bind(this);
     	var AXbindOnchange = this.AXbindOnchange.bind(this);
     	var _body = this.body.find("tbody");
     	
 		var tr = [];
-		tr.push("<tr>");	
+		if(update == undefined) tr.push("<tr class='modelControlTR' id='" + cfg.targetID + "_tbodyTR_" + lidx + "'>");
 		
 		jQuery.each(cfg.body.form, function (fidx, form) {
 			tr.push(getItem({
@@ -239,10 +239,14 @@ var AXModelControlGrid = Class.create(AXJ, {
 				html:form.html, data:form.data
 			}));
 		});
-		tr.push("</tr>");
-		_body.append(tr.join());
+		if(update == undefined) tr.push("</tr>");
+		if(update == undefined){
+			_body.append(tr.join());
+		}else{
+			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).html(tr.join(''));
+		}
 		
-		jQuery.each(cfg.body.form, function (fidx, form) {
+		jQuery.each(cfg.body.form, function(fidx, form) {
 			if(form.AXBind){
 				var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
 				var myConfig = AXUtil.copyObject(form.AXBind.config);
@@ -261,6 +265,14 @@ var AXModelControlGrid = Class.create(AXJ, {
 				}
 			}
 		});
+		
+		var _this = this;
+		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],select,textarea").on("change", function(){
+			_this.list[lidx][this.name] = $(this).val();
+			//trace(this.value);
+		});
+		//_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=checkbox],input[type=radio]")
+		
     	
     },
     AXbindOnchange: function(lidx, fidx, AXBindThis){
@@ -280,6 +292,73 @@ var AXModelControlGrid = Class.create(AXJ, {
     		
     		cfg.body.form[fidx].AXBind.onchange.call(sendObj);
     	}
+    },
+    updateItem: function(lidx, item){
+    	var cfg = this.config;
+    	
+    	this.list[lidx] = AXUtil.overwriteObject(this.list[lidx], item, true);
+    	this.printItem(lidx, this.list[lidx], "update");
+    },
+    removeItem: function(collectIdx){
+    	var cfg = this.config;
+
+    	var newList = [];
+    	$.each(this.list, function(lidx, L){
+	    	if(Object.isArray(collectIdx)){
+	    		var isOk = true;
+	    		$.each(collectIdx, function(){
+	    			if(this == lidx) isOk = false;
+	    		});
+	    		if(isOk) newList.push(L);
+	    	}else{
+	    		if(collectIdx != lidx) newList.push(L);
+	    	}    		
+    	});
+
+		this.setList(newList);
+    },
+    getCheckedValue: function(name){
+    	var cfg = this.config;
+    	var returnValues = [];
+    	this.body.find("input[type=checkbox][name="+name+"]:checked").each(function(){
+    		returnValues.push(this.value);
+    	});
+    	return returnValues;
+    },
+    getList: function(){
+    	var cfg = this.config;
+    	
+    	var _body = this.body.find("tbody");
+    	$.each(this.list, function(lidx, L){
+    		
+    		var item = {};
+    		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],select,textarea").each(function(){
+    			item[this.name] = $(this).val();
+    		});
+    		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=checkbox],input[type=radio]").each(function(){
+    			if(this.checked){
+    				if(this.type == "checkbox"){
+		    			if(item[this.name]){
+		    				item[this.name].push(this.value);
+		    			}else{
+		    				item[this.name] = [this.value];
+		    			}
+		    		}else{
+		    			item[this.name] = this.value;
+		    		}
+	    		}
+    		});
+    		
+    		L = AXUtil.overwriteObject(L, item, true);
+    	});
+    	
+    	return this.list;
+    	
+    	/*
+    	this.body.find("tr.modelControlTR").each(function(trIndex, TR){
+    		trace(trIndex);
+    	});
+    	*/
     }
 });
 
