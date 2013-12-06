@@ -122,7 +122,7 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
 	<script type="text/javascript">
-	var myModel = new AXModelControl();
+	//var myModel = new AXModelControl();
 	var myModelGrid = new AXModelControlGrid();
 	
 	var fnObj = {
@@ -134,9 +134,9 @@
 				colGroup:[
 					{label:"번호", width:"40", align:"center",
 						html:function(){
-						return '<button class="AXButtonSmall Red" onclick="fnObj.del();">del</button>';
+							return '<button class="AXButtonSmall Red" onclick="fnObj.del();">del</button>';
 					}},
-					{label:"Name / Email", width:"120", align:"center"},
+					{label:"Name / Email", width:"200", align:"center"},
 					{label:"투숙일", width:"200"},
 					
 					{label:"투숙객", width:"90", align:"center"},
@@ -154,10 +154,25 @@
 						{ // 체크박스
 							id:"",
 							align:"center",
-							data:{},
+							data:{
+								mtdata:111,
+								callback: function(){
+									return "ABC";	
+								}
+							},
 							html:function(){
+								//this.data.mtdata;
+								//기본적으로 오는 아이들
+								/*
+								rowIndex : 줄번호, 
+								colIndex: 열번호, 
+								data: 사용자데이터,
+								item: 현재줄 오브젝트, 
+								list: 전체 리스트
+								*/
 								var po = [];
-								po.push('<input type="checkbox" name="rowIndex" value="'+this.rowIndex+'" />');
+								po.push('<input type="checkbox" name="idx" value="'+this.rowIndex+'" />');
+								po.push(this.data.callback());
 								return po.join('');
 							}
 						},
@@ -200,18 +215,20 @@
 									/*$("#count_"+this.rowIndex).val( this.ST_value.date().diff(this.ED_value).number() + 1 );*/
 									var count = this.ST_value.date().diff(this.ED_value).number() + 1;
 									myModelGrid.updateItem(this.rowIndex, {stdt:this.ST_value, eddt:this.ED_value, count:count});
+									/*
+									해당줄을 업데이트 하는 함수 구문 
+									*/
 								}
 							}
 						},
-						
 						{ // 투숙객
 							id:"",
 							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
-								po.push('<input type="text" name="deptnmA" id="deptnmA_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="A" value="" /> / ');
-								po.push('<input type="text" name="deptnmC" id="deptnmC_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="C" value="" />');
+								po.push('<input type="text" name="deptnmA" id="deptnmA_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="A" value="' + (this.item.deptnmA||"") + '" onchange="fnObj.changedata('+this.rowIndex+');" /> / ');
+								po.push('<input type="text" name="deptnmC" id="deptnmC_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="C" value="' + (this.item.deptnmC||"") + '" />');
 								return po.join('');
 							}
 						},
@@ -317,6 +334,16 @@
 					stdt:"2013-12-06",
 					eddt:"2013-12-06",
 					count:1
+				},
+				{
+					name:"국정일",
+					subList:[
+						{name:"abc1"}, {name:"abc1"}
+					],
+					price:11000,
+					stdt:"2013-12-06",
+					eddt:"2013-12-06",
+					count:1
 				}
 			]);
 
@@ -329,7 +356,7 @@
 				subList:[
 					{name:"abc2"}, {name:"abc2"}
 				],
-				price:11000,
+				price:13000,
 				stdt:"2013-12-06",
 				eddt:"2013-12-06",
 				count:1
@@ -337,14 +364,25 @@
 			myModelGrid.appendList(item);
 		},
 		del: function(){
-			var objs = myModelGrid.getCheckedValue("rowIndex");
+			var objs = myModelGrid.getCheckedValue("idx");
 			// input name="rowIndex" 의 값을 가져옵니다.
 			
 			myModelGrid.removeItem(objs);
+			
+			//myModelGrid.removeItem([]);
+			//myModelGrid.removeItem(Number)
 		},
 		output: function(){
 			var list = myModelGrid.getList();
 			trace(list);
+		},
+		changedata: function(rowIndex){
+			//alert(rowIndex);	
+			(function(){
+				trace(myModelGrid.list[rowIndex]);
+				myModelGrid.updateItem(rowIndex, {xxx:"qwe"});
+			}).delay(0.01);
+			
 		}
 	};
 	$(document.body).ready(function(){
