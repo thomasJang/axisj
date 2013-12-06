@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXModelControl</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	H2{font-family:consolas;}
+	
+	
+	.myTable{
+		border:1px solid #E3E3E3;
+		width:100%;
+		border-collapse:collapse;
+	}
+	.myTable th{
+		background:#eee;
+	}
+	.myTable th,.myTable td{
+		border:1px solid #E3E3E3;
+		padding:5px;
+	}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModelControl.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModelControlGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">
+	var myModel = new AXModelControl();
+	var myModelGrid = new AXModelControlGrid();
+	
+	var fnObj = {
+		pageStart: function(){
+
+			myModelGrid.setConfig({
+				targetID:"AXModelControlListTarget",
+				colGroup:[
+					{key:"no", label:"번호", width:"50"},
+					{key:"title", label:"제목", width:"200"},
+					{key:"writer", label:"작성자", width:"100"},
+					{key:"regDate", label:"작성일", width:"100"},
+					{key:"price", label:"가격", width:"100"},
+					{key:"amount", label:"수량", width:"80"},
+					{key:"cost", label:"금액", width:"100"},
+					{key:"desc", label:"비고", width:"200"}
+				],
+				body:{
+					row:[
+						[
+							{key:"no"},
+							{key:"title"}, 
+							{key:"writer"}, 
+							{key:"regDate"}, 
+							{key:"price"},
+							{key:"amount"},
+							{key:"cost"},
+							{key:"desc"}
+						]
+					],
+					onclick:function(){
+						
+					}
+				}
+			});
+			myModelGrid.setList([]);
+			
+			
+			//-----------------------
+			AXCode.bind(); // 소스보기
+		},
+		ok1: function(){
+			var obj = myModel.getData();
+			trace(obj);
+		},
+		ok1_setData: function(){
+
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+	<div style="padding:20px;">
+		
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="controlGrid.html" class="AXTab Blue on">controlGrid</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+		
+		<div class="Hspace20"></div>
+
+		<div style="padding:10px;">
+			<button class="AXButton" onclick="fnObj.add();">add</button>
+			<button class="AXButton" onclick="fnObj.del();">del</button>
+		</div>
+		
+		<div id="AXModelControlListTarget"></div>
+		
+	</div>
+</body>
+</html>

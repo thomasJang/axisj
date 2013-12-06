@@ -303,7 +303,7 @@
 			name:		"isEmpty", 
 			type:		"method", 
 			desc:		"대상 개체가 undefined, null, \"\" 인지 체크 합니다.",
-			define:		"AXUtil.confirm(JSObject);",
+			define:		"AXUtil.isEmpty(JSObject);",
 			arguments: [
 				{k:"JSObject", v:""}
 			],

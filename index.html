@@ -15,9 +15,19 @@
 	<link rel="stylesheet" type="text/css" href="_AXJ/ui/default/AXJ.css" />
 	<style type="text/css">
 		body{padding:20px;font-family:consolas;}
-		a{font-size:14px;padding:5px;display:inline-block;font-family:consolas;text-decoration:none;}
-		a:hover{text-decoration:underline;}
+		a{font-size:14px;padding:5px 10px;display:inline-block;font-family:consolas;text-decoration:none;}
+		a:hover{text-decoration:underline;background:#eee;}
 		.sampleLink{color:#000;}
+		.bookmark{background:url(_AXJ/ui/icon/bookmark.png) no-repeat;}
+		.new{background:url(_AXJ/ui/icon/new.png) no-repeat;}
+		.alpha{color:#666;}
+		ul{margin:0px;padding:0px 0px 0px 0px;}
+		li{list-style:none;margin:0px;display:inline-block;}
+		li.line{
+			list-style:none;
+			display:block;
+			height:20px;
+		}
 	</style>
 	<!-- css block -->
 	
@@ -40,35 +50,39 @@
 		<img src="_AXJ/axj_v.png" align="middle" alt="" />
 	</div>
 	
-	<a href="samples/AXISJ_webapplication/Archon/index.html" target="_blank" class="sampleLink">Web Application Demo(Archon)</a><br/>
-	
-	<a href="samples/AXcore/index.html" target="_top" class="sampleLink">AXcore</a><br/>
-	<a href="samples/AXButton/index.html" target="_top" class="sampleLink">AXButton</a><br/>
-	<a href="samples/AXInput/index.html" target="_top" class="sampleLink">AXInput</a><br/>
-	<a href="samples/AXSelect/index.html" target="_top" class="sampleLink">AXSelect</a><br/>
-	<a href="samples/AXNotification/index.html" target="_top" class="sampleLink">AXNotification</a><br/>
-	<a href="samples/AXModal/index.html" target="_top" class="sampleLink">AXModal</a><br/>
-	<a href="samples/AXprogress/index.html" target="_top" class="sampleLink">AXprogress</a><br/>
-	<a href="samples/AXScroll/index.html" target="_top" class="sampleLink">AXScroll</a><br/>
-	<a href="samples/AXTabs/index.html" target="_top" class="sampleLink">AXTabs</a><br/>	
-	<a href="samples/AXGrid/index.html" target="_top" class="sampleLink">AXGrid</a><br/>
-	<a href="samples/AXTree/index.html" target="_top" class="sampleLink">AXTree</a><br/>
-	<a href="samples/AXEditor/index.html" target="_top" class="sampleLink">AXEditor</a><br/>
-	<a href="samples/AXSearch/index.html" target="_top" class="sampleLink">AXSearch</a><br/>
-	<a href="samples/AXExcelConvert/index.html" target="_top" class="sampleLink">AXExcelConvert</a><br/>
-	<a href="samples/AXTimeTable/index.html" target="_top" class="sampleLink">AXTimeTable</a><br/>
-	<a href="samples/AXTopDownMenu/index.html" target="_top" class="sampleLink">AXTopDownMenu</a><br/>
-	<a href="samples/AXUpload/index.html" target="_top" class="sampleLink">AXUpload</a><br/>
-	<a href="samples/AXUpload5/index.html" target="_top" class="sampleLink">AXUpload5</a><br/>
-	<a href="samples/AXValidator/index.html" target="_top" class="sampleLink">AXValidator</a><br/>
-	<a href="samples/AXAddress/index.html" target="_top" class="sampleLink">AXAddress</a><br/>
-	<a href="samples/AXScheduleCalendar/index.html" target="_top" class="sampleLink">AXScheduleCalendar (alpha)</a><br/>
-	<a href="samples/AXFrameSet/index.html" target="_top" class="sampleLink">AXFrameSet (alpha)</a><br/>
-	<a href="samples/AXWaterfall/index.html" target="_top" class="sampleLink">AXWaterfall</a><br/>
-	<a href="samples/jQueryExtendEasing/index.html" target="_top" class="sampleLink">jQueryExtendEasing</a><br/>
-	<a href="samples/mobileView/index.html" target="_top" class="sampleLink">mobileView</a><br/>
-	<a href="samples/tableStyleGuide/index.html" target="_top" class="sampleLink">tableStyleGuide</a><br/>
-	
+	<ul>
+		<li><a href="samples/AXISJ_webapplication/Archon/index.html" target="_blank" class="sampleLink">Web Application Demo(Archon)</a></li>
+		<li class="line"></li>
+		<li><a href="samples/AXcore/index.html" target="_top" class="sampleLink">AXcore</a></li>
+		<li><a href="samples/AXButton/index.html" target="_top" class="sampleLink">AXButton</a></li>
+		<li><a href="samples/AXInput/index.html" target="_top" class="sampleLink">AXInput</a></li>
+		<li><a href="samples/AXSelect/index.html" target="_top" class="sampleLink">AXSelect</a></li>
+		<li><a href="samples/AXNotification/index.html" target="_top" class="sampleLink">AXNotification</a></li>
+		<li><a href="samples/AXModal/index.html" target="_top" class="sampleLink">AXModal</a></li>
+		<li><a href="samples/AXprogress/index.html" target="_top" class="sampleLink">AXprogress</a></li>
+		<li><a href="samples/AXScroll/index.html" target="_top" class="sampleLink">AXScroll</a></li>
+		<li><a href="samples/AXTabs/index.html" target="_top" class="sampleLink">AXTabs</a></li>
+		<li><a href="samples/AXGrid/index.html" target="_top" class="sampleLink bookmark">AXGrid</a></li>
+		<li><a href="samples/AXTree/index.html" target="_top" class="sampleLink bookmark">AXTree</a></li>
+		<li><a href="samples/AXEditor/index.html" target="_top" class="sampleLink bookmark">AXEditor</a></li>
+		<li><a href="samples/AXSearch/index.html" target="_top" class="sampleLink">AXSearch</a></li>
+		<li><a href="samples/AXTopDownMenu/index.html" target="_top" class="sampleLink">AXTopDownMenu</a></li>
+		<li><a href="samples/AXUpload5/index.html" target="_top" class="sampleLink bookmark">AXUpload5</a></li>
+		<li><a href="samples/AXValidator/index.html" target="_top" class="sampleLink">AXValidator</a></li>
+		<li><a href="samples/AXWaterfall/index.html" target="_top" class="sampleLink">AXWaterfall</a></li>
+		<li><a href="samples/jQueryExtendEasing/index.html" target="_top" class="sampleLink">jQueryExtendEasing</a></li>
+		<li class="line"></li>
+		<li><a href="samples/AXAddress/index.html" target="_top" class="sampleLink">AXAddress</a></li>
+		<li><a href="samples/AXExcelConvert/index.html" target="_top" class="sampleLink">AXExcelConvert</a></li>
+		<li><a href="samples/AXTimeTable/index.html" target="_top" class="sampleLink">AXTimeTable</a></li>
+		<li><a href="samples/AXModelControl/index.html" target="_top" class="sampleLink new">AXModelControl</a></li>
+		<li class="line"></li>
+		<li><a href="samples/AXUpload/index.html" target="_top" class="sampleLink">AXUpload</a></li>
+		<li><a href="samples/mobileView/index.html" target="_top" class="sampleLink">mobileView</a></li>
+		<li><a href="samples/tableStyleGuide/index.html" target="_top" class="sampleLink">tableStyleGuide</a></li>
+		<li><a href="samples/AXScheduleCalendar/index.html" target="_top" class="sampleLink alpha">AXScheduleCalendar(alpha)</a></li>
+		<li><a href="samples/AXFrameSet/index.html" target="_top" class="sampleLink alpha">AXFrameSet(alpha)</a></li>
+	</ul>	
 	
 	
 	<div style="padding:10px 5px;">2013-11-13 오후 2:59:07</div>
