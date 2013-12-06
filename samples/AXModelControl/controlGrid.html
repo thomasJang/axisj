@@ -11,27 +11,111 @@
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<style type="text/css">
 	H2{font-family:consolas;}
 	
-	.modelControlGrid{
-		border-collapse:collapse;
+	
+	/* AXInputGroup */
+	.AXInputGroup{
+		border:1px solid #b6b6b6;background:#fff;
+		box-shadow:inset 0px 1px 2px #dddddd;
+		border-radius:4px;
+		padding:0px 4px;
 	}
-	.modelControlGrid td{
-		border:1px solid #E3E3E3;
-		padding:5px;
+	.AXInputGroup.inlineBlock{
+		display:inline-block;position:relative;
+		border:1px solid #b6b6b6;background:#fff;
+		box-shadow:inset 0px 1px 2px #dddddd;
+		border-radius:4px;
+		padding:0px 4px;
 	}
-	.modelControlGrid .colHeadTable td{
-		background:#f3f3f3;
+	.AXInputGroup input[type=text]{
+		border:0px none;padding:0px;
+		width:100%;
+		padding:4px 0px;
+		font-size:12px;line-height:15px;height:15px;
+		background:none;
 	}
 	
+	/* AXInputGroupSmall */
+	.AXInputGroupSmall{
+		border:1px solid #b6b6b6;background:#fff;
+		box-shadow:inset 0px 1px 2px #dddddd;
+		border-radius:4px;
+		padding:0px 3px;
+	}
+	.AXInputGroupSmall.inlineBlock{
+		display:inline-block;position:relative;
+		border:1px solid #b6b6b6;background:#fff;
+		box-shadow:inset 0px 1px 2px #dddddd;
+		border-radius:4px;
+		padding:0px 3px;
+	}
+	.AXInputGroupSmall input[type=text]{
+		border:0px none;padding:0px;
+		width:100%;
+		padding:0px 0px;
+		font-size:11px;line-height:12px;height:12px;
+		background:none;
+	}
+	
+	
+	/* modelControlGrid */
+	.modelControlGrid{
+		
+	}
+	
+	.modelControlGrid .AXgridScrollBody{
+		
+	}
+	.modelControlGrid .AXGridColHead{
+		
+	}
+	.modelControlGrid .colHeadTable{
+		table-layout:fixed;
+		border-spacing:0px;
+		border-collapse:collapse;
+		
+	}
+	.modelControlGrid .colHeadTable td{
+		border-top:1px solid #c0b5a6;
+		border-bottom:1px solid #c0b5a6;
+		background:url(../../_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px #eee;
+	}
+	.modelControlGrid .colHeadTable td .tdRelBlock{
+		position:relative;
+		padding:3px;padding-right:4px;
+	}
+	
+	.modelControlGrid .AXGridBody{
+		background:url(../../_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 0px 0px;
+	}
+	.modelControlGrid .gridBodyTable{
+		table-layout:fixed;	
+		border-spacing:0px;
+		border-collapse:collapse;
+	}
+	.modelControlGrid .gridBodyTable td{
+		border-bottom:1px solid #c0b5a6;
+		background:url(../../_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px;
+	}
+	.modelControlGrid .gridBodyTable td .tdRelBlock{
+		position:relative;
+		padding:3px;padding-right:4px;
+	}
+	
+	.w70{width:70px;}
+	.w80{width:80px;}
+	.w20{width:20px;}
 	</style>
 	<!-- css block -->
 
 	<!-- js block -->
 	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModelControl.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModelControlGrid.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
@@ -47,136 +131,189 @@
 				theme:"modelControlGrid",
 				targetID:"AXModelControlListTarget",
 				colGroup:[
-					{label:"번호", width:"50"},
-					{label:"Name", width:"200"},
-					{label:"Email", width:"100"},
-					{label:"투숙일", width:"100"},
+					{label:"번호", width:"40", align:"center",
+						html:function(){
+						return '<button class="AXButtonSmall Red">del</button>';
+					}},
+					{label:"Name / Email", width:"120", align:"center"},
+					{label:"투숙일", width:"200"},
 					
-					{label:"투숙객", width:"100"},
-					{label:"RoomType", width:"80"},
-					{label:"RoomPrice", width:"100"},
-					{label:"R/C", width:"200"},
+					{label:"투숙객", width:"90", align:"center"},
+					{label:"RoomType", width:"70"},
+					{label:"RoomPrice", width:"80"},
+					{label:"R/C", width:"40"},
 					
-					{label:"Cmoking", width:"200"},
-					{label:"EXT.BED", width:"200"},
-					{label:"B/F", width:"200"},
-					{label:"Notice", width:"200"}
+					{label:"Smoking", width:"60"},
+					{label:"EXT.BED", width:"80"},
+					{label:"B/F", width:"80"},
+					{label:"Notice", width:"*"}
 				],
 				body:{
 					form:[
-						{
+						{ // 체크박스
+							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<input type="checkbox" name="rowIndex" value="'+this.rowIndex+'" />');
 								return po.join('');
-							},
-							onclick: function(){}
+							}
 						},
-						{
+						{ // 이름과 이메일
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('	<input type="text" name="name" id="myname_' + this.rowIndex + '" value="'+(this.item.name || "")+'" />');
+								po.push('</div>');
+								po.push('<div class="Hspace3"></div>');
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('	<input type="text" name="email" id="myemail_' + this.rowIndex + '" value="'+(this.item.email || "")+'" />');
+								po.push('</div>');
 								return po.join('');
-							},
-							onclick: function(){}
+							}
 						},
-						{
+						{ // 투숙일
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<div class="rel inlineBlock">');
+								po.push('<input type="text" name="sttdt" id="sttdt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w70" placeholder="시작일" value="" />');
+								po.push(' ~ ');
+								po.push('<input type="text" name="enddt" id="enddt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w80" placeholder="종료일" value="" />');
+								po.push('<div class="Hspace3"></div>');
+								po.push('<input type="text" name="deptnm" id="dept_' + this.rowIndex + '" class="AXInputSmall v-req w20" title="부서" value="" /> D');
+								po.push('</div>');
 								return po.join('');
 							},
-							onclick: function(){}
-						},
-						{
-							data:{},
-							html:function(){
-								var po = [];
-								return po.join('');
-							},
-							onclick: function(){}
-						},
-						
-						{
-							data:{},
-							html:function(){
-								var po = [];
-								return po.join('');
-							},
-							onclick: function(){}
-						},
-						{
-							data:{},
-							html:function(){
-								var po = [];
-								return po.join('');
-							},
-							onclick: function(){}
-						},
-						{
-							data:{},
-							html:function(){
-								var po = [];
-								return po.join('');
-							},
-							onclick: function(){}
-						},
-						{
-							data:{},
-							html:function(){
-								var po = [];
-								return po.join('');
-							},
-							onclick: function(){}
+							AXBind: {
+								id:"enddt_@rowIndex",
+								type:"TwinDate",
+								config:{
+									align:"right", valign:"bottom", startTargetID:"sttdt_@rowIndex"
+								},
+								onchange: function(){
+									$("#dept_"+this.rowIndex).val( this.ST_value.date().diff(this.ED_value).number() + 1 );
+								}
+							}
 						},
 						
-						{
+						{ // 투숙객
+							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<input type="text" name="deptnmA" id="deptnmA_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="A" value="" /> / ');
+								po.push('<input type="text" name="deptnmC" id="deptnmC_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="C" value="" />');
 								return po.join('');
-							},
-							onclick: function(){}
+							}
 						},
-						{
+						{ // 룸타입
+							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<select class="AXSelectSmall" title="전화번호">');
+								po.push('	<option value="01">TBL</option>');
+								po.push('	<option value="02">DXC</option>');
+								po.push('</select>');
 								return po.join('');
-							},
-							onclick: function(){}
+							}
 						},
-						{
+						{ // 룸가격
+							align:"center",
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<button class="AXButtonSmall" onclick="alert(\'' + this.rowIndex + '\')">240,000</button>');
+								po.push('<div class="Hspace3"></div>');
+								po.push('<input type="checkBox" name="comp" id="comp_' + this.rowIndex + '" value="Y" title="comp" />');
 								return po.join('');
-							},
-							onclick: function(){}
+							}
 						},
-						{
+						{ // R/C
 							data:{},
 							html:function(){
 								var po = [];
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('<input type="text" name="rc" id="rc_' + this.rowIndex + '" maxlength="2" class="v-req" title="rc" value="" />');
+								po.push('</div>');
 								return po.join('');
-							},
-							onclick: function(){}
+							}
+						},
+						{ // Smoking
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<select name="smoking" id="smoking_' + this.rowIndex + '" class="AXSelectSmall" title="">');
+								po.push('	<option value="Y">Y</option>');
+								po.push('	<option value="N">N</option>');
+								po.push('</select>');
+								return po.join('');
+							}
+						},
+						{ // EXT.BED
+							align:"right",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push("55,500");
+								return po.join('');
+							}
+						},
+						{ // B/F
+							align:"right",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push("16,500");
+								return po.join('');
+							}
+						},
+						{ // NOTICE
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('	<input type="text" name="notice" id="notice_' + this.rowIndex + '" value="'+(this.item.notice || "")+'" />');
+								po.push('</div>');
+								return po.join('');
+							}
 						}
-					]
+					],
+					onchange: function(){
+						
+					}
 				}
 			});
-			myModelGrid.setList([]);
+			myModelGrid.setList([
+				{
+					name:"장기영",
+					subList:[
+						
+					]
+				},
+				{
+					name:"장서우",
+					subList:[
+						
+					]
+				}
+			]);
 			
 			
 			//-----------------------
 			AXCode.bind(); // 소스보기
 		},
-		ok1: function(){
-			var obj = myModel.getData();
-			trace(obj);
-		},
-		ok1_setData: function(){
-
+		add: function(){
+			var item = {
+				name:"장기영1",
+				subList:[
+						
+				]
+			};
+			myModelGrid.appendList(item);
 		}
 	};
 	$(document.body).ready(function(){

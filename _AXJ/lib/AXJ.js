@@ -2421,7 +2421,7 @@ var AXCalendar = Class.create(AXJ, {
 				var addClass = [];
 				var tdClass = [];
 				if (roopDate.getMonth() != monthStartDate.getMonth()) addClass.push("notThisMonth");
-				if (setDate.diff(roopDate) == 0) tdClass.push("setDate");
+				if (setDate.diff(roopDate, "D") == 0) tdClass.push("setDate");
 				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue + "</a></td>");
 				k++;
 				roopDate = roopDate.add(1);

@@ -2641,7 +2641,8 @@ var AXInputConverter = Class.create(AXJ, {
 			objVal1Empty = true;
 		}
 
-		var myDate1 = (objVal1Empty) ? objVal1.date(separator).add(-1, "m") : objVal1.date(separator);
+		/*var myDate1 = (objVal1Empty) ? objVal1.date(separator).add(-1, "m") : objVal1.date(separator);*/
+		var myDate1 = objVal1.date(separator);
 		var myDate2 = objVal2.date(separator);
 		var myYear1 = myDate1.getFullYear();
 		var myYear2 = myDate2.getFullYear();
