@@ -35,7 +35,7 @@ var AXModelControl = Class.create(AXJ, {
 		if(cfg.collectSelector != ""){
 			finderCSS = cfg.collectSelector;
 		}else{
-			finderCSS = "input[type=text], input[type=radio], input[type=checkbox], select, textarea";
+			finderCSS = "input[type=text], input[type=hidden], input[type=radio], input[type=checkbox], select, textarea";
 		}
 		var _this = this;
 		var getParentSubModel = function(ele){

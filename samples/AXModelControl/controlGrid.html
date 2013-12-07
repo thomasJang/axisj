@@ -13,9 +13,9 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXModelControlGrid.css" />
 	<style type="text/css">
 	H2{font-family:consolas;}
-	
 	
 	/* AXInputGroup */
 	.AXInputGroup{
@@ -61,51 +61,6 @@
 		background:none;
 	}
 	
-	
-	/* modelControlGrid */
-	.modelControlGrid{
-		
-	}
-	
-	.modelControlGrid .AXgridScrollBody{
-		
-	}
-	.modelControlGrid .AXGridColHead{
-		
-	}
-	.modelControlGrid .colHeadTable{
-		table-layout:fixed;
-		border-spacing:0px;
-		border-collapse:collapse;
-		
-	}
-	.modelControlGrid .colHeadTable td{
-		border-top:1px solid #c0b5a6;
-		border-bottom:1px solid #c0b5a6;
-		background:url(../../_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px #eee;
-	}
-	.modelControlGrid .colHeadTable td .tdRelBlock{
-		position:relative;
-		padding:3px;padding-right:4px;
-	}
-	
-	.modelControlGrid .AXGridBody{
-		background:url(../../_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 0px 0px;
-	}
-	.modelControlGrid .gridBodyTable{
-		table-layout:fixed;	
-		border-spacing:0px;
-		border-collapse:collapse;
-	}
-	.modelControlGrid .gridBodyTable td{
-		border-bottom:1px solid #c0b5a6;
-		background:url(../../_AXJ/ui/default/img/gridbodyBorder.png) repeat-y 100% 0px;
-	}
-	.modelControlGrid .gridBodyTable td .tdRelBlock{
-		position:relative;
-		padding:3px;padding-right:4px;
-	}
-	
 	.w70{width:70px;}
 	.w80{width:80px;}
 	.w90{width:90px;}
@@ -129,7 +84,7 @@
 		pageStart: function(){
 
 			myModelGrid.setConfig({
-				theme:"modelControlGrid",
+				theme:"AXModelControlGrid",
 				targetID:"AXModelControlListTarget",
 				colGroup:[
 					{label:"번호", width:"40", align:"center",
@@ -309,6 +264,103 @@
 								po.push('</div>');
 								return po.join('');
 							}
+						}
+					]
+				},
+				foot:{
+					form:[
+						{
+							colspan:3,
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('TOTAL');
+								return po.join('');
+							}
+						},
+						
+						{
+							data:{},
+							align:"center",
+							html:function(){
+								var po = [];
+								
+								var deptnmA = 0, deptnmC = 0;
+								$.each(this.list, function(){
+									deptnmA += (this.deptnmA || 0).number();
+									deptnmC += (this.deptnmC || 0).number();
+								});
+								po.push( deptnmA + " / " + deptnmC );
+								
+								return po.join('');
+							}	
+						},
+						{ // 투숙객
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						{ // room type
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						{ // room price
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						
+						{ // smoking
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						{
+							data:{},
+							align:"right",
+							html:function(){
+								var po = [];
+								
+								var cost = 0;
+								$.each(this.list, function(){
+									cost += (this.price * this.count);
+								});
+								po.push( cost.money() );
+								
+								return po.join('');
+							}	
+						},
+						{
+							data:{},
+							align:"right",
+							html:function(){
+								var po = [];
+								
+								var cost = 0;
+								$.each(this.list, function(){
+									cost += (this.price * this.count);
+								});
+								po.push( cost.money() );
+								
+								return po.join('');
+							}	
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
 						}
 					]
 				}

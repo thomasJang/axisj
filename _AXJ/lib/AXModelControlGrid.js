@@ -15,7 +15,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
-        this.config.theme = "modelControlGrid";
+        this.config.theme = "AXModelControlGrid";
     },
     init: function() {
 		var cfg = this.config;
@@ -32,7 +32,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		ol.push("	<div class=\"AXgridScrollBody\" id=\"" + cfg.targetID + "_AX_gridScrollBody\" style=\"z-index:2;\">");
 		ol.push("		<div class=\"AXGridColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_gridColHead\" onselectstart=\"return false;\"></div>");
 		ol.push("		<div class=\"AXGridBody\" id=\"" + cfg.targetID + "_AX_gridBody\"></div>");
-		ol.push("		<div style=\"height:13px;\"></div>");
+		//ol.push("		<div style=\"height:13px;\"></div>");
 		ol.push("	</div>");
 		this.target.empty();
 		this.target.append(ol.join(''));
@@ -178,6 +178,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 
     	var lidx = this.list.length-1;
     	this.printItem(lidx, this.list[lidx]);
+    	this.printFootItem();
     	
     	this.myUIScroll.resizeScroll();
     },
@@ -212,8 +213,9 @@ var AXModelControlGrid = Class.create(AXJ, {
 		po.push("<table class=\"gridBodyTable\" style=\"width:" + this.colWidth + "px;\">");
 		po.push(this.getColGroup("body")); /*colGroup 삽입 */
 		po.push("<tbody>");
-				
 		po.push("</tbody>");
+		po.push("<tfoot>");
+		po.push("</tfoot>");
 		po.push("</table>");
 		
 		this.body.empty();
@@ -222,6 +224,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 		jQuery.each(this.list, function(lidx, L){
 			printItem(lidx, L);
 		});
+
+		this.printFootItem();
     },
     printItem: function(lidx, L, update){
     	var cfg = this.config;
@@ -266,14 +270,18 @@ var AXModelControlGrid = Class.create(AXJ, {
 			}
 		});
 		
+		var printFootItem = this.printFootItem.bind(this);
 		var _this = this;
 		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],select,textarea").on("change", function(){
 			_this.list[lidx][this.name] = $(this).val();
-			//trace(this.value);
+
+			printFootItem();
 		});
 		//_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=checkbox],input[type=radio]")
 		
-    	
+    	if(update == "update"){
+			//printFootItem();
+    	}
     },
     AXbindOnchange: function(lidx, fidx, AXBindThis){
     	var cfg = this.config;
@@ -293,11 +301,52 @@ var AXModelControlGrid = Class.create(AXJ, {
     		cfg.body.form[fidx].AXBind.onchange.call(sendObj);
     	}
     },
+    
+    /* foot */
+    printFootItem: function(){
+    	var cfg = this.config;
+	
+		if(!cfg.foot) return;
+		if(!cfg.foot.form) return;
+    	
+    	var _body = this.body.find("tfoot");
+    	var _list = this.list;
+    	var foot = [];
+		foot.push("<tr class='modelControlTR' id='" + cfg.targetID + "_tbodyTR_foot'>");
+		
+		jQuery.each(cfg.foot.form, function(fidx, arg){
+			foot.push("<td class=\"bodyTd\" colspan=\"" + (arg.colspan || 1) + "\">");
+			foot.push("	<div class=\"tdRelBlock\" style=\"text-align:" + (arg.align||"left") + ";\">");
+			
+			if(arg.html){
+				var html = arg.html.call({
+					rowIndex: 0, 
+					colIndex: fidx, 
+					data: arg.data,
+					list:_list
+				});
+				foot.push(html);
+			}else{
+				foot.push("&nbsp;");
+			}
+			
+			foot.push("	</div>");
+			foot.push("</td>");
+		});
+		
+		foot.push("</tr>");
+		
+		_body.empty();
+		_body.append(foot.join(''));
+		
+    },
     updateItem: function(lidx, item){
     	var cfg = this.config;
     	
     	this.list[lidx] = AXUtil.overwriteObject(this.list[lidx], item, true);
     	this.printItem(lidx, this.list[lidx], "update");
+    	
+    	this.printFootItem();
     },
     removeItem: function(collectIdx){
     	var cfg = this.config;
