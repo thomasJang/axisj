@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.25",
+	version: "AXInputConverter v1.26",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -20,7 +20,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-08-28 오후 4:16:01 bindMoney - 성능개선",
 		"2013-09-29 오전 12:39:49 bindSlider 연속호출 버그 패치 - tom",
 		"2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom",
-		"2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정"
+		"2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정",
+		"2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -772,7 +773,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 		*/
-
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
