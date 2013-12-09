@@ -225,7 +225,7 @@ var AXModelControl = Class.create(AXJ, {
 			}
 		});
 		this.returnJSData = returnJSData;
-		return this.returnJSData;
+		return Object.clone(this.returnJSData);
     },
     setData: function(jsPathObj, val){
 		if(Object.isString(val) || Object.isArray(val)){

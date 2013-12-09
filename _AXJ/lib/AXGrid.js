@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.35",
+	version: "AXGrid v1.36",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -38,7 +38,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-10-24 오후 10:01:27 colGroup formatter - displayLabel:true 옵션추가 - tom",
 		"2013-10-28 오전 9:37:26 page count 버그 픽스 / $ 키워드 제거 - tom",
 		"2013-11-13 오전 10:09:14 tom : fitToWidth 창 최대화 최소화 버그 픽스",
-		"2013-11-18 오후 1:34:35 tom : grid owidth 버그 픽스"
+		"2013-11-18 오후 1:34:35 tom : grid owidth 버그 픽스",
+		"2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1973,7 +1974,9 @@ var AXGrid = Class.create(AXJ, {
 						this.list = obj;
 					}
 				}
+
 				this.printList();
+				this.scrollTop(0);
 
 				if (!cfg.page.paging) {
 					this.setStatus(this.list.length);
@@ -2007,10 +2010,7 @@ var AXGrid = Class.create(AXJ, {
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
 			var scrollTop = function () {
-				/*스크롤 위치 변경 */
-				var scrollTop = 0;
-				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
-				this.contentScrollContentSync({ top: scrollTop });
+				this.scrollTop(0);
 			};
 			var scrollTopBind = scrollTop.bind(this);
 			var ajaxGetList = this.ajaxGetList.bind(this);
@@ -3470,6 +3470,35 @@ var AXGrid = Class.create(AXJ, {
 			}
 		}
 	},
+	scrollTop: function (itemIndex) {
+		var cfg = this.config;
+
+		try{
+			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
+			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+
+			var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+			var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+			var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+			var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+
+			if (trTop.number() + trHeight.number() > bodyHeight) {
+				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+				this.contentScrollContentSync({ top: scrollTop });
+			} else {
+				if (trTop.number() == 0) {
+					var scrollTop = 0;
+					jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					this.contentScrollContentSync({ top: scrollTop });
+				}
+			}
+		}catch(e){
+			var scrollTop = 0;
+			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+			this.contentScrollContentSync({ top: scrollTop });			
+		}
+	},
 	setFocus: function (itemIndex) {
 		var cfg = this.config;
 
@@ -4539,7 +4568,6 @@ var AXGrid = Class.create(AXJ, {
 			return "";
 		}
 	},
-
 	getExcelColHeadTd: function (arg) {
 		var cfg = this.config;
 		var po = [];

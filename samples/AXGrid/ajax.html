@@ -132,19 +132,6 @@
 						]
 					]
 				},
-				foot : {
-					rows: [
-						[
-							{colSeq:null, colspan:4, formatter:function(){
-								return "계";	
-							}, align:"center"}, 
-							{colSeq:4},
-							{colSeq:5},
-							{colSeq:6},
-							{colSeq:7}
-						]
-					]
-				},
 				page:{
 					paging:true,
 					pageNo:1,
@@ -167,6 +154,9 @@
 		getCheckedList: function(){
 			var checkedList = myGrid.getCheckedList(0);// colSeq
 			alert(Object.toJSON(checkedList));
+		},
+		emptyList: function(){
+			myGrid.setList([]);
 		}
 	};
 	
@@ -204,6 +194,7 @@
 
 		<div style="padding:10px 0px;">
 			<input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
+			<input type="button"	value="emptyList" class="AXButton Blue" onclick="fnObj.emptyList();" />
 		</div>
 
 </body>

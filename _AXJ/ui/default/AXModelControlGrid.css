@@ -14,13 +14,13 @@
 		border-spacing:0px;
 		border-collapse:collapse;
 	}
-	.AXModelControlGrid .colHeadTable td{
+	.AXModelControlGrid .colHeadTable td, .AXModelControlGrid .colHeadTable th{
 		/*border-top:1px solid #c0b5a6;*/
 		border-bottom:1px solid #c0b5a6;
 		background:url(img/gridbodyBorder.png) repeat-y 100% 0px #eee;
 	}
 	
-	.AXModelControlGrid .colHeadTable td:last-child{
+	.AXModelControlGrid .colHeadTable td:last-child, .AXModelControlGrid .colHeadTable th:last-child{
 		background:#eee;
 	}
 	
