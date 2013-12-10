@@ -147,22 +147,22 @@
 	reference:[]
 },
 {
-	id:"/API/prototype/Date/toJSON",
+	id:"/API/prototype/Date/axtoJSON",
 	head:{
 		type:"method", 
-		name:"toJSON",
-		flnm:"Prototype.Date.toJSON",
+		name:"axtoJSON",
+		flnm:"Prototype.Date.axtoJSON",
 		file:"_AXJ/lib/AXJ.js",
-		tags:"Prototype,Date,toJSON"
+		tags:"Prototype,Date,axtoJSON"
 	},
-	h1: "Date.toJSON",
+	h1: "Date.axtoJSON",
 	desc: "날짜의 문자열 데이터를 반환합니다. ",
-	define: "Date.toJSON();",
+	define: "Date.axtoJSON();",
 	arguments:[
 	],
 	returns: {k:"String", v:""},
 	samplecode:[
-'trace( "2013-05-05".date().toJSON() );',
+'trace( "2013-05-05".date().axtoJSON() );',
 '// "2013-05-05T03:00:00Z" '
 	],
 	example:[],

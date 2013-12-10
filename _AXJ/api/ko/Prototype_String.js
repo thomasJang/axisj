@@ -593,32 +593,32 @@
 	reference:[]
 },
 {
-	id:"/API/prototype/String/toJSON",
+	id:"/API/prototype/String/axtoJSON",
 	head:{
 		type:"method", 
-		name:"toJSON",
-		flnm:"Prototype.String.toJSON",
+		name:"axtoJSON",
+		flnm:"Prototype.String.axtoJSON",
 		file:"_AXJ/lib/AXJ.js",
-		tags:"Prototype,String,toJSON"
+		tags:"Prototype,String,axtoJSON"
 	},
-	h1: "String.toJSON",
+	h1: "String.axtoJSON",
 	desc: "JSON 형식에 맞는 문자열을 반환합니다. ",
-	define: "String.toJSON([Boolean]);",
+	define: "String.axtoJSON([Boolean]);",
 	arguments:[
 		{k:"Boolean", v:"문자열을 더블 쿼테이션으로 감싸주는지에 대한 옵션 "}
 	],
 	returns: {k:"String", v:""},
 	samplecode:[
 'var str = "1234.1";',
-'trace(str.toJSON());',
+'trace(str.axtoJSON());',
 '// 1234.1',
 '',
 'var str = "1234.1";',
-'trace(str.toJSON(true));',
+'trace(str.axtoJSON(true));',
 '// "1234.1"',
 '',
 'var str = "1234.1";',
-'trace(str.toJSON(false));',
+'trace(str.axtoJSON(false));',
 '// 1234.1'
 	],
 	example:[],

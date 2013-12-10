@@ -364,27 +364,27 @@
 	reference:[]
 },
 {
-	id:"/API/prototype/Array/toJSON",
+	id:"/API/prototype/Array/axtoJSON",
 	head:{
 		type:"method", 
-		name:"toJSON",
-		flnm:"Prototype.Array.toJSON",
+		name:"axtoJSON",
+		flnm:"Prototype.Array.axtoJSON",
 		file:"_AXJ/lib/AXJ.js",
-		tags:"Prototype,Array,toJSON"
+		tags:"Prototype,Array,axtoJSON"
 	},
-	h1: "Array.toJSON",
+	h1: "Array.axtoJSON",
 	desc: "JSON 문자열로 대상을 반환합니다. ",
-	define: "Array.toJSON();",
+	define: "Array.axtoJSON();",
 	arguments:[
 	],
 	returns: {k:"String", v:""},
 	samplecode:[
 'var a = [1,2,3];',
-'trace(a.toJSON());',
+'trace(a.axtoJSON());',
 '//  [1, 2, 3] ',
 '',
 'var b = [1,{a:2},3];',
-'trace(b.toJSON());',
+'trace(b.axtoJSON());',
 '// [1, {"a":2}, 3] '
 	],
 	example:[],

@@ -41,16 +41,16 @@ var Class = (function () {
 			case 'unknown': return;
 			case 'boolean': return object.toString();
 			case 'number': return object.toString();
-			case 'string': return object.toJSON(true);
+			case 'string': return object.axtoJSON(true);
 		}
 		if (object === null) return 'null';
-		if (object.toJSON) return object.toJSON(isqoute);
+		if (object.axtoJSON) return object.axtoJSON(isqoute);
 		if (isElement(object)) return;
 		var results = [];
 		for (var property in object) {
 			if (object.hasOwnProperty(property)) {
 				var value = toJSON(object[property], isqoute);
-				if (!isUndefined(value)) results.push(property.toJSON(isqoute) + ':' + value);
+				if (!isUndefined(value)) results.push(property.axtoJSON(isqoute) + ':' + value);
 			}
 		}
 		return '{' + results.join(', ') + '}';
@@ -70,16 +70,16 @@ var Class = (function () {
 			case 'unknown': return;
 			case 'boolean': return object.toString();
 			case 'number': return object.toString();
-			case 'string': return object.toJSON(true);
+			case 'string': return object.axtoJSON(true);
 		}
 		if (object === null) return 'null';
-		if (object.toJSON) return object.toJSON(isqoute);
+		if (object.axtoJSON) return object.axtoJSON(isqoute);
 		if (isElement(object)) return;
 		var results = [];
 		for (var property in object) {
 			if (object.hasOwnProperty(property)) {
 				var value = toJSONfn(object[property], isqoute);
-				if (!isUndefined(value)) results.push(property.toJSON(isqoute) + ':' + value);
+				if (!isUndefined(value)) results.push(property.axtoJSON(isqoute) + ':' + value);
 			}
 		}
 		return '{' + results.join(', ') + '}';
@@ -92,7 +92,7 @@ var Class = (function () {
 			case 'unknown': return;
 			case 'boolean': return "\"" + object.toString() + "\"";
 			case 'number': return "\"" + object.toString() + "\"";
-			case 'string': return object.toJSON(true);
+			case 'string': return object.axtoJSON(true);
 		}
 		if (object === null) return 'null';
 		if (object.toJSONforMobile) return object.toJSONforMobile(true);
@@ -100,8 +100,8 @@ var Class = (function () {
 		var results = [];
 		for (var property in object) {
 			if (object.hasOwnProperty(property)) {
-				var value = toJSON(object[property]);
-				if (!isUndefined(value)) results.push(property.toJSON(true) + ':' + value);
+				var value = axtoJSON(object[property]);
+				if (!isUndefined(value)) results.push(property.axtoJSON(true) + ':' + value);
 			}
 		}
 		return '{' + results.join(', ') + '}';
@@ -230,7 +230,7 @@ Object.extend(String.prototype, (function () {
 		if (useDoubleQuotes) return '"' + escapedString.replace(/"/g, '\\"') + '"';
 		return "" + escapedString.replace(/'/g, '\\\'') + "";
 	}
-	function toJSON(TF) {
+	function axtoJSON(TF) {
 		return this.inspect(TF || false);
 	}
 	function blank() { return /^\s*$/.test(this); }
@@ -331,7 +331,7 @@ Object.extend(String.prototype, (function () {
 		removeScript: stripScript,
 		times: times,
 		inspect: inspect,
-		toJSON: toJSON,
+		axtoJSON: axtoJSON,
 		isBlank: blank,
 		isJSON: isJSON,
 		unfilterJSON: unfilterJSON,
@@ -359,7 +359,7 @@ Object.extend(Number.prototype, (function () {
 	function toNum() { return this; }
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
-	function toJSON() { return this; }
+	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
 	function round(digit) { return Math.round(this * Math.pow(10, (digit || 0))) / Math.pow(10, (digit || 0)); }
 	function ceil() { return Math.ceil(this); }
@@ -389,7 +389,7 @@ Object.extend(Number.prototype, (function () {
 		dec: none,
 		enc: none,
 		rangeFrom: range,
-		toJSON: toJSON,
+		axtoJSON: axtoJSON,
 		times: times,
 		phone: phone
 	}
@@ -533,13 +533,13 @@ Object.extend(Date.prototype, (function () {
 	}
 
 	function date() { return this; }
-	function toJSON() { return '"' + this.getUTCFullYear() + '-' + (this.getUTCMonth() + 1).setDigit(2) + '-' + this.getUTCDate().setDigit(2) + 'T' + this.getUTCHours().setDigit(2) + ':' + this.getUTCMinutes().setDigit(2) + ':' + this.getUTCSeconds().setDigit(2) + 'Z"'; }
+	function axtoJSON() { return '"' + this.getUTCFullYear() + '-' + (this.getUTCMonth() + 1).setDigit(2) + '-' + this.getUTCDate().setDigit(2) + 'T' + this.getUTCHours().setDigit(2) + ':' + this.getUTCMinutes().setDigit(2) + ':' + this.getUTCSeconds().setDigit(2) + 'Z"'; }
 	return {
 		add: dateAdd,
 		diff: dayDiff,
 		print: toString,
 		date: date,
-		toJSON: toJSON,
+		axtoJSON: axtoJSON,
 		getTimeAgo: getTimeAgo
 	}
 })());
@@ -571,7 +571,7 @@ Object.extend(Array.prototype, (function () {
 			return this[seq];
 		}
 	}
-	function toJSON(qoute) {
+	function axtoJSON(qoute) {
 		var results = [];
 		for (var i = 0; i < this.length; i++) results.push(Object.toJSON(this[i], qoute));
 		return '[' + results.join(', ') + ']';
@@ -778,7 +778,7 @@ Object.extend(Array.prototype, (function () {
 		first: first,
 		last: last,
 		getToSeq: getToSeq,
-		toJSON: toJSON,
+		axtoJSON: axtoJSON,
 		toJSONforMobile: toJSONforMobile,
 		remove: remove,
 		search: search,
@@ -799,6 +799,7 @@ Object.extend(Array.prototype, (function () {
 
 /* **************************** extend implement block ** */
 
+//JSON.stringify = Object.toJSON;
 function AXgetId(id) { return document.getElementById(id); }
 function AX_A(iterable) { if (!iterable) return []; if ('toArray' in Object(iterable)) return iterable.toArray(); var length = iterable.length || 0, results = new Array(length); while (length--) results[length] = iterable[length]; return results; }
 

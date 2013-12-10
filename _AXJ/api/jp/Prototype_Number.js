@@ -460,22 +460,22 @@
 	reference:[]
 },
 {
-	id:"/API/prototype/Number/toJSON",
+	id:"/API/prototype/Number/axtoJSON",
 	head:{
 		type:"method", 
-		name:"toJSON",
-		flnm:"Prototype.Number.toJSON",
+		name:"axtoJSON",
+		flnm:"Prototype.Number.axtoJSON",
 		file:"_AXJ/lib/AXJ.js",
-		tags:"Prototype,Number,toJSON"
+		tags:"Prototype,Number,axtoJSON"
 	},
-	h1: "Number.toJSON",
+	h1: "Number.axtoJSON",
 	desc: "자기 자신을 그대로 리턴합니다. ",
-	define: "Number.toJSON();",
+	define: "Number.axtoJSON();",
 	arguments:[
 	],
 	returns: {k:"Number", v:""},
 	samplecode:[
-'(1).toJSON();',
+'(1).axtoJSON();',
 '// 1'
 	],
 	example:[],

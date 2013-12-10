@@ -28,6 +28,14 @@
 	var fnObj = {
 		pageStart: function(){
 			
+			var obj = [{name:"장기영"}];
+			trace(JSON.stringify(obj));
+			trace(Object.toJSON(obj));
+			trace(obj);
+			
+			trace(("장기영").axtoJSON(true));			
+			
+			
 			fnObj.pageTabBind();
 			AXCode.bind(); // 소스보기
 		},

@@ -180,4 +180,24 @@
 	exampleFn:[],
 	reference:[],
 	extendForm:[]
+},
+{
+	id:"/API/jQueryExtends/bindSelectUpdate",
+	head:{
+		type:"method", 
+		name:"bindSelectUpdate",
+		flnm:"jQueryExtends.bindSelectUpdate",
+		file:"_AXJ/lib/AXSelect.js",
+		tags:"jQueryExtends,bindSelectUpdate"
+	},
+	h1:"bindSelectUpdate",
+	desc: "bindSelect 된 개체의 값이 스크립트에 의해 변경된 경우 변경된 값으로 bindSelect 컨트롤 상태값을 업데이트 합니다.",
+	define: "$(\"jQuerySelector\").bindSelectUpdate();",
+	arguments:[],
+	returns: {k:"", v:""},
+	samplecode:[],
+	example:[],
+	exampleFn:[],
+	reference:[],
+	extendForm:[]
 }
