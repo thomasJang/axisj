@@ -760,19 +760,6 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 
-		/*
-		var isSelectorClick = false;
-		var eid = event.target.id.split(/_AX_/g);
-		//trace(event.target.id);
-		if(event.target.id == "") isSelectorClick = false;
-		else{
-
-			//if(jQuery(event.target).hasClass("bindSelectorNodes") || cfg.targetID == event.target.id) isSelectorClick = true;
-			if(event.target.id == objID || (eid[0] == cfg.targetID && eid[1] == objID)){
-				isSelectorClick = true;
-			}
-		}
-		*/
 		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
@@ -1766,6 +1753,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var segmentOptions = obj.config.options;
 
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({

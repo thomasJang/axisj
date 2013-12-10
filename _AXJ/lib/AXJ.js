@@ -4059,6 +4059,10 @@ jQuery.fn.bindTooltip = function (config) {
 };
 /* ********************************************** AXContextMenu ** */
 
+/* ** AXMobileModal ********************************************** */
+
+/* ********************************************** AXMobileModal ** */
+
 /* ** jQuery easing plugin ********************************************** */
 jQuery.extend(true, {
 	easing: {
