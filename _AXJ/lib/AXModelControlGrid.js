@@ -365,6 +365,14 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 		this.setList(newList);
     },
+    getValue: function(name){
+    	var cfg = this.config;
+    	var returnValues = [];
+    	this.body.find("input[type=checkbox][name="+name+"]").each(function(){
+    		returnValues.push(this.value);
+    	});
+    	return returnValues;
+    },	
     getCheckedValue: function(name){
     	var cfg = this.config;
     	var returnValues = [];
