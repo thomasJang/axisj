@@ -12,6 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
 	<style type="text/css">
 	H2{font-family:consolas;}
 	
@@ -34,6 +36,8 @@
 	<!-- js block -->
 	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModelControl.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModelControlGrid.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
@@ -51,6 +55,27 @@
 				//collectSelector:".someClass",
 				excludeClassName:"", // 수집제외 클래스 
 				subModelDetectClassName:"AXModelDetect" //선택 -- 하위 오브젝트를 검색 클래스 (하위 오브젝트의 키네임은 클래스네임_키 의 조합으로 만들어진 엘리먼트 아이디를 인식 합니다.,
+			});
+
+			$("#selectType_bind").bindSelect();
+			$("#name_bind").bindSelector({
+				appendable:true,
+				options:[
+					{optionValue:1, optionText:"Seoul"},
+					{optionValue:2, optionText:"대구"},
+					{optionValue:3, optionText:"대전"},
+					{optionValue:4, optionText:"창원"},
+					{optionValue:5, optionText:"마산"},
+					{optionValue:6, optionText:"구례"},
+					{optionValue:7, optionText:"제주도"},
+					{optionValue:8, optionText:"전주"},
+					{optionValue:4, optionText:"창원"},
+					{optionValue:5, optionText:"마산"},
+					{optionValue:6, optionText:"구례"},
+					{optionValue:7, optionText:"제주도"},
+					{optionValue:8, optionText:"전주"},
+					{optionValue:9, optionText:"Gwangju"}
+				]	
 			});
 
 			AXCode.bind(); // 소스보기
@@ -77,7 +102,9 @@
 			trace(obj);
 		},
 		ok1_setData: function(){
-
+			var applyObject = {rowseq:"1234", name:"액시스제이2", middleName:["11", "122", "33"], sex:"F", age:["20", "30", "99"], G:{A1:["1", "1.1"], B1:["2", "2.1"], B2:["3", "3.1"]}, selectType:"B", desc:"Textarea"};
+			myModel.setData({}, applyObject);
+			$("#selectType_bind").bindSelectUpdate();
 		}
 	};
 	$(document.body).ready(function(){
@@ -92,8 +119,8 @@
 		
 		<div class="AXTabs">
 			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue on">Default</a>
-				<a href="AXBind.html" class="AXTab Blue">AXBind</a>
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="AXBind.html" class="AXTab Blue on">AXBind</a>
 				<a href="controlGrid.html" class="AXTab Blue">controlGrid</a>
 				<div class="clear"></div>
 			</div>
@@ -116,7 +143,7 @@
 						<tr>
 							<th>Name</th>
 							<td>
-								<input type="text" name="name" value="" class="AXInput someClass" />
+								<input type="text" name="name" id="name_bind" value="" class="AXInput someClass" />
 							</td>
 							<th>middleName</th>
 							<td>
@@ -167,7 +194,7 @@
 						<tr>
 							<th>Select</th>
 							<td>
-								<select name="selectType" class="AXSelect">
+								<select name="selectType" id="selectType_bind" class="AXSelect">
 									<option value="">----</option>	
 									<option value="A">선택A</option>	
 									<option value="B">선택B</option>	
@@ -212,7 +239,7 @@
 			<button class="AXButton" onclick='myModel.setData({key:"desc"}, "이게 그때 그노래라도 그렇지");'>myModel.setData({key:"desc"}, "이게 그때 그노래라도 그렇지");</button>
 			<hr/>
 			<button class="AXButton" onclick='myModel.setData({}, {name:"액시스제이"});'>myModel.setData({}, {name:"액시스제이"});</button>
-			<button class="AXButton" onclick='myModel.setData({}, {rowseq:"1234", name:"액시스제이2", middleName:["11", "122", "33"], sex:"F", age:["20", "30", "99"], G:{A1:["1", "1.1"], B1:["2", "2.1"], B2:["3", "3.1"]}, selectType:"B", desc:"Textarea"});'>myModel.setData({}, JSObject);</button>
+			<button class="AXButton" onclick='fnObj.ok1_setData();'>myModel.setData({}, JSObject);</button>
 			
 			<br/>
 			<br/>

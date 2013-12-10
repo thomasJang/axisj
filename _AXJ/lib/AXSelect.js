@@ -329,6 +329,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		if(AXgetId(objID).options.selectedIndex > -1){
+			if(obj.config.selectedIndex != AXgetId(objID).options.selectedIndex) obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
 			return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
 		}else{
 			return AXgetId(objID).options[0];
@@ -730,7 +731,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				return false;
 			}
 		});
-		if(findIndex != null) this.bindSelectChange(objID, findIndex);
+		if(findIndex != null){
+			this.bindSelectChange(objID, findIndex);
+		}
 	}
 });
 
