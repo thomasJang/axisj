@@ -228,7 +228,7 @@ var AXModelControl = Class.create(AXJ, {
 		return Object.clone(this.returnJSData);
     },
     setData: function(jsPathObj, val){
-		if(Object.isString(val) || Object.isArray(val)){
+		if(Object.isString(val) || Object.isArray(val) || Object.isNumber(val) ){
 			this.applyValue(jsPathObj, val);
 		}else{
 			var applyValue = this.applyValue.bind(this);
@@ -236,7 +236,7 @@ var AXModelControl = Class.create(AXJ, {
 				if(depth > 5) return; /* 만약의 경우를 대비하여 10 뎁스 이상 연산 처리 하지 않습니다. 무한 루프를 방지 */
 				if(prefixKey != "") prefixKey += ".";
 				$.each(_val, function(k, v){
-					if(Object.isString(v) || Object.isArray(v) || AXUtil.isEmpty(v)){
+					if(Object.isString(v) || Object.isArray(v) || AXUtil.isEmpty(v) || Object.isNumber(v) ){
 						applyValue({key:prefixKey + k}, v);
 					}else{
 						fnApplyValue(prefixKey+k, v, (depth+1));
@@ -260,7 +260,7 @@ var AXModelControl = Class.create(AXJ, {
 		}
 		
 		if(returnJSData != undefined){
-			if(Object.isString(val)){
+			if(Object.isString(val) || Object.isNumber(val)){
 				
 				var findedItem = false;
 				jQuery.each(this.collectItem, function(){
