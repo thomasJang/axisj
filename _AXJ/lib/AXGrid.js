@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.36",
+	version: "AXGrid v1.37",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -39,7 +39,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-10-28 오전 9:37:26 page count 버그 픽스 / $ 키워드 제거 - tom",
 		"2013-11-13 오전 10:09:14 tom : fitToWidth 창 최대화 최소화 버그 픽스",
 		"2013-11-18 오후 1:34:35 tom : grid owidth 버그 픽스",
-		"2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결"
+		"2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결",
+		"2013-12-11 오후 9:31:45 tom : ajax setList 그리드 스크롤포지션 문제 해결"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2065,6 +2066,7 @@ var AXGrid = Class.create(AXJ, {
 		AXUtil.overwriteObject(this.page, res.page, true);
 
 		this.printList();
+		this.scrollTop(0);
 		this.setPaging();
 	},
 	getFormatterValue: function (formatter, item, itemIndex, value, key, CH) {
