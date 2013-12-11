@@ -45,6 +45,13 @@
 	var fnObj = {
 		pageStart: function(){
 			
+			var obj = [] ;
+			
+			trace(Object.isArray(obj));
+			//true
+			trace(Object.isObject(obj));
+			//false
+			
 			myModel.setConfig({
 				targetID:"AXModelControlTarget", // 필수
 				collectClassName:"", // 선택 -- 빈값이면 모든 입력타입을 수집합니다.
@@ -136,6 +143,12 @@
 								<label><input type="checkbox" name="age" value="10" />10</label>
 								<label><input type="checkbox" name="age" value="20" />20</label>
 								<label><input type="checkbox" name="age" value="30" />30</label>
+							</td>
+						</tr>
+						<tr>
+							<th>agree</th>
+							<td colspan="3">
+								<label><input type="checkbox" name="agree" value="yes" /> 동의합니다.</label>
 							</td>
 						</tr>
 						<tr>

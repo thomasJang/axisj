@@ -82,7 +82,9 @@ var AXModelControl = Class.create(AXJ, {
 					name:this.name,
 					type:this.type
 				});
+				
 			}else{
+				
 				jQueryObj.attr("axisjModelId", collectItem.length);
 				
 				var relationKey = [];
@@ -127,7 +129,15 @@ var AXModelControl = Class.create(AXJ, {
 			var nVal = "";
 			if(targetJS[key] == undefined){
 				if(this.type == "checkbox"){
-					targetJS[key] = [];
+					var keyLength = 0;
+					jQuery.each(collectItem, function(){
+						if(this.keys == keys) keyLength++;
+					});
+					if(keyLength == 1){
+						targetJS[key] = "";
+					}else{
+						targetJS[key] = [];
+					}
 				}else{
 					targetJS[key] = "";
 				}
@@ -143,6 +153,18 @@ var AXModelControl = Class.create(AXJ, {
 					var oVal = targetJS[key];
 					if(this.type == "radio"){
 						
+					}else if(this.type == "checkbox"){
+						var keyLength = 0;
+						jQuery.each(collectItem, function(){
+							if(this.keys == keys) keyLength++;
+						});
+						if(keyLength == 1){
+							targetJS[key] = oVal;
+						}else{
+							targetJS[key] = [oVal];
+							targetJS[key].push(nVal);
+							this.keySeq = targetJS[key].length-1;
+						}
 					}else{
 						targetJS[key] = [oVal];
 						targetJS[key].push(nVal);
@@ -176,6 +198,7 @@ var AXModelControl = Class.create(AXJ, {
 		
 		var returnJSData = this.returnJSData;
 		
+		var collectItem = this.collectItem;
 		jQuery.each(this.collectItem, function(){
 			var keys = this.keys;
 			var targetJS = returnJSData;
@@ -189,7 +212,12 @@ var AXModelControl = Class.create(AXJ, {
 			}
 			key = keys.last();
 			if(this.type == "checkbox"){
-				targetJS[key] = [];
+				var keyLength = 0;
+				jQuery.each(collectItem, function(){
+					if(this.keys == keys) keyLength++;
+				});
+				if(keyLength > 1) targetJS[key] = [];
+				else targetJS[key] = "";
 			}
 		});
 		
@@ -210,7 +238,12 @@ var AXModelControl = Class.create(AXJ, {
 			var nVal = getElementValue(this.jQueryObj, this.type);
 			if(this.type == "checkbox"){
 				if(!AXUtil.isEmpty(nVal)){
-					targetJS[key].push(nVal);
+					var keyLength = 0;
+					jQuery.each(collectItem, function(){
+						if(this.keys == keys) keyLength++;
+					});
+					if(keyLength > 1) targetJS[key].push(nVal);
+					else targetJS[key] = nVal;
 				}
 			}else if(this.type == "radio"){
 				if(!AXUtil.isEmpty(nVal)){
