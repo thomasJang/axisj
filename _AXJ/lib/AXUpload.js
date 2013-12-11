@@ -1219,10 +1219,11 @@ var AXUpload = Class.create(AXJ, {
 
 			//서버에서 썸네일을 주었다면. 썸네일 출력
 			if(SD.thumbName != ""){
-				jQuery("#"+file.id).find(".AXUploadIcon").get(0).style.backgroundImage="url('"+(AXfile.thumb||"").dec()+"')";
-				jQuery("#"+file.id).find(".AXUploadIcon").get(0).style.backgroundSize="100% auto";
-				jQuery("#"+file.id).find(".AXUploadIcon").get(0).style.backgroundPosition="center center";
-				//jQuery("#"+file.id).find(".AXUploadIcon").get(0).style.backgroundImage="url('/_FILE/2013_06/thumb/thumb_20130621152635001.jpg')";
+				jQuery("#"+file.id).find(".AXUploadIcon").css({
+					"background-image":"url('"+(AXfile.thumb||"").dec()+"')",
+					"background-size":"100% auto",
+					"background-position":"center center"
+				});
 			}
 			
 			if(this.settings.onclick){

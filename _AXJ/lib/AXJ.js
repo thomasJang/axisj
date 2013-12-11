@@ -4071,6 +4071,8 @@ var AXMobileModal = Class.create(AXJ, {
 		AXJ_super();
 	},
 	init: function () {
+		var cfg = this.config;
+		
 		
 	},
 	open: function(){
