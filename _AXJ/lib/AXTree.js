@@ -1010,6 +1010,7 @@ var AXTree = Class.create(AXJ, {
 		if (this.readyMoved) return false;
 
 		// event target search -
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		if (eventTarget.tagName.toLowerCase() == "input") return; //input 인 경우 제외
@@ -1290,6 +1291,7 @@ var AXTree = Class.create(AXJ, {
 	colHeadMouseOver: function (event) {
 		var cfg = this.config;
 		// event target search -
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
@@ -1309,6 +1311,7 @@ var AXTree = Class.create(AXJ, {
 	colHeadMouseOut: function (event) {
 		var cfg = this.config;
 		// event target search -
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
@@ -1327,6 +1330,7 @@ var AXTree = Class.create(AXJ, {
 	},
 	colHeadResizerMouseDown: function (event) {
 		var cfg = this.config;
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var lastIdx = eid.length - 1;
@@ -1447,6 +1451,7 @@ var AXTree = Class.create(AXJ, {
 	},
 	colHeadNodeClick: function (event) {
 		var cfg = this.config;
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
@@ -1518,6 +1523,7 @@ var AXTree = Class.create(AXJ, {
 	},
 	colHeadToolClick: function (event) {
 		var cfg = this.config;
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
@@ -1572,6 +1578,7 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		// event target search -
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
@@ -1603,6 +1610,7 @@ var AXTree = Class.create(AXJ, {
 	},
 	colHeadCheckBoxClick: function (event) {
 		var cfg = this.config;
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
@@ -2590,6 +2598,7 @@ var AXTree = Class.create(AXJ, {
 		this.bodyClickObserver = null;
 		var cfg = this.config;
 		// event target search -
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var isoncheck = false;
@@ -2741,6 +2750,7 @@ var AXTree = Class.create(AXJ, {
 
 		var cfg = this.config;
 		// event target search -
+		if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		if (eventTarget.tagName.toLowerCase() == "input") return; //input 인 경우 제외

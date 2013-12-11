@@ -25,17 +25,20 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
 	<script type="text/javascript">	
+	var myMobileModal = new AXMobileModal();
 	var fnObj = {
 		pageStart: function(){
 			
-var obj = [{name:"장기영", id:"AXISJ", members:[1,2,3,4]}];
-trace(JSON.stringify(obj));
-trace(Object.toJSON(obj));
-trace(obj);
-			trace(("장기영").axtoJSON(true));
+			myMobileModal.setConfig({
+				align:"center",
+				valign:"center",
+				margin:"10px",
+				width:"auto",
+				height:"auto"
+			});
 			
 			
-			fnObj.pageTabBind();
+			fnObj.pageTabBind(); // 탭 메뉴 바인드
 			AXCode.bind(); // 소스보기
 		},
 		pageTabBind: function(){

@@ -4061,7 +4061,19 @@ jQuery.fn.bindTooltip = function (config) {
 /* ********************************************** AXContextMenu ** */
 
 /* ** AXMobileModal ********************************************** */
-
+var AXMobileModal = Class.create(AXJ, {
+	version: "AXMobileModal v0.9",
+	author: "tom@axisj.com",
+	logs: [
+		"2013-12-11 오후 5:48:28"
+	],
+	initialize: function (AXJ_super) {
+		AXJ_super();
+	},
+	init: function () {
+		
+	}
+});
 /* ********************************************** AXMobileModal ** */
 
 /* ** jQuery easing plugin ********************************************** */
