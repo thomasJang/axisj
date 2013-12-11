@@ -1143,13 +1143,14 @@ swfobject.addDomLoadEvent(function () {
  */
 
 var AXUpload5 = Class.create(AXJ, {
-	version : "AXUpload5 V1.2",
+	version : "AXUpload5 V1.21",
 	author : "tom@axisj.com",
 	logs: [
 		"2013-10-02 오후 2:19:36 - 시작 tom",
 		"2013-10-12 오전 11:13:06 - 업로드 서버오류 예외 처리 tom",
 		"2013-10-29 오후 3:26:33 - 기타 버그 패치 최지연",
-		"2013-10-30 오후 3:38:05 - config.uploadPars, config.deletePars 초기 설정값 패치 by tom"
+		"2013-10-30 오후 3:38:05 - config.uploadPars, config.deletePars 초기 설정값 패치 by tom",
+		"2013-12-11 오후 5:15:51 - tom&root setUploadedList, setUpoadeFile 버그패치"
 	],
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -2135,15 +2136,18 @@ var AXUpload5 = Class.create(AXJ, {
 			var f;
 			if(jQuery.isArray(files)){
 				if( jQuery.isArray(files.first()) ){
-					this.uploadedList.push(files.first());
 					f = files.first();	
 				}
 			}else{
 				if (Object.isObject(files) ){
-					f = files;	
+					f = files;
 				}
 			}
 			if(!f) return;
+			if(!f.id) return;
+			
+			this.uploadedList.push(f);
+			
 			var itemID = f.id;
 			
 			var uf = {
@@ -2266,6 +2270,9 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 	},
 	setUploadedFile: function(file){
+		
+		if(!file) return;
+		if(!file.id) return;
 		
 		this.uploadedList = [];
 		this.uploadedList.push(file);
