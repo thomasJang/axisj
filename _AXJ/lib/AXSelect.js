@@ -328,10 +328,14 @@ var AXSelectConverter = Class.create(AXJ, {
 	getSelectedOption: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		if(AXgetId(objID).options.selectedIndex > -1){
-			if(obj.config.selectedIndex != AXgetId(objID).options.selectedIndex) obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
-			return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
-		}else{
+		try{
+			if(AXgetId(objID).options.selectedIndex > -1){
+				if(obj.config.selectedIndex != AXgetId(objID).options.selectedIndex) obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
+				return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
+			}else{
+				return AXgetId(objID).options[0];
+			}
+		}catch(e){
 			return AXgetId(objID).options[0];
 		}
 	},

@@ -391,7 +391,17 @@ var AXModelControlGrid = Class.create(AXJ, {
     		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],select,textarea").each(function(){
     			item[this.name] = $(this).val();
     		});
+    		
+    		var checkNames = {};
     		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=checkbox],input[type=radio]").each(function(){
+    			if(this.type == "checkbox"){
+    				if(checkNames[this.name]){
+    					checkNames[this.name].count += 1;
+    				}else{
+    					checkNames[this.name] = {name:this.name, count:1};
+    					item[this.name] = "";
+    				}
+    			}
     			if(this.checked){
     				if(this.type == "checkbox"){
 		    			if(item[this.name]){
@@ -403,6 +413,14 @@ var AXModelControlGrid = Class.create(AXJ, {
 		    			item[this.name] = this.value;
 		    		}
 	    		}
+    		});
+
+    		jQuery.each(checkNames, function(k, v){
+    			if(v.count == 1){
+    				if(Object.isArray(item[v.name])){
+    					item[v.name] = item[v.name].join(",");
+    				}
+    			}
     		});
     		
     		L = AXUtil.overwriteObject(L, item, true);
