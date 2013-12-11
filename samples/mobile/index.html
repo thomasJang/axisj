@@ -34,7 +34,21 @@
 				valign:"center",
 				margin:"10px",
 				width:"auto",
-				height:"auto"
+				height:"auto",
+				head:{
+					title:"",
+					close:{
+						onclick:function(){
+							
+						}
+					}
+				},
+				body:{
+					
+				},
+				foot:{
+					
+				}
 			});
 			
 			
@@ -43,6 +57,9 @@
 		},
 		pageTabBind: function(){
 			$("#demoPageTabTarget").bindTab({value: "AXMobileModal", overflow: "visible", options: myTabOption, onchange: pageTabChange});
+		},
+		openMobileModal: function(){
+			myMobileModal.open();
 		}
 	};
 	$(document.body).ready(function(){
@@ -59,6 +76,7 @@
 		
 		<div class="Hspace20"></div>
 		
+		<button class="AXButton" onclick="fnObj.openMobileModal();">open mobileModal</button>
 
 	</div>
 </body>

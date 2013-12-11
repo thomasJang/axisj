@@ -131,7 +131,7 @@ var AXModelControl = Class.create(AXJ, {
 				if(this.type == "checkbox"){
 					var keyLength = 0;
 					jQuery.each(collectItem, function(){
-						if(this.keys == keys) keyLength++;
+						if(this.keys.join(".") == keys.join(".")) keyLength++;
 					});
 					if(keyLength == 1){
 						targetJS[key] = "";
@@ -156,7 +156,7 @@ var AXModelControl = Class.create(AXJ, {
 					}else if(this.type == "checkbox"){
 						var keyLength = 0;
 						jQuery.each(collectItem, function(){
-							if(this.keys == keys) keyLength++;
+							if(this.keys.join(".") == keys.join(".")) keyLength++;
 						});
 						if(keyLength == 1){
 							targetJS[key] = oVal;
@@ -214,7 +214,7 @@ var AXModelControl = Class.create(AXJ, {
 			if(this.type == "checkbox"){
 				var keyLength = 0;
 				jQuery.each(collectItem, function(){
-					if(this.keys == keys) keyLength++;
+					if(this.keys.join(".") == keys.join(".")) keyLength++;
 				});
 				if(keyLength > 1) targetJS[key] = [];
 				else targetJS[key] = "";
@@ -240,7 +240,7 @@ var AXModelControl = Class.create(AXJ, {
 				if(!AXUtil.isEmpty(nVal)){
 					var keyLength = 0;
 					jQuery.each(collectItem, function(){
-						if(this.keys == keys) keyLength++;
+						if(this.keys.join(".") == keys.join(".")) keyLength++;
 					});
 					if(keyLength > 1) targetJS[key].push(nVal);
 					else targetJS[key] = nVal;

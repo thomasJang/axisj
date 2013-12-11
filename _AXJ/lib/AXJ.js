@@ -4072,6 +4072,12 @@ var AXMobileModal = Class.create(AXJ, {
 	},
 	init: function () {
 		
+	},
+	open: function(){
+		
+	},
+	close: function(){
+		
 	}
 });
 /* ********************************************** AXMobileModal ** */
