@@ -28,7 +28,7 @@ var AXEditorLang = {
 		insertDoc:"Insert",
 		delSelected:"Delete",
 		selectAll:"SelectAll",
-		invaildUrlMsg:"Invaild url make fail",
+		invalidUrlMsg:"invalid url make fail",
 		volumeOverMsg:"upload Maxium size over",
 		noSelectedFileMsg:"No selected target file",
 		fileDeleteConfirm:"Do you want to delete it?",
@@ -55,7 +55,7 @@ var AXEditorLang = {
 		insertDoc:"본문삽입",
 		delSelected:"선택삭제",
 		selectAll:"전체선택",
-		invaildUrlMsg:"url 형식이 잘못되어 url연결에 실패 하였습니다.",
+		invalidUrlMsg:"url 형식이 잘못되어 url연결에 실패 하였습니다.",
 		volumeOverMsg:"업로드 용량이 초과 되어 업로드 하실 수 없습니다.",
 		noSelectedFileMsg:"선택된 파일이 없습니다.",
 		fileDeleteConfirm:"정말 삭제 하시겠습니까?",
@@ -82,7 +82,7 @@ var AXEditorLang = {
 		insertDoc:"Insert",
 		delSelected:"Delete",
 		selectAll:"Select",
-		invaildUrlMsg:"Invaild url make fail",
+		invalidUrlMsg:"invalid url make fail",
 		volumeOverMsg:"upload Maxium size over",
 		noSelectedFileMsg:"No selected target file",
 		fileDeleteConfirm:"Do you want to delete it?",
@@ -109,7 +109,7 @@ var AXEditorLang = {
 		insertDoc:"Insert",
 		delSelected:"Delete",
 		selectAll:"Select",
-		invaildUrlMsg:"Invaild url make fail",
+		invalidUrlMsg:"invalid url make fail",
 		volumeOverMsg:"upload Maxium size over",
 		noSelectedFileMsg:"No selected target file",
 		fileDeleteConfirm:"Do you want to delete it?",
@@ -1313,7 +1313,7 @@ var AXEditor = Class.create(AXJ, {
 					if(oNode) oNode.target = sTarget;
 				}
 		}else{
-			alert(lg.invaildUrlMsg);
+			alert(lg.invalidUrlMsg);
 		}
 		this.closeulPicker();
 	},
