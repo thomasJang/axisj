@@ -2128,15 +2128,20 @@ var AXUpload5 = Class.create(AXJ, {
 		var onClickDeleteButton = this.onClickDeleteButton.bind(this);
 		var onClickFileTitle = this.onClickFileTitle.bind(this);
 		
+		//if (!files.length) return;
+		
 		if(cfg.isSingleUpload){
 
 			var f;
 			if(jQuery.isArray(files)){
-				this.uploadedList.push(files.first());
-				f = files.first();
+				if( jQuery.isArray(files.first()) ){
+					this.uploadedList.push(files.first());
+					f = files.first();	
+				}
 			}else{
-				this.uploadedList.push(files);
-				f = files;
+				if (Object.isObject(files) ){
+					f = files;	
+				}
 			}
 			if(!f) return;
 			var itemID = f.id;
@@ -2165,7 +2170,12 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			
 		}else{
-			this.uploadedList = files;
+			//this.uploadedList = files;
+			this.uploadedList = [];
+			$.each(files, function(){
+				if(this) uploadedList.push(this);
+			});
+			
 			if(cfg.queueBoxID){
 				jQuery.each(this.uploadedList, function(fidx, f){
 					if(f.id == undefined){
