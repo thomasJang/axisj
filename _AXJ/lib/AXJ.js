@@ -4114,10 +4114,17 @@ var AXMobileModal = Class.create(AXJ, {
 		var cfg = this.config;
 		var theme = configs.theme || cfg.theme;
 		var modalId = "AXMobileModal" + AXUtil.timeKey();
+<<<<<<< HEAD
 		
 		var cssStyles = [];
 		var width, height, left, top, margin;
 		
+=======
+		
+		var cssStyles = [];
+		var width, height, left, top, margin;
+		
+>>>>>>> 48a1cd331a599ff01bb9490d14f873c4c97d0f65
 		
 		
 		var po = [];

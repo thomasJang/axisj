@@ -102,6 +102,21 @@
 			example:[],
 			exampleFn:[],
 			reference:	[]
-		}		
+		},
+		{
+			name:		"moveTo", 
+			type:		"method", 
+			desc:		"스크롤위치를 이동시킵니다.",
+			define:		"_AXScroll.moveTo(x, y)",
+			arguments:	[
+				{k:"x", v:"(Number | null)"},
+				{k:"y", v:"(Number | null)"}
+			],
+			returns:		{k:"", v:""},
+			samplecode:	["myUIScroll.unbind();"],
+			example:[],
+			exampleFn:[],
+			reference:	[]
+		}
 	]
 }

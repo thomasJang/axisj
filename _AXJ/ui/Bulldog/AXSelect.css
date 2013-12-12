@@ -22,6 +22,7 @@
 	cursor:pointer;
 	text-decoration:none;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+	text-align:left;
 }
 .AXanchorSelect .selectedTextBox .selectedText{
 	color:#717b85;

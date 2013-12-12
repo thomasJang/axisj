@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXModelControlGrid.css" />
 	<style type="text/css">
@@ -72,6 +73,7 @@
 	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModelControl.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModelControlGrid.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
@@ -193,11 +195,19 @@
 							data:{},
 							html:function(){
 								var po = [];
-								po.push('<select name="roomType" class="AXSelectSmall" title="전화번호">');
+								po.push('<select name="roomType" id="roomType_' + this.rowIndex + '" class="AXSelectSmall" title="전화번호">');
 								po.push('	<option value="01">TBL</option>');
 								po.push('	<option value="02">DXC</option>');
 								po.push('</select>');
 								return po.join('');
+							},
+							AXBind: {
+								id:"roomType_@rowIndex",
+								type:"Select",
+								config:{},
+								onchange: function(){
+									trace(this);
+								}
 							}
 						},
 						{ // 룸가격
@@ -232,6 +242,14 @@
 								po.push('	<option value="N">N</option>');
 								po.push('</select>');
 								return po.join('');
+							},
+							AXBind: {
+								id:"smoking_@rowIndex",
+								type:"Select",
+								config:{},
+								onchange: function(){
+									trace(this);
+								}
 							}
 						},
 						{ // EXT.BED

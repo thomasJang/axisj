@@ -467,14 +467,14 @@
 }
 
 .AXInput[disabled]{
-	background:url(img/DefaultRegular.png) repeat-x;
+	background:url(img/defaultRegular.png) repeat-x;
 	background-position:0px -78px;
 	color:#fff;text-shadow:0px -1px #b7b7b7;
 	box-shadow:inset 0px 1px 2px #b1b1b1;
 }
 
 .AXInputSmall[disabled]{
-	background:url(img/DefaultSmall.png) repeat-x;
+	background:url(img/defaultSmall.png) repeat-x;
 	background-position:0px -60px;
 	color:#fff;text-shadow:0px -1px #b7b7b7;
 	box-shadow:inset 0px 1px 2px #b1b1b1;

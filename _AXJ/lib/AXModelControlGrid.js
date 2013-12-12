@@ -8,10 +8,11 @@
  */
 
 var AXModelControlGrid = Class.create(AXJ, {
-    version: "AXModelControlGrid V0.1",
+    version: "AXModelControlGrid V1.0",
     author: "tom@axisj.com",
 	logs: [
-		"2013-12-03 오후 5:27:18"
+		"2013-12-03 오후 5:27:18",
+		"2013-12-12 오전 10:25:03"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
@@ -55,7 +56,61 @@ var AXModelControlGrid = Class.create(AXJ, {
 			yscroll:false,
 			xscroll:true
 		});
+		
+		jQuery(window).bind("resize", this.windowResize.bind(this));
     },
+	windowResizeApply: function () {
+    	var cfg = this.config;
+    	var bodyWidth = this.gridBody.width() - 2;
+    	var colWidth = 0;
+    	var astricCount = 0;
+    	
+		jQuery.each(cfg.colGroup, function (cidx, CG) {
+			if(CG.widthAstric){
+				CG.width = 0;
+				CG._owidth = CG.width;
+				astricCount++;
+			}
+			colWidth += (CG._owidth||0).number();
+		});
+    	this.colWidth = colWidth;
+		
+		var newColWidth = 0;
+		/* width * 예외처리 구문 ------------ s */
+		if ((bodyWidth) > (colWidth + 100 * astricCount)) {
+			var remainsWidth = (bodyWidth) - colWidth;
+			jQuery.each(cfg.colGroup, function (cidx, CG) {
+				if (CG.widthAstric) {
+					CG._owidth = remainsWidth / astricCount;
+					CG.width = CG._owidth;
+					colWidth += (CG._owidth||0).number();
+				}
+				newColWidth += CG.width.number();
+			});
+		}else{
+			jQuery.each(cfg.colGroup, function (cidx, CG) {
+				if (CG.widthAstric) {
+					CG._owidth = 200;
+					CG.width = 200;
+					colWidth += (CG._owidth||0).number();
+				}
+				newColWidth += CG.width.number();
+			});
+		}
+    	this.colWidth = newColWidth;
+    	
+    	jQuery.each(cfg.colGroup, function (cidx, CG) {
+    		$("#" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_head").attr("width", this.width);
+    		$("#" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_body").attr("width", this.width);
+    	});
+    	
+		this.scrollBody.css({width:this.colWidth});
+		
+		this.colHead.find("table").css({width:this.colWidth});
+		this.body.find("table").css({width:this.colWidth});
+		this.myUIScroll.resizeScroll();
+		this.myUIScroll.moveTo(0);
+	},
 	getColGroup: function (subfix) {
 		var cfg = this.config;
 		var po = [];
@@ -91,7 +146,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 	},
     setColHead: function(rewrite){
     	var cfg = this.config;
-    	var bodyWidth = this.body.width();
+    	var bodyWidth = this.gridBody.width()-2;
     	var colWidth = 0;
     	var astricCount = 0;
     	
@@ -266,6 +321,11 @@ var AXModelControlGrid = Class.create(AXJ, {
 					jQuery("#"+bindID).bindTwinDate(myConfig);
 				}else if(form.AXBind.type == "Date"){
 					jQuery("#"+bindID).bindDate(myConfig);
+				}else if(form.AXBind.type == "Select"){
+					jQuery("#"+bindID).unbindSelect();
+					jQuery("#"+bindID).bindSelect(myConfig);
+				}else if(form.AXBind.type == "Selector"){
+					jQuery("#"+bindID).bindSelector(myConfig);
 				}
 			}
 		});
@@ -391,7 +451,17 @@ var AXModelControlGrid = Class.create(AXJ, {
     		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],select,textarea").each(function(){
     			item[this.name] = $(this).val();
     		});
+    		
+    		var checkNames = {};
     		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=checkbox],input[type=radio]").each(function(){
+    			if(this.type == "checkbox"){
+    				if(checkNames[this.name]){
+    					checkNames[this.name].count += 1;
+    				}else{
+    					checkNames[this.name] = {name:this.name, count:1};
+    					item[this.name] = "";
+    				}
+    			}
     			if(this.checked){
     				if(this.type == "checkbox"){
 		    			if(item[this.name]){
@@ -403,6 +473,14 @@ var AXModelControlGrid = Class.create(AXJ, {
 		    			item[this.name] = this.value;
 		    		}
 	    		}
+    		});
+
+    		jQuery.each(checkNames, function(k, v){
+    			if(v.count == 1){
+    				if(Object.isArray(item[v.name])){
+    					item[v.name] = item[v.name].join(",");
+    				}
+    			}
     		});
     		
     		L = AXUtil.overwriteObject(L, item, true);
