@@ -1070,7 +1070,7 @@ var AXUtil = {
 
 	},
 	isEmpty: function (val) {
-		return (val == "" || val == null || val == undefined) ? true : false;
+		return (val === "" || val == null || val == undefined) ? true : false;
 	},
 	getUrlInfo: function () {
 
@@ -1163,13 +1163,19 @@ var AXJ = Class.create({
 	},
 	getEventTarget: function (arg) {
 		var eventTarget = arg.evt;
-		var eid = (eventTarget.id) ? eventTarget.id.split(/_AX_/g) : [];
+		var eid = (eventTarget && eventTarget.id && eventTarget.id != "") ? eventTarget.id.split(/_AX_/g) : [];
 		if (eventTarget) {
 			while (!arg.find(eventTarget, eid)) {
 				if (!eventTarget.parentNode) { eventTarget = null; break; }
 				if (arg.until) { if (arg.until(eventTarget, eid)) { eventTarget = null; break; } }
 				if (eventTarget.parentNode) {
-					eventTarget = eventTarget.parentNode; eid = (eventTarget.id) ? eventTarget.id.split(/_AX_/g) : [];
+					eventTarget = eventTarget.parentNode;
+					try{
+						eid = (eventTarget && eventTarget.id && eventTarget.id != "") ? eventTarget.id.split(/_AX_/g) : [];
+					}catch(e){
+						eid = [];
+					}
+					
 				} else {
 					//trace("break");
 					break;
@@ -1221,6 +1227,16 @@ var AXJ = Class.create({
 		} else if (document.selection) {  // IE?
 			document.selection.empty();
 		}	
+	},
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 100);
+	},
+	windowResizeApply: function () {
+
 	}
 });
 /* ********************************************** AXJ ** */
@@ -1655,7 +1671,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
 
 /* ** AXScroll ********************************************** */
 var AXScroll = Class.create(AXJ, {
-	version: "AXScroll v1.3",
+	version: "AXScroll v1.4",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-10-10 오전 11:17:34",
@@ -1668,7 +1684,8 @@ var AXScroll = Class.create(AXJ, {
 		"2013-02-16 오후 4:13:16 unbind 후 다시 bind할때 생기는 이벤트 중첩현상 처리 - tom",
 		"2013-08-01 오후 4:54:17 mobile touch 버그픽스 - tom ",
 		"2013-10-16 오후 6:45:48 mobile 스크롤 속도문제 패치 - tom",
-		"2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가"
+		"2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가",
+		"2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2315,6 +2332,26 @@ var AXScroll = Class.create(AXJ, {
 		if(myNewTop < 0) myNewTop = 0;
 		this.scrollScrollID.css({ top: -myNewTop });
 		this.setSBPosition();
+	},
+	moveTo: function(x, y){
+		
+		var cfg = this.config;
+		var css = {};
+		if(!AXUtil.isEmpty(x)){
+			css.left = -x;
+		}
+		if(!AXUtil.isEmpty(y)){
+			css.top = -y;
+		}
+		
+		this.scrollScrollID.css(css);
+		if(cfg.yscroll && !AXUtil.isEmpty(css.top)){
+			this.scrollBar.css({top:css.top});
+		}
+		if(cfg.xscroll && !AXUtil.isEmpty(css.left)){
+			this.xscrollBar.css({left:css.left});
+		}
+		
 	},
 	unbind: function () {
 		var config = this.config;
@@ -3823,7 +3860,6 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 		//컨텍스트 메뉴의 위치 지정
 
-
 		var arrowStyle = "";
 		if (position.clientX) {
 			arrowStyle = "background-position:10px 0px;"
@@ -4069,15 +4105,33 @@ var AXMobileModal = Class.create(AXJ, {
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
+		this.config.theme = "AXMobileModal";
 	},
 	init: function () {
-		
+		var cfg = this.config;
 	},
-	open: function(){
+	open: function(configs){
+		var cfg = this.config;
+		var theme = configs.theme || cfg.theme;
+		var modalId = "AXMobileModal" + AXUtil.timeKey();
 		
+		var cssStyles = [];
+		var width, height, left, top, margin;
+		
+		
+		
+		var po = [];
+		po.push('<div id="', modalId ,'" class="', theme ,'" style="', cssStyles.join(";"),';">');
+		po.push('	<div  id="', modalId ,'_AX_head" class="mobileModalHead"></div>');
+		po.push('	<div  id="', modalId ,'_AX_body" class="mobileModalBody"></div>');
+		po.push('	<div  id="', modalId ,'_AX_foot" class="mobileModalFoot"></div>');
+		po.push('</div>');
+		this.jQueryModal = jQuery(po.join(''));
+		jQuery(document.body).append(this.jQueryModal);
 	},
 	close: function(){
-		
+		var cfg = this.config;
+		this.jQueryModal.remove();
 	}
 });
 /* ********************************************** AXMobileModal ** */
