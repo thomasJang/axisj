@@ -1665,7 +1665,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
 
 /* ** AXScroll ********************************************** */
 var AXScroll = Class.create(AXJ, {
-	version: "AXScroll v1.3",
+	version: "AXScroll v1.4",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-10-10 오전 11:17:34",
@@ -1678,7 +1678,8 @@ var AXScroll = Class.create(AXJ, {
 		"2013-02-16 오후 4:13:16 unbind 후 다시 bind할때 생기는 이벤트 중첩현상 처리 - tom",
 		"2013-08-01 오후 4:54:17 mobile touch 버그픽스 - tom ",
 		"2013-10-16 오후 6:45:48 mobile 스크롤 속도문제 패치 - tom",
-		"2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가"
+		"2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가",
+		"2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();

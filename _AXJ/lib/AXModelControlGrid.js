@@ -8,10 +8,11 @@
  */
 
 var AXModelControlGrid = Class.create(AXJ, {
-    version: "AXModelControlGrid V0.1",
+    version: "AXModelControlGrid V1.0",
     author: "tom@axisj.com",
 	logs: [
-		"2013-12-03 오후 5:27:18"
+		"2013-12-03 오후 5:27:18",
+		"2013-12-12 오전 10:25:03"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
