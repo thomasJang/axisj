@@ -1169,13 +1169,12 @@ var AXJ = Class.create({
 				if (!eventTarget.parentNode) { eventTarget = null; break; }
 				if (arg.until) { if (arg.until(eventTarget, eid)) { eventTarget = null; break; } }
 				if (eventTarget.parentNode) {
-					eventTarget = eventTarget.parentNode;
+					eventTarget = eventTarget.parentNode; 
 					try{
 						eid = (eventTarget && eventTarget.id && eventTarget.id != "") ? eventTarget.id.split(/_AX_/g) : [];
 					}catch(e){
 						eid = [];
 					}
-					
 				} else {
 					//trace("break");
 					break;
@@ -4106,37 +4105,98 @@ var AXMobileModal = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.config.theme = "AXMobileModal";
+		this.config.width = "auto";
+		this.config.height = "auto";
+		this.config.margin = "10px";
+		this.config.align = "center";
+		this.config.valign = "center";
 	},
 	init: function () {
 		var cfg = this.config;
+		
+		if(!cfg.head){
+			cfg.head = {};
+		}
 	},
 	open: function(configs){
 		var cfg = this.config;
-		var theme = configs.theme || cfg.theme;
-		var modalId = "AXMobileModal" + AXUtil.timeKey();
-<<<<<<< HEAD
-		
-		var cssStyles = [];
-		var width, height, left, top, margin;
-		
-=======
-		
-		var cssStyles = [];
-		var width, height, left, top, margin;
-		
->>>>>>> 48a1cd331a599ff01bb9490d14f873c4c97d0f65
-		
+		if(!configs) configs = {};
+		var theme = (configs.theme || cfg.theme);
+		var modalId = "AXMobileModal" + AXUtil.timekey();
+		var clientWidth = (configs.clientWidth || AXUtil.clientWidth());
 		
 		var po = [];
-		po.push('<div id="', modalId ,'" class="', theme ,'" style="', cssStyles.join(";"),';">');
-		po.push('	<div  id="', modalId ,'_AX_head" class="mobileModalHead"></div>');
-		po.push('	<div  id="', modalId ,'_AX_body" class="mobileModalBody"></div>');
-		po.push('	<div  id="', modalId ,'_AX_foot" class="mobileModalFoot"></div>');
+		po.push('<div id="', modalId ,'" class="', theme ,'" style="left:0px;top:0px;width:', AXUtil.clientWidth(),'px;height:', AXUtil.clientHeight(),'px;">');
+		po.push('	<div  id="', modalId ,'_AX_modal" class="AXMobileModalPanel" style="width:', 50,'px;left:', (AXUtil.clientWidth()-50)/2,'px;">');
+		po.push('		<div  id="', modalId ,'_AX_head" class="mobileModalHead">');
+		if(cfg.head.title){
+			
+		}
+		if(cfg.head.close){
+			po.push('		<a href="javascript:;" class="mobileModelClose">Close</a>');
+		}
+		po.push('		</div>');
+		po.push('		<div  id="', modalId ,'_AX_body" class="mobileModalBody"></div>');
+		po.push('		<div  id="', modalId ,'_AX_foot" class="mobileModalFoot"></div>');
+		po.push('	</div>');
 		po.push('</div>');
 		this.jQueryModal = jQuery(po.join(''));
 		jQuery(document.body).append(this.jQueryModal);
+		
+		this.modalPanel = this.jQueryModal.find(".AXMobileModalPanel");
+		
+		this.openConfigs = configs;
+		this.setSizeModal(this.openConfigs);
+	},
+	setSizeModal: function(configs){
+		var cfg = this.config;
+		var cssStyles = {};
+		var clientWidth, width, height, left, top, margin, align, valign;
+		var modalWidth, modalHeight;
+		var clientWidth = this.jQueryModal.innerWidth();
+		var width = (configs.width || cfg.width);
+		var height = (configs.height || cfg.height);
+		var margin = (configs.margin || cfg.margin);
+		var align = (configs.align || cfg.align);
+		var valign = (configs.valign || cfg.valign);
+		
+		if(width == "auto"){
+			if(margin.right(1) == "%"){
+				modalWidth = clientWidth * (100 - margin.number()*2)/100;
+			}else{
+				modalWidth = clientWidth - margin.number()*2;
+			}
+		}
+		if(height == "auto"){
+			top = 10;
+		}
+		left = (clientWidth - modalWidth) / 2;
+		
+		cssStyles.left = left;
+		cssStyles.top = top;
+		cssStyles.width = modalWidth;
+		if(modalHeight) cssStyles.height = modalHeight;
+		cssStyles.minHeight = 300;
+		
+		/*cssStyles.transform = "rotateY(180deg)";*/
+		/*this.modalPanel.addClass("open");*/
+		this.modalPanel.animate(cssStyles, 300, "expoInOut", function(){
+			
+		});
+		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
+		return {jQueryModal:this.jQueryModal, modalPanel:this.modalPanel};
 	},
 	close: function(){
+		var cfg = this.config;
+		this.modalPanel.animate({top:-500}, 300, "expoInOut", function(){
+			
+		});
+		//this.modalPanel.removeClass("open");
+		this.jQueryModal.fadeOut();
+		var remove = this.remove.bind(this);
+		remove.delay(0.5);
+	},
+	remove: function(){
 		var cfg = this.config;
 		this.jQueryModal.remove();
 	}

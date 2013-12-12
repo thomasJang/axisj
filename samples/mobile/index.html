@@ -7,6 +7,7 @@
     <meta property="og:image" content="/img/axisj_sns.png" /> 
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
@@ -17,8 +18,32 @@
 	
 	.AXMobileModal{
 		position:absolute;
-		border:1px solid #000;
-		background:#fff;	
+		left:0px;top:0px;
+		background:#666;
+	}
+
+	.AXMobileModal .AXMobileModalPanel{
+		position:absolute;
+		left:0px;top:-500px;
+		min-height:300px;
+		background:#d7dde3;
+		border-radius:4px;
+		box-shadow:0px 0px 6px rgba(0,0,0,30);
+	}
+	
+	.AXMobileModal .AXMobileModalPanel .mobileModalHead{
+		position:relative;
+		height:44px;	
+	}
+	.AXMobileModal .AXMobileModalPanel .mobileModalHead .mobileModelClose{
+		display:block;
+		position:absolute;
+		right:0px;
+		top:0px;
+		width:44px;height:44px;
+		background:url(../../_AXJ/ui/default/img/AXMobile/close.png) center center no-repeat;
+		background-size:50% 50%;
+		line-height:1000px;overflow:hidden;
 	}
 	</style>
 	<!-- css block -->
@@ -36,11 +61,6 @@
 		pageStart: function(){
 			
 			myMobileModal.setConfig({
-				align:"center",
-				valign:"center",
-				margin:"10px",
-				width:"auto",
-				height:"auto",
 				head:{
 					title:"",
 					close:{
@@ -65,7 +85,7 @@
 			$("#demoPageTabTarget").bindTab({value: "AXMobileModal", overflow: "visible", options: myTabOption, onchange: pageTabChange});
 		},
 		openMobileModal: function(){
-			myMobileModal.open();
+			var obj = myMobileModal.open();
 			
 		}
 	};
@@ -82,9 +102,10 @@
 		<div id="demoPageTabTarget"></div>
 		
 		<div class="Hspace20"></div>
-		
+				
 		<button class="AXButton" onclick="fnObj.openMobileModal();">open mobileModal</button>
 
 	</div>
+
 </body>
 </html>
