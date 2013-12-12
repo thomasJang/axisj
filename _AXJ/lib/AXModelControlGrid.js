@@ -266,6 +266,10 @@ var AXModelControlGrid = Class.create(AXJ, {
 					jQuery("#"+bindID).bindTwinDate(myConfig);
 				}else if(form.AXBind.type == "Date"){
 					jQuery("#"+bindID).bindDate(myConfig);
+				}else if(form.AXBind.type == "Select"){
+					jQuery("#"+bindID).bindSelect(myConfig);
+				}else if(form.AXBind.type == "Selector"){
+					jQuery("#"+bindID).bindSelector(myConfig);
 				}
 			}
 		});

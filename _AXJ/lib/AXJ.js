@@ -3823,7 +3823,6 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 		//컨텍스트 메뉴의 위치 지정
 
-
 		var arrowStyle = "";
 		if (position.clientX) {
 			arrowStyle = "background-position:10px 0px;"
@@ -4069,17 +4068,33 @@ var AXMobileModal = Class.create(AXJ, {
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
+		this.config.theme = "AXMobileModal";
 	},
 	init: function () {
 		var cfg = this.config;
-		
-		
 	},
-	open: function(){
+	open: function(configs){
+		var cfg = this.config;
+		var theme = configs.theme || cfg.theme;
+		var modalId = "AXMobileModal" + AXUtil.timeKey();
 		
+		var cssStyles = [];
+		var width, height, left, top, margin;
+		
+		
+		
+		var po = [];
+		po.push('<div id="', modalId ,'" class="', theme ,'" style="', cssStyles.join(";"),';">');
+		po.push('	<div  id="', modalId ,'_AX_head" class="mobileModalHead"></div>');
+		po.push('	<div  id="', modalId ,'_AX_body" class="mobileModalBody"></div>');
+		po.push('	<div  id="', modalId ,'_AX_foot" class="mobileModalFoot"></div>');
+		po.push('</div>');
+		this.jQueryModal = jQuery(po.join(''));
+		jQuery(document.body).append(this.jQueryModal);
 	},
 	close: function(){
-		
+		var cfg = this.config;
+		this.jQueryModal.remove();
 	}
 });
 /* ********************************************** AXMobileModal ** */
