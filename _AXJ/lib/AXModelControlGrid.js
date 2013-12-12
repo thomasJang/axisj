@@ -55,7 +55,61 @@ var AXModelControlGrid = Class.create(AXJ, {
 			yscroll:false,
 			xscroll:true
 		});
+		
+		jQuery(window).bind("resize", this.windowResize.bind(this));
     },
+	windowResizeApply: function () {
+    	var cfg = this.config;
+    	var bodyWidth = this.gridBody.width() - 2;
+    	var colWidth = 0;
+    	var astricCount = 0;
+    	
+		jQuery.each(cfg.colGroup, function (cidx, CG) {
+			if(CG.widthAstric){
+				CG.width = 0;
+				CG._owidth = CG.width;
+				astricCount++;
+			}
+			colWidth += (CG._owidth||0).number();
+		});
+    	this.colWidth = colWidth;
+		
+		var newColWidth = 0;
+		/* width * 예외처리 구문 ------------ s */
+		if ((bodyWidth) > (colWidth + 100 * astricCount)) {
+			var remainsWidth = (bodyWidth) - colWidth;
+			jQuery.each(cfg.colGroup, function (cidx, CG) {
+				if (CG.widthAstric) {
+					CG._owidth = remainsWidth / astricCount;
+					CG.width = CG._owidth;
+					colWidth += (CG._owidth||0).number();
+				}
+				newColWidth += CG.width.number();
+			});
+		}else{
+			jQuery.each(cfg.colGroup, function (cidx, CG) {
+				if (CG.widthAstric) {
+					CG._owidth = 200;
+					CG.width = 200;
+					colWidth += (CG._owidth||0).number();
+				}
+				newColWidth += CG.width.number();
+			});
+		}
+    	this.colWidth = newColWidth;
+    	
+    	jQuery.each(cfg.colGroup, function (cidx, CG) {
+    		$("#" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_head").attr("width", this.width);
+    		$("#" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_body").attr("width", this.width);
+    	});
+    	
+		this.scrollBody.css({width:this.colWidth});
+		
+		this.colHead.find("table").css({width:this.colWidth});
+		this.body.find("table").css({width:this.colWidth});
+		this.myUIScroll.resizeScroll();
+		this.myUIScroll.moveTo(0);
+	},
 	getColGroup: function (subfix) {
 		var cfg = this.config;
 		var po = [];
@@ -91,7 +145,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 	},
     setColHead: function(rewrite){
     	var cfg = this.config;
-    	var bodyWidth = this.body.width();
+    	var bodyWidth = this.gridBody.width()-2;
     	var colWidth = 0;
     	var astricCount = 0;
     	
@@ -267,6 +321,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 				}else if(form.AXBind.type == "Date"){
 					jQuery("#"+bindID).bindDate(myConfig);
 				}else if(form.AXBind.type == "Select"){
+					jQuery("#"+bindID).unbindSelect();
 					jQuery("#"+bindID).bindSelect(myConfig);
 				}else if(form.AXBind.type == "Selector"){
 					jQuery("#"+bindID).bindSelector(myConfig);

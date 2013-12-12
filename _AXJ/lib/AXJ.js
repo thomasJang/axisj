@@ -1070,7 +1070,7 @@ var AXUtil = {
 
 	},
 	isEmpty: function (val) {
-		return (val == "" || val == null || val == undefined) ? true : false;
+		return (val === "" || val == null || val == undefined) ? true : false;
 	},
 	getUrlInfo: function () {
 
@@ -1221,6 +1221,16 @@ var AXJ = Class.create({
 		} else if (document.selection) {  // IE?
 			document.selection.empty();
 		}	
+	},
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 100);
+	},
+	windowResizeApply: function () {
+
 	}
 });
 /* ********************************************** AXJ ** */
@@ -2315,6 +2325,26 @@ var AXScroll = Class.create(AXJ, {
 		if(myNewTop < 0) myNewTop = 0;
 		this.scrollScrollID.css({ top: -myNewTop });
 		this.setSBPosition();
+	},
+	moveTo: function(x, y){
+		
+		var cfg = this.config;
+		var css = {};
+		if(!AXUtil.isEmpty(x)){
+			css.left = -x;
+		}
+		if(!AXUtil.isEmpty(y)){
+			css.top = -y;
+		}
+		
+		this.scrollScrollID.css(css);
+		if(cfg.yscroll && !AXUtil.isEmpty(css.top)){
+			this.scrollBar.css({top:css.top});
+		}
+		if(cfg.xscroll && !AXUtil.isEmpty(css.left)){
+			this.xscrollBar.css({left:css.left});
+		}
+		
 	},
 	unbind: function () {
 		var config = this.config;
