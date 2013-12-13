@@ -7,13 +7,16 @@
     <meta property="og:image" content="/img/axisj_sns.png" /> 
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+	
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<style type="text/css">
 	H2{font-family:consolas;}
+	
+	
 	</style>
 	<!-- css block -->
 
@@ -23,10 +26,52 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
 	<script type="text/javascript" src="pageTab.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXMobileMenu.js"></script>
 
-	<script type="text/javascript">	
+	<script type="text/javascript">
+	var myMobileMenu = new AXMobileMenu();
 	var fnObj = {
 		pageStart: function(){
+			
+			//height : 338
+			myMobileMenu.setConfig({
+				reserveKeys:{
+					labelKey:"label",
+					urlKey:"label",
+					targetKey:"target",
+					addClassKey:"addClass",
+					subMenuKey:"cn"					
+				},
+				menu:[
+					{label:"Dashboard", addClass:"Dashboard", url:"http://www.axisj.com"},
+					{label:"Reservation", addClass:"Reservation", url:"http://www.axisj.com", cn:[
+						{label:"Search Room", url:"http://www.axisj.com"},
+						{label:"Create Room", url:"http://www.axisj.com", cn:[
+							{label:"New Room", url:"http://www.axisj.com"},
+							{label:"Edit Room", url:"http://www.axisj.com"},
+							{label:"Remove Room", url:"http://www.axisj.com"}	
+						]},
+						{label:"Room history", url:"http://www.axisj.com"},
+						{label:"Clerk today", url:"http://www.axisj.com"},
+						{label:"check list", url:"http://www.axisj.com"}
+					]},
+					{label:"Guest Service", addClass:"Guest", url:"http://www.axisj.combc", cn:[
+						{label:"Search Room", url:"http://www.axisj.com"},
+						{label:"Create Room", url:"http://www.axisj.com", cn:[
+							{label:"New Room", url:"http://www.axisj.com"},
+							{label:"Edit Room", url:"http://www.axisj.com"},
+							{label:"Remove Room", url:"http://www.axisj.com"}	
+						]},
+						{label:"Room history", url:"http://www.axisj.com"},
+						{label:"Clerk today", url:"http://www.axisj.com"},
+						{label:"check list", url:"http://www.axisj.com"}	
+					]},
+					{label:"Cashiering", addClass:"Cashiering", url:"http://www.axisj.com"},
+					{label:"Housekeeping", addClass:"Housekeeping", url:"http://www.axisj.com"},
+					{label:"Management", addClass:"Management", url:"http://www.axisj.com"},
+					{label:"Configuration", addClass:"Configuration", url:"http://www.axisj.com"}
+				]
+			});
 			
 			fnObj.pageTabBind();
 			AXCode.bind(); // 소스보기
@@ -43,11 +88,13 @@
 
 </head>
 <body>
-	<div style="padding:20px;">
+	<div style="padding:0px;">
 		
 		<div id="demoPageTabTarget"></div>
 		
-		<div class="Hspace20"></div>
+		<div style="padding:10px;border-bottom:1px solid #ccc;background:#eee;">
+			<button class="AXButton">MENU</button>
+		</div>
 		
 
 	</div>

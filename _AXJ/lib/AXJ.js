@@ -4144,9 +4144,19 @@ var AXMobileModal = Class.create(AXJ, {
 		jQuery(document.body).append(this.jQueryModal);
 		
 		this.modalPanel = this.jQueryModal.find(".AXMobileModalPanel");
+		this.modalBody = this.modalPanel.find(".mobileModalBody");
+		this.modalFoot = this.modalPanel.find(".mobileModalBody");
 		
 		this.openConfigs = configs;
 		this.setSizeModal(this.openConfigs);
+		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
+		
+		return {
+			jQueryModal: this.jQueryModal, 
+			modalPanel: this.modalPanel,
+			modalBody: this.modalBody,
+			modalFoot: this.modalFoot
+		};
 	},
 	setSizeModal: function(configs){
 		var cfg = this.config;
@@ -4180,14 +4190,14 @@ var AXMobileModal = Class.create(AXJ, {
 		
 		/*cssStyles.transform = "rotateY(180deg)";*/
 		/*this.modalPanel.addClass("open");*/
+		mask.open();
 		this.modalPanel.animate(cssStyles, 300, "expoInOut", function(){
 			
 		});
-		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
-		return {jQueryModal:this.jQueryModal, modalPanel:this.modalPanel};
 	},
 	close: function(){
 		var cfg = this.config;
+		mask.close();
 		this.modalPanel.animate({top:-500}, 300, "expoInOut", function(){
 			
 		});

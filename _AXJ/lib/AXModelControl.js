@@ -50,8 +50,6 @@ var AXModelControl = Class.create(AXJ, {
 				if(checkEle.get(0).id == cfg.targetID){
 					rooping = false;
 					break;
-				}else if(cfg.excludeClassName != "" & checkEle.parent().hasClass(cfg.subModelDetectClassName)){
-					excludeClassName
 				}else if(checkEle.parent().hasClass(cfg.subModelDetectClassName)){
 					result = true;
 					rooping = false;
@@ -73,16 +71,23 @@ var AXModelControl = Class.create(AXJ, {
 			var jQueryObj = $(this);
 			var getSubModel = getParentSubModel($(this));
 			if(!getSubModel.result){
-				jQueryObj.attr("axisjModelId", collectItem.length);
+				var collectOk = false;
+				if(cfg.excludeClassName != ""){
+					collectOk = !jQueryObj.hasClass(cfg.excludeClassName);
+				}else{
+					collectOk = true;
+				}
 				
-				collectItem.push({
-					keys:[this.name],
-					jQueryObj:jQueryObj,
-					axisjModelId:collectItem.length,
-					name:this.name,
-					type:this.type
-				});
-				
+				if(collectOk){
+					jQueryObj.attr("axisjModelId", collectItem.length);
+					collectItem.push({
+						keys:[this.name],
+						jQueryObj:jQueryObj,
+						axisjModelId:collectItem.length,
+						name:this.name,
+						type:this.type
+					});
+				}
 			}else{
 				
 				jQueryObj.attr("axisjModelId", collectItem.length);
