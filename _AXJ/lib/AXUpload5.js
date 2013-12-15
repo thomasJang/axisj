@@ -1244,9 +1244,11 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			
 			if(!cfg.isSingleUpload){
-				if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
-					cfg.onError("fileCount");
-					return false;
+				if(cfg.uploadMaxFileCount != 0){
+					if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
+						cfg.onError("fileCount");
+						return false;
+					}
 				}
 			}
 			
@@ -1315,13 +1317,15 @@ var AXUpload5 = Class.create(AXJ, {
 					}
 					
 					if(!cfg.isSingleUpload){
-						if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
-							evt.stopPropagation();
-							evt.preventDefault();
-							jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
-							jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
-							cfg.onError("fileCount");
-							return false;
+						if(cfg.uploadMaxFileCount != 0){
+							if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
+								evt.stopPropagation();
+								evt.preventDefault();
+								jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
+								jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
+								cfg.onError("fileCount");
+								return false;
+							}
 						}
 					}
 
@@ -1411,8 +1415,8 @@ var AXUpload5 = Class.create(AXJ, {
 						this.cancelUpload();
 						return;
 					}
-				}				
-				
+				}
+
 				//trace(file);
 				//{"filestatus":-1, "name":"20130708175735_1.jpg", "type":".jpg", "id":"SWFUpload_0_0", "index":0, "modificationdate":"2013-10-04T08:51:27Z", "uploadtype":0, "post":{}, "size":891324, "creationdate":"2013-10-04T08:52:02Z"} 
 				var itemID = 'AX_'+ file.id;
