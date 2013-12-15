@@ -1935,7 +1935,7 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 
 			var  po = ['	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />'];
-			$("#"+cfg.targetID+"_AX_selectorTD").prepend(po.join(''));
+			jQuery("#"+cfg.targetID+"_AX_selectorTD").prepend(po.join(''));
 			jQuery('#'+cfg.targetID+'_AX_files').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth(),height:jQuery('#'+cfg.targetID+'_AX_selector').outerHeight()});
 
 			var onFileSelect = this.onFileSelect.bind(this);
