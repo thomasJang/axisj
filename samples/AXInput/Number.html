@@ -46,7 +46,10 @@
 
 			$("#AXInputMoney").bindMoney({
 				min:10, 
-				max:9000000
+				max:9000000,
+				onchange : function(){
+					trace(this);
+				}
 			});
 			
 		}

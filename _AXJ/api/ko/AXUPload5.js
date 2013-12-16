@@ -38,6 +38,7 @@
 					file_types:"(String) *.*|audio/*|video/*|image/*|MIME_type (accept)",
 					dropBoxID:"(String) 드래그 드랍 타겟 엘리먼트 아이디",
 					queueBoxID:"(String) 업로드된 파일 목록을 보여주는 업로드 큐박스 엘리먼트 아이디",
+					queueBoxAppendType:"(\"prepend\" || \"append\") 업로드 큐 박스에 추가 되는 방향을 설정 합니다.",
 					flash_url : "(String) html 5를 지원하지 않는 브라우저를 위한 swf upload. 설정하길 원치 않는 경우엔 선언하지 않아도 됩니다.",
 					flash9_url : "(String) html 5를 지원하지 않는 브라우저를 위한 swf upload. 설정하길 원치 않는 경우엔 선언하지 않아도 됩니다.",
 					onClickUploadedItem: "(Fundtion) 업로드된 목록을 클릭했을 때 이벤트 콜백함수",

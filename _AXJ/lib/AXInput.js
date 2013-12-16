@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.26",
+	version: "AXInputConverter v1.27",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -21,7 +21,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-09-29 오전 12:39:49 bindSlider 연속호출 버그 패치 - tom",
 		"2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom",
 		"2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정",
-		"2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스"
+		"2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스",
+		"2013-12-16 오후 4:46:14 : tom - bindMoneyCheck"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -478,6 +479,9 @@ var AXInputConverter = Class.create(AXJ, {
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
 		var nval;
+		
+		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
+		
 		if (jQuery("#" + objID).val() == "") {
 			if (minval != undefined && minval != null) {
 				nval = minval;
