@@ -1179,6 +1179,7 @@ var AXUpload5 = Class.create(AXJ, {
 		this.config.flash9_url = "/_AXJ/lib/swfupload_fp9.swf";
 		this.config.uploadPars = {};
 		this.config.deletePars = {};
+		this.config.queueBoxAppendType = "prepend";
 	},
 	init: function(reset){
 		var cfg = this.config;
@@ -1359,7 +1360,7 @@ var AXUpload5 = Class.create(AXJ, {
 		po.push('	<tr></tbody></table>');
 		po.push('</div>');
 		this.target.empty();
-		this.target.append(po.join(''));		
+		this.target.append(po.join(''));
 		
 		jQuery('#'+cfg.targetID+'_AX_selectorTD').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth()+5});
 		
@@ -1418,7 +1419,8 @@ var AXUpload5 = Class.create(AXJ, {
 				var itemID = 'AX_'+ file.id;
 				this.queue.push({id:itemID, file:file});
 				//큐박스에 아이템 추가
-				jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, file));
+				if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, file));
+				else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, file));
 				jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
 			}
 		};
@@ -1703,7 +1705,8 @@ var AXUpload5 = Class.create(AXJ, {
 							var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 							this.queue.push({id:itemID, file:f});
 							//큐박스에 아이템 추가
-							jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
+							if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
+							else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
 							jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
 						}else{
 							cfg.onError("fileCount");
@@ -1764,7 +1767,8 @@ var AXUpload5 = Class.create(AXJ, {
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 					this.queue.push({id:itemID, file:f});
 					//큐박스에 아이템 추가
-					jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
+					if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
+					else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
 				}else{
 					cfg.onError("fileCount");
@@ -1901,7 +1905,15 @@ var AXUpload5 = Class.create(AXJ, {
 		jQuery.each(res, function(k, v){
 			uploadedItem[k] = v;
 		});
-		this.uploadedList.push(uploadedItem);
+		if(cfg.queueBoxAppendType == "prepend") this.uploadedList.push(uploadedItem);
+		else{
+			var uploadedList = [];
+			uploadedList.push(uploadedItem);
+			jQuery.each(this.uploadedList, function(){
+				uploadedList.push(this);
+			});
+			this.uploadedList = uploadedList;
+		}
 		jQuery("#"+itemID).addClass("readyselect");
 		if(cfg.onUpload) cfg.onUpload.call(uploadedItem, uploadedItem);
 	},
@@ -2129,6 +2141,7 @@ var AXUpload5 = Class.create(AXJ, {
 		var onClickDeleteButton = this.onClickDeleteButton.bind(this);
 		var onClickFileTitle = this.onClickFileTitle.bind(this);
 		
+		
 		//if (!files.length) return;
 		
 		if(cfg.isSingleUpload){
@@ -2174,11 +2187,16 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			
 		}else{
+
 			//this.uploadedList = files;
 			this.uploadedList = [];
+			var uploadedList = [];
+			files.reverse();
 			$.each(files, function(){
 				if(this) uploadedList.push(this);
 			});
+			this.uploadedList = uploadedList;
+			//trace(this.uploadedList);
 			
 			if(cfg.queueBoxID){
 				jQuery.each(this.uploadedList, function(fidx, f){

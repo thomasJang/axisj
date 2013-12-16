@@ -43,9 +43,11 @@
 					file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
 					dropBoxID:"uploadQueueBox",
 					queueBoxID:"uploadQueueBox", // upload queue targetID
+					//queueBoxAppendType:"(prepend || append)",
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
 					flash_url : "../../_AXJ/lib/swfupload.swf",
 					flash9_url : "../../_AXJ/lib/swfupload_fp9.swf",
+					
 					// --------- e
 					onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
 						//trace(this);
@@ -53,12 +55,12 @@
 					},
 					
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
-					uploadMaxFileCount:3, // 업로드될 파일갯수 제한 0 은 무제한
+					uploadMaxFileCount:10, // 업로드될 파일갯수 제한 0 은 무제한
 					uploadUrl:"uploadFile.asp",
 					uploadPars:{userID:'tom', userName:'액시스'},
 					deleteUrl:"deleteFile.asp",
 					deletePars:{userID:'tom', userName:'액시스'},
-					
+
 					buttonTxt:"파일올리기",
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
@@ -76,7 +78,8 @@
 					},
 					
 					onUpload: function(){
-						trace(this);
+						//trace(this);
+						trace(myUpload.uploadedList);
 						//trace("onUpload");
 					},
 					onComplete: function(){
@@ -97,7 +100,7 @@
 						if(errorType == "html5Support"){
 							//dialog.push('The File APIs are not fully supported in this browser.');
 						}else if(errorType == "fileSize"){
-							trace(extData);
+							//trace(extData);
 							alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.\n("+extData.name+" : "+extData.size.byte()+")");
 						}else if(errorType == "fileCount"){
 							alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
