@@ -79,10 +79,43 @@
 		-moz-opacity:0.5; opacity:.05; filter:alpha(opacity=50);
 		border-radius:1px; -webkit-border-radius:1px; -moz-border-radius:1px;
 	}
+	.AXScroll .scrollBar:hover{
+		width:11px;
+		right:1px;
+	}
 	.AXScroll .scrollBar_hover{
 		-moz-opacity:0.5; opacity:.50; filter:alpha(opacity=50);
 	}
 	.AXScroll .scrollTarget{
+		position:absolute;left:0px;top:0px;
+	}
+	
+	/* xscroll */
+	.AXScroll .xscrollTrack{
+		z-index:100;
+		position:absolute;left:2px;bottom:3px;
+		width:100%;height:7px;background:#000;
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScroll .xscrollTrack_hover{
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+	}
+	.AXScroll .xscrollBar{
+		z-index:100;
+		position:absolute;left:2px;bottom:3px;
+		height:7px;min-width:10px;background:#000;
+		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScroll .xscrollBar:hover{
+		height:11px;
+		bottom:1px;
+	}
+	.AXScroll .xscrollBar_hover{
+		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+	}
+	.AXScroll .xscrollTarget{
 		position:absolute;left:0px;top:0px;
 	}
 
@@ -103,6 +136,10 @@
 		width:6px; min-height:10px; background:#000;
 		-moz-opacity:0.3; opacity:.30; filter:alpha(opacity=30);
 		border-radius:1px; -webkit-border-radius:1px; -moz-border-radius:1px;
+	}
+	.AXScrollSmall .scrollBar:hover{
+		width:10px;
+		right:1px;
 	}
 	.AXScrollSmall .scrollBar_hover{
 		-moz-opacity:0.5; opacity:.50; filter:alpha(opacity=50);

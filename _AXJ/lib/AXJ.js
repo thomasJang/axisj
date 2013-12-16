@@ -2657,6 +2657,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		this.moveSens = 0;
 		this.config.moveSens = 5;
 		this.touchMode;
+		this.config.useHelper = true;
 	},
 	init: function () {
 
@@ -2896,8 +2897,13 @@ var AXMultiSelect = Class.create(AXJ, {
 		}
 		
 	},
-	selectorHelperMove: function(event){
+	selectorHelperMove: function (event) {
 		var cfg = this.config;
+
+		if (!cfg.useHelper) {
+			return;
+		}
+
 		if(this.helperAppened){
 			
 			var _helperPos = this.helperPos;
@@ -4122,6 +4128,9 @@ var AXMobileModal = Class.create(AXJ, {
 		var cfg = this.config;
 		if(!configs) configs = {};
 		var theme = (configs.theme || cfg.theme);
+		if(cfg.addClass){
+			theme += " " + cfg.addClass;
+		}
 		var modalId = "AXMobileModal" + AXUtil.timekey();
 		var clientWidth = (configs.clientWidth || AXUtil.clientWidth());
 		
@@ -4129,13 +4138,11 @@ var AXMobileModal = Class.create(AXJ, {
 		po.push('<div id="', modalId ,'" class="', theme ,'" style="left:0px;top:0px;width:', AXUtil.clientWidth(),'px;height:', AXUtil.clientHeight(),'px;">');
 		po.push('	<div  id="', modalId ,'_AX_modal" class="AXMobileModalPanel" style="width:', 50,'px;left:', (AXUtil.clientWidth()-50)/2,'px;">');
 		po.push('		<div  id="', modalId ,'_AX_head" class="mobileModalHead">');
-		if(cfg.head.title){
-			
-		}
+		po.push('			<div class="modalTitle">' + (cfg.head.title || "Untitle") + '</div>');
+		po.push('		</div>');
 		if(cfg.head.close){
 			po.push('		<a href="javascript:;" class="mobileModelClose">Close</a>');
 		}
-		po.push('		</div>');
 		po.push('		<div  id="', modalId ,'_AX_body" class="mobileModalBody"></div>');
 		po.push('		<div  id="', modalId ,'_AX_foot" class="mobileModalFoot"></div>');
 		po.push('	</div>');
@@ -4144,6 +4151,7 @@ var AXMobileModal = Class.create(AXJ, {
 		jQuery(document.body).append(this.jQueryModal);
 		
 		this.modalPanel = this.jQueryModal.find(".AXMobileModalPanel");
+		this.modalHead = this.modalPanel.find(".mobileModalHead");
 		this.modalBody = this.modalPanel.find(".mobileModalBody");
 		this.modalFoot = this.modalPanel.find(".mobileModalBody");
 		
@@ -4154,6 +4162,7 @@ var AXMobileModal = Class.create(AXJ, {
 		return {
 			jQueryModal: this.jQueryModal, 
 			modalPanel: this.modalPanel,
+			modalHead: this.modalHead,
 			modalBody: this.modalBody,
 			modalFoot: this.modalFoot
 		};
@@ -4164,6 +4173,7 @@ var AXMobileModal = Class.create(AXJ, {
 		var clientWidth, width, height, left, top, margin, align, valign;
 		var modalWidth, modalHeight;
 		var clientWidth = this.jQueryModal.innerWidth();
+		var clientHeight = AXUtil.clientHeight();
 		var width = (configs.width || cfg.width);
 		var height = (configs.height || cfg.height);
 		var margin = (configs.margin || cfg.margin);
@@ -4176,21 +4186,34 @@ var AXMobileModal = Class.create(AXJ, {
 			}else{
 				modalWidth = clientWidth - margin.number()*2;
 			}
-		}
-		if(height == "auto"){
-			top = 10;
+		}else{
+			modalWidth = width;
 		}
 		left = (clientWidth - modalWidth) / 2;
+
+		if(height == "auto"){
+			if(margin.right(1) == "%"){
+				modalHeight = clientHeight * (100 - margin.number()*2)/100;
+			}else{
+				modalHeight = clientHeight - margin.number()*2;
+			}
+		}else{
+			modalHeight = height;
+		}
+		top = (clientHeight - modalHeight) / 2;
+		
+		if(left < 0) left = margin;
+		if(top < 0) top = margin;
 		
 		cssStyles.left = left;
 		cssStyles.top = top;
 		cssStyles.width = modalWidth;
-		if(modalHeight) cssStyles.height = modalHeight;
-		cssStyles.minHeight = 300;
+		cssStyles.height = modalHeight;
 		
 		/*cssStyles.transform = "rotateY(180deg)";*/
 		/*this.modalPanel.addClass("open");*/
 		mask.open();
+
 		this.modalPanel.animate(cssStyles, 300, "expoInOut", function(){
 			
 		});
@@ -4199,7 +4222,9 @@ var AXMobileModal = Class.create(AXJ, {
 		var cfg = this.config;
 		mask.close();
 		this.modalPanel.animate({top:-500}, 300, "expoInOut", function(){
-			
+			if(cfg.onclose){
+				cfg.onclose();
+			}
 		});
 		//this.modalPanel.removeClass("open");
 		this.jQueryModal.fadeOut();

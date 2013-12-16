@@ -308,14 +308,16 @@
 			name:		"checkedColSeq", 
 			type:		"method", 
 			desc:		"colGroup의 배열순번에 해당 col의 checked 속성을 변경해 줍니다.",
-			define:		"_AXGrid.checkedColSeq(Number, Boolean);",
+			define:		"_AXGrid.checkedColSeq(Number, Boolean[, itemIndex]);",
 			arguments:	[
 				{k:"Number", v:"colGroup index"},
-				{k:"Boolean", v:"checked 속성"}
+				{k:"Boolean", v:"checked 속성"},
+				{k:"itemIndex", v:"index of Array"}
 			],
 			returns:		{k:"", v:""},
 			samplecode:	[
-				'myGrid.checkedColSeq(0, true);'
+				'myGrid.checkedColSeq(0, true);',
+				'myGrid.checkedColSeq(0, true, 10);'
 			],
 			example:[],
 			exampleFn:[],
@@ -461,7 +463,7 @@
 			name:		"list", 
 			type:		"Object [Array]", 
 			desc:		"그리드의 그리드 데이터 Array",
-			define:		"_AXGrid.click(Number);",
+			define:		"",
 			samplecode:	[
 				'var myGrid = new AXGrid();',
 				'myGrid.setConfig({.....});',
@@ -475,7 +477,7 @@
 			name:		"page", 
 			type:		"Object [JSObject]", 
 			desc:		"그리드의 페이징 데이터 JSObject",
-			define:		"_AXGrid.click(Number);",
+			define:		"",
 			samplecode:	[
 				'var myGrid = new AXGrid();',
 				'myGrid.setConfig({.....});',

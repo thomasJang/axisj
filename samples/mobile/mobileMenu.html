@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXMobileMenu.css" />
 	<style type="text/css">
 	H2{font-family:consolas;}
 	
@@ -33,45 +34,47 @@
 	var fnObj = {
 		pageStart: function(){
 			
-			//height : 338
 			myMobileMenu.setConfig({
 				reserveKeys:{
+					primaryKey:"menuID",
 					labelKey:"label",
-					urlKey:"label",
+					urlKey:"url",
 					targetKey:"target",
-					addClassKey:"addClass",
-					subMenuKey:"cn"					
+					addClassKey:"ac",
+					subMenuKey:"cn"
 				},
 				menu:[
-					{label:"Dashboard", addClass:"Dashboard", url:"http://www.axisj.com"},
-					{label:"Reservation", addClass:"Reservation", url:"http://www.axisj.com", cn:[
+					{menuID:"0001", label:"Dashboard", ac:"Dashboard", url:"http://www.axisj.com"},
+					{menuID:"0002", label:"Reservation", ac:"Reservation", cn:[
 						{label:"Search Room", url:"http://www.axisj.com"},
-						{label:"Create Room", url:"http://www.axisj.com", cn:[
+						{label:"Create Room", cn:[
 							{label:"New Room", url:"http://www.axisj.com"},
 							{label:"Edit Room", url:"http://www.axisj.com"},
-							{label:"Remove Room", url:"http://www.axisj.com"}	
+							{label:"Remove Room", url:"http://www.axisj.com"}
 						]},
 						{label:"Room history", url:"http://www.axisj.com"},
 						{label:"Clerk today", url:"http://www.axisj.com"},
 						{label:"check list", url:"http://www.axisj.com"}
 					]},
-					{label:"Guest Service", addClass:"Guest", url:"http://www.axisj.combc", cn:[
+					{menuID:"0003", label:"Guest Service", ac:"Guest", cn:[
 						{label:"Search Room", url:"http://www.axisj.com"},
-						{label:"Create Room", url:"http://www.axisj.com", cn:[
+						{label:"Create Room", cn:[
 							{label:"New Room", url:"http://www.axisj.com"},
 							{label:"Edit Room", url:"http://www.axisj.com"},
-							{label:"Remove Room", url:"http://www.axisj.com"}	
+							{label:"Remove Room", url:"http://www.axisj.com"}
 						]},
 						{label:"Room history", url:"http://www.axisj.com"},
 						{label:"Clerk today", url:"http://www.axisj.com"},
-						{label:"check list", url:"http://www.axisj.com"}	
+						{label:"check list", url:"http://www.axisj.com"}
 					]},
-					{label:"Cashiering", addClass:"Cashiering", url:"http://www.axisj.com"},
-					{label:"Housekeeping", addClass:"Housekeeping", url:"http://www.axisj.com"},
-					{label:"Management", addClass:"Management", url:"http://www.axisj.com"},
-					{label:"Configuration", addClass:"Configuration", url:"http://www.axisj.com"}
+					{menuID:"0004", label:"Cashiering", ac:"Cashiering", url:"http://www.axisj.com"},
+					{menuID:"0005", label:"Housekeeping", ac:"Housekeeping", url:"http://www.axisj.com"},
+					{menuID:"0006", label:"Management", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"0007", label:"Configuration", ac:"Configuration", url:"http://www.axisj.com"}
 				]
 			});
+			
+			//myMobileMenu.setHighLightMenu();
 			
 			fnObj.pageTabBind();
 			AXCode.bind(); // 소스보기
@@ -93,7 +96,7 @@
 		<div id="demoPageTabTarget"></div>
 		
 		<div style="padding:10px;border-bottom:1px solid #ccc;background:#eee;">
-			<button class="AXButton">MENU</button>
+			<button class="AXButton" onclick="myMobileMenu.open();">MENU</button>
 		</div>
 		
 
