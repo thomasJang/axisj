@@ -326,6 +326,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 					jQuery("#"+bindID).bindSelect(myConfig);
 				}else if(form.AXBind.type == "Selector"){
 					jQuery("#"+bindID).bindSelector(myConfig);
+				}else if(form.AXBind.type == "Money"){
+					jQuery("#"+bindID).bindMoney(myConfig);					
 				}
 			}
 		});
