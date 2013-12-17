@@ -218,7 +218,9 @@
 								var po = [];
 								po.push('<button class="AXButtonSmall" onclick="toast.push(Object.toJSON(myModelGrid.list[', this.rowIndex,'].subList));">' + (this.item.price * this.item.count).money() + '</button>');
 								po.push('<div class="Hspace3"></div>');
-								po.push('<input type="checkBox" name="comp" id="comp_' + this.rowIndex + '" value="Y" title="comp" />');
+								po.push('<input type="checkBox" name="comp" id="comp_' + this.rowIndex + '" value="Y" title="comp" ');
+								if(this.item.comp) po.push(' checked="checked" ');
+								po.push('/>');
 								return po.join('');
 							}
 						},

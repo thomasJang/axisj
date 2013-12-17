@@ -62,11 +62,11 @@ var Class = (function () {
 		switch (type) {
 			case 'undefined':
 			case 'function':
-						try {
-							return toJSONfn(object(), isqoute);
-						} catch (e) {
-							return;
-						}
+							try {
+								return toJSONfn(object(), isqoute);
+							} catch (e) {
+								return;
+							}
 			case 'unknown': return;
 			case 'boolean': return object.toString();
 			case 'number': return object.toString();
@@ -139,8 +139,8 @@ Object.extend(String.prototype, (function () {
 	function right(strLen) { return this.substring(this.length - strLen, this.length); }
 	function dec() { return (this) ? decodeURIComponent(this.replace(/\+/g, " ")) : this; }
 	function enc() { return (this) ? encodeURIComponent(this) : this; }
-	function object() { try { var res = this.evalJSON(); } catch (e) { res = { error:"syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; try { mask.close(); } catch (e) { } } return res; }
-	function array() { try { var res = this.split(/,/g); } catch (e) { res = { error:"syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; } return res; }
+	function object() { try { var res = this.evalJSON(); } catch (e) { res = { error: "syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; try { mask.close(); } catch (e) { } } return res; }
+	function array() { try { var res = this.split(/,/g); } catch (e) { res = { error: "syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; } return res; }
 	function toDate(separator, defaultDate) {
 		if (this.length == 10) {
 			try {
@@ -304,7 +304,7 @@ Object.extend(String.prototype, (function () {
 	}
 	function getAnchorData() {
 		var idx = this.indexOf("#", 0);
-		if(idx < 0) return "";
+		if (idx < 0) return "";
 		var cnt = this.length;
 		var str = this.substring(idx + 1, cnt);
 		return str;
@@ -507,10 +507,10 @@ Object.extend(Date.prototype, (function () {
 	}
 
 	function getTimeAgo() {
-		
+
 		var rtnStr = ""
 		var nMinute = Math.abs((new Date()).diff(this, "mm"));
-		
+
 		var wknames = []
 		wknames.push("일", "월", "화", "수", "목", "금", "토");
 
@@ -983,8 +983,8 @@ var AXUtil = {
 	},
 	console: function (obj) {
 		var po = "";
-		if(arguments.length > 1){
-			for (i = 0; i < arguments.length; i++){
+		if (arguments.length > 1) {
+			for (i = 0; i < arguments.length; i++) {
 				var obji = arguments[i];
 				var objStr = "";
 				var type = (typeof obji).toLowerCase();
@@ -994,11 +994,11 @@ var AXUtil = {
 					objStr = obji;
 				} else if (type == "object") {
 					objStr = Object.toJSON(obji);
-				}	
-				if(po != "") po += ", ";
-				po += "arg["+i+"] : " + objStr;
+				}
+				if (po != "") po += ", ";
+				po += "arg[" + i + "] : " + objStr;
 			}
-		}else{	
+		} else {
 			var type = (typeof obj).toLowerCase();
 			if (type == "undefined" || type == "function") {
 				po = type;
@@ -1006,7 +1006,7 @@ var AXUtil = {
 				po = obj;
 			} else if (type == "object") {
 				po = Object.toJSON(obj);
-			}		
+			}
 		}
 
 		if (window.console == undefined) {
@@ -1014,14 +1014,14 @@ var AXUtil = {
 			try {
 				console.log(po);
 			} catch (e) {
-				
+
 			}
 		}
 	},
 	alert: function (obj) {
 		var po = "";
-		if(arguments.length > 1){
-			for (i = 0; i < arguments.length; i++){
+		if (arguments.length > 1) {
+			for (i = 0; i < arguments.length; i++) {
 				var obji = arguments[i];
 				var objStr = "";
 				var type = (typeof obji).toLowerCase();
@@ -1031,11 +1031,11 @@ var AXUtil = {
 					objStr = obji;
 				} else if (type == "object") {
 					objStr = Object.toJSON(obji);
-				}	
-				if(po != "") po += ", ";
-				po += "arguments["+i+"] : " + objStr;
+				}
+				if (po != "") po += ", ";
+				po += "arguments[" + i + "] : " + objStr;
 			}
-		}else{	
+		} else {
 			var type = (typeof obj).toLowerCase();
 			if (type == "undefined" || type == "function") {
 				po = type;
@@ -1043,7 +1043,7 @@ var AXUtil = {
 				po = obj;
 			} else if (type == "object") {
 				po = Object.toJSON(obj);
-			}		
+			}
 		}
 		alert(po);
 	},
@@ -1085,9 +1085,9 @@ var AXUtil = {
 		pageHostName = window.location.hostname;
 
 		AXparam = url_param.replace(pageProtocol + "//", "");
-		if (param){		
-			AXparam = AXparam.replace(pageHostName + pathName + "?" + param , "");
-		}else{
+		if (param) {
+			AXparam = AXparam.replace(pageHostName + pathName + "?" + param, "");
+		} else {
 			AXparam = AXparam.replace(pageHostName + pathName, "");
 		}
 
@@ -1128,7 +1128,8 @@ var AXJ = Class.create({
 	initialize: function () {
 		this.config = {
 			debugMode: false,
-			hashSpliter: "_"
+			hashSpliter: "_",
+			href: "href=\"javascript:;\""
 		};
 	},
 	init: function () {
@@ -1169,10 +1170,10 @@ var AXJ = Class.create({
 				if (!eventTarget.parentNode) { eventTarget = null; break; }
 				if (arg.until) { if (arg.until(eventTarget, eid)) { eventTarget = null; break; } }
 				if (eventTarget.parentNode) {
-					eventTarget = eventTarget.parentNode; 
-					try{
+					eventTarget = eventTarget.parentNode;
+					try {
 						eid = (eventTarget && eventTarget.id && eventTarget.id != "") ? eventTarget.id.split(/_AX_/g) : [];
-					}catch(e){
+					} catch (e) {
 						eid = [];
 					}
 				} else {
@@ -1210,13 +1211,13 @@ var AXJ = Class.create({
 			return ids[idx];
 		}
 	},
-	stopEvent: function(event){
+	stopEvent: function (event) {
 		if (event.preventDefault) event.preventDefault();
 		if (event.stopPropagation) event.stopPropagation();
 		event.cancelBubble = true;
 		return false;
 	},
-	clearRange: function(){
+	clearRange: function () {
 		if (window.getSelection) {
 			if (window.getSelection().empty) {  // Chrome
 				window.getSelection().empty();
@@ -1225,7 +1226,7 @@ var AXJ = Class.create({
 			}
 		} else if (document.selection) {  // IE?
 			document.selection.empty();
-		}	
+		}
 	},
 	windowResize: function () {
 		var windowResizeApply = this.windowResizeApply.bind(this);
@@ -1289,10 +1290,10 @@ var AXReqQue = Class.create({
 		var ontimeout = this.ontimeout.bind(this);
 		var onsucc = this.onsucc.bind(this);
 
-		
+
 
 		if (AXConfig.AXReq.dataSendMethod != "json") {
-			
+
 		} else {
 			if (typeof myQue.configs.pars == "object") {
 				myQue.configs.pars.dummy = AXUtil.timekey();
@@ -1324,9 +1325,9 @@ var AXReqQue = Class.create({
 			var myQue = this.que.first();
 			try {
 				if (myQue.configs.debug) trace("onsucc" + req);
-				if(myQue.configs.responseType == "text/html"){
+				if (myQue.configs.responseType == "text/html") {
 					var res = req;
-				}else{
+				} else {
 					if ((typeof req) == "string") {
 						var res = req.object();
 					} else {
@@ -1340,9 +1341,9 @@ var AXReqQue = Class.create({
 					if (myQue.configs.onsucc) myQue.configs.onsucc(res);
 				}
 			} catch (e) {
-				if(myQue.configs.responseType == "text/html"){
-					
-				}else{
+				if (myQue.configs.responseType == "text/html") {
+
+				} else {
 					res.e = e;
 				}
 				if (myQue.configs.onerr) myQue.configs.onerr(res);
@@ -1696,7 +1697,7 @@ var AXScroll = Class.create(AXJ, {
 		this.config.touchDirection = false;
 		this.config.yscroll = true;
 		this.config.xscroll = false;
-		
+
 		this.minHeightSB = { TF: false, h: 0 };
 		this.minWidthSB = { TF: false, w: 0 };
 	},
@@ -1717,57 +1718,57 @@ var AXScroll = Class.create(AXJ, {
 		this.initScroll();
 		this.bindEvent();
 	},
-	updateScroll: function(){
+	updateScroll: function () {
 		this.initScroll();
 	},
 	initScroll: function () {
 		var cfg = this.config;
 		if (!this.scroll) {
 			var po = [];
-			if(cfg.yscroll){
+			if (cfg.yscroll) {
 				po.push("<div class=\"scrollTrack\" id=\"" + cfg.targetID + "_AX_scrollTrack\"></div>");
 				po.push("<div class=\"scrollBar\" id=\"" + cfg.targetID + "_AX_scrollBar\"></div>");
-			}else{
-				this.scrollTargetID.css({height:this.scrollScrollID.outerHeight()});
+			} else {
+				this.scrollTargetID.css({ height: this.scrollScrollID.outerHeight() });
 			}
-			if(cfg.xscroll){
+			if (cfg.xscroll) {
 				po.push("<div class=\"xscrollTrack\" id=\"" + cfg.targetID + "_AX_xscrollTrack\"></div>");
 				po.push("<div class=\"xscrollBar\" id=\"" + cfg.targetID + "_AX_xscrollBar\"></div>");
 			}
-			
+
 			this.scrollTargetID.append(po.join(''));
 			this.scroll = true;
-			
-			if(cfg.yscroll){
+
+			if (cfg.yscroll) {
 				this.scrollTrack = jQuery("#" + cfg.targetID + "_AX_scrollTrack");
 				this.scrollBar = jQuery("#" + cfg.targetID + "_AX_scrollBar");
 			}
-			if(cfg.xscroll){
+			if (cfg.xscroll) {
 				this.xscrollTrack = jQuery("#" + cfg.targetID + "_AX_xscrollTrack");
-				this.xscrollBar = jQuery("#" + cfg.targetID + "_AX_xscrollBar");				
+				this.xscrollBar = jQuery("#" + cfg.targetID + "_AX_xscrollBar");
 			}
-		}else{
-			if(!cfg.yscroll){
-				this.scrollTargetID.css({height:this.scrollScrollID.outerHeight()});
-			}	
+		} else {
+			if (!cfg.yscroll) {
+				this.scrollTargetID.css({ height: this.scrollScrollID.outerHeight() });
+			}
 		}
 
 		var CTheight = this.scrollTargetID.innerHeight();
 		var CTwidth = this.scrollTargetID.innerWidth();
-		
-		if(cfg.yscroll){
+
+		if (cfg.yscroll) {
 			this.scrollTrack.css({ height: CTheight - 4 });
 		}
-		if(cfg.xscroll){
+		if (cfg.xscroll) {
 			this.xscrollTrack.css({ width: CTwidth - 4 });
-		}else{
+		} else {
 			this.scrollScrollID.css({ width: CTwidth });
 		}
 
 		var Cheight = this.scrollScrollID.outerHeight();
 		var Cwidth = this.scrollScrollID.outerWidth();
 
-		if(cfg.yscroll){
+		if (cfg.yscroll) {
 			var SBheight = CTheight * (CTheight - 4) / Cheight;
 			this.scrollBar.css({ height: Math.ceil(SBheight) });
 			if (SBheight < 10) {
@@ -1782,7 +1783,7 @@ var AXScroll = Class.create(AXJ, {
 				this.scrollBar.show();
 			}
 		}
-		if(cfg.xscroll){
+		if (cfg.xscroll) {
 			var SBwidth = CTwidth * (CTwidth - 4) / Cwidth;
 			this.xscrollBar.css({ width: Math.ceil(SBwidth) });
 			if (SBwidth < 10) {
@@ -1806,12 +1807,12 @@ var AXScroll = Class.create(AXJ, {
 
 		var CTheight = this.scrollTargetID.innerHeight();
 		var Cheight = this.scrollScrollID.outerHeight();
-		
-		if(cfg.xscroll){
+
+		if (cfg.xscroll) {
 			var CTwidth = this.scrollTargetID.innerWidth();
-			var Cwidth = this.scrollScrollID.outerWidth();			
+			var Cwidth = this.scrollScrollID.outerWidth();
 		}
-		
+
 		/* event 선언자 */
 		var tractActive = this.tractActive.bind(this);
 		this.tractActiveBind = function (event) {
@@ -1847,13 +1848,13 @@ var AXScroll = Class.create(AXJ, {
 
 		this.scrollTargetID.bind("mouseover", this.tractActiveBind);
 		this.scrollTargetID.bind("mouseout", this.tractInActiveBind);
-		
-		if(cfg.yscroll){
+
+		if (cfg.yscroll) {
 			this.scrollBar.bind("dragstart", this.cancelEventBind);
 			this.scrollBar.bind("mousedown", this.SBonMouseDownBind);
 		}
 
-		if(cfg.xscroll){
+		if (cfg.xscroll) {
 			var SBonMouseDownX = this.SBonMouseDownX.bind(this);
 			this.SBonMouseDownXBind = function (event) {
 				SBonMouseDownX(event);
@@ -1866,7 +1867,7 @@ var AXScroll = Class.create(AXJ, {
 			this.SBonMouseUpXBind = function (event) {
 				SBonMouseUpX(event);
 			}
-			
+
 			this.xscrollBar.bind("dragstart", this.cancelEventBind);
 			this.xscrollBar.bind("mousedown", this.SBonMouseDownXBind);
 		}
@@ -1885,17 +1886,17 @@ var AXScroll = Class.create(AXJ, {
 	},
 	tractActive: function (event) {
 		var cfg = this.config;
-		
-		if(cfg.yscroll){
+
+		if (cfg.yscroll) {
 			this.scrollBar.addClass("scrollBar_hover");
 			this.scrollTrack.addClass("scrollTrack_hover");
 		}
-		
-		if(cfg.xscroll){
+
+		if (cfg.xscroll) {
 			this.xscrollBar.addClass("xscrollBar_hover");
-			this.xscrollTrack.addClass("xscrollTrack_hover");				
+			this.xscrollTrack.addClass("xscrollTrack_hover");
 		}
-		
+
 		if (this.Observer) clearTimeout(this.Observer); //닫기 명령 제거
 		this.initScroll();
 	},
@@ -1906,9 +1907,9 @@ var AXScroll = Class.create(AXJ, {
 		}, 500);
 	},
 	getMousePosition: function (event) {
-		var config = this.config;		
-		var pos = (this.scrollTrack) ? this.scrollTrack.offset() : {left:0, top:0};
-		var posx = (this.xscrollTrack) ? this.xscrollTrack.offset() : {left:0, top:0};
+		var config = this.config;
+		var pos = (this.scrollTrack) ? this.scrollTrack.offset() : { left: 0, top: 0 };
+		var posx = (this.xscrollTrack) ? this.xscrollTrack.offset() : { left: 0, top: 0 };
 
 		var x = (event.pageX - posx.left);
 		var y = (event.pageY - pos.top);
@@ -1941,7 +1942,7 @@ var AXScroll = Class.create(AXJ, {
 		this.Cheight = Cheight;
 		this.Ch = Ch;
 		this.STh = STh;
-		
+
 		if (CTheight < Cheight) {
 
 			this.scrollBarMove = true;
@@ -1949,7 +1950,7 @@ var AXScroll = Class.create(AXJ, {
 			var pos = this.getTouchPosition(event);
 			var SBpos = this.scrollBar.position();
 			var SBh = this.scrollBar.height();
-			this.scrollBarAttr = { y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh, trackPos:this.scrollTrack.offset() };
+			this.scrollBarAttr = { y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh, trackPos: this.scrollTrack.offset() };
 
 			var SBtouchend = this.SBtouchend.bind(this);
 			this.SBtouchendBind = function () {
@@ -1971,7 +1972,7 @@ var AXScroll = Class.create(AXJ, {
 
 
 		}
-		
+
 		this.tractActive(event);
 	},
 	SBtouchend: function (e) {
@@ -1997,7 +1998,7 @@ var AXScroll = Class.create(AXJ, {
 		var event = window.event || e;
 		var config = this.config;
 		if (this.scrollBarMove) {
-			
+
 			var touch = event.touches[0];
 			var tpos = this.scrollBarAttr.trackPos;
 			if (this.config.touchDirection) {
@@ -2040,11 +2041,11 @@ var AXScroll = Class.create(AXJ, {
 		var SBh = this.scrollBar.height();
 		var STh = this.scrollTrack.height();
 		var Ch = this.scrollScrollID.outerHeight();
-		
+
 		this.Ch = Ch;
 		this.STh = STh;
 
-		this.scrollBarAttr = { x:(SBpos.left - pos.x).number(), y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh };
+		this.scrollBarAttr = { x: (SBpos.left - pos.x).number(), y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh };
 		//trace("y:"+SBpos.top +" - "+ pos.y +", h:"+ SBh +", sth:"+STh+", calc y : "+(SBpos.top - pos.y).number());
 
 		jQuery(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveBind);
@@ -2082,7 +2083,7 @@ var AXScroll = Class.create(AXJ, {
 		jQuery(document.body).unbind("mouseup.AXScroll");
 		jQuery(document.body).unbind("mouseleave.AXScroll");
 	},
-	
+
 	SBonMouseDownX: function (event) {
 		var config = this.config;
 		this.scrollBarMove = true;
@@ -2091,11 +2092,11 @@ var AXScroll = Class.create(AXJ, {
 		var SBw = this.xscrollBar.width();
 		var STw = this.xscrollTrack.width();
 		var Cw = this.scrollScrollID.outerWidth();
-		
+
 		this.Cw = Cw;
 		this.STw = STw;
 
-		this.scrollBarAttr = { x:(SBpos.left - pos.x).number(), w: SBw.number(), stw: STw };
+		this.scrollBarAttr = { x: (SBpos.left - pos.x).number(), w: SBw.number(), stw: STw };
 
 		jQuery(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveXBind);
 		jQuery(document.body).bind("mouseup.AXScroll", this.SBonMouseUpXBind);
@@ -2104,7 +2105,7 @@ var AXScroll = Class.create(AXJ, {
 	SBonMouseMoveX: function (event) {
 		var config = this.config;
 		if (this.scrollBarMove) {
-			
+
 			jQuery(document.body).attr("onselectstart", "return false");
 			jQuery(document.body).addClass("AXUserSelectNone");
 			var pos = this.getMousePosition(event);
@@ -2116,7 +2117,7 @@ var AXScroll = Class.create(AXJ, {
 			if ((SBx + this.scrollBarAttr.w) > this.scrollBarAttr.stw) {
 				SBx = this.scrollBarAttr.stw - this.scrollBarAttr.w + 2;
 			}
-			
+
 			this.xscrollBar.css({ left: SBx });
 			this.setContentPosition("xscroll");
 			//this.setScrollbarPositionForWheel();
@@ -2133,7 +2134,7 @@ var AXScroll = Class.create(AXJ, {
 		jQuery(document.body).unbind("mouseup.AXScroll");
 		jQuery(document.body).unbind("mouseleave.AXScroll");
 	},
-	
+
 	SBonWheel: function (e) {
 		//content top handle
 		var config = this.config;
@@ -2154,7 +2155,7 @@ var AXScroll = Class.create(AXJ, {
 			Sy = 0;
 			eventCancle = true;
 		}
-		
+
 		//trace(Sh+" + "+Sy+" < "+TGh );
 
 		if ((Sh + Sy) < TGh) {
@@ -2177,17 +2178,17 @@ var AXScroll = Class.create(AXJ, {
 	SBonWheelEnd: function () {
 		if (this.scrollBarMove) return;
 		var config = this.config;
-		
-		if(config.yscroll){
+
+		if (config.yscroll) {
 			this.scrollBar.removeClass("scrollBar_hover");
 			this.scrollTrack.removeClass("scrollTrack_hover");
 		}
-		
-		if(config.xscroll){
+
+		if (config.xscroll) {
 			this.xscrollBar.removeClass("xscrollBar_hover");
 			this.xscrollTrack.removeClass("xscrollTrack_hover");
 		}
-		
+
 	},
 	cancelEvent: function (event) {
 		event.stopPropagation(); // disable  event
@@ -2195,16 +2196,16 @@ var AXScroll = Class.create(AXJ, {
 	},
 	setContentPosition: function (xscroll) {
 		var config = this.config;
-		
-		if(xscroll == "xscroll"){
+
+		if (xscroll == "xscroll") {
 			var SBx = this.xscrollBar.position().left;
 			var STw = this.STw;
 			var Cw = this.Cw;
-	
+
 			var CTwidth = this.CTwidth;
 			var Cwidth = this.Cwidth;
 			var SBwidth = CTwidth * (CTwidth - 4) / Cwidth;
-	
+
 			if (SBwidth < 10) { //스크롤 바가 최소값일 때
 				var addLeft, Cleft;
 				if (SBx == 2) SBx = 0;
@@ -2219,19 +2220,19 @@ var AXScroll = Class.create(AXJ, {
 					Cleft = Cw - CTwidth;
 				}
 			} else {
-				SBx = SBx == 2 ? SBx = 0 : SBx = SBx - 2;	
+				SBx = SBx == 2 ? SBx = 0 : SBx = SBx - 2;
 				var Cleft = SBx * Cw / STw;
 			}
 			this.scrollScrollID.css({ left: -(Cleft.round()) });
-		}else{
+		} else {
 			var SBy = this.scrollBar.position().top;
 			var STh = this.STh;
 			var Ch = this.Ch;
-	
+
 			var CTheight = this.CTheight;
 			var Cheight = this.Cheight;
 			var SBheight = CTheight * (CTheight - 4) / Cheight;
-	
+
 			if (SBheight < 10) { //스크롤 바가 최소값일 때
 				var addTop, Ctop;
 				if (SBy == 2) SBy = 0;
@@ -2246,7 +2247,7 @@ var AXScroll = Class.create(AXJ, {
 					Ctop = Ch - CTheight;
 				}
 			} else {
-				SBy = SBy == 2 ? SBy = 0 : SBy = SBy - 2;	
+				SBy = SBy == 2 ? SBy = 0 : SBy = SBy - 2;
 				var Ctop = SBy * Ch / STh;
 			}
 			this.scrollScrollID.css({ top: -(Ctop.round()) });
@@ -2258,9 +2259,9 @@ var AXScroll = Class.create(AXJ, {
 		//scrollbar top position handle for wheel
 
 		var config = this.config;
-		
-		if(!config.yscroll) return false;
-		
+
+		if (!config.yscroll) return false;
+
 		//wheel control event is not jquery event !
 		var Sy = this.scrollScrollID.position().top;
 		var STh = this.scrollTrack.height();
@@ -2316,46 +2317,46 @@ var AXScroll = Class.create(AXJ, {
 			if ((Cheight - myNewTop) < CTheight) {
 				myNewTop = Cheight - CTheight;
 			}
-			if(myNewTop < 0) myNewTop = 0;
+			if (myNewTop < 0) myNewTop = 0;
 			this.scrollScrollID.css({ top: -myNewTop });
 			this.setSBPosition();
 		}
 	},
-	scrollTop: function(top){
+	scrollTop: function (top) {
 		var myNewTop = top;
 		var CTheight = this.scrollTargetID.innerHeight();
 		var Cheight = this.scrollScrollID.outerHeight();
 		if ((Cheight - myNewTop) < CTheight) {
-				myNewTop = Cheight - CTheight;
+			myNewTop = Cheight - CTheight;
 		}
-		if(myNewTop < 0) myNewTop = 0;
+		if (myNewTop < 0) myNewTop = 0;
 		this.scrollScrollID.css({ top: -myNewTop });
 		this.setSBPosition();
 	},
-	moveTo: function(x, y){
-		
+	moveTo: function (x, y) {
+
 		var cfg = this.config;
 		var css = {};
-		if(!AXUtil.isEmpty(x)){
+		if (!AXUtil.isEmpty(x)) {
 			css.left = -x;
 		}
-		if(!AXUtil.isEmpty(y)){
+		if (!AXUtil.isEmpty(y)) {
 			css.top = -y;
 		}
-		
+
 		this.scrollScrollID.css(css);
-		if(cfg.yscroll && !AXUtil.isEmpty(css.top)){
-			this.scrollBar.css({top:css.top});
+		if (cfg.yscroll && !AXUtil.isEmpty(css.top)) {
+			this.scrollBar.css({ top: css.top });
 		}
-		if(cfg.xscroll && !AXUtil.isEmpty(css.left)){
-			this.xscrollBar.css({left:css.left});
+		if (cfg.xscroll && !AXUtil.isEmpty(css.left)) {
+			this.xscrollBar.css({ left: css.left });
 		}
-		
+
 	},
 	unbind: function () {
 		var config = this.config;
 		this.scroll = false;
-		
+
 		this.scrollTrack.remove();
 		this.scrollBar.remove();
 
@@ -2460,7 +2461,7 @@ var AXCalendar = Class.create(AXJ, {
 				var tdClass = [];
 				if (roopDate.getMonth() != monthStartDate.getMonth()) addClass.push("notThisMonth");
 				if (setDate.diff(roopDate, "D") == 0) tdClass.push("setDate");
-				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue + "</a></td>");
+				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue + "</a></td>");
 				k++;
 				roopDate = roopDate.add(1);
 			}
@@ -2496,7 +2497,7 @@ var AXCalendar = Class.create(AXJ, {
 			var k = 0; while (k < 3) {
 				var tdClass = [];
 				if (m == (setDate.getMonth() + 1)) tdClass.push("setDate");
-				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_month\" title=\"\">" + m + "월</a></td>");
+				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_month\" title=\"\">" + m + "월</a></td>");
 				k++;
 				m++;
 			}
@@ -2530,7 +2531,7 @@ var AXCalendar = Class.create(AXJ, {
 			var k = 0; while (k < 3) {
 				var tdClass = [];
 				if (m == year) tdClass.push("setDate");
-				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a href=\"javascript:;\" class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_year\" title=\"\">" + m + "년</a></td>");
+				po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarMonth\" id=\"" + cfg.targetID + "_AX_" + m + "_AX_year\" title=\"\">" + m + "년</a></td>");
 				k++;
 				m++;
 			}
@@ -2640,13 +2641,13 @@ var AXCalendar = Class.create(AXJ, {
 var AXMultiSelect = Class.create(AXJ, {
 	version: "AXMultiSelect v1.8",
 	author: "tom@axisj.com",
-    logs: [
+	logs: [
     	"2013-01-31 오후 5:01:12",
 		"2013-11-12 오전 9:19:09 - tom : 버그픽스",
 		"2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
 		"2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
 	],
-	
+
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.selects = [];
@@ -2663,27 +2664,27 @@ var AXMultiSelect = Class.create(AXJ, {
 
 		var mouseClick = this.onmouseClick.bind(this);
 		this._selectStage = jQuery("#" + this.config.selectStage);
-		this._selectStage.css({"position":"relative"});
-		
+		this._selectStage.css({ "position": "relative" });
+
 		/*
 		if(AXUtil.browser.mobile){
 			this._selectStage.css({"overflow":"visible", "min-height":this._selectStage.innerHeight(), "height":"auto"});	
 		}
 		*/
-		
+
 		this._selectStage.bind("mousedown", this.mousedown.bind(this));
-		
+
 		this._selectStage.bind("click", function (event) {
 			mouseClick(this, event);
 		});
-		
+
 		this.helper = jQuery("<div class='AXMultiselectorHelper'></div>");
 		this.collect();
-		
+
 		jQuery(window).bind("resize.AXMultiSelect", this.collect.bind(this));
 		jQuery(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
 		this._selectStage.bind("scroll", this.onScrollStage.bind(this));
-		
+
 		this._selectStage.bind("touchstart", this.touchstart.bind(this));
 	},
 	onKeydown: function (event) {
@@ -2691,10 +2692,10 @@ var AXMultiSelect = Class.create(AXJ, {
 			this.clearSelects();
 		}
 	},
-	onScrollStage: function(event){
+	onScrollStage: function (event) {
 		var cfg = this.config;
-		if(!AXUtil.browser.mobile){
-			if(this.helperAppened || this.helperAppenedReady){
+		if (!AXUtil.browser.mobile) {
+			if (this.helperAppened || this.helperAppenedReady) {
 				this.moveSens = 0;
 				jQuery(document.body).unbind("mousemove.AXMultiSelect");
 				jQuery(document.body).unbind("mouseup.AXMultiSelect");
@@ -2706,7 +2707,7 @@ var AXMultiSelect = Class.create(AXJ, {
 				this.helper.remove();
 			}
 		}
-		
+
 	},
 	/* ------------------------------------------------------------------------------------------------------------------ */
 	/* observe method ~~~~~~ */
@@ -2715,12 +2716,12 @@ var AXMultiSelect = Class.create(AXJ, {
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
-			evt : eventTarget, evtIDs : eid,
-			until:function(evt, evtIDs){ return (AXgetId(evt.parentNode) == AXgetId(cfg.selectStage)) ? true:false; },
-			find:function(evt, evtIDs){ return (jQuery(evt).hasClass(cfg.selectClassName)) ? true : false; }
+			evt: eventTarget, evtIDs: eid,
+			until: function (evt, evtIDs) { return (AXgetId(evt.parentNode) == AXgetId(cfg.selectStage)) ? true : false; },
+			find: function (evt, evtIDs) { return (jQuery(evt).hasClass(cfg.selectClassName)) ? true : false; }
 		});
 		//trace("click");
-		if(myTarget){
+		if (myTarget) {
 			var selectElement = myTarget;
 			if (selectElement) {
 				if (event.shiftKey) {
@@ -2731,9 +2732,9 @@ var AXMultiSelect = Class.create(AXJ, {
 					this.clickSelects(selectElement);
 				}
 			}
-		}else{
+		} else {
 
-			if(event.target.id == cfg.selectStage && AXUtil.browser.name != "ie") this.clearSelects();
+			if (event.target.id == cfg.selectStage && AXUtil.browser.name != "ie") this.clearSelects();
 			return;
 		}
 	},
@@ -2745,7 +2746,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		this.selectTargets = this._selectTargets.get();
 		var scrollLeft = this._selectStage.scrollLeft().number();
 		var scrollTop = this._selectStage.scrollTop().number();
-		this._selectTargets.each(function(){
+		this._selectTargets.each(function () {
 			var jQuerythis = jQuery(this), pos = jQuerythis.position();
 			jQuery.data(this, "selectableItem", {
 				element: this,
@@ -2760,15 +2761,15 @@ var AXMultiSelect = Class.create(AXJ, {
 		});
 	},
 	clearSelects: function () {
-		var cfg = this.config;		
-		this._selectTargets.each(function(){
+		var cfg = this.config;
+		this._selectTargets.each(function () {
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget){
+			if (selectTarget) {
 				if (selectTarget.selecting) {
 					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 					selectTarget.selecting = false;
 				}
-				if(selectTarget.selected){
+				if (selectTarget.selected) {
 					selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 					selectTarget.selected = false;
 				}
@@ -2783,23 +2784,23 @@ var AXMultiSelect = Class.create(AXJ, {
 	},
 	clickSelects: function (Obj) {
 		var cfg = this.config;
-		
+
 		this.clearSelects();
-		
+
 		var selectTarget = jQuery.data(Obj, "selectableItem");
-			selectTarget.jQueryelement.addClass(cfg.beselectClassName);
-			selectTarget.selected = true;
+		selectTarget.jQueryelement.addClass(cfg.beselectClassName);
+		selectTarget.selected = true;
 	},
 	toggleSelects: function (Obj) {
 		var cfg = this.config;
-		
+
 		var selectTarget = jQuery.data(Obj, "selectableItem");
-		if(selectTarget.selected){
+		if (selectTarget.selected) {
 			selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 			selectTarget.selected = false;
-		}else{
+		} else {
 			selectTarget.jQueryelement.addClass(cfg.beselectClassName);
-			selectTarget.selected = true;			
+			selectTarget.selected = true;
 		}
 	},
 	shiftSelects: function (Obj) {
@@ -2807,17 +2808,17 @@ var AXMultiSelect = Class.create(AXJ, {
 
 		var selectedLength = 0;
 		var li, si;
-		this._selectTargets.each(function(stIndex, ST){
+		this._selectTargets.each(function (stIndex, ST) {
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget){
-				if(selectTarget.selected){
+			if (selectTarget) {
+				if (selectTarget.selected) {
 					selectedLength++;
 					li = stIndex;
 				}
 			}
-			if(this === Obj) si = stIndex;
+			if (this === Obj) si = stIndex;
 		});
-		
+
 		if (selectedLength == 0) {
 			this.clickSelects(Obj);
 		} else {
@@ -2825,15 +2826,15 @@ var AXMultiSelect = Class.create(AXJ, {
 			if (si == li) return;
 			this.clearSelects();
 			var temp;
-			if(si > li){
+			if (si > li) {
 				temp = si;
 				si = li;
 				li = temp;
 			}
-			this._selectTargets.each(function(stIndex, ST){
+			this._selectTargets.each(function (stIndex, ST) {
 				var selectTarget = jQuery.data(this, "selectableItem");
-				if(selectTarget){
-					if(si <= stIndex && li >= stIndex){
+				if (selectTarget) {
+					if (si <= stIndex && li >= stIndex) {
 						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 						selectTarget.selected = true;
 					}
@@ -2841,31 +2842,31 @@ var AXMultiSelect = Class.create(AXJ, {
 			});
 		}
 	},
-	
+
 	/* mouser helper */
-	mousedown: function(event){
+	mousedown: function (event) {
 		var cfg = this.config;
 
 		jQuery(document.body).bind("mousemove.AXMultiSelect", this.mousemove.bind(this));
 		jQuery(document.body).bind("mouseup.AXMultiSelect", this.mouseup.bind(this));
 		jQuery(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
-		
+
 		jQuery(document.body).attr("onselectstart", "return false");
 		jQuery(document.body).addClass("AXUserSelectNone");
-		
+
 		this.helperAppenedReady = true;
 	},
-	mousemove: function(event){
+	mousemove: function (event) {
 		var cfg = this.config;
 		if (!event.pageX) return;
-		
+
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
 		if (this.moveSens == this.config.moveSens) this.selectorHelperMove(event);
 	},
-	mouseup: function(event){
+	mouseup: function (event) {
 		var cfg = this.config;
-		
+
 		this.helperAppenedReady = false;
 		this.moveSens = 0;
 
@@ -2875,27 +2876,27 @@ var AXMultiSelect = Class.create(AXJ, {
 
 		jQuery(document.body).removeAttr("onselectstart");
 		jQuery(document.body).removeClass("AXUserSelectNone");
-		
-		if(this.helperAppened){
+
+		if (this.helperAppened) {
 			this.helperAppened = false;
 			this.helper.remove();
-			
-			/* selected change */			
-			this._selectTargets.each(function(){
+
+			/* selected change */
+			this._selectTargets.each(function () {
 				var selectTarget = jQuery.data(this, "selectableItem");
-				if(selectTarget){
+				if (selectTarget) {
 					if (selectTarget.selecting) {
 						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 						selectTarget.selecting = false;
 						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 						selectTarget.selected = true;
-					}else if(selectTarget.selected){
-	
+					} else if (selectTarget.selected) {
+
 					}
 				}
 			});
 		}
-		
+
 	},
 	selectorHelperMove: function (event) {
 		var cfg = this.config;
@@ -2904,8 +2905,8 @@ var AXMultiSelect = Class.create(AXJ, {
 			return;
 		}
 
-		if(this.helperAppened){
-			
+		if (this.helperAppened) {
+
 			var _helperPos = this.helperPos;
 			var tmp,
 				x1 = this.helperPos.x,
@@ -2914,13 +2915,13 @@ var AXMultiSelect = Class.create(AXJ, {
 				y2 = event.pageY - _helperPos.bodyTop;
 			if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
 			if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
-			this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
-			
-			this._selectTargets.each(function(){
-				
+			this.helper.css({ left: x1, top: y1, width: x2 - x1, height: y2 - y1 });
+
+			this._selectTargets.each(function () {
+
 				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
-				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */				
-				if(!selectTarget) return;
+				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */
+				if (!selectTarget) return;
 
 				var stL = selectTarget.left.number(), stR = selectTarget.right.number(), stT = selectTarget.top.number(), stB = selectTarget.bottom.number();
 				stL = stL + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
@@ -2928,9 +2929,9 @@ var AXMultiSelect = Class.create(AXJ, {
 				stT = stT + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
 				stB = stB + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
 
-				hit = ( !(stL > x2 || stR < x1 || stT > y2 || stB < y1) ); /* touch */
+				hit = (!(stL > x2 || stR < x1 || stT > y2 || stB < y1)); /* touch */
 				/* hit = (selectTarget.left > x1 && selectTarget.right < x2 && selectTarget.top > y1 && selectTarget.bottom < y2); fit */
-				if(hit){
+				if (hit) {
 					/* SELECT */
 					if (selectTarget.selected) {
 						selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
@@ -2940,7 +2941,7 @@ var AXMultiSelect = Class.create(AXJ, {
 						selectTarget.jQueryelement.addClass(cfg.selectingClassName);
 						selectTarget.selecting = true;
 					}
-				}else{
+				} else {
 					/* UNSELECT */
 					if (selectTarget.selecting) {
 						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
@@ -2954,31 +2955,31 @@ var AXMultiSelect = Class.create(AXJ, {
 					}
 				}
 			});
-			
-		}else{
+
+		} else {
 			this.helperAppened = true;
 			jQuery(document.body).append(this.helper);
 
-			var css = {left:(event.pageX - jQuery(document.body).offset().left), top:(event.pageY - jQuery(document.body).offset().top), width:0, height:0};
+			var css = { left: (event.pageX - jQuery(document.body).offset().left), top: (event.pageY - jQuery(document.body).offset().top), width: 0, height: 0 };
 			this.helper.css(css);
 			var stagePos = this._selectStage.offset();
 			this.helperPos = {
-				stageX:stagePos.left.number(),
-				stageY:stagePos.top.number(),
-				x:css.left.number(), 
-				y:css.top.number(), 
-				scrollLeft:this._selectStage.scrollLeft().number(),
-				scrollTop:this._selectStage.scrollTop().number(),
-				bodyLeft:jQuery(document.body).offset().left,
-				bodyTop:jQuery(document.body).offset().top
+				stageX: stagePos.left.number(),
+				stageY: stagePos.top.number(),
+				x: css.left.number(),
+				y: css.top.number(),
+				scrollLeft: this._selectStage.scrollLeft().number(),
+				scrollTop: this._selectStage.scrollTop().number(),
+				bodyLeft: jQuery(document.body).offset().left,
+				bodyTop: jQuery(document.body).offset().top
 			};
 		}
 	},
-	
+
 	/* touch helper */
-	touchstart: function(event){
+	touchstart: function (event) {
 		var cfg = this.config;
-				
+
 		var touchEnd = this.touchEnd.bind(this);
 		this.touchEndBind = function () {
 			touchEnd(event);
@@ -2993,43 +2994,43 @@ var AXMultiSelect = Class.create(AXJ, {
 			document.addEventListener("touchend", this.touchEndBind, false);
 			document.addEventListener("touchmove", this.touchMoveBind, false);
 		}
-		
+
 		this.helperAppenedReady = true;
 	},
-	touchMove: function(event){
+	touchMove: function (event) {
 		var cfg = this.config;
 		var event = window.event || e;
-		var touch = event.touches[0];		
+		var touch = event.touches[0];
 		if (!touch.pageX) return;
 		var offset = this._selectStage.offset();
 		var right = offset.left + this._selectStage.width();
 		var bottom = offset.top + this._selectStage.height();
-		
-		if(this.moveSens == 0){
-			this.touchStartXY = {x:touch.pageX, y:touch.pageY, scrollTop:this._selectStage.scrollTop()};
+
+		if (this.moveSens == 0) {
+			this.touchStartXY = { x: touch.pageX, y: touch.pageY, scrollTop: this._selectStage.scrollTop() };
 		}
-		
+
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
-		if (this.moveSens == this.config.moveSens){
-			if(this.touchMode == "drag"){
-				if(bottom < touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (bottom - touch.pageY));
-				else if(offset.top > touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (offset.top - touch.pageY));
-				if(right < touch.pageX) this._selectStage.scrollLeft(this.touchStartXY.scrollLeft - (right - touch.pageX));
-				else if(offset.left > touch.pageX) this._selectStage.scrollLeft(this.touchStartXY.scrollLeft - (offset.left - touch.pageX));
+		if (this.moveSens == this.config.moveSens) {
+			if (this.touchMode == "drag") {
+				if (bottom < touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (bottom - touch.pageY));
+				else if (offset.top > touch.pageY) this._selectStage.scrollTop(this.touchStartXY.scrollTop - (offset.top - touch.pageY));
+				if (right < touch.pageX) this._selectStage.scrollLeft(this.touchStartXY.scrollLeft - (right - touch.pageX));
+				else if (offset.left > touch.pageX) this._selectStage.scrollLeft(this.touchStartXY.scrollLeft - (offset.left - touch.pageX));
 				this.selectorHelperMoveByTouch(event);
-			}else if(this.touchMode == "scrollTop"){
+			} else if (this.touchMode == "scrollTop") {
 				this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
-			}else if(this.touchMode == "scrollLeft"){
+			} else if (this.touchMode == "scrollLeft") {
 				this._selectStage.scrollLeft(this.touchStartXY.scrollLeft + (this.touchStartXY.x - touch.pageX));
-			}else{
-				if(((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5){
+			} else {
+				if (((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5) {
 					this.touchMode = "drag"
 					this.selectorHelperMoveByTouch(event);
-				}else if((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()){
+				} else if ((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()) {
 					this.touchMode = "scrollTop";
 					this._selectStage.scrollTop(this.touchStartXY.scrollTop + (this.touchStartXY.y - touch.pageY));
-				}else if((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()){
+				} else if ((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()) {
 					this.touchMode = "scrollLeft";
 					this._selectStage.scrollLeft(this.touchStartXY.scrollLeft + (this.touchStartXY.x - touch.pageX));
 				}
@@ -3039,13 +3040,13 @@ var AXMultiSelect = Class.create(AXJ, {
 		if (event.preventDefault) event.preventDefault();
 		else return false;
 	},
-	selectorHelperMoveByTouch: function(e){
+	selectorHelperMoveByTouch: function (e) {
 		var cfg = this.config;
 		var event = window.event || e;
 		var touch = event.touches[0];
-		
-		if(this.helperAppened){
-			
+
+		if (this.helperAppened) {
+
 			var _helperPos = this.helperPos;
 			var tmp,
 				x1 = this.helperPos.x,
@@ -3054,13 +3055,13 @@ var AXMultiSelect = Class.create(AXJ, {
 				y2 = touch.pageY - _helperPos.bodyTop;
 			if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
 			if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
-			this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
-			
-			this._selectTargets.each(function(){
-				
+			this.helper.css({ left: x1, top: y1, width: x2 - x1, height: y2 - y1 });
+
+			this._selectTargets.each(function () {
+
 				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
-				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */				
-				if(!selectTarget) return;
+				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */
+				if (!selectTarget) return;
 
 				var stL = selectTarget.left.number(), stR = selectTarget.right.number(), stT = selectTarget.top.number(), stB = selectTarget.bottom.number();
 				stL = stL + _helperPos.stageX - _helperPos.scrollLeft - _helperPos.bodyLeft;
@@ -3068,9 +3069,9 @@ var AXMultiSelect = Class.create(AXJ, {
 				stT = stT + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
 				stB = stB + _helperPos.stageY - _helperPos.scrollTop - _helperPos.bodyTop;
 
-				hit = ( !(stL > x2 || stR < x1 || stT > y2 || stB < y1) ); /* touch */
+				hit = (!(stL > x2 || stR < x1 || stT > y2 || stB < y1)); /* touch */
 				/* hit = (selectTarget.left > x1 && selectTarget.right < x2 && selectTarget.top > y1 && selectTarget.bottom < y2); fit */
-				if(hit){
+				if (hit) {
 					/* SELECT */
 					if (selectTarget.selected) {
 						selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
@@ -3080,7 +3081,7 @@ var AXMultiSelect = Class.create(AXJ, {
 						selectTarget.jQueryelement.addClass(cfg.selectingClassName);
 						selectTarget.selecting = true;
 					}
-				}else{
+				} else {
 					/* UNSELECT */
 					if (selectTarget.selecting) {
 						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
@@ -3094,27 +3095,27 @@ var AXMultiSelect = Class.create(AXJ, {
 					}
 				}
 			});
-			
-		}else{
+
+		} else {
 			this.helperAppened = true;
 			jQuery(document.body).append(this.helper);
 
-			var css = {left:(touch.pageX - jQuery(document.body).offset().left), top:(touch.pageY - jQuery(document.body).offset().top), width:0, height:0};
+			var css = { left: (touch.pageX - jQuery(document.body).offset().left), top: (touch.pageY - jQuery(document.body).offset().top), width: 0, height: 0 };
 			this.helper.css(css);
 			var stagePos = this._selectStage.offset();
 			this.helperPos = {
-				stageX:stagePos.left.number(),
-				stageY:stagePos.top.number(),
-				x:css.left.number(), 
-				y:css.top.number(), 
-				scrollLeft:this._selectStage.scrollLeft().number(),
-				scrollTop:this._selectStage.scrollTop().number(),
-				bodyLeft:jQuery(document.body).offset().left,
-				bodyTop:jQuery(document.body).offset().top
+				stageX: stagePos.left.number(),
+				stageY: stagePos.top.number(),
+				x: css.left.number(),
+				y: css.top.number(),
+				scrollLeft: this._selectStage.scrollLeft().number(),
+				scrollTop: this._selectStage.scrollTop().number(),
+				bodyLeft: jQuery(document.body).offset().left,
+				bodyTop: jQuery(document.body).offset().top
 			};
 		}
 	},
-	touchEnd: function(e){
+	touchEnd: function (e) {
 		var cfg = this.config;
 		var event = window.event || e;
 		this.helperAppenedReady = false;
@@ -3126,22 +3127,22 @@ var AXMultiSelect = Class.create(AXJ, {
 			document.removeEventListener("touchend", this.touchEndBind, false);
 			document.removeEventListener("touchmove", this.touchMoveBind, false);
 		}
-		
-		if(this.helperAppened){
+
+		if (this.helperAppened) {
 			this.helperAppened = false;
 			this.helper.remove();
-			
-			/* selected change */			
-			this._selectTargets.each(function(){
+
+			/* selected change */
+			this._selectTargets.each(function () {
 				var selectTarget = jQuery.data(this, "selectableItem");
-				if(selectTarget){
+				if (selectTarget) {
 					if (selectTarget.selecting) {
 						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
 						selectTarget.selecting = false;
 						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 						selectTarget.selected = true;
-					}else if(selectTarget.selected){
-	
+					} else if (selectTarget.selected) {
+
 					}
 				}
 			});
@@ -3150,10 +3151,10 @@ var AXMultiSelect = Class.create(AXJ, {
 	getSelects: function () {
 		var cfg = this.config;
 		var selects = [];
-		this._selectTargets.each(function(){
+		this._selectTargets.each(function () {
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget){
-				if(selectTarget.selected){
+			if (selectTarget) {
+				if (selectTarget.selected) {
 					selects.push(selectTarget.element);
 				}
 			}
@@ -3163,10 +3164,10 @@ var AXMultiSelect = Class.create(AXJ, {
 	size: function () {
 		var cfg = this.config;
 		var selects = [];
-		this._selectTargets.each(function(){
+		this._selectTargets.each(function () {
 			var selectTarget = jQuery.data(this, "selectableItem");
-			if(selectTarget){
-				if(selectTarget.selected){
+			if (selectTarget) {
+				if (selectTarget.selected) {
 					selects.push(selectTarget.element);
 				}
 			}
@@ -3180,7 +3181,7 @@ var AXMultiSelect = Class.create(AXJ, {
 var AXResizable = Class.create(AXJ, {
 	version: "AXResizable v1.0",
 	author: "tom@axisj.com",
-    logs: [
+	logs: [
     	"2013-11-12 오전 10:22:06"
 	],
 	initialize: function (AXJ_super) {
@@ -3194,7 +3195,7 @@ var AXResizable = Class.create(AXJ, {
 	init: function () {
 		this.helper = jQuery("<div class='AXResizableHelper'></div>");
 	},
-	bind: function(obj){
+	bind: function (obj) {
 		var cfg = this.config;
 		if (!obj.id) {
 			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
@@ -3216,9 +3217,9 @@ var AXResizable = Class.create(AXJ, {
 		if (objSeq == null) {
 			objSeq = this.objects.length;
 			this.objects.push({
-				id: objID, 
-				element:AXgetId(objID), 
-				jQueryElement:jQuery("#"+objID), 
+				id: objID,
+				element: AXgetId(objID),
+				jQueryElement: jQuery("#" + objID),
 				config: obj
 			});
 		} else {
@@ -3238,136 +3239,136 @@ var AXResizable = Class.create(AXJ, {
 				}
 			}
 		});
-		if(removeIdx != undefined){
+		if (removeIdx != undefined) {
 			this.objects[removeIdx].isDel = true;
 			/* unbind 구문 */
 		}
 	},
-	bindResizer: function(objID, objSeq){
+	bindResizer: function (objID, objSeq) {
 		var _this = this;
 		var cfg = this.config;
-		
+
 		var obj = this.objects[objSeq];
-		
+
 		var po = [];
 		po.push("<div class=\"" + cfg.bindResiableHandle + "\"></div>");
 		obj.jQueryElement.addClass(cfg.bindResiableContainer);
 		obj.jQueryElement.append(po.join(''));
-		
+
 		//obj.jQueryElement.bind("mousedown.AXResizable", function(){_this.mousedown(objID, objSeq, event)});
 		obj.jQueryElement.bind("mousedown.AXResizable", this.mousedown.bind(this, objID, objSeq));
 	},
-	mousedown: function(objID, objSeq, event){
+	mousedown: function (objID, objSeq, event) {
 		var _this = this;
 		var cfg = this.config;
-		
+
 		jQuery(window).bind("mousemove.AXResizable", this.mousemove.bind(this, objID, objSeq));
 		jQuery(window).bind("mouseup.AXResizable", this.mouseup.bind(this, objID, objSeq));
 		/*jQuery(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
-		
+
 		jQuery(document.body).attr("onselectstart", "return false");
 		jQuery(document.body).addClass("AXUserSelectNone");
-		
+
 		this.helperAppenedReady = true;
 	},
-	mousemove: function(objID, objSeq, event){
+	mousemove: function (objID, objSeq, event) {
 		var cfg = this.config;
 		if (!event.pageX) return;
-		
+
 		/*드래그 감도 적용 */
 		if (this.config.moveSens > this.moveSens) this.moveSens++;
 		if (this.moveSens == this.config.moveSens) this.selectorHelperMove(objID, objSeq, event);
 	},
-	mouseup: function(objID, objSeq, event){
+	mouseup: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
+
 		this.helperAppenedReady = false;
 		this.moveSens = 0;
-		
+
 		jQuery(window).unbind("mousemove.AXResizable");
 		jQuery(window).unbind("mouseup.AXResizable");
 		/*jQuery(document.body).unbind("mouseleave.AXResizable");*/
-		
+
 		jQuery(document.body).removeAttr("onselectstart");
 		jQuery(document.body).removeClass("AXUserSelectNone");
-		
-		if(this.helperAppened){
+
+		if (this.helperAppened) {
 			this.helperAppened = false;
-			
+
 			var newWidth = this.helper.width();
 			var newHeight = this.helper.height();
-			
+
 			var paddingLeft = obj.jQueryElement.css("padding-left");
 			var paddingRight = obj.jQueryElement.css("padding-right");
 			var paddingTop = obj.jQueryElement.css("padding-top");
 			var paddingBottom = obj.jQueryElement.css("padding-bottom");
 			var paddingW = paddingLeft.number() + paddingRight.number();
 			var paddingH = paddingTop.number() + paddingBottom.number();
-			
-			if(obj.config.animate){
+
+			if (obj.config.animate) {
 				obj.jQueryElement.animate(
-					{width:newWidth-paddingW, height:newHeight-paddingH},
-					(obj.config.animate.duration||300), (obj.config.animate.easing||"liner"), 
-					function(){
-						if(obj.config.onChange){
+					{ width: newWidth - paddingW, height: newHeight - paddingH },
+					(obj.config.animate.duration || 300), (obj.config.animate.easing || "liner"),
+					function () {
+						if (obj.config.onChange) {
 							obj.config.onChange.call(obj, obj);
 						}
 					}
 				);
-			}else{
-				obj.jQueryElement.css({width:newWidth-paddingW, height:newHeight-paddingH});
-				if(obj.config.onChange){
+			} else {
+				obj.jQueryElement.css({ width: newWidth - paddingW, height: newHeight - paddingH });
+				if (obj.config.onChange) {
 					obj.config.onChange.call(obj, obj);
 				}
 			}
-			
+
 			this.helper.remove();
 		}
 	},
-	selectorHelperMove: function(objID, objSeq, event){
+	selectorHelperMove: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
-		if(this.helperAppened){
-			
+
+		if (this.helperAppened) {
+
 			var _helperPos = this.helperPos;
 			var tmp,
 				x1 = this.helperPos.x,
 				y1 = this.helperPos.y,
 				x2 = event.pageX - _helperPos.bodyLeft,
 				y2 = event.pageY - _helperPos.bodyTop;
-			
-			var minWidth = (obj.config.minWidth||0), 
-				minHeight = (obj.config.minHeight||0), 
-				maxWidth = (obj.config.maxWidth||0), 
-				maxHeight = (obj.config.maxHeight||0);
-			
-			var myWidth = x2-x1, myHeight = y2-y1;
-			
-			if(minWidth != 0 && myWidth < minWidth) myWidth = minWidth;
-			if(minHeight != 0 && myHeight < minHeight) myHeight = minHeight;
-			if(maxWidth != 0 && myWidth > maxWidth) myWidth = maxWidth;
-			if(maxHeight != 0 && myHeight > maxHeight) myHeight = maxHeight;
-			
-			if(obj.config.aspectRatio){
+
+			var minWidth = (obj.config.minWidth || 0),
+				minHeight = (obj.config.minHeight || 0),
+				maxWidth = (obj.config.maxWidth || 0),
+				maxHeight = (obj.config.maxHeight || 0);
+
+			var myWidth = x2 - x1, myHeight = y2 - y1;
+
+			if (minWidth != 0 && myWidth < minWidth) myWidth = minWidth;
+			if (minHeight != 0 && myHeight < minHeight) myHeight = minHeight;
+			if (maxWidth != 0 && myWidth > maxWidth) myWidth = maxWidth;
+			if (maxHeight != 0 && myHeight > maxHeight) myHeight = maxHeight;
+
+			if (obj.config.aspectRatio) {
 				myWidth = myHeight * obj.config.aspectRatio;
 			}
-			
-			if(obj.config.snap){
+
+			if (obj.config.snap) {
 				myWidth = obj.config.snap * (myWidth / obj.config.snap).ceil();
 				myHeight = obj.config.snap * (myHeight / obj.config.snap).ceil();
 			}
 			//trace({width: myWidth, height: myHeight});
-			this.helper.css({width: myWidth, height: myHeight});
+			this.helper.css({ width: myWidth, height: myHeight });
 
-		}else{
+		} else {
 			this.helperAppened = true;
 			jQuery(document.body).append(this.helper);
-			
+
 			var bodyLeft = jQuery(document.body).offset().left;
 			var bodyTop = jQuery(document.body).offset().top;
-						
+
 			var pos = obj.jQueryElement.offset();
 			var css = {
 				left: pos.left + bodyLeft,
@@ -3378,8 +3379,8 @@ var AXResizable = Class.create(AXJ, {
 			this.helper.css(css);
 
 			this.helperPos = {
-				x:css.left,
-				y:css.top,
+				x: css.left,
+				y: css.top,
 				bodyLeft: jQuery(document.body).offset().left,
 				bodyTop: jQuery(document.body).offset().top
 			};
@@ -3409,11 +3410,12 @@ jQuery.fn.unbindAXResizable = function (config) {
 
 /* ** AXContextMenu ********************************************** */
 var AXContextMenuClass = Class.create(AXJ, {
-	version: "AXContextMenuClass v1.1",
+	version: "AXContextMenuClass v1.2",
 	author: "tom@axisj.com",
 	logs: [
 		"2013-03-22 오후 6:08:57",
-		"2013-09-03 오후 7:10:14 메뉴확장 위치 제어 버그 픽스"
+		"2013-09-03 오후 7:10:14 메뉴확장 위치 제어 버그 픽스",
+		"2013-12-16 href=javascript 설정했을 때 onbeforeunload 이벤트 충돌문제 해결"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -3421,6 +3423,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 		this.objects = [];
 		this.config.theme = "AXContextMenu";
 		this.config.width = "140";
+
+		
 	},
 	init: function () {
 
@@ -3485,6 +3489,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var getSubMenu = this.getSubMenu.bind(this);
 		var subMenuID = parentID + "_AX_subMenu";
 
+		var href = (obj.href == undefined) ? cfg.href : obj.href;
+
 		//trace(subMenu.length);		
 		var po = [];
 		po.push("<div id=\"" + subMenuID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;left:" + (width.number() - 15) + "px;display:none;\">");
@@ -3492,7 +3498,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			if (filter(objSeq, objID, myobj, menu)) {
 				var className = (menu.className) ? menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-				po.push("<a href=\"javascript:;\" class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
+				po.push("<a " + href + " class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
 				po.push(menu.label);
 				if (menu.subMenu) {
 					if (menu.subMenu.length > 0) {
@@ -3537,6 +3543,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 
 		jQuery("#" + objID).remove();
 
+		var href = (obj.href == undefined) ? cfg.href : obj.href;
+
 		var filter = this.filter.bind(this);
 		var getSubMenu = this.getSubMenu.bind(this);
 		var po = [];
@@ -3548,7 +3556,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 				}
 				var className = (menu.className) ? " " + menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-				po.push("<a href=\"javascript:;\" class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+				po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
 				po.push(menu.label);
 				if (menu.subMenu) {
 					if (menu.subMenu.length > 0) {
@@ -3640,10 +3648,10 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var contextMenuItemDownBind = function (event) {
 			contextMenuItemDown(event, objSeq, objID);
 		};
-		
+
 		jQuery(document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
 		jQuery(document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
-		
+
 		jQuery(document).find("iframe").each(function () {
 			jQuery(window[this.name].document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
 			jQuery(window[this.name].document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
@@ -3874,6 +3882,8 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 		jQuery("#" + objID).remove();
 
+		var href = (obj.href == undefined) ? cfg.href : obj.href;
+
 		var filter = this.filter.bind(this);
 		var getSubMenu = this.getSubMenu.bind(this);
 		var po = [];
@@ -3890,7 +3900,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 					}
 					var className = (menu.className) ? " " + menu.className : "";
 					var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-					po.push("<a href=\"javascript:;\" class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+					po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
 					po.push(menu.label);
 					if (menu.subMenu) {
 						if (menu.subMenu.length > 0) {
@@ -4119,55 +4129,55 @@ var AXMobileModal = Class.create(AXJ, {
 	},
 	init: function () {
 		var cfg = this.config;
-		
-		if(!cfg.head){
+
+		if (!cfg.head) {
 			cfg.head = {};
 		}
 	},
-	open: function(configs){
+	open: function (configs) {
 		var cfg = this.config;
-		if(!configs) configs = {};
+		if (!configs) configs = {};
 		var theme = (configs.theme || cfg.theme);
-		if(cfg.addClass){
+		if (cfg.addClass) {
 			theme += " " + cfg.addClass;
 		}
 		var modalId = "AXMobileModal" + AXUtil.timekey();
 		var clientWidth = (configs.clientWidth || AXUtil.clientWidth());
-		
+
 		var po = [];
-		po.push('<div id="', modalId ,'" class="', theme ,'" style="left:0px;top:0px;width:', AXUtil.clientWidth(),'px;height:', AXUtil.clientHeight(),'px;">');
-		po.push('	<div  id="', modalId ,'_AX_modal" class="AXMobileModalPanel" style="width:', 50,'px;left:', (AXUtil.clientWidth()-50)/2,'px;">');
-		po.push('		<div  id="', modalId ,'_AX_head" class="mobileModalHead">');
+		po.push('<div id="', modalId, '" class="', theme, '" style="left:0px;top:0px;width:', AXUtil.clientWidth(), 'px;height:', AXUtil.clientHeight(), 'px;">');
+		po.push('	<div  id="', modalId, '_AX_modal" class="AXMobileModalPanel" style="width:', 50, 'px;left:', (AXUtil.clientWidth() - 50) / 2, 'px;">');
+		po.push('		<div  id="', modalId, '_AX_head" class="mobileModalHead">');
 		po.push('			<div class="modalTitle">' + (cfg.head.title || "Untitle") + '</div>');
 		po.push('		</div>');
-		if(cfg.head.close){
-			po.push('		<a href="javascript:;" class="mobileModelClose">Close</a>');
+		if (cfg.head.close) {
+			po.push('		<a ' + cfg.href + ' class="mobileModelClose">Close</a>');
 		}
-		po.push('		<div  id="', modalId ,'_AX_body" class="mobileModalBody"></div>');
-		po.push('		<div  id="', modalId ,'_AX_foot" class="mobileModalFoot"></div>');
+		po.push('		<div  id="', modalId, '_AX_body" class="mobileModalBody"></div>');
+		po.push('		<div  id="', modalId, '_AX_foot" class="mobileModalFoot"></div>');
 		po.push('	</div>');
 		po.push('</div>');
 		this.jQueryModal = jQuery(po.join(''));
 		jQuery(document.body).append(this.jQueryModal);
-		
+
 		this.modalPanel = this.jQueryModal.find(".AXMobileModalPanel");
 		this.modalHead = this.modalPanel.find(".mobileModalHead");
 		this.modalBody = this.modalPanel.find(".mobileModalBody");
 		this.modalFoot = this.modalPanel.find(".mobileModalBody");
-		
+
 		this.openConfigs = configs;
 		this.setSizeModal(this.openConfigs);
 		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
-		
+
 		return {
-			jQueryModal: this.jQueryModal, 
+			jQueryModal: this.jQueryModal,
 			modalPanel: this.modalPanel,
 			modalHead: this.modalHead,
 			modalBody: this.modalBody,
 			modalFoot: this.modalFoot
 		};
 	},
-	setSizeModal: function(configs){
+	setSizeModal: function (configs) {
 		var cfg = this.config;
 		var cssStyles = {};
 		var clientWidth, width, height, left, top, margin, align, valign;
@@ -4179,50 +4189,50 @@ var AXMobileModal = Class.create(AXJ, {
 		var margin = (configs.margin || cfg.margin);
 		var align = (configs.align || cfg.align);
 		var valign = (configs.valign || cfg.valign);
-		
-		if(width == "auto"){
-			if(margin.right(1) == "%"){
-				modalWidth = clientWidth * (100 - margin.number()*2)/100;
-			}else{
-				modalWidth = clientWidth - margin.number()*2;
+
+		if (width == "auto") {
+			if (margin.right(1) == "%") {
+				modalWidth = clientWidth * (100 - margin.number() * 2) / 100;
+			} else {
+				modalWidth = clientWidth - margin.number() * 2;
 			}
-		}else{
+		} else {
 			modalWidth = width;
 		}
 		left = (clientWidth - modalWidth) / 2;
 
-		if(height == "auto"){
-			if(margin.right(1) == "%"){
-				modalHeight = clientHeight * (100 - margin.number()*2)/100;
-			}else{
-				modalHeight = clientHeight - margin.number()*2;
+		if (height == "auto") {
+			if (margin.right(1) == "%") {
+				modalHeight = clientHeight * (100 - margin.number() * 2) / 100;
+			} else {
+				modalHeight = clientHeight - margin.number() * 2;
 			}
-		}else{
+		} else {
 			modalHeight = height;
 		}
 		top = (clientHeight - modalHeight) / 2;
-		
-		if(left < 0) left = margin;
-		if(top < 0) top = margin;
-		
+
+		if (left < 0) left = margin;
+		if (top < 0) top = margin;
+
 		cssStyles.left = left;
 		cssStyles.top = top;
 		cssStyles.width = modalWidth;
 		cssStyles.height = modalHeight;
-		
+
 		/*cssStyles.transform = "rotateY(180deg)";*/
 		/*this.modalPanel.addClass("open");*/
 		mask.open();
 
-		this.modalPanel.animate(cssStyles, 300, "expoInOut", function(){
-			
+		this.modalPanel.animate(cssStyles, 300, "expoInOut", function () {
+
 		});
 	},
-	close: function(){
+	close: function () {
 		var cfg = this.config;
 		mask.close();
-		this.modalPanel.animate({top:-500}, 300, "expoInOut", function(){
-			if(cfg.onclose){
+		this.modalPanel.animate({ top: -500 }, 300, "expoInOut", function () {
+			if (cfg.onclose) {
 				cfg.onclose();
 			}
 		});
@@ -4231,7 +4241,7 @@ var AXMobileModal = Class.create(AXJ, {
 		var remove = this.remove.bind(this);
 		remove.delay(0.5);
 	},
-	remove: function(){
+	remove: function () {
 		var cfg = this.config;
 		this.jQueryModal.remove();
 	}
@@ -4316,7 +4326,7 @@ var __r20 = /%20/g,
 
 jQuery.fn.extend({
 	serializeObject: function () {
-				
+
 		var myArray = this.map(function () {
 			return this.elements ? jQuery.makeArray(this.elements) : this;
 		})
@@ -4336,7 +4346,7 @@ jQuery.fn.extend({
 						return { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
 					}) :
 					{ id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
-					
+
 		}).get();
 		return myArray;
 	}
@@ -4347,21 +4357,21 @@ jQuery(document.body).ready(function () {
 	jQuery("textarea").bind("mousedown", function () { this.focus(); });
 });
 
-jQuery.fn.endFocus = function() {
-    var elem = this;
-    var elemLen = elem.val().length;
-    if(elemLen == 0){
-        elem.focus();
-        return;
-    }
-    // For IE Only
-    if (document.selection) {
-        // Set focus
-        elem.focus();        
-        elem.val(elem.val());
-    }
-    else if (document.selection == undefined || elem.selectionStart || elem.selectionStart == '0') {
-        // Firefox/Chrome
-        elem.focus().val(elem.val());
-    } // if
+jQuery.fn.endFocus = function () {
+	var elem = this;
+	var elemLen = elem.val().length;
+	if (elemLen == 0) {
+		elem.focus();
+		return;
+	}
+	// For IE Only
+	if (document.selection) {
+		// Set focus
+		elem.focus();
+		elem.val(elem.val());
+	}
+	else if (document.selection == undefined || elem.selectionStart || elem.selectionStart == '0') {
+		// Firefox/Chrome
+		elem.focus().val(elem.val());
+	} // if
 };

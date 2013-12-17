@@ -334,7 +334,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		
 		var printFootItem = this.printFootItem.bind(this);
 		var _this = this;
-		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],select,textarea").unbind("change.AXModelControlGrid").bind("change.AXModelControlGrid", function(){
+		_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea").unbind("change.AXModelControlGrid").bind("change.AXModelControlGrid", function(){
 			_this.list[lidx][this.name] = $(this).val();
 			printFootItem();
 		});
