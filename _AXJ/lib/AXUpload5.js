@@ -1143,14 +1143,15 @@ swfobject.addDomLoadEvent(function () {
  */
 
 var AXUpload5 = Class.create(AXJ, {
-	version : "AXUpload5 V1.21",
+	version : "AXUpload5 V1.22",
 	author : "tom@axisj.com",
 	logs: [
 		"2013-10-02 오후 2:19:36 - 시작 tom",
 		"2013-10-12 오전 11:13:06 - 업로드 서버오류 예외 처리 tom",
 		"2013-10-29 오후 3:26:33 - 기타 버그 패치 최지연",
 		"2013-10-30 오후 3:38:05 - config.uploadPars, config.deletePars 초기 설정값 패치 by tom",
-		"2013-12-11 오후 5:15:51 - tom&root setUploadedList, setUpoadeFile 버그패치"
+		"2013-12-11 오후 5:15:51 - tom&root setUploadedList, setUpoadeFile 버그패치",
+		"2013-12-17 오전 11:24:38 - tom : AXUploadPreview css 적용"
 	],
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -1515,10 +1516,8 @@ var AXUpload5 = Class.create(AXJ, {
 				
 				if(res[cfg.fileKeys.thumbPath]){
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
-						"background-image":"url('"+(res[cfg.fileKeys.thumbPath]||"").dec()+"')",
-						"background-size":"100% auto",
-						"background-position":"center center"
-					});
+						"background-image":"url('"+(res[cfg.fileKeys.thumbPath]||"").dec()+"')"
+					}).addClass("AXUploadPreview");
 				}else{
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((res[cfg.fileKeys.type]||"").dec().replace(".", ""));
@@ -1857,10 +1856,8 @@ var AXUpload5 = Class.create(AXJ, {
 				
 				if(res[cfg.fileKeys.thumbPath]){
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
-						"background-image":"url('"+(res[cfg.fileKeys.thumbPath]||"").dec()+"')",
-						"background-size":"100% auto",
-						"background-position":"center center"
-					});
+						"background-image":"url('"+(res[cfg.fileKeys.thumbPath]||"").dec()+"')"
+					}).addClass("AXUploadPreview");
 				}else{
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((res[cfg.fileKeys.type]||"").dec().replace(".", ""));
@@ -2220,10 +2217,8 @@ var AXUpload5 = Class.create(AXJ, {
 		
 					if(f[cfg.fileKeys.thumbPath]){
 						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
-							"background-image":"url('"+(f[cfg.fileKeys.thumbPath]||"").dec()+"')",
-							"background-size":"100% auto",
-							"background-position":"center center"
-						});
+							"background-image":"url('"+(f[cfg.fileKeys.thumbPath]||"").dec()+"')"
+						}).addClass("AXUploadPreview");
 					}else{				
 						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
 						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((f[cfg.fileKeys.type]||"").dec().replace(".", ""));

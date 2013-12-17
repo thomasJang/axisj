@@ -92,6 +92,13 @@
 .AXUpload5QueueBox .AXUploadItem.beSelected .AXUploadBtns .AXUploadBtnsA{background:url(img/AXUpload5/removeIcon_white.png) no-repeat center center;}
 .AXUpload5QueueBox .AXUploadItem.AX_selecting .AXUploadBtns .AXUploadBtnsA{background:url(img/AXUpload5/removeIcon_white.png) no-repeat center center;}
 
+.AXUpload5QueueBox .AXUploadItem .AXUploadPreview{
+	background-size:contain;
+	background-position:center center;
+	background-repeat:no-repeat;
+	background-color:transparent;
+}
+
 .AXUpload5Single{}
 .AXUpload5Single tbody tr td{border:0px none;background:none;}
 	.AXUpload5Single .AXUploadButton{
