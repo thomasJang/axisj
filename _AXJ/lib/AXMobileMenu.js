@@ -283,7 +283,7 @@ var AXMobileMenu = Class.create(AXJ, {
 		var calLeft = (endLeft.abs() % this.menuPageWidth);
 		var absPage = (endLeft.abs() / this.menuPageWidth).floor();
 		var newLeft = 0;
-		if(calLeft < this.menuPageWidth/2.5){
+		if(calLeft < this.menuPageWidth/2){
 		}else{
 			absPage += 1;
 		}
@@ -295,7 +295,7 @@ var AXMobileMenu = Class.create(AXJ, {
 		//trace(absPage);
 		this.mobileMenuBodyScrollLeft = -newLeft;
 
-		this.mobileMenuBodyScroll.animate({left: -newLeft}, (this.mobileMenuBodyScroll.position().left + newLeft).abs(), "expoOut", function () {});
+		this.mobileMenuBodyScroll.animate({left: -newLeft}, (this.mobileMenuBodyScroll.position().left + newLeft).abs()*5, "cubicOut", function () {});
 		this.modalObj.modalFoot.find('#' + this.modalID + '_AX_pageNav_AX_' + this.pageNo).removeClass("on");
 		this.modalObj.modalFoot.find('#' + this.modalID + '_AX_pageNav_AX_' + absPage).addClass("on");
 		
