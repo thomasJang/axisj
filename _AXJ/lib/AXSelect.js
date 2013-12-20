@@ -329,14 +329,14 @@ var AXSelectConverter = Class.create(AXJ, {
 	getSelectedOption: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		try{
-			if(AXgetId(objID).options.selectedIndex > -1){
+		if(AXgetId(objID).options.selectedIndex > -1){
+			try{
 				if(obj.config.selectedIndex != AXgetId(objID).options.selectedIndex) obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
-				return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
-			}else{
-				return AXgetId(objID).options[0];
+			}catch(e){
+				
 			}
-		}catch(e){
+			return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
+		}else{
 			return AXgetId(objID).options[0];
 		}
 	},
@@ -344,10 +344,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		var selectedOption = this.getSelectedOption(objID, objSeq);
-
 		if (selectedOption) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectText").html(selectedOption.text);
-			//trace("value have");
 		}
 	},
 	bindSelectExpand: function (objID, objSeq, isToggle, event) {
@@ -651,11 +649,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			var cfg = this.config;
 
 			if (this.isMobile) {
-
-				//alert(AXgetId(objID).options.selectedIndex);
-				//obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
 				for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
-					//options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text });
 					if (AXgetId(objID).options[oi].value == value) {
 						var selectedIndex = oi;
 						AXgetId(objID).options[oi].selected = true;
@@ -667,19 +661,16 @@ var AXSelectConverter = Class.create(AXJ, {
 						break;
 					}
 				}
-
 			} else {
-
 				var selectedIndex = null;
 				jQuery.each(obj.config.options, function (oidx, O) {
-					//trace({ optionValue: O.optionValue, value: value });
 					if ((O.optionValue || O.value || "") == value) {
 						selectedIndex = oidx;
 					}
 				});
 
 				if (selectedIndex != null) {
-
+					
 					obj.config.selectedIndex = selectedIndex;
 					obj.config.focusedIndex = selectedIndex;
 

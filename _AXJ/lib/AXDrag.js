@@ -8,10 +8,11 @@
  */
 
 var AXDrag = Class.create(AXJ, {
-    version: "AXJDrag V1.1",
+    version: "AXJDrag V1.2",
 	author: "tom@axisj.com",
 	logs: [
-		"2013-08-21 오후 11:47:11 - modsAX 변환"
+		"2013-08-21 오후 11:47:11 - modsAX 변환",
+		"2013-12-17 오후 4:56:13 - multiselect 와 호환성 작업"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
@@ -19,7 +20,7 @@ var AXDrag = Class.create(AXJ, {
         this.config.bedragClassName = "bedraged";
         this.config.bedropClassName = "bedroped";
         this.config.dragClassName = "readyDrag";
-        this.config.dropClassName = "readyDrop"
+        this.config.dropClassName = "readyDrop";
         this.config.sort = false;
         this.sortOn = false;
         this.config.moveSens = 5;
@@ -30,7 +31,7 @@ var AXDrag = Class.create(AXJ, {
     /* init ~~~~~~ */
     init: function() {
         this.draged = false;
-        /*this.dragBox = new Element('div', { 'class':this.config.dragBoxClassName});*/
+        //this.dragBox = new Element('div', { 'class':this.config.dragBoxClassName});
         this.dragBox = jQuery("<div class='" + this.config.dragBoxClassName + "'></div>");
         this.dragBox.html("<div class=\"boxshadow\"></div><div class=\"boxicon\"></div><div class=\"boxcounter\">0</div>");
 
@@ -45,10 +46,11 @@ var AXDrag = Class.create(AXJ, {
         this.dragCount = this.dragBox.find("div.boxcounter");
         this.dragBoxDim = {};
         this.dragItem = [];
-        /*ready dragBox*/
+        //ready dragBox
 
-        if (this.config.multiSelector) { 
-            this.mselector = new AXMultiSelect();
+        if (this.config.multiSelector) { //AXJMselect init
+        	this.mselector = new AXMultiSelect();
+        	this.config.multiSelector.useHelper = false;
             this.mselector.setConfig(this.config.multiSelector);
         }
     },
@@ -75,7 +77,7 @@ var AXDrag = Class.create(AXJ, {
             jQuery(document).bind("selectstart", this.selectstart);
             jQuery(document).bind("keyup", this.keyUp);
             jQuery("#" + this.config.dragStage).addClass("AXJSelectNone");
-            
+            //alert("x");
         } else {
             if (this.mouseMove) jQuery("#" + this.config.dragStage).unbind('mousemove', this.mouseMove);
             if (this.mouseOver) jQuery("#" + this.config.dragStage).unbind('mouseover', this.mouseOver);
@@ -83,7 +85,7 @@ var AXDrag = Class.create(AXJ, {
             if (this.selectstart) jQuery(document).unbind("selectstart", this.selectstart);
             if (this.keyUp) jQuery(document).unbind("keyup", this.keyup);
             jQuery("#" + this.config.dragStage).removeClass("AXJSelectNone");
-            
+            //alert("y");
         }
     },
     inactive: function() {
@@ -96,13 +98,15 @@ var AXDrag = Class.create(AXJ, {
 
         if (event.button == 2) return;
         var eventTarget = event.target;
+
         if (eventTarget) {
-            while (!jQuery(eventTarget).hasClass(this.config.dragClassName)) {
+            while (!$(eventTarget).hasClass(this.config.dragClassName)) {
                 if (eventTarget.parentNode) eventTarget = eventTarget.parentNode;
                 else break;
             }
         }
         if (!jQuery(eventTarget).hasClass(this.config.dragClassName)) return;
+
         var dragElement = eventTarget;
         if (dragElement) {
             if (AXUtil.browser.name == "moz") {
@@ -111,12 +115,21 @@ var AXDrag = Class.create(AXJ, {
                     this.dragParent = null;
                 }
             }
-            if (this.config.multiSelector) this.dragReady();
-            else this.dragReady([dragElement]);
+
+            if (this.config.multiSelector) {
+            	if (event.shiftKey || event.metaKey || event.ctrlKey) {
+            		
+            	}else{
+            		this.mselector.clickSelects(dragElement);
+            	}
+            	this.dragReady();
+            } else {
+            	this.dragReady([dragElement]);
+            }
         }
     },
     ondragStart: function(event) {
-        event.stopPropagation(); 
+        event.stopPropagation(); // disable  event
         return false;
     },
     onselectStart: function(event) {
@@ -130,7 +143,7 @@ var AXDrag = Class.create(AXJ, {
         if (this.config.sort) {
             eventTarget = event.target;
             if (eventTarget) {
-                while (!jQuery(eventTarget).hasClass(this.config.dragClassName)) {
+                while (!$(eventTarget).hasClass(this.config.dragClassName)) {
 
                     if (eventTarget.parentNode) eventTarget = eventTarget.parentNode;
                     else break;
@@ -139,11 +152,10 @@ var AXDrag = Class.create(AXJ, {
             var isSort = jQuery(eventTarget).hasClass(this.config.dragClassName);
         }
 
-        if (!isSort) { 
+        if (!isSort) { //소트타입이 아니라면
             eventTarget = event.target;
             var isDrop = jQuery(eventTarget).hasClass(this.config.dropClassName);
         }
-
 
         if (isSort) {
             if (eventTarget && this.draged) {
@@ -155,7 +167,6 @@ var AXDrag = Class.create(AXJ, {
                 jQuery(eventTarget).removeClass(this.config.bedropClassName);
                 if (this.config.onDrop) this.config.onDrop({ dragItem: this.dragItem, dropItem: eventTarget });
             }
-
         }
 
         this.draging(false);
@@ -175,23 +186,21 @@ var AXDrag = Class.create(AXJ, {
                 var st = document.body.scrollTop;
                 var sl = document.body.scrollLeft;
             }
-            this.mouse = { x: (event.pageX - sl) || 0, y: (event.pageY - st) || 0 }; 
+            this.mouse = { x: (event.pageX - sl) || 0, y: (event.pageY - st) || 0 }; //Event.pointer(event);
         } else {
-            this.mouse = { x: event.pageX || 0, y: event.pageY || 0 }; 
+            this.mouse = { x: event.pageX || 0, y: event.pageY || 0 }; //Event.pointer(event);
         }
-        /*드래그 감도 적용*/
+        //드래그 감도 적용
         if (this.config.moveSens > this.moveSens) this.moveSens++;
         if (this.moveSens == this.config.moveSens) this.dragboxMove();
     },
     onmouseOver: function(event) {
-
-
         var eventTarget;
 
         if (this.config.sort) {
             eventTarget = event.target;
             if (eventTarget) {
-                while (!jQuery(eventTarget).hasClass(this.config.dragClassName)) {
+                while (!$(eventTarget).hasClass(this.config.dragClassName)) {
 
                     if (eventTarget.parentNode) eventTarget = eventTarget.parentNode;
                     else break;
@@ -200,7 +209,7 @@ var AXDrag = Class.create(AXJ, {
             var isSort = jQuery(eventTarget).hasClass(this.config.dragClassName);
         }
 
-        if (!isSort) { 
+        if (!isSort) { //소트타입이 아니라면
             eventTarget = event.target;
             var isDrop = jQuery(eventTarget).hasClass(this.config.dropClassName);
         }
@@ -241,10 +250,10 @@ var AXDrag = Class.create(AXJ, {
             else
                 jQuery("#" + this.config.dragStage).after(this.dragBox);
 
-            this.dragBoxDim = { width: this.dragBox.width(), height: this.dragBox.height() }; 
+            this.dragBoxDim = { width: this.dragBox.width(), height: this.dragBox.height() }; //.getDimensions();
             this.dragCount.html(this.dragItem.length);
             this.dragTrigger();
-            /*draged dragItem*/
+            //draged dragItem
             jQuery(this.dragItem).addClass(bedragClassName);
         }
 
@@ -258,7 +267,7 @@ var AXDrag = Class.create(AXJ, {
             this.draged = false;
             this.dragBox.detach();
             this.endSort();
-            /*undraged dragItem*/
+            //undraged dragItem
             jQuery(this.dragItem).removeClass(bedragClassName);
             if (this.config.multiSelector) this.mselector.clearSelects();
             else this.dragItem.clear();

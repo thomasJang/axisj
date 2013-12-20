@@ -882,7 +882,10 @@ var AXUtil = {
 		} else if (ua.search(/ipad/g) != -1) {
 			return { name: "ipad", version: 0, mobile: true }
 		} else if (ua.search(/android/g) != -1) {
-			return { name: "android", version: 0, mobile: mobile }
+			var match = /(android)[ \/]([\w.]+)/.exec(ua) ||
+				[];
+			var browserVersion = (match[2] || "0");
+			return { name: "android", version: browserVersion, mobile: mobile }
 		} else {
 			var browserName = "";
 
@@ -2684,7 +2687,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		jQuery(window).bind("resize.AXMultiSelect", this.collect.bind(this));
 		jQuery(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
 		this._selectStage.bind("scroll", this.onScrollStage.bind(this));
-
+		
 		this._selectStage.bind("touchstart", this.touchstart.bind(this));
 	},
 	onKeydown: function (event) {
@@ -4134,7 +4137,7 @@ var AXMobileModal = Class.create(AXJ, {
 			cfg.head = {};
 		}
 	},
-	open: function (configs) {
+	open: function (configs, onLoad) {
 		var cfg = this.config;
 		if (!configs) configs = {};
 		var theme = (configs.theme || cfg.theme);
@@ -4143,12 +4146,12 @@ var AXMobileModal = Class.create(AXJ, {
 		}
 		var modalId = "AXMobileModal" + AXUtil.timekey();
 		var clientWidth = (configs.clientWidth || AXUtil.clientWidth());
-
+		
 		var po = [];
 		po.push('<div id="', modalId, '" class="', theme, '" style="left:0px;top:0px;width:', AXUtil.clientWidth(), 'px;height:', AXUtil.clientHeight(), 'px;">');
-		po.push('	<div  id="', modalId, '_AX_modal" class="AXMobileModalPanel" style="width:', 50, 'px;left:', (AXUtil.clientWidth() - 50) / 2, 'px;">');
+		po.push('	<div  id="', modalId, '_AX_modal" class="AXMobileModalPanel" style="height:50px;width:50px;left:', (AXUtil.clientWidth() - 50) / 2, 'px;top:', (AXUtil.clientHeight() - 50) / 2,'px;">');
 		po.push('		<div  id="', modalId, '_AX_head" class="mobileModalHead">');
-		po.push('			<div class="modalTitle">' + (cfg.head.title || "Untitle") + '</div>');
+		po.push('			<div class="modalTitle">' + (cfg.head.title || "") + '</div>');
 		po.push('		</div>');
 		if (cfg.head.close) {
 			po.push('		<a ' + cfg.href + ' class="mobileModelClose">Close</a>');
@@ -4163,10 +4166,10 @@ var AXMobileModal = Class.create(AXJ, {
 		this.modalPanel = this.jQueryModal.find(".AXMobileModalPanel");
 		this.modalHead = this.modalPanel.find(".mobileModalHead");
 		this.modalBody = this.modalPanel.find(".mobileModalBody");
-		this.modalFoot = this.modalPanel.find(".mobileModalBody");
+		this.modalFoot = this.modalPanel.find(".mobileModalFoot");
 
 		this.openConfigs = configs;
-		this.setSizeModal(this.openConfigs);
+		this.setSizeModal(this.openConfigs, onLoad);
 		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
 
 		return {
@@ -4177,7 +4180,7 @@ var AXMobileModal = Class.create(AXJ, {
 			modalFoot: this.modalFoot
 		};
 	},
-	setSizeModal: function (configs) {
+	setSizeModal: function (configs, onLoad) {
 		var cfg = this.config;
 		var cssStyles = {};
 		var clientWidth, width, height, left, top, margin, align, valign;
@@ -4215,6 +4218,15 @@ var AXMobileModal = Class.create(AXJ, {
 		if (left < 0) left = margin;
 		if (top < 0) top = margin;
 
+		
+		var cssStylesStart = {
+			left: (AXUtil.clientWidth() - (modalWidth*0.8)) / 2,
+			top: (AXUtil.clientHeight() - (modalHeight*0.8)) / 2,
+			width: (modalWidth*0.8),
+			height: (modalHeight*0.8)
+		};
+		this.modalPanel.css(cssStylesStart);
+
 		cssStyles.left = left;
 		cssStyles.top = top;
 		cssStyles.width = modalWidth;
@@ -4224,22 +4236,57 @@ var AXMobileModal = Class.create(AXJ, {
 		/*this.modalPanel.addClass("open");*/
 		mask.open();
 
-		this.modalPanel.animate(cssStyles, 300, "expoInOut", function () {
-
-		});
+		var returnObj = {
+			jQueryModal: this.jQueryModal,
+			modalPanel: this.modalPanel,
+			modalHead: this.modalHead,
+			modalBody: this.modalBody,
+			modalFoot: this.modalFoot
+		};
+		
+		if(AXUtil.browser.name == "android"){
+			//alert(AXUtil.browser.version);
+			this.modalPanel.css(cssStyles);
+			if(onLoad){
+				onLoad.call(returnObj, returnObj);
+			}
+		}else{
+			this.modalPanel.animate(cssStyles, 300, "expoOut", function () {
+				if(onLoad){
+					onLoad.call(returnObj, returnObj);	
+				}
+			});			
+		}
 	},
 	close: function () {
 		var cfg = this.config;
 		mask.close();
-		this.modalPanel.animate({ top: -500 }, 300, "expoInOut", function () {
+		
+		var modalWidth, modalHeight;
+		modalWidth = this.modalPanel.width();
+		modalHeight = this.modalPanel.height();
+		
+		var cssStylesStart = {
+			left: (AXUtil.clientWidth() - (modalWidth*0.8)) / 2,
+			top: (AXUtil.clientHeight() - (modalHeight*0.8)) / 2,
+			width: (modalWidth*0.8),
+			height: (modalHeight*0.8),
+			opacity:0
+		};		
+		var remove = this.remove.bind(this);
+		this.modalPanel.animate(cssStylesStart, 300, "expoOut", function () {
+			remove();
 			if (cfg.onclose) {
 				cfg.onclose();
 			}
 		});
-		//this.modalPanel.removeClass("open");
-		this.jQueryModal.fadeOut();
-		var remove = this.remove.bind(this);
-		remove.delay(0.5);
+		this.modalPanel.empty();
+		//this.jQueryModal.fadeOut();
+		//this.remove();
+		/*
+		
+		remove.delay(0.01);
+		*/
 	},
 	remove: function () {
 		var cfg = this.config;

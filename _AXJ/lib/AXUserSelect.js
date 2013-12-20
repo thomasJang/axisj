@@ -112,16 +112,35 @@ var AXUserSelect = Class.create(AXJ, {
         this.ds = myDS;
         this.dragCollect();
     },
+    _del: function(select) {
+        var config = this.config;
+        var myDS = [];
+        $.each(this.ds, function() {
+            var delOK = 0;
+            for (var a = 0; a < select.length; a++) {
+                if (select[a] == this.id) {
+                    delOK = 1;
+                }
+            }
+            if (delOK == 1) {
+                $("#" + config.containerID + "userSelectItem_" + this.id).remove();
+            } else {
+                myDS.push(this);
+            }
+        });
+        this.ds = myDS;
+        this.dragCollect();
+    },    
     dragCollect: function() {
         this.myDrag.collectItem();
     },
     onSort: function(res) {
         var dragCollect = this.dragCollect.bind(this);
-        if (jQuery(res.dragItem).html() == jQuery(res.sortItem).html()) return;
+        if ($(res.dragItem).html() == $(res.sortItem).html()) return;
         if (res.dragItem == res.sortItem) return;
-        jQuery(res.dragItem).fadeOut("fast", function() {
-            jQuery(res.sortItem).before(this);
-            jQuery(this).show("fast");
+        $(res.dragItem).fadeOut("fast", function() {
+            $(res.sortItem).before(this);
+            $(this).show("fast");
             dragCollect();
         });
 
@@ -129,13 +148,29 @@ var AXUserSelect = Class.create(AXJ, {
     onDrop: function(res) {
         var config = this.config;
         var dragCollect = this.dragCollect.bind(this);
-        jQuery(res.dragItem).fadeOut("fast", function() {
+        $(res.dragItem).fadeOut("fast", function() {
             jQuery("#" + config.containerID + "_UserSelectBox").append(this); //예외 경우
             jQuery(this).show("fast");
             dragCollect();
         });
 
     },
+    moveup: function() {
+        var select = this.getSelect();
+
+        $.each(select, function() {
+            var prev = $(this).prev();
+            prev.before($(this));
+        });
+    },
+    movedown: function() {
+        var select = this.getSelect();
+
+        $.each(select, function() {
+            var next = $(this).next();
+            next.after($(this));
+        });
+    },    
     getSelect: function() {
         return this.myDrag.mselector.getSelects();
     },

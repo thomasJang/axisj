@@ -1695,11 +1695,10 @@
 
 .AXMobileModal .AXMobileModalPanel{
 	position:absolute;
-	left:0px;top:-500px;
-	min-height:300px;
+	left:0px;top:0px;
 	background:#d7dde3;
 	border-radius:4px;
-	box-shadow:0px 0px 6px rgba(0,0,0,30);
+	box-shadow:0px 0px 3px rgba(0,0,0,10);
 }
 
 .AXMobileModal .AXMobileModalPanel .mobileModalHead{
