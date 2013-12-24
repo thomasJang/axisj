@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.38",
+	version: "AXGrid v1.39",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -41,7 +41,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-11-18 오후 1:34:35 tom : grid owidth 버그 픽스",
 		"2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결",
 		"2013-12-11 오후 9:31:45 tom : ajax setList 그리드 스크롤포지션 문제 해결",
-		"2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결"
+		"2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결",
+		"2013-12-24 오후 2:30:25 tom : 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2067,7 +2068,7 @@ var AXGrid = Class.create(AXJ, {
 		AXUtil.overwriteObject(this.page, res.page, true);
 
 		this.printList();
-		
+
 		this.scrollTop(0);
 		this.setPaging();
 	},
@@ -3133,6 +3134,9 @@ var AXGrid = Class.create(AXJ, {
 
 			var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
 			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
+		} else {
+			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
+			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").hide();
 		}
 
 		if (scrollWidth > bodyWidth && cfg.xscroll) {
@@ -3200,6 +3204,9 @@ var AXGrid = Class.create(AXJ, {
 				};
 			}
 			var T = (this.contentScrollYAttr.scrollHeight * (pos.top) / this.contentScrollYAttr.scrollTrackYHeight).floor();
+
+			/*trace({ top: -T });*/
+
 			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: -T });
 			if (AXgetId(cfg.targetID + "_AX_fixedScrollContent")) jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: -T });
 			if (this.editorOpend) {
@@ -3498,8 +3505,10 @@ var AXGrid = Class.create(AXJ, {
 
 			if (trTop.number() + trHeight.number() > bodyHeight) {
 				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
-				this.contentScrollContentSync({ top: scrollTop });
+				if (this.body.height() < scrollHeight) {
+					jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					this.contentScrollContentSync({ top: scrollTop });
+				}
 			} else {
 				if (trTop.number() == 0) {
 					var scrollTop = 0;
@@ -4562,6 +4571,7 @@ var AXGrid = Class.create(AXJ, {
 
 		if (this.pageActive && this.ajaxInfo) {
 			this.setList(this.ajaxInfo);
+			this.contentScrollResize();
 		}
 	},
 	setStatus: function (listLength) {

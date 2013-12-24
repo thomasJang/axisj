@@ -1012,12 +1012,16 @@ var AXUtil = {
 			}
 		}
 
-		if (window.console == undefined) {
-		} else {
-			try {
-				console.log(po);
-			} catch (e) {
-
+		if(AXUtil.mobileConsole){
+			AXUtil.mobileConsole.append("<div>" + po + "</div>");
+		}else{
+			if (window.console == undefined) {
+			} else {
+				try {
+					console.log(po);
+				} catch (e) {
+	
+				}
 			}
 		}
 	},
@@ -1117,6 +1121,10 @@ var AXUtil = {
 			pars.push(strContent.substring(0, dotIndex) + "=" + strContent.substring(dotIndex + 1).enc());
 		}
 		return pars.join("&");
+	},
+	readyMobileConsole: function(){
+		AXUtil.mobileConsole = jQuery("<div class=\"AXMobileConsole\"></div>");
+		jQuery(document.body).append(AXUtil.mobileConsole);
 	}
 };
 var trace = AXUtil.console;
@@ -1413,13 +1421,22 @@ var AXMask = Class.create(AXJ, {
 	init: function () {
 		this.mask = jQuery("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
 	},
-	open: function (val) {
+	open: function (configs) {
 		jQuery(document.body).append(this.mask);
 		var bodyHeight = 0;
 		(AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
+		
+		if(configs){
+			if(!configs.onclick) configs.onclick = configs.onClick;
+			if(configs.onclick){
+				this.mask.bind("click.AXMask", configs.onclick);
+			}
+		}
 	},
+	
 	close: function (delay) {
 		if (!delay) {
+			this.mask.unbind("click.AXMask");
 			this.mask.remove();
 		} else {
 			var maskHide = this.hide.bind(this);
@@ -1428,6 +1445,7 @@ var AXMask = Class.create(AXJ, {
 		this.blinkTrack.clear();
 	},
 	hide: function () {
+		this.mask.unbind("click.AXMask");
 		this.mask.remove();
 		this.blinkTrack.clear();
 	},
@@ -4144,11 +4162,12 @@ var AXMobileModal = Class.create(AXJ, {
 		if (cfg.addClass) {
 			theme += " " + cfg.addClass;
 		}
-		var modalId = "AXMobileModal" + AXUtil.timekey();
+		this.modalId = "AXMobileModal" + AXUtil.timekey();
+		var modalId = this.modalId;
 		var clientWidth = (configs.clientWidth || AXUtil.clientWidth());
 		
 		var po = [];
-		po.push('<div id="', modalId, '" class="', theme, '" style="left:0px;top:0px;width:', AXUtil.clientWidth(), 'px;height:', AXUtil.clientHeight(), 'px;">');
+		po.push('<div id="', modalId, '" class="', theme, '" style="left:0px;top:0px;width:100%;height:100%;">');
 		po.push('	<div  id="', modalId, '_AX_modal" class="AXMobileModalPanel" style="height:50px;width:50px;left:', (AXUtil.clientWidth() - 50) / 2, 'px;top:', (AXUtil.clientHeight() - 50) / 2,'px;">');
 		po.push('		<div  id="', modalId, '_AX_head" class="mobileModalHead">');
 		po.push('			<div class="modalTitle">' + (cfg.head.title || "") + '</div>');
@@ -4171,7 +4190,10 @@ var AXMobileModal = Class.create(AXJ, {
 		this.openConfigs = configs;
 		this.setSizeModal(this.openConfigs, onLoad);
 		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
-
+		this.jQueryModal.bind("click", this.modalClick.bind(this));
+		
+		jQuery(window).unbind("resize.AXMobileModal").bind("resize.AXMobileModal", this.reposition.bind(this));
+		
 		return {
 			jQueryModal: this.jQueryModal,
 			modalPanel: this.modalPanel,
@@ -4192,7 +4214,11 @@ var AXMobileModal = Class.create(AXJ, {
 		var margin = (configs.margin || cfg.margin);
 		var align = (configs.align || cfg.align);
 		var valign = (configs.valign || cfg.valign);
-
+		
+		this.openModalAttr = {
+			width:width, height:height, margin:margin, align:align, valign:valign
+		};
+		
 		if (width == "auto") {
 			if (margin.right(1) == "%") {
 				modalWidth = clientWidth * (100 - margin.number() * 2) / 100;
@@ -4231,7 +4257,7 @@ var AXMobileModal = Class.create(AXJ, {
 		cssStyles.top = top;
 		cssStyles.width = modalWidth;
 		cssStyles.height = modalHeight;
-
+		
 		/*cssStyles.transform = "rotateY(180deg)";*/
 		/*this.modalPanel.addClass("open");*/
 		mask.open();
@@ -4256,6 +4282,12 @@ var AXMobileModal = Class.create(AXJ, {
 					onLoad.call(returnObj, returnObj);	
 				}
 			});			
+		}
+	},
+	modalClick: function(event){
+		var cfg = this.config;
+		if(event.target.id == this.modalId){
+			this.close();
 		}
 	},
 	close: function () {
@@ -4287,10 +4319,59 @@ var AXMobileModal = Class.create(AXJ, {
 		
 		remove.delay(0.01);
 		*/
+		
+		jQuery(window).unbind("resize.AXMobileModal");
 	},
 	remove: function () {
 		var cfg = this.config;
 		this.jQueryModal.remove();
+	},
+	reposition: function(){
+		var cfg = this.config;
+		
+		var clientWidth = AXUtil.clientWidth();
+		var clientHeight = AXUtil.clientHeight();
+		this.jQueryModal.css({width:clientWidth, height:clientHeight});
+		
+		var modalWidth, modalHeight, left, top;
+		var width = this.openModalAttr.width;
+		var height = this.openModalAttr.height;
+		var margin = this.openModalAttr.margin;
+		var align = this.openModalAttr.align;
+		var valign = this.openModalAttr.valign;
+		var cssStyles = {};
+		
+		if (width == "auto") {
+			if (margin.right(1) == "%") {
+				modalWidth = clientWidth * (100 - margin.number() * 2) / 100;
+			} else {
+				modalWidth = clientWidth - margin.number() * 2;
+			}
+		} else {
+			modalWidth = width;
+		}
+		left = (clientWidth - modalWidth) / 2;
+
+		if (height == "auto") {
+			if (margin.right(1) == "%") {
+				modalHeight = clientHeight * (100 - margin.number() * 2) / 100;
+			} else {
+				modalHeight = clientHeight - margin.number() * 2;
+			}
+		} else {
+			modalHeight = height;
+		}
+		top = (clientHeight - modalHeight) / 2;
+
+		if (left < 0) left = margin;
+		if (top < 0) top = margin;
+
+		cssStyles.left = left;
+		cssStyles.top = top;
+		cssStyles.width = modalWidth;
+		cssStyles.height = modalHeight;
+		
+		this.modalPanel.css(cssStyles);
 	}
 });
 /* ********************************************** AXMobileModal ** */

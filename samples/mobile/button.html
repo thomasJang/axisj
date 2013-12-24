@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AX for Mobile</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+	
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXMobileMenu.css" />
+	<style type="text/css">
+	H2{font-family:consolas;}
+	
+	
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+
+			
+			fnObj.pageTabBind();
+			AXCode.bind(); // 소스보기
+		},
+		pageTabBind: function(){
+			$("#demoPageTabTarget").bindTab({value: "mobileButton", overflow: "visible", options: myTabOption, onchange: pageTabChange});
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+	<div style="padding:20px;">
+		
+		<div id="demoPageTabTarget"></div>
+		
+		<div style="padding:20px 0px;">
+			<h2>AXButton</h2>
+			<button class="AXButton">Button</button>
+			<button class="AXButton">버튼</button>
+			
+			<div class="Hspace20"></div>
+			
+			<h2>AXButtonSmall</h2>
+			<button class="AXButtonSmall">Button</button>
+			<button class="AXButtonSmall">버튼</button>
+			
+			<div class="Hspace20"></div>
+			
+			<h2>AXButtonLarge</h2>
+			<button class="AXButtonLarge">Button</button>
+			<button class="AXButtonLarge">버튼</button>
+			
+			<div class="Hspace20"></div>
+			
+			<h2>AXButton Color</h2>
+			<button class="AXButton Classic">Classic</button>
+			<button class="AXButton Red">Red</button>
+			<button class="AXButton Blue">Blue</button>
+			<button class="AXButton Green">Green</button>
+			
+			<div class="Hspace10"></div>
+			
+			<button class="AXButtonSmall Classic">Classic</button>
+			<button class="AXButtonSmall Red">Red</button>
+			<button class="AXButtonSmall Blue">Blue</button>
+			<button class="AXButtonSmall Green">Green</button>
+			
+			<div class="Hspace10"></div>
+			
+			<button class="AXButtonLarge Classic">Classic</button>
+			<button class="AXButtonLarge Red">Red</button>
+			<button class="AXButtonLarge Blue">Blue</button>
+			<button class="AXButtonLarge Green">Green</button>
+			
+			<div class="Hspace20"></div>
+			<div class="Hspace20"></div>
+		</div>
+		
+
+	</div>
+</body>
+</html>

@@ -51,13 +51,13 @@
 }
 
 .AXCodeViewer .Textbox{
-	position:absolute; right:0px; bottom:0px;
-	width:500px; height:500px;
-	border:1px solid #444; background:#fff;
-	padding:5px; margin:0px 0px 0px 0px;
+	position:absolute;right:0px;bottom:0px;
+	width:500px;height:500px;
+	border:1px solid #444;background:#fff;
+	padding:5px;margin:0px 0px 0px 0px;
 	box-shadow:0px 0px 3px #888;
 	border-radius:5px;
-	font-size:12px; color:#525252;
+	font-size:12px;color:#525252;
 	display:none;
 }
 .AXCodeViewer .Textbox .closeBtn{
@@ -72,27 +72,27 @@
 }
 	.AXScroll .scrollTrack{
 		z-index:100;
-		position:absolute; right:0px; top:2px;
-		width:7px; height:100%; background:#000;
-		-moz-opacity:0.2; opacity:.20; filter:alpha(opacity=20);
-		border-radius:1px; -webkit-border-radius:1px; -moz-border-radius:1px;
+		position:absolute;right:3px;top:2px;
+		width:7px;height:100%;background:#000;
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
 	.AXScroll .scrollTrack_hover{
-		-moz-opacity:0.2; opacity:.20; filter:alpha(opacity=20);
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
 	}
 	.AXScroll .scrollBar{
 		z-index:100;
-		position:absolute; right:0px; top:2px;
-		width:7px; min-height:10px; background:#000;
-		-moz-opacity:0.5; opacity:.05; filter:alpha(opacity=50);
-		border-radius:1px; -webkit-border-radius:1px; -moz-border-radius:1px;
+		position:absolute;right:3px;top:2px;
+		width:7px;min-height:10px;background:#000;
+		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
 	.AXScroll .scrollBar:hover{
 		width:11px;
 		right:1px;
 	}
 	.AXScroll .scrollBar_hover{
-		-moz-opacity:0.5; opacity:.50; filter:alpha(opacity=50);
+		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
 	}
 	.AXScroll .scrollTarget{
 		position:absolute;left:0px;top:0px;
@@ -126,34 +126,35 @@
 	.AXScroll .xscrollTarget{
 		position:absolute;left:0px;top:0px;
 	}
+	
 
 .AXScrollSmall{
 	position:relative;overflow:hidden;
 }
 	.AXScrollSmall .scrollTrack{
-		position:absolute; right:0px; top:2px;
-		width:6px; height:100%; background:#000;
-		-moz-opacity:0.1; opacity:.10; filter:alpha(opacity=10);
-		border-radius:1px; -webkit-border-radius:1px; -moz-border-radius:1px;
+		position:absolute;right:3px;top:2px;
+		width:6px;height:100%;background:#000;
+		-moz-opacity: 0.1;opacity:.10;filter: alpha(opacity=10);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
 	.AXScrollSmall .scrollTrack_hover{
-		-moz-opacity:0.2; opacity:.20; filter:alpha(opacity=20);
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
 	}
 	.AXScrollSmall .scrollBar{
-		position:absolute; right:0px; top:2px;
-		width:6px; min-height:10px; background:#000;
-		-moz-opacity:0.3; opacity:.30; filter:alpha(opacity=30);
-		border-radius:1px; -webkit-border-radius:1px; -moz-border-radius:1px;
+		position:absolute;right:3px;top:2px;
+		width:6px;min-height:10px;background:#000;
+		-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
 	.AXScrollSmall .scrollBar:hover{
 		width:10px;
 		right:1px;
 	}
 	.AXScrollSmall .scrollBar_hover{
-		-moz-opacity:0.5; opacity:.50; filter:alpha(opacity=50);
+		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
 	}
 	.AXScrollSmall .scrollTarget{
-		position:absolute; left:0px; top:0px;
+		position:absolute;left:0px;top:0px;
 	}
 /* ------------------ AXScroll ----------------------- */
 
@@ -165,25 +166,30 @@
 	cursor:pointer;
 	vertical-align:middle;
 	height:26px;
-	padding:0px 10px;
+	padding:0px 5px;
 	margin:0px 0px;
-	border:0px solid #b9babc; border-radius:2px;
-	font-size:12px; color:#6e7a86; line-height:1em; font-weight:600;
-	background:#e5e5e5;
+	border:1px solid #b9babc;border-radius:4px;
+	font-size:12px;color:#6e7a86;line-height:1em;
+	background:url(img/defaultRegular.png) repeat-x;
+	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
-.AXButton:hover{
-	border:0px solid #949fa8;
-	background:#cacaca;
-	box-shadow:0px 1px 2px #aaa inset;
+.AXButton:hover, .AXButton:focus{
+	border:1px solid #949fa8;
+	background-position:0px -26px;
+	box-shadow:0px 1px 3px #c8cacd;
+	text-shadow:0px 1px #fff;
 }
 .AXButton:active{
-	border:0px solid #b9babc;
-	color:#6e7a86;
+	border:1px solid #b9babc;
+	background-position:0px -52px;
+	box-shadow:none;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXButton SPAN{
 	display:block;
-	height:24px; line-height:24px;
+	height:24px;line-height:24px;
 	vertical-align:middle;
 }
 
@@ -192,21 +198,24 @@
 	height:20px;
 	padding:0px 5px;
 	margin:0px 0px;
-	border:0px solid #b9babc; border-radius:2px;
-	font-size:11px; color:#6e7a86; line-height:19px; font-weight:400;
-	background:#e5e5e5;
+	border:1px solid #b9babc;border-radius:4px;
+	font-size:11px;color:#6e7a86;line-height:19px;
+	background:url(img/defaultSmall.png) repeat-x;
+	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
-.AXButtonSmall:hover{
-	border:0px solid #949fa8;
-	background:#cacaca;
-	box-shadow:0px 1px 2px #aaa inset;
+.AXButtonSmall:hover, .AXButtonSmall:focus{
+	border:1px solid #949fa8;
+	background-position:0px -20px;
+	box-shadow:0px 1px 3px #c8cacd;
+	text-shadow:0px 1px #fff;
 }
 .AXButtonSmall:active{
-	border:0px solid #b9babc;
+	border:1px solid #b9babc;
 	background-position:0px -40px;
 	box-shadow:none;
-	color:#6e7a86;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonSmall SPAN{
 	display:block;
@@ -220,21 +229,24 @@
 	height:46px;
 	padding:0px 10px;
 	margin:0px 0px;
-	border:0px solid #b9babc;border-radius:2px;
-	font-size:12px; color:#6e7a86; line-height:46px; font-weight:600;
-	background:#e5e5e5;
+	border:1px solid #b9babc;border-radius:4px;
+	font-size:12px;color:#6e7a86;line-height:46px;
+	background:url(img/defaultLarge.png) repeat-x;
+	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
-.AXButtonLarge:hover{
-	border:0px solid #949fa8;
-	background:#cacaca;
-	box-shadow:0px 1px 2px #aaa inset;
+.AXButtonLarge:hover, .AXButtonLarge:focus{
+	border:1px solid #949fa8;
+	background-position:0px -46px;
+	box-shadow:0px 1px 3px #c8cacd;
+	text-shadow:0px 1px #fff;
 }
 .AXButtonLarge:active{
-	border:0px solid #b9babc;
-	background:#cacaca;
+	border:1px solid #b9babc;
+	background-position:0px -92px;
 	box-shadow:none;
-	color:#6e7a86;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonLarge SPAN{
 	display:block;
@@ -311,29 +323,30 @@
 }
 .AXNotification{
 	width:300px;
-	border:0px solid #c5c5c5; background:#ebebeb;
+	border:1px solid #c5c5c5;background:#ebebeb;
 	padding:10px;margin:10px 0px;
-	-moz-opacity: 0.9; opacity:.90; filter:alpha(opacity=90);
-	box-shadow:0px 0px 3px #b2b2b2;
-	border-radius:2px;
-	font-size:12px; color:#525252;
+	-moz-opacity: 0.9;opacity:.90;filter: alpha(opacity=90);
+	box-shadow:0px 0px 5px #b2b2b2;
+	border-radius:5px;
+	font-size:12px;color:#525252;
 }
 
 .AXNotificationTrayDialog .AXNotification{
 	width:340px;
-	border:0px solid #444;background:#ebebeb;
+	border:1px solid #444;background:#ebebeb;
 	padding:0px;margin:0px 0px;
 	-moz-opacity: 1;opacity:1.00;filter: alpha(opacity=100);
 	box-shadow:0px 0px 3px #888;
-	border-radius:2px;
+	border-radius:5px;
 	font-size:12px;color:#525252;
 	overflow:hidden;
 }
 
 	.AXNotification .AXNotificationHead{
-		font-weight:bold; color:#fff; 
+		font-weight:bold;
+		color:#717b85;text-shadow:0px 1px #fff;
 		padding:5px 15px;height:20px;line-height:20px;
-		background:#526271;
+		background:url(img/dialogTitle.png) repeat-x;
 		text-align:center;
 	}
 	.AXNotification .AXNotificationTable{
@@ -353,19 +366,19 @@
 		background:url(img/notificationComplete.png) no-repeat center 5px !important;
 	}
 	.AXNotification .AXNotificationBody{
-		font-size:12px; color:#525252; padding-right:5px;
+		font-size:12px;color:#525252;padding-right:5px;
 		line-height:1.6em;
 	}
 
 		.AXNotification .AXNotificationBody B{
-			color:#526271; font-weight:800;
+			color:#477e47;
 		}
 	.AXNotification .AXNotificationButton{
 		width:45px;
 	}
 	.AXNotification .AXNotificationButtons{
 		padding:10px 0px;
-		text-align:center; background:#ebebeb;
+		text-align:center;background:#ebebeb;
 	}
 
 	/* Warning */
@@ -374,7 +387,7 @@
 		background:url(img/notificationWarning.png) no-repeat center center !important;
 	}
 		.AXNotification.Warning .AXNotificationBody B{
-			color:#e59a00; font-weight:800;
+			color:#bf601b;
 		}
 
 	/* Caution */
@@ -383,7 +396,7 @@
 		background:url(img/notificationCaution.png) no-repeat center center !important;
 	}
 	.AXNotification.Caution .AXNotificationBody B{
-		color:#f2524f; font-weight:800;
+		color:#7e302c;
 	}
 
 
@@ -393,26 +406,30 @@
 	vertical-align:middle;
 }
 .AXInput{
-	border:1px solid #ccc; background:#fff;
-	border-radius:2px;
-	font-size:12px; line-height:15px; height:15px;
+	border:1px solid #b6b6b6;background:#fff;
+	box-shadow:inset 0px 1px 2px #dddddd;
+	border-radius:4px;
+	font-size:12px;line-height:15px;height:15px;
 	padding:4px;
 	margin:0px auto;
 }
 
 .AXInput:focus{
-	border:1px solid #44acf0;
+	border:1px solid #949fa8;
+	box-shadow:inset 0px 0px 3px #949fa8;
 }
 
 .AXInputSmall{
-	border:1px solid #ccc;
-	border-radius:2px;
-	font-size:12px; line-height:14px; height:12px;
+	border:1px solid #b6b6b6;
+	box-shadow:inset 0px 1px 1px #dddddd;
+	border-radius:4px;
+	font-size:12px;line-height:12px;height:12px;
 	padding:3px 3px;
 	margin:0px auto;
 }
 .AXInputSmall:focus{
-	border:1px solid #44acf0;
+	border:1px solid #949fa8;
+	box-shadow:inset 0px 0px 3px #949fa8;
 }
 
 .AXInput.W30{width:30px;}
@@ -465,31 +482,36 @@
 
 .AXInput[readonly]{
 	background:#eee;
-	color:#676767;
+	color:#676767;text-shadow:0px 1px #fff;
+	box-shadow:inset 0px 1px 2px #b1b1b1;
 }
 
 .AXInput[disabled]{
-	background:#bfbfbf;
-	color:#fff;
+	background:url(img/defaultRegular.png) repeat-x;
+	background-position:0px -78px;
+	color:#fff;text-shadow:0px -1px #b7b7b7;
+	box-shadow:inset 0px 1px 2px #b1b1b1;
 }
 
 .AXInputSmall[disabled]{
-	background:#bfbfbf;
-	color:#fff;
+	background:url(img/defaultSmall.png) repeat-x;
+	background-position:0px -60px;
+	color:#fff;text-shadow:0px -1px #b7b7b7;
+	box-shadow:inset 0px 1px 2px #b1b1b1;
 }
 .AXInputSmall[readonly]{
 	background:#eee;
-	color:#676767;
+	color:#676767;text-shadow:0px 1px #fff;
+	box-shadow:inset 0px 1px 2px #b1b1b1;
 }
 
 .AXCheckbox{
-	position:relative; display:inline-block;
-	height:26px; line-height:26px;
-	padding:1px 0 0 30px; margin:0 0px 0 0;
-	font-weight:normal; vertical-align:top; white-space:nowrap; cursor:pointer;
+	position:relative;display:inline-block;
+	height:26px;line-height:26px;
+	padding:1px 0 0 30px;margin:0 0px 0 0;
+	font-weight:normal;vertical-align:top;white-space:nowrap;cursor:pointer;
 	overflow:hidden;
 	background:url(img/AXCheckbox.png) no-repeat left 0px;
-	background-size:26px 78px;
 }
 .AXCheckbox.checked{
 	background-position:left -26px;
@@ -553,7 +575,7 @@
 /* ---------------------------- AXTabs ------------------------------- */
 	/* horizen AXTabs */
 .AXTabs{
-	position:relative; min-height:30px;
+	position:relative;min-height:30px;
 	overflow:hidden;
 }
 .AXTabs .AXTabsTray{
@@ -561,35 +583,35 @@
 }
 .AXTabs .AXTabsTray .trayScroll{
 	position:absolute;
-	left:0px; top:0px;
+	left:0px;top:0px;
 	height:30px;
 }
 .AXTabs .AXTabsTray .AXTab{
-	display:block; float:left;
+	display:block;float:left;
 	cursor:pointer;
-	height:26px; min-width:50px;
+	height:26px;min-width:50px;
 	padding:0px 10px;
 	margin:2px 0px 0px 2px;
 	border:1px solid #b9babc;
-	border-bottom-color:#b9babc;
-	border-top-left-radius:2px; border-top-right-radius:2px;
-	font-size:12px; color:#6e7a86; line-height:26px; text-align:center;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
 	text-decoration:none;
-	background:#e5e5e5;
+	background:url(img/defaultRegular.png) repeat-x;
 	outline:none;
 }
-.AXTabs .AXTabsTray .AXTab:hover{
-	border-top:1px solid #949fa8;
-	background:#ccc;
-	color:#333;
+.AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+	background-position:0px -26px;
+	text-shadow:0px 1px #fff;
 }
 .AXTabs .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;
-	background:#ccc;
-	color:#6e7a86;
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+	background-position:0px -52px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXTabs .AXTabsTray .AXTab.on{
-	background:#fff; border-bottom:1px solid #fff;
+	background:#fff;border-bottom:1px solid #fff;
 }
 
 .AXTabs .leftArrowHandleBox{
@@ -642,21 +664,22 @@
 	padding:0px 10px;
 	margin:4px 0px 0px 4px;
 	border:1px solid #b9babc;
-	border-top-left-radius:2px; border-top-right-radius:2px;
-	font-size:14px; color:#6e7a86; line-height:42px; text-align:center;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
 	text-decoration:none;
-	background:#e5e5e5;
+	background:url(img/defaultLarge.png) repeat-x;
 	outline:none;
 }
-.AXTabsLarge .AXTabsTray .AXTab:hover{
+.AXTabsLarge .AXTabsTray .AXTab:hover, .AXTabsLarge .AXTabsTray .AXTab:focus{
 	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background:#ccc; 
-	color:#333;
+	background-position:0px -46px;
+	text-shadow:0px 1px #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc; border-left:1px solid #b9babc; border-right:1px solid #b9babc;
-	background:#ccc;
-	color:#6e7a86
+	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+	background-position:0px -92px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXTabsLarge .AXTabsTray .AXTab.on{
 	background:#fff;border-bottom:1px solid #fff;
@@ -678,28 +701,29 @@
 .AXTabsSmall .AXTabsTray .AXTab{
 	display:block;float:left;
 	cursor:pointer;
-	height:20px; min-width:60px;
+	height:20px;min-width:60px;
 	padding:0px 10px;
 	margin:2px 0px 0px 1px;
 	border:1px solid #b9babc;
-	border-top-left-radius:2px; border-top-right-radius:2px;
-	font-size:11px; color:#6e7a86; line-height:20px; text-align:center;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
 	text-decoration:none;
-	background:#e5e5e5;
+	background:url(img/defaultSmall.png) repeat-x;
 	outline:none;
 }
-.AXTabsSmall .AXTabsTray .AXTab:hover{
-	border-top:1px solid #949fa8; border-left:1px solid #949fa8; border-right:1px solid #949fa8;
-	background:#ccc;
-	color:#333;
+.AXTabsSmall .AXTabsTray .AXTab:hover, .AXTabsSmall .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+	background-position:0px -20px;
+	text-shadow:0px 1px #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab:active{
 	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background:#ccc;
-	color:#6e7a86;
+	background-position:0px -40px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXTabsSmall .AXTabsTray .AXTab.on{
-	background:#fff; border-bottom:1px solid #fff;
+	background:#fff;border-bottom:1px solid #fff;
 }
 
 
@@ -749,38 +773,39 @@
 .AXTabsVertical .AXTabsTray .AXTab{
 	display:block;
 	cursor:pointer;
-	width:26px; min-height:80px;
+	width:26px;min-height:80px;
 	padding:10px 0px;
 	margin:2px 0 0 2px;
 	border:1px solid #b9babc;
-	font-size:12px; color:#6e7a86;
+	font-size:12px;color:#6e7a86;
 	text-decoration:none;
 	outline:none;
 	position:relative;
 }
 .AXTabsVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:2px; border-bottom-left-radius:2px;
-	background:#e5e5e5;
+	border-top-left-radius:4px;border-bottom-left-radius:4px;
+	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
 }
 .AXTabsVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:2px; border-bottom-right-radius:2px;
-	background:#e5e5e5;
+	border-top-right-radius:4px;border-bottom-right-radius:4px;
+	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
 }
-.AXTabsVertical .AXTabsTray .AXTab:hover{
+.AXTabsVertical .AXTabsTray .AXTab:hover, .AXTabsVertical .AXTabsTray .AXTab:focus{
 	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background:#ccc; 
-	color:#333;
+	background-position:-26px 0px;
+	text-shadow:0px 1px #fff;
 }
-.AXTabsVertical.leftSide .AXTabsTray .AXTab:hover{
+.AXTabsVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab:focus{
 	border-left:1px solid #949fa8;
 }
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover{
+.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab:focus{
 	border-right:1px solid #949fa8;
 }
 .AXTabsVertical .AXTabsTray .AXTab:active{
 	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background:#ccc;
-	color:#6e7a86
+	background-position:-52px 0px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXTabsVertical.leftSide .AXTabsTray .AXTab:active{
 	border-left:1px solid #b9babc;
@@ -851,27 +876,29 @@
 	position:relative;
 }
 .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:2px; border-bottom-left-radius:2px;
-	background:#e5e5e5;
+	border-top-left-radius:4px;border-bottom-left-radius:4px;
+	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
 }
 .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:2px;border-bottom-right-radius:2px;
-	background:#e5e5e5;
+	border-top-right-radius:4px;border-bottom-right-radius:4px;
+	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
 }
-.AXTabsLargeVertical .AXTabsTray .AXTab:hover{
+.AXTabsLargeVertical .AXTabsTray .AXTab:hover, .AXTabsLargeVertical .AXTabsTray .AXTab:focus{
 	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background:#ccc;
+	background-position:-46px 0px;
+	text-shadow:0px 1px #fff;
 }
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:hover{
+.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:focus{
 	border-left:1px solid #949fa8;
 }
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:hover{
+.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:focus{
 	border-right:1px solid #949fa8;
 }
 .AXTabsLargeVertical .AXTabsTray .AXTab:active{
 	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background:#ccc;
-	color:#333;
+	background-position:-92px 0px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:active{
 	border-left:1px solid #b9babc;
@@ -942,27 +969,29 @@
 	position:relative;
 }
 .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:2px; border-bottom-left-radius:2px;
-	background:#e5e5e5;
+	border-top-left-radius:4px;border-bottom-left-radius:4px;
+	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
 }
 .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:2px; border-bottom-right-radius:2px;
-	background:#e5e5e5;
+	border-top-right-radius:4px;border-bottom-right-radius:4px;
+	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
 }
-.AXTabsSmallVertical .AXTabsTray .AXTab:hover{
-	border-top:1px solid #949fa8; border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background:#ccc;
+.AXTabsSmallVertical .AXTabsTray .AXTab:hover, .AXTabsSmallVertical .AXTabsTray .AXTab:focus{
+	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+	background-position:-20px 0px;
+	text-shadow:0px 1px #fff;
 }
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:hover{
+.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:focus{
 	border-left:1px solid #949fa8;
 }
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:hover{
+.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.rihgtSide .AXTabsTray .AXTab:focus{
 	border-right:1px solid #949fa8;
 }
 .AXTabsSmallVertical .AXTabsTray .AXTab:active{
 	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background:#ccc;
-	color:#333;
+	background-position:-40px 0px;
+	color:#fff;
+	text-shadow:0px 1px #c5ccd0;
 }
 .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:active{
 	border-left:1px solid #b9babc;
@@ -971,10 +1000,10 @@
 	border-right:1px solid #b9babc;
 }
 .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff; border-right:1px solid #fff;
+	background:#fff;border-right:1px solid #fff;
 }
 .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff; border-left:1px solid #fff;
+	background:#fff;border-left:1px solid #fff;
 }
 .AXTabsSmallVertical .AXTabsTray .AXTab .AXTabText{
 	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
@@ -1009,20 +1038,21 @@
 /* ---------------------------- AXCalendar ------------------------------- */
 
 .AXCalendar{
-	position:relative; width:181px;
+	position:relative;width:181px;
 }
+
 	.AXCalendar table.calendarPage{
-		table-layout:fixed; width:100%;
+		table-layout:fixed;width:100%;
 	}
 	.AXCalendar table.calendarPage thead td{
-		font-size:8px; font-family:'Arial';
-		height:20px; line-height:20px;
-		padding:0px; text-align:center;
-		border-right:0px solid #f2f2f3;
-		border-bottom:0px solid #b9babc;
+		font-size:8px;font-family:'Arial';
+		height:20px;line-height:20px;
+		padding:0px;text-align:center;
+		border-right:1px solid #f2f2f3;
+		border-bottom:1px solid #b9babc;
 	}
 	.AXCalendar table.calendarPage thead td.head_0{
-		
+
 	}
 	.AXCalendar table.calendarPage thead td.head_6{
 		border-right:0px none;
@@ -1034,13 +1064,13 @@
 	.AXCalendar table.calendarPage thead td.dayofweek_4{color:#7b7b7b;}
 	.AXCalendar table.calendarPage thead td.dayofweek_5{color:#7b7b7b;}
 	.AXCalendar table.calendarPage thead td.dayofweek_6{color:#627d9b;}
-	
+
 	.AXCalendar table.calendarPage tbody td{
-		height:25px; line-height:25px;
-		padding:0px; text-align:center;
-		border-right:0px solid #b9babc;
-		border-bottom:0px solid #b9babc;
-		background:#526271;
+		height:25px;line-height:25px;
+		padding:0px;text-align:center;
+		border-right:1px solid #b9babc;
+		border-bottom:1px solid #b9babc;
+		background:url(img/calendarBgs.png) repeat-x 0px -26px;
 	}
 
 	.AXCalendar table.calendarPage tbody td.bodyCol_6{
@@ -1050,91 +1080,90 @@
 		border-bottom:0px none;
 	}
 	.AXCalendar table.calendarPage tbody td.setDate{
-		background:#00bc9a;
+		background:url(img/calendarBgs.png) repeat-x 0px -76px;
 	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate{
-		display:block; height:25px; line-height:25px;
-		text-decoration:none; color:#eee;
-		font-size:10px; font-family:Arial; 
+		display:block;height:25px;line-height:25px;
+		text-decoration:none;color:#6d6e71;
+		font-size:11px;font-family:Arial;font-weight:bold;
 	}
 	.AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate{
 		color:#c78b82;
 	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate.notThisMonth{
-		color:#999;
+		color:#bfbfc1;
 	}
 
 	.AXCalendar table.calendarPage tbody td A.calendarDate:hover{
-		background:#748799;
+		background:#d8e1e7;
 	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate:active{
-		background:#00bc9a; color:#fff;
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
 	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate.selected{
-		background:#5ea3db; color:#fff;
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
 	}
-
-
-
 
 	.AXCalendar table.calendarPageMonth{
-		table-layout:fixed; width:100%;
+		table-layout:fixed;width:100%;
 	}
 	.AXCalendar table.calendarPageMonth tbody td{
-		height:43px; line-height:43px;
-		padding:0px; text-align:center;
-		border-right:0px solid #b9babc;
-		border-bottom:0px solid #b9babc;
-		background:#526271;
+		height:43px;line-height:43px;
+		padding:0px;text-align:center;
+		border-right:1px solid #b9babc;
+		border-bottom:1px solid #b9babc;
+		background:url(img/calendarBgs.png) repeat-x 0px -101px;
 	}
 	.AXCalendar table.calendarPageMonth tbody td.bodyCol_2{
 		border-right:0px none;
 	}
 	.AXCalendar table.calendarPageMonth tbody td.bodyRow_3{
-		border-bottom:0px none; padding-bottom:1px;
+		border-bottom:0px none;padding-bottom:1px;
 	}
 	.AXCalendar table.calendarPageMonth tbody td.setDate{
-		background:#00bc9a;
+		background:#f3e2df;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth{
-		display:block; height:43px; line-height:43px;
-		text-decoration:none; color:#fff;
-		font-size:11px; font-family:Arial;
+		display:block;height:43px;line-height:43px;
+		text-decoration:none;color:#6d6e71;
+		font-size:12px;font-family:Arial;font-weight:bold;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth:hover{
-		background:#748799;
+		background:#d8e1e7;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth:active{
-		background:#00bc9a; color:#fff;
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth.selected{
-		background:#00bc9a; color:#fff;
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
 	}
 
 	.AXCalendar .timeBox{
-		position:relative; height:90px;
+		position:relative;height:90px;
 	}
 		.AXCalendar .timeBox .hourTitle{
-			position:absolute; left:5px; top:18px;
-			color:#738089; font-size:11px; line-height:24px; font-family:Arial;
+			position:absolute;left:5px;top:18px;
+			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			text-shadow:0px 1px #fff;
 		}
 		.AXCalendar .timeBox .hourSlider{
-			position:absolute; left:45px; top:15px;
+			position:absolute;left:45px;top:15px;
 		}
 		.AXCalendar .timeBox .minuteTitle{
-			position:absolute; left:5px; top:53px;
-			color:#738089; font-size:11px; line-height:24px; font-family:Arial;
-			
+			position:absolute;left:5px;top:53px;
+			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			text-shadow:0px 1px #fff;
 		}
 		.AXCalendar .timeBox .minuteSlider{
-			position:absolute; left:45px;top:50px;
+			position:absolute;left:45px;top:50px;
 		}
 		.AXCalendar .timeBox .timeDisplay{
-			position:absolute; left:5px; top:90px;
-			border:1px solid #7f8d9c; background:#a3b0b9;
+			position:absolute;left:5px;top:90px;
+			border:1px solid #7f8d9c;background:#a3b0b9;box-shadow:inset 0px 1px 2px #828282;
 			border-radius:5px;
-			padding:0px 20px; margin:0px;
-			font-size:12px; color:#fff; font-family:Arial; line-height:22px;
+			padding:0px 20px;margin:0px;
+			font-size:12px;color:#fff;font-family:Arial;line-height:22px;
+			text-shadow:0px -1px #8a939e;
 			outline:none;
 			white-space:nowrap;
 		}
@@ -1148,23 +1177,24 @@
 	position:absolute;left:10px;top:10px;z-index:5001;
 }
 .AXModalBox .windowbox{
-	border:0px solid #a6a6a6; background:#fff; border-radius:2px;
+	border:1px solid #a6a6a6;background:#fff;
 	box-shadow:0px 0px 1px #a6a6a6;
-	padding:0px; margin:0px 0px 10px 0px;
-	font-size:12px; color:#525252;
+	padding:0px;margin:0px 0px 10px 0px;
+	font-size:12px;color:#525252;
 }
 .AXModalBox .windowbox .windowboxFrame{
-	-moz-opacity: 0.0;opacity:.00; filter: alpha(opacity=00);
+	-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=00);
 }
 .AXModalBox .windowbox .windowboxFrame.loaded{
-	-moz-opacity: 1.0;opacity:1; filter: alpha(opacity=100);
+	-moz-opacity: 1.0;opacity:1;filter: alpha(opacity=100);
 }
 .AXModalBox .windowbox .closeBtn{
-	position:absolute; right:10px; top:10px;
-	display:block; width:20px; height:20px;
+	position:absolute;right:-39px;top:0px;
+	display:block;width:38px;height:38px;
 	background:url(img/axmodalClose.png) no-repeat;
-	border:0px solid #a6a6a6; border-left:0px none;
-	overflow:hidden; text-indent:-1000px;
+	border:1px solid #a6a6a6;border-left:0px none;
+	box-shadow:0px 0px 1px #a6a6a6;
+	overflow:hidden;text-indent:-1000px;
 }
 /**************************************************************************** AXModal */
 
@@ -1173,17 +1203,17 @@
 /* AXContextMenu *************************************************************************** */
 .AXContextMenu{
 	z-index:4999;
-	position:absolute; left:0px; top:0px;
+	position:absolute;left:0px;top:0px;
 	width:140px;
-	background:#f5f5f5;
-	border:0px solid #ccc; border-radius:2px;
-	box-shadow:0px 0px 3px #666;
+	background:#fff;
+	border:1px solid #b1b1b1;border-radius:5px;
+	box-shadow:0px 0px 5px #ccc;
 }
 	.AXContextMenu .contextMenuItem{
 		position:relative;
 		display:block;
 		height:30px;
-		line-height:30px; padding:0px 5px 0px 30px;
+		line-height:30px;padding:0px 5px 0px 30px;
 		color:#5e5e5e;text-decoration:none;
 		background-image:url(img/contextMenuIcon_doc.png);
 		background-repeat:no-repeat;
@@ -1205,11 +1235,11 @@
 		background-position:0px center;
 	}
 		.AXContextMenu .contextMenuItem.first{
-			border-top-left-radius:2px; border-top-right-radius:2px;
+			border-top-left-radius:5px;border-top-right-radius:5px;
 		}
 		.AXContextMenu .contextMenuItem.last{
 			border-bottom:0px none;
-			border-bottom-left-radius:2px; border-bottom-right-radius:2px;
+			border-bottom-left-radius:5px;border-bottom-right-radius:5px;
 		}
 		.AXContextMenu .contextMenuItem.docline{
 			background-image:url(img/contextMenuIcon_docline.png);
@@ -1303,7 +1333,7 @@
 		background:#b1b1b1;
 	}
 	.AXPopOver .contextMenuItem:hover{
-		background:#eee;	
+		background-color:#eee;	
 	}
 	.AXPopOver .contextMenuItem .contextSubMenuIcon{
 		position:absolute;right:0px;top:0px;
@@ -1436,7 +1466,7 @@
 		background:#b1b1b1;
 	}
 	.AXPopOverTooltip .contextMenuItem:hover{
-		background:#eee;	
+		background-color:#eee;	
 	}
 	.AXPopOverTooltip .contextMenuItem .contextSubMenuIcon{
 		position:absolute;right:0px;top:0px;
@@ -1579,19 +1609,19 @@
 	background:url(img/gridbodyBorder.png) repeat-y 100% 0px #F5F5F5;
 }
 .AXFormTable tbody tr.gray td, .AXFormTable tbody tr.gray th{
-	background:#F5F5F5;
+	background-color:#F5F5F5;
 }
 .AXFormTable tbody tr.red td, .AXFormTable tbody tr.red th{
-	background:#FFE8E8;
+	background-color:#FFE8E8;
 }
 .AXFormTable tbody tr.green td, .AXFormTable tbody tr.green th{
-	background:#F7FDEA;
+	background-color:#F7FDEA;
 }
 .AXFormTable tbody tr.blue td, .AXFormTable tbody tr.blue th{
-	background:#EAF5FD;
+	background-color:#EAF5FD;
 }
 .AXFormTable tbody tr.yellow td, .AXFormTable tbody tr.yellow th{
-	background:#FEFEE9;
+	background-color:#FEFEE9;
 }
 	.AXFormTable tbody td.last, .AXFormTable tbody th.last{
 		background:url() repeat-y 100% 0px;	
@@ -1620,20 +1650,83 @@
 	background:url(img/gridbodyBorder.png) repeat-y 100% 0px #fff;
 }
 .AXSearchTable tbody tr.gray td, .AXSearchTable tbody tr.gray th{
-	background:#F5F5F5;
+	background-color:#F5F5F5;
 }
 .AXSearchTable tbody tr.red td, .AXSearchTable tbody tr.red th{
-	background:#FFE8E8;
+	background-color:#FFE8E8;
 }
 .AXSearchTable tbody tr.green td, .AXSearchTable tbody tr.green th{
-	background:#F7FDEA;
+	background-color:#F7FDEA;
 }
 .AXSearchTable tbody tr.blue td, .AXSearchTable tbody tr.blue th{
-	background:#EAF5FD;
+	background-color:#EAF5FD;
 }
 .AXSearchTable tbody tr.yellow td, .AXSearchTable tbody tr.yellow th{
-	background:#FEFEE9;
+	background-color:#FEFEE9;
 }
 	.AXSearchTable tbody td.last, .AXSearchTable tbody th.last{
 		background:url() repeat-y 100% 0px;	
 	}
+	
+/* ---------------------------- AXMultiselectorHelper ------------------------------- */
+.AXMultiselectorHelper{
+	position:absolute;
+	border:1px dotted #000;
+}
+
+/* ---------------------------- AXResizable ------------------------------- */
+.AXResizable{
+	position:relative;
+}
+
+.AXResizable .AXResizableHandle{
+	position:absolute;
+	width:18px;height:18px;
+	right:1px;bottom:1px;
+	cursor:se-resize;
+	background:url(img/resizableHandle.png) no-repeat;
+}
+
+.AXResizableHelper{
+	position:absolute;
+	border:1px dotted #000;
+	cursor:se-resize;
+	background:url(img/resizableHandle.png) no-repeat 100% 100%;
+}
+
+/* ---------------------------- AXMobileModal ------------------------------- */
+.AXMobileModal{
+	z-index:6000;
+	position:absolute;
+	left:0px;top:0px;
+}
+
+.AXMobileModal .AXMobileModalPanel{
+	position:absolute;
+	left:0px;top:0px;
+	background:#d7dde3;
+	border-radius:4px;
+	box-shadow:0px 0px 3px rgba(0,0,0,10);
+}
+
+.AXMobileModal .AXMobileModalPanel .mobileModalHead{
+	position:relative;
+	height:44px;
+}
+	.AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle{
+		padding:0px 10px;
+		line-height:44px;
+		color:#3b3b3b;font-size:15px;
+		font-weight:bold;
+	}
+		
+.AXMobileModal .AXMobileModalPanel .mobileModelClose{
+	display:block;
+	position:absolute;
+	right:0px;
+	top:0px;
+	width:44px;height:44px;
+	background:url(img/AXMobile/close.png) center center no-repeat;
+	background-size:50% 50%;
+	line-height:1000px;overflow:hidden;
+}

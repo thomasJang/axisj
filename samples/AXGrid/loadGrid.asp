@@ -12,6 +12,7 @@ pageNo = request.form("pageNo")
 {
 	result:"ok",
 	list:[
+		<% if pageNo <> 2 then %>
 		{no:<%=pageNo%>21, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
 		{no:<%=pageNo%>22, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
 		{no:<%=pageNo%>23, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
@@ -35,6 +36,9 @@ pageNo = request.form("pageNo")
 		{no:<%=pageNo%><%=z%>, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
 		<% next %>
 		{no:99999999, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
+		<% else %>
+		{no:<%=pageNo%>19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2}
+		<% end if %>
 	],
 	page:{
 		pageNo:<%=pageNo%>,

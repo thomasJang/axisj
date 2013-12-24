@@ -33,7 +33,7 @@
 	var myMobileMenu = new AXMobileMenu();
 	var fnObj = {
 		pageStart: function(){
-			
+			//AXUtil.readyMobileConsole();
 			myMobileMenu.setConfig({
 				reserveKeys:{
 					primaryKey:"menuID",
@@ -44,54 +44,65 @@
 					subMenuKey:"cn"
 				},
 				menu:[
-					{menuID:"0001", label:"Dashboard", ac:"Dashboard", url:"http://www.axisj.com"},
-					{menuID:"0002", label:"Reservation", ac:"Reservation", cn:[
-						{label:"Search Room", url:"http://www.axisj.com"},
-						{label:"Create Room", cn:[
-							{label:"New Room", url:"http://www.axisj.com"},
-							{label:"Edit Room", url:"http://www.axisj.com"},
-							{label:"Remove Room", url:"http://www.axisj.com"}
+					{menuID:"1", label:"menu 1", ac:"Dashboard", url:"http://www.axisj.com"},
+					{menuID:"4", label:"menu 4", ac:"Cashiering", url:"http://www.axisj.com"},
+					{menuID:"5", label:"menu 5", ac:"Housekeeping", url:"http://www.axisj.com"},
+					{menuID:"6", label:"menu 6", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"2", label:"menu 2", ac:"Reservation", cn:[
+						{menuID:"2-1", label:"menu 2-1", url:"http://www.axisj.com"},
+						{menuID:"2-2", label:"menu 2-2", cn:[
+							{menuID:"2-2-1", label:"menu 2-2-1", url:"http://www.axisj.com"},
+							{menuID:"2-2-2", label:"menu 2-2-2", url:"http://www.axisj.com"},
+							{menuID:"2-2-3", label:"menu 2-2-3", url:"http://www.axisj.com"}
 						]},
-						{label:"Room history", url:"http://www.axisj.com"},
-						{label:"Clerk today", url:"http://www.axisj.com"},
-						{label:"check list", url:"http://www.axisj.com"}
+						{menuID:"2-3", label:"menu 2-3", url:"http://www.axisj.com"},
+						{menuID:"2-4", label:"menu 2-4", url:"http://www.axisj.com"},
+						{menuID:"2-5", label:"menu 2-5", url:"http://www.axisj.com"},
+						{menuID:"2-6", label:"menu 2-6", url:"http://www.axisj.com"},
+						{menuID:"2-7", label:"menu 2-7", url:"http://www.axisj.com"},
+						{menuID:"2-8", label:"menu 2-8", url:"http://www.axisj.com"},
+						{menuID:"2-9", label:"menu 2-9", url:"http://www.axisj.com"},
+						{menuID:"2-10", label:"menu 2-10", url:"http://www.axisj.com"},
+						{menuID:"2-11", label:"menu 2-11", url:"http://www.axisj.com"},
+						{menuID:"2-12", label:"menu 2-12", url:"http://www.axisj.com"},
+						{menuID:"2-13", label:"menu 2-13", url:"http://www.axisj.com"}
 					]},
-					{menuID:"0003", label:"Guest<br/>Service", ac:"Guest", cn:[
-						{label:"Search Room", url:"http://www.axisj.com"},
-						{label:"Create Room", cn:[
-							{label:"New Room", url:"http://www.axisj.com"},
-							{label:"Edit Room", url:"http://www.axisj.com"},
-							{label:"Remove Room", url:"http://www.axisj.com"}
+					{menuID:"7", label:"menu 7", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"8", label:"menu 8", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"9", label:"menu 9", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"10", label:"menu 10", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"11", label:"menu 11", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"12", label:"menu 12", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"13", label:"menu 13", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"14", label:"menu 14", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"15", label:"menu 15", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"16", label:"menu 16", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"17", label:"menu 17", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"18", label:"menu 18", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"19", label:"menu 19", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"20", label:"menu 20", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"21", label:"menu 21", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"22", label:"menu 22", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"23", label:"menu 23", ac:"Management", url:"http://www.axisj.com"},
+					{menuID:"3", label:"menu 3", ac:"Guest", cn:[
+						{menuID:"3-1", label:"menu 3-1", url:"http://www.axisj.com"},
+						{menuID:"3-2", label:"menu 3-2", cn:[
+							{menuID:"3-2-1", label:"menu 3-2-1", url:"http://www.axisj.com"},
+							{menuID:"3-2-2", label:"menu 3-2-2", url:"http://www.axisj.com"},
+							{menuID:"3-2-3", label:"menu 3-2-3", url:"http://www.axisj.com"}
 						]},
-						{label:"Room history", url:"http://www.axisj.com"},
-						{label:"Clerk today", url:"http://www.axisj.com"},
-						{label:"check list", url:"http://www.axisj.com"}
+						{menuID:"3-3", label:"menu 3-3", url:"http://www.axisj.com"},
+						{menuID:"3-4", label:"menu 3-4", url:"http://www.axisj.com"},
+						{menuID:"3-5", label:"menu 3-5", url:"http://www.axisj.com"}
 					]},
-					{menuID:"0004", label:"Cashiering", ac:"Cashiering", url:"http://www.axisj.com"},
-					{menuID:"0005", label:"House<br/>keeping", ac:"Housekeeping", url:"http://www.axisj.com"},
-					{menuID:"0006", label:"Management", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0007", label:"Management 1", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0008", label:"Management 2", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0009", label:"Management 3", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0010", label:"Management 4", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0011", label:"Management 5", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0012", label:"Management 6", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0013", label:"Management 7", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0014", label:"Management 8", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0015", label:"Management 9", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0016", label:"Management 10", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0017", label:"Management 11", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0018", label:"Management 12", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0019", label:"Management 13", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0020", label:"Management 14", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0021", label:"Management 15", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0022", label:"Management 16", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0023", label:"Management 17", ac:"Management", url:"http://www.axisj.com"},
-					{menuID:"0024", label:"Configuration", ac:"Configuration", url:"http://www.axisj.com"}
-				]
+					{menuID:"24", label:"menu 24", ac:"Configuration", url:"http://www.axisj.com"}
+				],
+				onclick: function(){ /* 메뉴 클릭 이벤트 */
+					myMobileMenu.close();
+					//location.href = this.url;
+				}
 			});
-			
-			//myMobileMenu.setHighLightMenu();
+			//myMobileMenu.setHighLight("2-7");
 			
 			fnObj.pageTabBind();
 			AXCode.bind(); // 소스보기

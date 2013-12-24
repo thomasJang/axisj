@@ -21,6 +21,14 @@
 	user-select:none;-moz-user-select:none;-webkit-user-select:none;-khtml-user-select:none;-o-user-select:none;
 }
 
+.AXMobileConsole{
+	padding:5px;font-size:12px;font-weight:bold;
+	z-index:10000;
+	position:fixed;top:0px;left:0px;width:100%;
+	color:#FF00FF;
+	text-shadow:0px 1px 0px #fff;
+}
+
 .AXMask{
 	z-index:5000;
 	position:fixed;top:0px;left:0px;width:100%;height:100%;
@@ -79,12 +87,46 @@
 		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
 		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
+	.AXScroll .scrollBar:hover{
+		width:11px;
+		right:1px;
+	}
 	.AXScroll .scrollBar_hover{
 		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
 	}
 	.AXScroll .scrollTarget{
 		position:absolute;left:0px;top:0px;
 	}
+	
+	/* xscroll */
+	.AXScroll .xscrollTrack{
+		z-index:100;
+		position:absolute;left:2px;bottom:3px;
+		width:100%;height:7px;background:#000;
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScroll .xscrollTrack_hover{
+		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+	}
+	.AXScroll .xscrollBar{
+		z-index:100;
+		position:absolute;left:2px;bottom:3px;
+		height:7px;min-width:10px;background:#000;
+		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
+		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+	}
+	.AXScroll .xscrollBar:hover{
+		height:11px;
+		bottom:1px;
+	}
+	.AXScroll .xscrollBar_hover{
+		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+	}
+	.AXScroll .xscrollTarget{
+		position:absolute;left:0px;top:0px;
+	}
+	
 
 .AXScrollSmall{
 	position:relative;overflow:hidden;
@@ -104,6 +146,10 @@
 		-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);
 		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
+	.AXScrollSmall .scrollBar:hover{
+		width:10px;
+		right:1px;
+	}
 	.AXScrollSmall .scrollBar_hover{
 		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
 	}
@@ -119,92 +165,95 @@
 	position:relative;
 	cursor:pointer;
 	vertical-align:middle;
-	height:26px;
-	padding:0px 5px;
+	height:38px;
+	padding:0px 10px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:1em;
-	background:url(img/defaultRegular.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	font-size:13px;color:#717b85;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 152px;
+	box-shadow:0px 1px 0px #f2f2f2;
 	outline:none;
 }
 .AXButton:hover, .AXButton:focus{
 	border:1px solid #949fa8;
-	background-position:0px -26px;
-	box-shadow:0px 1px 3px #c8cacd;
+	background-position:0px -38px;
+	box-shadow:0px 1px 0px #c8cacd;
 	text-shadow:0px 1px #fff;
 }
 .AXButton:active{
 	border:1px solid #b9babc;
-	background-position:0px -52px;
+	background-position:0px -114px;
 	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
+	color:#b9babc;
+	text-shadow:none;
 }
 .AXButton SPAN{
 	display:block;
-	height:24px;line-height:24px;
+	height:36px;line-height:36px;
 	vertical-align:middle;
 }
 
 .AXButtonSmall{
 	cursor:pointer;
-	height:20px;
+	height:27px;
 	padding:0px 5px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
+	font-size:12px;color:#6e7a86;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 108px;
 	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
 .AXButtonSmall:hover, .AXButtonSmall:focus{
 	border:1px solid #949fa8;
-	background-position:0px -20px;
+	background-position:0px -27px;
 	box-shadow:0px 1px 3px #c8cacd;
 	text-shadow:0px 1px #fff;
 }
 .AXButtonSmall:active{
 	border:1px solid #b9babc;
-	background-position:0px -40px;
+	background-position:0px -81px;
 	box-shadow:none;
-	color:#fff;
+	color:#b9babc;
 	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonSmall SPAN{
 	display:block;
-	height:18px;line-height:18px;
+	height:25px;line-height:25px;
 	vertical-align:middle;
 }
 
 
 .AXButtonLarge{
 	cursor:pointer;
-	height:46px;
+	height:55px;
 	padding:0px 10px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:46px;
-	background:url(img/defaultLarge.png) repeat-x;
+	font-size:15px;color:#6e7a86;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 220px;
 	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
 .AXButtonLarge:hover, .AXButtonLarge:focus{
 	border:1px solid #949fa8;
-	background-position:0px -46px;
+	background-position:0px -55px;
 	box-shadow:0px 1px 3px #c8cacd;
 	text-shadow:0px 1px #fff;
 }
 .AXButtonLarge:active{
 	border:1px solid #b9babc;
-	background-position:0px -92px;
+	background-position:0px -165px;
 	box-shadow:none;
-	color:#fff;
+	color:#b9babc;
 	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonLarge SPAN{
 	display:block;
-	height:44px;line-height:44px;
+	height:53px;line-height:53px;
 	vertical-align:middle;
 }
 
@@ -441,7 +490,7 @@
 }
 
 .AXInput[disabled]{
-	background:url(img/DefaultRegular.png) repeat-x;
+	background:url(img/defaultRegular.png) repeat-x;
 	background-position:0px -78px;
 	color:#fff;text-shadow:0px -1px #b7b7b7;
 	box-shadow:inset 0px 1px 2px #b1b1b1;
@@ -479,7 +528,7 @@
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:0px 1px 1px #e9eced;
 	border-radius:4px;
-	font-size:12px;line-height:19px;height:25px;
+	font-size:13px;height:38px;
 	padding:2px;
 	margin:0px auto;
 }
@@ -529,7 +578,7 @@
 /* ---------------------------- AXTabs ------------------------------- */
 	/* horizen AXTabs */
 .AXTabs{
-	position:relative;min-height:30px;
+	position:relative;min-height:42px;
 	overflow:hidden;
 }
 .AXTabs .AXTabsTray{
@@ -538,31 +587,32 @@
 .AXTabs .AXTabsTray .trayScroll{
 	position:absolute;
 	left:0px;top:0px;
-	height:30px;
+	height:40px;
 }
 .AXTabs .AXTabsTray .AXTab{
 	display:block;float:left;
 	cursor:pointer;
-	height:26px;min-width:50px;
+	height:38px;min-width:50px;
 	padding:0px 10px;
 	margin:2px 0px 0px 2px;
 	border:1px solid #b9babc;
 	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
+	font-size:13px;color:#6e7a86;line-height:26px;text-align:center;
 	text-decoration:none;
-	background:url(img/defaultRegular.png) repeat-x;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 152px;
 	outline:none;
 }
 .AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
 	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -26px;
+	background-position:0px -38px;
 	text-shadow:0px 1px #fff;
 }
 .AXTabs .AXTabsTray .AXTab:active{
 	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -52px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
+	background-position:0px -114px;
+	color:#b9babc;
+	text-shadow:none;
 }
 .AXTabs .AXTabsTray .AXTab.on{
 	background:#fff;border-bottom:1px solid #fff;
@@ -1646,4 +1696,41 @@
 	border:1px dotted #000;
 	cursor:se-resize;
 	background:url(img/resizableHandle.png) no-repeat 100% 100%;
+}
+
+/* ---------------------------- AXMobileModal ------------------------------- */
+.AXMobileModal{
+	z-index:6000;
+	position:absolute;
+	left:0px;top:0px;
+}
+
+.AXMobileModal .AXMobileModalPanel{
+	position:absolute;
+	left:0px;top:0px;
+	background:#d7dde3;
+	border-radius:4px;
+	box-shadow:0px 0px 3px rgba(0,0,0,10);
+}
+
+.AXMobileModal .AXMobileModalPanel .mobileModalHead{
+	position:relative;
+	height:44px;
+}
+	.AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle{
+		padding:0px 10px;
+		line-height:44px;
+		color:#3b3b3b;font-size:15px;
+		font-weight:bold;
+	}
+		
+.AXMobileModal .AXMobileModalPanel .mobileModelClose{
+	display:block;
+	position:absolute;
+	right:0px;
+	top:0px;
+	width:44px;height:44px;
+	background:url(img/AXMobile/close.png) center center no-repeat;
+	background-size:50% 50%;
+	line-height:1000px;overflow:hidden;
 }
