@@ -470,6 +470,8 @@ var AXInputConverter = Class.create(AXJ, {
 				if (val != "") val = this.value.number().money()
 				this.value = val;
 				*/
+			}else if(event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE){
+				bindMoneyCheck(objID, objSeq, "keyup");
 			}
 		});
 

@@ -582,12 +582,12 @@
 	overflow:hidden;
 }
 .AXTabs .AXTabsTray{
-	background:url(img/AXTabBg.png);
+	background:url(img/AXMobile/AXTabBg.png);
 }
 .AXTabs .AXTabsTray .trayScroll{
 	position:absolute;
 	left:0px;top:0px;
-	height:40px;
+	height:42px;
 }
 .AXTabs .AXTabsTray .AXTab{
 	display:block;float:left;
@@ -597,7 +597,7 @@
 	margin:2px 0px 0px 2px;
 	border:1px solid #b9babc;
 	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:13px;color:#6e7a86;line-height:26px;text-align:center;
+	font-size:13px;color:#6e7a86;line-height:38px;text-align:center;
 	text-decoration:none;
 	background:url(img/AXMobile/mobileDefault.png) repeat-x;
 	background-size:auto 152px;

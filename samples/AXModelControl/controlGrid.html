@@ -260,8 +260,20 @@
 							data:{},
 							html:function(){
 								var po = [];
-								po.push( (this.item.price * this.item.count).money() );
+								po.push('<div class="AXInputGroup">');
+								po.push('<input type="text" name="extbed" id="extbed_' + this.rowIndex + '" title="extbed" value="" />');
+								po.push('</div>');
 								return po.join('');
+							},
+							AXBind: {
+								id:"extbed_@rowIndex",
+								type:"Money",
+								config:{},
+								onchange: function(){
+									trace(this);
+									//if(this.value
+									myModelGrid.updateItem(this.rowIndex, {extbed:(this.value||"0")}, true);
+								}
 							}
 						},
 						{ // B/F
@@ -353,7 +365,7 @@
 								
 								var cost = 0;
 								$.each(this.list, function(){
-									cost += (this.price * this.count);
+									cost += this.extbed.number();
 								});
 								po.push( cost.money() );
 								
@@ -434,7 +446,8 @@
 				price:13000,
 				stdt:"2013-12-06",
 				eddt:"2013-12-06",
-				count:1
+				count:1,
+				extbed:0
 			};
 			myModelGrid.appendList(item);
 		},

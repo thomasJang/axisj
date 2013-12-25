@@ -401,11 +401,11 @@ var AXModelControlGrid = Class.create(AXJ, {
 		_body.append(foot.join(''));
 		
     },
-    updateItem: function(lidx, item){
+    updateItem: function(lidx, item, onlyDataChane){
     	var cfg = this.config;
     	
     	this.list[lidx] = AXUtil.overwriteObject(this.list[lidx], item, true);
-    	this.printItem(lidx, this.list[lidx], "update");
+    	if(!onlyDataChane) this.printItem(lidx, this.list[lidx], "update");
     	
     	this.printFootItem();
     },
