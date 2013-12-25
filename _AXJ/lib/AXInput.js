@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.27",
+	version: "AXInputConverter v1.28",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -22,7 +22,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom",
 		"2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정",
 		"2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스",
-		"2013-12-16 오후 4:46:14 : tom - bindMoneyCheck"
+		"2013-12-16 오후 4:46:14 : tom - bindMoneyCheck",
+		"2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2593,6 +2594,13 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + obj.config.startTargetID).bind("blur", function (event) {
 			bindTwinDateInputBlur(objID, objSeq, event, 1);
 		});
+		
+		var objVal1 = jQuery("#" + obj.config.startTargetID).val();
+		var objVal2 = jQuery("#" + objID).val();
+		var myDate1 = objVal1.date(separator);
+		var myDate2 = objVal2.date(separator);
+		obj.nDate1 = myDate1;
+		obj.nDate2 = myDate2;
 	},
 	bindTwinDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
