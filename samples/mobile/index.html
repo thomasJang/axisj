@@ -26,9 +26,12 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
 	<script type="text/javascript">	
+	var pageID = "AXMobileModal";
 	var myMobileModal = new AXMobileModal();
 	var fnObj = {
 		pageStart: function(){
+			trace(123);
+			
 			myMobileModal.setConfig({
 				head:{
 					close:{
@@ -42,11 +45,7 @@
 				}
 			});
 			
-			fnObj.pageTabBind(); // 탭 메뉴 바인드
 			AXCode.bind(); // 소스보기
-		},
-		pageTabBind: function(){
-			$("#demoPageTabTarget").bindTab({value: "AXMobileModal", overflow: "visible", options: myTabOption, onchange: pageTabChange});
 		},
 		openMobileModal: function(){
 			var obj = myMobileModal.open();
@@ -61,15 +60,11 @@
 
 </head>
 <body>
-	<div style="padding:20px;">
-		
-		<div id="demoPageTabTarget"></div>
-		
-		<div class="Hspace20"></div>
-				
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
 		<button class="AXButton" onclick="fnObj.openMobileModal();">open mobileModal</button>
 
 	</div>
-
 </body>
 </html>

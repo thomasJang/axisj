@@ -22,8 +22,10 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
+	var pageID = "scriptTab";
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
@@ -31,7 +33,7 @@
 			$("#myTab01").bindTab({
 				theme : "AXTabs",
 				value:"",
-				overflow:"visible",
+				overflow:"scroll", /* "visible" */
 				options:[
 					{optionValue:"M", optionText:"남성"}, 
 					{optionValue:"F", optionText:"여성"}, 
@@ -47,7 +49,67 @@
 			
 			$("#myTab02").bindTab({
 				theme : "AXTabs",
-				value:"2",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
+					{optionValue:"2", optionText:"2살 선택하기"}, 
+					{optionValue:"3", optionText:"3살 선택하기", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살 선택하기", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살 선택하기", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살 선택하기", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살 선택하기"},
+					{optionValue:"8", optionText:"8살 선택하기"},
+					{optionValue:"9", optionText:"9살 선택하기"},
+					{optionValue:"10", optionText:"★☆★☆★☆ 10살 선택하기 ★☆★☆★☆"},
+					{optionValue:"11", optionText:"★☆★☆★☆ 11살 선택하기 ★☆★☆★☆"},
+					{optionValue:"12", optionText:"★☆★☆★☆ 12살 선택하기 ★☆★☆★☆"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+			$("#myTab03").bindTab({
+				theme : "AXTabsSmall",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
+					{optionValue:"2", optionText:"2살 선택하기"}, 
+					{optionValue:"3", optionText:"3살 선택하기", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살 선택하기", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살 선택하기", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살 선택하기", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살 선택하기"},
+					{optionValue:"8", optionText:"8살 선택하기"},
+					{optionValue:"9", optionText:"9살 선택하기"},
+					{optionValue:"10", optionText:"★☆★☆★☆ 10살 선택하기 ★☆★☆★☆"},
+					{optionValue:"11", optionText:"★☆★☆★☆ 11살 선택하기 ★☆★☆★☆"},
+					{optionValue:"12", optionText:"★☆★☆★☆ 12살 선택하기 ★☆★☆★☆"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+			$("#myTab04").bindTab({
+				theme : "AXTabsLarge",
+				value:"1",
 				overflow:"scroll",
 				scrollAmount:2,
 				options:[
@@ -126,17 +188,8 @@
 </head>
 <body>
 
-	<div style="padding:20px;">
-
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue">Default(horizen)</a>
-				<a href="vertical.html" class="AXTab Blue">vertical</a>
-				<a href="verticalScroll.html" class="AXTab Blue">vertical in scroll</a>
-				<a href="scriptTab.html" class="AXTab Blue on">script Tab</a>
-				<div class="clear"></div>
-			</div>
-		</div>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
 		<h2>AXTabs Script (표준형)</h2>
 		
@@ -154,6 +207,16 @@
 		
 		<h2>AXTabs Script (scroll 형)</h2>
 		<div id="myTab02"></div>
+
+		<div class="Hspace20"></div>
+
+		<h2>AXTabsSmall Script (scroll 형)</h2>
+		<div id="myTab03"></div>
+
+		<div class="Hspace20"></div>
+		
+		<h2>AXTabsLarge Script (scroll 형)</h2>
+		<div id="myTab04"></div>
 
 		<div class="Hspace20"></div>
 

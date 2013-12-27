@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXScheduleCalendar</title>
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXScheduleCalendar.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" />
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXScheduleCalendar.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
+	
+	<style type="text/css">
+	
+	.leftArrow{
+	    display:block;
+		width:16px;height:16px;
+		background:url(../../_AXJ/ui/default/img/leftArrows.png) no-repeat -7px -4px;
+	}
+	.rightArrow{
+	    display:block;
+		width:16px;height:16px;
+		background:url(../../_AXJ/ui/default/img/rightArrows.png) no-repeat -5px -4px;
+	}
+	</style>
+
+
+	<script type="text/javascript">
+	var myModal = new AXModal();
+	var myCalendar = new AXScheduleCalendar();
+	var mySearch = new AXSearch();
+	var myGrid = new AXGrid();
+	var fnObj = {
+		pageStart: function (h, w) {
+	        
+	        AXCode.bind(); // 소스보기
+	        
+			myModal.setConfig({ windowID: "myModalCT", width: 860 });
+			
+			
+			//검색도구 설정 01 ---------------------------------------------------------
+			mySearch.setConfig({
+				targetID:"AXSearchTarget",
+				theme : "AXSearch",
+				onsubmit: function(){
+					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
+				},
+				rows:[
+					{display:true, addClass:"", style:"", list:[
+						{label:"Project", labelWidth:"", type:"inputText", width:"150", key:"inputTextSelector", addClass:"", valueBoxStyle:"", value:"123",
+							AXBind:{
+								type:"selector", config:{
+									appendable:true,
+									ajaxUrl:"/samples/AXInput/selectorData.asp", 
+									ajaxPars:"",
+									onChange:function(){
+										toast.push(Object.toJSON(this));
+									}
+								}
+							}
+						}
+					]},
+					{display:true, addClass:"", style:"", list:[
+						{label:"기간", labelWidth:"", type:"inputText", width:"70", key:"inputText1", addClass:"", valueBoxStyle:"", value:"",
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"inputText", width:"90", key:"inputText2", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"",
+							AXBind:{
+								type:"twinDate", config:{
+									align:"right", valign:"top", startTargetID:"inputText1", 
+									onChange:function(){
+										toast.push(Object.toJSON(this));
+									}
+								}
+							}
+						},
+						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"검색하기",
+							onclick: function(){
+								var pars = mySearch2.getParam();
+								toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
+								trace(pars);
+							}
+						}
+					]}
+				]
+			});
+			//검색도구 설정 01 ---------------------------------------------------------			
+			
+			fnObj.grid.init();
+			
+                
+			
+			//fnObj.calendar.init();
+			
+		},
+		pageResize: function () {
+	
+		},
+		calendar: {
+			init: function () {
+				
+				myCalendar.setConfig({
+					targetID: "AXCalendarTarget",
+					displayID: "calendarDisplay",
+					toDay: (new Date()).print(),
+					viewMode: "M",
+					onChangeView: function(){
+						$('#calendarViewMode').setValueInput(this.viewMode);
+					},
+					onChangeDate: function () {
+						if (this.viewMode == "M") {
+							var toDay = (new Date()).print("yyyymm");
+							var calendarDay = this.date.print("yyyymm");
+							if (toDay == calendarDay) {
+								$("#goToday").removeClass("Blue");
+								$("#goToday").get(0).disabled = true;
+							} else {
+								$("#goToday").addClass("Blue");
+								$("#goToday").get(0).disabled = false;
+							}
+						} else if (this.viewMode == "W") {
+							var toDay = (new Date()).print().date();
+							var calendarDay = this.date;
+							var weekStart = calendarDay.add(-calendarDay.getDay());
+							var isToday = false;
+							for (var a = 0; a < 7; a++) {
+								if (toDay.diff(weekStart) == 0) isToday = true;
+								weekStart = weekStart.add(1);
+							}
+							if (isToday) {
+								$("#goToday").removeClass("Blue");
+								$("#goToday").get(0).disabled = true;
+							} else {
+								$("#goToday").addClass("Blue");
+								$("#goToday").get(0).disabled = false;
+							}
+						} else if (this.viewMode == "D") {
+							var toDay = (new Date()).print().date();
+							var calendarDay = this.date;
+							var isToday = false;
+							if (toDay.diff(calendarDay) == 0) isToday = true;
+	
+							if (isToday) {
+								$("#goToday").removeClass("Blue");
+								$("#goToday").get(0).disabled = true;
+							} else {
+								$("#goToday").addClass("Blue");
+								$("#goToday").get(0).disabled = false;
+							}
+						}
+					},
+					onclick: function () {
+	
+						myModal.open({
+							url: "/Template/WBS/UI/calendarView.aspx",
+							pars: { schduleid: this.item.schduleid },
+							width: 640,
+							top: 20
+						});
+	
+					}
+				});
+				fnObj.calendar.load();
+			},
+			move: function (direction) {
+				myCalendar.moveDate(direction);
+				fnObj.calendar.load();
+			},
+			goToday: function () {
+				myCalendar.goToday();
+			},
+			setViewMode: function (viewMode) {
+				myCalendar.setViewMode(viewMode);
+			},
+			load: function () {
+				
+                var list = [
+			        { schduleid: 1, schedulename: '일정 1', sdate: "2013-10-09", edate: "2013-10-09" },
+			        { schduleid: 2, schedulename: '일정 2', sdate: "2013-10-09", edate: "2013-11-18" },
+			        { schduleid: 3, schedulename: '일정 3', sdate: "2013-10-10", edate: "2013-10-16" },
+			        { schduleid: 4, schedulename: '일정 4', sdate: "2013-10-11", edate: "2013-10-11" },
+			        { schduleid: 5, schedulename: '일정 5', sdate: "2013-10-13", edate: "2013-10-14" },
+			        { schduleid: 6, schedulename: '일정 6', sdate: "2013-10-13", edate: "2013-10-14" },
+			        { schduleid: 7, schedulename: '일정 7', sdate: "2013-10-24", edate: "2013-10-30" },
+			        { schduleid: 8, schedulename: '일정 8', sdate: "2013-10-31", edate: "2013-11-05" },
+			        { schduleid: 9, schedulename: '일정 9', sdate: "2013-10-11", edate: "2013-10-12" }
+		        ];
+
+		        myGrid.setList(list);
+		        myCalendar.setList(list);
+			}
+		},
+		grid: {
+			init: function () {
+				myGrid.setConfig({
+					targetID: "AXCalendarList",
+					passiveMode: false,
+					colGroup: [
+	                    { key: "schduleid", label: "ID", width: "40", align: "center" },
+	                    { key: "schedulename", label: "Schedule", width: "120" },
+						{
+							key: "dates", label: "dates", width: "100", formatter: function () {
+								return this.item.sdate.date().print("MM/DD") + "~" + this.item.edate.date().print("MM/DD");
+							}
+						},
+						{ key: "planTime", label: "업무계획", width: "80", align:"right" },
+						{ key: "actTime", label: "실행시간", width: "80", align:"right" }
+					],
+					body: {
+						onclick: function () {
+	
+							myModal.open({
+								url: "/Template/WBS/UI/calendarView.aspx",
+								pars: { schduleid: this.item.schduleid },
+								width: 640,
+								top: 20
+							});
+	
+						}
+					},
+					page: {
+						paging: false,
+						status: { formatter: null }
+					}
+				});
+
+				var list = [
+			        { schduleid: 1, schedulename: '일정 1', sdate: "2013-10-09", edate: "2013-10-09", planTime:100, actTime:80 },
+			        { schduleid: 2, schedulename: '일정 2', sdate: "2013-10-09", edate: "2013-11-18", planTime:100, actTime:80 },
+			        { schduleid: 3, schedulename: '일정 3', sdate: "2013-10-10", edate: "2013-10-16", planTime:100, actTime:80 },
+			        { schduleid: 4, schedulename: '일정 4', sdate: "2013-10-11", edate: "2013-10-11", planTime:100, actTime:80 },
+			        { schduleid: 5, schedulename: '일정 5', sdate: "2013-10-13", edate: "2013-10-14", planTime:100, actTime:80 },
+			        { schduleid: 6, schedulename: '일정 6', sdate: "2013-10-13", edate: "2013-10-14", planTime:100, actTime:80 },
+			        { schduleid: 7, schedulename: '일정 7', sdate: "2013-10-24", edate: "2013-10-30", planTime:100, actTime:80 },
+			        { schduleid: 8, schedulename: '일정 8', sdate: "2013-10-31", edate: "2013-11-05", planTime:100, actTime:80 },
+			        { schduleid: 9, schedulename: '일정 9', sdate: "2013-10-11", edate: "2013-10-12", planTime:100, actTime:80 }
+		        ];
+
+		        myGrid.setList(list);
+
+			}
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+    <div class="container">
+        <div class="content" style="padding:10px;">
+		
+		    <h2>&nbsp;&nbsp;AXScheduleCalendar</h2>
+
+			<div id="AXSearchTarget" style="border-top:1px solid #ccc;"></div>
+			<div class="Hspace10"></div>
+			<div id="AXCalendarList" style="height:600px;"></div>
+
+	    </div>
+    </div>
+</body>
+</html>

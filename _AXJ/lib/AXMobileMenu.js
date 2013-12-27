@@ -268,8 +268,9 @@ var AXMobileMenu = Class.create(AXJ, {
 			if(menu[cfg.reserveKeys.subMenuKey] && menu[cfg.reserveKeys.subMenuKey].length > 0){
 				/* animated menu */
 				var menuItem = this.modalObj.modalBody.find("#"+myTarget.id);
+				menuItem.css({opacity:0});
 				var menuItemPos = menuItem.position();
-				trace(menuItemPos);
+
 				var mobileMenuBody = this.modalObj.modalBody.find(".mobileMenuBodyScroll");
 				var bodyPos = mobileMenuBody.position();
 				var cloneMenuItem = jQuery("<div class='mobileMenuItemGhost' id='"+this.modalID+"_AX_cloneMenuItem'>" + menuItem.html() + "</div>");
@@ -283,7 +284,7 @@ var AXMobileMenu = Class.create(AXJ, {
 				var getMenuBind = this.getMenu.bind(this);
 				var printMenuBind = this.printMenu.bind(this);
 				var modalID = this.modalID;
-				cloneMenuItem.animate({left:9 - bodyPos.left, top:0, width:270, height:270}, 300, "expoOut").animate({opacity:0}, 100, "expoOut", function () {
+				cloneMenuItem.animate({left:9 - bodyPos.left, top:0, width:270, height:270}, 300, "backInOut").animate({opacity:0}, 100, "expoOut", function () {
 					var tpl = getMenuBind(modalID, menu, apoi);
 					printMenuBind(tpl);
 				});

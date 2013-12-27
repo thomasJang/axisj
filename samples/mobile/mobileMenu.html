@@ -30,6 +30,7 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXMobileMenu.js"></script>
 
 	<script type="text/javascript">
+	var pageID = "AXMobileMenu";
 	var myMobileMenu = new AXMobileMenu();
 	var fnObj = {
 		pageStart: function(){
@@ -102,13 +103,9 @@
 					//location.href = this.url;
 				}
 			});
-			//myMobileMenu.setHighLight("2-7");
+			//myMobileMenu.setHighLight("2-2");
 			
-			fnObj.pageTabBind();
 			AXCode.bind(); // 소스보기
-		},
-		pageTabBind: function(){
-			$("#demoPageTabTarget").bindTab({value: "AXMobileMenu", overflow: "visible", options: myTabOption, onchange: pageTabChange});
 		}
 	};
 	$(document.body).ready(function(){
@@ -119,14 +116,10 @@
 
 </head>
 <body>
-	<div style="padding:20px;">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 		
-		<div id="demoPageTabTarget"></div>
-		
-		<div style="padding:20px;">
-			<button class="AXButton" onclick="myMobileMenu.open();">MENU</button>
-		</div>
-		
+		<button class="AXButton" onclick="myMobileMenu.open();">MENU</button>
 
 	</div>
 </body>

@@ -8,13 +8,14 @@
  */
 
 var AXSearch = Class.create(AXJ, {
-    version: "AXSearch V1.2",
+    version: "AXSearch V1.21",
     author: "tom@axisj.com",
 	logs: [
 		"2013-06-04 오후 2:00:44 - tom@axisj.com",
 		"2013-07-29 오전 9:35:19 - expandToggle 버그픽스 - tom",
 		"2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom",
-		"2013-11-12 오후 6:13:03 - tom : setItemValue bugFix"
+		"2013-11-12 오후 6:13:03 - tom : setItemValue bugFix",
+		"2013-12-27 오후 4:55:15 - tom : Checkbox, radio onchange 버그픽스"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
@@ -82,7 +83,7 @@ var AXSearch = Class.create(AXJ, {
     					return false;
     				}
     			});
-    			po.push("<input type=\"checkbox\" class=\"searchCheckboxItem", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\" title=\"", (Opt.title||""),"\" value=\"", Opt.optionValue,"\" ");
+    			po.push("<input type=\"checkbox\" class=\"searchCheckboxItem ", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\" title=\"", (Opt.title||""),"\" value=\"", Opt.optionValue,"\" ");
     			if(isCheck) po.push(" checked=\"checked\" ");
     			po.push(">");
     			po.push("<label for=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\">", Opt.optionText," </label>");
@@ -110,7 +111,7 @@ var AXSearch = Class.create(AXJ, {
     					return false;
     				}
     			});
-    			po.push("<input type=\"radio\" class=\"searchCheckboxItem", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\" title=\"", (item.title||""),"\" value=\"", Opt.optionValue,"\" ");
+    			po.push("<input type=\"radio\" class=\"searchCheckboxItem ", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\" title=\"", (item.title||""),"\" value=\"", Opt.optionValue,"\" ");
     			if(isCheck) po.push(" checked=\"checked\" ");
     			po.push(">");
     			po.push("<label for=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\">", Opt.optionText," </label>");

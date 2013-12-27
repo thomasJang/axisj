@@ -1020,7 +1020,7 @@ var AXUtil = {
 				try {
 					console.log(po);
 				} catch (e) {
-	
+					alert(e);
 				}
 			}
 		}
@@ -3431,12 +3431,13 @@ jQuery.fn.unbindAXResizable = function (config) {
 
 /* ** AXContextMenu ********************************************** */
 var AXContextMenuClass = Class.create(AXJ, {
-	version: "AXContextMenuClass v1.2",
+	version: "AXContextMenuClass v1.21",
 	author: "tom@axisj.com",
 	logs: [
 		"2013-03-22 오후 6:08:57",
 		"2013-09-03 오후 7:10:14 메뉴확장 위치 제어 버그 픽스",
-		"2013-12-16 href=javascript 설정했을 때 onbeforeunload 이벤트 충돌문제 해결"
+		"2013-12-16 href=javascript 설정했을 때 onbeforeunload 이벤트 충돌문제 해결",
+		"2013-12-26 오후 4:27:00 tom left, top position "
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -3630,14 +3631,15 @@ var AXContextMenuClass = Class.create(AXJ, {
 		// -- 부모박스 정보와 박스 정보		
 
 		if ((_box.height.number() + css.top.number()) > pBox.height) {
-			css.top -= ((_box.height.number() + css.top.number()) - pBox.height) + 5;
+			css.top -= ((_box.height.number() + css.top.number()) - pBox.height) + 25;
 			this.openTB = "up";
+			if(css.top < 0) css.top = 0;
 		}
 
 		if (css.left != undefined) {
 
 			if ((_box.width.number() + css.left.number()) > pBox.width) {
-				var moveLeft = ((_box.width.number() + css.left.number()) - pBox.width) + 5;
+				var moveLeft = ((_box.width.number() + css.left.number()) - pBox.width) + 25;
 				css.left -= moveLeft;
 				this.openLR = "left";
 			} else {

@@ -30,15 +30,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
 	<script type="text/javascript">
+	var pageID = "mobileButton";
 	var fnObj = {
 		pageStart: function(){
 
-			
-			fnObj.pageTabBind();
 			AXCode.bind(); // 소스보기
-		},
-		pageTabBind: function(){
-			$("#demoPageTabTarget").bindTab({value: "mobileButton", overflow: "visible", options: myTabOption, onchange: pageTabChange});
 		}
 	};
 	$(document.body).ready(function(){
@@ -49,11 +45,10 @@
 
 </head>
 <body>
-	<div style="padding:20px;">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 		
-		<div id="demoPageTabTarget"></div>
-		
-		<div style="padding:20px 0px;">
+
 			<h2>AXButton</h2>
 			<button class="AXButton">Button</button>
 			<button class="AXButton">버튼</button>
@@ -69,6 +64,12 @@
 			<h2>AXButtonLarge</h2>
 			<button class="AXButtonLarge">Button</button>
 			<button class="AXButtonLarge">버튼</button>
+			
+			<div class="Hspace20"></div>
+
+			<h2>AXButtonExtraSmall</h2>
+			<button class="AXButtonExtraSmall">Button</button>
+			<button class="AXButtonExtraSmall">버튼</button>
 			
 			<div class="Hspace20"></div>
 			
@@ -92,10 +93,15 @@
 			<button class="AXButtonLarge Blue">Blue</button>
 			<button class="AXButtonLarge Green">Green</button>
 			
+			<div class="Hspace10"></div>
+			
+			<button class="AXButtonExtraSmall Classic">Classic</button>
+			<button class="AXButtonExtraSmall Red">Red</button>
+			<button class="AXButtonExtraSmall Blue">Blue</button>
+			<button class="AXButtonExtraSmall Green">Green</button>
+			
 			<div class="Hspace20"></div>
 			<div class="Hspace20"></div>
-		</div>
-		
 
 	</div>
 </body>

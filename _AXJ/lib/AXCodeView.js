@@ -113,15 +113,16 @@ var AXCodeView = Class.create(AXJ, {
 		clienWidth -= 30;
 		
 		var po = [];
-		po.push("<div id='AXCodeViewerMenuBox' class='Textbox' style='width:", 320, "px;height:", clientHeight,"px;'>");
+		po.push("<div id='AXCodeViewerMenuBox' class='Textbox' style='width:", 280, "px;height:", clientHeight,"px;'>");
 		po.push("	<div class='AXTextarea'>");
-		po.push("	<iframe id='AXCodeViewerMyMenu' src='../../index.html' style='display:none;width:100%;height:", (clientHeight-10),"px;border:0px;padding:0px;'></iframe>");
+		po.push("	<iframe id='AXCodeViewerMyMenu' name='AXCodeViewerMyMenu' src='../../index.html' style='display:none;width:100%;height:", (clientHeight-10),"px;border:0px;padding:0px;'></iframe>");
 		po.push("	</div>");
 		po.push("	<a href='#modsExecption' id='AXCodeViewerMenu_close' class='closeBtn'>닫기</a>");
 		po.push("</div>");
-		
 		mask.open();
 		jQuery("#AXCodeViewerContainer").append(po.join(''));
+		jQuery("#AXCodeViewerContainer").css({position:"absolute"});
+		
 		jQuery("#AXCodeViewerMenuBox").show(100, "backInOut", function(){
 			jQuery("#AXCodeViewerMyMenu").fadeIn();
 			//jQuery("#AXCodeViewerMySource").val(mySource);
@@ -129,9 +130,19 @@ var AXCodeView = Class.create(AXJ, {
 
 		jQuery("#AXCodeViewerMenu_close").bind("click", this.viewMenuClose.bind(this));
 		
+		if(AXUtil.browser.mobile){
+			jQuery("#AXCodeViewerMyMenu").bind("load", function () {
+				var myIframe = window["AXCodeViewerMyMenu"];
+				var bodyHeight = jQuery(myIframe.document).innerHeight();
+				jQuery(this).css({ height: (bodyHeight) });
+				jQuery("#AXCodeViewerMenuBox").css({ height: (bodyHeight+10) });
+			});
+		}
+		
 	},
 	viewMenuClose: function(){
 		jQuery("#AXCodeViewerMenuBox").remove();
+		jQuery("#AXCodeViewerContainer").css({position:"fixed"});
 		mask.close();
 	},
 	changeTheme: function(){

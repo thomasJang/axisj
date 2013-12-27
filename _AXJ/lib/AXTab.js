@@ -16,7 +16,8 @@ var AXTabClass = Class.create(AXJ, {
     initialize: function(AXJ_super) {
         AXJ_super();
         this.objects = [];
-        this.config.handleWidth = 29;
+        this.config.handleWidth = 22;
+        this.config.mobileBrowserWidth = 640;
     },
     init: function(){
     	
@@ -42,7 +43,10 @@ var AXTabClass = Class.create(AXJ, {
 		obj.options = (obj.options || [{optionValue:"null", optionText:"빈 탭"}]);
 		
         jQuery.each(this.objects, function (idx, O) {
-            if (this.id == objID) objSeq = idx;
+            if (this.id == objID){
+            	objSeq = idx;
+            	return false;
+            }
         });
 		if (objSeq == null) {
 			objSeq = this.objects.length;
@@ -88,54 +92,105 @@ var AXTabClass = Class.create(AXJ, {
 			po.push("	</div>");
 			po.push("	<div class=\"leftArrowHandleBox\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Left\">arrow</a></div>");
 			po.push("	<div class=\"rightArrowHandleBox\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Right\">arrow</a></div>");
+			po.push("	<div class=\"rightArrowMoreBox\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_More\">arrow</a></div>");
 			}
 		po.push("	</div>");
 		po.push("</div>");
 		
-		jQuery("#"+objID).html(po.join(''));
+		obj.jQueryObjID = jQuery("#"+objID);
+		obj.jQueryObjID.html(po.join(''));
+		obj.jQueryObjID.data("objSeq", objSeq); /* memory objSeq */
+		
+	    obj.tabTray = jQuery("#" + objID + "_AX_tabTray");
+	    obj.tabScroll = jQuery("#" + objID + "_AX_tabScroll");
+	    obj.tabContainer = jQuery("#" + objID + "_AX_tabContainer");
     	
+    	var setValueTab = this.setValueTab.bind(this);
+    	var myMenu = [];
+    	jQuery.each(obj.config.options, function(oidx, O){
+    		myMenu.push({label:O.optionText, value:O.optionValue, className:"", onclick:function(){
+    			//trace(this);
+    			setValueTab(objID, this.menu.value);
+    		}});
+    	});
+    	
+		AXContextMenu.bind({
+			id:objID + "_AX_tabMore", 
+			theme:"AXContextMenu", // 선택항목
+			width:"200", // 선택항목
+			menu:myMenu
+		});
+
     	var bindTabClick = this.bindTabClick.bind(this);
-    	jQuery("#" + objID + "_AX_tabContainer").find(".AXTab").bind("click", function(event){
+    	obj.tabContainer.find(".AXTab").bind("click", function(event){
     		bindTabClick(objID, objSeq, event);
-    	});	
-    	
+    	});
     	var bindTabMove = this.bindTabMove.bind(this);
     	var bindTabMoveClick = this.bindTabMoveClick.bind(this);
+    	var bindTabMoreClick = this.bindTabMoreClick.bind(this);
     	
     	jQuery("#" + objID + "_AX_Arrow_AX_Left").bind("mouseover", function(event){
     		bindTabMove(objID, objSeq, "left", event);
     	});
     	jQuery("#" + objID + "_AX_Arrow_AX_Right").bind("mouseover", function(event){
     		bindTabMove(objID, objSeq, "right", event);
-    	});	
+    	});
     	jQuery("#" + objID + "_AX_Arrow_AX_Left, #" + objID + "_AX_Arrow_AX_Right").bind("mouseout", function(event){
     		if(obj.moveobj) clearTimeout(obj.moveobj);
     	});
-    	
     	jQuery("#" + objID + "_AX_Arrow_AX_Left").bind("mousedown", function(event){
     		bindTabMoveClick(objID, objSeq, "left", event);
     	});
     	jQuery("#" + objID + "_AX_Arrow_AX_Right").bind("mousedown", function(event){
     		bindTabMoveClick(objID, objSeq, "right", event);
-    	});	
+    	});
+    	jQuery("#" + objID + "_AX_Arrow_AX_More").bind("click", function(event){
+    		bindTabMoreClick(objID, objSeq, "right", event);
+    	});
     	
     	if(obj.overflow != "visible"){
-	    	var tabsWidth = 10;
-	    	jQuery("#" + objID + "_AX_tabContainer").find(".AXTab").each(function(){
+	    	var tabsWidth = 30;
+	    	obj.tabContainer.find(".AXTab").each(function(){
 	    		tabsWidth += (jQuery(this).outerWidth().number() + jQuery(this).css("marginLeft").number() + jQuery(this).css("marginRight").number());
 	    	});
 	    	
-	    	jQuery("#" + objID + "_AX_tabScroll").css({width:tabsWidth, left:cfg.handleWidth});
-	    	jQuery("#" + objID + "_AX_tabTray").css({height:jQuery("#" + objID + "_AX_tabScroll").outerHeight()});
+	    	obj.tabScroll.css({width:tabsWidth, left:cfg.handleWidth});
+	    	obj.tabTray.css({height:obj.tabScroll.outerHeight()});
 	    	
-			var trayWidth = jQuery("#" + objID + "_AX_tabTray").outerWidth();
-			var scrollWidth = jQuery("#" + objID + "_AX_tabScroll").outerWidth();
-			
+			var trayWidth = obj.tabTray.outerWidth();
+			var scrollWidth = obj.tabScroll.outerWidth();
+
 			if(trayWidth > scrollWidth){
-				jQuery("#" + objID + "_AX_tabContainer").find(".leftArrowHandleBox").hide();
-				jQuery("#" + objID + "_AX_tabContainer").find(".rightArrowHandleBox").hide();
-				jQuery("#" + objID + "_AX_tabScroll").css({left:0});
+				obj.tabContainer.find(".leftArrowHandleBox").hide();
+				obj.tabContainer.find(".rightArrowHandleBox").hide();
+				obj.tabContainer.find(".rightArrowMoreBox").hide();
+				obj.tabScroll.css({left:0});
+			}else if(obj.config.selectedIndex != null){
+				this.focusingItem(objID, objSeq, obj.config.selectedIndex);
 			}
+			
+			if(trayWidth < scrollWidth && AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+				obj.tabContainer.find(".leftArrowHandleBox").hide();
+				obj.tabContainer.find(".rightArrowHandleBox").hide();
+				obj.tabScroll.css({left:0});
+			}
+			
+			/* touch event */
+			var touchstart = this.touchstart.bind(this);
+			if(AXUtil.browser.mobile){
+				var touchBodyID = obj.tabTray.get(0).id;
+				this.touchstartBind = function () { touchstart(objID, objSeq); };
+				if (document.addEventListener) AXgetId(touchBodyID).addEventListener("touchstart", this.touchstartBind, false);
+			}else{
+				this.touchstartBind = function (event) { touchstart(objID, objSeq, event); };
+				obj.tabTray.unbind("mousedown.AXMobileTouch").bind("mousedown.AXMobileTouch", this.touchstartBind);
+			}
+			obj.tabTray.attr("onselectstart", "return false");
+			obj.tabTray.addClass("AXUserSelectNone");
+			
+			obj.tabTray.unbind("dragstart.AXMobileTouch").bind("dragstart.AXMobileTouch", this.cancelEvent.bind(this));
+			/* touch event */
+			
 	    }
     },
     bindTabClick: function(objID, objSeq, event){
@@ -161,7 +216,6 @@ var AXTabClass = Class.create(AXJ, {
 			//trace(obj.config.options[itemIndex]);
 			
 			var selectedObject = obj.config.options[itemIndex];
-			
 			if(obj.config.value != selectedObject.optionValue){
 				
 				jQuery("#" + objID + "_AX_Tabs_AX_"+obj.config.selectedIndex).removeClass("on");
@@ -170,13 +224,15 @@ var AXTabClass = Class.create(AXJ, {
 				obj.config.value = selectedObject.optionValue;
 				obj.config.selectedIndex = itemIndex;
 				
+				this.focusingItem(objID, objSeq, obj.config.selectedIndex);
+				
 				if(obj.config.onchange){
 					obj.config.onchange.call({
 						options:obj.config.options,
 						item:obj.config.options[itemIndex],
 						index:itemIndex
 					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
-				}	
+				}
 			}
 		}	
     },
@@ -212,6 +268,8 @@ var AXTabClass = Class.create(AXJ, {
 				
 				jQuery("#" + objID + "_AX_Tabs_AX_"+obj.config.selectedIndex).removeClass("on");
 				jQuery("#" + objID + "_AX_Tabs_AX_"+itemIndex).addClass("on");
+				/*  */
+				this.focusingItem(objID, objSeq, itemIndex);
 				
 				obj.config.value = selectedObject.optionValue;
 				obj.config.selectedIndex = itemIndex;
@@ -232,9 +290,9 @@ var AXTabClass = Class.create(AXJ, {
     	var cfg = this.config;
     	var obj = this.objects[objSeq];
 
-		var trayWidth = jQuery("#" + objID + "_AX_tabTray").outerWidth();
-		var scrollWidth = jQuery("#" + objID + "_AX_tabScroll").outerWidth();
-		var scrollLeft = jQuery("#" + objID + "_AX_tabScroll").position().left;
+		var trayWidth = obj.tabTray.outerWidth();
+		var scrollWidth = obj.tabScroll.outerWidth();
+		var scrollLeft = obj.tabScroll.position().left;
 		
 		//trace({trayWidth:trayWidth, scrollWidth:scrollWidth, scrollLeft:scrollLeft});
 		
@@ -269,9 +327,9 @@ var AXTabClass = Class.create(AXJ, {
 
 		}
 		
-		//jQuery("#" + objID + "_AX_tabScroll").stop();
+		//obj.tabScroll.stop();
 		
-		jQuery("#" + objID + "_AX_tabScroll").css(animateStyles);
+		obj.tabScroll.css(animateStyles);
 		
 		var bindTabMove = this.bindTabMove.bind(this);
 		
@@ -283,7 +341,7 @@ var AXTabClass = Class.create(AXJ, {
 		
 		
 		/*
-		jQuery("#" + objID + "_AX_tabScroll").animate(
+		obj.tabScroll.animate(
 			animateStyles,
 			500,
 			"sineInOut",
@@ -294,8 +352,6 @@ var AXTabClass = Class.create(AXJ, {
 		
     },
 	bindTabMoveClick: function(objID, objSeq, direction, event){
-		
-    	//trace({objID:objID, objSeq:objSeq});
     	var cfg = this.config;
     	var obj = this.objects[objSeq];
     	
@@ -303,9 +359,9 @@ var AXTabClass = Class.create(AXJ, {
     	
 		cfg.scrollAmount = 500;
 		
-		var trayWidth = jQuery("#" + objID + "_AX_tabTray").outerWidth();
-		var scrollWidth = jQuery("#" + objID + "_AX_tabScroll").outerWidth();
-		var scrollLeft = jQuery("#" + objID + "_AX_tabScroll").position().left;
+		var trayWidth = obj.tabTray.outerWidth();
+		var scrollWidth = obj.tabScroll.outerWidth();
+		var scrollLeft = obj.tabScroll.position().left;
 		
 		//trace({trayWidth:trayWidth, scrollWidth:scrollWidth, scrollLeft:scrollLeft});
 		
@@ -340,8 +396,8 @@ var AXTabClass = Class.create(AXJ, {
 
 		}
 		
-		jQuery("#" + objID + "_AX_tabScroll").stop();
-		jQuery("#" + objID + "_AX_tabScroll").animate(
+		obj.tabScroll.stop();
+		obj.tabScroll.animate(
 			animateStyles,
 			500,
 			"sineInOut",
@@ -349,23 +405,238 @@ var AXTabClass = Class.create(AXJ, {
 			}
 		);		
     },
+    bindTabMoreClick: function(objID, objSeq, direction, event){
+    	var cfg = this.config;
+    	var obj = this.objects[objSeq];
+    	
+    	AXContextMenu.open({id:objID + "_AX_tabMore"}, event);
+    },
     resizeCheck: function(){
     	var cfg = this.config;
-    	jQuery.each(this.objects, function(){
+    	var focusingItem = this.focusingItem.bind(this);
+    	
+    	jQuery.each(this.objects, function(objSeq, O){
     		var objID = this.id;
-			var trayWidth = jQuery("#" + objID + "_AX_tabTray").outerWidth();
-			var scrollWidth = jQuery("#" + objID + "_AX_tabScroll").outerWidth();
+    		var obj = this;
+			var trayWidth = obj.tabTray.outerWidth();
+			var scrollWidth = obj.tabScroll.outerWidth();
 			if(trayWidth > scrollWidth){
-				jQuery("#" + objID + "_AX_tabContainer").find(".leftArrowHandleBox").hide();
-				jQuery("#" + objID + "_AX_tabContainer").find(".rightArrowHandleBox").hide();
-				jQuery("#" + objID + "_AX_tabScroll").css({left:0});
+				obj.tabContainer.find(".leftArrowHandleBox").hide();
+				obj.tabContainer.find(".rightArrowHandleBox").hide();
+				obj.tabContainer.find(".rightArrowMoreBox").hide();
+				obj.tabScroll.css({left:0});
 			}else{
-				jQuery("#" + objID + "_AX_tabContainer").find(".leftArrowHandleBox").show();
-				jQuery("#" + objID + "_AX_tabContainer").find(".rightArrowHandleBox").show();
-				jQuery("#" + objID + "_AX_tabScroll").css({left:cfg.handleWidth});	
+				if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+					obj.tabContainer.find(".leftArrowHandleBox").hide();
+					obj.tabContainer.find(".rightArrowHandleBox").hide();
+				}else{
+					obj.tabContainer.find(".leftArrowHandleBox").show();
+					obj.tabContainer.find(".rightArrowHandleBox").show();					
+				}
+				obj.tabContainer.find(".rightArrowMoreBox").show();
+				if(!AXUtil.isEmpty(obj.config.selectedIndex)) focusingItem(objID, objSeq, obj.config.selectedIndex);
 			}
     	});
-    }
+    },
+    focusingItem: function(objID, objSeq, optionIndex){
+    	var cfg = this.config;
+    	var obj = this.objects[objSeq];
+    	
+    	if(obj.tabTray.outerWidth() > obj.tabScroll.outerWidth()){
+    		return;
+    	}
+    	
+    	if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    		var scrollLeft = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left);
+    		var itemWidth = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
+    		var handleWidth = 0;
+    		var rightMargin = 29;
+    	}else{
+    		var scrollLeft = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left - cfg.handleWidth);
+    		var itemWidth = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
+    		var handleWidth = cfg.handleWidth;
+    		var rightMargin = 29 + cfg.handleWidth;
+    	}
+		
+		/*trace({scrollLeft:scrollLeft, tsLeft:obj.tabScroll.position().left.abs(), trayWidth:obj.tabTray.outerWidth(), itemWidth:itemWidth, tt:(obj.tabScroll.position().left.abs() + obj.tabTray.outerWidth() - rightMargin - handleWidth	)});*/
+		if(scrollLeft > (obj.tabScroll.position().left).abs() && (scrollLeft + itemWidth) <= (obj.tabScroll.position().left.abs() + obj.tabTray.outerWidth() - rightMargin - handleWidth)){
+			//trace(11);
+		}else{
+			//trace(obj.tabTray.outerWidth(), handleWidth, obj.tabScroll.outerWidth(), scrollLeft);
+			if(obj.tabTray.outerWidth() - handleWidth > (obj.tabScroll.outerWidth() - scrollLeft)){
+				//trace(scrollLeft);
+				scrollLeft = (obj.tabScroll.outerWidth() - obj.tabTray.outerWidth()) + rightMargin;
+			}
+			//trace({left:-scrollLeft});
+			setTimeout(function(){
+				obj.tabScroll.css({left:-scrollLeft});	
+			}, 10);
+		}
+    },
+    
+    /* 터치 이동관련 함수 - s */
+	touchstart: function (objID, objSeq, e) {
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		var touch;
+		var event = window.event;
+		if (AXUtil.browser.mobile){
+			touch = event.touches[0];
+			if (!touch.pageX) return;
+		}else{
+			var event = e;
+			touch = {
+				pageX : e.pageX, 
+				pageY : e.pageY
+			};
+		}
+		
+		this.touchStartXY = {
+			sTime: ((new Date()).getTime() / 1000),
+			sLeft:  obj.tabScroll.position().left,
+			x: touch.pageX,
+			y: touch.pageY
+		};
+
+		var touchEnd = this.touchEnd.bind(this);
+		var touchMove = this.touchMove.bind(this);
+
+		if(AXUtil.browser.mobile){
+			var event = window.event;
+			this.touchEndBind = function () {
+				touchEnd(objID, objSeq);
+			};	
+			this.touchMoveBind = function () {
+				touchMove(objID, objSeq);
+			};
+			if (document.addEventListener) {
+				document.addEventListener("touchend", this.touchEndBind, false);
+				document.addEventListener("touchmove", this.touchMoveBind, false);
+			}
+		}else{
+			
+			this.touchEndBind = function (event) {
+				touchEnd(objID, objSeq, event);
+			};	
+			this.touchMoveBind = function (event) {
+				touchMove(objID, objSeq, event);
+			};
+			
+			jQuery(document.body).bind("mouseup.AXMobileTouch", this.touchEndBind);
+			jQuery(document.body).bind("mousemove.AXMobileTouch", this.touchMoveBind);
+		}
+		
+		obj.tabScroll.stop();
+	},
+	touchMove: function (objID, objSeq, e) {
+		if (this.touhEndObserver) clearTimeout(this.touhEndObserver); //닫기 명령 제거
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		var touch;
+		var event = window.event;
+		if (AXUtil.browser.mobile){
+			touch = event.touches[0];
+			if (!touch.pageX) return;
+		}else{
+			var event = e;
+			touch = {
+				pageX : e.pageX, 
+				pageY : e.pageY
+			};
+		}
+		
+		if ((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()) {
+			//this.touchMode = ((this.touchStartXY.y - touch.pageY) <= 0) ? "up" : "dn"; /* 위아래 이동 */
+		} else if ((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()) {
+			//this.touchMode = ((this.touchStartXY.x - touch.pageX) <= 0) ? "lt" : "rt"; /* 좌우 이동 */
+			this.moveBlock(objID, objSeq, touch.pageX - this.touchStartXY.x);
+			if (event.preventDefault) event.preventDefault();
+			else return false;
+		}
+		if (((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5) {
+			//this.touchSelecting = true;
+		}
+	},
+	touchEnd: function (objID, objSeq, e) {
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		var event = window.event || e;
+		
+		if(AXUtil.browser.mobile){
+			if (document.removeEventListener) {
+				document.removeEventListener("touchend", this.touchEndBind, false);
+				document.removeEventListener("touchmove", this.touchMoveBind, false);
+			}
+		}else{
+			jQuery(document.body).unbind("mouseup.AXMobileTouch");
+			jQuery(document.body).unbind("mousemove.AXMobileTouch");
+		}
+		
+		var moveEndBlock = this.moveEndBlock.bind(this);
+		this.touhEndObserver = setTimeout(function () {
+			moveEndBlock(objID, objSeq);
+		}, 10);
+	},
+	/* 터치 이동관련 함수 - e */
+	
+	moveBlock: function(objID, objSeq, moveX){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		var newLeft = (this.touchStartXY.sLeft + (moveX * 1.5));
+		/*
+			obj.tabTray
+			obj.tabScroll
+		*/
+		
+		if(newLeft > obj.tabTray.width() * 0.5){
+			newLeft = obj.tabTray.width() * 0.5;
+		}else if(newLeft < ( - obj.tabScroll.width()) * 0.8){
+			newLeft = ( - obj.tabScroll.width()) * 0.8;
+		}
+		obj.tabScroll.css({left: newLeft});
+	},
+	moveEndBlock: function(objID, objSeq){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		/* 관성발동여부 체크 */
+		if(!this.touchStartXY) return;
+		var sTime = this.touchStartXY.sTime;
+		var eTime = ((new Date()).getTime() / 1000);
+		var dTime = eTime - sTime;
+		var eLeft = obj.tabScroll.position().left;
+		var dLeft = eLeft - this.touchStartXY.sLeft;
+		var velocity = Math.ceil((dLeft/dTime)/10); // 속력= 거리/시간
+		var endLeft = Math.ceil(eLeft + velocity); //스크롤할때 목적지
+		/*trace({eLeft: eLeft, velocity:velocity, endLeft:endLeft});*/
+		if(endLeft > 0){
+			endLeft = 0;
+		}
+		var newLeft = endLeft.abs();
+   		if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    		var handleWidth = 0;
+    		var rightMargin = 29;
+    	}else{
+    		var handleWidth = cfg.handleWidth;
+    		var rightMargin = 29 + cfg.handleWidth;
+    	}
+		if(obj.tabTray.outerWidth() - handleWidth > (obj.tabScroll.outerWidth() - newLeft)){
+			newLeft = obj.tabScroll.outerWidth() - obj.tabTray.outerWidth() - handleWidth;
+		}
+		
+		//trace(absPage);
+		this.touchStartXY.sLeft = -newLeft;
+		obj.tabScroll.animate({left: -newLeft}, (obj.tabScroll.position().left + newLeft).abs(), "cubicOut", function () {});		
+		//trace({left: -newLeft});
+		
+		this.touchStartXY = null;
+	},	
+	cancelEvent: function (event) {
+		event.stopPropagation(); // disable  event
+		return false;
+	}
 });
 
 var AXTab = new AXTabClass();

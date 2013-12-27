@@ -1,7 +1,8 @@
 ﻿var myTabOption = [
-	{optionValue:"AXMobileModal", optionText:"AXMobileModal", addClass:"", url:"index.html"},
-	{optionValue:"mobileButton", optionText:"mobile button", addClass:"", url:"button.html"},
-	{optionValue:"AXMobileMenu", optionText:"AXMobileMenu", addClass:"", url:"mobileMenu.html"}	
+	{optionValue:"Default", optionText:"Default", addClass:"", url:"index.html"},
+	{optionValue:"vertical", optionText:"vertical", addClass:"", url:"vertical.html"},
+	{optionValue:"verticalScroll", optionText:"vertical(scroll)", addClass:"", url:"verticalScroll.html"},
+	{optionValue:"scriptTab", optionText:"Script Tab", addClass:"", url:"scriptTab.html"}	
 ];
 
 var pageTabChange = function(selectedObject, value){
