@@ -11,13 +11,15 @@ var AXTimeTable = Class.create(AXJ, {
     version: "AXTimeTable V1.0",
     author: "tom@axisj.com",
 	logs: [
-		"2013-04-08 오전 12:22:02 - tom@axisj.com"
+		"2013-04-08 오전 12:22:02 - tom@axisj.com",
+		"2013-12-27 오후 1:36:13 - tom : timeset 을 확장 했을 때 선택이 안되는 버그픽스"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
         this.config.userDisable = false;
 		this.config.timeset = [
 			{hour:"00:00", display:"새벽 00:00"},
+			{hour:"00:30", display:"00:30"},
 			{hour:"01:00", display:"01:00"},
 			{hour:"02:00", display:"02:00"},
 			{hour:"03:00", display:"03:00"},
@@ -40,6 +42,7 @@ var AXTimeTable = Class.create(AXJ, {
 			{hour:"20:00", display:"08:00"},
 			{hour:"21:00", display:"09:00"},
 			{hour:"22:00", display:"10:00"},
+			{hour:"23:30", display:"11:30"},
 			{hour:"23:00", display:"11:00"}
 		];
 		this.config.zoneSet = [
@@ -215,8 +218,8 @@ var AXTimeTable = Class.create(AXJ, {
     		var stidx = parseInt(newTop/cfg.theadHeight) - 1;
     		var edidx = stidx + parseInt(readyTargetHeight/cfg.theadHeight);
     		
-    		if(edidx < 25) jQuery(this.readyTarget).css({top:newTop});
-    		if(edidx > 23) edidx = 0;
+    		if(edidx < (cfg.timeset.length + 1)) jQuery(this.readyTarget).css({top:newTop});
+    		if(edidx > (cfg.timeset.length - 1)) edidx = 0;
     		if(edidx != 0){
 	    		jQuery(this.readyTarget).find(".upControl").html(cfg.timeset[stidx].hour);
 	    		jQuery(this.readyTarget).find(".downControl").html(cfg.timeset[edidx].hour);
@@ -242,7 +245,7 @@ var AXTimeTable = Class.create(AXJ, {
 	    		var stidx = parseInt(newTop/cfg.theadHeight) - 1;
     			var end = jQuery(this.readyTarget).find(".downControl").text();
     			var endSeq = end.left(2).number();
-    			if(endSeq == 0) endSeq = 24;
+    			if(endSeq == 0) endSeq = cfg.timeset.length;
 	    		var h = (endSeq - stidx) * cfg.theadHeight;
 	    		if(h < cfg.theadHeight) return;
 	    		jQuery(this.readyTarget).find(".upControl").html(cfg.timeset[stidx].hour);
@@ -264,10 +267,10 @@ var AXTimeTable = Class.create(AXJ, {
 				//trace({edidx:edidx, startSeq:startSeq});
 	    		var h = (edidx - startSeq) * cfg.theadHeight;
 	    		if(h < cfg.theadHeight) return;
-	    		if(edidx < 25){
+	    		if(edidx < (cfg.timeset.length + 1)){
 	    			 jQuery(this.readyTarget).css({height:h-2});
 	    		}
-	    		if(edidx > 23) edidx = 0;
+	    		if(edidx > (cfg.timeset.length - 1)) edidx = 0;
 	    		jQuery(this.readyTarget).find(".downControl").html(cfg.timeset[edidx].hour);
 	    		jQuery(this.readyTarget).addClass("on");
 	    		jQuery(this.readyTarget).find(".downControl").addClass("on");
