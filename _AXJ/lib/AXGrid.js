@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.39",
+	version: "AXGrid v1.40",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -42,7 +42,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결",
 		"2013-12-11 오후 9:31:45 tom : ajax setList 그리드 스크롤포지션 문제 해결",
 		"2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결",
-		"2013-12-24 오후 2:30:25 tom : 버그픽스"
+		"2013-12-24 오후 2:30:25 tom : 버그픽스",
+		"2013-12-27 오전 11:56:44 tom marker bugfix"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -351,13 +352,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 
 					if (myCG != null) {
-						if (rewrite) {
-							/*var formatter = CH.formatter;*/
-							AXUtil.overwriteObject(CH, myCG, false);
-							/*CH.formatter = formatter;*/
-						} else {
-							AXUtil.overwriteObject(CH, myCG, false);
-						}
+						AXUtil.overwriteObject(CH, myCG, false);
 					} else {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
@@ -454,8 +449,7 @@ var AXGrid = Class.create(AXJ, {
 						}
 
 						if (myCG != null) {
-							if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
-							else AXUtil.overwriteObject(CH, myCG, false);
+							AXUtil.overwriteObject(CH, myCG, false);
 						} else {
 							AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 						}
@@ -537,8 +531,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 
 					if (myCG != null) {
-						if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
-						else AXUtil.overwriteObject(CH, myCG, false);
+						AXUtil.overwriteObject(CH, myCG, false);
 					} else {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
@@ -618,8 +611,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 
 					if (myCG != null) {
-						if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
-						else AXUtil.overwriteObject(CH, myCG, false);
+						AXUtil.overwriteObject(CH, myCG, false);
 					} else {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
