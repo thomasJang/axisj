@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.28",
+	version: "AXInputConverter v1.29",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -23,7 +23,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정",
 		"2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스",
 		"2013-12-16 오후 4:46:14 : tom - bindMoneyCheck",
-		"2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스"
+		"2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스",
+		"2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -751,8 +752,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		jQuery(document).unbind("click.AXInputSelector");
 		jQuery(document).bind("click.AXInputSelector", obj.documentclickEvent);
-		jQuery("#" + objID).unbind("keydown.AXInputSelector");
-		jQuery("#" + objID).bind("keydown.AXInputSelector", obj.inputKeyup);
+		jQuery("#" + objID).unbind("keydown.AXInputSelector").bind("keydown.AXInputSelector", obj.inputKeyup);
 
 		if (obj.myUIScroll) obj.myUIScroll.unbind();
 		obj.myUIScroll = new AXScroll();
@@ -814,7 +814,10 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 
-		if (obj.inProgress) return;
+		if (obj.inProgress){
+			obj.inProgressReACT = true;
+			return;
+		}
 
 		if (event.keyCode == AXUtil.Event.KEY_TAB) {
 			this.bindSelectorClose(objID, objSeq, event); // 닫기
@@ -899,6 +902,7 @@ var AXInputConverter = Class.create(AXJ, {
 			// 4. 입력어로 bindSelectorSearch 실행하기
 			obj.inProgress = true; //진행중 상태 변경
 			var bindSelectorSetOptions = this.bindSelectorSetOptions.bind(this);
+			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
 			var url = obj.config.ajaxUrl;
 			var pars = obj.config.ajaxPars;
 			var selectorName = obj.config.selectorName || jQuery("#" + objID).attr("name");
@@ -920,10 +924,15 @@ var AXInputConverter = Class.create(AXJ, {
 						obj.config.isChangedSelect = true;
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
+						
+						if(obj.inProgressReACT){
+							bindSelectorKeyupChargingUp(objID, objSeq, event);
+						}
 					} else {
 						msgAlert(res);
 					}
 					obj.inProgress = false;
+					obj.inProgressReACT = false;
 				}
 			});
 		} else {
