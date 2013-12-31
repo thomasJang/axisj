@@ -14,6 +14,10 @@
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTimeTable.css" />
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+		<![endif]-->
+		
 		<style type="text/css">
 		H2, H3{font-family:consolas;}
 		</style>
@@ -25,12 +29,10 @@
 		<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
 		<script type="text/javascript" src="../../_AXJ/lib/AXTimeTable.js"></script>
 		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-		
-		<style type="text/css">
-
-		</style>		
-			
+		<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+		<script type="text/javascript" src="pageTab.js"></script>
 		<script type="text/javascript">
+		var pageID = "AXTimeTable";
 		var myTimeZone = new AXTimeTable();	
 		var myTimeZoneWeek = new AXTimeTable();	
 		var fnObj = {
@@ -69,8 +71,8 @@
 		
 	</head>
 	<body>
-	
-		<div style="padding:20px;">
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
 			
 			<h2>AXTimeTable</h2>			
 	

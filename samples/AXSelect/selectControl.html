@@ -11,8 +11,13 @@
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<style type="text/css">
 	
 	H2, H3{font-family:consolas;}
@@ -24,8 +29,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
+	var pageID = "AXSelectControl";
 	var fnObj = {
 		pageStart: function () {
 			
@@ -48,16 +56,9 @@
 	
 </head>
 <body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
-	<div style="padding:20px;">
-
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue">Default</a>
-				<a href="selectControl.html" class="AXTab Blue on">selectControl</a>
-				<div class="clear"></div>
-			</div>
-		</div>
 
 		<h2>AXSelect bind Select</h2>
 

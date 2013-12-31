@@ -39,7 +39,7 @@ var AXTabClass = Class.create(AXJ, {
 		
 		obj.theme = (obj.theme || "AXTabs");
 		obj.overflow = (obj.overflow || "visible");
-		obj.scrollAmount = (obj.scrollAmount || 200);
+		obj.scrollAmount = (obj.scrollAmount || 5);
 		obj.options = (obj.options || [{optionValue:"null", optionText:"빈 탭"}]);
 		
         jQuery.each(this.objects, function (idx, O) {
@@ -84,6 +84,9 @@ var AXTabClass = Class.create(AXJ, {
 					}
 					po.push("\">");
 					po.push(O.optionText.dec() + "</a>");
+					//if(AXUtil.browser.mobile){
+						po.push("<span class='AXTabSplit'></span>");
+					//}
 				});
 				
 				obj.config.selectedIndex = selectedIndex;			
@@ -149,9 +152,10 @@ var AXTabClass = Class.create(AXJ, {
     	});
     	
     	if(obj.overflow != "visible"){
-	    	var tabsWidth = 30;
+	    	var tabsWidth = (AXUtil.clientWidth() < cfg.mobileBrowserWidth) ? 40 : 30;
+	    	var tabsMargin = (AXUtil.clientWidth() < cfg.mobileBrowserWidth) ? 1 : 0;
 	    	obj.tabContainer.find(".AXTab").each(function(){
-	    		tabsWidth += (jQuery(this).outerWidth().number() + jQuery(this).css("marginLeft").number() + jQuery(this).css("marginRight").number());
+	    		tabsWidth += (jQuery(this).outerWidth().number() + jQuery(this).css("marginLeft").number() + jQuery(this).css("marginRight").number() + tabsMargin);
 	    	});
 	    	
 	    	obj.tabScroll.css({width:tabsWidth, left:cfg.handleWidth});
@@ -291,6 +295,12 @@ var AXTabClass = Class.create(AXJ, {
     	var obj = this.objects[objSeq];
 
 		var trayWidth = obj.tabTray.outerWidth();
+    	if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    		var rightMargin = 40;
+    	}else{
+    		var rightMargin = 29 + cfg.handleWidth;
+    	}
+    	trayWidth -= rightMargin;
 		var scrollWidth = obj.tabScroll.outerWidth();
 		var scrollLeft = obj.tabScroll.position().left;
 		
@@ -308,7 +318,7 @@ var AXTabClass = Class.create(AXJ, {
 				//trace({trayWidth:(trayWidth - cfg.handleWidth), scrollWidth:scrollWidth, scrollLeft:scrollLeft});
 				scrollLeft = cfg.handleWidth;
 				animateStyles = {left:scrollLeft};
-			} 
+			}
 		}else{
 			if(trayWidth < (scrollWidth + scrollLeft)){
 				scrollLeft -= obj.config.scrollAmount;
@@ -318,7 +328,7 @@ var AXTabClass = Class.create(AXJ, {
 			}
 
 			if((trayWidth) > (scrollWidth + scrollLeft)){
-				//trace({trayWidth:(trayWidth - cfg.handleWidth), scrollWidth:scrollWidth, scrollLeft:scrollLeft});
+				/*trace({trayWidth:(trayWidth - cfg.handleWidth), scrollWidth:scrollWidth, scrollLeft:scrollLeft}); */
 				scrollLeft = trayWidth - scrollWidth - cfg.handleWidth;
 				animateStyles = {left:scrollLeft};
 			}else{
@@ -327,13 +337,13 @@ var AXTabClass = Class.create(AXJ, {
 
 		}
 		
-		//obj.tabScroll.stop();
-		
 		obj.tabScroll.css(animateStyles);
 		
 		var bindTabMove = this.bindTabMove.bind(this);
 		
 		if(obj.moveobj) clearTimeout(obj.moveobj);
+		
+		trace("move");
 		
 		obj.moveobj = setTimeout(function(){
 			bindTabMove(objID, objSeq, direction, event);
@@ -357,9 +367,15 @@ var AXTabClass = Class.create(AXJ, {
     	
     	if(obj.moveobj) clearTimeout(obj.moveobj);
     	
-		cfg.scrollAmount = 500;
+		var scrollAmount = 500;
 		
 		var trayWidth = obj.tabTray.outerWidth();
+    	if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    		var rightMargin = 40;
+    	}else{
+    		var rightMargin = 29 + cfg.handleWidth;
+    	}
+    	trayWidth -= rightMargin;
 		var scrollWidth = obj.tabScroll.outerWidth();
 		var scrollLeft = obj.tabScroll.position().left;
 		
@@ -368,19 +384,18 @@ var AXTabClass = Class.create(AXJ, {
 		var animateStyles = {};
 		if(direction == "left"){
 			if(scrollLeft < cfg.handleWidth){
-				scrollLeft += cfg.scrollAmount;
+				scrollLeft += scrollAmount;
 				animateStyles = {left:scrollLeft};
 			}else{
 				return;
 			}
 			if(scrollLeft > cfg.handleWidth){
-				//trace({trayWidth:(trayWidth - cfg.handleWidth), scrollWidth:scrollWidth, scrollLeft:scrollLeft});
 				scrollLeft = cfg.handleWidth;
 				animateStyles = {left:scrollLeft};
 			} 
 		}else{
 			if(trayWidth < (scrollWidth + scrollLeft)){
-				scrollLeft -= cfg.scrollAmount;
+				scrollLeft -= scrollAmount;
 				animateStyles = {left:scrollLeft};
 			}else{
 
@@ -395,7 +410,7 @@ var AXTabClass = Class.create(AXJ, {
 			}	
 
 		}
-		
+
 		obj.tabScroll.stop();
 		obj.tabScroll.animate(
 			animateStyles,
@@ -403,7 +418,12 @@ var AXTabClass = Class.create(AXJ, {
 			"sineInOut",
 			function(){
 			}
-		);		
+		);
+		
+		if (event.preventDefault) event.preventDefault();
+		if (event.stopPropagation) event.stopPropagation();
+		event.cancelBubble = true;
+		return false;
     },
     bindTabMoreClick: function(objID, objSeq, direction, event){
     	var cfg = this.config;
@@ -436,6 +456,7 @@ var AXTabClass = Class.create(AXJ, {
 				obj.tabContainer.find(".rightArrowMoreBox").show();
 				if(!AXUtil.isEmpty(obj.config.selectedIndex)) focusingItem(objID, objSeq, obj.config.selectedIndex);
 			}
+			obj.tabTray.css({height:obj.tabScroll.outerHeight()});
     	});
     },
     focusingItem: function(objID, objSeq, optionIndex){
@@ -450,7 +471,7 @@ var AXTabClass = Class.create(AXJ, {
     		var scrollLeft = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left);
     		var itemWidth = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
     		var handleWidth = 0;
-    		var rightMargin = 29;
+    		var rightMargin = 40;
     	}else{
     		var scrollLeft = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left - cfg.handleWidth);
     		var itemWidth = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
@@ -478,6 +499,13 @@ var AXTabClass = Class.create(AXJ, {
 	touchstart: function (objID, objSeq, e) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		
+		var trayWidth = obj.tabTray.outerWidth();
+		var scrollWidth = obj.tabScroll.outerWidth();
+
+		if(trayWidth > scrollWidth){
+			return;	
+		}
 		
 		var touch;
 		var event = window.event;
@@ -584,16 +612,17 @@ var AXTabClass = Class.create(AXJ, {
 	moveBlock: function(objID, objSeq, moveX){
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var newLeft = (this.touchStartXY.sLeft + (moveX * 1.5));
+		
+		var newLeft = (this.touchStartXY.sLeft + (moveX));
 		/*
 			obj.tabTray
 			obj.tabScroll
 		*/
-		
+		//trace(newLeft);
 		if(newLeft > obj.tabTray.width() * 0.5){
 			newLeft = obj.tabTray.width() * 0.5;
-		}else if(newLeft < ( - obj.tabScroll.width()) * 0.8){
-			newLeft = ( - obj.tabScroll.width()) * 0.8;
+		}else if(newLeft < -(obj.tabScroll.width() - obj.tabTray.width() * 0.5)){
+			newLeft = -(obj.tabScroll.width() - obj.tabTray.width() * 0.5);
 		}
 		obj.tabScroll.css({left: newLeft});
 	},
@@ -608,7 +637,8 @@ var AXTabClass = Class.create(AXJ, {
 		var dTime = eTime - sTime;
 		var eLeft = obj.tabScroll.position().left;
 		var dLeft = eLeft - this.touchStartXY.sLeft;
-		var velocity = Math.ceil((dLeft/dTime)/10); // 속력= 거리/시간
+		
+		var velocity = Math.ceil((dLeft/dTime)/5); // 속력= 거리/시간
 		var endLeft = Math.ceil(eLeft + velocity); //스크롤할때 목적지
 		/*trace({eLeft: eLeft, velocity:velocity, endLeft:endLeft});*/
 		if(endLeft > 0){
@@ -617,13 +647,13 @@ var AXTabClass = Class.create(AXJ, {
 		var newLeft = endLeft.abs();
    		if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
     		var handleWidth = 0;
-    		var rightMargin = 29;
+    		var rightMargin = 40;
     	}else{
     		var handleWidth = cfg.handleWidth;
     		var rightMargin = 29 + cfg.handleWidth;
     	}
 		if(obj.tabTray.outerWidth() - handleWidth > (obj.tabScroll.outerWidth() - newLeft)){
-			newLeft = obj.tabScroll.outerWidth() - obj.tabTray.outerWidth() - handleWidth;
+			newLeft = (obj.tabScroll.outerWidth() - obj.tabTray.outerWidth()) + rightMargin;
 		}
 		
 		//trace(absPage);

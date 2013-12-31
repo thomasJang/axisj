@@ -11,10 +11,14 @@
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
-    <link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<style type="text/css">
 	
 	H2, H3{font-family:consolas;}
@@ -26,9 +30,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
-
+	var pageID = "AXSelect";
 	    var fnObj = {
 	        pageStart: function () {
 	            AXCode.bind(); // 소스보기
@@ -127,16 +133,8 @@
 	
 </head>
 <body>
-
-	<div style="padding:20px;">
-
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue on">Default</a>
-				<a href="selectControl.html" class="AXTab Blue">selectControl</a>
-				<div class="clear"></div>
-			</div>
-		</div>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
 		<h2>AXSelect bind Select</h2>
 

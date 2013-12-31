@@ -16,10 +16,11 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXEditor.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXUpload.css" />
-	
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<style type="text/css">
 	H2, H3{font-family:consolas;}
 	</style>
@@ -35,7 +36,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXUpload.js"></script>
 	
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
 	<script type="text/javascript">
+	var pageID = "withAXUpload";
 		
 	var myEditor = new AXEditor();
 	var myUpload = new AXUpload();
@@ -143,17 +148,12 @@
 	<!-- js block -->
 </head>
 <body>
-	<div class="contentContainer">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue">Editor</a>
-				<a href="upload.html" class="AXTab Blue on">Editor with Upload</a>
-				<div class="clear"></div>
-			</div>
-		</div>
-
-		<h2>AXEditor</h2>
+		<h2>AXEditor with AXUpload</h2>
+		
+		<p>AXUpload5 사용을 권장합니다. AXUpload에서 지원되는 모든 기능은 AXUpload5 에서 사용 가능합니다.</p>
 		
 		<div id="AXEditorTarget"></div>
 		<div id="editContent" style="display:none;">에디터의 사용 법은 ?</div>

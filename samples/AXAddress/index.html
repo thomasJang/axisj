@@ -10,14 +10,19 @@
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	
 	<!-- js block -->
 	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	<script type="text/javascript">
+	var pageID = "AXAddress";
 	var myModal = new AXModal();
 	var fnObj = {
 		pageStart: function(){
@@ -48,11 +53,10 @@
 	</script>
 </head>
 <body>
-	<div style="padding:20px">
-
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 		<h2>AXAddress</h2>
-		<div class="Hspace20"></div>
-		
+				
 		<form name="regForm" method="post">
 		<table cellpadding="0" cellspacing="0" class="AXFormTable">
 			<colgroup>

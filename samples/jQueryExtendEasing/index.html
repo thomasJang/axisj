@@ -12,16 +12,18 @@
 		<!-- css block -->
 		<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+		<![endif]-->
 		
 		<!-- js block -->
 		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-		
-		<style type="text/css">
-			
-		</style>
+		<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+		<script type="text/javascript" src="pageTab.js"></script>
 		<script type="text/javascript">
+		var pageID = "Easing";
 		var fnObj = {
 			pageStart: function(){
 				AXCode.bind(); // 소스보기
@@ -58,7 +60,8 @@
 		</script>
 	</head>
 	<body>
-		<div style="padding:20px;">
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
 			<h2>Animate Easing</h2>
 			
 			<ul>

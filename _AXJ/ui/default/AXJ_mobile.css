@@ -65,7 +65,7 @@
 	display:block;width:24px;height:24px;background:url(img/dialogClose.png) no-repeat;
 	overflow:hidden;text-indent:-1000px;
 }
-.AXdemoPageTabTarget{padding:0px;background:#eee;background:#b9babc;}
+.AXdemoPageTabTarget{padding:0px;background:#eee;height:42px;}
 .AXdemoPageContent{padding:10px;}
 
 /* ------------------ AXScroll ----------------------- */
@@ -353,11 +353,11 @@
 }
 .AXNotificationTrayDialog{
 	position:fixed;left:0px;top:50px;
-	width:340px;
+	width:300px;
 	z-index:5001;
 }
 .AXNotification{
-	width:300px;
+	width:280px;
 	border:1px solid #c5c5c5;background:#ebebeb;
 	padding:10px;margin:10px 0px;
 	-moz-opacity: 0.9;opacity:.90;filter: alpha(opacity=90);
@@ -367,7 +367,7 @@
 }
 
 .AXNotificationTrayDialog .AXNotification{
-	width:340px;
+	width:300px;
 	border:1px solid #444;background:#ebebeb;
 	padding:0px;margin:0px 0px;
 	-moz-opacity: 1;opacity:1.00;filter: alpha(opacity=100);
@@ -614,57 +614,58 @@
 	overflow:hidden;
 }
 .AXTabs .AXTabsTray{
-	background:url(img/AXMobile/AXTabBg.png);
+	background:#f8f8f8;
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #717b85;
 }
 .AXTabs .AXTabsTray .trayScroll{
 	position:absolute;
-	left:0px;top:0px;
+	left:0px;top:1px;
 	height:42px;
+	background:#f8f8f8;
 }
 .AXTabs .AXTabsTray .AXTab{
 	display:block;float:left;
 	cursor:pointer;
-	height:38px;min-width:50px;
+	height:42px;min-width:50px;
 	padding:0px 10px;
-	margin:2px 0px 0px 2px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:13px;color:#6e7a86;line-height:38px;text-align:center;
+	font-size:13px;color:#6e7a86;line-height:42px;text-align:center;
 	text-decoration:none;
-	background:url(img/AXMobile/mobileDefault.png) repeat-x;
-	background-size:auto 152px;
 	outline:none;
 }
-.AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -38px;
-	text-shadow:0px 1px #fff;
+.AXTabs .AXTabsTray .AXTab:hover, 
+.AXTabs .AXTabsTray .AXTab:active,
+.AXTabs .AXTabsTray .AXTab.on
+{
+	background:url(img/AXMobile/tabDefault.png) repeat-x 0px 39px;
+	background-size:auto 4px;
 }
-.AXTabs .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -114px;
-	color:#b9babc;
-	text-shadow:none;
-}
-.AXTabs .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
+
+.AXTabs .AXTabsTray .AXTabSplit{
+	display:block;float:left;
+	background:#ccc;
+	width:1px;height:26px;
+	margin-top:8px;
 }
 
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
 	.AXTabs .rightArrowMoreBox{
 		position:absolute;
 		right:0px;top:0px;
-		width:29px;height:42px;
-		background:url(img/AXMobile/rightArrowsBg.png) repeat-y 100% 0px;
+		width:40px;height:42px;
+		background:#f8f8f8;
+		border-top:1px solid #ccc;
+		border-left:1px solid #ccc;
+		border-bottom:1px solid #717b85;
 	}
 	.AXTabs .rightArrowMoreBox .tabArrow{
-		display:block;width:29px;height:42px;
-		background:url(img/AXMobile/rightArrowsMore.png) no-repeat 5px 0px;
+		display:block;width:40px;height:39px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center 0px;
 		background-size:auto 80px;
 		text-indent:-1000px;overflow:hidden;
 	}
 	.AXTabs .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/AXMobile/rightArrowsMore.png) no-repeat 5px -40px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center -40px;
 		background-size:auto 80px;
 	}
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */

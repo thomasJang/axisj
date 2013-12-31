@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.40",
+	version: "AXGrid v1.41",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -43,7 +43,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-12-11 오후 9:31:45 tom : ajax setList 그리드 스크롤포지션 문제 해결",
 		"2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결",
 		"2013-12-24 오후 2:30:25 tom : 버그픽스",
-		"2013-12-27 오전 11:56:44 tom marker bugfix"
+		"2013-12-27 오전 11:56:44 tom marker bugfix",
+		"2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1607,7 +1608,17 @@ var AXGrid = Class.create(AXJ, {
 		var lastIdx = eid.length - 1;
 		var colHeadR = eid[lastIdx - 1];
 		var colHeadC = eid[lastIdx];
-		var myColHead = cfg.colHead.rows[colHeadR][colHeadC];
+
+		try{
+			var myColHead = cfg.colHead.rows[colHeadR][colHeadC];
+		} catch (e) {
+			return;
+		}
+
+		if (myColHead.sort == false) {
+			return;
+		}
+
 		var tdID = cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC;
 		/*trace(myColHead); */
 
@@ -4834,9 +4845,7 @@ var AXGrid = Class.create(AXJ, {
 				colGroup: cfg.colGroup,
 				list: this.list
 			}
-
 		}
-
-
+		
 	}
 });

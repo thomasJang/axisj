@@ -13,6 +13,12 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput_desktop.css" />
+	<![endif]-->
 	<style type="text/css">
 	
 	H2, H3{font-family:consolas;}
@@ -24,8 +30,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
+	var pageID = "Switch";
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
@@ -49,21 +58,9 @@
 	
 </head>
 <body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
-	<div style="padding:20px;">
-
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue">Default</a>
-				<a href="Number.html" class="AXTab Blue">Number</a>
-				<a href="Switch.html" class="AXTab Blue on">Switch</a>
-				<a href="Segment.html" class="AXTab Blue">Segment</a>
-				<a href="Slider.html" class="AXTab Blue">Slider</a>
-				<a href="Selector.html" class="AXTab Blue">Selector</a>
-				<a href="calendar.html" class="AXTab Blue">Date</a>
-				<div class="clear"></div>
-			</div>
-		</div>
 
 		<h2>AXInput bind Switch</h2>
 

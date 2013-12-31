@@ -14,14 +14,9 @@
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-		
-		<!-- js block -->
-		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-		<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-		<script type="text/javascript" src="../../_AXJ/lib/AXValidator.js"></script>
-		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-		
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+		<![endif]-->
 		<style type="text/css">
 		/* view Style table */
 		.viewTBL{
@@ -70,7 +65,18 @@
 			background:url(/_AXJ/ui/buttonIcons/white_save.png) no-repeat 0px;
 		}
 		</style>
+		
+		<!-- js block -->
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXValidator.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+		<script type="text/javascript" src="pageTab.js"></script>
 		<script type="text/javascript">
+		var pageID = "AXValidator";
+
 		var myValidator = new AXValidator(); // Validator 선언
 		var fnObj = {
 			pageStart: function(){
@@ -222,7 +228,8 @@
 		</script>
 	</head>
 	<body>
-		<div style="padding:20px;">
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
 			<h2>AXValidator</h2>
 			
 			<div style="padding:0px;width:800px;">

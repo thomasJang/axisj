@@ -30,8 +30,8 @@
 	var myMobileModal = new AXMobileModal();
 	var fnObj = {
 		pageStart: function(){
-			trace(123);
-			
+			//AXUtil.readyMobileConsole();
+
 			myMobileModal.setConfig({
 				head:{
 					close:{
@@ -41,15 +41,15 @@
 					}
 				},
 				onclose: function(){
-					trace("close bind");	
+					trace("close bind");
 				}
 			});
-			
+
 			AXCode.bind(); // 소스보기
+
 		},
 		openMobileModal: function(){
 			var obj = myMobileModal.open();
-			trace(obj);
 		}
 	};
 	$(document.body).ready(function(){

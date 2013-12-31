@@ -15,6 +15,9 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXUpload5.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<style type="text/css">
 	H2, H3{font-family:consolas;}
 	</style>
@@ -25,8 +28,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js?v=001"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXUpload5.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
+	var pageID = "singleUpload";
 	var myUpload = new AXUpload5();
 	var myUpload1 = new AXUpload5();
 	var myUpload2 = new AXUpload5();
@@ -240,18 +246,10 @@
 	<!-- js block -->
 </head>
 <body>
-	<div class="contentContainer">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
-		<div class="AXTabs">
-			<div class="AXTabsTray">
-				<a href="index.html" class="AXTab Blue">MultiUpload 5</a>
-				<a href="single.html" class="AXTab Blue on">SingleUpload 5</a>
-				<a href="selectMainImage.html" class="AXTab Blue">Seleect Main Image</a>
-				<div class="clear"></div>
-			</div>
-		</div>
-
-		<h2>AXUpload5 single (Beta)</h2>
+		<h2>AXUpload5 single</h2>
 
 		<div class="AXUpload5" id="AXUpload5"></div>
 		

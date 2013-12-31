@@ -18,6 +18,9 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<style type="text/css">
 	
 	H2, H3{font-family:consolas;}
@@ -32,8 +35,11 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
+	var pageID = "AXSearch";
 	var mySearch = new AXSearch();
 	var mySearch2 = new AXSearch();
 	var fnObj = {
@@ -225,18 +231,7 @@
 				]
 			});
 			//검색도구 설정 02 ---------------------------------------------------------
-			
-			$("#expandHandle").click(function(){
-				if($(this).data("expand") == "open"){
-					$(this).data("expand", "close");
-					$(".expandShowHideTarget").hide();
-					$(this).html("상세검색");
-				}else{
-					$(this).data("expand", "open");
-					$(".expandShowHideTarget").show();
-					$(this).html("상세검색창 닫기");
-				}
-			});
+
 		},
 		search1: function(){
 			var pars = mySearch.getParam();
@@ -253,13 +248,13 @@
 	
 </head>
 <body>
-
-	<div style="padding:20px;">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
 
 		<h2>AXSearch</h2>
-
+	
 			<h3>style 1</h3>
-
+	
 			<div id="AXSearchTarget" style="border-top:1px solid #ccc;"></div>
 			
 			<div style="padding:10px;" align="center">
@@ -267,87 +262,9 @@
 			</div>
 			
 			<div class="Hspace20"></div>
-
+	
 			<h3>style 2</h3>
 			<div id="AXSearchTarget2" style="border-top:1px solid #ccc;"></div>
-			
-			<div class="Hspace20"></div>
-			
-			<h3>style 3 - 스타일시트 가이드</h3>
-			
-			<div>
-				<table cellpadding="0" cellspacing="0" class="AXSearchTable">
-					<colgroup>
-						<col width="100" />
-						<col />
-						<col width="100" />
-						<col />
-					</colgroup>
-					<tbody>
-						<tr class="gray">
-							<th>
-								<div class="tdRel">검색어</div>
-							</th>
-							<td>
-								<div class="tdRel">
-									<input type="text" name="" value="" class="AXInput" />
-								</div>
-							</td>
-							<th>
-								<div class="tdRel">검색어</div>
-							</th>
-							<td class="last">
-								<div class="tdRel">
-									<input type="text" name="" value="" class="AXInput" />
-									<input type="button" class="AXButton" value="Search" />
-								</div>
-							</td>	
-						</tr>
-						<tr class="expandShowHideTarget" style="display:none;">
-							<th>
-								<div class="tdRel">검색어</div>
-							</th>
-							<td>
-								<div class="tdRel">
-									<input type="text" name="" value="" class="AXInput" />
-								</div>
-							</td>
-							<th>
-								<div class="tdRel">검색어</div>
-							</th>
-							<td class="last">
-								<div class="tdRel">
-									<input type="text" name="" value="" class="AXInput" />
-									<input type="button" class="AXButton" value="Search" />
-								</div>
-							</td>	
-						</tr>
-						<tr class="expandShowHideTarget" style="display:none;">
-							<th>
-								<div class="tdRel">검색어</div>
-							</th>
-							<td>
-								<div class="tdRel">
-									<input type="text" name="" value="" class="AXInput" />
-								</div>
-							</td>
-							<th>
-								<div class="tdRel">검색어</div>
-							</th>
-							<td class="last">
-								<div class="tdRel">
-									<input type="text" name="" value="" class="AXInput" />
-									<input type="button" class="AXButton" value="Search" />
-								</div>
-							</td>	
-						</tr>
-					</tbody>
-				</table>
-				<div class="AXSearch">
-					<a href="#axexec" class="expandHandle" id="expandHandle">상세검색</a>
-				</div>
-			</div>
-			
 			
 	</div>
 

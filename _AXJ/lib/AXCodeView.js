@@ -121,12 +121,10 @@ var AXCodeView = Class.create(AXJ, {
 		po.push("</div>");
 		mask.open();
 		jQuery("#AXCodeViewerContainer").append(po.join(''));
-		jQuery("#AXCodeViewerContainer").css({position:"absolute"});
+		if(AXUtil.browser.mobile) jQuery("#AXCodeViewerContainer").css({position:"absolute"});
 		
-		jQuery("#AXCodeViewerMenuBox").show(100, "backInOut", function(){
-			jQuery("#AXCodeViewerMyMenu").fadeIn();
-			//jQuery("#AXCodeViewerMySource").val(mySource);
-		});
+		jQuery("#AXCodeViewerMenuBox").show();
+		jQuery("#AXCodeViewerMyMenu").show();
 
 		jQuery("#AXCodeViewerMenu_close").bind("click", this.viewMenuClose.bind(this));
 		
@@ -142,7 +140,7 @@ var AXCodeView = Class.create(AXJ, {
 	},
 	viewMenuClose: function(){
 		jQuery("#AXCodeViewerMenuBox").remove();
-		jQuery("#AXCodeViewerContainer").css({position:"fixed"});
+		if(AXUtil.browser.mobile) jQuery("#AXCodeViewerContainer").css({position:"fixed"});
 		mask.close();
 	},
 	changeTheme: function(){
