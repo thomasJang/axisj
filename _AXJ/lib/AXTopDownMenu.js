@@ -12,7 +12,8 @@ var AXTopDownMenu = Class.create(AXJ, {
 	author        : "tom@axisj.com",
 	logs: [
 		"2013-03-12 오후 8:21:23",
-		"2013-11-22 오후 6:03:35 - tom : parent item Addclass 추가"
+		"2013-11-22 오후 6:03:35 - tom : parent item Addclass 추가",
+		"2013-12-31 오후 2:06:06 - root : setTree 시 child node count check 추가"
 	],
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -70,9 +71,9 @@ var AXTopDownMenu = Class.create(AXJ, {
 		var treeFn = function(subTree){
 			jQuery.each(subTree, function(pi, T){
 				po.push("<li>");
-				var addClass = (T.cn) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
+				var addClass = (T.cn && T.cn.length > 0 ) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
 				po.push("<a href=\"" + T.url + "\""+addClass+">"+ T.label + "</a>");
-				if(T.cn){
+				if(T.cn && T.cn.length > 0 ){
 					po.push("<div class=\""+cfg.childsMenu.className+"\">");
 					po.push("	<ul>");
 					po.push(treeFn(T.cn));
