@@ -862,6 +862,12 @@ var AXConfig = {
 	AXInput: {
 		errorPrintType: "toast",
 		selectorOptionEmpty: "목록이 없습니다."
+	},
+	AXContextMenu: {
+		title:"Please select"
+	},
+	mobile: {
+		responsiveWidth: 640
 	}
 };
 
@@ -1624,7 +1630,7 @@ var AXNotification = Class.create(AXJ, {
 			});
 
 			jQuery(".AXNotificationButtons").find(".AXButton").get(0).focus();
-			
+
 			jQuery(document.body).unbind("keyup."+breadID).bind("keyup."+breadID, function(event){
 				if(event.keyCode == AXUtil.Event.KEY_ESC){
 					jQuery("#bread_AX_" + breadID).fadeOut({
@@ -1635,8 +1641,6 @@ var AXNotification = Class.create(AXJ, {
 					});
 				}
 			});
-			
-
 		}
 	},
 	insertBread: function () {
@@ -1688,8 +1692,7 @@ var AXNotification = Class.create(AXJ, {
 		if (jQuery("#" + this.config.targetID).html() == "") {
 			this.lasBreadSeq = 0;
 			if (this.config.type == "dialog") {
-				mask.close();
-				
+				mask.close();	
 				if(breadID) jQuery(document.body).unbind("keyup."+breadID);
 			}
 		}
@@ -3458,8 +3461,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		this.objects = [];
 		this.config.theme = "AXContextMenu";
 		this.config.width = "140";
-
-		
+		this.config.responsiveWidth = AXConfig.mobile.responsiveWidth; /* 모바일 반응 너비 */
 	},
 	init: function () {
 
@@ -3552,6 +3554,92 @@ var AXContextMenuClass = Class.create(AXJ, {
 		return po.join('');
 	},
 	open: function (myobj, position) {
+		var cfg = this.config;
+		if(AXUtil.clientWidth() < cfg.responsiveWidth){
+			this.mobileOpen(myobj, position);
+		}else{
+			this.deskTopOpen(myobj, position);
+		}
+	},
+	mobileOpen: function(myobj, position){
+		var cfg = this.config;
+		var objSeq = null;
+		jQuery.each(this.objects, function (index, O) {
+			if (O.id == myobj.id) {
+				objSeq = index;
+				return false;
+			}
+		});
+		if (objSeq == null) {
+			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
+			return;
+		}
+		var obj = this.objects[objSeq];
+		var objID = obj.id;
+		
+		this.modal = new AXMobileModal();
+		this.modal.setConfig({
+			addClass:"",
+			height: 400,
+			width: 300,
+			head:{
+				title:myobj.title,
+				close:{
+					onclick:function(){
+						
+					}
+				}
+			},
+			onclose: function(){
+
+			}
+		});
+		
+    	var initMobileModalBind = this.initMobileModal.bind(this);
+    	var onLoad = function(modalObj){
+    		initMobileModalBind(objID, objSeq, myobj, modalObj);
+    	};
+    	this.modal.open(null, onLoad);
+	},
+	initMobileModal: function(objID, objSeq, myobj, modalObj){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
+		if (myobj.sendObj) {
+			obj.sendObj = myobj.sendObj;
+		}
+		var href = (obj.href == undefined) ? cfg.href : obj.href;
+		var filter = this.filter.bind(this);
+		//var getSubMenu = this.getSubMenu.bind(this);
+		
+		var styles = [];
+		styles.push("height:356px;");
+		
+		var po = [];
+		po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
+		po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
+		jQuery.each(obj.menu, function (idx, menu) {
+			if (filter(objSeq, objID, myobj, menu)) {
+				var className = (menu.className) ? " " + menu.className : "";
+				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+				po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+				po.push(menu.label);
+				if (menu.subMenu) {
+					if (menu.subMenu.length > 0) {
+						po.push("<div class=\"contextSubMenuIcon\"></div>");
+					}
+				}
+				po.push("</a>");
+			}
+		});
+		po.push("</div>");
+		po.push("</div>");
+		
+    	modalObj.modalBody.empty();
+    	modalObj.modalBody.append(po.join(''));
+		
+	},
+	deskTopOpen: function (myobj, position) {
 		var cfg = this.config;
 		var objSeq = null;
 		jQuery.each(this.objects, function (index, O) {
@@ -3673,9 +3761,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		}
 		jQuery("#" + objID).css(css);
 
-		//var eventBind = this.eventBind.bind(this);
 		this.eventBind(objSeq, objID);
-		//setTimeout(function(){}, 1);
 	},
 	eventBind: function (objSeq, objID) {
 		var cfg = this.config;
