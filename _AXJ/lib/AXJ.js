@@ -1624,6 +1624,18 @@ var AXNotification = Class.create(AXJ, {
 			});
 
 			jQuery(".AXNotificationButtons").find(".AXButton").get(0).focus();
+			
+			jQuery(document.body).unbind("keyup."+breadID).bind("keyup."+breadID, function(event){
+				if(event.keyCode == AXUtil.Event.KEY_ESC){
+					jQuery("#bread_AX_" + breadID).fadeOut({
+						duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
+							jQuery("#bread_AX_" + breadID).remove();
+							endCheck(breadID);
+						}
+					});
+				}
+			});
+			
 
 		}
 	},
@@ -1672,12 +1684,13 @@ var AXNotification = Class.create(AXJ, {
 		this.busy = false;
 		this.insertBread();
 	},
-	endCheck: function () {
-
+	endCheck: function (breadID) {
 		if (jQuery("#" + this.config.targetID).html() == "") {
 			this.lasBreadSeq = 0;
 			if (this.config.type == "dialog") {
 				mask.close();
+				
+				if(breadID) jQuery(document.body).unbind("keyup."+breadID);
 			}
 		}
 	}
