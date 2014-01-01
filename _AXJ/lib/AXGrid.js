@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.41",
+	version: "AXGrid v1.42",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -44,7 +44,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결",
 		"2013-12-24 오후 2:30:25 tom : 버그픽스",
 		"2013-12-27 오전 11:56:44 tom marker bugfix",
-		"2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스"
+		"2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스",
+		"2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -691,8 +692,7 @@ var AXGrid = Class.create(AXJ, {
 								}).first();
 							}
 							if (myCG != null) {
-								if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
-								else AXUtil.overwriteObject(CH, myCG, false);
+								AXUtil.overwriteObject(CH, myCG, false);
 							} else {
 								AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 							}
@@ -717,6 +717,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			}
 		}
+		
 		/*editor 관련 데이터 정리 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 		/*fixedColSeq가 설정된 경우 */
@@ -4308,64 +4309,68 @@ var AXGrid = Class.create(AXJ, {
 			});
 		}
 
-		if (cfg.editor.request) {
-			var validate = function (formID, CH) {
-				var checkedValues = [];
-				var value;
+		/* form validate -- s */
+		var validate = function (formID, CH) {
+			var checkedValues = [];
+			var value;
 
-				if (CH.form.type == "radio") {
-					jQuery.each(CH.form.options, function (oidx, opt) {
-						var opt_formID = formID + "_AX_" + oidx;
-						if (jQuery("#" + opt_formID).get(0).checked) checkedValues.push(jQuery("#" + opt_formID).val());
-					});
-					value = checkedValue.join(",");
-				} else if (CH.form.type == "checkbox") {
-					jQuery.each(CH.form.options, function (oidx, opt) {
-						var opt_formID = formID + "_AX_" + oidx;
-						if (jQuery("#" + opt_formID).get(0).checked) checkedValues.push(jQuery("#" + opt_formID).val());
-						else checkedValues.push(CH.key + "=");
-					});
-					value = checkedValue.join(",");
-				} else if (CH.form.type == "select") {
-					if (CH.form.value == "itemText") {
-						value = AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text;
-					} else {
-						value = jQuery("#" + formID).val();
-					}
+			if (CH.form.type == "radio") {
+				jQuery.each(CH.form.options, function (oidx, opt) {
+					var opt_formID = formID + "_AX_" + oidx;
+					if (jQuery("#" + opt_formID).get(0).checked) checkedValues.push(jQuery("#" + opt_formID).val());
+				});
+				value = checkedValue.join(",");
+			} else if (CH.form.type == "checkbox") {
+				jQuery.each(CH.form.options, function (oidx, opt) {
+					var opt_formID = formID + "_AX_" + oidx;
+					if (jQuery("#" + opt_formID).get(0).checked) checkedValues.push(jQuery("#" + opt_formID).val());
+					else checkedValues.push(CH.key + "=");
+				});
+				value = checkedValue.join(",");
+			} else if (CH.form.type == "select") {
+				if (CH.form.value == "itemText") {
+					value = AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text;
 				} else {
-					value = jQuery("#" + formID).val().trim();
+					value = jQuery("#" + formID).val();
 				}
-				var sendObj = {
-					formID: formID,
-					value: value,
-					checkedValues: checkedValues,
-					form: CH.form
-				};
-				return CH.form.validate.call(sendObj, formID, value);
+			} else {
+				value = jQuery("#" + formID).val().trim();
+			}
+			var sendObj = {
+				formID: formID,
+				value: value,
+				checkedValues: checkedValues,
+				form: CH.form
 			};
-
-			var validateError = false;
-			for (var r = 0; r < cfg.editor.rows.length; r++) {
-				jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
-					if (CH.form) {
-						if (CH.form.validate) {
-							var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
-							var result = validate(formID, CH);
-							if (!result) {
-								validateError = true;
-								jQuery("#" + formID).focus();
-							}
+			return CH.form.validate.call(sendObj, formID, value);
+		};
+		
+		var validateError = false;
+		for (var r = 0; r < cfg.editor.rows.length; r++) {
+			trace(cfg.editor.rows[r]);
+			jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+				if (CH.form) {
+					if (CH.form.validate) {
+						var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
+						var result = validate(formID, CH);
+						if (!result) {
+							validateError = true;
+							jQuery("#" + formID).focus();
 						}
 					}
-				});
-			}
+				}
+			});
+		}
 
-			if (validateError) {
-				return;
-			}
+		if (validateError) {
+			return;
+		}
+		/* form validate -- e */
 
-			this.unbindAXbind();
+		this.unbindAXbind();
 
+		if (cfg.editor.request) {
+			
 			var po = [];
 			po.push("<div class=\"editorContent\" style=\"background:#fff;\">");
 			po.push("<div class=\"AXLoading\"></div>");
@@ -4392,7 +4397,6 @@ var AXGrid = Class.create(AXJ, {
 
 		} else {
 
-			this.unbindAXbind();
 			var po = [];
 			po.push("<div class=\"editorContent\" style=\"background:#fff;\">");
 			po.push("<div class=\"AXLoading\"></div>");
