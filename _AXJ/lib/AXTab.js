@@ -17,7 +17,7 @@ var AXTabClass = Class.create(AXJ, {
         AXJ_super();
         this.objects = [];
         this.config.handleWidth = 22;
-        this.config.mobileBrowserWidth = 640;
+        this.config.responsiveWidth = AXConfig.mobile.responsiveWidth;
     },
     init: function(){
     	
@@ -152,8 +152,8 @@ var AXTabClass = Class.create(AXJ, {
     	});
     	
     	if(obj.overflow != "visible"){
-	    	var tabsWidth = (AXUtil.clientWidth() < cfg.mobileBrowserWidth) ? 40 : 30;
-	    	var tabsMargin = (AXUtil.clientWidth() < cfg.mobileBrowserWidth) ? 1 : 0;
+	    	var tabsWidth = (AXUtil.clientWidth() < cfg.responsiveWidth) ? 40 : 30;
+	    	var tabsMargin = (AXUtil.clientWidth() < cfg.responsiveWidth) ? 1 : 0;
 	    	obj.tabContainer.find(".AXTab").each(function(){
 	    		tabsWidth += (jQuery(this).outerWidth().number() + jQuery(this).css("marginLeft").number() + jQuery(this).css("marginRight").number() + tabsMargin);
 	    	});
@@ -173,7 +173,7 @@ var AXTabClass = Class.create(AXJ, {
 				this.focusingItem(objID, objSeq, obj.config.selectedIndex);
 			}
 			
-			if(trayWidth < scrollWidth && AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+			if(trayWidth < scrollWidth && AXUtil.clientWidth() < cfg.responsiveWidth){
 				obj.tabContainer.find(".leftArrowHandleBox").hide();
 				obj.tabContainer.find(".rightArrowHandleBox").hide();
 				obj.tabScroll.css({left:0});
@@ -295,7 +295,7 @@ var AXTabClass = Class.create(AXJ, {
     	var obj = this.objects[objSeq];
 
 		var trayWidth = obj.tabTray.outerWidth();
-    	if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    	if(AXUtil.clientWidth() < cfg.responsiveWidth){
     		var rightMargin = 40;
     	}else{
     		var rightMargin = 29 + cfg.handleWidth;
@@ -370,7 +370,7 @@ var AXTabClass = Class.create(AXJ, {
 		var scrollAmount = 500;
 		
 		var trayWidth = obj.tabTray.outerWidth();
-    	if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    	if(AXUtil.clientWidth() < cfg.responsiveWidth){
     		var rightMargin = 40;
     	}else{
     		var rightMargin = 29 + cfg.handleWidth;
@@ -429,7 +429,7 @@ var AXTabClass = Class.create(AXJ, {
     	var cfg = this.config;
     	var obj = this.objects[objSeq];
     	
-    	AXContextMenu.open({id:objID + "_AX_tabMore"}, event);
+    	AXContextMenu.open({id:objID + "_AX_tabMore", title:AXConfig.AXContextMenu.title}, event);
     },
     resizeCheck: function(){
     	var cfg = this.config;
@@ -446,7 +446,7 @@ var AXTabClass = Class.create(AXJ, {
 				obj.tabContainer.find(".rightArrowMoreBox").hide();
 				obj.tabScroll.css({left:0});
 			}else{
-				if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+				if(AXUtil.clientWidth() < cfg.responsiveWidth){
 					obj.tabContainer.find(".leftArrowHandleBox").hide();
 					obj.tabContainer.find(".rightArrowHandleBox").hide();
 				}else{
@@ -467,7 +467,7 @@ var AXTabClass = Class.create(AXJ, {
     		return;
     	}
     	
-    	if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+    	if(AXUtil.clientWidth() < cfg.responsiveWidth){
     		var scrollLeft = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left);
     		var itemWidth = (jQuery("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
     		var handleWidth = 0;
@@ -645,7 +645,7 @@ var AXTabClass = Class.create(AXJ, {
 			endLeft = 0;
 		}
 		var newLeft = endLeft.abs();
-   		if(AXUtil.clientWidth() < cfg.mobileBrowserWidth){
+   		if(AXUtil.clientWidth() < cfg.responsiveWidth){
     		var handleWidth = 0;
     		var rightMargin = 40;
     	}else{

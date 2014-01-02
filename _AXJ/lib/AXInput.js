@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.29",
+	version: "AXInputConverter v1.30",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -24,7 +24,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스",
 		"2013-12-16 오후 4:46:14 : tom - bindMoneyCheck",
 		"2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스",
-		"2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가"
+		"2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가",
+		"2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -648,6 +649,13 @@ var AXInputConverter = Class.create(AXJ, {
 		css.left = offset.left;
 		expandBox.css(css);
 
+
+		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
+		obj.documentclickEvent = function (event) {
+			bindSelectorOptionsClick(objID, objSeq, event);
+		}
+		jQuery(document).unbind("click.AXInputSelector").bind("click.AXInputSelector", obj.documentclickEvent);
+
 		//_AX_expandBox set options
 		//trace(obj.config.ajaxUrl);
 		if (obj.config.onsearch) {
@@ -750,8 +758,7 @@ var AXInputConverter = Class.create(AXJ, {
 			bindSelectorKeyup(objID, objSeq, event);
 		}
 
-		jQuery(document).unbind("click.AXInputSelector");
-		jQuery(document).bind("click.AXInputSelector", obj.documentclickEvent);
+		jQuery(document).unbind("click.AXInputSelector").bind("click.AXInputSelector", obj.documentclickEvent);
 		jQuery("#" + objID).unbind("keydown.AXInputSelector").bind("keydown.AXInputSelector", obj.inputKeyup);
 
 		if (obj.myUIScroll) obj.myUIScroll.unbind();
@@ -795,6 +802,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (!isSelectorClick) {
 			this.bindSelectorClose(objID, objSeq, event); // 셀럭터 외의 영역이 므로 닫기
+			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		} else {
 
 			eid = myTarget.id.split(/_AX_/g);

@@ -107,6 +107,10 @@ var AXCodeView = Class.create(AXJ, {
 		mask.close();
 	},
 	viewMenu: function(){
+		
+		location.href = "../../index.html";
+		return;
+		
 		var clientHeight = (AXUtil.docTD == "Q") ? document.body.clientHeight : document.documentElement.clientHeight;
 		var clienWidth = (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth;
 		clientHeight -= 35;

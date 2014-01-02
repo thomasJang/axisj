@@ -13,8 +13,6 @@
 	color:#82898f;
 }
 
-.AXTabs .AXTabsTray .AXTab.Classic:hover, 
-.AXTabs .AXTabsTray .AXTab.Classic:active,
 .AXTabs .AXTabsTray .AXTab.Classic.on
 {
 	background:url(img/AXMobile/tabClassic.png) repeat-x 0px 39px;
@@ -24,35 +22,23 @@
 .AXTabsSmall .AXTabsTray .AXTab.Classic{
 	color:#82898f;
 }
-.AXTabsSmall .AXTabsTray .AXTab.Classic:hover, .AXTabsSmall .AXTabsTray .AXTab.Classic:focus{
-
-}
-.AXTabsSmall .AXTabsTray .AXTab.Classic:active{
-
-}
 .AXTabsSmall .AXTabsTray .AXTab.Classic.on{
-
+	background:url(img/AXMobile/tabClassic.png) repeat-x 0px 21px;
+	background-size:auto 4px;
 }
 
 .AXTabsLarge .AXTabsTray .AXTab.Classic{
 	color:#82898f;
 }
-.AXTabsLarge .AXTabsTray .AXTab.Classic:hover, .AXTabsLarge .AXTabsTray .AXTab.Classic:focus{
-
-}
-.AXTabsLarge .AXTabsTray .AXTab.Classic:active{
-
-}
 .AXTabsLarge .AXTabsTray .AXTab.Classic.on{
-
+	background:url(img/AXMobile/tabClassic.png) repeat-x 0px 52px;
+	background-size:auto 4px;
 }
 
 /** .AXTabs.Blue **/
 .AXTabs .AXTabsTray .AXTab.Blue{
 	color:#3d7fb3;
 }
-.AXTabs .AXTabsTray .AXTab.Blue:hover, 
-.AXTabs .AXTabsTray .AXTab.Blue:active,
 .AXTabs .AXTabsTray .AXTab.Blue.on
 {
 	background:url(img/AXMobile/tabBlue.png) repeat-x 0px 39px;
@@ -60,37 +46,25 @@
 }
 
 .AXTabsSmall .AXTabsTray .AXTab.Blue{
-
-}
-.AXTabsSmall .AXTabsTray .AXTab.Blue:hover, .AXTabsSmall .AXTabsTray .AXTab.Blue:focus{
-
-}
-.AXTabsSmall .AXTabsTray .AXTab.Blue:active{
-
+	color:#3d7fb3;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Blue.on{
-
+	background:url(img/AXMobile/tabBlue.png) repeat-x 0px 21px;
+	background-size:auto 4px;
 }
 
 .AXTabsLarge .AXTabsTray .AXTab.Blue{
 	color:#3d7fb3;
 }
-.AXTabsLarge .AXTabsTray .AXTab.Blue:hover, .AXTabsLarge .AXTabsTray .AXTab.Blue:focus{
-	
-}
-.AXTabsLarge .AXTabsTray .AXTab.Blue:active{
-
-}
 .AXTabsLarge .AXTabsTray .AXTab.Blue.on{
-
+	background:url(img/AXMobile/tabBlue.png) repeat-x 0px 52px;
+	background-size:auto 4px;
 }
 
 /** .AXTabs.Green **/
 .AXTabs .AXTabsTray .AXTab.Green{
 	color:#69994d;
 }
-.AXTabs .AXTabsTray .AXTab.Green:hover, 
-.AXTabs .AXTabsTray .AXTab.Green:active,
 .AXTabs .AXTabsTray .AXTab.Green.on
 {
 	background:url(img/AXMobile/tabGreen.png) repeat-x 0px 39px;
@@ -98,37 +72,25 @@
 }
 
 .AXTabsSmall .AXTabsTray .AXTab.Green{
-
-}
-.AXTabsSmall .AXTabsTray .AXTab.Green:hover, .AXTabsSmall .AXTabsTray .AXTab.Green:focus{
-
-}
-.AXTabsSmall .AXTabsTray .AXTab.Green:active{
-
+	color:#69994d;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Green.on{
-
+	background:url(img/AXMobile/tabGreen.png) repeat-x 0px 21px;
+	background-size:auto 4px;
 }
 
 .AXTabsLarge .AXTabsTray .AXTab.Green{
 	color:#69994d;
 }
-.AXTabsLarge .AXTabsTray .AXTab.Green:hover, .AXTabsLarge .AXTabsTray .AXTab.Green:focus{
-	
-}
-.AXTabsLarge .AXTabsTray .AXTab.Green:active{
-	
-}
 .AXTabsLarge .AXTabsTray .AXTab.Green.on{
-	
+	background:url(img/AXMobile/tabGreen.png) repeat-x 0px 52px;
+	background-size:auto 4px;
 }
 
 /** .AXTabs.Red **/
 .AXTabs .AXTabsTray .AXTab.Red{
 	color:#882f29;
 }
-.AXTabs .AXTabsTray .AXTab.Red:hover, 
-.AXTabs .AXTabsTray .AXTab.Red:active,
 .AXTabs .AXTabsTray .AXTab.Red.on
 {
 	background:url(img/AXMobile/tabRed.png) repeat-x 0px 39px;
@@ -138,27 +100,17 @@
 .AXTabsSmall .AXTabsTray .AXTab.Red{
 	color:#882f29;
 }
-.AXTabsSmall .AXTabsTray .AXTab.Red:hover, .AXTabsSmall .AXTabsTray .AXTab.Red:focus{
-
-}
-.AXTabsSmall .AXTabsTray .AXTab.Red:active{
-
-}
 .AXTabsSmall .AXTabsTray .AXTab.Red.on{
-
+	background:url(img/AXMobile/tabRed.png) repeat-x 0px 21px;
+	background-size:auto 4px;
 }
 
 .AXTabsLarge .AXTabsTray .AXTab.Red{
 	color:#882f29;
 }
-.AXTabsLarge .AXTabsTray .AXTab.Red:hover, .AXTabsLarge .AXTabsTray .AXTab.Red:focus{
-
-}
-.AXTabsLarge .AXTabsTray .AXTab.Red:active{
-
-}
 .AXTabsLarge .AXTabsTray .AXTab.Red.on{
-
+	background:url(img/AXMobile/tabRed.png) repeat-x 0px 52px;
+	background-size:auto 4px;
 }
 
 

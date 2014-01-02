@@ -1,4 +1,20 @@
-﻿/*!
+﻿// Var
+
+.Hspace(@height: 1px){
+	font-size:1px;line-height:1px;height:@height;
+}
+.Opacity(@opac:50){
+	-moz-opacity: @opac/100;
+	opacity: @opac/100;
+	filter: alpha(opacity=@opac);	
+}
+.Radius(@rad: 5px;){
+	border-radius:@rad;-webkit-border-radius:@rad;-moz-border-radius:@rad;
+}
+
+
+// CSS
+/*!
  * AxisJ Javascript Library Version 1.0
  * http://AxisJ.com
  *
@@ -8,14 +24,14 @@
  */
 .clear{clear:both;}
 
-.AXHspace1{font-size:1px;line-height:1px;height:1px;}
-.AXHspace2{font-size:1px;line-height:1px;height:2px;}
-.AXHspace3{font-size:1px;line-height:1px;height:3px;}
-.AXHspace4{font-size:1px;line-height:1px;height:4px;}
-.AXHspace5{font-size:1px;line-height:1px;height:5px;}
-.AXHspace10{font-size:1px;line-height:1px;height:10px;}
-.AXHspace15{font-size:1px;line-height:1px;height:15px;}
-.AXHspace20{font-size:1px;line-height:1px;height:20px;}
+.AXHspace1{.Hspace(1px);}
+.AXHspace2{.Hspace(2px);}
+.AXHspace3{.Hspace(3px);}
+.AXHspace4{.Hspace(4px);}
+.AXHspace5{.Hspace(5px);}
+.AXHspace10{.Hspace(10px);}
+.AXHspace15{.Hspace(15px);}
+.AXHspace20{.Hspace(20px);}
 
 .AXUserSelectNone{
 	user-select:none;-moz-user-select:none;-webkit-user-select:none;-khtml-user-select:none;-o-user-select:none;
@@ -32,7 +48,8 @@
 .AXMask{
 	z-index:5000;
 	position:fixed;top:0px;left:0px;width:100%;height:100%;
-	background:#000;-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+	background:#000;
+	.Opacity(20);
 }
 
 .AXLoading{
@@ -46,7 +63,7 @@
 }
 
 .AXCodeViewer{
-	position:fixed;right:10px;bottom:10px;
+	position:fixed;right:5px;bottom:5px;
 	z-index:5001;
 }
 
@@ -65,8 +82,9 @@
 	display:block;width:24px;height:24px;background:url(img/dialogClose.png) no-repeat;
 	overflow:hidden;text-indent:-1000px;
 }
-.AXdemoPageTabTarget{padding:10px 0px 0px 0px;background:#fff;height:30px;}
-.AXdemoPageContent{padding:20px;}
+.AXdemoPageTabTarget{padding:0px;background:#eee;height:42px;}
+.AXdemoPageContent{padding:10px;}
+
 /* ------------------ AXScroll ----------------------- */
 .AXScroll{
 	position:relative;overflow:hidden;
@@ -75,25 +93,25 @@
 		z-index:100;
 		position:absolute;right:3px;top:2px;
 		width:7px;height:100%;background:#000;
-		-moz-opacity: 0.1;opacity:.10;filter: alpha(opacity=10);
-		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+		.Opacity(10);
+		.Radius(5px);
 	}
 	.AXScroll .scrollTrack_hover{
-		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		.Opacity(20);
 	}
 	.AXScroll .scrollBar{
 		z-index:100;
 		position:absolute;right:3px;top:2px;
 		width:7px;min-height:10px;background:#000;
-		-moz-opacity: 0.1;opacity:.1;filter: alpha(opacity=10);
-		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+		.Opacity(20);
+		.Radius(5px);
 	}
 	.AXScroll .scrollBar:hover{
 		width:11px;
 		right:1px;
 	}
 	.AXScroll .scrollBar_hover{
-		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+		.Opacity(50);
 	}
 	.AXScroll .scrollTarget{
 		position:absolute;left:0px;top:0px;
@@ -104,25 +122,25 @@
 		z-index:100;
 		position:absolute;left:2px;bottom:3px;
 		width:100%;height:7px;background:#000;
-		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
-		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+		.Opacity(10);
+		.Radius(5px);
 	}
 	.AXScroll .xscrollTrack_hover{
-		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		.Opacity(20);
 	}
 	.AXScroll .xscrollBar{
 		z-index:100;
 		position:absolute;left:2px;bottom:3px;
 		height:7px;min-width:10px;background:#000;
-		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
-		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+		.Opacity(20);
+		.Radius(5px);
 	}
 	.AXScroll .xscrollBar:hover{
 		height:11px;
 		bottom:1px;
 	}
 	.AXScroll .xscrollBar_hover{
-		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+		.Opacity(50);
 	}
 	.AXScroll .xscrollTarget{
 		position:absolute;left:0px;top:0px;
@@ -135,24 +153,24 @@
 	.AXScrollSmall .scrollTrack{
 		position:absolute;right:3px;top:2px;
 		width:6px;height:100%;background:#000;
-		-moz-opacity: 0.1;opacity:.10;filter: alpha(opacity=10);
-		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+		.Opacity(10);
+		.Radius(5px);
 	}
 	.AXScrollSmall .scrollTrack_hover{
-		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		.Opacity(20);
 	}
 	.AXScrollSmall .scrollBar{
 		position:absolute;right:3px;top:2px;
 		width:6px;min-height:10px;background:#000;
-		-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);
-		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
+		.Opacity(30);
+		.Radius(5px);
 	}
 	.AXScrollSmall .scrollBar:hover{
 		width:10px;
 		right:1px;
 	}
 	.AXScrollSmall .scrollBar_hover{
-		-moz-opacity: 0.5;opacity:.50;filter: alpha(opacity=50);
+		.Opacity(50);
 	}
 	.AXScrollSmall .scrollTarget{
 		position:absolute;left:0px;top:0px;
@@ -166,61 +184,63 @@
 	position:relative;
 	cursor:pointer;
 	vertical-align:middle;
-	height:26px;
-	padding:0px 5px;
+	height:38px;
+	padding:0px 10px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:1em;
-	background:url(img/defaultRegular.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	font-size:13px;color:#717b85;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 152px;
+	box-shadow:0px 1px 0px #f2f2f2;
 	outline:none;
 }
 .AXButton:hover, .AXButton:focus{
 	border:1px solid #949fa8;
-	background-position:0px -26px;
-	box-shadow:0px 1px 3px #c8cacd;
+	background-position:0px -38px;
+	box-shadow:0px 1px 0px #c8cacd;
 	text-shadow:0px 1px #fff;
 }
 .AXButton:active{
 	border:1px solid #b9babc;
-	background-position:0px -52px;
+	background-position:0px -114px;
 	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
+	color:#b9babc;
+	text-shadow:none;
 }
 .AXButton SPAN{
 	display:block;
-	height:24px;line-height:24px;
+	height:36px;line-height:36px;
 	vertical-align:middle;
 }
 
 .AXButtonSmall{
 	cursor:pointer;
-	height:20px;
+	height:27px;
 	padding:0px 5px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
+	font-size:12px;color:#6e7a86;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 108px;
 	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
 .AXButtonSmall:hover, .AXButtonSmall:focus{
 	border:1px solid #949fa8;
-	background-position:0px -20px;
+	background-position:0px -27px;
 	box-shadow:0px 1px 3px #c8cacd;
 	text-shadow:0px 1px #fff;
 }
 .AXButtonSmall:active{
 	border:1px solid #b9babc;
-	background-position:0px -40px;
+	background-position:0px -81px;
 	box-shadow:none;
-	color:#fff;
+	color:#b9babc;
 	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonSmall SPAN{
 	display:block;
-	height:18px;line-height:18px;
+	height:25px;line-height:25px;
 	vertical-align:middle;
 }
 
@@ -230,8 +250,9 @@
 	padding:0px 5px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
+	font-size:11px;color:#6e7a86;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 80px;
 	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
@@ -243,9 +264,9 @@
 }
 .AXButtonExtraSmall:active{
 	border:1px solid #b9babc;
-	background-position:0px -40px;
+	background-position:0px -60px;
 	box-shadow:none;
-	color:#fff;
+	color:#b9babc;
 	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonExtraSmall SPAN{
@@ -256,52 +277,34 @@
 
 .AXButtonLarge{
 	cursor:pointer;
-	height:46px;
+	height:55px;
 	padding:0px 10px;
 	margin:0px 0px;
 	border:1px solid #b9babc;border-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:46px;
-	background:url(img/defaultLarge.png) repeat-x;
+	font-size:15px;color:#6e7a86;line-height:1em;
+	background:url(img/AXMobile/mobileDefault.png) repeat-x;
+	background-size:auto 220px;
 	box-shadow:0px 1px #d9d9d9;
 	outline:none;
 }
 .AXButtonLarge:hover, .AXButtonLarge:focus{
 	border:1px solid #949fa8;
-	background-position:0px -46px;
+	background-position:0px -55px;
 	box-shadow:0px 1px 3px #c8cacd;
 	text-shadow:0px 1px #fff;
 }
 .AXButtonLarge:active{
 	border:1px solid #b9babc;
-	background-position:0px -92px;
+	background-position:0px -165px;
 	box-shadow:none;
-	color:#fff;
+	color:#b9babc;
 	text-shadow:0px 1px #c5ccd0;
 }
 .AXButtonLarge SPAN{
 	display:block;
-	height:44px;line-height:44px;
+	height:53px;line-height:53px;
 	vertical-align:middle;
 }
-
-.AXButtonExtraSmall.W30{width:30px;padding:0px;}
-.AXButtonExtraSmall.W40{width:40px;padding:0px;}
-.AXButtonExtraSmall.W50{width:50px;padding:0px;}
-.AXButtonExtraSmall.W60{width:60px;padding:0px;}
-.AXButtonExtraSmall.W70{width:70px;padding:0px;}
-.AXButtonExtraSmall.W80{width:80px;padding:0px;}
-.AXButtonExtraSmall.W90{width:90px;padding:0px;}
-.AXButtonExtraSmall.W100{width:100px;padding:0px;}
-.AXButtonExtraSmall.W110{width:110px;padding:0px;}
-.AXButtonExtraSmall.W120{width:120px;padding:0px;}
-.AXButtonExtraSmall.W130{width:130px;padding:0px;}
-.AXButtonExtraSmall.W140{width:140px;padding:0px;}
-.AXButtonExtraSmall.W150{width:150px;padding:0px;}
-.AXButtonExtraSmall.W160{width:160px;padding:0px;}
-.AXButtonExtraSmall.W170{width:170px;padding:0px;}
-.AXButtonExtraSmall.W180{width:180px;padding:0px;}
-.AXButtonExtraSmall.W190{width:190px;padding:0px;}
-.AXButtonExtraSmall.W200{width:200px;padding:0px;}
 
 .AXButtonSmall.W30{width:30px;padding:0px;}
 .AXButtonSmall.W40{width:40px;padding:0px;}
@@ -367,11 +370,11 @@
 }
 .AXNotificationTrayDialog{
 	position:fixed;left:0px;top:50px;
-	width:340px;
+	width:300px;
 	z-index:5001;
 }
 .AXNotification{
-	width:300px;
+	width:280px;
 	border:1px solid #c5c5c5;background:#ebebeb;
 	padding:10px;margin:10px 0px;
 	-moz-opacity: 0.9;opacity:.90;filter: alpha(opacity=90);
@@ -381,7 +384,7 @@
 }
 
 .AXNotificationTrayDialog .AXNotification{
-	width:340px;
+	width:300px;
 	border:1px solid #444;background:#ebebeb;
 	padding:0px;margin:0px 0px;
 	-moz-opacity: 1;opacity:1.00;filter: alpha(opacity=100);
@@ -411,11 +414,12 @@
 			border:0px none !important;background:#ebebeb;
 		}
 	.AXNotification .AXNotificationIcon{
-		width:42px;height:42px;
-		background:url(img/notificationComplete.png) no-repeat center 5px !important;
+		width:40px;height:30px;
+		background:url(img/AXMobile/notificationComplete.png) no-repeat center center !important;
+		background-size:auto 30px !important;
 	}
 	.AXNotification .AXNotificationBody{
-		font-size:12px;color:#525252;padding-right:5px;
+		font-size:13px;color:#525252;padding-right:5px;
 		line-height:1.6em;
 	}
 
@@ -432,8 +436,9 @@
 
 	/* Warning */
 	.AXNotification.Warning .AXNotificationIcon{
-		width:42px;height:42px;
-		background:url(img/notificationWarning.png) no-repeat center center !important;
+		width:40px;height:30px;
+		background:url(img/AXMobile/notificationWarning.png) no-repeat center center !important;
+		background-size:auto 30px !important;
 	}
 		.AXNotification.Warning .AXNotificationBody B{
 			color:#bf601b;
@@ -441,8 +446,9 @@
 
 	/* Caution */
 	.AXNotification.Caution .AXNotificationIcon{
-		width:42px;height:42px;
-		background:url(img/notificationCaution.png) no-repeat center center !important;
+		width:40px;height:30px;
+		background:url(img/AXMobile/notificationCaution.png) no-repeat center center !important;
+		background-size:auto 30px !important;
 	}
 	.AXNotification.Caution .AXNotificationBody B{
 		color:#7e302c;
@@ -574,7 +580,7 @@
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:0px 1px 1px #e9eced;
 	border-radius:4px;
-	font-size:12px;line-height:19px;height:25px;
+	font-size:13px;height:38px;
 	padding:2px;
 	margin:0px auto;
 }
@@ -624,185 +630,125 @@
 /* ---------------------------- AXTabs ------------------------------- */
 	/* horizen AXTabs */
 .AXTabs{
-	position:relative;min-height:30px;
+	position:relative;min-height:42px;
 	overflow:hidden;
 }
 .AXTabs .AXTabsTray{
-	background:url(img/AXTabBg.png);
+	background:#f8f8f8;
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #717b85;
 }
 .AXTabs .AXTabsTray .trayScroll{
 	position:absolute;
-	left:0px;top:0px;
-	height:30px;
+	left:0px;top:1px;
+	height:42px;
+	background:#f8f8f8;
 }
 .AXTabs .AXTabsTray .AXTab{
 	display:block;float:left;
 	cursor:pointer;
-	height:26px;min-width:50px;
+	height:42px;min-width:50px;
 	padding:0px 10px;
-	margin:2px 0px 0px 2px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
+	font-size:13px;color:#6e7a86;line-height:42px;text-align:center;
 	text-decoration:none;
-	background:url(img/defaultRegular.png) repeat-x;
 	outline:none;
 }
-.AXTabs .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -26px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabs .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -52px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabs .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
-}
-.AXTabs .AXTabsTray .AXTabSplit{
-	display:none;
+
+.AXTabs .AXTabsTray .AXTab.on
+{
+	background:url(img/AXMobile/tabDefault.png) repeat-x 0px 39px;
+	background-size:auto 4px;
 }
 
-.AXTabs .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:28px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabs .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:28px;
-	background:url(img/leftArrows.png) no-repeat -5px 0px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabs .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -30px;
-}
-	
-.AXTabs .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:28px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabs .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:26px;
-	background:url(img/rightArrows.png) no-repeat 10px 0px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabs .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -30px;
+.AXTabs .AXTabsTray .AXTabSplit{
+	display:block;float:left;
+	background:#ccc;
+	width:1px;height:26px;
+	margin-top:8px;
 }
 
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
 	.AXTabs .rightArrowMoreBox{
 		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:28px;
-		background:#fff;
+		right:0px;top:0px;
+		width:40px;height:42px;
+		background:#f8f8f8;
+		border-top:1px solid #ccc;
+		border-left:1px solid #ccc;
+		border-bottom:1px solid #717b85;
 	}
 	.AXTabs .rightArrowMoreBox .tabArrow{
-		display:block;width:24px;height:26px;
-		background:url(img/rightArrowsMore.png) no-repeat center 0px;
+		display:block;width:40px;height:39px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center 0px;
+		background-size:auto 80px;
 		text-indent:-1000px;overflow:hidden;
 	}
 	.AXTabs .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -30px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center -40px;
+		background-size:auto 80px;
 	}
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-	
+
+
 	/* horizen AXTabsLarge */
 .AXTabsLarge{
-	position:relative;min-height:46px;
+	position:relative;min-height:55px;
 	overflow:hidden;
 }
 .AXTabsLarge .AXTabsTray{
-	background:url(img/AXTabBgLarge.png);
+	background:#f8f8f8;
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #717b85;
 }
 .AXTabsLarge .AXTabsTray .trayScroll{
 	position:absolute;
-	left:0px;top:0px;
-	height:46px;
+	left:0px;top:1px;
+	height:55px;
+	background:#f8f8f8;
 }
 .AXTabsLarge .AXTabsTray .AXTab{
 	display:block;float:left;
 	cursor:pointer;
-	height:40px;min-width:100px;
+	height:55px;min-width:50px;
 	padding:0px 10px;
-	margin:4px 0px 0px 4px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
+	font-size:15px;color:#6e7a86;line-height:55px;text-align:center;
 	text-decoration:none;
-	background:url(img/defaultLarge.png) repeat-x;
 	outline:none;
 }
-.AXTabsLarge .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabsLarge .AXTabsTray .AXTab:hover, .AXTabsLarge .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -46px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsLarge .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -92px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
+
 .AXTabsLarge .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
+	background:url(img/AXMobile/tabDefault.png) repeat-x 0px 52px;
+	background-size:auto 4px;
 }
 
-.AXTabsLarge .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:44px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabsLarge .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:44px;
-	background:url(img/leftArrows.png) no-repeat -5px 6px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsLarge .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -24px;
-}
-	
-.AXTabsLarge .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:44px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabsLarge .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:44px;
-	background:url(img/rightArrows.png) no-repeat 10px 6px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsLarge .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -24px;
+.AXTabsLarge .AXTabsTray .AXTabSplit{
+	display:block;float:left;
+	background:#ccc;
+	width:1px;height:35px;
+	margin-top:10px;
 }
 
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
 	.AXTabsLarge .rightArrowMoreBox{
 		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:44px;
-		background:#fff;
+		right:0px;top:0px;
+		width:40px;height:55px;
+		background:#f8f8f8;
+		border-top:1px solid #ccc;
+		border-left:1px solid #ccc;
+		border-bottom:1px solid #717b85;
 	}
 	.AXTabsLarge .rightArrowMoreBox .tabArrow{
-		display:block;width:24px;height:44px;
-		background:url(img/rightArrowsMore.png) no-repeat center 6px;
+		display:block;width:40px;height:52px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center 5px;
+		background-size:auto 80px;
 		text-indent:-1000px;overflow:hidden;
 	}
 	.AXTabsLarge .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -24px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center -35px;
+		background-size:auto 80px;
 	}
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-
 
 	/* horizen AXTabsSmall */
 .AXTabsSmall{
@@ -810,89 +756,60 @@
 	overflow:hidden;
 }
 .AXTabsSmall .AXTabsTray{
-	background:url(img/AXTabBgSmall.png);
+	background:#f8f8f8;
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #717b85;
 }
 .AXTabsSmall .AXTabsTray .trayScroll{
 	position:absolute;
-	left:0px;top:0px;
+	left:0px;top:1px;
 	height:24px;
+	background:#f8f8f8;
 }
 .AXTabsSmall .AXTabsTray .AXTab{
 	display:block;float:left;
 	cursor:pointer;
-	height:20px;min-width:60px;
+	height:24px;min-width:50px;
 	padding:0px 10px;
-	margin:2px 0px 0px 1px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
+	font-size:12px;color:#6e7a86;line-height:24px;text-align:center;
 	text-decoration:none;
-	background:url(img/defaultSmall.png) repeat-x;
 	outline:none;
 }
-.AXTabsSmall .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabsSmall .AXTabsTray .AXTab:hover, .AXTabsSmall .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -20px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsSmall .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -40px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
+
 .AXTabsSmall .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
+	background:url(img/AXMobile/tabDefault.png) repeat-x 0px 21px;
+	background-size:auto 4px;
 }
 
-
-.AXTabsSmall .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:22px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabsSmall .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:22px;
-	background:url(img/leftArrows.png) no-repeat -5px -5px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsSmall .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -35px;
-}
-	
-.AXTabsSmall .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:22px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabsSmall .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:22px;
-	background:url(img/rightArrows.png) no-repeat 10px -3px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsSmall .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -33px;
+.AXTabsSmall .AXTabsTray .AXTabSplit{
+	display:block;float:left;
+	background:#ccc;
+	width:1px;height:16px;
+	margin-top:4px;
 }
 
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
 	.AXTabsSmall .rightArrowMoreBox{
 		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:22px;
-		background:#fff;
+		right:0px;top:0px;
+		width:40px;height:24px;
+		background:#f8f8f8;
+		border-top:1px solid #ccc;
+		border-left:1px solid #ccc;
+		border-bottom:1px solid #717b85;
 	}
 	.AXTabsSmall .rightArrowMoreBox .tabArrow{
-		display:block;width:29px;height:22px;
-		background:url(img/rightArrowsMore.png) no-repeat center -3px;
+		display:block;width:40px;height:24px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center -8px;
+		background-size:auto 80px;
 		text-indent:-1000px;overflow:hidden;
 	}
 	.AXTabsSmall .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -33px;
+		background:url(img/AXMobile/rightArrowsMore.png) no-repeat center -48px;
+		background-size:auto 80px;
 	}
 	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
+
 
 	/* AXTabsVertical */
 .AXTabsVertical{

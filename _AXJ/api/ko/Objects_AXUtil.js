@@ -348,6 +348,23 @@
 			example:[],
 			exampleFn:[],
 			reference:	[]
+		},
+		{
+			name:		"readyMobileConsole", 
+			type:		"method", 
+			desc:		"모바일 브라우저에서 console을 사용 할 수 있도록 설정 합니다.",
+			define:		"AXUtil.readyMobileConsole();",
+			arguments: [
+				
+			],
+			returns: {},
+			samplecode:	[
+'AXUtil.readyMobileConsole()',
+'trace( AXUtil.getUrlInfo() );'
+			],
+			example:[],
+			exampleFn:[],
+			reference:	[]
 		}
 	]
 }

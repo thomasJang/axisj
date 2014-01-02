@@ -864,7 +864,7 @@ var AXConfig = {
 		selectorOptionEmpty: "목록이 없습니다."
 	},
 	AXContextMenu: {
-		title:"Please select"
+		title:"선택하세요"
 	},
 	mobile: {
 		responsiveWidth: 640
@@ -1104,7 +1104,6 @@ var AXUtil = {
 			AXparam = AXparam.replace(pageHostName + pathName, "");
 		}
 
-
 		pageInfo = {};
 		pageInfo.url = url;
 		pageInfo.param = param;
@@ -1307,8 +1306,6 @@ var AXReqQue = Class.create({
 		var ontimeout = this.ontimeout.bind(this);
 		var onsucc = this.onsucc.bind(this);
 
-
-
 		if (AXConfig.AXReq.dataSendMethod != "json") {
 
 		} else {
@@ -1335,7 +1332,7 @@ var AXReqQue = Class.create({
 		ajaxOption.error = onerr;
 		ajaxOption.timeout = ontimeout;
 
-		jQuery.ajax(ajaxOption);
+		this.que[0]._jQueryAjax = jQuery.ajax(ajaxOption);
 	},
 	onsucc: function (req) {
 		if (req != undefined) {
@@ -1389,9 +1386,19 @@ var AXReqQue = Class.create({
 		try {
 			mask.close();
 		} catch (e) { }
+	},
+	abort: function(){
+		try{
+			this.que[0]._jQueryAjax.abort();
+		}catch(e){
+			
+		}
 	}
 });
 var myAXreqQue = new AXReqQue();
+var AXReqAbort = function(){
+	myAXreqQue.abort();
+};
 var AXReq = Class.create({
 	version: "AXReq v1.0",
 	author: "tom@axisj.com",
@@ -1399,11 +1406,9 @@ var AXReq = Class.create({
 		"2012-09-28 오후 2:58:32 - 시작"
 	],
 	initialize: function (url, configs) {
-
 		if (window.location.toString().left(4) != "http") {
 			//dialog.push("현재 파일시스템으로 샘플 코드를 보고 계십니다. ajax 통신 관련한 기능은 정상 작동하지 않게 됩니다. ");
 		}
-
 		myAXreqQue.add({ url: url, configs: configs });
 	}
 });
@@ -1876,11 +1881,6 @@ var AXScroll = Class.create(AXJ, {
 			SBonMouseUp(event);
 		}
 		this.SBonWheelBind = this.SBonWheel.bind(this);
-
-		var SBtouchstart = this.SBtouchstart.bind(this);
-		this.SBtouchstartBind = function (event) {
-			SBtouchstart(event);
-		}
 		/* event 선언자 */
 
 		this.scrollTargetID.bind("mouseover", this.tractActiveBind);
@@ -1909,7 +1909,6 @@ var AXScroll = Class.create(AXJ, {
 			this.xscrollBar.bind("mousedown", this.SBonMouseDownXBind);
 		}
 
-		//if(CTheight < Cheight ) {
 		var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 		if (document.attachEvent) { //if IE (and Opera depending on user setting)
 			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).attachEvent("on" + mousewheelevt, this.SBonWheelBind);
@@ -1917,9 +1916,14 @@ var AXScroll = Class.create(AXJ, {
 			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).addEventListener(mousewheelevt, this.SBonWheelBind, false);
 		}
 		if (document.addEventListener) {
-			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).addEventListener("touchstart", this.SBtouchstartBind, false)
+			var touchstart = this.touchstart.bind(this);
+			this.touchstartBind = function () {
+				touchstart();
+			};
+			if (AXgetId(cfg.targetID)){
+				AXgetId(cfg.targetID).addEventListener("touchstart", this.touchstartBind, false);
+			}			
 		}
-		//}
 	},
 	tractActive: function (event) {
 		var cfg = this.config;
@@ -1965,111 +1969,169 @@ var AXScroll = Class.create(AXJ, {
 		}
 		return { x: x, y: y };
 	},
+
+
+	/* touch event init --- s */
+	touchstart: function (e) {
+		var cfg = this.config;
+		var touch;
+		var event = window.event;
+		touch = event.touches[0];
+		if (!touch.pageX) return;
+		
+		this.touchStartXY = {
+			sTime: ((new Date()).getTime() / 1000),
+			sTop: this.scrollScrollID.position().top,
+			sLeft: this.scrollScrollID.position().left,
+			scrollWidth: this.scrollScrollID.outerWidth(),
+			scrollHeight: this.scrollScrollID.outerHeight(),
+			targetWidth: this.scrollTargetID.outerWidth(),
+			targetHeight: this.scrollTargetID.outerHeight(),
+			x: touch.pageX,
+			y: touch.pageY
+		};
+
+		var touchEnd = this.touchEnd.bind(this);
+		this.touchEndBind = function () {
+			touchEnd(event);
+		};	
+		var touchMove = this.touchMove.bind(this);
+		this.touchMoveBind = function () {
+			touchMove(event);
+		};
+		if (document.addEventListener) {
+			document.addEventListener("touchend", this.touchEndBind, false);
+			document.addEventListener("touchmove", this.touchMoveBind, false);
+		}
+		
+		this.scrollScrollID.stop();
+		this.tractActive();
+	},
+	touchMove: function (e) {
+		if (this.touhEndObserver) clearTimeout(this.touhEndObserver); //닫기 명령 제거
+		var cfg = this.config;
+		
+		var touch;
+		var event = window.event;
+		touch = event.touches[0];
+		if (!touch.pageX) return;
+		
+		if ((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()) {
+			if (cfg.yscroll && this.touchStartXY.scrollHeight > this.touchStartXY.targetHeight) {
+				this.touchMode = "ns";
+				//this.touchMode = ((this.touchStartXY.y - touch.pageY) <= 0) ? "up" : "dn"; /* 위아래 이동 */
+				if(this.moveBlock({top:touch.pageY - this.touchStartXY.y})){
+					if (event.preventDefault) event.preventDefault();
+					else return false;
+				}
+			}
+		} else if ((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()) {
+			if (cfg.xscroll && this.touchStartXY.scrollWidth > this.touchStartXY.targetWidth) {
+				this.touchMode = "we";
+				//this.touchMode = ((this.touchStartXY.x - touch.pageX) <= 0) ? "lt" : "rt"; /* 좌우 이동 */
+				if(this.moveBlock({left:touch.pageX - this.touchStartXY.x})){
+					if (event.preventDefault) event.preventDefault();
+					else return false;
+				}
+			}
+		}
+		if (((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5) {
+			//this.touchSelecting = true;
+		}
+	},
+	touchEnd: function (e) {
+		var cfg = this.config;
+		var event = window.event || e;
+		//this.moveSens = 0;
+		//this.touchMode = false;
+		
+		if (document.removeEventListener) {
+			document.removeEventListener("touchend", this.touchEndBind, false);
+			document.removeEventListener("touchmove", this.touchMoveBind, false);
+		}
+		
+		var moveEndBlock = this.moveEndBlock.bind(this);
+		this.touhEndObserver = setTimeout(function () {
+			moveEndBlock();
+		}, 10);
+		this.tractInActive();
+	},
+	
+	moveBlock: function(moveXY){
+		var cfg = this.config;
+		var returnTF = true;
+		if(moveXY.left != undefined){
+			var newLeft = (this.touchStartXY.sLeft + (moveXY.left * 1.5));
+			if(newLeft > 0){
+				newLeft = 0;
+				returnTF = false;
+			}else if(newLeft < - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth)){
+				newLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+				returnTF = false;
+			}
+			this.scrollScrollID.css({left: newLeft});
+			this.setScrollbarPositionForWheel("left");
+		}else if(moveXY.top != undefined){
+			var newTop = (this.touchStartXY.sTop + (moveXY.top * 1.5));
+			if(newTop > 0){
+				newTop = 0;
+				returnTF = false;
+			}else if(newTop < - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight)){
+				newTop = -(this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
+				returnTF = false;
+			}
+			this.scrollScrollID.css({top: newTop});
+			this.setScrollbarPositionForWheel("top");
+		}
+		/*trace(moveXY);*/
+		return returnTF;
+	},
+	moveEndBlock: function(){
+		/* 관성발동여부 체크 */
+		if(!this.touchStartXY) return;
+		var sTime = this.touchStartXY.sTime;
+		var eTime = ((new Date()).getTime() / 1000);
+		var dTime = eTime - sTime;
+		var setScrollbarPositionForWheel = this.setScrollbarPositionForWheel.bind(this);
+		
+		if(this.touchMode == "we"){ /* 좌우 */
+			if (this.touchStartXY.scrollWidth <= this.touchStartXY.targetWidth) return;
+			var eLeft = this.scrollScrollID.position().left;
+			var dLeft = eLeft - this.touchStartXY.sLeft;
+			var velocityLeft = Math.ceil((dLeft/dTime)/10); // 속력= 거리/시간
+			var endLeft = Math.ceil(eLeft + velocityLeft); //스크롤할때 목적지
+			if(endLeft > 0) endLeft = 0;
+			else if(endLeft < - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth)){
+				endLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+			}
+			var newLeft = endLeft.abs();
+			this.touchStartXY.sLeft = -newLeft;
+			this.scrollScrollID.animate({left: -newLeft}, (eLeft + newLeft).abs(), "cubicOut", function () {
+				setScrollbarPositionForWheel("left");
+			});
+		}else{ /* 위아래 */
+			if (this.touchStartXY.scrollHeight <= this.touchStartXY.targetHeight) return;
+			var eTop = this.scrollScrollID.position().top;
+			var dTop = eTop - this.touchStartXY.sTop;
+			var velocityTop = Math.ceil((dTop/dTime)/5); // 속력= 거리/시간
+			var endTop = Math.ceil(eTop + velocityTop); //스크롤할때 목적지		
+			if(endTop > 0) endTop = 0;
+			else if(endTop < - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight)){
+				endTop = - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
+			}
+			
+			var newTop = endTop.abs();
+			this.touchStartXY.sTop = -newTop;
+			this.scrollScrollID.animate({top: -newTop}, (eTop + newTop).abs(), "cubicOut", function () {
+				setScrollbarPositionForWheel("top");
+			});
+		}
+		this.touchStartXY = null;	
+	},
+	/* touch event init --- e */
+	
+	
 	/* scrollBar event */
-	SBtouchstart: function (e) {
-		var event = window.event || e;
-		var config = this.config;
-
-		var CTheight = this.scrollTargetID.innerHeight();
-		var Cheight = this.scrollScrollID.outerHeight();
-		var Ch = this.scrollScrollID.outerHeight();
-		var STh = this.scrollTrack.height();
-
-		this.CTheight = CTheight;
-		this.Cheight = Cheight;
-		this.Ch = Ch;
-		this.STh = STh;
-
-		if (CTheight < Cheight) {
-
-			this.scrollBarMove = true;
-
-			var pos = this.getTouchPosition(event);
-			var SBpos = this.scrollBar.position();
-			var SBh = this.scrollBar.height();
-			this.scrollBarAttr = { y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh, trackPos: this.scrollTrack.offset() };
-
-			var SBtouchend = this.SBtouchend.bind(this);
-			this.SBtouchendBind = function () {
-				SBtouchend(event);
-			}
-			var SBtouchmove = this.SBtouchmove.bind(this);
-			this.SBtouchmoveBind = function () {
-				SBtouchmove(event);
-			}
-			if (document.addEventListener) {
-				document.addEventListener("touchend", this.SBtouchendBind, false);
-				document.addEventListener("touchmove", this.SBtouchmoveBind, false);
-			}
-
-			//if (event.preventDefault) event.preventDefault();
-			//else return false;
-
-		} else {
-
-
-		}
-
-		this.tractActive(event);
-	},
-	SBtouchend: function (e) {
-		var event = window.event || e;
-		var config = this.config;
-		if (this.scrollBarMove) {
-			this.scrollBarMove = false;
-			this.scrollMoving = false;
-
-			jQuery(document.body).removeAttr("onselectstart");
-			jQuery(document.body).removeClass("AXUserSelectNone");
-			this.scrollBar.removeClass("scrollBar_hover");
-			this.scrollTrack.removeClass("scrollTrack_hover");
-
-			if (document.removeEventListener) {
-				document.removeEventListener("touchend", this.SBtouchendBind, false);
-				document.removeEventListener("touchmove", this.SBtouchmoveBind, false);
-			}
-		}
-		this.tractInActive(event);
-	},
-	SBtouchmove: function (e) {
-		var event = window.event || e;
-		var config = this.config;
-		if (this.scrollBarMove) {
-
-			var touch = event.touches[0];
-			var tpos = this.scrollBarAttr.trackPos;
-			if (this.config.touchDirection) {
-				var x = (touch.pageX - tpos.left);
-				var y = (touch.pageY - tpos.top);
-			} else {
-				var x = (-touch.pageX - tpos.left);
-				var y = (-touch.pageY - tpos.top);
-			}
-			var pos = { x: x, y: y };
-
-			var SBy = pos.y + this.scrollBarAttr.y;
-			if (SBy < 2) SBy = 2;
-			if ((SBy + this.scrollBarAttr.h) > this.scrollBarAttr.sth) {
-				SBy = this.scrollBarAttr.sth - this.scrollBarAttr.h + 2;
-			}
-
-			this.scrollBar.css({ top: SBy.round() });
-			//this.scrollBar[0].style.top = SBy.round();
-
-			this.setContentPosition();
-
-			if (this.scrollMoving == false) {
-				jQuery(document.body).attr("onselectstart", "return false");
-				jQuery(document.body).addClass("AXUserSelectNone");
-				this.scrollBar.addClass("scrollBar_hover");
-				this.scrollTrack.addClass("scrollTrack_hover");
-				this.scrollMoving = true;
-			}
-
-			if (event.preventDefault) event.preventDefault();
-			else return false;
-		}
-	},
 	SBonMouseDown: function (event) {
 		var config = this.config;
 		this.scrollBarMove = true;
@@ -2106,7 +2168,6 @@ var AXScroll = Class.create(AXJ, {
 			}
 			this.scrollBar.css({ top: SBy });
 			this.setContentPosition();
-			//this.setScrollbarPositionForWheel();
 		}
 	},
 	SBonMouseUp: function (event) {
@@ -2157,7 +2218,6 @@ var AXScroll = Class.create(AXJ, {
 
 			this.xscrollBar.css({ left: SBx });
 			this.setContentPosition("xscroll");
-			//this.setScrollbarPositionForWheel();
 		}
 	},
 	SBonMouseUpX: function (event) {
@@ -2202,7 +2262,7 @@ var AXScroll = Class.create(AXJ, {
 		this.scrollScrollID.css({ top: Sy });
 
 		//this.setContentPosition();
-		this.setScrollbarPositionForWheel();
+		this.setScrollbarPositionForWheel("top");
 
 		if (!eventCancle) {
 			if (event.preventDefault) event.preventDefault();
@@ -2292,36 +2352,59 @@ var AXScroll = Class.create(AXJ, {
 
 	},
 
-	setScrollbarPositionForWheel: function () {
+	setScrollbarPositionForWheel: function (direction) {
 		//scrollbar top position handle for wheel
-
 		var config = this.config;
-
-		if (!config.yscroll) return false;
-
-		//wheel control event is not jquery event !
-		var Sy = this.scrollScrollID.position().top;
-		var STh = this.scrollTrack.height();
-		var Sh = this.scrollScrollID.outerHeight();
-		var SBh = this.scrollBar.outerHeight();
-
-		var SBy = (-Sy * STh) / Sh;
-
-		var addTop = 0;
-		if (this.minHeightSB.TF) {
-			addTop = Math.floor(((10 - this.minHeightSB.h) / (STh - 4 - 10)) * SBy);
-			//addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
-		}
-
-		if (SBy < 2) {
-			SBy = 2;
-		} else {
-			SBy = SBy - addTop;
-			if ((SBy + SBh) > STh) {
-				SBy = STh - SBh + 2;
+		
+		if(direction == "left"){
+			var Sy = this.scrollScrollID.position().left;
+			var STh = this.xscrollTrack.outerWidth();
+			var Sh = this.scrollScrollID.outerWidth();
+			var SBh = this.xscrollBar.outerWidth();
+	
+			var SBy = (-Sy * STh) / Sh;
+	
+			var addTop = 0;
+			if (this.minWidthSB.TF) {
+				addTop = Math.floor(((10 - this.minWidthSB.h) / (STh - 4 - 10)) * SBy);
+				//addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
 			}
+	
+			if (SBy < 2) {
+				SBy = 2;
+			} else {
+				SBy = SBy - addTop;
+				if ((SBy + SBh) > STh) {
+					SBy = STh - SBh + 2;
+				}
+			}
+			this.xscrollBar.css({ left: SBy });	
+		}else{
+			if (!config.yscroll) return false;
+			//wheel control event is not jquery event !
+			var Sy = this.scrollScrollID.position().top;
+			var STh = this.scrollTrack.outerHeight();
+			var Sh = this.scrollScrollID.outerHeight();
+			var SBh = this.scrollBar.outerHeight();
+	
+			var SBy = (-Sy * STh) / Sh;
+	
+			var addTop = 0;
+			if (this.minHeightSB.TF) {
+				addTop = Math.floor(((10 - this.minHeightSB.h) / (STh - 4 - 10)) * SBy);
+				//addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
+			}
+	
+			if (SBy < 2) {
+				SBy = 2;
+			} else {
+				SBy = SBy - addTop;
+				if ((SBy + SBh) > STh) {
+					SBy = STh - SBh + 2;
+				}
+			}
+			this.scrollBar.css({ top: SBy });	
 		}
-		this.scrollBar.css({ top: SBy });
 	},
 
 
@@ -3580,10 +3663,10 @@ var AXContextMenuClass = Class.create(AXJ, {
 		this.modal = new AXMobileModal();
 		this.modal.setConfig({
 			addClass:"",
-			height: 400,
+			height: 388,
 			width: 300,
 			head:{
-				title:myobj.title,
+				title:(myobj.title||AXConfig.AXContextMenu.title),
 				close:{
 					onclick:function(){
 						
@@ -3613,7 +3696,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		//var getSubMenu = this.getSubMenu.bind(this);
 		
 		var styles = [];
-		styles.push("height:356px;");
+		styles.push("height:339px;");
 		
 		var po = [];
 		po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
@@ -3638,6 +3721,24 @@ var AXContextMenuClass = Class.create(AXJ, {
     	modalObj.modalBody.empty();
     	modalObj.modalBody.append(po.join(''));
 		
+		this.myUIScroll = new AXScroll();
+		this.myUIScroll.setConfig({
+			targetID: objID + "_AX_containerBox",
+			scrollID: objID + "_AX_scroll",
+			touchDirection:false
+		});
+		
+		var contextMenuItemClick = this.contextMenuItemClick.bind(this);
+		var closeMobileModal = this.closeMobileModal.bind(this);
+		this.contextMenuItemClickBind = function (event) {
+			contextMenuItemClick(event, objSeq, objID);
+			closeMobileModal();
+		};
+		modalObj.modalBody.find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
+	},
+	closeMobileModal: function(){
+		var cfg = this.config;
+		this.modal.close();
 	},
 	deskTopOpen: function (myobj, position) {
 		var cfg = this.config;
@@ -3775,8 +3876,12 @@ var AXContextMenuClass = Class.create(AXJ, {
 		jQuery(document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
 
 		jQuery(document).find("iframe").each(function () {
-			jQuery(window[this.name].document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
-			jQuery(window[this.name].document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
+			try{
+				jQuery(window[this.name].document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
+				jQuery(window[this.name].document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
+			}catch(e){
+				
+			}
 		});
 
 

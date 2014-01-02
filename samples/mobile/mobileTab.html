@@ -62,6 +62,67 @@
 				}
 			});
 			
+			$("#myTab02").bindTab({
+				theme : "AXTabsSmall",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"1살"}, 
+					{optionValue:"2", optionText:"2살"}, 
+					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살"},
+					{optionValue:"8", optionText:"8살"},
+					{optionValue:"9", optionText:"9살"},
+					{optionValue:"10", optionText:"10살 선택하기"},
+					{optionValue:"11", optionText:"11살 선택하기"},
+					{optionValue:"12", optionText:"12살 선택하기"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+			
+			$("#myTab03").bindTab({
+				theme : "AXTabsLarge",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"1살"}, 
+					{optionValue:"2", optionText:"2살"}, 
+					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살"},
+					{optionValue:"8", optionText:"8살"},
+					{optionValue:"9", optionText:"9살"},
+					{optionValue:"10", optionText:"10살 선택하기"},
+					{optionValue:"11", optionText:"11살 선택하기"},
+					{optionValue:"12", optionText:"12살 선택하기"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
 			AXCode.bind(); // 소스보기
 		}
 	};
@@ -74,9 +135,13 @@
 </head>
 <body>
 	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
-		
-	</div>
+	<div class="Hspace10"></div>
 	<div id="myTab01"></div>
+	<div class="Hspace10"></div>
+	<div id="myTab02"></div>
+	<div class="Hspace10"></div>
+	<div id="myTab03"></div>
+	
+	<div class="AXdemoPageContent"></div>
 </body>
 </html>

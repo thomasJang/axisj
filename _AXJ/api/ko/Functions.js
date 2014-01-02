@@ -69,4 +69,29 @@
 	example:[],
 	exampleFn:[],
 	reference:[]
+},
+{
+	id:"/API/Functions/AXReqAbort",
+	head:{
+		type:"method", 
+		name:"AXReqAbort",
+		flnm:"Functions.AXReqAbort",
+		file:"_AXJ/lib/AXJ.js",
+		tags:"Functions,AXReqAbort"
+	},
+	h1: "AXReqAbort",
+	desc: "진행중인 AJAX 호출을 중지 합니다.",
+	define: [
+		'AXReqAbort();'
+	],
+	arguments:[
+		{k:"", v:""}
+	],
+	returns: {k:"", v:""},
+	samplecode:[
+		'AXReqAbort();'
+	],
+	example:[],
+	exampleFn:[],
+	reference:[]
 }

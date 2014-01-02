@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/common.css" />
 	<link rel="stylesheet" type="text/css" href="_AXJ/ui/default/AXJ.css" />
 	<style type="text/css">
-		body{padding:20px;font-family:consolas;}
+		body{padding:10px;font-family:consolas;}
 		a{font-size:14px;padding:5px 10px;display:inline-block;font-family:consolas;text-decoration:none;}
 		a:hover{text-decoration:underline;background:#eee;}
 		.sampleLink{color:#000;}
@@ -46,9 +46,12 @@
 	
 </head>
 <body>
-	<div>
-		<img src="_AXJ/axj_v.png" align="middle" alt="" />
+						
+	<div style="">
+		<p style="padding-left:10px;">Axisj of javascript AXISJ - www.axisj.com</p>
+		<img src="_AXJ/axj_h.png" align="middle" alt="" width="200" />
 	</div>
+	<div class="Hspace20"></div>
 	
 	<ul>
 		<li><a href="samples/AXISJ_webapplication/Archon/index.html" target="_blank" class="sampleLink">Web Application Demo(Archon)</a></li>
@@ -92,7 +95,34 @@
 	</ul>	
 	
 	
-	<div style="padding:10px 5px;">2013-11-13 오후 2:59:07</div>
+	<div style="padding:10px 5px;">2014-01-02 오전 10:07:38</div>
 	
+	<div class="Hspace20"></div>
+	
+	<div id="fb-root"></div>
+	<script>
+	  window.fbAsyncInit = function() {
+	    // init the FB JS SDK
+	    FB.init({
+			appId      : '445502418897675',                        // App ID from the app dashboard
+			channelUrl : 'http://www.axisj.com', // Channel file for x-domain comms
+			status     : true,                                 // Check Facebook Login status
+			xfbml      : true                                  // Look for social plugins on the page
+	    });
+	  };
+	
+	  // Load the SDK asynchronously
+	  (function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "//connect.facebook.net/ko_KR/all.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+	</script>
+	
+	<div style="padding-left:10px;">
+		<div class="fb-like" data-href="https://www.facebook.com/axisj" data-width="280" data-show-faces="true" data-send="true" data-font="segoe ui"></div>
+	</div>
 </body>
 </html>
