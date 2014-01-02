@@ -1355,7 +1355,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transform: rotate(-90deg) translateX(-70px) translateY(19px);
-  transform-origin: 0 100%;
   -o-transform: rotate(-90deg) translateX(-70px) translateY(19px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(-90deg) translateX(-70px) translateY(19px);
@@ -1368,7 +1367,6 @@
   left: 5px;
   top: 4px;
   transform: rotate(-90deg) translateX(-70px) translateY(19px);
-  transform-origin: 0 100%;
   -o-transform: rotate(-90deg) translateX(-70px) translateY(19px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(-90deg) translateX(-70px) translateY(19px);
@@ -1381,7 +1379,6 @@
   left: 2px;
   top: 4px;
   transform: rotate(90deg) translateX(-20px) translateY(0px);
-  transform-origin: 0 100%;
   -o-transform: rotate(90deg) translateX(-20px) translateY(0px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(90deg) translateX(-20px) translateY(0px);
@@ -1480,7 +1477,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  transform-origin: 0 100%;
   -o-transform: rotate(-90deg) translateX(-82px) translateY(31px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(-90deg) translateX(-82px) translateY(31px);
@@ -1491,7 +1487,6 @@
 }
 .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab .AXTabText {
   transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  transform-origin: 0 100%;
   -o-transform: rotate(-90deg) translateX(-82px) translateY(31px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(-90deg) translateX(-82px) translateY(31px);
@@ -1502,7 +1497,6 @@
 }
 .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab .AXTabText {
   transform: rotate(90deg) translateX(-30px) translateY(1px);
-  transform-origin: 0 100%;
   -o-transform: rotate(90deg) translateX(-30px) translateY(1px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(90deg) translateX(-30px) translateY(1px);
@@ -1601,7 +1595,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  transform-origin: 0 100%;
   -o-transform: rotate(-90deg) translateX(-57px) translateY(19px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(-90deg) translateX(-57px) translateY(19px);
@@ -1614,7 +1607,6 @@
   left: 2px;
   top: 2px;
   transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  transform-origin: 0 100%;
   -o-transform: rotate(-90deg) translateX(-57px) translateY(19px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(-90deg) translateX(-57px) translateY(19px);
@@ -1627,7 +1619,6 @@
   left: 0px;
   top: 2px;
   transform: rotate(90deg) translateX(-18px) translateY(0px);
-  transform-origin: 0 100%;
   -o-transform: rotate(90deg) translateX(-18px) translateY(0px);
   -o-transform-origin: 0 100%;
   -moz-transform: rotate(90deg) translateX(-18px) translateY(0px);

@@ -962,7 +962,7 @@
 	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
 	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 
-	transform:rotate(-90deg) translateX(-70px) translateY(19px); transform-origin:0 100%;
+	transform:rotate(-90deg) translateX(-70px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
@@ -971,7 +971,7 @@
 
 .AXTabsVertical.leftSide .AXTabsTray .AXTab .AXTabText{
 	left:5px;top:4px;
-	transform:rotate(-90deg) translateX(-70px) translateY(19px); transform-origin:0 100%;
+	transform:rotate(-90deg) translateX(-70px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
@@ -980,7 +980,7 @@
 
 .AXTabsVertical.rightSide .AXTabsTray .AXTab .AXTabText{
 	left:2px;top:4px;
-	transform:rotate(90deg) translateX(-20px) translateY(0px); transform-origin:0 100%;
+	transform:rotate(90deg) translateX(-20px) translateY(0px);
 	-o-transform:rotate(90deg) translateX(-20px) translateY(0px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(90deg) translateX(-20px) translateY(0px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(90deg) translateX(-20px) translateY(0px); -webkit-transform-origin:0 100%;
@@ -1055,7 +1055,7 @@
 	position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
 	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 
-	transform:rotate(-90deg) translateX(-82px) translateY(31px); transform-origin:0 100%;
+	transform:rotate(-90deg) translateX(-82px) translateY(31px);
 	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
@@ -1064,7 +1064,7 @@
 
 .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab .AXTabText{
 
-	transform:rotate(-90deg) translateX(-82px) translateY(31px); transform-origin:0 100%;
+	transform:rotate(-90deg) translateX(-82px) translateY(31px);
 	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
@@ -1073,7 +1073,7 @@
 
 .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab .AXTabText{
 
-	transform:rotate(90deg) translateX(-30px) translateY(1px); transform-origin:0 100%;
+	transform:rotate(90deg) translateX(-30px) translateY(1px);
 	-o-transform:rotate(90deg) translateX(-30px) translateY(1px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(90deg) translateX(-30px) translateY(1px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(90deg) translateX(-30px) translateY(1px); -webkit-transform-origin:0 100%;
@@ -1148,7 +1148,7 @@
 	position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
 	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 
-	transform:rotate(-90deg) translateX(-57px) translateY(19px); transform-origin:0 100%;
+	transform:rotate(-90deg) translateX(-57px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
@@ -1156,7 +1156,7 @@
 }
 .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab .AXTabText{
 	left:2px;top:2px;
-	transform:rotate(-90deg) translateX(-57px) translateY(19px); transform-origin:0 100%;
+	transform:rotate(-90deg) translateX(-57px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
@@ -1164,7 +1164,7 @@
 }
 .AXTabsSmallVertical.rightSide .AXTabsTray .AXTab .AXTabText{
 	left:0px;top:2px;
-	transform:rotate(90deg) translateX(-18px) translateY(0px); transform-origin:0 100%;
+	transform:rotate(90deg) translateX(-18px) translateY(0px);
 	-o-transform:rotate(90deg) translateX(-18px) translateY(0px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(90deg) translateX(-18px) translateY(0px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(90deg) translateX(-18px) translateY(0px); -webkit-transform-origin:0 100%;
