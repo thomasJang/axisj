@@ -30,7 +30,7 @@
 }
 
 .AXMask{
-	z-index:5000;
+	z-index:4700;
 	position:fixed;top:0px;left:0px;width:100%;height:100%;
 	background:#000;-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
 }
@@ -73,7 +73,7 @@
 }
 	.AXScroll .scrollTrack{
 		z-index:100;
-		position:absolute;right:3px;top:2px;
+		position:absolute;right:2px;top:2px;
 		width:7px;height:100%;background:#000;
 		-moz-opacity: 0.1;opacity:.10;filter: alpha(opacity=10);
 		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
@@ -83,7 +83,7 @@
 	}
 	.AXScroll .scrollBar{
 		z-index:100;
-		position:absolute;right:3px;top:2px;
+		position:absolute;right:2px;top:2px;
 		width:7px;min-height:10px;background:#000;
 		-moz-opacity: 0.1;opacity:.1;filter: alpha(opacity=10);
 		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
@@ -102,9 +102,9 @@
 	/* xscroll */
 	.AXScroll .xscrollTrack{
 		z-index:100;
-		position:absolute;left:2px;bottom:3px;
+		position:absolute;left:2px;bottom:2px;
 		width:100%;height:7px;background:#000;
-		-moz-opacity: 0.2;opacity:.20;filter: alpha(opacity=20);
+		-moz-opacity: 0.1;opacity:.10;filter: alpha(opacity=10);
 		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
 	.AXScroll .xscrollTrack_hover{
@@ -112,9 +112,9 @@
 	}
 	.AXScroll .xscrollBar{
 		z-index:100;
-		position:absolute;left:2px;bottom:3px;
+		position:absolute;left:2px;bottom:2px;
 		height:7px;min-width:10px;background:#000;
-		-moz-opacity: 0.5;opacity:.05;filter: alpha(opacity=50);
+		-moz-opacity: 0.1;opacity:.1;filter: alpha(opacity=10);
 		border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;
 	}
 	.AXScroll .xscrollBar:hover{
@@ -1311,7 +1311,7 @@
 
 /* AXModal *************************************************************************** */
 .AXModalBox{
-	position:absolute;left:10px;top:10px;z-index:5001;
+	position:absolute;left:10px;top:10px;z-index:4800;
 }
 .AXModalBox .windowbox{
 	border:1px solid #a6a6a6;background:#fff;

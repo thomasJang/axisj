@@ -1736,7 +1736,6 @@ var AXScroll = Class.create(AXJ, {
 		this.scrollBarMove = false;
 		this.scrollBarAttr = {};
 		this.Observer = null;
-		this.config.touchDirection = false;
 		this.config.yscroll = true;
 		this.config.xscroll = false;
 
@@ -1957,10 +1956,11 @@ var AXScroll = Class.create(AXJ, {
 		return { x: x, y: y };
 	},
 	getTouchPosition: function (event) {
+		/* 사용안함. 옵션 */
 		var config = this.config;
 		var touch = event.touches[0];
 		var pos = this.scrollTrack.offset();
-		if (this.config.touchDirection) {
+		if (this.config.touchDirection) { 
 			var x = (touch.pageX - pos.left);
 			var y = (touch.pageY - pos.top);
 		} else {
@@ -1973,6 +1973,9 @@ var AXScroll = Class.create(AXJ, {
 
 	/* touch event init --- s */
 	touchstart: function (e) {
+		//if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
+		//if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
+		
 		var cfg = this.config;
 		var touch;
 		var event = window.event;
@@ -2008,7 +2011,8 @@ var AXScroll = Class.create(AXJ, {
 		this.tractActive();
 	},
 	touchMove: function (e) {
-		if (this.touhEndObserver) clearTimeout(this.touhEndObserver); //닫기 명령 제거
+		if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
+		if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
 		var cfg = this.config;
 		
 		var touch;
@@ -2019,8 +2023,14 @@ var AXScroll = Class.create(AXJ, {
 		if ((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()) {
 			if (cfg.yscroll && this.touchStartXY.scrollHeight > this.touchStartXY.targetHeight) {
 				this.touchMode = "ns";
-				//this.touchMode = ((this.touchStartXY.y - touch.pageY) <= 0) ? "up" : "dn"; /* 위아래 이동 */
-				if(this.moveBlock({top:touch.pageY - this.touchStartXY.y})){
+				var touchDirection = ((this.touchStartXY.y - touch.pageY) <= 0) ? "T" : "B"; /* 위아래 이동 */
+
+				if(touchDirection != this.touchDirection){
+					this.touchMoveAfter(touch);
+				}
+
+				this.touchDirection = touchDirection;
+				if(this.moveBlock({top:touch.pageY - this.touchStartXY.y, })){
 					if (event.preventDefault) event.preventDefault();
 					else return false;
 				}
@@ -2028,7 +2038,13 @@ var AXScroll = Class.create(AXJ, {
 		} else if ((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()) {
 			if (cfg.xscroll && this.touchStartXY.scrollWidth > this.touchStartXY.targetWidth) {
 				this.touchMode = "we";
-				//this.touchMode = ((this.touchStartXY.x - touch.pageX) <= 0) ? "lt" : "rt"; /* 좌우 이동 */
+				var touchDirection = ((this.touchStartXY.x - touch.pageX) <= 0) ? "L" : "R"; /* 좌우 이동 */
+
+				if(touchDirection != this.touchDirection){
+					this.touchMoveAfter(touch);
+				}
+
+				this.touchDirection = touchDirection;
 				if(this.moveBlock({left:touch.pageX - this.touchStartXY.x})){
 					if (event.preventDefault) event.preventDefault();
 					else return false;
@@ -2037,6 +2053,21 @@ var AXScroll = Class.create(AXJ, {
 		}
 		if (((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5) {
 			//this.touchSelecting = true;
+		}
+		var touchMoveAfter = this.touchMoveAfter.bind(this);
+		this.touhMoveObserver = setTimeout(function () {
+			touchMoveAfter(touch);
+		}, 50);
+	},
+	touchMoveAfter: function(touch){
+		try{
+			this.touchStartXY.sTime = ((new Date()).getTime() / 1000);
+			this.touchStartXY.sTop = this.scrollScrollID.position().top;
+			this.touchStartXY.sLeft = this.scrollScrollID.position().left;
+			this.touchStartXY.x = touch.pageX;
+			this.touchStartXY.y = touch.pageY;
+		}catch(e){
+			//trace(e);
 		}
 	},
 	touchEnd: function (e) {
@@ -2049,35 +2080,45 @@ var AXScroll = Class.create(AXJ, {
 			document.removeEventListener("touchend", this.touchEndBind, false);
 			document.removeEventListener("touchmove", this.touchMoveBind, false);
 		}
-		
+
 		var moveEndBlock = this.moveEndBlock.bind(this);
 		this.touhEndObserver = setTimeout(function () {
 			moveEndBlock();
 		}, 10);
-		this.tractInActive();
 	},
-	
 	moveBlock: function(moveXY){
 		var cfg = this.config;
 		var returnTF = true;
 		if(moveXY.left != undefined){
-			var newLeft = (this.touchStartXY.sLeft + (moveXY.left * 1.5));
-			if(newLeft > 0){
-				newLeft = 0;
+			var newLeft = (this.touchStartXY.sLeft + (moveXY.left));
+			var minLeft = 0;
+			var maxLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+			if(cfg.bounces){
+				minLeft = this.touchStartXY.targetWidth * 0.4;
+				maxLeft = -((this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth) * 1.2);
+			}
+			if(newLeft > minLeft){
+				newLeft = minLeft;
 				returnTF = false;
-			}else if(newLeft < - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth)){
-				newLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+			}else if(newLeft < maxLeft){
+				newLeft = maxLeft;
 				returnTF = false;
 			}
 			this.scrollScrollID.css({left: newLeft});
 			this.setScrollbarPositionForWheel("left");
 		}else if(moveXY.top != undefined){
-			var newTop = (this.touchStartXY.sTop + (moveXY.top * 1.5));
-			if(newTop > 0){
-				newTop = 0;
+			var newTop = (this.touchStartXY.sTop + (moveXY.top));
+			var minTop = 0;
+			var maxTop = - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
+			if(cfg.bounces){
+				minTop = this.touchStartXY.targetHeight * 0.4;
+				maxTop = -((this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight) * 1.2);
+			}
+			if(newTop > minTop){
+				newTop = minTop;
 				returnTF = false;
-			}else if(newTop < - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight)){
-				newTop = -(this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
+			}else if(newTop < maxTop){
+				newTop = maxTop;
 				returnTF = false;
 			}
 			this.scrollScrollID.css({top: newTop});
@@ -2085,6 +2126,7 @@ var AXScroll = Class.create(AXJ, {
 		}
 		/*trace(moveXY);*/
 		return returnTF;
+		//return true;
 	},
 	moveEndBlock: function(){
 		/* 관성발동여부 체크 */
@@ -2092,13 +2134,14 @@ var AXScroll = Class.create(AXJ, {
 		var sTime = this.touchStartXY.sTime;
 		var eTime = ((new Date()).getTime() / 1000);
 		var dTime = eTime - sTime;
-		var setScrollbarPositionForWheel = this.setScrollbarPositionForWheel.bind(this);
+		//var setScrollbarPositionForWheel = this.setScrollbarPositionForWheel.bind(this);
+		var tractInActive = this.tractInActive.bind(this);
 		
 		if(this.touchMode == "we"){ /* 좌우 */
 			if (this.touchStartXY.scrollWidth <= this.touchStartXY.targetWidth) return;
 			var eLeft = this.scrollScrollID.position().left;
 			var dLeft = eLeft - this.touchStartXY.sLeft;
-			var velocityLeft = Math.ceil((dLeft/dTime)/10); // 속력= 거리/시간
+			var velocityLeft = Math.ceil((dLeft/dTime)/1); // 속력= 거리/시간
 			var endLeft = Math.ceil(eLeft + velocityLeft); //스크롤할때 목적지
 			if(endLeft > 0) endLeft = 0;
 			else if(endLeft < - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth)){
@@ -2106,14 +2149,15 @@ var AXScroll = Class.create(AXJ, {
 			}
 			var newLeft = endLeft.abs();
 			this.touchStartXY.sLeft = -newLeft;
-			this.scrollScrollID.animate({left: -newLeft}, (eLeft + newLeft).abs(), "cubicOut", function () {
-				setScrollbarPositionForWheel("left");
+			this.scrollScrollID.animate({left: -newLeft}, (eLeft + newLeft).abs(), "circOut", function () {
+				tractInActive();
 			});
+			this.setScrollbarPositionForWheel("left", (eLeft + newLeft).abs(), "circOut", {left: -newLeft});
 		}else{ /* 위아래 */
 			if (this.touchStartXY.scrollHeight <= this.touchStartXY.targetHeight) return;
 			var eTop = this.scrollScrollID.position().top;
 			var dTop = eTop - this.touchStartXY.sTop;
-			var velocityTop = Math.ceil((dTop/dTime)/5); // 속력= 거리/시간
+			var velocityTop = Math.ceil((dTop/dTime)/1); // 속력= 거리/시간
 			var endTop = Math.ceil(eTop + velocityTop); //스크롤할때 목적지		
 			if(endTop > 0) endTop = 0;
 			else if(endTop < - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight)){
@@ -2122,11 +2166,14 @@ var AXScroll = Class.create(AXJ, {
 			
 			var newTop = endTop.abs();
 			this.touchStartXY.sTop = -newTop;
-			this.scrollScrollID.animate({top: -newTop}, (eTop + newTop).abs(), "cubicOut", function () {
-				setScrollbarPositionForWheel("top");
+			this.scrollScrollID.animate({top: -newTop}, (eTop + newTop).abs(), "circOut", function () {
+				tractInActive();
 			});
+			this.setScrollbarPositionForWheel("top", (eTop + newTop).abs(), "circOut", {top: -newTop});
 		}
 		this.touchStartXY = null;	
+		
+		
 	},
 	/* touch event init --- e */
 	
@@ -2352,12 +2399,17 @@ var AXScroll = Class.create(AXJ, {
 
 	},
 
-	setScrollbarPositionForWheel: function (direction) {
+	setScrollbarPositionForWheel: function (direction, duration, easing, position) {
 		//scrollbar top position handle for wheel
 		var config = this.config;
 		
 		if(direction == "left"){
-			var Sy = this.scrollScrollID.position().left;
+			if(position){
+				var Sy = position.left;
+			}else{
+				var Sy = this.scrollScrollID.position().left;
+			}
+			
 			var STh = this.xscrollTrack.outerWidth();
 			var Sh = this.scrollScrollID.outerWidth();
 			var SBh = this.xscrollBar.outerWidth();
@@ -2378,11 +2430,20 @@ var AXScroll = Class.create(AXJ, {
 					SBy = STh - SBh + 2;
 				}
 			}
-			this.xscrollBar.css({ left: SBy });	
+			if(easing){
+				this.xscrollBar.animate({ left: SBy }, duration, easing, function () {});
+			}else{
+				this.xscrollBar.css({ left: SBy });
+			}
 		}else{
 			if (!config.yscroll) return false;
 			//wheel control event is not jquery event !
-			var Sy = this.scrollScrollID.position().top;
+			
+			if(position){
+				var Sy = position.top;
+			}else{
+				var Sy = this.scrollScrollID.position().top;
+			}			
 			var STh = this.scrollTrack.outerHeight();
 			var Sh = this.scrollScrollID.outerHeight();
 			var SBh = this.scrollBar.outerHeight();
@@ -2403,7 +2464,13 @@ var AXScroll = Class.create(AXJ, {
 					SBy = STh - SBh + 2;
 				}
 			}
-			this.scrollBar.css({ top: SBy });	
+			if(easing){
+				//trace({ top: SBy }, duration, easing);
+				this.scrollBar.animate({ top: SBy }, duration, easing, function () {});
+			}else{
+				this.scrollBar.css({ top: SBy });
+			}
+			
 		}
 	},
 
@@ -3724,8 +3791,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		this.myUIScroll = new AXScroll();
 		this.myUIScroll.setConfig({
 			targetID: objID + "_AX_containerBox",
-			scrollID: objID + "_AX_scroll",
-			touchDirection:false
+			scrollID: objID + "_AX_scroll"
 		});
 		
 		var contextMenuItemClick = this.contextMenuItemClick.bind(this);

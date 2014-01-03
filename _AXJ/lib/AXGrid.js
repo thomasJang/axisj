@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.42",
+	version: "AXGrid v1.43",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -45,7 +45,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-12-24 오후 2:30:25 tom : 버그픽스",
 		"2013-12-27 오전 11:56:44 tom marker bugfix",
 		"2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스",
-		"2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스"
+		"2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스",
+		"2014-01-03 오후 3:31:09 tom : gridBodyClick 이벤트함수 수정"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2850,29 +2851,30 @@ var AXGrid = Class.create(AXJ, {
 	gridBodyClickAct: function (event) {
 		this.bodyClickObserver = null;
 		var cfg = this.config;
-		if (event.target.id == "") return;
-		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
-		var isoncheck = false;
-		if (eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button") {
-			if (cfg.body.oncheck) {
-				isoncheck = true;
-			} else {
-				return; /*input 인 경우 제외 */
-			}
-			var ieid = event.target.id.split(/_AX_/g);
-			var checkboxColSeq = ieid[ieid.length - 2];
-			var checkboxIndex = ieid[ieid.length - 1];
-			if (cfg.colGroup[checkboxColSeq].oncheck) {
-				var sendObj = {
-					index: checkboxIndex,
-					list: this.list,
-					item: this.list[checkboxIndex]
-				};
-				try {
-					cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
-				} catch (e) {
-					trace(e);
+		if (event.target.id != ""){
+			var eid = event.target.id.split(/_AX_/g);
+			var isoncheck = false;
+			if (eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button") {
+				if (cfg.body.oncheck) {
+					isoncheck = true;
+				} else {
+					return; /*input 인 경우 제외 */
+				}
+				var ieid = event.target.id.split(/_AX_/g);
+				var checkboxColSeq = ieid[ieid.length - 2];
+				var checkboxIndex = ieid[ieid.length - 1];
+				if (cfg.colGroup[checkboxColSeq].oncheck) {
+					var sendObj = {
+						index: checkboxIndex,
+						list: this.list,
+						item: this.list[checkboxIndex]
+					};
+					try {
+						cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
+					} catch (e) {
+						trace(e);
+					}
 				}
 			}
 		}
@@ -2913,7 +2915,7 @@ var AXGrid = Class.create(AXJ, {
 				var ids = targetID.split(/_AX_/g);
 
 				if (event.shiftKey) {
-
+					
 				} else if (event.ctrlKey) {
 					if (this.selectedRow.length > 0) {
 						var body = this.body;

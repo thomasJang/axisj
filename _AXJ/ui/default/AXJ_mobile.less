@@ -11,6 +11,9 @@
 .Radius(@rad: 5px;){
 	border-radius:@rad;-webkit-border-radius:@rad;-moz-border-radius:@rad;
 }
+.Ellip(){
+	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 
 
 // CSS
@@ -46,7 +49,7 @@
 }
 
 .AXMask{
-	z-index:5000;
+	z-index:4700;
 	position:fixed;top:0px;left:0px;width:100%;height:100%;
 	background:#000;
 	.Opacity(20);
@@ -91,9 +94,9 @@
 }
 	.AXScroll .scrollTrack{
 		z-index:100;
-		position:absolute;right:3px;top:2px;
+		position:absolute;right:2px;top:2px;
 		width:7px;height:100%;background:#000;
-		.Opacity(10);
+		.Opacity(0);
 		.Radius(5px);
 	}
 	.AXScroll .scrollTrack_hover{
@@ -101,9 +104,9 @@
 	}
 	.AXScroll .scrollBar{
 		z-index:100;
-		position:absolute;right:3px;top:2px;
+		position:absolute;right:2px;top:2px;
 		width:7px;min-height:10px;background:#000;
-		.Opacity(20);
+		.Opacity(0);
 		.Radius(5px);
 	}
 	.AXScroll .scrollBar:hover{
@@ -120,9 +123,9 @@
 	/* xscroll */
 	.AXScroll .xscrollTrack{
 		z-index:100;
-		position:absolute;left:2px;bottom:3px;
+		position:absolute;left:2px;bottom:2px;
 		width:100%;height:7px;background:#000;
-		.Opacity(10);
+		.Opacity(0);
 		.Radius(5px);
 	}
 	.AXScroll .xscrollTrack_hover{
@@ -130,9 +133,9 @@
 	}
 	.AXScroll .xscrollBar{
 		z-index:100;
-		position:absolute;left:2px;bottom:3px;
+		position:absolute;left:2px;bottom:2px;
 		height:7px;min-width:10px;background:#000;
-		.Opacity(20);
+		.Opacity(0);
 		.Radius(5px);
 	}
 	.AXScroll .xscrollBar:hover{
@@ -877,7 +880,8 @@
 	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
 	display:block;
 	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
-	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+	text-align:center;
+	.Ellip();
 
 	transform:rotate(-90deg) translateX(-70px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
@@ -970,7 +974,8 @@
 	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
 	display:block;
 	position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
-	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+	text-align:center;
+	.Ellip();
 
 	transform:rotate(-90deg) translateX(-82px) translateY(31px);
 	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
@@ -1063,7 +1068,8 @@
 	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
 	display:block;
 	position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
-	text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+	text-align:center;
+	.Ellip();
 
 	transform:rotate(-90deg) translateX(-57px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
@@ -1228,7 +1234,7 @@
 
 /* AXModal *************************************************************************** */
 .AXModalBox{
-	position:absolute;left:10px;top:10px;z-index:5001;
+	position:absolute;left:10px;top:10px;z-index:4800;
 }
 .AXModalBox .windowbox{
 	border:1px solid #a6a6a6;background:#fff;
@@ -1269,7 +1275,7 @@
 		height:30px;
 		line-height:30px;padding:0px 5px 0px 30px;
 		color:#5e5e5e;text-decoration:none;
-		white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+		.Ellip();
 		background-image:url(img/contextMenuIcon_doc.png);
 		background-repeat:no-repeat;
 		background-position:0px center;

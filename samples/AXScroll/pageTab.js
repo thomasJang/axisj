@@ -1,5 +1,8 @@
 ﻿var myTabOption = [
-	{optionValue:"AXScroll", optionText:"AXScroll", addClass:"", url:"index.html"}
+	{optionValue:"AXScroll", optionText:"AXScroll", addClass:"", url:"index.html"},
+	{optionValue:"xyscroll", optionText:"XScroll,YScroll", addClass:"", url:"xyscroll.html"},
+	{optionValue:"xscroll", optionText:"XScroll", addClass:"", url:"xscroll.html"},
+	{optionValue:"fixedScroll", optionText:"fixedScroll", addClass:"", url:"fixedScroll.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){
