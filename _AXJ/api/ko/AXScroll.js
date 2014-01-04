@@ -32,7 +32,7 @@
 				{k:"configs", v:{
 					targetID:"스크롤 대상을 감싸고 있는 컨테이너 엘리먼트 아이디",
 					scrollID:"스크롤 대상 엘리먼트 아이디",
-					touchDirection:"true|false 터치 스크롤 할때 스크롤 방향 false 이면 역방향 움짐임"
+					bounces:"true|<b>false</b> 스크롤 영역을 초과하여 터치 했을 때 반동 적용 여부"
 				}}
 			],
 			returns:		{k:"", v:""},
@@ -40,7 +40,7 @@
 				"myUIScroll.setConfig({",
 				"	targetID:\"UIScrollContainer\",",
 				"	scrollID:\"UIScrollTarget\",",
-				"	touchDirection:false",
+				"	bounces:true",
 				"});"
 			],
 			example:[],

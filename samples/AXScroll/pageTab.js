@@ -2,7 +2,7 @@
 	{optionValue:"AXScroll", optionText:"AXScroll", addClass:"", url:"index.html"},
 	{optionValue:"xyscroll", optionText:"XScroll,YScroll", addClass:"", url:"xyscroll.html"},
 	{optionValue:"xscroll", optionText:"XScroll", addClass:"", url:"xscroll.html"},
-	{optionValue:"fixedScroll", optionText:"fixedScroll", addClass:"", url:"fixedScroll.html"}
+	{optionValue:"bouncesScroll", optionText:"bouncesScroll", addClass:"", url:"fixedScroll.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

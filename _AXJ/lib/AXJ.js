@@ -1809,6 +1809,7 @@ var AXScroll = Class.create(AXJ, {
 		var Cheight = this.scrollScrollID.outerHeight();
 		var Cwidth = this.scrollScrollID.outerWidth();
 
+
 		if (cfg.yscroll) {
 			var SBheight = CTheight * (CTheight - 4) / Cheight;
 			this.scrollBar.css({ height: Math.ceil(SBheight) });
@@ -1973,9 +1974,6 @@ var AXScroll = Class.create(AXJ, {
 
 	/* touch event init --- s */
 	touchstart: function (e) {
-		//if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
-		//if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
-		
 		var cfg = this.config;
 		var touch;
 		var event = window.event;
@@ -2002,12 +2000,24 @@ var AXScroll = Class.create(AXJ, {
 		this.touchMoveBind = function () {
 			touchMove(event);
 		};
+		
+		if (document.removeEventListener) {
+			document.removeEventListener("touchend", this.touchEndBind, false);
+			document.removeEventListener("touchmove", this.touchMoveBind, false);
+		}
 		if (document.addEventListener) {
 			document.addEventListener("touchend", this.touchEndBind, false);
 			document.addEventListener("touchmove", this.touchMoveBind, false);
 		}
 		
-		this.scrollScrollID.stop();
+		var minLeft = 0;
+		var maxLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+		var minTop = 0;
+		var maxTop = - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
+		var scrollPosition = this.scrollScrollID.position();
+		if(scrollPosition.left > minLeft && scrollPosition.left < maxLeft && scrollPosition.top > minTop && scrollPosition.top < maxTop){
+			this.scrollScrollID.stop();
+		}
 		this.tractActive();
 	},
 	touchMove: function (e) {
@@ -2075,7 +2085,7 @@ var AXScroll = Class.create(AXJ, {
 		var event = window.event || e;
 		//this.moveSens = 0;
 		//this.touchMode = false;
-		
+
 		if (document.removeEventListener) {
 			document.removeEventListener("touchend", this.touchEndBind, false);
 			document.removeEventListener("touchmove", this.touchMoveBind, false);
@@ -2153,6 +2163,20 @@ var AXScroll = Class.create(AXJ, {
 				tractInActive();
 			});
 			this.setScrollbarPositionForWheel("left", (eLeft + newLeft).abs(), "circOut", {left: -newLeft});
+			
+			if (cfg.yscroll){
+				var eTop = this.scrollScrollID.position().top;
+				var topChange = false;
+				if(eTop > 0){
+					eTop = 0;
+					topChange = true;
+				}else if(eTop < - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight)){
+					eTop = (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
+					topChange = true;
+				}
+				if(topChange) this.scrollScrollID.css({top: -eTop});
+			}
+			
 		}else{ /* 위아래 */
 			if (this.touchStartXY.scrollHeight <= this.touchStartXY.targetHeight) return;
 			var eTop = this.scrollScrollID.position().top;
@@ -2170,10 +2194,22 @@ var AXScroll = Class.create(AXJ, {
 				tractInActive();
 			});
 			this.setScrollbarPositionForWheel("top", (eTop + newTop).abs(), "circOut", {top: -newTop});
+			
+			if (cfg.xscroll){
+				var eLeft = this.scrollScrollID.position().left;
+				var leftChange = false;
+				if(eLeft > 0){
+					eLeft = 0;
+					leftChange = true;
+				}else if(eLeft < - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth)){
+					eLeft = (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+					leftChange = true;
+				}
+				if(leftChange) this.scrollScrollID.css({left: -eLeft});
+			}
 		}
 		this.touchStartXY = null;	
-		
-		
+
 	},
 	/* touch event init --- e */
 	
@@ -2421,19 +2457,29 @@ var AXScroll = Class.create(AXJ, {
 				addTop = Math.floor(((10 - this.minWidthSB.h) / (STh - 4 - 10)) * SBy);
 				//addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
 			}
-	
+			
+			var addY = 0;
 			if (SBy < 2) {
+				addY = (SBy).abs();
 				SBy = 2;
 			} else {
+				addY = 0;
 				SBy = SBy - addTop;
 				if ((SBy + SBh) > STh) {
+					addY = (SBy + SBh) - STh;
 					SBy = STh - SBh + 2;
 				}
 			}
 			if(easing){
-				this.xscrollBar.animate({ left: SBy }, duration, easing, function () {});
+				this.xscrollBar.animate({ 
+					left: SBy, 
+					width: Math.ceil(this.scrollTargetID.outerWidth() * (this.scrollTargetID.outerWidth() - 4) / (this.scrollScrollID.outerWidth() + addY)) 
+				}, duration, easing, function () {});
 			}else{
-				this.xscrollBar.css({ left: SBy });
+				this.xscrollBar.css({ 
+					left: SBy, 
+					width: Math.ceil(this.scrollTargetID.outerWidth() * (this.scrollTargetID.outerWidth() - 4) / (this.scrollScrollID.outerWidth() + addY)) 
+				});
 			}
 		}else{
 			if (!config.yscroll) return false;
@@ -2455,20 +2501,30 @@ var AXScroll = Class.create(AXJ, {
 				addTop = Math.floor(((10 - this.minHeightSB.h) / (STh - 4 - 10)) * SBy);
 				//addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
 			}
-	
+			
+			var addY = 0;
 			if (SBy < 2) {
+				addY = (SBy).abs();
 				SBy = 2;
 			} else {
+				addY = 0;
 				SBy = SBy - addTop;
 				if ((SBy + SBh) > STh) {
+					addY = (SBy + SBh) - STh;
 					SBy = STh - SBh + 2;
 				}
 			}
 			if(easing){
 				//trace({ top: SBy }, duration, easing);
-				this.scrollBar.animate({ top: SBy }, duration, easing, function () {});
+				this.scrollBar.animate({ 
+					top: SBy,
+					height: Math.ceil(this.scrollTargetID.outerHeight() * (this.scrollTargetID.outerHeight() - 4) / (this.scrollScrollID.outerHeight() + addY))
+				}, duration, easing, function () {});
 			}else{
-				this.scrollBar.css({ top: SBy });
+				this.scrollBar.css({ 
+					top: SBy, 
+					height: Math.ceil(this.scrollTargetID.outerHeight() * (this.scrollTargetID.outerHeight() - 4) / (this.scrollScrollID.outerHeight() + addY)) 
+				});
 			}
 			
 		}

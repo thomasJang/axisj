@@ -33,13 +33,12 @@
 	var myUIScroll3 = new AXScroll(); // 스크롤 인스턴스 선언
 	var fnObj = {
 		pageStart: function(){
-			AXUtil.readyMobileConsole();
+			//AXUtil.readyMobileConsole();
 			AXCode.bind(); // 소스보기
 
 			myUIScroll3.setConfig({
 				targetID:"UIScrollContainer3",
 				scrollID:"UIScrollTarget3",
-				touchDirection:false,
 				xscroll:true
 			});
 		}
