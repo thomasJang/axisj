@@ -673,9 +673,20 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
 		}
 	},
+	bindSelectorBlur: function(objID){
+		var cfg = this.config;
+		var objSeq = null;
+		jQuery.each(this.objects, function (idx, O) {
+			//if (this.id == objID && this.isDel == true) objSeq = idx;
+			if (this.id == objID) {
+				objSeq = idx;
+			}
+		});
+		if(objSeq != null) this.bindSelectorClose(objID, objSeq);
+	},
 	bindSelectorClose: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
-		//trace("bindSelectorClose");
+
 		var cfg = this.config;
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
@@ -683,10 +694,9 @@ var AXInputConverter = Class.create(AXJ, {
 
 			//비활성 처리후 메소드 종료
 
-			jQuery(document).unbind("click", obj.documentclickEvent);
+			jQuery(document).unbind("click.AXInputSelector");
 			jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
 			jQuery("#" + objID).unbind("change", obj.inputChange);
-
 
 			if (obj.config.isChangedSelect) {
 				var myVal = "";
@@ -719,7 +729,7 @@ var AXInputConverter = Class.create(AXJ, {
 				if (!obj.config.appendable) if (!obj.config.selectedObject) jQuery("#" + objID).val("");
 			}
 
-			event.stopPropagation(); // disableevent
+			if(event) event.stopPropagation(); // disableevent
 			return;
 		}
 	},
@@ -782,9 +792,10 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-
+		
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
+		
 		var myTarget = this.getEventTarget({
 			evt: eventTarget,
 			until: function (evt, evtIDs) {
@@ -799,6 +810,7 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 			}
 		});
+		
 		var isSelectorClick = (myTarget) ? true : false;
 
 		if (!isSelectorClick) {
@@ -3409,6 +3421,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
 			obj.config.onChange.call({
+				event:event,
 				ST_objID: obj.config.startTargetID,
 				ED_objID: objID,
 				ST_value: jQuery("#" + obj.config.startTargetID).val(),
@@ -3470,6 +3483,12 @@ jQuery.fn.bindSelector = function (config) {
 		config = config || {}; config.id = this.id;
 		config.bindType = "selector";
 		AXInput.bind(config);
+		return this;
+	});
+};
+jQuery.fn.bindSelectorBlur = function (config) {
+	jQuery.each(this, function () {
+		AXInput.bindSelectorBlur(this.id);
 		return this;
 	});
 };

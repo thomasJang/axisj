@@ -606,6 +606,26 @@
 	]
 },
 {
+	id:"/API/jQueryExtends/bindSelectorBlur",
+	head:{
+		type:"method", 
+		name:"bindSelectorBlur",
+		flnm:"jQueryExtends.bindSelectorBlur",
+		file:"_AXJ/lib/AXInput.js",
+		tags:"jQueryExtends,bindSelectorBlur"
+	},
+	h1:"bindSelectorBlur",
+	desc: "bindSelector 된 개체 포커스된 상태를 해지 하고 확장된 옵션박스도 제거 합니다.",
+	define: "$(\"jQuerySelector\").bindSelectorBlur();",
+	arguments:[],
+	returns: {k:"", v:""},
+	samplecode:[],
+	example:[],
+	exampleFn:[],
+	reference:[],
+	extendForm:[]
+},
+{
 	id:"/API/jQueryExtends/bindSlider",
 	head:{
 		type:"method", 

@@ -200,4 +200,45 @@
 	exampleFn:[],
 	reference:[],
 	extendForm:[]
+},
+{
+	id:"/API/jQueryExtends/bindSelectFocus",
+	head:{
+		type:"method", 
+		name:"bindSelectFocus",
+		flnm:"jQueryExtends.bindSelectFocus",
+		file:"_AXJ/lib/AXSelect.js",
+		tags:"jQueryExtends,bindSelectFocus"
+	},
+	h1:"bindSelectFocus",
+	desc: "bindSelect 된 개체를 포커스된 상태로 변경 합니다.",
+	define: "$(\"jQuerySelector\").bindSelectFocus();",
+	arguments:[],
+	returns: {k:"", v:""},
+	samplecode:[],
+	example:[],
+	exampleFn:[],
+	reference:[],
+	extendForm:[]
+},
+{
+	id:"/API/jQueryExtends/bindSelectBlur",
+	head:{
+		type:"method", 
+		name:"bindSelectBlur",
+		flnm:"jQueryExtends.bindSelectBlur",
+		file:"_AXJ/lib/AXSelect.js",
+		tags:"jQueryExtends,bindSelectBlur"
+	},
+	h1:"bindSelectBlur",
+	desc: "bindSelect 된 개체 포커스된 상태를 해지 하고 확장된 옵션박스도 제거 합니다.",
+	define: "$(\"jQuerySelector\").bindSelectBlur();",
+	arguments:[],
+	returns: {k:"", v:""},
+	samplecode:[],
+	example:[],
+	exampleFn:[],
+	reference:[],
+	extendForm:[]
 }
+

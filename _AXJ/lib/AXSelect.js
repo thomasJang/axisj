@@ -450,7 +450,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			}
 
-			event.stopPropagation(); // disableevent
+			if(event) event.stopPropagation(); // disableevent
 			return;
 		}
 	},
@@ -746,6 +746,19 @@ var AXSelectConverter = Class.create(AXJ, {
 			AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
 		}
 	},
+	bindSelectBlur: function(objID){
+		var cfg = this.config;
+		var findIndex = null;
+		jQuery.each(this.objects, function (index, O) {
+			if (O.id == objID && O.isDel != true) {
+				findIndex = index;
+				return false;
+			}
+		});
+		if(findIndex != null){
+			this.bindSelectClose(objID, findIndex);
+		}
+	},
 	bindSelectGetAnchorObject: function(objID){
 		var cfg = this.config;
 		var findIndex = null;
@@ -823,6 +836,13 @@ jQuery.fn.bindSelectUpdate = function () {
 jQuery.fn.bindSelectFocus = function () {
 	jQuery.each(this, function () {
 		AXSelect.bindSelectFocus(this.id);
+		return this;
+	});
+};
+
+jQuery.fn.bindSelectBlur = function () {
+	jQuery.each(this, function () {
+		AXSelect.bindSelectBlur(this.id);
 		return this;
 	});
 };

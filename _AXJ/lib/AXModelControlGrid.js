@@ -217,7 +217,6 @@ var AXModelControlGrid = Class.create(AXJ, {
 		
 		this.colHead.empty();
 		this.colHead.append(po.join(''));
-		
     },
     setList: function(list){
     	var cfg = this.config;
@@ -237,10 +236,10 @@ var AXModelControlGrid = Class.create(AXJ, {
     	
     	this.myUIScroll.resizeScroll();
     },
-    getItem: function(arg){
+    getItem: function(arg, update){
     	var cfg = this.config;
 		var po = [];
-		po.push("<td class=\"bodyTd\">");
+		if(update == undefined) po.push("<td class=\"bodyTd\">");
 		po.push("	<div class=\"tdRelBlock\" style=\"text-align:" + (arg.align||"left") + ";\">");
 		
 		if(arg.html){
@@ -256,7 +255,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		}
 		
 		po.push("	</div>");;
-		po.push("</td>");
+		if(update == undefined) po.push("</td>");
 
 		return po.join('');
     },
@@ -282,7 +281,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 		this.printFootItem();
     },
-    printItem: function(lidx, L, update){
+    printItem: function(lidx, L, update, event){
     	var cfg = this.config;
     	var getItem = this.getItem.bind(this);
     	var AXbindOnchange = this.AXbindOnchange.bind(this);
@@ -305,6 +304,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).html(tr.join(''));
 		}
 		
+		var oncursorKeyup = this.oncursorKeyup.bind(this);
+		
 		jQuery.each(cfg.body.form, function(fidx, form) {
 			if(form.AXBind){
 				var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
@@ -324,13 +325,24 @@ var AXModelControlGrid = Class.create(AXJ, {
 				}else if(form.AXBind.type == "Select"){
 					jQuery("#"+bindID).unbindSelect();
 					jQuery("#"+bindID).bindSelect(myConfig);
+					if(cfg.cursorFocus){
+						jQuery("#"+bindID).bindSelectGetAnchorObject().bind("keyup.AXModelControlGrid", function(event){
+							oncursorKeyup(jQuery("#"+bindID), event, lidx);
+						});
+					}
 				}else if(form.AXBind.type == "Selector"){
 					jQuery("#"+bindID).bindSelector(myConfig);
 				}else if(form.AXBind.type == "Money"){
-					jQuery("#"+bindID).bindMoney(myConfig);					
+					jQuery("#"+bindID).bindMoney(myConfig);
 				}
 			}
 		});
+
+		if(cfg.cursorFocus){
+			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea").unbind("keyup.AXModelControlGrid").bind("keyup.AXModelControlGrid", function(event){
+				oncursorKeyup(jQuery(event.target), event, lidx);
+			});
+		}
 		
 		var printFootItem = this.printFootItem.bind(this);
 		var _this = this;
@@ -344,6 +356,126 @@ var AXModelControlGrid = Class.create(AXJ, {
 			//printFootItem();
     	}
     },
+    oncursorKeyup: function(jQueryObj, event, lidx){
+    	var cfg = this.config;
+    	
+    	if(!event.target) return;
+    	if(event.shiftKey || event.metaKey || event.ctrlKey) return;
+		var eventName = jQueryObj.get(0).name;
+    	if(cfg.oncursor){
+    		var direction = "";
+    		if(event.keyCode == AXUtil.Event.KEY_UP) direction = "U";
+    		else if(event.keyCode == AXUtil.Event.KEY_DOWN) direction = "D";
+    		else if(event.keyCode == AXUtil.Event.KEY_LEFT) direction = "L";
+    		else if(event.keyCode == AXUtil.Event.KEY_RIGHT) direction = "R";
+    		if(cfg.oncursor.call(
+    			{
+    				event:event,
+    				direction:direction,
+    				listIndex:lidx,
+    				jQueryObj:jQueryObj
+    			}
+    		) === false) return false;
+			if(direction == "") return;
+			
+			var axbind = jQueryObj.attr("axbind");
+			if(axbind && (direction == "U" || direction == "D")) return;
+			if(direction == "U"){
+				
+				if(lidx == 0) return;
+				this.blurItem(jQueryObj);
+				var nextItemList = this.body.find("#" + cfg.targetID + "_tbodyTR_" + (lidx-1)).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea");
+				var findItem;
+				nextItemList.each(function(){
+					if(this.name == eventName) findItem = this;
+				});
+				this.focusItem(jQuery(findItem));
+			}else if(direction == "D"){
+				
+				if(lidx >= this.list.length-1) return;
+				this.blurItem(jQueryObj);
+				var nextItemList = this.body.find("#" + cfg.targetID + "_tbodyTR_" + (lidx+1)).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea");
+				var findItem;
+				nextItemList.each(function(){
+					if(this.name == eventName) findItem = this;
+				});
+				this.focusItem(jQuery(findItem));
+				
+			}else if(direction == "L"){
+				
+				var colIndex;
+				var itemList = this.body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea");
+				itemList.each(function(cidx, item){
+					if(this.name == eventName) colIndex = cidx;
+				});
+
+				if(colIndex == 0){
+					if(lidx == 0) return;
+					this.blurItem(jQueryObj);
+					var nextItemList = this.body.find("#" + cfg.targetID + "_tbodyTR_" + (lidx-1)).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea");
+					this.focusItem(jQuery(nextItemList.last()));
+				}else{
+					this.blurItem(jQueryObj);
+					this.focusItem(jQuery(itemList[colIndex-1]));
+				}
+				
+			}else if(direction == "R"){
+				
+				var colIndex;
+				var itemList = this.body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea");
+				itemList.each(function(cidx, item){
+					if(this.name == eventName) colIndex = cidx;
+				});
+				
+				if(colIndex >= itemList.length-1){
+					if(lidx >= this.list.length-1) return;
+					this.blurItem(jQueryObj);
+					var nextItemList = this.body.find("#" + cfg.targetID + "_tbodyTR_" + (lidx+1)).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea");
+					this.focusItem(jQuery(nextItemList.first()));
+				}else{
+					this.blurItem(jQueryObj);
+					this.focusItem(jQuery(itemList[colIndex+1]));
+				}
+			}
+    		
+    		
+    	}
+    	//trace(event.target.name, lidx);
+    },
+    blurItem: function(jQueryObj){
+    	var cfg = this.config;
+    	var axbind = jQueryObj.attr("axbind");
+    	if(axbind){
+    		if(axbind == "select"){
+    			jQueryObj.bindSelectBlur();
+    		}else if(axbind == "selector"){
+    			jQueryObj.bindSelectorBlur();
+    		}else{
+
+    		}
+    	}
+    },
+    focusItem: function(jQueryObj){
+    	var cfg = this.config;
+    	
+    	var axbind = jQueryObj.attr("axbind");
+    	if(axbind){
+    		if(axbind == "select") jQueryObj.bindSelectFocus();
+    		else if(axbind == "selector") jQueryObj.focus();
+    		else jQueryObj.focus();
+    	}else{
+    		jQueryObj.focus();
+    	}
+    },
+    focusIndex: function(rowIndex, colIndex){
+    	var cfg = this.config;
+    	//trace(rowIndex, colIndex);
+    	var myTd = this.body.find("tbody tr#" + cfg.targetID + "_tbodyTR_" + rowIndex + " td:nth-child(" + (colIndex+1) + ")");
+    	//trace(myTd.html());
+    	var item = myTd.find("input[type=text],input[type=checkbox],input[type=radio],select,textarea").get(0);
+    	item.focus();
+    },
+    
     AXbindOnchange: function(lidx, fidx, AXBindThis){
     	var cfg = this.config;
     	if(cfg.body.form[fidx].AXBind.onchange){
@@ -401,11 +533,37 @@ var AXModelControlGrid = Class.create(AXJ, {
 		_body.append(foot.join(''));
 		
     },
-    updateItem: function(lidx, item, onlyDataChane){
+    updateItem: function(lidx, item, onlyDataChane, event){
     	var cfg = this.config;
+    	var getItem = this.getItem.bind(this);
     	
     	this.list[lidx] = AXUtil.overwriteObject(this.list[lidx], item, true);
-    	if(!onlyDataChane) this.printItem(lidx, this.list[lidx], "update");
+    	if(!onlyDataChane) this.printItem(lidx, this.list[lidx], "update", event);
+    	else{
+    		
+			
+			var _body = this.body;
+			jQuery.each(cfg.body.form, function (fidx, form) {
+				if(form.updateReload){
+					var td = getItem({
+						rowIndex:lidx, colIndex:fidx, 
+						align:form.align,
+						html:form.html, data:form.data
+					}, "update");
+					var myTD = jQuery(_body.find("tbody tr#" + cfg.targetID + "_tbodyTR_" + lidx + " td").get(fidx));
+					myTD.html(td);
+				}
+			});
+			
+			var oncursorKeyup = this.oncursorKeyup.bind(this);
+			if(cfg.cursorFocus){
+				_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea").unbind("keyup.AXModelControlGrid").bind("keyup.AXModelControlGrid", function(event){
+					oncursorKeyup(jQuery(event.target), event, lidx);
+				});
+			}
+    		
+    	}
+    	
     	
     	this.printFootItem();
     },

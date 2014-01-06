@@ -416,13 +416,28 @@ var AXModelControl = Class.create(AXJ, {
     			}
     		) === false) return false;
 			if(direction == "") return;
+			var axbind = jQueryObj.attr("axbind");
+			if(axbind && (direction == "U" || direction == "D")) return;
 			if(direction == "U" || direction == "L"){
 				if(itemIndex == 0) return;
+				this.blurItem(jQueryObj);
 				this.focusItem(this.collectItem[(itemIndex-1)].jQueryObj);
 			}else{
 				if(itemIndex >= this.collectItem.length-1) return;
+				this.blurItem(jQueryObj);
 				this.focusItem(this.collectItem[(itemIndex+1)].jQueryObj);
 			}
+    	}
+    },
+    blurItem: function(jQueryObj){
+    	var cfg = this.config;
+    	var axbind = jQueryObj.attr("axbind");
+    	if(axbind){
+    		if(axbind == "select"){
+    			jQueryObj.bindSelectBlur();
+    		}else if(axbind == "selector"){
+    			jQueryObj.bindSelectorBlur();
+    		}
     	}
     },
     focusItem: function(jQueryObj){
@@ -431,6 +446,7 @@ var AXModelControl = Class.create(AXJ, {
     	if(axbind){
     		if(axbind == "select") jQueryObj.bindSelectFocus();
     		else if(axbind == "selector") jQueryObj.focus();
+    		else jQueryObj.focus();
     	}else{
     		jQueryObj.focus();
     	}
