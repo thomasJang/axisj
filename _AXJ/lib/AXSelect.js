@@ -78,9 +78,9 @@ var AXSelectConverter = Class.create(AXJ, {
 		//this.objects = collect;
 
 		if (removeAnchorId) {
-
+			
 			this.objects[removeIdx].isDel = true;
-
+			jQuery("#" + obj.id).removeAttr("axbind");
 			if (this.isMobile) {
 				jQuery("#" + removeAnchorId).before(jQuery("#" + obj.id));
 				jQuery("#" + removeAnchorId).remove();
@@ -132,10 +132,12 @@ var AXSelectConverter = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_" + objID).remove();
 			var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
 			var iobj = jQuery("#" + objID);
+			iobj.attr("AXBind", "select");
 			iobj.after(anchorNode);
 		} else {
 			var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
 			var iobj = jQuery("#" + objID);
+			iobj.attr("AXBind", "select");
 			iobj.after(anchorNode);
 		}
 
@@ -730,11 +732,37 @@ var AXSelectConverter = Class.create(AXJ, {
 		if(findIndex != null){
 			this.bindSelectChange(objID, findIndex);
 		}
+	},
+	bindSelectFocus: function(objID){
+		var cfg = this.config;
+		var findIndex = null;
+		jQuery.each(this.objects, function (index, O) {
+			if (O.id == objID && O.isDel != true) {
+				findIndex = index;
+				return false;
+			}
+		});
+		if(findIndex != null){
+			AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
+		}
+	},
+	bindSelectGetAnchorObject: function(objID){
+		var cfg = this.config;
+		var findIndex = null;
+		jQuery.each(this.objects, function (index, O) {
+			if (O.id == objID && O.isDel != true) {
+				findIndex = index;
+				return false;
+			}
+		});
+		if(findIndex != null){
+			return jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox");
+		}
 	}
 });
 
 var AXSelect = new AXSelectConverter();
-AXSelect.setConfig({ targetID: "inputBasic" });
+AXSelect.setConfig({ targetID: "AXselect" });
 
 jQuery.fn.unbindSelect = function (config) {
 	jQuery.each(this, function () {
@@ -790,4 +818,20 @@ jQuery.fn.bindSelectUpdate = function () {
 		AXSelect.bindSelectUpdate(this.id);
 		return this;
 	});
+};
+
+jQuery.fn.bindSelectFocus = function () {
+	jQuery.each(this, function () {
+		AXSelect.bindSelectFocus(this.id);
+		return this;
+	});
+};
+
+jQuery.fn.bindSelectGetAnchorObject = function(){
+	var returnObj;
+	jQuery.each(this, function () {
+		returnObj = AXSelect.bindSelectGetAnchorObject(this.id);
+		return this;
+	});
+	return returnObj;
 };

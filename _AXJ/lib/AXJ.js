@@ -867,7 +867,7 @@ var AXConfig = {
 		title:"선택하세요"
 	},
 	mobile: {
-		responsiveWidth: 640
+		responsiveWidth: 480
 	}
 };
 
@@ -1713,7 +1713,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
 
 /* ** AXScroll ********************************************** */
 var AXScroll = Class.create(AXJ, {
-	version: "AXScroll v1.4",
+	version: "AXScroll v1.5",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-10-10 오전 11:17:34",
@@ -1727,7 +1727,8 @@ var AXScroll = Class.create(AXJ, {
 		"2013-08-01 오후 4:54:17 mobile touch 버그픽스 - tom ",
 		"2013-10-16 오후 6:45:48 mobile 스크롤 속도문제 패치 - tom",
 		"2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가",
-		"2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가"
+		"2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가",
+		"2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1974,6 +1975,9 @@ var AXScroll = Class.create(AXJ, {
 
 	/* touch event init --- s */
 	touchstart: function (e) {
+		if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
+		if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
+		
 		var cfg = this.config;
 		var touch;
 		var event = window.event;
@@ -2015,9 +2019,13 @@ var AXScroll = Class.create(AXJ, {
 		var minTop = 0;
 		var maxTop = - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
 		var scrollPosition = this.scrollScrollID.position();
-		if(scrollPosition.left > minLeft && scrollPosition.left < maxLeft && scrollPosition.top > minTop && scrollPosition.top < maxTop){
+
+		if((scrollPosition.left < minLeft && scrollPosition.left > maxLeft) || (scrollPosition.top < minTop && scrollPosition.top > maxTop)){
 			this.scrollScrollID.stop();
+			if(cfg.yscroll) this.scrollBar.stop();
+			if(cfg.xscroll) this.xscrollBar.stop();
 		}
+
 		this.tractActive();
 	},
 	touchMove: function (e) {
@@ -2092,9 +2100,11 @@ var AXScroll = Class.create(AXJ, {
 		}
 
 		var moveEndBlock = this.moveEndBlock.bind(this);
-		this.touhEndObserver = setTimeout(function () {
-			moveEndBlock();
-		}, 10);
+		if(this.touchStartXY){
+			this.touhEndObserver = setTimeout(function () {
+				moveEndBlock();
+			}, 10);
+		}
 	},
 	moveBlock: function(moveXY){
 		var cfg = this.config;
@@ -2208,7 +2218,7 @@ var AXScroll = Class.create(AXJ, {
 				if(leftChange) this.scrollScrollID.css({left: -eLeft});
 			}
 		}
-		this.touchStartXY = null;	
+		this.touchStartXY = null;
 
 	},
 	/* touch event init --- e */

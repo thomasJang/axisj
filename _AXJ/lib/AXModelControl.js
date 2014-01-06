@@ -19,6 +19,7 @@ var AXModelControl = Class.create(AXJ, {
         this.config.collectSelector = "";
         this.config.subModelDetectClassName = "AXModelDetect";
         this.config.excludeClassName = "";
+        this.config.cursorFocus = false;
         this.returnJSData = {};
     },
     init: function() {
@@ -28,6 +29,7 @@ var AXModelControl = Class.create(AXJ, {
 			return;
 		}
 		this.target = jQuery("#"+cfg.targetID);
+		//trace(this.collectItem);
     },
     collectModelItem: function(){
     	var cfg = this.config;
@@ -65,6 +67,7 @@ var AXModelControl = Class.create(AXJ, {
 		};
 
 		var collectItem = [];
+		var oncursorKeyup = this.oncursorKeyup.bind(this);
 		
 		/*trace(finderCSS);*/		
 		this.target.find(finderCSS).each(function(){
@@ -117,8 +120,8 @@ var AXModelControl = Class.create(AXJ, {
 		this.collectItem = collectItem;
 		
 		var returnJSData = {};
-		jQuery.each(this.collectItem, function(){
-			var keys = this.keys;
+		jQuery.each(this.collectItem, function(itemIndex, item){
+			var keys = item.keys;
 			var targetJS = returnJSData;
 			
 			var key;
@@ -176,6 +179,18 @@ var AXModelControl = Class.create(AXJ, {
 						this.keySeq = targetJS[key].length-1;
 						//this.keys[this.keys.length-1] += "["+ this.keySeq +"]";
 					}
+				}
+			}
+			
+			if(cfg.cursorFocus){
+				var jQueryObj = item.jQueryObj;
+				jQueryObj.bind("keyup.AXModelControl", function(){
+					oncursorKeyup(jQueryObj, event, itemIndex);
+				});
+				if(jQueryObj.attr("axbind") == "select"){
+					jQueryObj.bindSelectGetAnchorObject().bind("keyup.AXModelControl", function(){
+						oncursorKeyup(jQueryObj, event, itemIndex);
+					});
 				}
 			}
 		});
@@ -378,5 +393,46 @@ var AXModelControl = Class.create(AXJ, {
 		}
 		
 		return true;
+    },
+    
+    /* cursorFocus */
+    oncursorKeyup: function(jQueryObj, event, itemIndex){
+    	var cfg = this.config;
+    	if(event.shiftKey || event.metaKey || event.ctrlKey) return;
+    	if(cfg.oncursor){
+    		//trace(event.keyCode);
+    		// AXBind 된 경우에는 위아래 사용을 제한 해야함. 2014-01-04 오후 5:57:24
+    		var direction = "";
+    		if(event.keyCode == AXUtil.Event.KEY_UP) direction = "U";
+    		else if(event.keyCode == AXUtil.Event.KEY_DOWN) direction = "D";
+    		else if(event.keyCode == AXUtil.Event.KEY_LEFT) direction = "L";
+    		else if(event.keyCode == AXUtil.Event.KEY_RIGHT) direction = "R";
+    		if(cfg.oncursor.call(
+    			{
+    				event:event,
+    				direction:direction,
+    				itemIndex:itemIndex,
+    				jQueryObj:jQueryObj
+    			}
+    		) === false) return false;
+			if(direction == "") return;
+			if(direction == "U" || direction == "L"){
+				if(itemIndex == 0) return;
+				this.focusItem(this.collectItem[(itemIndex-1)].jQueryObj);
+			}else{
+				if(itemIndex >= this.collectItem.length-1) return;
+				this.focusItem(this.collectItem[(itemIndex+1)].jQueryObj);
+			}
+    	}
+    },
+    focusItem: function(jQueryObj){
+    	var cfg = this.config;
+    	var axbind = jQueryObj.attr("axbind");
+    	if(axbind){
+    		if(axbind == "select") jQueryObj.bindSelectFocus();
+    		else if(axbind == "selector") jQueryObj.focus();
+    	}else{
+    		jQueryObj.focus();
+    	}
     }
 });

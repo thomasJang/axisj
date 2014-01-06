@@ -117,7 +117,7 @@ var AXInputConverter = Class.create(AXJ, {
 			this.objects[objSeq].config = obj;
 		}
 
-		this.appendAnchor(objID);
+		this.appendAnchor(objID, obj.bindType);
 
 		if (obj.bindType == "placeHolder") {
 			this.bindPlaceHolder(objID, objSeq);
@@ -162,8 +162,8 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (removeAnchorId) {
 			this.objects[removeIdx].isDel = true;
+			jQuery("#" + obj.id).removeAttr("axbind");
 			jQuery("#" + removeAnchorId).remove();
-			//jQuery("#" + obj.id).show();
 			var objID = obj.id;
 			var obj = this.objects[removeIdx];
 			if (obj.documentclickEvent) jQuery(document).unbind("click", obj.documentclickEvent);
@@ -182,12 +182,13 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 	},
-	appendAnchor: function (objID) {
+	appendAnchor: function (objID, bindType) {
 		var cfg = this.config;
 		//trace("appendAnchor");
 		jQuery("#" + cfg.targetID + "_AX_" + objID).remove();
 		var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
 		var iobj = jQuery("#" + objID);
+		iobj.attr("AXBind", bindType);
 		iobj.after(anchorNode);
 		//var offSetParent = iobj.offsetParent();
 		var iobjPosition = iobj.position();

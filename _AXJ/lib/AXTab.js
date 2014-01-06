@@ -153,7 +153,7 @@ var AXTabClass = Class.create(AXJ, {
     	
     	if(obj.overflow != "visible"){
 	    	var tabsWidth = (AXUtil.clientWidth() < cfg.responsiveWidth) ? 40 : 30;
-	    	var tabsMargin = (AXUtil.clientWidth() < cfg.responsiveWidth) ? 1 : 0;
+	    	var tabsMargin = (AXUtil.clientWidth() < cfg.responsiveWidth) ? 5 : 5;
 	    	obj.tabContainer.find(".AXTab").each(function(){
 	    		tabsWidth += (jQuery(this).outerWidth().number() + jQuery(this).css("marginLeft").number() + jQuery(this).css("marginRight").number() + tabsMargin);
 	    	});
