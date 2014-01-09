@@ -30,6 +30,7 @@ var AXModelControl = Class.create(AXJ, {
 		}
 		this.target = jQuery("#"+cfg.targetID);
 		//trace(this.collectItem);
+		
     },
     collectModelItem: function(){
     	var cfg = this.config;
@@ -119,6 +120,8 @@ var AXModelControl = Class.create(AXJ, {
 		
 		this.collectItem = collectItem;
 		
+		
+		
 		var returnJSData = {};
 		jQuery.each(this.collectItem, function(itemIndex, item){
 			var keys = item.keys;
@@ -182,14 +185,28 @@ var AXModelControl = Class.create(AXJ, {
 				}
 			}
 			
+			
+			
 			if(cfg.cursorFocus){
+	
 				var jQueryObj = item.jQueryObj;
-				jQueryObj.bind("keyup.AXModelControl", function(){
-					oncursorKeyup(jQueryObj, event, itemIndex);
-				});
+
+				//trace(jQueryObj.attr("data-axbind"));
 				if(jQueryObj.attr("data-axbind") == "select"){
+					
 					jQueryObj.bindSelectGetAnchorObject().bind("keyup.AXModelControl", function(){
 						oncursorKeyup(jQueryObj, event, itemIndex);
+					});
+				}else{
+					jQueryObj.bind("keydown.AXModelControl", function(event){
+						oncursorKeyup(jQueryObj, event, itemIndex);
+						/*
+						if (event.preventDefault) event.preventDefault();
+						if (event.stopPropagation) event.stopPropagation();
+						event.cancelBubble = true;
+						return false;
+						*/
+						
 					});
 				}
 			}
@@ -402,11 +419,13 @@ var AXModelControl = Class.create(AXJ, {
     	if(cfg.oncursor){
     		//trace(event.keyCode);
     		// AXBind 된 경우에는 위아래 사용을 제한 해야함. 2014-01-04 오후 5:57:24
+    		var axbind = jQueryObj.attr("data-axbind");
     		var direction = "";
     		if(event.keyCode == AXUtil.Event.KEY_UP) direction = "U";
     		else if(event.keyCode == AXUtil.Event.KEY_DOWN) direction = "D";
     		else if(event.keyCode == AXUtil.Event.KEY_LEFT) direction = "L";
     		else if(event.keyCode == AXUtil.Event.KEY_RIGHT) direction = "R";
+    		else if(event.keyCode == AXUtil.Event.KEY_RETURN && axbind != "select") direction = "R";
     		if(cfg.oncursor.call(
     			{
     				event:event,
@@ -416,7 +435,7 @@ var AXModelControl = Class.create(AXJ, {
     			}
     		) === false) return false;
 			if(direction == "") return;
-			var axbind = jQueryObj.attr("data-axbind");
+			
 			if(axbind && (direction == "U" || direction == "D")) return;
 			if(direction == "U" || direction == "L"){
 				if(itemIndex == 0) return;
@@ -431,6 +450,9 @@ var AXModelControl = Class.create(AXJ, {
     },
     blurItem: function(jQueryObj){
     	var cfg = this.config;
+    	
+    	trace("blurItem");
+    	
     	var axbind = jQueryObj.attr("data-axbind");
     	if(axbind){
     		if(axbind == "select"){
@@ -448,6 +470,7 @@ var AXModelControl = Class.create(AXJ, {
     		else if(axbind == "selector") jQueryObj.focus();
     		else jQueryObj.focus();
     	}else{
+    		trace(jQueryObj.get(0).id);
     		jQueryObj.focus();
     	}
     }
