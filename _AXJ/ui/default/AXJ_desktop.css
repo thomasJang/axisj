@@ -448,6 +448,31 @@
 		color:#7e302c;
 	}
 
+/* ---------------------------- AXInputGroup ------------------------------- */
+.AXInputGroup{
+	position:relative;
+	border:1px solid #b6b6b6;background:#fff;
+	box-shadow:inset 0px 1px 2px #dddddd;
+	border-radius:4px;
+	padding:0px 0px 0px 4px;
+	display:block;
+}
+.AXInputGroup.inline{
+	display:inline-block;
+	*display:inline;
+	*margin-right:3px;
+}
+.AXInputGroup input[type=text],.AXInputGroup input[type=password]{
+	border:0px none;padding:0px;
+	width:100%;
+	padding:4px 0px;
+	font-size:12px;line-height:15px;height:15px;
+	background:none;
+}
+.AXInputGroup.inline input[type=text], .AXInputGroup.inline input[type=password]{
+	*width:auto;
+}
+
 
 /* ---------------------------- AXInput ------------------------------- */
 .AXanchor{
@@ -1725,33 +1750,44 @@
 	
 /* view Style table */
 .AXFormTable{
+	border-collapse:collapse;
 	border:1px solid #c1c1c1;border-bottom:0px none;
 	width:100%;table-layout:fixed;
 	font-size:12px;
 	box-shadow:1px 1px 3px #eee;
 }
-.AXFormTable td .tdRel, .AXFormTable th .tdRel{
-	padding:0px 10px;
+.AXFormTable td, .AXFormTable th{
+	padding:5px;
 }
-.AXFormTable tbody td{
-	min-height:36px;height:36px;overflow:visible;
+.AXFormTable td .tdRel, .AXFormTable th .tdRel{
+	position:relative;	
+}
+
+.AXFormTable tbody td, .AXFormTable tbody th{
+	min-height:25px;overflow:visible;
 	border-bottom:1px solid #c1c1c1;
 	color:#666;
 	background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
 }
 .AXFormTable tbody th{
-	min-height:36px;height:36px;overflow:visible;
-	border-bottom:1px solid #c1c1c1;
 	color:#444;
-	text-align:center;
-	background:url(img/gridbodyBorder.png) repeat-y 100% 0px #F5F5F5;
 }
+.AXFormTable td:last-child, .AXFormTable th:last-child{
+	background:none;
+}
+
 .AXFormTable tbody tr.gray td, .AXFormTable tbody tr.gray th{
 	background-color:#F5F5F5;
 }
+	.AXFormTable tbody tr td.gray, .AXFormTable tbody tr th.gray{
+		background-color:#F5F5F5;
+	}
 .AXFormTable tbody tr.red td, .AXFormTable tbody tr.red th{
 	background-color:#FFE8E8;
 }
+	.AXFormTable tbody tr td.red, .AXFormTable tbody tr th.red{
+		background-color:#FFE8E8;
+	}
 .AXFormTable tbody tr.green td, .AXFormTable tbody tr.green th{
 	background-color:#F7FDEA;
 }

@@ -162,7 +162,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (removeAnchorId) {
 			this.objects[removeIdx].isDel = true;
-			jQuery("#" + obj.id).removeAttr("axbind");
+			jQuery("#" + obj.id).removeAttr("data-axbind");
 			jQuery("#" + removeAnchorId).remove();
 			var objID = obj.id;
 			var obj = this.objects[removeIdx];
@@ -188,7 +188,7 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID).remove();
 		var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
 		var iobj = jQuery("#" + objID);
-		iobj.attr("AXBind", bindType);
+		iobj.attr("data-axbind", bindType);
 		iobj.after(anchorNode);
 		//var offSetParent = iobj.offsetParent();
 		var iobjPosition = iobj.position();

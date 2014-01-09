@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AX for Mobile</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	
+	<style type="text/css">
+	H2{font-family:consolas;}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">	
+	var pageID = "mobileInput";
+
+	var fnObj = {
+		pageStart: function(){
+			//AXUtil.readyMobileConsole();
+
+			$("#bindSelector").bindSelector({
+				options:[
+					{optionValue:"11", optionText:"선택하세요."},
+					{optionValue:"11", optionText:"선택하세요."},
+					{optionValue:"11", optionText:"선택하세요."},
+					{optionValue:"11", optionText:"선택하세요."}
+				]
+			});
+			
+
+			AXCode.bind(); // 소스보기
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">		
+
+<form name="main">
+ Result: <output name="result"></output>
+ <script>
+  document.forms.main.elements.result.value = 'Hello World';
+ </script>
+</form>
+
+		<h2>AXInput</h2>
+		<div>
+			<input type="text" name="" value="" class="AXInput W100" />
+		</div>
+		&nbsp;
+			<h3>AXInput Round</h3>
+		<input type="text" name="" value="" class="AXInput Round" />
+		&nbsp;
+		AXInput disabeld
+		<input type="text" name="" value="123AXJ엑스제이" class="AXInput" disabled="disabled" />		
+		&nbsp;
+		AXInput readonly
+		<input type="text" name="" value="123AXJ엑스제이" class="AXInput" readonly="readonly" />		
+		<div style="height:50px;"></div>
+		
+		<h2>AXInputSmall</h2>
+		
+		<input type="text" name="" value="" class="AXInputSmall" />
+		&nbsp;
+		AXInputSmall W100
+		<input type="text" name="" value="" class="AXInputSmall W100" />
+		&nbsp;
+		AXInputSmall Round
+		<input type="text" name="" value="" class="AXInputSmall Round" />
+		&nbsp;
+		AXInputSmall disabled
+		<input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" disabled="disabled" />
+		&nbsp;
+		AXInputSmall readonly
+		<input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" readonly="readonly" />
+		<div class="Hspace20"></div>
+		
+		<h2>AXInputGroup</h2>
+
+		<div class="AXInputGroup">
+			<input type="text" name="" value="" />
+		</div>
+		
+		<div class="AXInputGroup">
+			<input type="password" name="" value="" />
+		</div>
+		
+		<div class="AXInputGroup inline">
+			<input type="text" name="" value="" />
+		</div>
+		
+		<div class="AXInputGroup inline">
+			<input type="password" name="" value="" />
+		</div>
+		
+		<div class="Hspace20"></div>
+
+
+		<h2>AXInputGroup of table</h2>
+		
+		<table class="AXFormTable">
+			<colgroup>
+				<col width="80" />
+				<col />
+			</colgroup>
+			<tbody>
+				<tr>
+					<td>
+						<div class="AXInputGroup">
+							<input type="text" name="" value="" />
+						</div>
+					</td>
+					<td>
+						<div class="AXInputGroup">
+							<input type="text" name="" value="" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="gray">
+						abc
+					</th>
+					<td>
+						123
+					</td>
+				</tr>
+				<tr class="gray">
+					<th>
+						abc
+					</th>
+					<td>
+						123
+					</td>
+				</tr>
+				<tr>
+					<th class="red">
+						abc
+					</th>
+					<td>
+						<div class="inlineBlock">
+							<input type="text" name="" id="bindSelector" value="" class="AXInput" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="Hspace20"></div>
+
+	</div>
+</body>
+</html>

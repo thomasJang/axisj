@@ -82,7 +82,7 @@ var AXModelControl = Class.create(AXJ, {
 				}
 				
 				if(collectOk){
-					jQueryObj.attr("axisjModelId", collectItem.length);
+					jQueryObj.attr("data-axisjModelId", collectItem.length);
 					collectItem.push({
 						keys:[this.name],
 						jQueryObj:jQueryObj,
@@ -93,7 +93,7 @@ var AXModelControl = Class.create(AXJ, {
 				}
 			}else{
 				
-				jQueryObj.attr("axisjModelId", collectItem.length);
+				jQueryObj.attr("data-axisjModelId", collectItem.length);
 				
 				var relationKey = [];
 				jQuery.each(getSubModel.parents, function(){
@@ -187,7 +187,7 @@ var AXModelControl = Class.create(AXJ, {
 				jQueryObj.bind("keyup.AXModelControl", function(){
 					oncursorKeyup(jQueryObj, event, itemIndex);
 				});
-				if(jQueryObj.attr("axbind") == "select"){
+				if(jQueryObj.attr("data-axbind") == "select"){
 					jQueryObj.bindSelectGetAnchorObject().bind("keyup.AXModelControl", function(){
 						oncursorKeyup(jQueryObj, event, itemIndex);
 					});
@@ -416,7 +416,7 @@ var AXModelControl = Class.create(AXJ, {
     			}
     		) === false) return false;
 			if(direction == "") return;
-			var axbind = jQueryObj.attr("axbind");
+			var axbind = jQueryObj.attr("data-axbind");
 			if(axbind && (direction == "U" || direction == "D")) return;
 			if(direction == "U" || direction == "L"){
 				if(itemIndex == 0) return;
@@ -431,7 +431,7 @@ var AXModelControl = Class.create(AXJ, {
     },
     blurItem: function(jQueryObj){
     	var cfg = this.config;
-    	var axbind = jQueryObj.attr("axbind");
+    	var axbind = jQueryObj.attr("data-axbind");
     	if(axbind){
     		if(axbind == "select"){
     			jQueryObj.bindSelectBlur();
@@ -442,7 +442,7 @@ var AXModelControl = Class.create(AXJ, {
     },
     focusItem: function(jQueryObj){
     	var cfg = this.config;
-    	var axbind = jQueryObj.attr("axbind");
+    	var axbind = jQueryObj.attr("data-axbind");
     	if(axbind){
     		if(axbind == "select") jQueryObj.bindSelectFocus();
     		else if(axbind == "selector") jQueryObj.focus();

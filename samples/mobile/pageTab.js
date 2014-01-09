@@ -2,7 +2,9 @@
 	{optionValue:"AXMobileModal", optionText:"AXMobileModal", addClass:"", url:"index.html"},
 	{optionValue:"mobileButton", optionText:"mobile button", addClass:"", url:"button.html"},
 	{optionValue:"AXMobileMenu", optionText:"AXMobileMenu", addClass:"", url:"mobileMenu.html"},
-	{optionValue:"AXMobileTab", optionText:"AXMobileTab", addClass:"", url:"mobileTab.html"}
+	{optionValue:"AXMobileTab", optionText:"AXMobileTab", addClass:"", url:"mobileTab.html"},
+	{optionValue:"mobileInput", optionText:"mobile input", addClass:"", url:"input.html"},
+	{optionValue:"AXBindDate", optionText:"AXBindDate", addClass:"", url:"bindDate.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

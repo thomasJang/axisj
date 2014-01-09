@@ -2048,7 +2048,7 @@ var AXScroll = Class.create(AXJ, {
 				}
 
 				this.touchDirection = touchDirection;
-				if(this.moveBlock({top:touch.pageY - this.touchStartXY.y, })){
+				if(this.moveBlock({top:touch.pageY - this.touchStartXY.y})){
 					if (event.preventDefault) event.preventDefault();
 					else return false;
 				}

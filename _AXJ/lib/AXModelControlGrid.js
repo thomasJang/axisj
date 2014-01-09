@@ -378,7 +378,7 @@ var AXModelControlGrid = Class.create(AXJ, {
     		) === false) return false;
 			if(direction == "") return;
 			
-			var axbind = jQueryObj.attr("axbind");
+			var axbind = jQueryObj.attr("data-axbind");
 			if(axbind && (direction == "U" || direction == "D")) return;
 			if(direction == "U"){
 				
@@ -444,7 +444,7 @@ var AXModelControlGrid = Class.create(AXJ, {
     },
     blurItem: function(jQueryObj){
     	var cfg = this.config;
-    	var axbind = jQueryObj.attr("axbind");
+    	var axbind = jQueryObj.attr("data-axbind");
     	if(axbind){
     		if(axbind == "select"){
     			jQueryObj.bindSelectBlur();
@@ -458,7 +458,7 @@ var AXModelControlGrid = Class.create(AXJ, {
     focusItem: function(jQueryObj){
     	var cfg = this.config;
     	
-    	var axbind = jQueryObj.attr("axbind");
+    	var axbind = jQueryObj.attr("data-axbind");
     	if(axbind){
     		if(axbind == "select") jQueryObj.bindSelectFocus();
     		else if(axbind == "selector") jQueryObj.focus();
