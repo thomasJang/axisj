@@ -66,6 +66,7 @@ var AXGrid = Class.create(AXJ, {
 		this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 10);
 		this.config.passiveMode = AXConfig.AXGrid.passiveMode;
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
+		this.config.listCountMSG = (AXConfig.AXGrid.listCountMSG || "전체 <b>{listCount}</b>개의 목록이 있습니다.");
 		this.selectedCells = [];
 		this.selectedRow = [];
 
@@ -853,7 +854,9 @@ var AXGrid = Class.create(AXJ, {
 		ol.push("			<div class=\"AXgridPageNumberCount\" id=\"" + cfg.targetID + "_AX_gridPageCount\">/ ...</div>");
 		ol.push("			<a href=\"#AXexec\" class=\"AXgridPagingNext\">NEXT</a>");
 		ol.push("		</div>");
-		ol.push("		<div class=\"AXgridStatus\" id=\"" + cfg.targetID + "_AX_gridStatus\">전체 <b>0</b>개의 목록이 있습니다.</div>");
+		ol.push("		<div class=\"AXgridStatus\" id=\"" + cfg.targetID + "_AX_gridStatus\">");
+		ol.push("		"+  cfg.listCountMSG.replace("{listCount}", 0));
+		ol.push("		</div>");
 		/*ol.push("		<div class=\"AXgridScroller\" id=\""+cfg.targetID+"_AX_gridScroller\">"); */
 		/*ol.push("			<a href=\"#AXexec\" class=\"AXgridScrollUp\">UP</a><a href=\"#AXexec\" class=\"AXgridScrollDn\">DN</a>"); */
 		/*ol.push("		</div>"); */
@@ -4532,7 +4535,8 @@ var AXGrid = Class.create(AXJ, {
 			/*alert(AXgetId(cfg.targetID + "_AX_gridPageNo").options[AXgetId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
 		}
 		jQuery("#" + cfg.targetID + "_AX_gridPageCount").html("/ " + pgCount.money() + " Pages");
-		jQuery("#" + cfg.targetID + "_AX_gridStatus").html("전체 <b>" + this.page.listCount.number().money() + "</b>개의 목록이 있습니다.");
+		jQuery("#" + cfg.targetID + "_AX_gridStatus").html( cfg.listCountMSG.replace("{listCount}", this.page.listCount.number().money()) );
+		
 
 		if (this.isMobile) {
 			jQuery("#" + cfg.targetID + "_AX_gridPageNo").bind("change", this.onPageChange.bind(this));

@@ -835,7 +835,8 @@ var AXConfig = {
 		pageHeight: 400,
 		keyResult: "result",
 		keyList: "list",
-		emptyListMSG: "목록이 없습니다."
+		emptyListMSG: "목록이 없습니다.",
+		listCountMSG: "<b>{listCount}</b> Count"
 	},
 	AXTree: {
 		fitToWidthRightMargin: 10,
