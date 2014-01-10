@@ -572,7 +572,7 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + objID).bind("focus.AXInput", function (event) {
 			try{
 				this.select();
-			}catche(e){
+			}catch(e){
 			}
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				bindSelectorExpand(objID, objSeq, false, event);
