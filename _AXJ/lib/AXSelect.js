@@ -181,6 +181,7 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelect: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		
 		if(!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		
 		var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
@@ -208,6 +209,8 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
+//trace(obj.config.options);
+
 		if (!obj.config.options) {
 			//alert(AXgetId(objID).options.selectedIndex);
 			obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
@@ -228,7 +231,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox").append(jQuery("#" + objID));
 			jQuery("#" + objID).addClass("rootSelectBox");
-			jQuery("#" + objID).bind("change", obj.objOnChange);
+			jQuery("#" + objID).bind("change.AXSelect", obj.objOnChange);
 
 		} else {
 			//AXUtil.alert(obj.config.options);
@@ -236,8 +239,12 @@ var AXSelectConverter = Class.create(AXJ, {
 			// PC 브라우저인 경우
 			jQuery("#" + objID).hide();
 			var bindSelectExpand = this.bindSelectExpand.bind(this);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("click", function (event) {
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("click.AXSelect", function (event) {
+				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
 				bindSelectExpand(objID, objSeq, true, event);
+			});
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("keydown.AXSelect", function (event) {
+				if(event.keyCode == AXUtil.Event.KEY_SPACE) bindSelectExpand(objID, objSeq, true, event);
 			});
 		}
 
@@ -366,8 +373,8 @@ var AXSelectConverter = Class.create(AXJ, {
 					jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 					jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").removeClass("on");
 					//비활성 처리후 메소드 종료
-					jQuery(document).unbind("click", obj.documentclickEvent);
-					jQuery(document).unbind("keydown", obj.documentKeyup);
+					jQuery(document).unbind("click.AXSelect");
+					jQuery(document).unbind("keydown.AXSelect");
 				}
 				return;
 			}
@@ -483,8 +490,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		obj.documentKeyup = function (event) {
 			bindSelectKeyup(objID, objSeq, event);
 		}
-		jQuery(document).bind("click", obj.documentclickEvent);
-		jQuery(document).bind("keydown", obj.documentKeyup);
+		jQuery(document).bind("click.AXSelect", obj.documentclickEvent);
+		jQuery(document).bind("keydown.AXSelect", obj.documentKeyup);
 
 		if (obj.myUIScroll) obj.myUIScroll.unbind();
 		obj.myUIScroll = new AXScroll();

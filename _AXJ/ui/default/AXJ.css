@@ -1,5 +1,5 @@
-@import url('AXJ_desktop.css') (min-width: 480px);
-@import url('AXJ_mobile.css') only screen and (max-width: 480px);
+@import url('AXJ_desktop.css') (min-width: 748px);
+@import url('AXJ_mobile.css') only screen and (max-width: 748px);
 @charset "utf-8";
 /*!
  * AxisJ Javascript Library

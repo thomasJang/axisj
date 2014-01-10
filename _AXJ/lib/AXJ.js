@@ -867,7 +867,7 @@ var AXConfig = {
 		title:"선택하세요"
 	},
 	mobile: {
-		responsiveWidth: 480
+		responsiveWidth: 748
 	}
 };
 
@@ -988,6 +988,7 @@ var AXUtil = {
 		KEY_PAGEUP: 33,
 		KEY_PAGEDOWN: 34,
 		KEY_INSERT: 45,
+		KEY_SPACE: 32,
 		cache: {}
 	},
 	console: function (obj) {

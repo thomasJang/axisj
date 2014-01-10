@@ -166,15 +166,15 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + removeAnchorId).remove();
 			var objID = obj.id;
 			var obj = this.objects[removeIdx];
-			if (obj.documentclickEvent) jQuery(document).unbind("click", obj.documentclickEvent);
-			if (obj.inputKeyup) jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
-			if (obj.inputChange) jQuery("#" + objID).unbind("change", obj.inputChange);
-			if (obj.bindSliderMouseMove) jQuery(document.body).unbind("mousemove", obj.bindSliderMouseMove);
-			if (obj.bindSliderMouseUp) jQuery(document.body).unbind("mouseup", obj.bindSliderMouseUp);
-			if (obj.bindSliderTouchMove) document.removeEventListener("touchmove", obj.bindSliderTouchMove, false);
-			if (obj.bindSliderTouchEnd) document.removeEventListener("touchend", obj.bindSliderTouchEnd, false);
-			if (obj.bindTwinSliderMouseMove) jQuery(document.body).unbind("mousemove", obj.bindTwinSliderMouseMove);
-			if (obj.bindTwinSliderMouseUp) jQuery(document.body).unbind("mouseup", obj.bindTwinSliderMouseUp);
+			if (obj.documentclickEvent) jQuery(document).unbind("click.AXInput", obj.documentclickEvent);
+			if (obj.inputKeyup) jQuery("#" + objID).unbind("keydown.AXInput", obj.inputKeyup);
+			if (obj.inputChange) jQuery("#" + objID).unbind("change.AXInput", obj.inputChange);
+			if (obj.bindSliderMouseMove) jQuery(document.body).unbind("mousemove.AXInput", obj.bindSliderMouseMove);
+			if (obj.bindSliderMouseUp) jQuery(document.body).unbind("mouseup.AXInput", obj.bindSliderMouseUp);
+			if (obj.bindSliderTouchMove) document.removeEventListener("touchmove.AXInput", obj.bindSliderTouchMove, false);
+			if (obj.bindSliderTouchEnd) document.removeEventListener("touchend.AXInput", obj.bindSliderTouchEnd, false);
+			if (obj.bindTwinSliderMouseMove) jQuery(document.body).unbind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
+			if (obj.bindTwinSliderMouseUp) jQuery(document.body).unbind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
 
 			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
@@ -275,11 +275,11 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		//bind handle
 		var bindPlaceHolderKeyup = this.bindPlaceHolderSyncAnchor.bind(this);
-		jQuery("#" + objID).bind("keyup", function () {
+		jQuery("#" + objID).bind("keyup.AXInput", function () {
 			bindPlaceHolderKeyup(objID, objSeq);
 		});
 		bindPlaceHolderKeyup(objID, objSeq);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").bind("click", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").bind("click.AXInput", function () {
 			//jQuery("#"+objID).val("");
 			jQuery("#" + objID).focus();
 			bindPlaceHolderKeyup(objID, objSeq);
@@ -319,11 +319,11 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		//bind handle
 		var bindSearchKeyup = this.bindSearchSyncAnchor.bind(this);
-		jQuery("#" + objID).bind("keydown", function () {
+		jQuery("#" + objID).bind("keydown.AXInput", function () {
 			bindSearchKeyup(objID, objSeq);
 		});
 		bindSearchKeyup(objID, objSeq);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").bind("click", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").bind("click.AXInput", function () {
 			jQuery("#" + objID).val("");
 			jQuery("#" + objID).focus();
 			bindSearchKeyup(objID, objSeq);
@@ -364,22 +364,22 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var bindNumberAdd = this.bindNumberAdd.bind(this);
 		var bindNumberCheck = this.bindNumberCheck.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").bind("mousedown", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").bind("mousedown.AXInput", function () {
 			bindNumberAdd(objID, 1, objSeq);
 			bindNumberCheck(objID, objSeq);
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").bind("mousedown", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").bind("mousedown.AXInput", function () {
 			bindNumberAdd(objID, -1, objSeq);
 			bindNumberCheck(objID, objSeq);
 		});
-		jQuery("#" + objID).bind("change", function () {
+		jQuery("#" + objID).bind("change.AXInput", function () {
 			bindNumberCheck(objID, objSeq);
 		});
-		jQuery("#" + objID).bind("keydown", function (event) {
+		jQuery("#" + objID).bind("keydown.AXInput", function (event) {
 			if (event.keyCode == AXUtil.Event.KEY_UP) bindNumberAdd(objID, 1, objSeq);
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
 		});
-		jQuery("#" + objID).bind("keyup", function (event) {
+		jQuery("#" + objID).bind("keyup.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq);
 		});
 	},
@@ -462,7 +462,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var val = jQuery("#" + objID).val().trim();
 		if (val != "") val = jQuery("#" + objID).val().number().money()
 		jQuery("#" + objID).val(val);
-		jQuery("#" + objID).bind("keyup", function (event) {
+		jQuery("#" + objID).bind("keyup.AXInput", function (event) {
 			var event = window.event || e;
 			// ignore tab & shift key 스킵 & ctrl
 			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
@@ -479,7 +479,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 
-		jQuery("#" + objID).bind("change", function (event) {
+		jQuery("#" + objID).bind("change.AXInput", function (event) {
 			bindMoneyCheck(objID, objSeq, "change");
 			/*
 			var val = jQuery("#" + objID).val().trim();
@@ -561,14 +561,14 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorExpand = this.bindSelectorExpand.bind(this);
 		var bindSelectorClose = this.bindSelectorClose.bind(this);
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").bind("click", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").bind("click.AXInput", function (event) {
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				jQuery("#" + objID).focus();
 			} else {
 				bindSelectorExpand(objID, objSeq, true, event);
 			}
 		});
-		jQuery("#" + objID).bind("focus", function (event) {
+		jQuery("#" + objID).bind("focus.AXInput", function (event) {
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				bindSelectorExpand(objID, objSeq, false, event);
 			}
@@ -576,7 +576,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (obj.config.finder) {
 			if (obj.config.finder.onclick) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").bind("click", function (event) {
+				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").bind("click.AXInput", function (event) {
 					obj.config.finder.onclick.call({
 						targetID: objID,
 						value: $("#" + objID).val()
@@ -591,7 +591,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.inputChange = function(event){
 			bindSelectorInputChange(objID, objSeq, event);
 		}
-		jQuery("#"+objID).bind("change", obj.inputChange);
+		jQuery("#"+objID).bind("change.AXInput", obj.inputChange);
 		*/
 	},
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
@@ -655,7 +655,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
 		}
-		jQuery(document).unbind("click.AXInputSelector").bind("click.AXInputSelector", obj.documentclickEvent);
+		jQuery(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 
 		//_AX_expandBox set options
 		//trace(obj.config.ajaxUrl);
@@ -694,9 +694,9 @@ var AXInputConverter = Class.create(AXJ, {
 
 			//비활성 처리후 메소드 종료
 
-			jQuery(document).unbind("click.AXInputSelector");
-			jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
-			jQuery("#" + objID).unbind("change", obj.inputChange);
+			jQuery(document).unbind("click.AXInput");
+			jQuery("#" + objID).unbind("keydown.AXInput");
+			jQuery("#" + objID).unbind("change.AXInput");
 
 			if (obj.config.isChangedSelect) {
 				var myVal = "";
@@ -769,8 +769,8 @@ var AXInputConverter = Class.create(AXJ, {
 			bindSelectorKeyup(objID, objSeq, event);
 		}
 
-		jQuery(document).unbind("click.AXInputSelector").bind("click.AXInputSelector", obj.documentclickEvent);
-		jQuery("#" + objID).unbind("keydown.AXInputSelector").bind("keydown.AXInputSelector", obj.inputKeyup);
+		jQuery(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
+		jQuery("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
 
 		if (obj.myUIScroll) obj.myUIScroll.unbind();
 		obj.myUIScroll = new AXScroll();
@@ -938,7 +938,8 @@ var AXInputConverter = Class.create(AXJ, {
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
 					if (res.result == AXUtil.ajaxOkCode) {
-						obj.config.options = res.options;
+						
+						obj.config.options = (res.options || []);
 						obj.config.selectedIndex = null;
 						obj.config.focusedIndex = null;
 						obj.config.selectedObject = null;
@@ -1101,10 +1102,10 @@ var AXInputConverter = Class.create(AXJ, {
 		this.bindSliderSetValue(objID, objSeq);
 
 		var onmousedown = this.bindSliderMouseDown.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("mousedown", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("mousedown.AXInput", function () {
 			onmousedown(objID, objSeq);
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("dragstart", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("dragstart.AXInput", function (event) {
 			event.stopPropagation(); // disable  event
 			return false;
 		});
@@ -1131,8 +1132,8 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindSliderMouseUp = function (event) {
 				bindSliderMouseUp(objID, objSeq, event);
 			};
-			jQuery(document.body).bind("mousemove", obj.bindSliderMouseMove);
-			jQuery(document.body).bind("mouseup", obj.bindSliderMouseUp);
+			jQuery(document.body).bind("mousemove.AXInput", obj.bindSliderMouseMove);
+			jQuery(document.body).bind("mouseup.AXInput", obj.bindSliderMouseUp);
 			obj.config.isMoving = true;
 		}
 
@@ -1190,8 +1191,8 @@ var AXInputConverter = Class.create(AXJ, {
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
 
-		jQuery(document.body).unbind("mousemove", obj.bindSliderMouseMove);
-		jQuery(document.body).unbind("mouseup", obj.bindSliderMouseUp);
+		jQuery(document.body).unbind("mousemove.AXInput");
+		jQuery(document.body).unbind("mouseup.AXInput");
 		obj.config.isMoving = false;
 	},
 	bindSliderSetValue: function (objID, objSeq, value) {
@@ -1297,9 +1298,6 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 
 		if (document.addEventListener) {
-			//jQuery(document.body).unbind("touchmove", obj.bindSliderTouchMove);
-			//jQuery(document.body).unbind("touchend", obj.bindSliderTouchEnd);
-
 			document.removeEventListener("touchmove", obj.bindSliderTouchMove, false);
 			document.removeEventListener("touchend", obj.bindSliderTouchEnd, false);
 		}
@@ -1370,18 +1368,18 @@ var AXInputConverter = Class.create(AXJ, {
 		this.bindTwinSliderSetValue(objID, objSeq);
 
 		var onmousedown = this.bindTwinSliderMouseDown.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("mousedown", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("mousedown.AXInput", function () {
 			onmousedown(objID, objSeq, "min");
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("mousedown", function () {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("mousedown.AXInput", function () {
 			onmousedown(objID, objSeq, "max");
 		});
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("dragstart", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("dragstart.AXInput", function (event) {
 			event.stopPropagation(); // disable  event
 			return false;
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("dragstart", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("dragstart.AXInput", function (event) {
 			event.stopPropagation(); // disable  event
 			return false;
 		});
@@ -1410,8 +1408,8 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindTwinSliderMouseUp = function (event) {
 				bindTwinSliderMouseUp(objID, objSeq, event, handleName);
 			};
-			jQuery(document.body).bind("mousemove", obj.bindTwinSliderMouseMove);
-			jQuery(document.body).bind("mouseup", obj.bindTwinSliderMouseUp);
+			jQuery(document.body).bind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
+			jQuery(document.body).bind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
 			obj.config.isMoving = true;
 		}
 
@@ -1488,8 +1486,8 @@ var AXInputConverter = Class.create(AXJ, {
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
 
-		jQuery(document.body).unbind("mousemove", obj.bindTwinSliderMouseMove);
-		jQuery(document.body).unbind("mouseup", obj.bindTwinSliderMouseUp);
+		jQuery(document.body).unbind("mousemove.AXInput");
+		jQuery(document.body).unbind("mouseup.AXInput");
 		obj.config.isMoving = false;
 	},
 	bindTwinSliderSetValue: function (objID, objSeq, value) {
@@ -1675,7 +1673,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindSwitchClick = function (event) {
 			bindSwitchClick(objID, objSeq, event);
 		};
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").bind("click", obj.bindSwitchClick);
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").bind("click.AXInput", obj.bindSwitchClick);
 		//jQuery("#"+cfg.targetID + "_AX_"+objID+"_AX_SwitchHandle").bind("mousedown", obj.bindSwitchClick);
 	},
 	bindSwitchClick: function (objID, objSeq, event) {
@@ -1790,7 +1788,7 @@ var AXInputConverter = Class.create(AXJ, {
 			bindSegmentClick(objID, objSeq, event);
 		};
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentBox").find(".AXanchorSegmentHandle").bind("click", obj.bindSegmentClick);
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentBox").find(".AXanchorSegmentHandle").bind("click.AXInput", obj.bindSegmentClick);
 	},
 	bindSegmentClick: function (objID, objSeq, event) {
 		var cfg = this.config;
@@ -1879,7 +1877,7 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
 		var bindDateExpand = this.bindDateExpand.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click.AXInput", function (event) {
 			bindDateExpand(objID, objSeq, true, event);
 		});
 		jQuery("#" + objID).bind("focus.AXInput", function (event) {
@@ -1895,7 +1893,6 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + objID).bind("keyup.AXInput", function (event) {
 
 			if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-
 				var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
 				var _this = this;
 
@@ -1928,6 +1925,7 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 				}
 			}
+
 		});
 
 		var bindDateInputBlur = this.bindDateInputBlur.bind(this);
@@ -2127,8 +2125,8 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").css({ left: "70px" });
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").hide();
 		}
-		jQuery(document).bind("click", obj.documentclickEvent);
-		jQuery("#" + objID).bind("keydown", obj.inputKeyup);
+		jQuery(document).bind("click.AXinput", obj.documentclickEvent);
+		jQuery("#" + objID).bind("keydown.AXinput", obj.inputKeyup);
 	},
 	bindDateExpandClose: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -2197,8 +2195,8 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 			//비활성 처리후 메소드 종료
-			jQuery(document).unbind("click", obj.documentclickEvent);
-			jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
+			jQuery(document).unbind("click.AXInput");
+			jQuery("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -2353,8 +2351,8 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 		//비활성 처리후 메소드 종료
-		jQuery(document).unbind("click", obj.documentclickEvent);
-		jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
+		jQuery(document).unbind("click.AXinput");
+		jQuery("#" + objID).unbind("keydown.AXinput");
 
 		event.stopPropagation(); // disableevent
 		return;
@@ -2377,8 +2375,8 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 			//비활성 처리후 메소드 종료
-			jQuery(document).unbind("click", obj.documentclickEvent);
-			jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
+			jQuery(document).unbind("click.AXInput");
+			jQuery("#" + objID).unbind("keydown.AXInput");
 		}
 
 		var collect = [];
@@ -2556,10 +2554,10 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var bindDateExpand = this.bindTwinDateExpand.bind(this);
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click.AXInput", function (event) {
 			bindDateExpand(objID, objSeq, true, event);
 		});
-		jQuery("#" + objID).bind("focus", function (event) {
+		jQuery("#" + objID).bind("focus.AXInput", function (event) {
 			jQuery("#" + objID).select();
 			/*
 			if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
@@ -2567,7 +2565,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			*/
 		});
-		jQuery("#" + obj.config.startTargetID).bind("focus", function (event) {
+		jQuery("#" + obj.config.startTargetID).bind("focus.AXInput", function (event) {
 			jQuery("#" + obj.config.startTargetID).select();
 			/*
 			if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
@@ -2578,7 +2576,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		jQuery("#" + objID + ", #" + obj.config.startTargetID).bind("keyup", function (event) {
+		jQuery("#" + objID + ", #" + obj.config.startTargetID).bind("keyup.AXInput", function (event) {
 			//alert(this.value);
 			if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 
@@ -2618,10 +2616,10 @@ var AXInputConverter = Class.create(AXJ, {
 
 
 		var bindTwinDateInputBlur = this.bindTwinDateInputBlur.bind(this);
-		jQuery("#" + objID).bind("blur", function (event) {
+		jQuery("#" + objID).bind("blur.AXInput", function (event) {
 			bindTwinDateInputBlur(objID, objSeq, event, 2);
 		});
-		jQuery("#" + obj.config.startTargetID).bind("blur", function (event) {
+		jQuery("#" + obj.config.startTargetID).bind("blur.AXInput", function (event) {
 			bindTwinDateInputBlur(objID, objSeq, event, 1);
 		});
 		
@@ -2894,10 +2892,10 @@ var AXInputConverter = Class.create(AXJ, {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").hide();
 		}
 
-		jQuery(document).bind("click", obj.documentclickEvent);
-		jQuery("#" + objID).bind("keydown", obj.inputKeyup);
+		jQuery(document).bind("click.AXInput", obj.documentclickEvent);
+		jQuery("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
 		var bindTwinDateExpandClose = this.bindTwinDateExpandClose.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_closeButton").bind("click", function (event) {
+		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_closeButton").bind("click.AXInput", function (event) {
 			bindTwinDateExpandClose(objID, objSeq, event);
 		});
 	},
@@ -2970,8 +2968,8 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 
 			//비활성 처리후 메소드 종료
-			jQuery(document).unbind("click", obj.documentclickEvent);
-			jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
+			jQuery(document).unbind("click.AXInput");
+			jQuery("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -3430,8 +3428,8 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 
 		//비활성 처리후 메소드 종료
-		jQuery(document).unbind("click", obj.documentclickEvent);
-		jQuery("#" + objID).unbind("keydown", obj.inputKeyup);
+		jQuery(document).unbind("click.AXInput");
+		jQuery("#" + objID).unbind("keydown.AXInput");
 
 		event.stopPropagation(); // disableevent
 		return;

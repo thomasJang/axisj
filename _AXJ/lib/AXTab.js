@@ -18,6 +18,7 @@ var AXTabClass = Class.create(AXJ, {
         this.objects = [];
         this.config.handleWidth = 22;
         this.config.responsiveWidth = AXConfig.mobile.responsiveWidth;
+        this.config.bounces = true;
     },
     init: function(){
     	
@@ -497,6 +498,9 @@ var AXTabClass = Class.create(AXJ, {
     
     /* 터치 이동관련 함수 - s */
 	touchstart: function (objID, objSeq, e) {
+		if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
+		if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
+		
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
@@ -555,10 +559,18 @@ var AXTabClass = Class.create(AXJ, {
 			jQuery(document.body).bind("mousemove.AXMobileTouch", this.touchMoveBind);
 		}
 		
-		obj.tabScroll.stop();
+		var minLeft = 0;
+		var maxLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+		var scrollPosition = obj.tabScroll.position();
+		
+		if(scrollPosition.left < minLeft && scrollPosition.left > maxLeft){
+			obj.tabScroll.stop();
+		}
 	},
 	touchMove: function (objID, objSeq, e) {
-		if (this.touhEndObserver) clearTimeout(this.touhEndObserver); //닫기 명령 제거
+		if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
+		if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
+		
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
@@ -585,6 +597,23 @@ var AXTabClass = Class.create(AXJ, {
 		}
 		if (((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5) {
 			//this.touchSelecting = true;
+		}
+		
+		var touchMoveAfter = this.touchMoveAfter.bind(this);
+		this.touhMoveObserver = setTimeout(function () {
+			touchMoveAfter(touch, objID, objSeq);
+		}, 50);
+	},
+	touchMoveAfter: function(touch, objID, objSeq){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		try{
+			this.touchStartXY.sTime = ((new Date()).getTime() / 1000);
+			this.touchStartXY.sLeft = obj.tabScroll.position().left;
+			this.touchStartXY.x = touch.pageX;
+			this.touchStartXY.y = touch.pageY;
+		}catch(e){
+			//trace(e);
 		}
 	},
 	touchEnd: function (objID, objSeq, e) {
@@ -619,10 +648,19 @@ var AXTabClass = Class.create(AXJ, {
 			obj.tabScroll
 		*/
 		//trace(newLeft);
-		if(newLeft > obj.tabTray.width() * 0.5){
-			newLeft = obj.tabTray.width() * 0.5;
-		}else if(newLeft < -(obj.tabScroll.width() - obj.tabTray.width() * 0.5)){
-			newLeft = -(obj.tabScroll.width() - obj.tabTray.width() * 0.5);
+	
+		var newLeft = (this.touchStartXY.sLeft + (moveX));
+		var minLeft = 0;
+		var maxLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
+		if(cfg.bounces){
+			minLeft = this.touchStartXY.targetWidth * 0.4;
+			maxLeft = -((this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth) * 1.2);
+		}
+		
+		if(newLeft > minLeft){
+			newLeft = minLeft;
+		}else if(newLeft < maxLeft){
+			newLeft = maxLeft;
 		}
 		obj.tabScroll.css({left: newLeft});
 	},
@@ -641,9 +679,7 @@ var AXTabClass = Class.create(AXJ, {
 		var velocity = Math.ceil((dLeft/dTime)/5); // 속력= 거리/시간
 		var endLeft = Math.ceil(eLeft + velocity); //스크롤할때 목적지
 		/*trace({eLeft: eLeft, velocity:velocity, endLeft:endLeft});*/
-		if(endLeft > 0){
-			endLeft = 0;
-		}
+		if(endLeft > 0) endLeft = 0;
 		var newLeft = endLeft.abs();
    		if(AXUtil.clientWidth() < cfg.responsiveWidth){
     		var handleWidth = 0;

@@ -192,23 +192,21 @@ var AXModelControl = Class.create(AXJ, {
 				var jQueryObj = item.jQueryObj;
 
 				//trace(jQueryObj.attr("data-axbind"));
+
 				if(jQueryObj.attr("data-axbind") == "select"){
-					
-					jQueryObj.bindSelectGetAnchorObject().bind("keyup.AXModelControl", function(){
+					jQueryObj.bindSelectGetAnchorObject().bind("keydown.AXModelControl", function(){
 						oncursorKeyup(jQueryObj, event, itemIndex);
 					});
 				}else{
 					jQueryObj.bind("keydown.AXModelControl", function(event){
 						oncursorKeyup(jQueryObj, event, itemIndex);
-						/*
-						if (event.preventDefault) event.preventDefault();
-						if (event.stopPropagation) event.stopPropagation();
-						event.cancelBubble = true;
-						return false;
-						*/
-						
+						//if (event.preventDefault) event.preventDefault();
+						//if (event.stopPropagation) event.stopPropagation();
+						//event.cancelBubble = true;
+						//return false;						
 					});
 				}
+
 			}
 		});
 		this.returnJSData = returnJSData;
@@ -436,22 +434,42 @@ var AXModelControl = Class.create(AXJ, {
     		) === false) return false;
 			if(direction == "") return;
 			
+			//trace(jQueryObj.get(0).tagName);
+			
 			if(axbind && (direction == "U" || direction == "D")) return;
+			if((direction == "U" || direction == "D") && jQueryObj.get(0).tagName == "SELECT") return;
 			if(direction == "U" || direction == "L"){
 				if(itemIndex == 0) return;
 				this.blurItem(jQueryObj);
-				this.focusItem(this.collectItem[(itemIndex-1)].jQueryObj);
+				//this.focusItem(this.collectItem[(itemIndex-1)].jQueryObj);
+				
+				var nextItemIndex = itemIndex-1;
+				for(var ii=nextItemIndex;ii>-1;ii--){
+					if(!this.collectItem[ii].jQueryObj.get(0).disabled){
+						nextItemIndex = ii;
+						break;
+					}
+				}
+				this.focusItem(this.collectItem[nextItemIndex].jQueryObj);
+				
 			}else{
 				if(itemIndex >= this.collectItem.length-1) return;
 				this.blurItem(jQueryObj);
-				this.focusItem(this.collectItem[(itemIndex+1)].jQueryObj);
+				
+				var nextItemIndex = itemIndex+1;
+				for(var ii=nextItemIndex;ii<this.collectItem.length;ii++){
+					if(!this.collectItem[ii].jQueryObj.get(0).disabled){
+						nextItemIndex = ii;
+						break;
+					}
+				}
+				this.focusItem(this.collectItem[nextItemIndex].jQueryObj);
+				
 			}
     	}
     },
     blurItem: function(jQueryObj){
     	var cfg = this.config;
-    	
-    	trace("blurItem");
     	
     	var axbind = jQueryObj.attr("data-axbind");
     	if(axbind){
@@ -470,7 +488,7 @@ var AXModelControl = Class.create(AXJ, {
     		else if(axbind == "selector") jQueryObj.focus();
     		else jQueryObj.focus();
     	}else{
-    		trace(jQueryObj.get(0).id);
+    		//trace(jQueryObj.get(0).id);
     		jQueryObj.focus();
     	}
     }
