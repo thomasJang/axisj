@@ -902,7 +902,6 @@
 .AXInputLabel.fullWidth input[type=text],
 .AXInputLabel.fullWidth input[type=password] {
   width: 100%;
-  box-size: border-box;
 }
 /* ---------------------------- AXInput ------------------------------- */
 .AXanchor {
