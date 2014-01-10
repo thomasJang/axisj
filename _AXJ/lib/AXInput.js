@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.30",
+	version: "AXInputConverter v1.31",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -25,7 +25,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-12-16 오후 4:46:14 : tom - bindMoneyCheck",
 		"2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스",
 		"2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가",
-		"2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가"
+		"2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가",
+		"2014-01-10 오후 5:07:44 : tom - event bind modify, fix"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();

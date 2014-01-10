@@ -8,7 +8,7 @@
  */
 
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v2.0",
+	version: "AXSelectConverter v2.1",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-19 오후 12:00:43",
@@ -23,7 +23,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		"2013-10-24 오후 5:54:05 - resizeAnchor 기능 추가 : tom",
 		"2013-11-06 오후 12:47:53 - tabindex 속성 가져오기 기능 추가 : tom",
 		"2013-11-27 오후 8:03:57 - tom : positionFixed 기능 추가",
-		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가"
+		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가",
+		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix"
 		
 	],
 	initialize: function (AXJ_super) {
