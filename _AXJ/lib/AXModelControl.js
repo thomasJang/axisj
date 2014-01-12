@@ -194,12 +194,16 @@ var AXModelControl = Class.create(AXJ, {
 				//trace(jQueryObj.attr("data-axbind"));
 
 				if(jQueryObj.attr("data-axbind") == "select"){
-					jQueryObj.bindSelectGetAnchorObject().bind("keydown.AXModelControl", function(){
-						oncursorKeyup(jQueryObj, event, itemIndex);
+					jQueryObj.bindSelectGetAnchorObject().bind("keydown.AXModelControl", function(event){
+						setTimeout(function(){
+							oncursorKeyup(jQueryObj, event, itemIndex);
+						}, 10);
 					});
 				}else{
 					jQueryObj.bind("keydown.AXModelControl", function(event){
-						oncursorKeyup(jQueryObj, event, itemIndex);
+						setTimeout(function(){
+							oncursorKeyup(jQueryObj, event, itemIndex);
+						}, 10);
 						//if (event.preventDefault) event.preventDefault();
 						//if (event.stopPropagation) event.stopPropagation();
 						//event.cancelBubble = true;

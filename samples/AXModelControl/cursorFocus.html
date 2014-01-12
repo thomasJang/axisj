@@ -73,6 +73,17 @@ $("#payMthd").bindSelect();
 $("#crdCd").bindSelect();
 $("#crdCls").bindSelect();
 
+$("#clientId_selector").bindSelector({
+	appendable:false,
+	ajaxUrl:"../AXInput/selectorData.asp", 
+	ajaxPars:"",
+	//selectorName:"imselector",
+	onChange:function(){
+		//toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+		toast.push(Object.toJSON({selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+	}
+});
+
 			myModel.sync();
 			
 			AXCode.bind(); // 소스보기

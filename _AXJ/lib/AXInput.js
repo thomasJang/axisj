@@ -734,8 +734,8 @@ var AXInputConverter = Class.create(AXJ, {
 				if (!obj.config.appendable) if (!obj.config.selectedObject) jQuery("#" + objID).val("");
 			}
 
-			if(event) event.stopPropagation(); // disableevent
-			return;
+			//if(event) event.stopPropagation(); // disableevent
+			//return;
 		}
 	},
 	bindSelectorSetOptions: function (objID, objSeq) {
