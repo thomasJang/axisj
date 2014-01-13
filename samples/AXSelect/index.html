@@ -48,7 +48,7 @@
 	            
 	            $("#AXSelect2").bindSelect({
 	            	onChange: function(){
-	            		//toast.push(Object.toJSON(this));
+	            		toast.push(Object.toJSON(this));
 	            	}
 	            });
 	            
@@ -69,13 +69,15 @@
 						{optionValue:5, optionText:"5 : 액시스 제이"}
 					],
 	            	onChange: function(){
-	            		//toast.push(Object.toJSON(this));
+	            		toast.push(Object.toJSON(this));
 	            	}
 	            });
 	            
 	            $("#AXSelect4").setValueSelect(5);
 
 	            // bindSelect option 
+
+	            $(".classSelect").bindSelect();
 	        },
 	        unbindSelect: function () {
 	            $("#AXSelect1").unbindSelect();
@@ -205,6 +207,23 @@
 		</select>
 		
 		
+		<div class="AXHspace20"></div>
+		
+		<select name="" class="AXSelect classSelect" id="AXSelect9" tabindex="7">
+			<option value="">-- 선택하세요 --</option>
+			<option value="1">%가나다라마바사</option>
+			<option value="2" selected="selected">abcdefg</option>
+			<option value="3">abcdefg 가나다라마바사</option>
+			<option value="4">abcdefg 가나다라마바사</option>
+			<option value="5">abcdefg 가나다라마바사</option>
+			<option value="6">abcdefg 가나다라마바사</option>
+		</select>
+		
+		<select name="" class="AXSelect classSelect" id="AXSelect10" tabindex="7">
+			<option value="">-- 선택하세요 --</option>
+			<option value="5">abcdefg 가나다라마바사</option>
+			<option value="6">abcdefg 가나다라마바사</option>
+		</select>
 		
 
 	</div>
@@ -216,6 +235,7 @@
 
 
 <script>
+
 
 $("#AXSelect_m0").bindSelect({
     ajaxUrl: "selectData.asp", ajaxPars: "", ajaxAsync:false,

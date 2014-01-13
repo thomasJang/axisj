@@ -30,7 +30,7 @@
 	var myMobileModal = new AXMobileModal();
 	var fnObj = {
 		pageStart: function(){
-			//AXUtil.readyMobileConsole();
+			AXUtil.readyMobileConsole();
 
 			myMobileModal.setConfig({
 				head:{
@@ -43,6 +43,10 @@
 				onclose: function(){
 					trace("close bind");
 				}
+			});
+
+			$("#longPressTarget").longpress(function(){
+				trace("111");
 			});
 
 			AXCode.bind(); // 소스보기
@@ -64,7 +68,9 @@
 	<div class="AXdemoPageContent">
 
 		<button class="AXButton" onclick="fnObj.openMobileModal();">open mobileModal</button>
-
+		
+		<button class="AXButton" id="longPressTarget">long press</button>
+		
 	</div>
 </body>
 </html>

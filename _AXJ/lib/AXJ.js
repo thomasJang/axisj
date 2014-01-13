@@ -19,6 +19,13 @@ jQuery.each(("touchstart touchmove touchend").split(" "), function (i, name) {
 	if (rmouseEvent.test(name)) { jQuery.event.fixHooks[name] = jQuery.event.mouseHooks; }
 });
 
+jQuery.fn.longpress = function (fn) {
+	jQuery.each(this, function () {
+		
+		return this;
+	});
+};
+
 /* *** extend implement block ***************************** */
 var Class = (function () {
 	function subclass() { };

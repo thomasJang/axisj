@@ -210,18 +210,16 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
-//trace(obj.config.options);
+//trace(obj.options);
 
-		if (!obj.config.options) {
-			//alert(AXgetId(objID).options.selectedIndex);
-			obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
-			var options = [];
-			for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
-				options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
-			}
-			//trace(options);
-			obj.config.options = options;
+
+		//alert(AXgetId(objID).options.selectedIndex);
+		obj.selectedIndex = AXgetId(objID).options.selectedIndex;
+		var options = [];
+		for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
+			options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
 		}
+		obj.options = AXUtil.copyObject(options);
 
 		if (this.isMobile) {
 
@@ -235,7 +233,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			jQuery("#" + objID).bind("change.AXSelect", obj.objOnChange);
 
 		} else {
-			//AXUtil.alert(obj.config.options);
+			//AXUtil.alert(obj.options);
 
 			// PC 브라우저인 경우
 			jQuery("#" + objID).hide();
@@ -258,7 +256,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			var url = obj.config.ajaxUrl;
 			var pars = obj.config.ajaxPars;
-			obj.config.selectedIndex = null;
+			obj.selectedIndex = null;
 
 			jQuery("#" + objID).empty();
 
@@ -276,7 +274,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						}
 						jQuery.each(res.options, function (oidx, opts) {
 							po.push("<option value=\"" + this.optionValue + "\"");
-							//if(obj.config.selectedIndex == oidx) po.push(" selected=\"selected\"");
+							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 							if (obj.config.setValue == this.optionValue || this.selected) po.push(" selected=\"selected\"");
 							po.push(">" + this.optionText.dec() + "</option>");
 						});
@@ -286,12 +284,12 @@ var AXSelectConverter = Class.create(AXJ, {
 						for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
 							options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
 						}
-						obj.config.options = options;
-						obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
+						obj.options = AXUtil.copyObject(options);
+						obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 
 						if (obj.config.onChange && obj.config.setValue != undefined) {
-							obj.config.focusedIndex = obj.config.selectedIndex;
-							obj.config.selectedObject = obj.config.options[obj.config.selectedIndex];
+							obj.config.focusedIndex = obj.selectedIndex;
+							obj.config.selectedObject = obj.options[obj.selectedIndex];
 							obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
 						}
 
@@ -318,7 +316,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			jQuery.each(obj.config.options, function (oidx, opts) {
 				var optionText = (this.optionText||"").dec();
 				po.push("<option value=\"" + this.optionValue + "\"");
-				if (obj.config.selectedIndex == oidx) po.push(" selected=\"selected\"");
+				if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 				po.push(">" + optionText + "</option>");
 			});
 			jQuery("#" + objID).html(po.join(''));
@@ -327,8 +325,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
 				options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
 			}
-			obj.config.options = options;
-			obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
+			obj.options = AXUtil.copyObject(options);
+			obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 			
 			this.bindSelectChange(objID, objSeq);
 
@@ -341,7 +339,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		if(AXgetId(objID).options.selectedIndex > -1){
 			try{
-				if(obj.config.selectedIndex != AXgetId(objID).options.selectedIndex) obj.config.selectedIndex = AXgetId(objID).options.selectedIndex;
+				if(obj.selectedIndex != AXgetId(objID).options.selectedIndex) obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 			}catch(e){
 				
 			}
@@ -448,7 +446,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			if (obj.config.isChangedSelect) {
 
-				AXgetId(objID).options[obj.config.selectedIndex].selected = true;
+				AXgetId(objID).options[obj.selectedIndex].selected = true;
 				if (obj.config.onChange) {
 					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
 				}
@@ -468,13 +466,13 @@ var AXSelectConverter = Class.create(AXJ, {
 		var jqueryTargetObjID = jQuery("#" + cfg.targetID + "_AX_" + objID);
 		var maxHeight = obj.config.maxHeight || 200;
 
-		if (!obj.config.options) return;
-		if (obj.config.options.length == 0) {
+		if (!obj.options) return;
+		if (obj.options.length == 0) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").hide();
 		}
 		var po = [];
 
-		jQuery.each(obj.config.options, function (index, O) {
+		jQuery.each(obj.options, function (index, O) {
 			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\">" + O.optionText.dec() + "</a>");
 		});
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
@@ -503,10 +501,10 @@ var AXSelectConverter = Class.create(AXJ, {
 			touchDirection: false
 		});
 
-		if (obj.config.selectedIndex != undefined) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
-			obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option"); //focus
-			obj.config.focusedIndex = obj.config.selectedIndex;
+		if (obj.selectedIndex != undefined) {
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.selectedIndex + "_AX_option").addClass("on");
+			obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + obj.selectedIndex + "_AX_option"); //focus
+			obj.config.focusedIndex = obj.selectedIndex;
 		}
 
 		// 위치 재 정의 필요하면 정의 할 것 ----------------------------------
@@ -560,9 +558,9 @@ var AXSelectConverter = Class.create(AXJ, {
 		} else {
 			if (eid.last() == "option") {
 				var selectedIndex = eid[eid.length - 2];
-				obj.config.selectedIndex = selectedIndex;
+				obj.selectedIndex = selectedIndex;
 				obj.config.focusedIndex = selectedIndex;
-				obj.config.selectedObject = obj.config.options[selectedIndex];
+				obj.config.selectedObject = obj.options[selectedIndex];
 
 				obj.config.isChangedSelect = true;
 				this.bindSelectClose(objID, objSeq, event); // 값 전달 후 닫기
@@ -576,9 +574,9 @@ var AXSelectConverter = Class.create(AXJ, {
 			this.bindSelectClose(objID, objSeq, event); // 닫기
 			return;
 		} else if (event.keyCode == AXUtil.Event.KEY_UP) {
-			if (!obj.config.options) return;
-			if (obj.config.options.length == 0) return;
-			var focusIndex = obj.config.options.length - 1;
+			if (!obj.options) return;
+			if (obj.options.length == 0) return;
+			var focusIndex = obj.options.length - 1;
 			if (obj.config.focusedIndex == undefined || obj.config.focusedIndex == 0) {
 
 			} else {
@@ -586,10 +584,10 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 			this.bindSelectorSelect(objID, objSeq, focusIndex);
 		} else if (event.keyCode == AXUtil.Event.KEY_DOWN) {
-			if (!obj.config.options) return;
-			if (obj.config.options.length == 0) return;
+			if (!obj.options) return;
+			if (obj.options.length == 0) return;
 			var focusIndex = 0;
-			if (obj.config.focusedIndex == undefined || obj.config.focusedIndex == obj.config.options.length - 1) {
+			if (obj.config.focusedIndex == undefined || obj.config.focusedIndex == obj.options.length - 1) {
 
 			} else {
 				focusIndex = (obj.config.focusedIndex).number() + 1;
@@ -603,9 +601,9 @@ var AXSelectConverter = Class.create(AXJ, {
 			*/
 			/*
 						var selectedIndex = eid[eid.length - 2];
-						obj.config.selectedIndex = selectedIndex;
+						obj.selectedIndex = selectedIndex;
 						obj.config.focusedIndex = selectedIndex;
-						obj.config.selectedObject = obj.config.options[selectedIndex];
+						obj.config.selectedObject = obj.options[selectedIndex];
 			
 						obj.config.isChangedSelect = true;
 						this.bindSelectClose(objID, objSeq, event); // 값 전달 후 닫기
@@ -623,8 +621,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		}
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option").addClass("on");
 		obj.config.focusedIndex = index;
-		obj.config.selectedIndex = index;
-		obj.config.selectedObject = obj.config.options[index];
+		obj.selectedIndex = index;
+		obj.config.selectedObject = obj.options[index];
 		obj.config.isChangedSelect = true;
 		obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option"); //focus		
 	},
@@ -632,10 +630,10 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		if (obj.config.selectedIndex != undefined) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").removeClass("on");
+		if (obj.selectedIndex != undefined) {
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.selectedIndex + "_AX_option").removeClass("on");
 		}
-		obj.config.selectedIndex = null;
+		obj.selectedIndex = null;
 		obj.config.focusedIndex = null;
 		obj.config.selectedObject = null;
 		obj.config.isChangedSelect = true;
@@ -673,7 +671,7 @@ var AXSelectConverter = Class.create(AXJ, {
 				}
 			} else {
 				var selectedIndex = null;
-				jQuery.each(obj.config.options, function (oidx, O) {
+				jQuery.each(obj.options, function (oidx, O) {
 					if ((O.optionValue || O.value || "") == value) {
 						selectedIndex = oidx;
 					}
@@ -681,11 +679,11 @@ var AXSelectConverter = Class.create(AXJ, {
 
 				if (selectedIndex != null) {
 					
-					obj.config.selectedIndex = selectedIndex;
+					obj.selectedIndex = selectedIndex;
 					obj.config.focusedIndex = selectedIndex;
 
-					AXgetId(objID).options[obj.config.selectedIndex].selected = true;
-					obj.config.selectedObject = obj.config.options[selectedIndex];
+					AXgetId(objID).options[obj.selectedIndex].selected = true;
+					obj.config.selectedObject = obj.options[selectedIndex];
 					this.bindSelectChange(objID, selectedIndex);
 
 					if (obj.config.onChange) {
