@@ -194,13 +194,13 @@ var AXModelControl = Class.create(AXJ, {
 				//trace(jQueryObj.attr("data-axbind"));
 
 				if(jQueryObj.attr("data-axbind") == "select"){
-					jQueryObj.bindSelectGetAnchorObject().bind("keydown.AXModelControl", function(event){
+					jQueryObj.bindSelectGetAnchorObject().unbind("keydown.AXModelControl").bind("keydown.AXModelControl", function(event){
 						setTimeout(function(){
 							oncursorKeyup(jQueryObj, event, itemIndex);
 						}, 10);
 					});
 				}else{
-					jQueryObj.bind("keydown.AXModelControl", function(event){
+					jQueryObj.unbind("keydown.AXModelControl").bind("keydown.AXModelControl", function(event){
 						setTimeout(function(){
 							oncursorKeyup(jQueryObj, event, itemIndex);
 						}, 10);
@@ -443,7 +443,12 @@ var AXModelControl = Class.create(AXJ, {
 			if(axbind && (direction == "U" || direction == "D")) return;
 			if((direction == "U" || direction == "D") && jQueryObj.get(0).tagName == "SELECT") return;
 			if(direction == "U" || direction == "L"){
-				if(itemIndex == 0) return;
+				if(itemIndex == 0){
+					if(cfg.oncursorEmpty){
+						cfg.oncursorEmpty({type:"indexOver", index:-1});
+					}
+					return;
+				}
 				this.blurItem(jQueryObj);
 				//this.focusItem(this.collectItem[(itemIndex-1)].jQueryObj);
 				
@@ -457,7 +462,12 @@ var AXModelControl = Class.create(AXJ, {
 				this.focusItem(this.collectItem[nextItemIndex].jQueryObj);
 				
 			}else{
-				if(itemIndex >= this.collectItem.length-1) return;
+				if(itemIndex >= this.collectItem.length-1){
+					if(cfg.oncursorEmpty){
+						cfg.oncursorEmpty({type:"indexOver", index:1});
+					}
+					return;
+				}
 				this.blurItem(jQueryObj);
 				
 				var nextItemIndex = itemIndex+1;
@@ -495,5 +505,19 @@ var AXModelControl = Class.create(AXJ, {
     		//trace(jQueryObj.get(0).id);
     		jQueryObj.focus();
     	}
+    },
+    focus: function(focusIndex){
+    	var cfg = this.config;
+    	
+    	if(focusIndex == undefined) focusIndex = 0;
+    	//trace(Object.isString(focusIndex));
+    	if(Object.isString(focusIndex)){
+    		if(focusIndex == "first") focusIndex = 0;
+    		else if(focusIndex == "last") focusIndex = this.collectItem.length-1;
+    	}else{
+    		if(focusIndex < 0) focusIndex = 0;
+    		if(focusIndex >= this.collectItem.length) focusIndex = this.collectItem.length-1;
+    	}
+    	this.focusItem(this.collectItem[focusIndex].jQueryObj);
     }
 });

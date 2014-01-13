@@ -96,7 +96,7 @@
 				colGroup:[
 					{label:"번호", width:"40", align:"center",
 						html:function(){
-							return '<button class="AXButtonSmall Red" onclick="fnObj.del();">del</button>';
+							return '<button type="button" class="AXButtonSmall Red" onclick="fnObj.del();">del</button>';
 					}},
 					{label:"Name / Email", width:"200", align:"center"},
 					{label:"투숙일", width:"200"},
@@ -224,7 +224,7 @@
 							data:{},
 							html:function(){
 								var po = [];
-								po.push('<button class="AXButtonSmall" onclick="toast.push(Object.toJSON(myModelGrid.list[', this.rowIndex,'].subList));">' + (this.item.price * this.item.count).money() + '</button>');
+								po.push('<button type="button" class="AXButtonSmall" onclick="toast.push(Object.toJSON(myModelGrid.list[', this.rowIndex,'].subList));">' + (this.item.price * this.item.count).money() + '</button>');
 								po.push('<div class="Hspace3"></div>');
 								po.push('<input type="checkBox" name="comp" id="comp_' + this.rowIndex + '" value="Y" title="comp" ');
 								if(this.item.comp) po.push(' checked="checked" ');
@@ -408,64 +408,23 @@
 				},
 				cursorFocus: true,
 				oncursor: function(){
-					// event, direction, listIndex, jQueryObj
 					
-					/*
-					var direction = this.direction;
-					var listIndex = this.listIndex;
-					if(this.jQueryObj.get(0).name == "sttdt"){ // 시작일
-						
-						setTimeout(function(){
-							if(direction == "L") myModelGrid.focusIndex(listIndex, 2);
-							else if(direction == "R") myModelGrid.focusIndex(listIndex, 3);							
-						}, 1000);
-
-						return false; // 내부 액션을 중지 하고 싶을 때 return false 하세요
+				},
+				oncursorEmpty: function(err){
+					if(err.type == "indexOver"){
+						//alert(err.index);
+						if(err.index == -1){
+							//시작
+							
+						}else if(err.index == 1){
+							// 끝
+							
+						}
 					}
-					if(this.jQueryObj.get(0).name == "enddt"){ // 종료일
-						return false; // 내부 액션을 중지 하고 싶을 때 return false 하세요 
-					}
-					*/					
-					
 				}
 			});
 			
 			myModelGrid.setList([]);
-			
-			/*
-				{
-					name:"장기영",
-					subList:[
-						{name:"abc"}, {name:"abc"}
-					],
-					price:11000,
-					stdt:"2013-12-06",
-					eddt:"2013-12-06",
-					count:1
-				},
-				{
-					name:"장서우",
-					subList:[
-						{name:"abc1"}, {name:"abc1"}
-					],
-					price:11000,
-					stdt:"2013-12-06",
-					eddt:"2013-12-06",
-					count:1
-				},
-				{
-					name:"국정일",
-					subList:[
-						{name:"abc1"}, {name:"abc1"}
-					],
-					price:11000,
-					stdt:"2013-12-06",
-					eddt:"2013-12-06",
-					count:1
-				}
-			]);
-			*/
-
 			//-----------------------
 			AXCode.bind(); // 소스보기
 		},
@@ -517,13 +476,13 @@
 	<div class="AXdemoPageContent">
 
 		<div style="padding:10px;">
-			<button class="AXButton" onclick="fnObj.add();">add</button>
+			<button class="AXButton" type="button" onclick="fnObj.add();">add</button>
 		</div>
 		
 		<div id="AXModelControlListTarget"></div>
 
 		<div style="padding:10px;">
-			<button class="AXButton" onclick="fnObj.output();">데이터추출</button>
+			<button class="AXButton" type="button" onclick="fnObj.output();">데이터추출</button>
 		</div>
 		
 	</div>

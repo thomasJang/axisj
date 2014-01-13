@@ -326,8 +326,10 @@ var AXModelControlGrid = Class.create(AXJ, {
 					jQuery("#"+bindID).unbindSelect();
 					jQuery("#"+bindID).bindSelect(myConfig);
 					if(cfg.cursorFocus){
-						jQuery("#"+bindID).bindSelectGetAnchorObject().bind("keyup.AXModelControlGrid", function(event){
-							oncursorKeyup(jQuery("#"+bindID), event, lidx);
+						jQuery("#"+bindID).bindSelectGetAnchorObject().bind("keydown.AXModelControlGrid", function(event){
+							setTimeout(function(){
+								oncursorKeyup(jQuery("#"+bindID), event, lidx);
+							}, 10);
 						});
 					}
 				}else if(form.AXBind.type == "Selector"){
@@ -339,8 +341,10 @@ var AXModelControlGrid = Class.create(AXJ, {
 		});
 
 		if(cfg.cursorFocus){
-			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea").unbind("keyup.AXModelControlGrid").bind("keyup.AXModelControlGrid", function(event){
-				oncursorKeyup(jQuery(event.target), event, lidx);
+			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).find("input[type=text],input[type=checkbox],input[type=radio],select,textarea").unbind("keydown.AXModelControlGrid").bind("keydown.AXModelControlGrid", function(event){
+				setTimeout(function(){
+					oncursorKeyup(jQuery(event.target), event, lidx);
+				}, 10);
 			});
 		}
 		
@@ -363,11 +367,13 @@ var AXModelControlGrid = Class.create(AXJ, {
     	if(event.shiftKey || event.metaKey || event.ctrlKey) return;
 		var eventName = jQueryObj.get(0).name;
     	if(cfg.oncursor){
+    		var axbind = jQueryObj.attr("data-axbind");
     		var direction = "";
     		if(event.keyCode == AXUtil.Event.KEY_UP) direction = "U";
     		else if(event.keyCode == AXUtil.Event.KEY_DOWN) direction = "D";
     		else if(event.keyCode == AXUtil.Event.KEY_LEFT) direction = "L";
     		else if(event.keyCode == AXUtil.Event.KEY_RIGHT) direction = "R";
+    		else if(event.keyCode == AXUtil.Event.KEY_RETURN && axbind != "select") direction = "R";
     		if(cfg.oncursor.call(
     			{
     				event:event,
@@ -378,8 +384,8 @@ var AXModelControlGrid = Class.create(AXJ, {
     		) === false) return false;
 			if(direction == "") return;
 			
-			var axbind = jQueryObj.attr("data-axbind");
 			if(axbind && (direction == "U" || direction == "D")) return;
+			if((direction == "U" || direction == "D") && jQueryObj.get(0).tagName == "SELECT") return;
 			if(direction == "U"){
 				
 				if(lidx == 0) return;
