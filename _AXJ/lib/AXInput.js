@@ -261,7 +261,7 @@ var AXInputConverter = Class.create(AXJ, {
 		} else if (obj.bindType == "switch") {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").css({ width:w, height:h });
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").css({ height:h, "line-height":h+"px" });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle").css({ width:w, height:h });
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle").css({ height:h });
 			jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height:h });
 		} else if (obj.bindType == "segment") {
 			
@@ -627,7 +627,8 @@ var AXInputConverter = Class.create(AXJ, {
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				jQuery("#" + objID).focus();
 			} else {
-				bindSelectorExpand(objID, objSeq, true, event);
+				//bindSelectorExpand(objID, objSeq, true, event);
+				bindSelectorClose(objID, objSeq, event);
 			}
 		});
 		jQuery("#" + objID).bind("focus.AXInput", function (event) {
@@ -887,12 +888,11 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 		
 		var isSelectorClick = (myTarget) ? true : false;
-
+		
 		if (!isSelectorClick) {
 			this.bindSelectorClose(objID, objSeq, event); // 셀럭터 외의 영역이 므로 닫기
 			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		} else {
-			//trace(objID, myTarget.id, cfg.targetID);
 			eid = myTarget.id.split(/_AX_/g);
 
 			if (eid.last() == "option") {
@@ -1731,7 +1731,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox\" class=\"" + cfg.anchorSwitchBoxClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;\">");
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay\" class=\"AXanchorSwitchDisplay\" style=\"height:" + h + "px;line-height:" + h + "px;\">" + switchValue + "</div>");
-		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\" style=\"width:" + h + "px;height:" + h + "px;\">handle</a>");
+		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\" style=\"height:" + h + "px;\">handle</a>");
 		po.push("</div>");
 
 		//append to anchor
