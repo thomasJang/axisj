@@ -259,7 +259,6 @@ var AXInputConverter = Class.create(AXJ, {
 		} else if (obj.bindType == "twinSlider") {
 			
 		} else if (obj.bindType == "switch") {
-
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").css({ width:w, height:h });
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").css({ height:h, "line-height":h+"px" });
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle").css({ width:w, height:h });
@@ -666,7 +665,8 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		
 		if(this.opendExpandBox){
-			this.opendExpandBox.remove();
+			this.bindSelectorClose(this.opendExpandBox.objID, this.opendExpandBox.objSeq, event); // 셀럭터 외의 영역이 므로 닫기
+			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		}
 		
 		var jqueryTargetObjID = jQuery("#" + cfg.targetID + "_AX_" + objID);
@@ -722,7 +722,7 @@ var AXInputConverter = Class.create(AXJ, {
 		css.left = offset.left;
 		expandBox.css(css);
 		
-		this.opendExpandBox = expandBox;
+		this.opendExpandBox = {objID:objID, objSeq:objSeq};
 
 		//_AX_expandBox set options
 		//trace(obj.config.ajaxUrl);
