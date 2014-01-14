@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.31",
+	version: "AXInputConverter v1.32",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -26,7 +26,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스",
 		"2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가",
 		"2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가",
-		"2014-01-10 오후 5:07:44 : tom - event bind modify, fix"
+		"2014-01-10 오후 5:07:44 : tom - event bind modify, fix",
+		"2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -56,7 +57,17 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.bindTwinDateExpandBoxClassName = "AXbindTwinDateExpandBox";
 	},
 	init: function () {
-
+		$(window).resize(this.windowResize.bind(this));
+	},
+	windowResize: function(){
+		if(this.windowResizeObs) clearTimeout(this.windowResizeObs);	
+		this.windowResizeObs = setTimeout(this.alignAllAnchor.bind(this), 10);
+	},
+	alignAllAnchor: function(){
+		var alignAnchor = this.alignAnchor.bind(this);
+		jQuery.each(this.objects, function (index, O) {
+			alignAnchor(O.id, index);
+		});
 	},
 	msgAlert: function (msg) {
 		var errorPrintType = "toast";
@@ -208,14 +219,61 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID).css(css);
 		jQuery("#" + cfg.targetID + "_AX_" + objID).data("height", h);
 	},
-	alignAnchor: function (objID) {
+	alignAnchor: function (objID, objSeq) {
 		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		
 		var iobj = jQuery("#" + objID);
 		w = iobj.outerWidth();
 		h = iobj.outerHeight();
 		var css = { width: w, height: 0 };
 		jQuery("#" + cfg.targetID + "_AX_" + objID).css(css);
 		jQuery("#" + cfg.targetID + "_AX_" + objID).data("height", h);
+		
+		if (obj.bindType == "placeHolder") {
+			
+		} else if (obj.bindType == "search") {
+			
+		} else if (obj.bindType == "number") {
+			var UPh = parseInt((h - 2) / 2) - 1;
+			var DNh = parseInt((h - 2) / 2) - 2;
+			var handleWidth = h-2;
+			if(handleWidth > 20) handleWidth = 20;
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer").css({width:handleWidth, height:h-2});
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").css({width:handleWidth, height:UPh});
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").css({top:(UPh+1), width:handleWidth, height:DNh});
+			trace({top:(UPh+1), width:h, height:DNh});
+		} else if (obj.bindType == "money") {
+			
+		} else if (obj.bindType == "selector") {
+			h -= 2;
+			$("#" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer").css({width:h, height:h});
+			$("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").css({width:h, height:h});
+			
+			if (obj.config.finder) {
+				$("#" + cfg.targetID + "_AX_" + objID + "_AX_FinderContainer").css({right:h, width:h, height:h});
+				$("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").css({width:h, height:h});
+			}
+		} else if (obj.bindType == "slider") {
+			
+		} else if (obj.bindType == "twinSlider") {
+			
+		} else if (obj.bindType == "switch") {
+
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").css({ width:w, height:h });
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").css({ height:h, "line-height":h+"px" });
+			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle").css({ width:w, height:h });
+			jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height:h });
+		} else if (obj.bindType == "segment") {
+			
+		} else if (obj.bindType == "date") {
+			
+		} else if (obj.bindType == "twinDate") {
+			
+		} else if (obj.bindType == "twinDateTime") {
+			
+		}
+		
 	},
 	bindSetValue: function (objID, value) {
 		var cfg = this.config;
@@ -355,9 +413,13 @@ var AXInputConverter = Class.create(AXJ, {
 		var UPh = parseInt((h - 2) / 2) - 1;
 		var DNh = parseInt((h - 2) / 2) - 2;
 		//trace(UPh+"//"+DNh);
-		po.push("<div class=\"" + cfg.anchorNumberContainerClassName + "\" style=\"right:0px;top:0px;width:" + (h - 2) + "px;height:" + (h - 2) + "px;\">");
-		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + UPh + "px;\">increase</a>");
-		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + h + "px;height:" + DNh + "px;\">decrease</a>");
+		var handleWidth = h-2;
+		if(handleWidth > 20) handleWidth = 20;
+		
+		
+		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"" + cfg.anchorNumberContainerClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + (h - 2) + "px;\">");
+		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + UPh + "px;\">increase</a>");
+		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + handleWidth + "px;height:" + DNh + "px;\">decrease</a>");
 		po.push("</div>");
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
@@ -602,6 +664,11 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		
+		if(this.opendExpandBox){
+			this.opendExpandBox.remove();
+		}
+		
 		var jqueryTargetObjID = jQuery("#" + cfg.targetID + "_AX_" + objID);
 		//trace({objID:objID, objSeq:objSeq});
 
@@ -654,13 +721,8 @@ var AXInputConverter = Class.create(AXJ, {
 		css.top = offset.top + anchorHeight;
 		css.left = offset.left;
 		expandBox.css(css);
-
-
-		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
-		obj.documentclickEvent = function (event) {
-			bindSelectorOptionsClick(objID, objSeq, event);
-		}
-		jQuery(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
+		
+		this.opendExpandBox = expandBox;
 
 		//_AX_expandBox set options
 		//trace(obj.config.ajaxUrl);
@@ -677,6 +739,14 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindSelectorSetOptions(objID, objSeq);
 			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
 		}
+		
+
+		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
+		obj.documentclickEvent = function (event) {
+			bindSelectorOptionsClick(objID, objSeq, event);
+		}
+		jQuery(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
+		
 	},
 	bindSelectorBlur: function(objID){
 		var cfg = this.config;
@@ -822,7 +892,7 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindSelectorClose(objID, objSeq, event); // 셀럭터 외의 영역이 므로 닫기
 			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		} else {
-
+			//trace(objID, myTarget.id, cfg.targetID);
 			eid = myTarget.id.split(/_AX_/g);
 
 			if (eid.last() == "option") {
@@ -1659,9 +1729,9 @@ var AXInputConverter = Class.create(AXJ, {
 		jQuery("#" + objID).val(switchValue);
 
 		var po = [];
-		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox\" class=\"" + cfg.anchorSwitchBoxClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;\">");
-		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay\" class=\"AXanchorSwitchDisplay\">" + switchValue + "</div>");
-		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\">handle</a>");
+		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox\" class=\"" + cfg.anchorSwitchBoxClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;\">");
+		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay\" class=\"AXanchorSwitchDisplay\" style=\"height:" + h + "px;line-height:" + h + "px;\">" + switchValue + "</div>");
+		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\" style=\"width:" + h + "px;height:" + h + "px;\">handle</a>");
 		po.push("</div>");
 
 		//append to anchor
