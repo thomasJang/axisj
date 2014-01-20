@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.32",
+	version: "AXInputConverter v1.33",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -27,7 +27,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가",
 		"2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가",
 		"2014-01-10 오후 5:07:44 : tom - event bind modify, fix",
-		"2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스"
+		"2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스",
+		"2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2068,7 +2069,8 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar = new AXCalendar();
 		obj.mycalendar.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox",
-			basicDate: myDate
+			basicDate: myDate,
+			href: cfg.href
 		});
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
 			obj.nDate = myDate;
@@ -2534,7 +2536,12 @@ var AXInputConverter = Class.create(AXJ, {
 			} else if (ename == "date") {
 				//trace(ids[ids.length-2]);
 				obj.nDate = ids[ids.length - 2].date();
-				jQuery("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm" + separator + "dd"));
+				var printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
+				if (obj.config.expandTime) {
+					printDate += " " + obj.mycalendartime.getTime();
+				}
+				jQuery("#" + objID).val(printDate);
+				
 				this.bindDateExpandClose(objID, objSeq, event);
 			} else if (ename == "month") {
 				var myMonth = ids[ids.length - 2].number() - 1;
