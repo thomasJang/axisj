@@ -478,8 +478,8 @@ var AXEditor = Class.create(AXJ, {
 		var config = this.config;
 		var re = config.targetID;
 		var ty = file.ty.dec().toLowerCase();
-		if(ty == ".gif" || ty == ".jpg" || ty == ".png" || ty == ".bmp" || ty == "gif" || ty == "jpg" || ty == "png" || ty == "bmp"){
-			
+		var tyReg = /(bmp|jpg|jpeg|gif|png)$/; 
+ 		if (tyReg.test(ty)) {
 			/*본문삽입*/
 			var imgObj = new Image();
 			imgObj.src = file.path.dec()+file.nm.dec();
