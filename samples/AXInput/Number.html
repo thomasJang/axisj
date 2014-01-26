@@ -7,6 +7,7 @@
     <meta property="og:image" content="/img/axisj_sns.png" /> 
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
@@ -77,25 +78,23 @@
 
 
 		<h2>AXInput bind Number</h2>
-		<div style="position:relative;">
-			<div class="inlineBlock">
-				<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />
-				&nbsp;
-				range(1~100)
-			</div>
-			<div class="inlineBlock">
+
+			<label class="AXInputLabel">
+				<span>normal</span>
+				<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />				
+			</label>
+			<label class="AXInputLabel">
+				<span>range(1~100)</span>
 				<input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
-			</div>
-			&nbsp;
-			range(20~)
-			<div class="inlineBlock">
+			</label>
+			<div class="AXInputLabel">
+				<span>range(20~)</span>
 				<input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
 			</div>
-		</div>
-		<div class="Hspace10"></div>
-		<div style="position:relative;">
-			<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
-		</div>
+			<div class="AXInputLabel">
+				<span>AXInputSmall</span>
+				<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
+			</div>
 		
 		
 		<div class="Hspace20"></div>

@@ -14,9 +14,10 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<style type="text/css">
-	H2{font-family:consolas;}
-	</style>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<!-- css block -->
 
 	<!-- js block -->
@@ -28,12 +29,18 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
 	<script type="text/javascript">	
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+	AXConfig.mobile.responsiveWidth = 648;
+	
 	var pageID = "AXBindDate";
 
 	var fnObj = {
 		pageStart: function(){
 			//AXUtil.readyMobileConsole();
-
+			
+			$("#AXInputDate01").bindDate();
+			$("#AXInputDate02").bindDateTime();
+			
 			AXCode.bind(); // 소스보기
 		}
 	};
@@ -48,8 +55,16 @@
 	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 	<div class="AXdemoPageContent">
 
-		
+		<label class="AXInputLabel">
+			<span>bindDate</span>
+			<input type="text" name="" id="AXInputDate01" class="AXInput W110" />
+		</label>
 
+		<label class="AXInputLabel">
+			<span>bindDateTime</span>
+			<input type="text" name="" id="AXInputDate02" class="AXInput W160" />
+		</label>
+		
 	</div>
 </body>
 </html>

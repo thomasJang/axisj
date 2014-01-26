@@ -13,9 +13,9 @@
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<style type="text/css">
-	H2{font-family:consolas;}
-	</style>
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<!-- css block -->
 
 	<!-- js block -->
@@ -25,12 +25,15 @@
 	<script type="text/javascript" src="pageTab.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
-	<script type="text/javascript">	
+	<script type="text/javascript">
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+	AXConfig.mobile.responsiveWidth = 648;
+	
 	var pageID = "AXMobileModal";
 	var myMobileModal = new AXMobileModal();
 	var fnObj = {
 		pageStart: function(){
-			AXUtil.readyMobileConsole();
+			//AXUtil.readyMobileConsole();
 
 			myMobileModal.setConfig({
 				head:{
@@ -46,7 +49,7 @@
 			});
 
 			$("#longPressTarget").longpress(function(){
-				trace("111");
+				//trace("111");
 			});
 
 			AXCode.bind(); // 소스보기
@@ -68,9 +71,9 @@
 	<div class="AXdemoPageContent">
 
 		<button class="AXButton" onclick="fnObj.openMobileModal();">open mobileModal</button>
-		
+		<!--
 		<button class="AXButton" id="longPressTarget">long press</button>
-		
+		-->
 	</div>
 </body>
 </html>

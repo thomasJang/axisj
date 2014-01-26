@@ -1,22 +1,4 @@
-﻿// Var
-
-.Hspace(@height: 1px){
-	font-size:1px;line-height:1px;height:@height;
-}
-.Opacity(@opac:50){
-	-moz-opacity: @opac/100;
-	opacity: @opac/100;
-	filter: alpha(opacity=@opac);	
-}
-.Radius(@rad: 5px;){
-	border-radius:@rad;-webkit-border-radius:@rad;-moz-border-radius:@rad;
-}
-.Ellip(){
-	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.Placeholder(@height: 20px){
-	color:#bbb;
-}
+﻿@import "csslib";
 
 // CSS
 /*!
@@ -1134,15 +1116,15 @@
 /* ---------------------------- AXCalendar ------------------------------- */
 
 .AXCalendar{
-	position:relative;width:181px;
+	position:relative;
 }
 
 	.AXCalendar table.calendarPage{
 		table-layout:fixed;width:100%;
 	}
 	.AXCalendar table.calendarPage thead td{
-		font-size:8px;font-family:'Arial';
-		height:20px;line-height:20px;
+		font-size:9px;font-family:'Arial';font-weight:bold;
+		height:40px;line-height:40px;
 		padding:0px;text-align:center;
 		border-right:1px solid #f2f2f3;
 		border-bottom:1px solid #b9babc;
@@ -1162,11 +1144,11 @@
 	.AXCalendar table.calendarPage thead td.dayofweek_6{color:#627d9b;}
 
 	.AXCalendar table.calendarPage tbody td{
-		height:25px;line-height:25px;
+		height:42px;line-height:42px;
 		padding:0px;text-align:center;
 		border-right:1px solid #b9babc;
 		border-bottom:1px solid #b9babc;
-		background:url(img/calendarBgs.png) repeat-x 0px -26px;
+		.Linear-gradient(#fbfbfb, #ececee);
 	}
 
 	.AXCalendar table.calendarPage tbody td.bodyCol_6{
@@ -1175,13 +1157,11 @@
 	.AXCalendar table.calendarPage tbody td.bodyRow_5{
 		border-bottom:0px none;
 	}
-	.AXCalendar table.calendarPage tbody td.setDate{
-		background:url(img/calendarBgs.png) repeat-x 0px -76px;
-	}
+
 	.AXCalendar table.calendarPage tbody td A.calendarDate{
-		display:block;height:25px;line-height:25px;
+		display:block;height:42px;line-height:42px;
 		text-decoration:none;color:#6d6e71;
-		font-size:11px;font-family:Arial;font-weight:bold;
+		font-size:13px;font-family:Arial;font-weight:bold;
 	}
 	.AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate{
 		color:#c78b82;
@@ -1189,12 +1169,17 @@
 	.AXCalendar table.calendarPage tbody td A.calendarDate.notThisMonth{
 		color:#bfbfc1;
 	}
-
+	.AXCalendar table.calendarPage tbody td.setDate{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
+	}
+	.AXCalendar table.calendarPage tbody td.setDate A{
+		color:#fff !important;
+	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate:hover{
-		background:#d8e1e7;
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
 	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate:active{
-		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
+		
 	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate.selected{
 		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
@@ -1204,11 +1189,11 @@
 		table-layout:fixed;width:100%;
 	}
 	.AXCalendar table.calendarPageMonth tbody td{
-		height:43px;line-height:43px;
+		height:73px;line-height:73px;
 		padding:0px;text-align:center;
 		border-right:1px solid #b9babc;
 		border-bottom:1px solid #b9babc;
-		background:url(img/calendarBgs.png) repeat-x 0px -101px;
+		.Linear-gradient(#fbfbfb, #ececee);
 	}
 	.AXCalendar table.calendarPageMonth tbody td.bodyCol_2{
 		border-right:0px none;
@@ -1220,41 +1205,48 @@
 		background:#f3e2df;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth{
-		display:block;height:43px;line-height:43px;
+		display:block;height:73.5px;line-height:73.5px;
 		text-decoration:none;color:#6d6e71;
-		font-size:12px;font-family:Arial;font-weight:bold;
+		font-size:15px;font-family:Arial;font-weight:bold;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth:hover{
-		background:#d8e1e7;
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth:active{
-		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
+		
 	}
 	.AXCalendar table.calendarPageMonth tbody td A.calendarMonth.selected{
 		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
 	}
 
 	.AXCalendar .timeBox{
-		position:relative;height:90px;
+		position:relative;
+		height:144px;
 	}
 		.AXCalendar .timeBox .hourTitle{
-			position:absolute;left:5px;top:18px;
-			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			position:absolute;left:20px;top:15px;
+			color:#738089;font-size:12px;line-height:40px;font-family:Arial;
 			text-shadow:0px 1px #fff;
 		}
 		.AXCalendar .timeBox .hourSlider{
-			position:absolute;left:45px;top:15px;
+			position:absolute;left:80px;top:15px;
 		}
+			.AXCalendar .timeBox .hourSlider input{
+				width:190px;
+			}
 		.AXCalendar .timeBox .minuteTitle{
-			position:absolute;left:5px;top:53px;
-			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			position:absolute;left:20px;top:53px;
+			color:#738089;font-size:12px;line-height:40px;font-family:Arial;
 			text-shadow:0px 1px #fff;
 		}
 		.AXCalendar .timeBox .minuteSlider{
-			position:absolute;left:45px;top:50px;
+			position:absolute;left:80px;top:50px;
 		}
+			.AXCalendar .timeBox .minuteSlider input{
+				width:190px;
+			}
 		.AXCalendar .timeBox .timeDisplay{
-			position:absolute;left:5px;top:90px;
+			position:absolute;left:20px;top:100px;
 			border:1px solid #7f8d9c;background:#a3b0b9;box-shadow:inset 0px 1px 2px #828282;
 			border-radius:5px;
 			padding:0px 20px;margin:0px;
@@ -1264,7 +1256,7 @@
 			white-space:nowrap;
 		}
 		.AXCalendar .timeBox .AMPM{
-			position:absolute;right:10px;top:90px;
+			position:absolute;right:20px;top:100px;
 		}
 
 
@@ -1812,58 +1804,5 @@
 	background:url(img/resizableHandle.png) no-repeat 100% 100%;
 }
 
-/* ---------------------------- AXMobileModal ------------------------------- */
-.AXMobileModal{
-	z-index:6000;
-	position:absolute;
-	left:0px;top:0px;
-}
-
-.AXMobileModal .AXMobileModalPanel{
-	position:absolute;
-	left:0px;top:0px;
-	background:#d7dde3;
-	border-radius:4px;
-	box-shadow:0px 0px 3px rgba(0,0,0,10);
-}
-
-.AXMobileModal .AXMobileModalPanel .mobileModalHead{
-	position:relative;
-	height:44px;
-}
-	.AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle{
-		padding:0px 10px;
-		line-height:44px;
-		color:#3b3b3b;font-size:15px;
-		font-weight:bold;
-	}
-		
-.AXMobileModal .AXMobileModalPanel .mobileModelClose{
-	display:block;
-	position:absolute;
-	right:0px;
-	top:0px;
-	width:44px;height:44px;
-	background:url(img/AXMobile/close.png) center center no-repeat;
-	background-size:50% 50%;
-	line-height:1000px;overflow:hidden;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody{ /* 모달창 바디 */
-
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer{ /* 모달창 바디 안에 위치한 스크롤 컨테이너 */	
-	background:#fff;
-}
-
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a{
-	display:block;padding:0px 10px;
-	font-size:12px;line-height:43px;
-	color:#3b3b3b;text-decoration:none;
-	border-bottom:1px solid #c8c8c8;background:#fff;
-	}
-	.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a:nth-child(odd){
-		background:#f7f7f7;
-	}
-	.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a.on{
-		background:#5ea3db;
-	}
+/* AXMobileModal.less import ---------------- */
+@import "AXMobileModal.less";

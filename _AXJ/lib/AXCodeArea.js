@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * axisJ Javascript Library Version 1.0
  * http://axisJ.com
  * 
@@ -20,11 +20,13 @@ var AXCodeArea = Class.create(AXJ, {
 		this.config.lineNumberClassName = "AXscriptSourceLineNumber";
 	},
 	init: function(){
+		
 		//jQuery(window).resize(this.windowResize.bind(this));
 	},
 	bind: function(obj){
 		
 		var cfg = this.config;
+		
 		if(!obj.id){
 			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
 			return;

@@ -1,3 +1,4 @@
+/* mobile device width */
 /*!
  * AxisJ Javascript Library Version 1.0
  * http://AxisJ.com
@@ -1968,7 +1969,6 @@
 /* ---------------------------- AXCalendar ------------------------------- */
 .AXCalendar {
   position: relative;
-  width: 181px;
 }
 .AXCalendar table.calendarPage {
   table-layout: fixed;
@@ -2120,6 +2120,9 @@
   left: 45px;
   top: 15px;
 }
+.AXCalendar .timeBox .hourSlider input {
+  width: 120px;
+}
 .AXCalendar .timeBox .minuteTitle {
   position: absolute;
   left: 5px;
@@ -2134,6 +2137,9 @@
   position: absolute;
   left: 45px;
   top: 50px;
+}
+.AXCalendar .timeBox .minuteSlider input {
+  width: 120px;
 }
 .AXCalendar .timeBox .timeDisplay {
   position: absolute;
@@ -2768,6 +2774,7 @@
   cursor: se-resize;
   background: url(img/resizableHandle.png) no-repeat 100% 100%;
 }
+/* AXMobileModal.less import ---------------- */
 /* ---------------------------- AXMobileModal ------------------------------- */
 .AXMobileModal {
   z-index: 6000;
@@ -2781,8 +2788,6 @@
   top: 0px;
   background: #d7dde3;
   border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
   box-shadow: 0px 0px 3px #000000;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalHead {
@@ -2792,6 +2797,54 @@
 .AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle {
   padding: 0px 10px;
   line-height: 44px;
+  color: #3b3b3b;
+  font-size: 15px;
+  font-weight: bold;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .prevbutton {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 44px;
+  height: 44px;
+  background: url(img/AXMobile/prev.png) center center no-repeat;
+  background-size: 50% 50%;
+  line-height: 90000px;
+  overflow: hidden;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .nextbutton {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 44px;
+  height: 44px;
+  background: url(img/AXMobile/next.png) center center no-repeat;
+  background-size: 50% 50%;
+  line-height: 90000px;
+  overflow: hidden;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .yearbutton {
+  display: block;
+  position: absolute;
+  left: 100px;
+  top: 0px;
+  height: 44px;
+  line-height: 44px;
+  text-decoration: none;
+  color: #3b3b3b;
+  font-size: 15px;
+  font-weight: bold;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .monthbutton {
+  display: block;
+  position: absolute;
+  left: 160px;
+  top: 0px;
+  height: 44px;
+  line-height: 44px;
+  text-decoration: none;
   color: #3b3b3b;
   font-size: 15px;
   font-weight: bold;
@@ -2815,6 +2868,16 @@
   /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
   background: #fff;
 }
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
+  /* 모달창 바디 안에 위치한 달력 컨테이너 */
+  background: #fff;
+  border-top: 1px solid #b9babc;
+  border-bottom: 1px solid #b9babc;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXTimeDisplayBox {
+  height: 144px;
+  background: #fff;
+}
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a {
   display: block;
   padding: 0px 10px;
@@ -2830,4 +2893,8 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a.on {
   background: #5ea3db;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalFoot .AXDateButtonBox {
+  text-align: center;
+  padding: 7px;
 }

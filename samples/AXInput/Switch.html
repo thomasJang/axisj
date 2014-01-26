@@ -7,6 +7,7 @@
     <meta property="og:image" content="/img/axisj_sns.png" /> 
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
@@ -14,10 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
 	<![endif]-->
 	<style type="text/css">
 	
@@ -41,10 +39,11 @@
 			
 			
 			$("#AXInputSwitch").bindSwitch({off:"AM", on:"PM", onChange:function(){
-					toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));
+				toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));
 			}});
+			
 			$("#AXInputSwitch2").bindSwitch({off:"UP SIDE", on:"DOWN SIDE", onChange:function(){
-					toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));	
+				toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));	
 			}});
 			
 		}
@@ -61,21 +60,25 @@
 	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 	<div class="AXdemoPageContent">
 
-
 		<h2>AXInput bind Switch</h2>
-
-		<input type="text" name="" value="AM" id="AXInputSwitch" class="AXInput W40" />
-		<input type="text" name="" value="UP SIDE" id="AXInputSwitch2" class="AXInput W80" />
-
+		<label class="AXInputLabel">
+			<span>AM/PM</span>
+			<input type="text" name="" value="AM" id="AXInputSwitch" style="width:50px;height:21px;border:0px none;" />
+		</label>
 		<div style="padding:10px 0px;">
 			<input type="button" value="AM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('AM');" />
 			<input type="button" value="PM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('PM');" />
-			
+		</div>
+
+		<label class="AXInputLabel">
+			<span>UP/DOWN</span>
+			<input type="text" name="" value="UP SIDE" id="AXInputSwitch2" style="width:80px;height:21px;border:0px none;" />
+		</label>
+		<div style="padding:10px 0px;">
 			<input type="button" value="UP SIDE" class="AXButton" onclick="$('#AXInputSwitch2').setValueInput('UP SIDE');" />
 			<input type="button" value="DOWN SIDE" class="AXButton" onclick="$('#AXInputSwitch2').setValueInput('DOWN SIDE');" />
 		</div>
-		
-		<div class="Hspace20"></div>
+
 		
 
 	</div>

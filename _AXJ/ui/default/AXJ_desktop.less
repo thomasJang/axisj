@@ -1,22 +1,4 @@
-﻿// Var
-
-.Hspace(@height: 1px){
-	font-size:1px;line-height:1px;height:@height;
-}
-.Opacity(@opac:50){
-	-moz-opacity: @opac/100;
-	opacity: @opac/100;
-	filter: alpha(opacity=@opac);	
-}
-.Radius(@rad: 5px;){
-	border-radius:@rad;-webkit-border-radius:@rad;-moz-border-radius:@rad;
-}
-.Ellip(){
-	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.Placeholder(@height: 20px){
-	color:#bbb;
-}
+﻿@import "csslib";
 
 // CSS
 /*!
@@ -497,7 +479,8 @@
 
 /* ---------------------------- AXInput ------------------------------- */
 .AXanchor{
-	position:absolute;height:0px;left:0px;top:0px;display:none;
+	position:absolute;height:0px;left:0px;top:0px;
+	display:none;
 	vertical-align:middle;
 }
 .AXInput{
@@ -1230,7 +1213,7 @@
 /* ---------------------------- AXCalendar ------------------------------- */
 
 .AXCalendar{
-	position:relative;width:181px;
+	position:relative;
 }
 
 	.AXCalendar table.calendarPage{
@@ -1341,6 +1324,9 @@
 		.AXCalendar .timeBox .hourSlider{
 			position:absolute;left:45px;top:15px;
 		}
+			.AXCalendar .timeBox .hourSlider input{
+				width:120px;
+			}
 		.AXCalendar .timeBox .minuteTitle{
 			position:absolute;left:5px;top:53px;
 			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
@@ -1349,6 +1335,9 @@
 		.AXCalendar .timeBox .minuteSlider{
 			position:absolute;left:45px;top:50px;
 		}
+			.AXCalendar .timeBox .minuteSlider input{
+				width:120px;
+			}
 		.AXCalendar .timeBox .timeDisplay{
 			position:absolute;left:5px;top:90px;
 			border:1px solid #7f8d9c;background:#a3b0b9;box-shadow:inset 0px 1px 2px #828282;
@@ -1898,58 +1887,5 @@
 	background:url(img/resizableHandle.png) no-repeat 100% 100%;
 }
 
-/* ---------------------------- AXMobileModal ------------------------------- */
-.AXMobileModal{
-	z-index:6000;
-	position:absolute;
-	left:0px;top:0px;
-}
-
-.AXMobileModal .AXMobileModalPanel{
-	position:absolute;
-	left:0px;top:0px;
-	background:#d7dde3;
-	.Radius(4px);
-	box-shadow:0px 0px 3px rgba(0,0,0,10);
-}
-
-.AXMobileModal .AXMobileModalPanel .mobileModalHead{
-	position:relative;
-	height:44px;
-}
-	.AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle{
-		padding:0px 10px;
-		line-height:44px;
-		color:#3b3b3b;font-size:15px;
-		font-weight:bold;
-	}
-		
-.AXMobileModal .AXMobileModalPanel .mobileModelClose{
-	display:block;
-	position:absolute;
-	right:0px;
-	top:0px;
-	width:44px;height:44px;
-	background:url(img/AXMobile/close.png) center center no-repeat;
-	background-size:50% 50%;
-	line-height:1000px;overflow:hidden;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody{ /* 모달창 바디 */
-
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer{ /* 모달창 바디 안에 위치한 스크롤 컨테이너 */	
-	background:#fff;
-}
-
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a{
-	display:block;padding:0px 10px;
-	font-size:12px;line-height:43px;
-	color:#3b3b3b;text-decoration:none;
-	border-bottom:1px solid #c8c8c8;background:#fff;
-	}
-	.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a:nth-child(odd){
-		background:#f7f7f7;
-	}
-	.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a.on{
-		background:#5ea3db;
-	}
+/* AXMobileModal.less import ---------------- */
+@import "AXMobileModal.less";

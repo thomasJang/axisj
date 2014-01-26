@@ -14,11 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXMobileMenu.css" />
-	<style type="text/css">
-	H2{font-family:consolas;}
-	
-	
-	</style>
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
 	<!-- css block -->
 
 	<!-- js block -->
@@ -30,6 +28,9 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXMobileMenu.js"></script>
 
 	<script type="text/javascript">
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+	AXConfig.mobile.responsiveWidth = 648;
+	
 	var pageID = "AXMobileMenu";
 	var myMobileMenu = new AXMobileMenu();
 	var fnObj = {

@@ -49,7 +49,11 @@
 			$("#AXInputDate2").bindDate({separator:"/", selectType:"m"});
 			$("#AXInputDate3").bindDate({selectType:"y"});
 			
-			$("#AXInputDate4").bindDateTime();
+			$("#AXInputDate4").bindDateTime({
+				onChange:function(){
+					toast.push(Object.toJSON(this));
+				}
+			});
 			
 			$("#AXInputDateED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){toast.push(Object.toJSON(this));}});
 			

@@ -7,6 +7,7 @@
     <meta property="og:image" content="/img/axisj_sns.png" /> 
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
@@ -77,7 +78,7 @@
 			display:block;float:left;
 			padding:0px 0px;margin:0px;height:28px;
 			border-top:1px solid #888;border-left:1px solid #888;border-bottom:1px solid #888;
-			text-align:center;color:#666;text-decoration:none;line-height:80px;
+			text-align:center;color:#666;text-decoration:none;line-height:90px !important;
 			text-shadow:0px 1px #ccc;
 		}
 		 /* 버튼 왼쪽 끝 */
@@ -213,7 +214,7 @@
 
 		<h2>AXInput bind Switch</h2>
 
-		<input type="text" name="" value="0" id="AXInputSegment" style="width:150px;height:20px;" />
+		<input type="text" name="" value="0" id="AXInputSegment" class="AXInput" style="width:150px;" />
 		
 		<div style="padding:10px 0px;">
 			<input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('0');" />
@@ -235,7 +236,7 @@
 
 		<h2>AXInput bind Switch (custom css)</h2>
 
-		<input type="text" name="" value="0" id="AXInputSegmentForImage2" style="width:260px;height:50px;" />
+		<input type="text" name="" value="0" id="AXInputSegmentForImage2" style="width:260px;height:30px;" />
 
 	</div>
 

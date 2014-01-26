@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
+	<script type="text/javascript">
+	var pageID = "bigData";
+	var myGrid = new AXGrid();
+	var itemSum = 0;
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+			myGrid.setConfig({
+				targetID : "AXGridTarget",
+				theme : "AXGrid",
+				colHeadAlign: "center", // 헤드의 기본 정렬 값
+				bigData:{
+					displayCount: 100
+				},
+				colGroup : [
+					{key:"no", label:"번호", width:"50", align:"right"}, 
+					{key:"title", label:"제목", width:"*"},
+					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"regDate", label:"작성일", width:"100", align:"center"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"*"}
+				],				
+				body : {
+					marker: function(){
+						
+					},
+					onclick: function(){
+						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						//alert(this.list);
+						//alert(this.page);
+					}
+				},
+				page:{
+					display:true
+				}
+			});
+			
+			myGrid.setList({
+				ajaxUrl:"loadBigData.asp", ajaxPars:"param1=1&param2=2", onLoad:function(){
+					//trace(this);
+				}
+			});
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h2>AXGrid</h2>
+
+		<div id="AXGridTarget" style="height:400px;"></div>
+
+</body>
+</html>

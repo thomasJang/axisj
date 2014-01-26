@@ -9,7 +9,8 @@ var myTabOption = [
 	{optionValue:"editor", optionText:"editor", addClass:"", url:"editor.html"},
 	{optionValue:"ajax", optionText:"ajax & paging", addClass:"", url:"ajax.html"},
 	{optionValue:"passive", optionText:"passive", addClass:"", url:"passive.html"},
-	{optionValue:"viewMode", optionText:"viewMode", addClass:"", url:"viewMode.html"}
+	{optionValue:"viewMode", optionText:"viewMode", addClass:"", url:"viewMode.html"},
+	{optionValue:"bigData", optionText:"bigData", addClass:"", url:"bigData.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

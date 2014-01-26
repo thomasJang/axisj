@@ -82,6 +82,3 @@ $(document.body).ready(function(){
 
 웹사이트
 http://www.axisj.com
-
-전체 소스 코드는 
-http://svn.axisj.com:8080/svn/AXISJ/trunk (axisuser//axisuser) 에서 실시간 업데이트 코드를 받으실 수 있습니다.

@@ -144,7 +144,11 @@ Object.extend(Function.prototype, (function () {
 Object.extend(String.prototype, (function () {
 	function left(strLen) { return this.toString().substr(0, strLen); }
 	function right(strLen) { return this.substring(this.length - strLen, this.length); }
-	function dec() { return (this) ? decodeURIComponent(this.replace(/\+/g, " ")) : this; }
+	function dec() { 
+		var decodeURI;
+		try{decodeURI = decodeURIComponent(this.replace(/\+/g, " "));}catch(e){var decodeURI = this;}
+		return (this) ? (decodeURI) : this; 
+	}
 	function enc() { return (this) ? encodeURIComponent(this) : this; }
 	function object() { try { var res = this.evalJSON(); } catch (e) { res = { error: "syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; try { mask.close(); } catch (e) { } } return res; }
 	function array() { try { var res = this.split(/,/g); } catch (e) { res = { error: "syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; } return res; }
@@ -245,6 +249,7 @@ Object.extend(String.prototype, (function () {
 	function unfilterJSON(filter) { return this.replace(filter || AXUtil.JSONFilter, '$1'); }
 	function evalJSON(sanitize) { var json = this.unfilterJSON(); try { if (!sanitize || json.isJSON()) return eval("(" + json + ")"); else return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error. fail to convert Object\n" + this }; } catch (e) { return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error.\n" + this, body: this }; } }
 	function queryToObject(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v); } else { returnObj[k] = v; } i++; } return returnObj; }
+	function queryToObjectDec(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v.dec()); } else { returnObj[k] = v.dec(); } i++; } return returnObj; }
 	function crlf(replaceTarget, replacer) { return this.replace((replaceTarget || /\n/g), (replacer || "<br/>")); }
 	function ecrlf(replaceTarget, replacer) { return this.replace((replaceTarget || /%0A/g), (replacer || "<br/>")); }
 	function formatDigit(length, padder) { var string = this; return (padder || '0').times(length - string.length) + string; }
@@ -344,6 +349,7 @@ Object.extend(String.prototype, (function () {
 		unfilterJSON: unfilterJSON,
 		evalJSON: evalJSON,
 		queryToObject: queryToObject,
+		queryToObjectDec: queryToObjectDec,
 		crlf: crlf,
 		ecrlf: ecrlf,
 		setDigit: formatDigit,
@@ -869,13 +875,16 @@ var AXConfig = {
 	},
 	AXInput: {
 		errorPrintType: "toast",
-		selectorOptionEmpty: "목록이 없습니다."
+		selectorOptionEmpty: "목록이 없습니다.",
+		yearText:"{year}년",
+		monthText:"{month}월",
+		confirmText:"확인"
 	},
 	AXContextMenu: {
 		title:"선택하세요"
 	},
 	mobile: {
-		responsiveWidth: 748
+		responsiveWidth: 648
 	}
 };
 
@@ -2847,11 +2856,11 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("<div id=\"" + cfg.targetID + "_AX_box\" class=\"" + cfg.CT_className + "\" style=\"padding:0px;\">");
 		po.push("<div class='timeBox'>");
 		po.push("<div class='hourTitle'>Hour</div>");
-		po.push("<div class='hourSlider'><input type='text' value='" + hh + "' id='" + cfg.targetID + "_AX_hour' style='width:120px;' class='AXInput' /></div>");
+		po.push("<div class='hourSlider'><input type='text' value='" + hh + "' id='" + cfg.targetID + "_AX_hour' class='AXInput' /></div>");
 		po.push("<div class='minuteTitle'>Minute</div>");
-		po.push("<div class='minuteSlider'><input type='text' value='" + mm + "' id='" + cfg.targetID + "_AX_minute' style='width:120px;' class='AXInput' /></div>");
+		po.push("<div class='minuteSlider'><input type='text' value='" + mm + "' id='" + cfg.targetID + "_AX_minute' class='AXInput' /></div>");
 		po.push("<div class='timeDisplay'>" + hh + ":" + mm + " " + apm + "</div>");
-		po.push("<div class='AMPM'><input type='text' id='" + cfg.targetID + "_AX_AMPM' value='" + apm + "' style='width:50px;' /></div>");
+		po.push("<div class='AMPM'><input type='text' id='" + cfg.targetID + "_AX_AMPM' value='" + apm + "' style='width:50px;height:21px;border:0px none;' /></div>");
 		po.push("</div>");
 		po.push("</div>");
 		jQuery("#" + cfg.targetID).html(po.join(''));
@@ -4541,6 +4550,8 @@ var AXMobileModal = Class.create(AXJ, {
 		
 		jQuery(window).unbind("resize.AXMobileModal").bind("resize.AXMobileModal", this.reposition.bind(this));
 		
+		this.opened = true;
+		
 		return {
 			jQueryModal: this.jQueryModal,
 			modalPanel: this.modalPanel,
@@ -4666,7 +4677,7 @@ var AXMobileModal = Class.create(AXJ, {
 		
 		remove.delay(0.01);
 		*/
-		
+		this.opened = false;
 		jQuery(window).unbind("resize.AXMobileModal");
 	},
 	remove: function () {

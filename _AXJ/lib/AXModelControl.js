@@ -417,17 +417,17 @@ var AXModelControl = Class.create(AXJ, {
     /* cursorFocus */
     oncursorKeyup: function(jQueryObj, event, itemIndex){
     	var cfg = this.config;
-    	if(event.shiftKey || event.metaKey || event.ctrlKey) return;
+    	if(event.ctrlKey) return;
     	if(cfg.oncursor){
-    		//trace(event.keyCode);
     		// AXBind 된 경우에는 위아래 사용을 제한 해야함. 2014-01-04 오후 5:57:24
     		var axbind = jQueryObj.attr("data-axbind");
+    		var htmlTag = jQueryObj.get(0).type;
     		var direction = "";
     		if(event.keyCode == AXUtil.Event.KEY_UP) direction = "U";
     		else if(event.keyCode == AXUtil.Event.KEY_DOWN) direction = "D";
     		else if(event.keyCode == AXUtil.Event.KEY_LEFT) direction = "L";
     		else if(event.keyCode == AXUtil.Event.KEY_RIGHT) direction = "R";
-    		else if(event.keyCode == AXUtil.Event.KEY_RETURN && axbind != "select") direction = "R";
+    		else if(event.keyCode == AXUtil.Event.KEY_RETURN && axbind != "select" && htmlTag != "textarea") direction = "E";	
     		if(cfg.oncursor.call(
     			{
     				event:event,
@@ -439,10 +439,9 @@ var AXModelControl = Class.create(AXJ, {
 			if(direction == "") return;
 			
 			//trace(jQueryObj.get(0).tagName);
-			
-			if(axbind && (direction == "U" || direction == "D")) return;
-			if((direction == "U" || direction == "D") && jQueryObj.get(0).tagName == "SELECT") return;
-			if(direction == "U" || direction == "L"){
+			//if(axbind) return;
+			if(direction == "U" || direction == "D" || direction == "L" || direction == "R") return;
+			else if(direction == "E" && (event.shiftKey || event.metaKey)){
 				if(itemIndex == 0){
 					if(cfg.oncursorEmpty){
 						cfg.oncursorEmpty({type:"indexOver", index:-1});
@@ -460,8 +459,7 @@ var AXModelControl = Class.create(AXJ, {
 					}
 				}
 				this.focusItem(this.collectItem[nextItemIndex].jQueryObj);
-				
-			}else{
+			}else if(direction == "E"){
 				if(itemIndex >= this.collectItem.length-1){
 					if(cfg.oncursorEmpty){
 						cfg.oncursorEmpty({type:"indexOver", index:1});
@@ -478,8 +476,8 @@ var AXModelControl = Class.create(AXJ, {
 					}
 				}
 				this.focusItem(this.collectItem[nextItemIndex].jQueryObj);
-				
 			}
+			
     	}
     },
     blurItem: function(jQueryObj){
@@ -492,6 +490,8 @@ var AXModelControl = Class.create(AXJ, {
     		}else if(axbind == "selector"){
     			jQueryObj.bindSelectorBlur();
     		}
+    	}else{
+    		//trace(jQueryObj.get(0).type);
     	}
     },
     focusItem: function(jQueryObj){

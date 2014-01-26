@@ -248,6 +248,7 @@
 							}
 							myGrid.pushList(pushItem, this.insertIndex);
 						}else{ // 수정
+							trace(this.res.item);
 							AXUtil.overwriteObject(this.list[this.index], this.res.item, true); // this.list[this.index] object 에 this.res.item 값 덮어쓰기
 							myGrid.updateList(this.index, this.list[this.index]);
 						}
