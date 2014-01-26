@@ -1879,9 +1879,7 @@ var AXGrid = Class.create(AXJ, {
 		po.push("</tbody>");
 		po.push("<tfoot id=\"" + cfg.targetID + "_AX_tfoot\"></tfoot>");
 		po.push("</table>");
-
 		po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
-
 		po.push("</div>");
 
 		if (this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
@@ -1963,9 +1961,22 @@ var AXGrid = Class.create(AXJ, {
 			];
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
+			var _method = "post";
+			var _contentType = AXConfig.AXReq.contentType;
+			var _headers = {};
+			
+			if(obj.method) _method = obj.method;
+			if(obj.contentType) _contentType = obj.contentType;
+			if(obj.headers) _headers = obj.headers;
+			
 			var ajaxGetList = this.ajaxGetList.bind(this);
 			new AXReq(url, {
-				debug: false, pars: pars, onsucc: function (res) {
+				type: _method,
+				contentType: _contentType,
+				headers: _headers,
+				debug: false, 
+				pars: pars, 
+				onsucc: function (res) {
 					if (res.result == AXConfig.AXReq.okCode) {
 						res._sortDisable = sortDisable;
 						if (obj.response) {
@@ -4288,28 +4299,28 @@ var AXGrid = Class.create(AXJ, {
 						var checkedValue = [];
 						jQuery.each(CH.form.options, function (oidx, opt) {
 							var opt_formID = formID + "_AX_" + oidx;
-							if (jQuery("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + jQuery("#" + opt_formID).val());
+							if (jQuery("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + jQuery("#" + opt_formID).val().enc());
 						});
 					} else if (CH.form.type == "checkbox") {
 						var checkedValue = [];
 						jQuery.each(CH.form.options, function (oidx, opt) {
 							var opt_formID = formID + "_AX_" + oidx;
-							if (jQuery("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + jQuery("#" + opt_formID).val());
+							if (jQuery("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + jQuery("#" + opt_formID).val().enc());
 							else editorFormItem.push(CH.key + "=");
 						});
 					} else if (CH.form.type == "select") {
 						if (CH.form.value == "itemText") {
-							editorFormItem.push(CH.key + "=" + AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text);
+							editorFormItem.push(CH.key + "=" + AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text.enc());
 						} else {
-							editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val());
+							editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val().enc());
 						}
 					} else {
-						editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val());
+						editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val().enc());
 					}
 				} else {
 					var formID = cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 					if (AXgetId(formID)) {
-						editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val());
+						editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val().enc());
 					}
 				}
 			});
@@ -4353,7 +4364,7 @@ var AXGrid = Class.create(AXJ, {
 		
 		var validateError = false;
 		for (var r = 0; r < cfg.editor.rows.length; r++) {
-			trace(cfg.editor.rows[r]);
+			/*trace(cfg.editor.rows[r]);*/
 			jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
 				if (CH.form) {
 					if (CH.form.validate) {
@@ -4411,7 +4422,7 @@ var AXGrid = Class.create(AXJ, {
 
 			var saveEditorRequest = this.saveEditorRequest.bind(this);
 			var cancelEditor = this.cancelEditor.bind(this);
-			saveEditorRequest({ item: editorFormItem.join('&').queryToObject() });
+			saveEditorRequest({ item: editorFormItem.join('&').queryToObjectDec() });
 
 			/*
 			this.editor.hide();
