@@ -3724,17 +3724,19 @@ var AXContextMenuClass = Class.create(AXJ, {
 			trace("ID가 없어 bind 처리할 수 없습니다. AXContentMenu.bind({id:'idValue'});");
 			return;
 		}
-		var mlen = this.objects.search(
-			function () {
-				return (this.item.id == obj.id);
+		var objSeq = null;
+		jQuery.each(this.objects, function (idx, O) {
+			if (this.id == obj.id) {
+				objSeq = idx;
+				return false;
 			}
-		);
-		if (mlen > 0) {
-			//이미 바인딩된 개체 아이디 입니다.
+		});		
+		if (objSeq != null) {
+			this.objects[objSeq] = obj;
 			return;
 		}
 		var objID = obj.id;
-		var objSeq = this.objects.length;
+		objSeq = this.objects.length;
 		this.objects.push(obj);
 	},
 	filter: function (objSeq, objID, myobj, menu) {

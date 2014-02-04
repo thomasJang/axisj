@@ -8,10 +8,11 @@
  */
 
 var AXProgress = Class.create(AXJ, {
-	version: "AXProgress v1.0",
+	version: "AXProgress v1.1",
 	author: "tom@axisj.com",
 	logs: [
-		"2012-12-19 오후 5:47:58"
+		"2012-12-19 오후 5:47:58",
+		"2014-02-03 오후 9:29:34 : tom count 표시문제 해결"
 	],
 	initialize: function(AXJ_super) {
 		AXJ_super();
@@ -89,13 +90,13 @@ var AXProgress = Class.create(AXJ, {
 		if(config.options){
 			if(config.options.totalCount) totalCount = config.options.totalCount;
 			if(config.options.theme) theme = config.options.theme;
-		}		
+		}
 		
 		var loadedCount = this.loadedCount;
 		var progressID = this.progressID;
-		var loadedRate = (loadedCount / (totalCount.number()+1) * 100).round(1);
+		var loadedRate = ((loadedCount-1) / (totalCount.number()) * 100).round(1);
 
-		jQuery("#"+progressID+"_AX_loadedText").html(loadedRate+"%<span>"+loadedCount.money()+"/"+totalCount.money()+"</span>");
+		jQuery("#"+progressID+"_AX_loadedText").html(loadedRate+"%<span>"+(loadedCount-1).money()+"/"+totalCount.money()+"</span>");
 		
 		if(theme == "AXlineProgress"){
 			jQuery("#"+progressID+"_AX_bar").animate(

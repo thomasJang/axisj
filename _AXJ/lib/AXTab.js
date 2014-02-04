@@ -344,7 +344,7 @@ var AXTabClass = Class.create(AXJ, {
 		
 		if(obj.moveobj) clearTimeout(obj.moveobj);
 		
-		trace("move");
+		//trace("move");
 		
 		obj.moveobj = setTimeout(function(){
 			bindTabMove(objID, objSeq, direction, event);

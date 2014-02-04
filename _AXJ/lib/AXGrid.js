@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.44",
+	version: "AXGrid v1.45",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -47,7 +47,8 @@ var AXGrid = Class.create(AXJ, {
 		"2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스",
 		"2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스",
 		"2014-01-03 오후 3:31:09 tom : gridBodyClick 이벤트함수 수정",
-		"2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가"
+		"2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가",
+		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1938,7 +1939,7 @@ var AXGrid = Class.create(AXJ, {
 		po.push("</tr>");
 		jQuery("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
 	},
-	setList: function (obj, sortDisable, rewrite) {
+	setList: function (obj, sortDisable, rewrite, exts) {
 		var cfg = this.config;
 		var nowSortHeadID = this.nowSortHeadID;
 		var nowSortHeadObj = this.nowSortHeadObj;
@@ -1953,12 +1954,13 @@ var AXGrid = Class.create(AXJ, {
 			this.ajaxInfo = obj;
 			this.ajax_sortDisable = sortDisable;
 			this.pageActive = true;
-
+			
 			var url = obj.ajaxUrl;
 			var appendPars = [
-				"pageNo=" + this.page.pageNo,
+				"pageNo=" + ((exts == "paging") ? this.page.pageNo : 1),
 				"pageSize=" + this.page.pageSize
 			];
+			
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
 			var _method = "post";
@@ -4595,7 +4597,7 @@ var AXGrid = Class.create(AXJ, {
 		/*alert(this.ajaxInfo); */
 
 		if (this.pageActive && this.ajaxInfo) {
-			this.setList(this.ajaxInfo);
+			this.setList(this.ajaxInfo, null, null, "paging");
 			this.contentScrollResize();
 		}
 	},
@@ -4862,7 +4864,6 @@ var AXGrid = Class.create(AXJ, {
 			return po.join('');
 
 		} else if (format == "json") {
-
 			return {
 				colGroup: cfg.colGroup,
 				list: this.list
