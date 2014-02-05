@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.45",
+	version: "AXGrid v1.46",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -1627,8 +1627,7 @@ var AXGrid = Class.create(AXJ, {
 		}
 
 		var tdID = cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC;
-		/*trace(myColHead); */
-
+		
 		if (myColHead.colSeq == undefined || myColHead.colSeq == null) {
 			trace("정렬할 수 없는 컬럼 입니다.");
 		} else {
@@ -1802,7 +1801,7 @@ var AXGrid = Class.create(AXJ, {
 	},
 	sortList: function (nsort, myColHead, list) {
 		var cfg = this.config;
-
+		var _this = this;
 		var getValueForSort = function (item, itemIndex) {
 			if (myColHead.formatter) {
 				var result;
@@ -1819,11 +1818,11 @@ var AXGrid = Class.create(AXJ, {
 						index: itemIndex,
 						list: list,
 						item: item,
-						page: this.page
+						page: _this.page
 					};
 					result = myColHead.formatter.call(sendObj, itemIndex, item);
 					/*result 값이 money 형식인지 체크 합니다. */
-					var moneyCheck = result.replace(/,/g, "");
+					var moneyCheck = (Object.isString(result)) ? result.replace(/,/g, "") : result;
 					if (jQuery.isNumeric(moneyCheck)) result = result.number();
 				}
 				return result;
@@ -2113,7 +2112,8 @@ var AXGrid = Class.create(AXJ, {
 			var sendObj = {
 				index: itemIndex,
 				list: this.list,
-				item: item
+				item: item,
+				page: this.page
 			};
 			if (CH.checked) {
 				var callResult = CH.checked.call(sendObj);
@@ -2164,7 +2164,8 @@ var AXGrid = Class.create(AXJ, {
 				var sendObj = {
 					index: itemIndex,
 					list: this.list,
-					item: item
+					item: item,
+					page: this.page
 				};
 				var callResult = CH.checked.call(sendObj);
 				if (callResult) {
@@ -2201,7 +2202,8 @@ var AXGrid = Class.create(AXJ, {
 				trAddClass = cfg.body.addClass.call({
 					index: itemIndex,
 					item: item,
-					list: this.list
+					list: this.list,
+					page: this.page
 				});
 			} catch (e) {
 				trace(e);
