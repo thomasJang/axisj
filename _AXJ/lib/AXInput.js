@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.33",
+	version: "AXInputConverter v1.34",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -28,7 +28,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가",
 		"2014-01-10 오후 5:07:44 : tom - event bind modify, fix",
 		"2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스",
-		"2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결"
+		"2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결",
+		"2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -828,12 +829,13 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 				obj.config.isChangedSelect = false;
 			}
-
+			//trace(obj.config.selectedObject);
 			if (obj.config.selectedObject) this.bindSelectorInputChange(objID, objSeq);
 			else {
-				if (!obj.config.appendable) if (!obj.config.selectedObject) jQuery("#" + objID).val("");
+				if (!obj.config.appendable){
+					if (!obj.config.selectedObject && !obj.inProgress) jQuery("#" + objID).val("");
+				}
 			}
-
 			//if(event) event.stopPropagation(); // disableevent
 			//return;
 		}
@@ -915,9 +917,7 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 			}
 		});
-		
 		var isSelectorClick = (myTarget) ? true : false;
-		
 		if (!isSelectorClick) {
 			this.bindSelectorClose(objID, objSeq, event); // 셀럭터 외의 영역이 므로 닫기
 			AXReqAbort(); /* AJAX 호출 중지 하기 */
@@ -929,7 +929,6 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedIndex = selectedIndex;
 				obj.config.focusedIndex = selectedIndex;
 				obj.config.selectedObject = obj.config.options[selectedIndex];
-
 				obj.config.isChangedSelect = true;
 				this.bindSelectorClose(objID, objSeq, event); // 값 전달 후 닫기
 			}
@@ -987,7 +986,7 @@ var AXInputConverter = Class.create(AXJ, {
 				return;
 			}
 		} else {
-			//1. 반복입력 제	어 하기
+			//1. 반복입력 제어 하기
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
 			if (obj.Observer) clearTimeout(obj.Observer); //명령 제거
 			obj.Observer = setTimeout(function () {
@@ -1013,9 +1012,9 @@ var AXInputConverter = Class.create(AXJ, {
 				res = { options: [] };
 			}
 			obj.config.options = res.options;
-			obj.config.selectedIndex = null;
+			//obj.config.selectedIndex = null;
 			obj.config.focusedIndex = null;
-			obj.config.selectedObject = null;
+			//obj.config.selectedObject = null;
 			obj.config.isChangedSelect = true;
 			this.bindSelectorSetOptions(objID, objSeq);
 
@@ -1044,9 +1043,9 @@ var AXInputConverter = Class.create(AXJ, {
 					if (res.result == AXUtil.ajaxOkCode) {
 						
 						obj.config.options = (res.options || []);
-						obj.config.selectedIndex = null;
+						//obj.config.selectedIndex = null;
 						obj.config.focusedIndex = null;
-						obj.config.selectedObject = null;
+						//obj.config.selectedObject = null;
 						obj.config.isChangedSelect = true;
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
@@ -2027,7 +2026,6 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
 		jQuery("#" + objID).bind("keyup.AXInput", function (event) {
-
 			if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 				var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
 				var _this = this;
@@ -2050,7 +2048,8 @@ var AXInputConverter = Class.create(AXJ, {
 						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator;
 						_this.value = va;
 					} else if (va.length == 8) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " ";
+						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
+						if (obj.config.expandTime) va += " ";
 						_this.value = va;
 					} else if (va.length == 10) {
 						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
@@ -2061,7 +2060,6 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 				}
 			}
-
 		});
 
 		var bindDateInputBlur = this.bindDateInputBlur.bind(this);
