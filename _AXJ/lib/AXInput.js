@@ -548,7 +548,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	/* money ~~~~~~~~~~~~~~~ */
 	bindMoney: function (objID, objSeq) {
-		jQuery("#" + objID).css({ "text-align": "right", "text-indent": "10px" });
+		jQuery("#" + objID).css({ "text-align": "right" });
 		var bindMoneyCheck = this.bindMoneyCheck.bind(this);
 		var val = jQuery("#" + objID).val().trim();
 		if (val != "") val = jQuery("#" + objID).val().number().money()
