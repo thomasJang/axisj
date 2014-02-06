@@ -94,7 +94,7 @@ var AXGrid = Class.create(AXJ, {
 		if (!rewrite) this.fixedColSeq = cfg.fixedColSeq;
 		var bodyWidth = this.body.width();
 		var astricCount = 0;
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axf.each(cfg.colGroup, function (cidx, CG) {
 			if (CG.colSeq == undefined) CG.colSeq = cidx;
 			if (CG.display == undefined) CG.display = true;
 			if (CG.display) {
@@ -124,7 +124,7 @@ var AXGrid = Class.create(AXJ, {
 			/* width * 예외처리 구문 ------------ s */
 			if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
 				var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (CG.display && CG.widthAstric) {
 						CG._owidth = remainsWidth / astricCount;
 						CG.width = CG._owidth;
@@ -132,7 +132,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				});
 			} else {
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (CG.display && CG.widthAstric) {
 						CG._owidth = 100;
 						CG.width = 100;
@@ -142,7 +142,7 @@ var AXGrid = Class.create(AXJ, {
 			}
 			/* width * 예외처리 구문 ------------ e */
 		} else {
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && CG.widthAstric) {
 					CG.width = 100;
 					CG._owidth = 100;
@@ -157,7 +157,7 @@ var AXGrid = Class.create(AXJ, {
 				var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
 				var zoomRatio = bodyWidth / this.colWidth;
 				colWidth = 0;
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					CG.width = (CG._owidth * zoomRatio).ceil();
 					if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
 					else CG.width = _bodyWidth;
@@ -167,7 +167,7 @@ var AXGrid = Class.create(AXJ, {
 			} else {
 				var zoomRatio = 1;
 				colWidth = 0;
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (CG._owidth == undefined) CG._owidth = (CG.width || 0).number();
 					CG.width = CG._owidth.number();
 					if (CG.display) colWidth += CG.width.number();
@@ -192,7 +192,7 @@ var AXGrid = Class.create(AXJ, {
 			var colMaxLen = 0;
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -239,7 +239,7 @@ var AXGrid = Class.create(AXJ, {
 				var startPosition = null;
 				var isMultiRow = false;
 
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -258,13 +258,13 @@ var AXGrid = Class.create(AXJ, {
 				});
 			}
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-			jQuery.each(cfg.colHead._maps.last(), function (midx, m) {
+			axf.each(cfg.colHead._maps.last(), function (midx, m) {
 				if (m) cfg.colHead.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 				/* colspan 감소 시키기 */
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						var rowPosition = null;
 						for (var a = 0; a < cfg.colHead._maps.length; a++) {
@@ -284,7 +284,7 @@ var AXGrid = Class.create(AXJ, {
 
 			cfg.colHead._maps = [[]];
 			var colHeadRows = [[]];
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				var adder = {
 					key: CG.key,
 					colSeq: CG.colSeq,
@@ -312,7 +312,7 @@ var AXGrid = Class.create(AXJ, {
 			var colMaxLen = 0;
 			for (var r = 0; r < cfg.body.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+				axf.each(cfg.body.rows[r], function (CHidx, CH) {
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
 						CH._colspan = 1;
@@ -348,7 +348,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.body.rows.length; r++) {
-				jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+				axf.each(cfg.body.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -366,13 +366,13 @@ var AXGrid = Class.create(AXJ, {
 				});
 			}
 			/*body._maps 마지막 줄에 해당하는 cfg.body.rows 에 속성부여 */
-			jQuery.each(cfg.body._maps.last(), function (midx, m) {
+			axf.each(cfg.body._maps.last(), function (midx, m) {
 				if (m) cfg.body.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 				/* colspan 감소 시키기 */
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.body._maps.length; a++) {
 							var rowPosition = cfg.body._maps[a][cidx];
@@ -387,7 +387,7 @@ var AXGrid = Class.create(AXJ, {
 			/* bodyRow 정해지지 않은 경우 */
 			cfg.body._maps = [[]];
 			var bodyRows = [[]];
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				var adder = {
 					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: "middle", isLastCell: true,
 					display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter,
@@ -410,7 +410,7 @@ var AXGrid = Class.create(AXJ, {
 				colMaxLen = 0;
 				for (var r = 0; r < cfg.body.marker.rows.length; r++) {
 					var colLen = 0;
-					jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+					axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 						if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 						if (CH.colspan == undefined || CH.colspan == null) {
 							CH.colspan = 1;
@@ -445,7 +445,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				};
 				for (var r = 0; r < cfg.body.marker.rows.length; r++) {
-					jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+					axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 						if (CH.colSeq != undefined) {
 							var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 						} else {
@@ -463,13 +463,13 @@ var AXGrid = Class.create(AXJ, {
 					});
 				}
 				/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-				jQuery.each(cfg.body.marker._maps.last(), function (midx, m) {
+				axf.each(cfg.body.marker._maps.last(), function (midx, m) {
 					if (m) cfg.body.marker.rows[m.r][m.c].isLastCell = true;
 				});
 
 				if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 					/* colspan 감소 시키기 */
-					jQuery.each(cfg.colGroup, function (cidx, CG) {
+					axf.each(cfg.colGroup, function (cidx, CG) {
 						if (!CG.display) {
 							for (var a = 0; a < cfg.body.marker._maps.length; a++) {
 								var rowPosition = cfg.body.marker._maps[a][cidx];
@@ -489,7 +489,7 @@ var AXGrid = Class.create(AXJ, {
 			colMaxLen = 0;
 			for (var r = 0; r < cfg.head.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+				axf.each(cfg.head.rows[r], function (CHidx, CH) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -527,7 +527,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.head.rows.length; r++) {
-				jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+				axf.each(cfg.head.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -546,13 +546,13 @@ var AXGrid = Class.create(AXJ, {
 			}
 
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-			jQuery.each(cfg.head._maps.last(), function (midx, m) {
+			axf.each(cfg.head._maps.last(), function (midx, m) {
 				if (m) cfg.head.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 				/* colspan 감소 시키기 */
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.head._maps.length; a++) {
 							var rowPosition = cfg.head._maps[a][cidx];
@@ -570,7 +570,7 @@ var AXGrid = Class.create(AXJ, {
 			colMaxLen = 0;
 			for (var r = 0; r < cfg.foot.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+				axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -607,7 +607,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.foot.rows.length; r++) {
-				jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+				axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -625,12 +625,12 @@ var AXGrid = Class.create(AXJ, {
 				});
 			}
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-			jQuery.each(cfg.foot._maps.last(), function (midx, m) {
+			axf.each(cfg.foot._maps.last(), function (midx, m) {
 				if (m) cfg.foot.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.foot._maps.length; a++) {
 							var rowPosition = cfg.foot._maps[a][cidx];
@@ -650,7 +650,7 @@ var AXGrid = Class.create(AXJ, {
 				colMaxLen = 0;
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
 					var colLen = 0;
-					jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 						if (CH) {
 							if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 							if (CH.colspan == undefined || CH.colspan == null) {
@@ -686,7 +686,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				};
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
-					jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 						if (CH) {
 							if (CH.colSeq != undefined) {
 								var myCG = cfg.colGroup.getToSeq(CH.colSeq);
@@ -705,12 +705,12 @@ var AXGrid = Class.create(AXJ, {
 					});
 				}
 
-				jQuery.each(cfg.editor._maps.last(), function (midx, m) {
+				axf.each(cfg.editor._maps.last(), function (midx, m) {
 					if (m) cfg.editor.rows[m.r][m.c].isLastCell = true;
 				});
 
 				if (hasHiddenCell) {
-					jQuery.each(cfg.colGroup, function (cidx, CG) {
+					axf.each(cfg.colGroup, function (cidx, CG) {
 						if (!CG.display) {
 							for (var a = 0; a < cfg.editor._maps.length; a++) {
 								var rowPosition = cfg.editor._maps[a][cidx];
@@ -728,15 +728,15 @@ var AXGrid = Class.create(AXJ, {
 		if (cfg.fixedColSeq != undefined && cfg.fixedColSeq != null) {
 
 			var fixedColSeq = this.fixedColSeq;
-			jQuery.each(cfg.colHead._maps, function (midx, m) {
-				jQuery.each(m, function (cidx, c) {
+			axf.each(cfg.colHead._maps, function (midx, m) {
+				axf.each(m, function (cidx, c) {
 					if (c) {
 						if ((fixedColSeq + 1) > cidx) cfg.colHead.rows[c.r][c.c].isFixedCell = true;
 					}
 				});
 			});
-			jQuery.each(cfg.body._maps, function (midx, m) {
-				jQuery.each(m, function (cidx, c) {
+			axf.each(cfg.body._maps, function (midx, m) {
+				axf.each(m, function (cidx, c) {
 					if (c) {
 						if (fixedColSeq == cidx) cfg.body.rows[c.r][c.c].isFixedEndCell = true;
 						if ((fixedColSeq + 1) > cidx) cfg.body.rows[c.r][c.c].isFixedCell = true;
@@ -744,8 +744,8 @@ var AXGrid = Class.create(AXJ, {
 				});
 			});
 			if (cfg.head) {
-				jQuery.each(cfg.head._maps, function (midx, m) {
-					jQuery.each(m, function (cidx, c) {
+				axf.each(cfg.head._maps, function (midx, m) {
+					axf.each(m, function (cidx, c) {
 						if (c) {
 							if (fixedColSeq == cidx) cfg.head.rows[c.r][c.c].isFixedEndCell = true;
 							if ((fixedColSeq + 1) > cidx) cfg.head.rows[c.r][c.c].isFixedCell = true;
@@ -754,8 +754,8 @@ var AXGrid = Class.create(AXJ, {
 				});
 			}
 			if (cfg.foot) {
-				jQuery.each(cfg.foot._maps, function (midx, m) {
-					jQuery.each(m, function (cidx, c) {
+				axf.each(cfg.foot._maps, function (midx, m) {
+					axf.each(m, function (cidx, c) {
 						if (c) {
 							if (fixedColSeq == cidx) cfg.foot.rows[c.r][c.c].isFixedEndCell = true;
 							if ((fixedColSeq + 1) > cidx) cfg.foot.rows[c.r][c.c].isFixedCell = true;
@@ -766,8 +766,8 @@ var AXGrid = Class.create(AXJ, {
 
 			if (cfg.body.marker) {
 				if (cfg.body.marker.rows) {
-					jQuery.each(cfg.body.marker._maps, function (midx, m) {
-						jQuery.each(m, function (cidx, c) {
+					axf.each(cfg.body.marker._maps, function (midx, m) {
+						axf.each(m, function (cidx, c) {
 							if (c) {
 								if (fixedColSeq == cidx) cfg.body.marker.rows[c.r][c.c].isFixedEndCell = true;
 								if ((fixedColSeq + 1) > cidx) cfg.body.marker.rows[c.r][c.c].isFixedCell = true;
@@ -779,8 +779,8 @@ var AXGrid = Class.create(AXJ, {
 
 			if (cfg.editor) {
 				if (cfg.editor.rows) {
-					jQuery.each(cfg.editor._maps, function (midx, m) {
-						jQuery.each(m, function (cidx, c) {
+					axf.each(cfg.editor._maps, function (midx, m) {
+						axf.each(m, function (cidx, c) {
 							if (c) {
 								if (fixedColSeq == cidx) cfg.editor.rows[c.r][c.c].isFixedEndCell = true;
 								if ((fixedColSeq + 1) > cidx) cfg.editor.rows[c.r][c.c].isFixedCell = true;
@@ -793,7 +793,7 @@ var AXGrid = Class.create(AXJ, {
 			if (hasHiddenCell) {
 				var minusFixedCol = 0;
 				var fixedColSeq = this.fixedColSeq;
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						if ((fixedColSeq + 1) > cidx) minusFixedCol++;
 					}
@@ -810,7 +810,7 @@ var AXGrid = Class.create(AXJ, {
 
 			var fixedColSeq = this.fixedColSeq;
 			fixedColWidth = 0;
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					fixedColWidth += CG.width.number();
 				}
@@ -821,6 +821,9 @@ var AXGrid = Class.create(AXJ, {
 	},
 	init: function () {
 		var cfg = this.config;
+		
+		if(cfg.target) if(cfg.target.id === undefined) axdom(cfg.target).attr("id", cfg.target.id = cfg.targetID = "AXGrid"+axf.timekey());
+		
 		if (Object.isUndefined(cfg.targetID)) {
 			trace("need targetID - setConfig({targetID:''})");
 			return;
@@ -830,12 +833,12 @@ var AXGrid = Class.create(AXJ, {
 			return;
 		}
 
-		var targetInnerHeight = jQuery("#" + cfg.targetID).innerHeight();
+		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
 		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXGrid.pageHeight || 400);
 		this.theme = (cfg.theme) ? cfg.theme : "AXGrid"; /* 테마기본값 지정*/
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; /* 그리드 높이 지정 */
 
-		this.target = jQuery("#" + cfg.targetID);
+		this.target = axdom("#" + cfg.targetID);
 		var theme = this.theme;
 		var gridCss = [];
 		if (cfg.width) gridCss.push("width:" + cfg.width + ";");
@@ -868,16 +871,16 @@ var AXGrid = Class.create(AXJ, {
 		/* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
 
 		/* 주요 타깃 설정 */
-		this.gridBody = jQuery("#" + cfg.targetID + "_AX_grid");
-		this.scrollBody = jQuery("#" + cfg.targetID + "_AX_gridScrollBody");
-		this.colHead = jQuery("#" + cfg.targetID + "_AX_gridColHead");
-		this.body = jQuery("#" + cfg.targetID + "_AX_gridBody");
-		this.editor = jQuery("#" + cfg.targetID + "_AX_gridEditor");
+		this.gridBody = axdom("#" + cfg.targetID + "_AX_grid");
+		this.scrollBody = axdom("#" + cfg.targetID + "_AX_gridScrollBody");
+		this.colHead = axdom("#" + cfg.targetID + "_AX_gridColHead");
+		this.body = axdom("#" + cfg.targetID + "_AX_gridBody");
+		this.editor = axdom("#" + cfg.targetID + "_AX_gridEditor");
 
-		this.pageBody = jQuery("#" + cfg.targetID + "_AX_gridPageBody");
-		this.pagingUnit = jQuery("#" + cfg.targetID + "_AX_gridPagingUnit");
-		this.status = jQuery("#" + cfg.targetID + "_AX_gridStatus");
-		this.scroller = jQuery("#" + cfg.targetID + "_AX_gridScroller");
+		this.pageBody = axdom("#" + cfg.targetID + "_AX_gridPageBody");
+		this.pagingUnit = axdom("#" + cfg.targetID + "_AX_gridPagingUnit");
+		this.status = axdom("#" + cfg.targetID + "_AX_gridStatus");
+		this.scroller = axdom("#" + cfg.targetID + "_AX_gridScroller");
 
 		/* define part --------------------------------- */
 		this.defineConfig(); /* config object define */
@@ -931,19 +934,19 @@ var AXGrid = Class.create(AXJ, {
 
 		var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 		if (document.attachEvent) { /*if IE (and Opera depending on user setting) */
-			/*AXgetId(cfg.targetID+"_AX_gridBody").detachEvent("on"+mousewheelevt, this.contentScrollScrollWheelBind); */
-			if (AXgetId(cfg.targetID + "_AX_gridBody")) AXgetId(cfg.targetID + "_AX_gridBody").attachEvent("on" + mousewheelevt, contentScrollScrollWheel);
+			/*axf.getId(cfg.targetID+"_AX_gridBody").detachEvent("on"+mousewheelevt, this.contentScrollScrollWheelBind); */
+			if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").attachEvent("on" + mousewheelevt, contentScrollScrollWheel);
 		} else if (document.addEventListener) { /*WC3 browsers */
-			/*AXgetId(cfg.targetID+"_AX_gridBody").removeEventListener(mousewheelevt, this.contentScrollScrollWheelBind, false); */
-			if (AXgetId(cfg.targetID + "_AX_gridBody")) AXgetId(cfg.targetID + "_AX_gridBody").addEventListener(mousewheelevt, contentScrollScrollWheel, false);
+			/*axf.getId(cfg.targetID+"_AX_gridBody").removeEventListener(mousewheelevt, this.contentScrollScrollWheelBind, false); */
+			if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener(mousewheelevt, contentScrollScrollWheel, false);
 		}
 
 		if (document.addEventListener) {
-			/*AXgetId(cfg.targetID+"_AX_gridBody").removeEventListener("touchstart", this.contentScrollTouchstartBind, false); */
-			if (AXgetId(cfg.targetID + "_AX_gridBody")) AXgetId(cfg.targetID + "_AX_gridBody").addEventListener("touchstart", contentScrollTouchstart, false);
+			/*axf.getId(cfg.targetID+"_AX_gridBody").removeEventListener("touchstart", this.contentScrollTouchstartBind, false); */
+			if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener("touchstart", contentScrollTouchstart, false);
 		}
 
-		jQuery("#" + cfg.targetID).bind("keydown", this.onKeydown.bind(this));
+		axdom("#" + cfg.targetID).bind("keydown", this.onKeydown.bind(this));
 
 		if (cfg.contextMenu) {
 			AXContextMenu.bind({
@@ -952,7 +955,7 @@ var AXGrid = Class.create(AXJ, {
 				width: cfg.contextMenu.width,
 				menu: cfg.contextMenu.menu
 			});
-			jQuery("#" + cfg.targetID).bind("contextmenu", this.onContextmenu.bind(this));
+			axdom("#" + cfg.targetID).bind("contextmenu", this.onContextmenu.bind(this));
 		}
 
 		/* body event bind */
@@ -967,7 +970,7 @@ var AXGrid = Class.create(AXJ, {
 		});
 		/* page event bind */
 
-		jQuery(window).bind("resize", this.windowResize.bind(this));
+		axdom(window).bind("resize", this.windowResize.bind(this));
 
 		this.printList();
 	},
@@ -987,7 +990,7 @@ var AXGrid = Class.create(AXJ, {
 		if (cfg.height == "auto") {
 			this.target.css({ height: "auto", "max-height": "auto" });
 			var colHeadHeight = this.colHead.outerHeight();
-			var scrollBodyHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+			var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 			this.scrollBody.css({ height: scrollBodyHeight + colHeadHeight }); /*colhead + body height */
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
 		} else {
@@ -1007,7 +1010,7 @@ var AXGrid = Class.create(AXJ, {
 		var po = [];
 		po.push("<colgroup>");
 		if (suffix != "FC" && suffix != "FB" && suffix != "FE") {
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display) {
 					po.push("<col width=\"" + CG.width + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
 				}
@@ -1015,7 +1018,7 @@ var AXGrid = Class.create(AXJ, {
 			if (suffix == "CB") po.push("<col />");
 		} else {
 			/*fixedCol 존재 */
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					po.push("<col width=\"" + CG.width + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
 				}
@@ -1059,7 +1062,7 @@ var AXGrid = Class.create(AXJ, {
 				this.checked = checked;
 			});
 
-			jQuery("#" + cfg.targetID + "_AX_fixedColHead").find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
+			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
 				this.checked = checked;
 				var ieid = this.id.split(/_AX_/g);
 				var checkboxColSeq = ieid[ieid.length - 2];
@@ -1157,8 +1160,8 @@ var AXGrid = Class.create(AXJ, {
 		if (eventTarget.tagName.toLowerCase() == "input") return; /*input 인 경우 제외 */
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("bodyTd") || jQuery(evt).hasClass("bodyNodeIndent")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyNodeIndent")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 
@@ -1169,14 +1172,14 @@ var AXGrid = Class.create(AXJ, {
 			var ids = targetID.split(/_AX_/g);
 
 			if (this.selectedCells.length > 0) {
-				jQuery.each(this.selectedCells, function () {
-					jQuery("#" + this).removeClass("selected");
+				axf.each(this.selectedCells, function () {
+					axdom("#" + this).removeClass("selected");
 				});
 				this.selectedCells.clear();
 			}
 			if (this.selectedRow.length > 0) {
 				var body = this.body;
-				jQuery.each(this.selectedRow, function () {
+				axf.each(this.selectedRow, function () {
 					body.find(".gridBodyTr_" + this).removeClass("selected");
 				});
 			}
@@ -1195,8 +1198,8 @@ var AXGrid = Class.create(AXJ, {
 	copyData: function () {
 		var cfg = this.config;
 		var copyOut = [];
-		jQuery.each(this.selectedCells, function (index, n) {
-			var html = jQuery("#" + n).find(".bodyNode").html();
+		axf.each(this.selectedCells, function (index, n) {
+			var html = axdom("#" + n).find(".bodyNode").html();
 			copyOut.push(html + '\t');
 		});
 
@@ -1280,7 +1283,7 @@ var AXGrid = Class.create(AXJ, {
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				po.push("<tr>");
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.colspan > 0) {
 						/*radio, check exception */
 						var tdHtml = CH.label || "untitle";
@@ -1310,7 +1313,7 @@ var AXGrid = Class.create(AXJ, {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				po.push("<tr>");
 				var colCount = 0;
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.colspan > 0) {
 						/*radio, check exception */
 						var tdHtml = CH.label || "untitle";
@@ -1342,7 +1345,7 @@ var AXGrid = Class.create(AXJ, {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				fpo.push("<tr>");
 				var colCount = 0;
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.isFixedCell && CH.colspan > 0) {
 						/*trace({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)}); */
 						/*radio, check exception */
@@ -1369,7 +1372,7 @@ var AXGrid = Class.create(AXJ, {
 		/* fixedCol 구현 */
 
 		this.colHead.html(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_fixedColHead").remove();
+		axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
 		if (fpo) this.colHead.after(fpo.join(''));
 
 		/*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
@@ -1379,18 +1382,18 @@ var AXGrid = Class.create(AXJ, {
 			var tdID = resizerID.replace("colHeadResizer", "colHead");
 			var txtID = resizerID.replace("colHeadResizer", "colHeadText");
 			var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-			var rowspan = jQuery("#" + tdID).attr("rowspan");
-			var valign = jQuery("#" + tdID).attr("valign");
+			var rowspan = axdom("#" + tdID).attr("rowspan");
+			var valign = axdom("#" + tdID).attr("valign");
 			if (!rowspan) rowspan = 1;
-			var tdHeight = jQuery("#" + tdID).height();
-			jQuery(this).css({ height: tdHeight });
-			jQuery(this).parent().css({ height: tdHeight });
+			var tdHeight = axdom("#" + tdID).height();
+			axdom(this).css({ height: tdHeight });
+			axdom(this).parent().css({ height: tdHeight });
 			if (rowspan > 1) {
 				var cellMarginTop = 0;
-				if (valign == "bottom") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) + 5;
-				if (valign == "middle") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) / 2 + 5;
-				jQuery("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-				jQuery("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+				if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
+				if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+				axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+				axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 			}
 		});
 
@@ -1402,25 +1405,25 @@ var AXGrid = Class.create(AXJ, {
 		this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 
 		if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
-			this.fixedColHead = jQuery("#" + cfg.targetID + "_AX_fixedColHead");
+			this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
 
 			this.fixedColHead.find(".colHeadResizer").each(function () {
 				var resizerID = this.id;
 				var tdID = resizerID.replace("colHeadResizer", "colHead");
 				var txtID = resizerID.replace("colHeadResizer", "colHeadText");
 				var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-				var rowspan = jQuery("#" + tdID).attr("rowspan");
-				var valign = jQuery("#" + tdID).attr("valign");
+				var rowspan = axdom("#" + tdID).attr("rowspan");
+				var valign = axdom("#" + tdID).attr("valign");
 				if (!rowspan) rowspan = 1;
-				var tdHeight = jQuery("#" + tdID).height();
-				jQuery(this).css({ height: tdHeight });
-				jQuery(this).parent().css({ height: tdHeight });
+				var tdHeight = axdom("#" + tdID).height();
+				axdom(this).css({ height: tdHeight });
+				axdom(this).parent().css({ height: tdHeight });
 				if (rowspan > 1) {
 					var cellMarginTop = 0;
-					if (valign == "bottom") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) + 5;
-					if (valign == "middle") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) / 2 + 5;
-					jQuery("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-					jQuery("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+					if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
+					if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+					axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+					axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 				}
 			});
 
@@ -1441,8 +1444,8 @@ var AXGrid = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("colHeadTd")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("colHeadTd")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 
@@ -1450,7 +1453,7 @@ var AXGrid = Class.create(AXJ, {
 			/*colHeadTool ready */
 			var targetID = myTarget.id;
 			var toolID = targetID.replace("colHead", "colHeadTool");
-			jQuery("#" + toolID).addClass("readyTool");
+			axdom("#" + toolID).addClass("readyTool");
 		}
 	},
 	colHeadMouseOut: function (event) {
@@ -1461,8 +1464,8 @@ var AXGrid = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("colHeadTd")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("colHeadTd")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 
@@ -1470,7 +1473,7 @@ var AXGrid = Class.create(AXJ, {
 			/*colHeadTool unready */
 			var targetID = myTarget.id;
 			var toolID = targetID.replace("colHead", "colHeadTool");
-			jQuery("#" + toolID).removeClass("readyTool");
+			axdom("#" + toolID).removeClass("readyTool");
 		}
 	},
 	colHeadResizerMouseDown: function (event) {
@@ -1490,10 +1493,10 @@ var AXGrid = Class.create(AXJ, {
 		if (this.colResizing) {
 			this.colHeadResizerEnd();
 		}
-		var offset = jQuery("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").position();
-		var relBlockWidth = jQuery("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").width();
+		var offset = axdom("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").position();
+		var relBlockWidth = axdom("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").width();
 		var rightPosition = offset.left.number() + relBlockWidth.number();
-		var blockWidth = jQuery("#" + cfg.targetID + "_AX_col_AX_" + colSeq + "_AX_CH").attr("width");
+		var blockWidth = axdom("#" + cfg.targetID + "_AX_col_AX_" + colSeq + "_AX_CH").attr("width");
 		this.colResizeTarget = { colSeq: colSeq, leftPosition: (rightPosition - blockWidth), blockWidth: blockWidth, newWidth: blockWidth };
 		/*trace(this.colResizeTarget); */
 
@@ -1506,12 +1509,12 @@ var AXGrid = Class.create(AXJ, {
 		this.colHeadResizerMouseUpBind = function (event) {
 			colHeadResizerMouseUp(event);
 		};
-		jQuery(document.body).bind("mousemove.AXGrid", this.colHeadResizerMouseMoveBind);
-		jQuery(document.body).bind("mouseup.AXGrid", this.colHeadResizerMouseUpBind);
-		jQuery(document.body).bind("mouseleave.AXGrid", this.colHeadResizerMouseUpBind);
+		axdom(document.body).bind("mousemove.AXGrid", this.colHeadResizerMouseMoveBind);
+		axdom(document.body).bind("mouseup.AXGrid", this.colHeadResizerMouseUpBind);
+		axdom(document.body).bind("mouseleave.AXGrid", this.colHeadResizerMouseUpBind);
 
-		jQuery(document.body).attr("onselectstart", "return false");
-		jQuery(document.body).addClass("AXUserSelectNone");
+		axdom(document.body).attr("onselectstart", "return false");
+		axdom(document.body).addClass("AXUserSelectNone");
 		/* resize event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	colHeadResizerMouseMove: function (event) {
@@ -1526,35 +1529,35 @@ var AXGrid = Class.create(AXJ, {
 		var newWidth = (this.colResizeTarget.leftPosition - mouse.x).abs();
 		if (newWidth < 31) return;
 		/* colHead/colBody colGroup width 조정 */
-		jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CH").attr("width", newWidth);
-		jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CB").attr("width", newWidth);
-		jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_EB").attr("width", newWidth);
+		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CH").attr("width", newWidth);
+		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CB").attr("width", newWidth);
+		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_EB").attr("width", newWidth);
 
 		cfg.colGroup[this.colResizeTarget.colSeq].width = newWidth;
 
 		if (this.hasFixed) {
 			var fixedColSeq = this.fixedColSeq;
 
-			jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FC").attr("width", newWidth);
-			jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FB").attr("width", newWidth);
-			jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FE").attr("width", newWidth);
+			axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FC").attr("width", newWidth);
+			axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FB").attr("width", newWidth);
+			axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FE").attr("width", newWidth);
 
 			/*if(this.colResizeTarget.colSeq < fixedColSeq+1){ */
 
 			var fixedColWidth = 0;
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					fixedColWidth += CG.width.number();
 				}
 			});
 			this.fixedColWidth = fixedColWidth;
 
-			jQuery("#" + cfg.targetID + "_AX_fixedColHead").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedColHead").find(".colHeadTable").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedColHead").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".colHeadTable").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedScrollContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
 			/*} */
 
 		}
@@ -1567,7 +1570,7 @@ var AXGrid = Class.create(AXJ, {
 				var CH = cfg.editor.rows[rc.r][rc.c];
 				var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + rc.r + "_AX_" + rc.c;
 				/*trace(formID); */
-				if (AXgetId(formID)) if (AXgetId(formID).tagName == "INPUT") AXInput.alignAnchor(formID);
+				if (axf.getId(formID)) if (axf.getId(formID).tagName == "INPUT") AXInput.alignAnchor(formID);
 			}
 		}
 
@@ -1588,12 +1591,12 @@ var AXGrid = Class.create(AXJ, {
 	colHeadResizerEnd: function () {
 		this.moveSens = 0;
 		this.colResizing = false;
-		jQuery(document.body).unbind("mousemove.AXGrid");
-		jQuery(document.body).unbind("mouseup.AXGrid");
-		jQuery(document.body).unbind("mouseleave.AXGrid");
+		axdom(document.body).unbind("mousemove.AXGrid");
+		axdom(document.body).unbind("mouseup.AXGrid");
+		axdom(document.body).unbind("mouseleave.AXGrid");
 
-		jQuery(document.body).removeAttr("onselectstart");
-		jQuery(document.body).removeClass("AXUserSelectNone");
+		axdom(document.body).removeAttr("onselectstart");
+		axdom(document.body).removeClass("AXUserSelectNone");
 	},
 	colHeadNodeClick: function (event) {
 		var cfg = this.config;
@@ -1606,11 +1609,11 @@ var AXGrid = Class.create(AXJ, {
 			return; /* 에디터가 오픈된 상태이면 비활성화 */
 		}
 
-		if (jQuery(eventTarget).hasClass("colHeadTdCheck")) {
+		if (axdom(eventTarget).hasClass("colHeadTdCheck")) {
 			this.colHeadCheckBoxClick(event);
 			return; /* checkbox block click */
 		}
-		if (jQuery(eventTarget).hasClass("gridCheckBox")) return; /* checkbox click */
+		if (axdom(eventTarget).hasClass("gridCheckBox")) return; /* checkbox click */
 
 		var lastIdx = eid.length - 1;
 		var colHeadR = eid[lastIdx - 1];
@@ -1633,14 +1636,14 @@ var AXGrid = Class.create(AXJ, {
 		} else {
 			if (this.nowSortHeadID) {
 				if (this.nowSortHeadID != tdID) {
-					jQuery("#" + this.nowSortHeadID).removeClass("sortDesc");
-					jQuery("#" + this.nowSortHeadID).removeClass("sortAsc");
+					axdom("#" + this.nowSortHeadID).removeClass("sortDesc");
+					axdom("#" + this.nowSortHeadID).removeClass("sortAsc");
 					this.nowSortHeadObj.sort = undefined;
 				}
 			}
 			/*trace(myColHead); */
-			if (cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") jQuery("#" + tdID).removeClass("sortDesc");
-			else jQuery("#" + tdID).removeClass("sortAsc");
+			if (cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") axdom("#" + tdID).removeClass("sortDesc");
+			else axdom("#" + tdID).removeClass("sortAsc");
 
 			var nsort = "";
 			if (myColHead.sort == "desc") nsort = "asc";
@@ -1649,9 +1652,9 @@ var AXGrid = Class.create(AXJ, {
 
 			/*sort 처리하기 */
 			if (nsort == "desc") {
-				jQuery("#" + tdID).addClass("sortDesc");
+				axdom("#" + tdID).addClass("sortDesc");
 			} else {
-				jQuery("#" + tdID).addClass("sortAsc");
+				axdom("#" + tdID).addClass("sortAsc");
 			}
 
 			this.list = this.sortList(nsort, myColHead, this.list);
@@ -1691,11 +1694,11 @@ var AXGrid = Class.create(AXJ, {
 		var myColHead = cfg.colHead.rows[colHeadR][colHeadC];
 		/*toast.push("클릭된 colGroup seq : " + myColHead.colSeq); */
 
-		jQuery("#" + cfg.targetID + "_AX_colHeadMenu").remove();
+		axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
 
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_colHeadMenu\" class=\"AXGridColGroupListBox\">");
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axf.each(cfg.colGroup, function (cidx, CG) {
 			var addClass = (CG.display) ? " on" : "";
 			var lastClass = (cidx == cfg.colGroup.length - 1) ? " last" : "";
 			po.push("<a href=\"#AXexec\" class=\"AXGridColGroupListBoxItem" + addClass + lastClass + "\" id=\"" + cfg.targetID + "_AX_colHeadMenu_AX_" + CG.colSeq + "\">");
@@ -1703,30 +1706,30 @@ var AXGrid = Class.create(AXJ, {
 			po.push("</a>");
 		});
 		po.push("</div>");
-		jQuery(document.body).append(po.join(''));
+		axdom(document.body).append(po.join(''));
 
-		var offset = jQuery(eventTarget).offset();
+		var offset = axdom(eventTarget).offset();
 		var css = {};
 		css.top = offset.top - 5;
 		css.left = offset.left - 20;
-		jQuery("#" + cfg.targetID + "_AX_colHeadMenu").css(css);
+		axdom("#" + cfg.targetID + "_AX_colHeadMenu").css(css);
 
 		/* colGroup click event bind */
 		var colGroupListClick = this.colGroupListClick.bind(this);
 		this.colGroupListClickBind = function (event) {
 			colGroupListClick(event);
 		};
-		jQuery(document).bind("click", this.colGroupListClickBind);
-		jQuery(document).bind("keydown", this.colGroupListClickBind);
+		axdom(document).bind("click", this.colGroupListClickBind);
+		axdom(document).bind("keydown", this.colGroupListClickBind);
 		/* colGroup click bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	colGroupListClick: function (event) {
 		var cfg = this.config;
 
 		if (event.keyCode == AXUtil.Event.KEY_ESC) {
-			jQuery("#" + cfg.targetID + "_AX_colHeadMenu").remove();
-			jQuery(document).unbind("keydown", this.colGroupListClickBind);
-			jQuery(document).unbind("click", this.colGroupListClickBind);
+			axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
+			axdom(document).unbind("keydown", this.colGroupListClickBind);
+			axdom(document).unbind("click", this.colGroupListClickBind);
 			return;
 		}
 
@@ -1736,30 +1739,30 @@ var AXGrid = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("AXGridColGroupListBoxItem") || jQuery(evt).hasClass("colHeadTool")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXGridColGroupListBoxItem") || axdom(evt).hasClass("colHeadTool")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 
 		if (myTarget) {
-			if (jQuery(myTarget).hasClass("colHeadTool")) return;
+			if (axdom(myTarget).hasClass("colHeadTool")) return;
 			/*colHeadTool ready */
 			var targetID = myTarget.id;
 			var colSeq = targetID.split(/_AX_/g).last();
 			/*trace(cfg.colGroup[colSeq]); */
 			if (cfg.colGroup[colSeq].display) {
 				cfg.colGroup[colSeq].display = false;
-				jQuery("#" + targetID).removeClass("on");
+				axdom("#" + targetID).removeClass("on");
 			} else {
 				cfg.colGroup[colSeq].display = true;
-				jQuery("#" + targetID).addClass("on");
+				axdom("#" + targetID).addClass("on");
 			}
 			/*redraw grid */
 			this.redrawGrid();
 
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_colHeadMenu").remove();
-			jQuery(document).unbind("keydown", this.colGroupListClickBind);
-			jQuery(document).unbind("click", this.colGroupListClickBind);
+			axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
+			axdom(document).unbind("keydown", this.colGroupListClickBind);
+			axdom(document).unbind("click", this.colGroupListClickBind);
 		}
 	},
 	colHeadCheckBoxClick: function (event) {
@@ -1768,8 +1771,8 @@ var AXGrid = Class.create(AXJ, {
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
-		if (jQuery(eventTarget).hasClass("colHeadTdCheck")) {
-			eventTarget = jQuery(eventTarget).find("input").get(0);
+		if (axdom(eventTarget).hasClass("colHeadTdCheck")) {
+			eventTarget = axdom(eventTarget).find("input").get(0);
 			eventTarget.checked = !eventTarget.checked;
 		}
 		var lastIdx = eid.length - 1;
@@ -1823,7 +1826,7 @@ var AXGrid = Class.create(AXJ, {
 					result = myColHead.formatter.call(sendObj, itemIndex, item);
 					/*result 값이 money 형식인지 체크 합니다. */
 					var moneyCheck = (Object.isString(result)) ? result.replace(/,/g, "") : result;
-					if (jQuery.isNumeric(moneyCheck)) result = result.number();
+					if (axdom.isNumeric(moneyCheck)) result = result.number();
 				}
 				return result;
 			} else {
@@ -1907,14 +1910,14 @@ var AXGrid = Class.create(AXJ, {
 			this.setList(this.list);
 		}
 
-		/*if(!cfg.xscroll) jQuery("#"+cfg.targetID+"_AX_scrollTrackX").hide(); */
+		/*if(!cfg.xscroll) axdom("#"+cfg.targetID+"_AX_scrollTrackX").hide(); */
 
 		/* scroll event bind */
-		jQuery("#" + cfg.targetID + "_AX_scrollYHandle").unbind();
-		jQuery("#" + cfg.targetID + "_AX_scrollXHandle").unbind();
+		axdom("#" + cfg.targetID + "_AX_scrollYHandle").unbind();
+		axdom("#" + cfg.targetID + "_AX_scrollXHandle").unbind();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollYHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
-		jQuery("#" + cfg.targetID + "_AX_scrollXHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
+		axdom("#" + cfg.targetID + "_AX_scrollYHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
+		axdom("#" + cfg.targetID + "_AX_scrollXHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 	},
 	listLoadingDisplay: function () {
@@ -1930,13 +1933,13 @@ var AXGrid = Class.create(AXJ, {
 		po.push("</td>");
 		po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
 		po.push("</tr>");
-		jQuery("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
 		po = [];
 		po.push("<tr class=\"noListTr\">");
 		po.push("<td colspan=\"" + (this.showColLen) + "\">");
 		po.push("</td>");
 		po.push("</tr>");
-		jQuery("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
 	},
 	setList: function (obj, sortDisable, rewrite, exts) {
 		var cfg = this.config;
@@ -1996,7 +1999,7 @@ var AXGrid = Class.create(AXJ, {
 
 			/*this.ajaxInfo = null; */
 
-			if (jQuery.isArray(obj)) {
+			if (axdom.isArray(obj)) {
 				if (sortDisable || !cfg.sort) {
 					this.list = obj;
 				} else {
@@ -2214,7 +2217,7 @@ var AXGrid = Class.create(AXJ, {
 			var isLastTR = (cfg.body.rows.length - 1 == r);
 			if (hasTrValue) tpo.push("<tr class=\"gridBodyTr gridBodyTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_tr_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
 			var colCount = 0;
-			jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+			axf.each(cfg.body.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 					var printOk = false;
 					if (isfix == "n") printOk = true;
@@ -2300,7 +2303,7 @@ var AXGrid = Class.create(AXJ, {
 		if (viewIconObj.buttons) {
 			if (viewIconObj.buttons.items) {
 				tpo.push("<div style=\"" + cssObj.buttons + ";\" class=\"gridViewIconbuttons\">");
-				jQuery.each(viewIconObj.buttons.items, function (bidx, B) {
+				axf.each(viewIconObj.buttons.items, function (bidx, B) {
 					tpo.push("<button type=\"button\" class=\"viewIconButtonsItem " + this.addClass + "\" id=\"" + cfg.targetID + "_AX_viewIcon_AX_" + itemIndex + "_AX_" + bidx + "\">");
 					tpo.push(this.label);
 					tpo.push("</button> ");
@@ -2324,7 +2327,7 @@ var AXGrid = Class.create(AXJ, {
 			var isLastTR = (cfg.body.marker.rows.length - 1 == r);
 			tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
 			var colCount = 0;
-			jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+			axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == "n" || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -2405,11 +2408,11 @@ var AXGrid = Class.create(AXJ, {
 		/* view mode 가 grid 인경우만 유효 */
 		if (cfg.viewMode == "grid") {
 
-			jQuery("#" + cfg.targetID + "_AX_gridBodyTable").show();
-			jQuery("#" + cfg.targetID + "_AX_gridBodyDiv").hide();
+			axdom("#" + cfg.targetID + "_AX_gridBodyTable").show();
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").hide();
 
 
-			jQuery.each(this.list, function (itemIndex, item) {
+			axf.each(this.list, function (itemIndex, item) {
 				po.push(getItem(itemIndex, item, "n"));
 				if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 					po.push(getItemMarker(itemIndex, item, "n"));
@@ -2429,19 +2432,19 @@ var AXGrid = Class.create(AXJ, {
 				po.push("</tr>");
 			}
 
-			jQuery("#" + cfg.targetID + "_AX_tbody").empty();
-			jQuery("#" + cfg.targetID + "_AX_tbody").append(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_tbody").empty();
+			axdom("#" + cfg.targetID + "_AX_tbody").append(po.join(''));
 
 			if (this.hasFixed) {
 				po = [];
-				jQuery.each(this.list, function (itemIndex, item) {
+				axf.each(this.list, function (itemIndex, item) {
 					po.push(getItem(itemIndex, item, "fix"));
 					if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 						po.push(getItemMarker(itemIndex, item, "fix"));
 					}
 				});
-				jQuery("#" + cfg.targetID + "_AX_fixedTbody").empty();
-				jQuery("#" + cfg.targetID + "_AX_fixedTbody").append(po.join(''));
+				axdom("#" + cfg.targetID + "_AX_fixedTbody").empty();
+				axdom("#" + cfg.targetID + "_AX_fixedTbody").append(po.join(''));
 			}
 
 			this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOver.bind(this));
@@ -2452,7 +2455,7 @@ var AXGrid = Class.create(AXJ, {
 			if (this.selectedRow && this.selectedRow.length > 0) {
 
 				var body = this.body;
-				jQuery.each(this.selectedRow, function () {
+				axf.each(this.selectedRow, function () {
 					body.find(".gridBodyTr_" + this).addClass("selected");
 				});
 
@@ -2485,8 +2488,8 @@ var AXGrid = Class.create(AXJ, {
 
 		} else {
 
-			jQuery("#" + cfg.targetID + "_AX_gridBodyTable").hide();
-			jQuery("#" + cfg.targetID + "_AX_gridBodyDiv").show();
+			axdom("#" + cfg.targetID + "_AX_gridBodyTable").hide();
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").show();
 
 			var viewIconObj = cfg.body.view.icon;
 
@@ -2533,13 +2536,13 @@ var AXGrid = Class.create(AXJ, {
 				buttons: viewIconButtonsCss.join(";")
 			};
 
-			jQuery.each(this.list, function (itemIndex, item) {
+			axf.each(this.list, function (itemIndex, item) {
 				po.push(getIconItem(itemIndex, item, viewIconObj, cssObj));
 			});
 			po.push("<div style='clear:both;'></div>");
 
-			jQuery("#" + cfg.targetID + "_AX_gridBodyDiv").empty();
-			jQuery("#" + cfg.targetID + "_AX_gridBodyDiv").append(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").empty();
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").append(po.join(''));
 
 			this.body.find(".bodyViewIcon").bind("click", this.gridBodyClick.bind(this));
 			if (this.needBindDBLClick()) this.body.find(".bodyViewIcon").bind("dblclick", this.gridBodyDBLClick.bind(this));
@@ -2590,9 +2593,9 @@ var AXGrid = Class.create(AXJ, {
 			var fpo = this.getItem(itemIndex, item, "fix", "notr");
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).html(npo);
+		axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).html(npo);
 		if (this.hasFixed) {
-			jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).html(fpo);
+			axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).html(fpo);
 		}
 
 		var trAddClass = "";
@@ -2608,9 +2611,9 @@ var AXGrid = Class.create(AXJ, {
 			}
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).addClass(trAddClass);
+		axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).addClass(trAddClass);
 		if (this.hasFixed) {
-			jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).addClass(trAddClass);;
+			axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).addClass(trAddClass);;
 		}
 		this.redrawDataSet();
 	},
@@ -2621,7 +2624,7 @@ var AXGrid = Class.create(AXJ, {
 		if (insertIndex != null && insertIndex != undefined) {
 			var itemIndex = insertIndex;
 			var newList = [];
-			jQuery.each(this.list, function (listIndex, L) {
+			axf.each(this.list, function (listIndex, L) {
 				if (listIndex == itemIndex) {
 					newList.push(pushItem);
 				}
@@ -2654,26 +2657,26 @@ var AXGrid = Class.create(AXJ, {
 					var fpo = this.getItem(itemIndex, item, "fix");
 				}
 
-				var trlen = jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).length - 1;
-				jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).each(function (idx, O) {
-					if (idx == trlen) jQuery(this).after(npo);
+				var trlen = axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).length - 1;
+				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).each(function (idx, O) {
+					if (idx == trlen) axdom(this).after(npo);
 				});
 				if (this.hasFixed) {
-					jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + (itemIndex - 1)).each(function (idx, O) {
-						if (idx == trlen) jQuery(this).after(fpo);
+					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + (itemIndex - 1)).each(function (idx, O) {
+						if (idx == trlen) axdom(this).after(fpo);
 					});
 				}
 
-				jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
-				jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
-				jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
-				if (this.needBindDBLClick()) jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
+				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
+				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
+				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
+				if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
 
 				if (this.hasFixed) {
-					jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
-					jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
-					jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
-					if (this.needBindDBLClick()) jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
+					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
+					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
+					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
+					if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
 				}
 
 				this.contentScrollResize(false);
@@ -2691,10 +2694,10 @@ var AXGrid = Class.create(AXJ, {
 
 			var _list = this.list;
 			var collect = [];
-			jQuery.each(removeList, function (ridx, r) {
-				jQuery.each(_list, function (lidx, l) {
+			axf.each(removeList, function (ridx, r) {
+				axf.each(_list, function (lidx, l) {
 					var isDel = false;
-					jQuery.each(r, function (k, v) {
+					axf.each(r, function (k, v) {
 						if (l[k] == v) {
 							isDel = true;
 						} else {
@@ -2715,10 +2718,10 @@ var AXGrid = Class.create(AXJ, {
 			this.list = collect;
 		} else {
 			var collect = [];
-			jQuery.each(this.list, function (lidx, l) {
+			axf.each(this.list, function (lidx, l) {
 				var isPush = true;
-				jQuery.each(removeList, function (ridx, r) {
-					jQuery.each(r, function (k, v) {
+				axf.each(removeList, function (ridx, r) {
+					axf.each(r, function (k, v) {
 						if (l[k] == v) {
 							isPush = false;
 							return false;
@@ -2742,7 +2745,7 @@ var AXGrid = Class.create(AXJ, {
 
 		if (cfg.passiveMode) {
 
-			jQuery.each(removeList, function (ridx, r) {
+			axf.each(removeList, function (ridx, r) {
 				if (cfg.passiveRemoveHide) {
 					_list[r.index]._isDel = true;
 				} else {
@@ -2756,7 +2759,7 @@ var AXGrid = Class.create(AXJ, {
 
 			var collect = [];
 			var removeCollect = this.removedList;
-			jQuery.each(_list, function () {
+			axf.each(_list, function () {
 				if (!this._isDel) collect.push(this);
 				else {
 					if (this._CUD != "C") {
@@ -2770,13 +2773,13 @@ var AXGrid = Class.create(AXJ, {
 		} else {
 
 			var collect = [];
-			jQuery.each(removeList, function (ridx, r) {
+			axf.each(removeList, function (ridx, r) {
 				_list[r.index]._isDel = true;
 			});
 
 			var collect = [];
 			var removeCollect = this.removedList;
-			jQuery.each(_list, function () {
+			axf.each(_list, function () {
 				if (!this._isDel) collect.push(this);
 				else removeCollect.push(this);
 			});
@@ -2797,10 +2800,10 @@ var AXGrid = Class.create(AXJ, {
 
 		var _list = this.list;
 		var collect = [];
-		jQuery.each(restoreList, function (ridx, r) {
-			jQuery.each(_list, function (lidx, l) {
+		axf.each(restoreList, function (ridx, r) {
+			axf.each(_list, function (lidx, l) {
 				var isDel = false;
-				jQuery.each(r, function (k, v) {
+				axf.each(r, function (k, v) {
 					if (l[k] == v) {
 						isDel = true;
 					} else {
@@ -2899,8 +2902,8 @@ var AXGrid = Class.create(AXJ, {
 		}
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("bodyTd") || jQuery(evt).hasClass("bodyViewIcon")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 		if (isoncheck) { /*체크박스 구현 */
@@ -2938,7 +2941,7 @@ var AXGrid = Class.create(AXJ, {
 				} else if (event.ctrlKey) {
 					if (this.selectedRow.length > 0) {
 						var body = this.body;
-						jQuery.each(this.selectedRow, function () {
+						axf.each(this.selectedRow, function () {
 							body.find(".gridBodyTr_" + this).removeClass("selected");
 						});
 						this.selectedRow.clear();
@@ -2946,7 +2949,7 @@ var AXGrid = Class.create(AXJ, {
 
 					var hasID = false;
 					var collect = [];
-					jQuery.each(this.selectedCells, function () {
+					axf.each(this.selectedCells, function () {
 						if (this == targetID) {
 							hasID = true;
 						} else {
@@ -2954,22 +2957,22 @@ var AXGrid = Class.create(AXJ, {
 						}
 					});
 					if (hasID) {
-						jQuery("#" + targetID).removeClass("selected");
+						axdom("#" + targetID).removeClass("selected");
 						this.selectedCells = collect;
 					} else {
-						jQuery("#" + targetID).addClass("selected");
+						axdom("#" + targetID).addClass("selected");
 						this.selectedCells.push(targetID);
 					}
 				} else {
 					if (this.selectedCells.length > 0) {
-						jQuery.each(this.selectedCells, function () {
-							jQuery("#" + this).removeClass("selected");
+						axf.each(this.selectedCells, function () {
+							axdom("#" + this).removeClass("selected");
 						});
 						this.selectedCells.clear();
 					}
 					if (this.selectedRow.length > 0) {
 						var body = this.body;
-						jQuery.each(this.selectedRow, function () {
+						axf.each(this.selectedRow, function () {
 							body.find(".gridBodyTr_" + this).removeClass("selected");
 						});
 					}
@@ -3013,7 +3016,7 @@ var AXGrid = Class.create(AXJ, {
 
 					if (this.selectedRow.length > 0) {
 						var body = this.body;
-						jQuery.each(this.selectedRow, function () {
+						axf.each(this.selectedRow, function () {
 							body.find(".bodyViewIcon_" + this).removeClass("selected");
 						});
 					}
@@ -3051,8 +3054,8 @@ var AXGrid = Class.create(AXJ, {
 		if (eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button") return; /*input, button 인 경우 제외 */
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("bodyTd") || jQuery(evt).hasClass("bodyViewIcon")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 		if (cfg.viewMode == "grid") {
@@ -3065,7 +3068,7 @@ var AXGrid = Class.create(AXJ, {
 
 				if (this.selectedRow.length > 0) {
 					var body = this.body;
-					jQuery.each(this.selectedRow, function () {
+					axf.each(this.selectedRow, function () {
 						body.find(".gridBodyTr_" + this).removeClass("selected");
 					});
 				}
@@ -3101,7 +3104,7 @@ var AXGrid = Class.create(AXJ, {
 
 				if (this.selectedRow.length > 0) {
 					var body = this.body;
-					jQuery.each(this.selectedRow, function () {
+					axf.each(this.selectedRow, function () {
 						body.find(".bodyViewIcon_" + this).removeClass("selected");
 					});
 				}
@@ -3132,66 +3135,66 @@ var AXGrid = Class.create(AXJ, {
 	contentScrollResize: function (resetLeft) {
 		var cfg = this.config;
 
-		var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
 		var bodyWidth = this.body.width();
 		var scrollWidth = (this.colWidth > bodyWidth) ? this.colWidth : bodyWidth;
 
-		jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
-		this.colHead.css({ width: scrollWidth + jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth() });  /* colHead width 재정의 */
+		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
+		this.colHead.css({ width: scrollWidth + axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth() });  /* colHead width 재정의 */
 
 		if (this.hasEditor) this.editor.css({ width: scrollWidth });
 
 		if (resetLeft != false) {
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ left: 0 });
-			jQuery("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-			jQuery("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
-			if (this.hasEditor) jQuery("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ left: 0 });
+			axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
+			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
 		}
 
 		if (bodyHeight < scrollHeight && cfg.height != "auto") {
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").show();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").show();
 
 			var scrollTrackYHeight = bodyHeight;
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
 
 			var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").hide();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").hide();
 		}
 
 		if (scrollWidth > bodyWidth && cfg.xscroll) {
 			this.show_scrollTrackX = true;
 
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").show();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackX").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackX").show();
 
-			var scrollTrackXWidth = bodyWidth - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackX").css({ width: scrollTrackXWidth });
-			var scrollXHandleWidth = ((bodyWidth - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth()) * scrollTrackXWidth) / scrollWidth;
+			var scrollTrackXWidth = bodyWidth - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackX").css({ width: scrollTrackXWidth });
+			var scrollXHandleWidth = ((bodyWidth - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth()) * scrollTrackXWidth) / scrollWidth;
 
-			jQuery("#" + cfg.targetID + "_AX_scrollXHandle").css({ width: scrollXHandleWidth - 2 });
+			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ width: scrollXHandleWidth - 2 });
 
 			/* cfg.height == "auto" 길이 늘이기 */
 			if (cfg.height == "auto") {
 				var colHeadHeight = this.colHead.outerHeight();
-				var scrollBodyHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-				var scrollTrackXYHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+				var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+				var scrollTrackXYHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
 				this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight + scrollTrackXYHeight) }); /*colhead + body height */
 				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight + scrollTrackXYHeight) }); /* body Height */
 			}
 		} else {
 			this.show_scrollTrackX = false;
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackX").hide();
-			if (cfg.height == "auto") jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackX").hide();
+			if (cfg.height == "auto") axdom("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
 
 			if (cfg.height == "auto") {
 				var colHeadHeight = this.colHead.outerHeight();
-				var scrollBodyHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+				var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
 				this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) }); /*colhead + body height */
 				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
@@ -3208,32 +3211,32 @@ var AXGrid = Class.create(AXJ, {
 				this.contentScrollXAttr = {
 					bodyWidth: this.body.width(),
 					scrollWidth: scrollWidth,
-					scrollTrackXWidth: jQuery("#" + cfg.targetID + "_AX_scrollTrackX").width(),
-					scrollXHandleWidth: jQuery("#" + cfg.targetID + "_AX_scrollXHandle").outerHeight()
+					scrollTrackXWidth: axdom("#" + cfg.targetID + "_AX_scrollTrackX").width(),
+					scrollXHandleWidth: axdom("#" + cfg.targetID + "_AX_scrollXHandle").outerHeight()
 				};
 			}
 
 			var L = (this.contentScrollXAttr.scrollWidth * (pos.left) / this.contentScrollXAttr.scrollTrackXWidth).round(0);
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ left: -L });
-			jQuery("#" + cfg.targetID + "_AX_gridColHead").css({ left: -L });
-			if (this.hasEditor) jQuery("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ left: -L });
+			axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: -L });
+			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
 			/*trace({top:-L}); */
 		} else {
 			if (cfg.height == "auto") return;
 			if (!this.contentScrollYAttr) {
 				this.contentScrollYAttr = {
-					bodyHeight: this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
-					scrollHeight: jQuery("#" + cfg.targetID + "_AX_scrollContent").height(),
-					scrollTrackYHeight: jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height(),
-					scrollYHandleHeight: jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
+					bodyHeight: this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
+					scrollHeight: axdom("#" + cfg.targetID + "_AX_scrollContent").height(),
+					scrollTrackYHeight: axdom("#" + cfg.targetID + "_AX_scrollTrackY").height(),
+					scrollYHandleHeight: axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
 				};
 			}
 			var T = (this.contentScrollYAttr.scrollHeight * (pos.top) / this.contentScrollYAttr.scrollTrackYHeight).floor();
 
 			/*trace({ top: -T });*/
 
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: -T });
-			if (AXgetId(cfg.targetID + "_AX_fixedScrollContent")) jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: -T });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: -T });
+			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: -T });
 			if (this.editorOpend) {
 				this.editor.css({ top: -T + this.editorOpenTop });
 			}
@@ -3247,10 +3250,10 @@ var AXGrid = Class.create(AXJ, {
 			if (cfg.height == "auto") return;
 			if (!this.contentScrollYAttr) {
 				this.contentScrollYAttr = {
-					bodyHeight: this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
-					scrollHeight: jQuery("#" + cfg.targetID + "_AX_scrollContent").height(),
-					scrollTrackYHeight: jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height(),
-					scrollYHandleHeight: jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
+					bodyHeight: this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
+					scrollHeight: axdom("#" + cfg.targetID + "_AX_scrollContent").height(),
+					scrollTrackYHeight: axdom("#" + cfg.targetID + "_AX_scrollTrackY").height(),
+					scrollYHandleHeight: axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
 				};
 			}
 			var T = (this.contentScrollYAttr.scrollYHandleHeight * (pos.top) / this.contentScrollYAttr.bodyHeight).floor();
@@ -3258,8 +3261,8 @@ var AXGrid = Class.create(AXJ, {
 			/*trace({h1:(handleTop), h2:this.contentScrollYAttr.scrollYHandleHeight, trackHeight:this.contentScrollYAttr.bodyHeight}); */
 			/*if((handleTop + this.contentScrollYAttr.handleHeight) > this.contentScrollYAttr.trackHeight) handleTop = this.contentScrollYAttr.trackHeight - this.contentScrollYAttr.handleHeight; */
 
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
-			if (AXgetId(cfg.targetID + "_AX_fixedScrollContent")) jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: pos.top });
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
+			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: pos.top });
 			if (this.editorOpend) {
 				this.editor.css({ top: pos.top + this.editorOpenTop });
 			}
@@ -3267,7 +3270,7 @@ var AXGrid = Class.create(AXJ, {
 		}
 	},
 	getMousePositionToContentScroll: function (event, contentScrollID) {
-		var pos = jQuery("#" + contentScrollID).offset();
+		var pos = axdom("#" + contentScrollID).offset();
 		var x = (event.pageX - pos.left);
 		var y = (event.pageY - pos.top);
 		return { x: x, y: y };
@@ -3299,14 +3302,14 @@ var AXGrid = Class.create(AXJ, {
 			this.contentScrollAttrs.scrollTrack = cfg.targetID + "_AX_scrollTrackX";
 		}
 
-		jQuery(event.target).addClass("hover");
+		axdom(event.target).addClass("hover");
 		var pos = this.getMousePositionToContentScroll(event, this.contentScrollAttrs.scrollTrack);
-		this.contentScrollAttrs.x = jQuery(event.target).position().left - pos.x;
-		this.contentScrollAttrs.y = jQuery(event.target).position().top - pos.y;
-		this.contentScrollAttrs.handleWidth = jQuery(event.target).outerWidth();
-		this.contentScrollAttrs.handleHeight = jQuery(event.target).outerHeight();
-		this.contentScrollAttrs.trackWidth = jQuery("#" + this.contentScrollAttrs.scrollTrack).width();
-		this.contentScrollAttrs.trackHeight = jQuery("#" + this.contentScrollAttrs.scrollTrack).height();
+		this.contentScrollAttrs.x = axdom(event.target).position().left - pos.x;
+		this.contentScrollAttrs.y = axdom(event.target).position().top - pos.y;
+		this.contentScrollAttrs.handleWidth = axdom(event.target).outerWidth();
+		this.contentScrollAttrs.handleHeight = axdom(event.target).outerHeight();
+		this.contentScrollAttrs.trackWidth = axdom("#" + this.contentScrollAttrs.scrollTrack).width();
+		this.contentScrollAttrs.trackHeight = axdom("#" + this.contentScrollAttrs.scrollTrack).height();
 
 		/* srcoll event bind */
 		var contentScrollScrollMove = this.contentScrollScrollMove.bind(this);
@@ -3317,12 +3320,12 @@ var AXGrid = Class.create(AXJ, {
 		this.contentScrollScrollEndBind = function (event) {
 			contentScrollScrollEnd(event);
 		};
-		jQuery(document.body).bind("mousemove.AXGrid", this.contentScrollScrollMoveBind);
-		jQuery(document.body).bind("mouseup.AXGrid", this.contentScrollScrollEndBind);
-		jQuery(document.body).bind("mouseleave.AXGrid", this.contentScrollScrollEndBind);
+		axdom(document.body).bind("mousemove.AXGrid", this.contentScrollScrollMoveBind);
+		axdom(document.body).bind("mouseup.AXGrid", this.contentScrollScrollEndBind);
+		axdom(document.body).bind("mouseleave.AXGrid", this.contentScrollScrollEndBind);
 
-		jQuery(document.body).attr("onselectstart", "return false");
-		jQuery(document.body).addClass("AXUserSelectNone");
+		axdom(document.body).attr("onselectstart", "return false");
+		axdom(document.body).addClass("AXUserSelectNone");
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	contentScrollScrollMove: function (event) {
@@ -3343,25 +3346,25 @@ var AXGrid = Class.create(AXJ, {
 					contentScrollEnd();
 				}, 100);
 			}
-			jQuery("#" + cfg.targetID + "_AX_" + handleName).css({ top: handleTop });
+			axdom("#" + cfg.targetID + "_AX_" + handleName).css({ top: handleTop });
 			this.contentScrollScrollSync({ top: handleTop });
 		} else {
 			handleLeft = pos.x + this.contentScrollAttrs.x;
 			if (handleLeft < 0) handleLeft = 0;
 			if ((handleLeft + this.contentScrollAttrs.handleWidth) > this.contentScrollAttrs.trackWidth) handleLeft = this.contentScrollAttrs.trackWidth - this.contentScrollAttrs.handleWidth;
-			jQuery("#" + cfg.targetID + "_AX_" + handleName).css({ left: handleLeft });
+			axdom("#" + cfg.targetID + "_AX_" + handleName).css({ left: handleLeft });
 			this.contentScrollScrollSync({ left: handleLeft });
 		}
 	},
 	contentScrollScrollEnd: function (event) {
 		var cfg = this.config;
-		jQuery(document.body).unbind("mousemove.AXGrid");
-		jQuery(document.body).unbind("mouseup.AXGrid");
-		jQuery(document.body).unbind("mouseleave.AXGrid");
+		axdom(document.body).unbind("mousemove.AXGrid");
+		axdom(document.body).unbind("mouseup.AXGrid");
+		axdom(document.body).unbind("mouseleave.AXGrid");
 
-		jQuery(document.body).removeAttr("onselectstart");
-		jQuery(document.body).removeClass("AXUserSelectNone");
-		jQuery("#" + cfg.targetID + "_AX_" + this.contentScrollAttrs.handleName).removeClass("hover");
+		axdom(document.body).removeAttr("onselectstart");
+		axdom(document.body).removeClass("AXUserSelectNone");
+		axdom("#" + cfg.targetID + "_AX_" + this.contentScrollAttrs.handleName).removeClass("hover");
 	},
 	contentScrollScrollWheel: function (e) {
 		var cfg = this.config;
@@ -3371,13 +3374,13 @@ var AXGrid = Class.create(AXJ, {
 		var event = window.event || e;
 		var delta = event.detail ? event.detail * (-20) : event.wheelDelta / 2; /*check for detail first so Opera uses that instead of wheelDelta */
 
-		var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var scrollTop = jQuery("#" + cfg.targetID + "_AX_scrollContent").position().top;
-		var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+		var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
-		/*var handleTop = jQuery("#"+cfg.targetID+"_AX_scrollYHandle").position().top; i want this value */
-		var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		/*var handleTop = axdom("#"+cfg.targetID+"_AX_scrollYHandle").position().top; i want this value */
+		var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+		var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 
 		if (scrollHeight < bodyHeight) {
 			return;
@@ -3397,7 +3400,7 @@ var AXGrid = Class.create(AXJ, {
 			scrollTop = 0;
 			eventCancle = true;
 		}
-		jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 		this.contentScrollContentSync({ top: scrollTop });
 
 		if (!eventCancle) {
@@ -3419,23 +3422,23 @@ var AXGrid = Class.create(AXJ, {
 		var cfg = this.config;
 		var event = window.event || e;
 		this.contentScrollTouchMoved = true;
-		this.contentScrollIDOffset = jQuery("#" + cfg.targetID + "_AX_gridBody").offset();
+		this.contentScrollIDOffset = axdom("#" + cfg.targetID + "_AX_gridBody").offset();
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
 
 		var pos = this.getTouchPositionToContentScroll(event);
 
-		var YhandleTop = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
-		var YhandleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var YtrackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		var YhandleTop = axdom("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
+		var YhandleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+		var YtrackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollYHandle").addClass("hover");
+		axdom("#" + cfg.targetID + "_AX_scrollYHandle").addClass("hover");
 
-		var XhandleTop = jQuery("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
-		var XhandleHeight = jQuery("#" + cfg.targetID + "_AX_scrollXHandle").outerWidth();
-		var XtrackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackX").width();
+		var XhandleTop = axdom("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
+		var XhandleHeight = axdom("#" + cfg.targetID + "_AX_scrollXHandle").outerWidth();
+		var XtrackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackX").width();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollXHandle").addClass("hover");
+		axdom("#" + cfg.targetID + "_AX_scrollXHandle").addClass("hover");
 
 		this.scrollTouchAttr = {
 			y: (YhandleTop - pos.y).number(), h: YhandleHeight.number(), th: YtrackHeight,
@@ -3464,24 +3467,24 @@ var AXGrid = Class.create(AXJ, {
 			var pos = this.getTouchPositionToContentScroll(event);
 			var scrollTouchAttr = this.scrollTouchAttr;
 
-			var htop = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
+			var htop = axdom("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
 			var handleTop = pos.y + scrollTouchAttr.y;
 			if (handleTop < 0) handleTop = 0;
 			if ((handleTop + scrollTouchAttr.h) > scrollTouchAttr.th) handleTop = scrollTouchAttr.th - scrollTouchAttr.h;
 
 			if ((htop - handleTop).abs() > 2) {
-				jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
+				axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
 				this.contentScrollScrollSync({ top: handleTop });
 			}
 
 			if (this.show_scrollTrackX) {
-				var hleft = jQuery("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
+				var hleft = axdom("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
 				var handleLeft = pos.x + this.scrollTouchAttr.x;
 				if (handleLeft < 0) handleLeft = 0;
 				if ((handleLeft + scrollTouchAttr.w) > scrollTouchAttr.tw) handleLeft = scrollTouchAttr.tw - scrollTouchAttr.w;
 
 				if ((hleft - handleLeft).abs() > 2) {
-					jQuery("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: handleLeft });
+					axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: handleLeft });
 					this.contentScrollScrollSync({ left: handleLeft });
 				}
 			}
@@ -3495,8 +3498,8 @@ var AXGrid = Class.create(AXJ, {
 		var event = window.event || e;
 		if (this.contentScrollTouchMoved) {
 
-			jQuery("#" + cfg.targetID + "_AX_scrollXHandle").removeClass("hover");
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").removeClass("hover");
+			axdom("#" + cfg.targetID + "_AX_scrollXHandle").removeClass("hover");
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").removeClass("hover");
 
 			if (document.removeEventListener) {
 				document.removeEventListener("touchend", this.contentScrollTouchEndBind, false);
@@ -3523,27 +3526,27 @@ var AXGrid = Class.create(AXJ, {
 			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
 
-			var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-			var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-			var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-			var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+			var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+			var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+			var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+			var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 
 			if (trTop.number() + trHeight.number() > bodyHeight) {
 				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 				if (this.body.height() < scrollHeight) {
-					jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
 				}
 			} else {
 				if (trTop.number() == 0) {
 					var scrollTop = 0;
-					jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
 				}
 			}
 		} catch (e) {
 			var scrollTop = 0;
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 			this.contentScrollContentSync({ top: scrollTop });
 		}
 	},
@@ -3551,14 +3554,14 @@ var AXGrid = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (this.selectedCells.length > 0) {
-			jQuery.each(this.selectedCells, function () {
-				jQuery("#" + this).removeClass("selected");
+			axf.each(this.selectedCells, function () {
+				axdom("#" + this).removeClass("selected");
 			});
 			this.selectedCells.clear();
 		}
 		if (this.selectedRow.length > 0) {
 			var body = this.body;
-			jQuery.each(this.selectedRow, function () {
+			axf.each(this.selectedRow, function () {
 				body.find(".gridBodyTr_" + this).removeClass("selected");
 			});
 		}
@@ -3570,19 +3573,19 @@ var AXGrid = Class.create(AXJ, {
 		var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 		var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
 
-		var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-		var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+		var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+		var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 
 		if (trTop.number() + trHeight.number() > bodyHeight) {
 			var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 			this.contentScrollContentSync({ top: scrollTop });
 		} else {
 			if (trTop.number() == 0) {
 				var scrollTop = 0;
-				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 				this.contentScrollContentSync({ top: scrollTop });
 			}
 		}
@@ -3617,7 +3620,7 @@ var AXGrid = Class.create(AXJ, {
 		if (cfg.body.onclick) {
 			var hashs = item.hash.split(/_/g);
 			var subTree = this.tree;
-			jQuery.each(hashs, function (idx, arg) {
+			axf.each(hashs, function (idx, arg) {
 				if (idx == 1) {
 					subTree = subTree[this.number()];
 				} else if (idx > 1) {
@@ -3684,7 +3687,7 @@ var AXGrid = Class.create(AXJ, {
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
@@ -3695,7 +3698,7 @@ var AXGrid = Class.create(AXJ, {
 			tpo.push("<tr class=\"gridBodyTr gridBodyTr_foot\" id=\"" + cfg.targetID + "_AX_head_" + r + "_AX_" + (isfix || "n") + "\">");
 			var colCount = 0;
 
-			jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+			axf.each(cfg.head.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == undefined || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -3745,7 +3748,7 @@ var AXGrid = Class.create(AXJ, {
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
@@ -3756,7 +3759,7 @@ var AXGrid = Class.create(AXJ, {
 			tpo.push("<tr class=\"gridBodyTr gridBodyTr_foot\" id=\"" + cfg.targetID + "_AX_foot_" + r + "_AX_" + (isfix || "n") + "\">");
 			var colCount = 0;
 
-			jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+			axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == undefined || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -3806,7 +3809,7 @@ var AXGrid = Class.create(AXJ, {
 		if (obj.ajaxUrl) {
 
 		} else {
-			if (jQuery.isPlainObject(obj)) {
+			if (axdom.isPlainObject(obj)) {
 				this.dataSet = obj;
 				if (cfg.head) this.printHead();
 				if (cfg.foot) this.printFoot();
@@ -3826,11 +3829,11 @@ var AXGrid = Class.create(AXJ, {
 		var getDataSet = this.getHeadDataSet.bind(this);
 		var po = [];
 		po.push(getDataSet(this.dataSet));
-		jQuery("#" + cfg.targetID + "_AX_thead").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_thead").html(po.join(''));
 		if (this.hasFixed) {
 			po = [];
 			po.push(getDataSet(this.dataSet, "fix"));
-			jQuery("#" + cfg.targetID + "_AX_fixedThead").html(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_fixedThead").html(po.join(''));
 		}
 	},
 	printFoot: function () {
@@ -3838,11 +3841,11 @@ var AXGrid = Class.create(AXJ, {
 		var getDataSet = this.getFootDataSet.bind(this);
 		var po = [];
 		po.push(getDataSet(this.dataSet));
-		jQuery("#" + cfg.targetID + "_AX_tfoot").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_tfoot").html(po.join(''));
 		if (this.hasFixed) {
 			po = [];
 			po.push(getDataSet(this.dataSet, "fix"));
-			jQuery("#" + cfg.targetID + "_AX_fixedTfoot").html(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_fixedTfoot").html(po.join(''));
 		}
 	},
 	/* head & foot 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -3896,12 +3899,12 @@ var AXGrid = Class.create(AXJ, {
 
 		var getFormValue = function (formvalue, value) {
 			if (formvalue == "itemValue" || formvalue == "itemText") {
-				if (jQuery.isArray(value)) {
+				if (axdom.isArray(value)) {
 					return value;
 				} else {
 					return (value || "").dec();
 				}
-			} else if (jQuery.isFunction(formvalue)) {
+			} else if (axdom.isFunction(formvalue)) {
 				var sendObj = {
 					key: key,
 					value: value,
@@ -3933,7 +3936,7 @@ var AXGrid = Class.create(AXJ, {
 			result.push("<div style=\"padding-right:1px;\">");
 			result.push("<select id=\"" + formID + "\" name=\"" + key + "\" class=\"AXSelect" + formClass + "\" style=\"" + formWidth + formHeight + formStyle + "\" >");
 			if (form.isspace) result.push("<option value=\"\">", (form.isspaceTitle || "").dec(), "</option>");
-			jQuery.each(form.options, function () {
+			axf.each(form.options, function () {
 				result.push("<option value=\"" + (this.value || this.optionValue) + "\"");
 				if (form.value == "itemText") {
 					if (formValue == (this.text || this.optionText).dec()) result.push(" selected=\"selected\"");
@@ -3946,19 +3949,19 @@ var AXGrid = Class.create(AXJ, {
 			result.push("</div>");
 		} else if (form.type == "radio") {
 			var formValue = getFormValue(form.value, dataSet[key]);
-			jQuery.each(form.options, function (oidx, opt) {
+			axf.each(form.options, function (oidx, opt) {
 				result.push("<input type=\"radio\" id=\"" + formID + "_AX_" + oidx + "\" name=\"" + key + "\" value=\"" + this.value + "\"");
 				if (formValue == this.value) result.push(" checked=\"checked\"");
 				result.push("><label for=\"" + formID + "_AX_" + oidx + "\">" + this.text.dec() + "</label><br/>");
 			});
 		} else if (form.type == "checkbox") {
 			var formValue = getFormValue(form.value, dataSet[key]);
-			jQuery.each(form.options, function (oidx, opt) {
+			axf.each(form.options, function (oidx, opt) {
 				result.push("<input type=\"checkbox\" id=\"" + formID + "_AX_" + oidx + "\" name=\"" + key + "\" value=\"" + this.value + "\"");
-				if (jQuery.isArray(formValue)) {
+				if (axdom.isArray(formValue)) {
 					var isChecked = false;
 					var _value = this.value;
-					jQuery.each(formValue, function () {
+					axf.each(formValue, function () {
 						if (this == _value) {
 							isChecked = true;
 							return false;
@@ -3985,7 +3988,7 @@ var AXGrid = Class.create(AXJ, {
 			tpo.push("<tr class=\"gridBodyTr gridBodyTr_editor\" id=\"" + cfg.targetID + "_AX_editor_" + r + "_AX_" + (isfix || "n") + "\">");
 			var colCount = 0;
 
-			jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+			axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 					if (isfix == undefined || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
 						colCount += CH.colspan;
@@ -4052,7 +4055,7 @@ var AXGrid = Class.create(AXJ, {
 			dataSet = item;
 		}
 		/*dataSet 빈 Key 채우기 */
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
@@ -4085,22 +4088,22 @@ var AXGrid = Class.create(AXJ, {
 
 		if (itemIndex != undefined) {
 
-			var scrollTop = jQuery("#" + cfg.targetID + "_AX_scrollContent").position().top;
-			var editorTop = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
+			var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+			var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
 			var list = this.list;
 			var itemTRheight = (function () {
 				if (list.length == 0) {
 					return 0;
 				} else if (list.length == 1) {
-					var p2 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).height();
+					var p2 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).height();
 					return p2;
 				} else if ((list.length - 1) == itemIndex) {
-					var p1 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (itemIndex - 1)).position().top;
-					var p2 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
+					var p1 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (itemIndex - 1)).position().top;
+					var p2 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
 					return p2 - p1;
 				} else {
-					var p1 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (itemIndex)).position().top;
-					var p2 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (itemIndex.number() + 1)).position().top;
+					var p1 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (itemIndex)).position().top;
+					var p2 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (itemIndex.number() + 1)).position().top;
 					return p2 - p1;
 				}
 			})();
@@ -4111,22 +4114,22 @@ var AXGrid = Class.create(AXJ, {
 
 		} else if (insertIndex != undefined) {
 
-			var scrollTop = jQuery("#" + cfg.targetID + "_AX_scrollContent").position().top;
-			var editorTop = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
+			var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+			var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
 			var list = this.list;
 			var itemTRheight = (function () {
 				if (list.length == 0) {
 					return 0;
 				} else if (list.length == 1) {
-					var p2 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).height();
+					var p2 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).height();
 					return p2;
 				} else if ((list.length - 1) == itemIndex) {
-					var p1 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (insertIndex - 1)).position().top;
-					var p2 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
+					var p1 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (insertIndex - 1)).position().top;
+					var p2 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
 					return p2 - p1;
 				} else {
-					var p1 = jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (insertIndex)).position().top;
-					var p2 = (jQuery("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (insertIndex.number() + 1)).position() || 0).top;
+					var p1 = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (insertIndex)).position().top;
+					var p2 = (axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + (insertIndex.number() + 1)).position() || 0).top;
 					return p2 - p1;
 				}
 			})();
@@ -4136,7 +4139,7 @@ var AXGrid = Class.create(AXJ, {
 			this.editorInsertIndex = insertIndex;
 
 			var trTop = -editorTop; /*this.body.find(".gridBodyTr_" + insertIndex).position().top; */
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
 			this.contentScrollContentSync({ top: trTop });
 
 		} else {
@@ -4147,93 +4150,93 @@ var AXGrid = Class.create(AXJ, {
 			this.editorOpend = true;
 			this.editorOpenTop = editorTop;
 			this.editorItemIndex = null;
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: 0 });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: 0 });
 			this.contentScrollContentSync({ top: 0 });
 
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").before(this.editor);
+		axdom("#" + cfg.targetID + "_AX_scrollTrackXY").before(this.editor);
 		this.editor.show();
 		this.editor.find("input[type=text],textarea").bind("mousedown", function () { this.focus(); });
 
 		/* form item bind AX */
 		for (var r = 0; r < cfg.editor.rows.length; r++) {
-			jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+			axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 					var formID = "";
 					if (CH.AXBind) {
 						formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 						if (CH.AXBind.type == "number" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindNumber((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindNumber((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "money" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindMoney((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindMoney((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindSelector((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindSelector((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindSlider((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindSlider((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindSlider((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindSlider((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "twinSlider" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindTwinSlider((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindTwinSlider((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "date" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindDate((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindDate((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "twinDate" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindTwinDate((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindTwinDate((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "dateTime" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindDateTime((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindDateTime((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "switch" && CH.form.type == "text") {
-							/*jQuery("#"+formID).unbindInput(); */
-							jQuery("#" + formID).bindSwitch((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindInput(); */
+							axdom("#" + formID).bindSwitch((CH.AXBind.config || {}));
 						} else if (CH.AXBind.type == "select" && CH.form.type == "select") {
-							/*jQuery("#"+formID).unbindSelect(); */
-							jQuery("#" + formID).bindSelect((CH.AXBind.config || {}));
+							/*axdom("#"+formID).unbindSelect(); */
+							axdom("#" + formID).bindSelect((CH.AXBind.config || {}));
 						}
 					}
 					if (CH.form) {
 						formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 						if (CH.form.onChange) {
-							jQuery("#" + formID).bind("change", function () {
+							axdom("#" + formID).bind("change", function () {
 								CH.form.onChange.call({
 									key: CH.key,
 									position: CHidx,
-									value: jQuery("#" + formID).val(),
-									text: AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text
+									value: axdom("#" + formID).val(),
+									text: axf.getId(formID).options[axf.getId(formID).options.selectedIndex].text
 								});
 							});
 						}
 						if (CH.form.onClick) {
-							jQuery("#" + formID).bind("click", function () {
+							axdom("#" + formID).bind("click", function () {
 								CH.form.onClick.call({
 									key: CH.key,
 									position: CHidx,
-									value: jQuery("#" + formID).val()
+									value: axdom("#" + formID).val()
 								});
 							});
 						}
 						if (CH.form.onBlur) {
-							jQuery("#" + formID).bind("blur", function () {
+							axdom("#" + formID).bind("blur", function () {
 								CH.form.onBlur.call({
 									key: CH.key,
 									position: CHidx,
-									value: jQuery("#" + formID).val()
+									value: axdom("#" + formID).val()
 								});
 							});
 						}
 						if (CH.form.onFocus) {
-							jQuery("#" + formID).bind("focus", function () {
+							axdom("#" + formID).bind("focus", function () {
 								CH.form.onFocus.call({
 									key: CH.key,
 									position: CHidx,
-									value: jQuery("#" + formID).val()
+									value: axdom("#" + formID).val()
 								});
 							});
 						}
@@ -4242,48 +4245,48 @@ var AXGrid = Class.create(AXJ, {
 			});
 		}
 
-		var editorContentHeight = jQuery("#" + cfg.targetID + "_AX_editorContent").height();
-		var fixedEditorContentHeight = jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").height();
+		var editorContentHeight = axdom("#" + cfg.targetID + "_AX_editorContent").height();
+		var fixedEditorContentHeight = axdom("#" + cfg.targetID + "_AX_fixedEditorContent").height();
 		if (editorContentHeight < fixedEditorContentHeight) {
 			editorContentHeight = fixedEditorContentHeight;
-			jQuery("#" + cfg.targetID + "_AX_editorContent").find(".gridBodyTable").css({ height: editorContentHeight });
+			axdom("#" + cfg.targetID + "_AX_editorContent").find(".gridBodyTable").css({ height: editorContentHeight });
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ height: editorContentHeight });
+			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ height: editorContentHeight });
 		}
-		jQuery("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight });
+		axdom("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight });
 		this.editor.css({ height: (editorContentHeight.number() + 40) });
 		var editorBoxHeight = (editorContentHeight.number() + 40);
 
 		if (itemTRheight > editorContentHeight) {
 			editorContentHeight = itemTRheight;
-			jQuery("#" + cfg.targetID + "_AX_editorContent").find(".gridBodyTable").css({ height: editorContentHeight });
-			jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ height: editorContentHeight });
+			axdom("#" + cfg.targetID + "_AX_editorContent").find(".gridBodyTable").css({ height: editorContentHeight });
+			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ height: editorContentHeight });
 			this.editor.css({ height: (editorContentHeight.number() + 40) });
-			jQuery("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight });
+			axdom("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight });
 		}
 
 		/* editor 에 따른 scrollContent 높이 조정 */
 		var editorPosHeight = editorTop + this.editor.height();
-		var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
 		if (editorPosHeight > scrollHeight) {
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").append("<div style=\"height:" + (editorPosHeight - scrollHeight) + "px;\"></div>");
-			var scrollContentTop = jQuery("#" + cfg.targetID + "_AX_scrollContent").position().top - (editorPosHeight - scrollHeight);
+			axdom("#" + cfg.targetID + "_AX_scrollContent").append("<div style=\"height:" + (editorPosHeight - scrollHeight) + "px;\"></div>");
+			var scrollContentTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top - (editorPosHeight - scrollHeight);
 			this.contentScrollYAttr = null;
 			this.contentScrollResize(false);
 		}
 
-		var scrollLeft = jQuery("#" + cfg.targetID + "_AX_scrollContent").position().left;
-		jQuery("#" + cfg.targetID + "_AX_editorContent").css({ left: scrollLeft });
+		var scrollLeft = axdom("#" + cfg.targetID + "_AX_scrollContent").position().left;
+		axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: scrollLeft });
 
-		jQuery("#" + cfg.targetID + "_AX_editorButtons_AX_save").bind("click", this.saveEditor.bind(this));
-		jQuery("#" + cfg.targetID + "_AX_editorButtons_AX_cancel").bind("click", this.cancelEditor.bind(this));
+		axdom("#" + cfg.targetID + "_AX_editorButtons_AX_save").bind("click", this.saveEditor.bind(this));
+		axdom("#" + cfg.targetID + "_AX_editorButtons_AX_cancel").bind("click", this.cancelEditor.bind(this));
 	},
 	setEditorForm: function (obj) {
 		var cfg = this.config;
 		var formID = cfg.targetID + "_AX_" + obj.key + "_AX_" + obj.position.join("_AX_");
-		if (!AXgetId(formID)) alert(formID + "로 Element를 찾을 수 없습니다.");
-		jQuery("#" + formID).val(obj.value);
+		if (!axf.getId(formID)) alert(formID + "로 Element를 찾을 수 없습니다.");
+		axdom("#" + formID).val(obj.value);
 	},
 	saveEditor: function () {
 		var cfg = this.config;
@@ -4296,35 +4299,35 @@ var AXGrid = Class.create(AXJ, {
 		}
 
 		for (var r = 0; r < cfg.editor.rows.length; r++) {
-			jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+			axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 				if (CH.form) {
 					var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 					if (CH.form.type == "radio") {
 						var checkedValue = [];
-						jQuery.each(CH.form.options, function (oidx, opt) {
+						axf.each(CH.form.options, function (oidx, opt) {
 							var opt_formID = formID + "_AX_" + oidx;
-							if (jQuery("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + jQuery("#" + opt_formID).val().enc());
+							if (axdom("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + axdom("#" + opt_formID).val().enc());
 						});
 					} else if (CH.form.type == "checkbox") {
 						var checkedValue = [];
-						jQuery.each(CH.form.options, function (oidx, opt) {
+						axf.each(CH.form.options, function (oidx, opt) {
 							var opt_formID = formID + "_AX_" + oidx;
-							if (jQuery("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + jQuery("#" + opt_formID).val().enc());
+							if (axdom("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + axdom("#" + opt_formID).val().enc());
 							else editorFormItem.push(CH.key + "=");
 						});
 					} else if (CH.form.type == "select") {
 						if (CH.form.value == "itemText") {
-							editorFormItem.push(CH.key + "=" + AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text.enc());
+							editorFormItem.push(CH.key + "=" + axf.getId(formID).options[axf.getId(formID).options.selectedIndex].text.enc());
 						} else {
-							editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val().enc());
+							editorFormItem.push(CH.key + "=" + axdom("#" + formID).val().enc());
 						}
 					} else {
-						editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val().enc());
+						editorFormItem.push(CH.key + "=" + axdom("#" + formID).val().enc());
 					}
 				} else {
 					var formID = cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
-					if (AXgetId(formID)) {
-						editorFormItem.push(CH.key + "=" + jQuery("#" + formID).val().enc());
+					if (axf.getId(formID)) {
+						editorFormItem.push(CH.key + "=" + axdom("#" + formID).val().enc());
 					}
 				}
 			});
@@ -4336,26 +4339,26 @@ var AXGrid = Class.create(AXJ, {
 			var value;
 
 			if (CH.form.type == "radio") {
-				jQuery.each(CH.form.options, function (oidx, opt) {
+				axf.each(CH.form.options, function (oidx, opt) {
 					var opt_formID = formID + "_AX_" + oidx;
-					if (jQuery("#" + opt_formID).get(0).checked) checkedValues.push(jQuery("#" + opt_formID).val());
+					if (axdom("#" + opt_formID).get(0).checked) checkedValues.push(axdom("#" + opt_formID).val());
 				});
 				value = checkedValue.join(",");
 			} else if (CH.form.type == "checkbox") {
-				jQuery.each(CH.form.options, function (oidx, opt) {
+				axf.each(CH.form.options, function (oidx, opt) {
 					var opt_formID = formID + "_AX_" + oidx;
-					if (jQuery("#" + opt_formID).get(0).checked) checkedValues.push(jQuery("#" + opt_formID).val());
+					if (axdom("#" + opt_formID).get(0).checked) checkedValues.push(axdom("#" + opt_formID).val());
 					else checkedValues.push(CH.key + "=");
 				});
 				value = checkedValue.join(",");
 			} else if (CH.form.type == "select") {
 				if (CH.form.value == "itemText") {
-					value = AXgetId(formID).options[AXgetId(formID).options.selectedIndex].text;
+					value = axf.getId(formID).options[axf.getId(formID).options.selectedIndex].text;
 				} else {
-					value = jQuery("#" + formID).val();
+					value = axdom("#" + formID).val();
 				}
 			} else {
-				value = jQuery("#" + formID).val().trim();
+				value = axdom("#" + formID).val().trim();
 			}
 			var sendObj = {
 				formID: formID,
@@ -4369,14 +4372,14 @@ var AXGrid = Class.create(AXJ, {
 		var validateError = false;
 		for (var r = 0; r < cfg.editor.rows.length; r++) {
 			/*trace(cfg.editor.rows[r]);*/
-			jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+			axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 				if (CH.form) {
 					if (CH.form.validate) {
 						var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 						var result = validate(formID, CH);
 						if (!result) {
 							validateError = true;
-							jQuery("#" + formID).focus();
+							axdom("#" + formID).focus();
 						}
 					}
 				}
@@ -4477,32 +4480,32 @@ var AXGrid = Class.create(AXJ, {
 
 		try {
 			for (var r = 0; r < cfg.editor.rows.length; r++) {
-				jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+				axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.colspan > 0) {
 
 						if (CH.AXBind) {
 							var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 							/*trace(formID); */
 							if (CH.AXBind.type == "number" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "money" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "twinSlider" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "date" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "twinDate" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "dateTime" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "switch" && CH.form.type == "text") {
-								jQuery("#" + formID).unbindInput();
+								axdom("#" + formID).unbindInput();
 							} else if (CH.AXBind.type == "select" && CH.form.type == "select") {
-								jQuery("#" + formID).unbindSelect();
+								axdom("#" + formID).unbindSelect();
 							}
 						}
 					}
@@ -4520,17 +4523,17 @@ var AXGrid = Class.create(AXJ, {
 	setPaging: function () {
 		var cfg = this.config;
 		/* apply page vars */
-		var pageNos = AXgetId(cfg.targetID + "_AX_gridPageNo");
+		var pageNos = axf.getId(cfg.targetID + "_AX_gridPageNo");
 		var pgCount = this.page.pageCount.number();
 		var pageNo = this.page.pageNo.number();
 
 		if (pgCount == 0) {
 			var po = [];
 			po.push("<option value=\"\">..</option>");
-			jQuery("#" + cfg.targetID + "_AX_gridPageNo").html(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_gridPageNo").html(po.join(''));
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_gridPageNo").html("");
-			var mySelect = AXgetId(cfg.targetID + "_AX_gridPageNo");
+			axdom("#" + cfg.targetID + "_AX_gridPageNo").html("");
+			var mySelect = axf.getId(cfg.targetID + "_AX_gridPageNo");
 			if (pgCount > 1000) {
 				var oi = 0;
 				var pageStart = 1;
@@ -4548,17 +4551,17 @@ var AXGrid = Class.create(AXJ, {
 					if (pageNo == p) mySelect.options[p].selected = true;
 				}
 			}
-			/*alert(AXgetId(cfg.targetID + "_AX_gridPageNo").options[AXgetId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
+			/*alert(axf.getId(cfg.targetID + "_AX_gridPageNo").options[axf.getId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
 		}
-		jQuery("#" + cfg.targetID + "_AX_gridPageCount").html("/ " + pgCount.money() + " Pages");
-		jQuery("#" + cfg.targetID + "_AX_gridStatus").html( cfg.listCountMSG.replace("{listCount}", this.page.listCount.number().money()) );
+		axdom("#" + cfg.targetID + "_AX_gridPageCount").html("/ " + pgCount.money() + " Pages");
+		axdom("#" + cfg.targetID + "_AX_gridStatus").html( cfg.listCountMSG.replace("{listCount}", this.page.listCount.number().money()) );
 		
 
 		if (this.isMobile) {
-			jQuery("#" + cfg.targetID + "_AX_gridPageNo").bind("change", this.onPageChange.bind(this));
+			axdom("#" + cfg.targetID + "_AX_gridPageNo").bind("change", this.onPageChange.bind(this));
 		} else {
 			var onPageChange = this.onPageChange.bind(this);
-			jQuery("#" + cfg.targetID + "_AX_gridPageNo").bindSelect({
+			axdom("#" + cfg.targetID + "_AX_gridPageNo").bindSelect({
 				onChange: function (arg) {
 					onPageChange();
 				}
@@ -4575,10 +4578,10 @@ var AXGrid = Class.create(AXJ, {
 		else pageNo += pageAdd;
 
 		if (this.isMobile) {
-			jQuery("#" + cfg.targetID + "_AX_gridPageNo").val(pageNo);
+			axdom("#" + cfg.targetID + "_AX_gridPageNo").val(pageNo);
 			this.onPageChange();
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_gridPageNo").setValueSelect(pageNo);
+			axdom("#" + cfg.targetID + "_AX_gridPageNo").setValueSelect(pageNo);
 		}
 		/*this.page.pageNo = pageNo; */
 		/*this.onPageChange(); bindSelectSetValue 시 자동 호출되는 구조 */
@@ -4587,12 +4590,12 @@ var AXGrid = Class.create(AXJ, {
 		var cfg = this.config;
 		var pgCount = this.page.pageCount.number();
 		var pageNo = this.page.pageNo.number();
-		var npageNo = jQuery("#" + cfg.targetID + "_AX_gridPageNo").val();
+		var npageNo = axdom("#" + cfg.targetID + "_AX_gridPageNo").val();
 		this.page.pageNo = npageNo;
 
 		/*스크롤 위치 변경 */
 		var scrollTop = 0;
-		jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 		this.contentScrollContentSync({ top: scrollTop });
 
 		/*alert(this.pageActive); */
@@ -4607,7 +4610,7 @@ var AXGrid = Class.create(AXJ, {
 		var cfg = this.config;
 		var page; if (this.page) page = this.page;
 		var listCount = (page.listCount || listLength);
-		jQuery("#" + cfg.targetID + "_AX_gridStatus").html("전체 <b>" + listCount.number().money() + "</b>개의 목록이 있습니다.");
+		axdom("#" + cfg.targetID + "_AX_gridStatus").html("전체 <b>" + listCount.number().money() + "</b>개의 목록이 있습니다.");
 	},
 	getSortParam: function (ty) {
 		var cfg = this.config;
@@ -4616,7 +4619,7 @@ var AXGrid = Class.create(AXJ, {
 			if (ty == "one") {
 				return "sortBy=" + sortObj.key + " " + sortObj.sort;
 			} else {
-				return jQuery.param({ sortKey: sortObj.key, sortWay: sortObj.sort });
+				return axdom.param({ sortKey: sortObj.key, sortWay: sortObj.sort });
 			}
 		} else {
 			return "";
@@ -4655,7 +4658,7 @@ var AXGrid = Class.create(AXJ, {
 
 			tpo.push("<tr>");
 			var colCount = 0;
-			jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+			axf.each(cfg.body.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					colCount += CH.colspan;
@@ -4694,7 +4697,7 @@ var AXGrid = Class.create(AXJ, {
 			var isLastTR = (cfg.body.marker.rows.length - 1 == r);
 			tpo.push("<tr>");
 			var colCount = 0;
-			jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+			axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					colCount += CH.colspan;
@@ -4723,7 +4726,7 @@ var AXGrid = Class.create(AXJ, {
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
@@ -4733,7 +4736,7 @@ var AXGrid = Class.create(AXJ, {
 			tpo.push("<tr>");
 			var colCount = 0;
 
-			jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+			axf.each(cfg.head.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					colCount += CH.colspan;
@@ -4765,7 +4768,7 @@ var AXGrid = Class.create(AXJ, {
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		/*dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~ */
@@ -4776,7 +4779,7 @@ var AXGrid = Class.create(AXJ, {
 			tpo.push("<tr>");
 			var colCount = 0;
 
-			jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+			axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 					colCount += CH.colspan;
 
@@ -4824,7 +4827,7 @@ var AXGrid = Class.create(AXJ, {
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				po.push("<tr>");
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.colspan > 0) {
 						var tdHtml = CH.label || "untitle";
 						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
@@ -4851,7 +4854,7 @@ var AXGrid = Class.create(AXJ, {
 
 			if (cfg.head) po.push(getHeadDataSet(this.dataSet));
 
-			jQuery.each(this.list, function (itemIndex, item) {
+			axf.each(this.list, function (itemIndex, item) {
 				po.push(getExcelItem(itemIndex, item));
 				if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 					po.push(getExcelItemMarker(itemIndex, item));

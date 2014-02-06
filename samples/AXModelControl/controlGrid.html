@@ -275,7 +275,7 @@
 								type:"Money",
 								config:{},
 								onchange: function(){
-									trace(this);
+									//trace(this);
 									//if(this.value
 									myModelGrid.updateItem(this.rowIndex, {extbed:(this.value||"0")}, true);
 								}
@@ -286,10 +286,13 @@
 							align:"right",
 							data:{},
 							html:function(){
+								trace(this.item);
 								var po = [];
 								po.push( (this.item.price * this.item.count).money() );
+								//po.push( (this.item.extbed).money() );
 								return po.join('');
-							}
+							},
+							updateReload: true
 						},
 						{ // NOTICE
 							id:"NOTICE",

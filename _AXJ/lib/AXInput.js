@@ -68,7 +68,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	alignAllAnchor: function(){
 		var alignAnchor = this.alignAnchor.bind(this);
-		jQuery.each(this.objects, function (index, O) {
+		axf.each(this.objects, function (index, O) {
 			alignAnchor(O.id, index);
 		});
 	},
@@ -83,7 +83,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindSetConfig: function (objID, configs) {
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		axf.each(this.objects, function (index, O) {
 			if (O.id == objID) {
 				findIndex = index;
 				return false;
@@ -94,7 +94,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return;
 		} else {
 			var _self = this.objects[findIndex];
-			jQuery.each(configs, function (k, v) {
+			axf.each(configs, function (k, v) {
 				_self.config[k] = v;
 			});
 		}
@@ -114,7 +114,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var objID = obj.id;
 		var objSeq = null;
 
-		jQuery.each(this.objects, function (idx, O) {
+		axf.each(this.objects, function (idx, O) {
 			//if (this.id == objID && this.isDel == true) objSeq = idx;
 			if (this.id == objID) {
 				objSeq = idx;
@@ -164,7 +164,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var removeAnchorId;
 		var removeIdx;
-		jQuery.each(this.objects, function (idx, O) {
+		axf.each(this.objects, function (idx, O) {
 			if (O.id != obj.id) {
 				// collect.push(this);
 			} else {
@@ -177,23 +177,23 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (removeAnchorId) {
 			this.objects[removeIdx].isDel = true;
-			jQuery("#" + obj.id).removeAttr("data-axbind");
-			jQuery("#" + removeAnchorId).remove();
+			axdom("#" + obj.id).removeAttr("data-axbind");
+			axdom("#" + removeAnchorId).remove();
 			var objID = obj.id;
 			var obj = this.objects[removeIdx];
-			if (obj.documentclickEvent) jQuery(document).unbind("click.AXInput", obj.documentclickEvent);
-			if (obj.inputKeyup) jQuery("#" + objID).unbind("keydown.AXInput", obj.inputKeyup);
-			if (obj.inputChange) jQuery("#" + objID).unbind("change.AXInput", obj.inputChange);
-			if (obj.bindSliderMouseMove) jQuery(document.body).unbind("mousemove.AXInput", obj.bindSliderMouseMove);
-			if (obj.bindSliderMouseUp) jQuery(document.body).unbind("mouseup.AXInput", obj.bindSliderMouseUp);
+			if (obj.documentclickEvent) axdom(document).unbind("click.AXInput", obj.documentclickEvent);
+			if (obj.inputKeyup) axdom("#" + objID).unbind("keydown.AXInput", obj.inputKeyup);
+			if (obj.inputChange) axdom("#" + objID).unbind("change.AXInput", obj.inputChange);
+			if (obj.bindSliderMouseMove) axdom(document.body).unbind("mousemove.AXInput", obj.bindSliderMouseMove);
+			if (obj.bindSliderMouseUp) axdom(document.body).unbind("mouseup.AXInput", obj.bindSliderMouseUp);
 			if (obj.bindSliderTouchMove) document.removeEventListener("touchmove.AXInput", obj.bindSliderTouchMove, false);
 			if (obj.bindSliderTouchEnd) document.removeEventListener("touchend.AXInput", obj.bindSliderTouchEnd, false);
-			if (obj.bindTwinSliderMouseMove) jQuery(document.body).unbind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
-			if (obj.bindTwinSliderMouseUp) jQuery(document.body).unbind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
+			if (obj.bindTwinSliderMouseMove) axdom(document.body).unbind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
+			if (obj.bindTwinSliderMouseUp) axdom(document.body).unbind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
 
 			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 			}
 		}
 	},
@@ -201,13 +201,13 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		//trace("appendAnchor");
-		jQuery("#" + cfg.targetID + "_AX_" + objID).remove();
-		var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
-		var iobj = jQuery("#" + objID);
+		axdom("#" + cfg.targetID + "_AX_" + objID).remove();
+		var anchorNode = axdom("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
+		var iobj = axdom("#" + objID);
 		iobj.attr("data-axbind", bindType);
 		iobj.after(anchorNode);
 		
-		obj.bindAnchorTarget = jQuery("#" + cfg.targetID + "_AX_" + objID);
+		obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
 		obj.bindTarget = iobj;
 		
 		//var offSetParent = iobj.offsetParent();
@@ -263,9 +263,9 @@ var AXInputConverter = Class.create(AXJ, {
 			var DNh = parseInt((h - 2) / 2) - 2;
 			var handleWidth = h-2;
 			if(handleWidth > 20) handleWidth = 20;
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer").css({width:handleWidth, height:h-2});
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").css({width:handleWidth, height:UPh});
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").css({top:(UPh+1), width:handleWidth, height:DNh});
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer").css({width:handleWidth, height:h-2});
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").css({width:handleWidth, height:UPh});
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").css({top:(UPh+1), width:handleWidth, height:DNh});
 			//trace({top:(UPh+1), width:h, height:DNh});
 		} else if (obj.bindType == "money") {
 			
@@ -283,9 +283,9 @@ var AXInputConverter = Class.create(AXJ, {
 		} else if (obj.bindType == "twinSlider") {
 			
 		} else if (obj.bindType == "switch") {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").css({ width:w, height:h });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").css({ height:h, "line-height":h+"px" });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle").css({ height:h });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").css({ width:w, height:h });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").css({ height:h, "line-height":h+"px" });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle").css({ height:h });
 			obj.bindAnchorTarget.css({ height:h });
 		} else if (obj.bindType == "segment") {
 			obj.bindAnchorTarget.css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto" });
@@ -295,7 +295,7 @@ var AXInputConverter = Class.create(AXJ, {
 		} else if (obj.bindType == "date") {
 			var handleWidth = h-2;
 			if(handleWidth > 20) handleWidth = 20;
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").css({width:h, height:h});
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").css({width:h, height:h});
 		} else if (obj.bindType == "twinDate") {
 			
 		} else if (obj.bindType == "twinDateTime") {
@@ -305,7 +305,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSetValue: function (objID, value) {
 		var cfg = this.config;
 		var objSeq = null;
-		jQuery.each(this.objects, function (index, O) {
+		axf.each(this.objects, function (index, O) {
 			if (O.id == objID) {
 				objSeq = index;
 				return false;
@@ -349,36 +349,36 @@ var AXInputConverter = Class.create(AXJ, {
 		if (AXUtil.browser.name != "ie") return;
 		if (AXUtil.browser.name == "ie" && AXUtil.browser.version > 9) return;
 
-		var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
-		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
+		var w = axdom("#" + cfg.targetID + "_AX_" + objID).width();
+		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
 
-		var placeholder = jQuery("#" + objID).attr("placeholder");
+		var placeholder = axdom("#" + objID).attr("placeholder");
 		if (placeholder == "undefined") placeholder = "";
 
 		var po = ["<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;line-height:" + h + "px;\">" + placeholder + "</a>"];
 		//append to anchor
-		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		//bind handle
 		var bindPlaceHolderKeyup = this.bindPlaceHolderSyncAnchor.bind(this);
-		jQuery("#" + objID).bind("keyup.AXInput", function () {
+		axdom("#" + objID).bind("keyup.AXInput", function () {
 			bindPlaceHolderKeyup(objID, objSeq);
 		});
 		bindPlaceHolderKeyup(objID, objSeq);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").bind("click.AXInput", function () {
-			//jQuery("#"+objID).val("");
-			jQuery("#" + objID).focus();
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").bind("click.AXInput", function () {
+			//axdom("#"+objID).val("");
+			axdom("#" + objID).focus();
 			bindPlaceHolderKeyup(objID, objSeq);
 		});
 		//------------------------------------
 	},
 	bindPlaceHolderSyncAnchor: function (objID, objSeq) {
 		var cfg = this.config;
-		if (jQuery("#" + objID).val().trim() == "") {
+		if (axdom("#" + objID).val().trim() == "") {
 			//if(AXgetId(cfg.targetID+"_AX_"+objID).style.display == "none") 
-			jQuery("#" + cfg.targetID + "_AX_" + objID).show();
+			axdom("#" + cfg.targetID + "_AX_" + objID).show();
 		} else {
 			//if(AXgetId(cfg.targetID+"_AX_"+objID).style.display != "none") 
-			jQuery("#" + cfg.targetID + "_AX_" + objID).hide();
+			axdom("#" + cfg.targetID + "_AX_" + objID).hide();
 		}
 	},
 	/* onlyHolder ~~~~~~~~~~~~~~~ */
@@ -388,9 +388,9 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 
-		var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
-		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
-		var placeholder = jQuery("#" + objID).attr("placeholder");
+		var w = axdom("#" + cfg.targetID + "_AX_" + objID).width();
+		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
+		var placeholder = axdom("#" + objID).attr("placeholder");
 		if (placeholder == undefined) placeholder = "";
 		var po = [];
 
@@ -401,32 +401,32 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Search\" class=\"" + cfg.anchorSearchClassName + "\" ");
 		po.push(" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">Search</a>");
 		//append to anchor
-		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
 		//bind handle
 		var bindSearchKeyup = this.bindSearchSyncAnchor.bind(this);
-		jQuery("#" + objID).bind("keydown.AXInput", function () {
+		axdom("#" + objID).bind("keydown.AXInput", function () {
 			bindSearchKeyup(objID, objSeq);
 		});
 		bindSearchKeyup(objID, objSeq);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").bind("click.AXInput", function () {
-			jQuery("#" + objID).val("");
-			jQuery("#" + objID).focus();
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").bind("click.AXInput", function () {
+			axdom("#" + objID).val("");
+			axdom("#" + objID).focus();
 			bindSearchKeyup(objID, objSeq);
 		});
 		//------------------------------------
 	},
 	bindSearchSyncAnchor: function (objID, objSeq) {
 		var cfg = this.config;
-		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
+		axdom("#" + cfg.targetID + "_AX_" + objID).show();
 
-		if (jQuery("#" + objID).val() == "") {
-			//if(AXgetId(cfg.targetID+"_AX_"+objID).style.display != "none") jQuery("#"+cfg.targetID+"_AX_"+objID).hide();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").hide();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").show();
+		if (axdom("#" + objID).val() == "") {
+			//if(AXgetId(cfg.targetID+"_AX_"+objID).style.display != "none") axdom("#"+cfg.targetID+"_AX_"+objID).hide();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").hide();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").show();
 		} else {
-			//if(AXgetId(cfg.targetID+"_AX_"+objID).style.display == "none") jQuery("#"+cfg.targetID+"_AX_"+objID).fadeIn();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").show();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").hide();
+			//if(AXgetId(cfg.targetID+"_AX_"+objID).style.display == "none") axdom("#"+cfg.targetID+"_AX_"+objID).fadeIn();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").show();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").hide();
 		}
 	},
 	/* number ~~~~~~~~~~~~~~~ */
@@ -434,8 +434,8 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
-		obj.bindAnchorTarget = jQuery("#" + cfg.targetID + "_AX_" + objID);
-		obj.bindTarget = jQuery("#" + objID);
+		obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		obj.bindTarget = axdom("#" + objID);
 		
 		var h = obj.bindAnchorTarget.data("height");
 		//trace(objID+"//"+h);
@@ -456,11 +456,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var bindNumberAdd = this.bindNumberAdd.bind(this);
 		var bindNumberCheck = this.bindNumberCheck.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").bind("mousedown.AXInput", function () {
 			bindNumberAdd(objID, 1, objSeq);
 			bindNumberCheck(objID, objSeq);
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").bind("mousedown.AXInput", function () {
 			bindNumberAdd(objID, -1, objSeq);
 			bindNumberCheck(objID, objSeq);
 		});
@@ -479,7 +479,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
-		var nval = jQuery("#" + objID).val().number();
+		var nval = axdom("#" + objID).val().number();
 		if (adder > 0) {
 			//max 를 초과 하는지 확인
 			if ((nval + adder) < minval) nval = minval;
@@ -492,69 +492,69 @@ var AXInputConverter = Class.create(AXJ, {
 				if ((nval + adder) < minval) return;
 			}
 		}
-		jQuery("#" + objID).val(nval + adder);
+		axdom("#" + objID).val(nval + adder);
 	},
 	bindNumberCheck: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
 		var nval;
-		if (jQuery("#" + objID).val() == "") {
+		if (axdom("#" + objID).val() == "") {
 			if (minval != undefined && minval != null) {
 				nval = minval;
 			} else {
-				nval = jQuery("#" + objID).val().number();
+				nval = axdom("#" + objID).val().number();
 			}
 		} else {
-			nval = jQuery("#" + objID).val().number();
+			nval = axdom("#" + objID).val().number();
 		}
 
 		if (maxval != undefined && maxval != null) {
 			if ((nval) > maxval) {
-				jQuery("#" + objID).val("");
+				axdom("#" + objID).val("");
 				try {
 					this.msgAlert("설정된 최대값을 넘어서는 입력입니다.");
 				} catch (e) { }
 			} else {
 				if (minval != undefined && minval != null) {
 					if ((nval) < minval) {
-						jQuery("#" + objID).val("");
+						axdom("#" + objID).val("");
 						try {
 							this.msgAlert("설정된 최소값보다 작은 입력입니다.");
 						} catch (e) { }
 					} else {
-						jQuery("#" + objID).val(nval);
+						axdom("#" + objID).val(nval);
 					}
 				}
 			}
 		} else {
 			if (minval != undefined && minval != null) {
 				if ((nval) < minval) {
-					jQuery("#" + objID).val("");
+					axdom("#" + objID).val("");
 					try {
 						this.msgAlert("설정된 최소값보다 작은 입력입니다.");
 					} catch (e) { }
 				}
 			} else {
-				jQuery("#" + objID).val(nval);
+				axdom("#" + objID).val(nval);
 			}
 		}
 
 		if (obj.config.onChange) {
-			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: jQuery("#" + objID).val() });
+			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
 		}
 		if (obj.config.onchange) {
-			obj.config.onchange.call({ objID: objID, objSeq: objSeq, value: jQuery("#" + objID).val() });
+			obj.config.onchange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
 		}
 	},
 	/* money ~~~~~~~~~~~~~~~ */
 	bindMoney: function (objID, objSeq) {
-		jQuery("#" + objID).css({ "text-align": "right" });
+		axdom("#" + objID).css({ "text-align": "right" });
 		var bindMoneyCheck = this.bindMoneyCheck.bind(this);
-		var val = jQuery("#" + objID).val().trim();
-		if (val != "") val = jQuery("#" + objID).val().number().money()
-		jQuery("#" + objID).val(val);
-		jQuery("#" + objID).bind("keyup.AXInput", function (event) {
+		var val = axdom("#" + objID).val().trim();
+		if (val != "") val = axdom("#" + objID).val().number().money()
+		axdom("#" + objID).val(val);
+		axdom("#" + objID).bind("keyup.AXInput", function (event) {
 			var event = window.event || e;
 			// ignore tab & shift key 스킵 & ctrl
 			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
@@ -571,11 +571,11 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 
-		jQuery("#" + objID).bind("change.AXInput", function (event) {
+		axdom("#" + objID).bind("change.AXInput", function (event) {
 			bindMoneyCheck(objID, objSeq, "change");
 			/*
-			var val = jQuery("#" + objID).val().trim();
-			if (val != "") val = jQuery("#" + objID).val().number().money()
+			var val = axdom("#" + objID).val().trim();
+			if (val != "") val = axdom("#" + objID).val().number().money()
 			this.value = val;
 			*/
 		});
@@ -588,47 +588,47 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
-		if (jQuery("#" + objID).val() == "") {
+		if (axdom("#" + objID).val() == "") {
 			if (minval != undefined && minval != null) {
 				nval = minval;
 			} else {
-				nval = jQuery("#" + objID).val().number();
+				nval = axdom("#" + objID).val().number();
 			}
 		} else {
-			nval = jQuery("#" + objID).val().number();
+			nval = axdom("#" + objID).val().number();
 		}
 		if (maxval != undefined && maxval != null) {
 			if ((nval) > maxval) {
-				jQuery("#" + objID).val(maxval.money());
+				axdom("#" + objID).val(maxval.money());
 				try {
 					this.msgAlert("설정된 최대값{" + maxval.number().money() + "} 을 넘어서는 입력입니다.");
 				} catch (e) { }
 			} else {
 				if (minval != undefined && minval != null && eventType == "change") {
 					if ((nval) < minval) {
-						jQuery("#" + objID).val(minval.money());
+						axdom("#" + objID).val(minval.money());
 						try {
 							this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 						} catch (e) { }
 					} else {
-						jQuery("#" + objID).val(nval.money());
+						axdom("#" + objID).val(nval.money());
 					}
 				}
 			}
 		} else {
 			if (minval != undefined && minval != null && eventType == "change") {
 				if ((nval) < minval) {
-					jQuery("#" + objID).val(minval.money());
+					axdom("#" + objID).val(minval.money());
 					try {
 						this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 					} catch (e) { }
 				}
 			} else {
-				jQuery("#" + objID).val(nval.money());
+				axdom("#" + objID).val(nval.money());
 			}
 		}
 		if (obj.config.onChange) {
-			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: jQuery("#" + objID).val() });
+			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
 		}
 	},
 
@@ -636,7 +636,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelector: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height") - 2;
+		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height") - 2;
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleContainerClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">");
 		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Handle\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">expand</a>");
@@ -647,21 +647,21 @@ var AXInputConverter = Class.create(AXJ, {
 			po.push("</div>");
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
+		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID).show();
 
 		var bindSelectorExpand = this.bindSelectorExpand.bind(this);
 		var bindSelectorClose = this.bindSelectorClose.bind(this);
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").bind("click.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").bind("click.AXInput", function (event) {
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-				jQuery("#" + objID).focus();
+				axdom("#" + objID).focus();
 			} else {
 				//bindSelectorExpand(objID, objSeq, true, event);
 				bindSelectorClose(objID, objSeq, event);
 			}
 		});
-		jQuery("#" + objID).bind("focus.AXInput", function (event) {
+		axdom("#" + objID).bind("focus.AXInput", function (event) {
 			try{
 				this.select();
 			}catch(e){
@@ -673,7 +673,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (obj.config.finder) {
 			if (obj.config.finder.onclick) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").bind("click.AXInput", function (event) {
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").bind("click.AXInput", function (event) {
 					obj.config.finder.onclick.call({
 						targetID: objID,
 						value: $("#" + objID).val()
@@ -688,7 +688,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.inputChange = function(event){
 			bindSelectorInputChange(objID, objSeq, event);
 		}
-		jQuery("#"+objID).bind("change.AXInput", obj.inputChange);
+		axdom("#"+objID).bind("change.AXInput", obj.inputChange);
 		*/
 	},
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
@@ -700,10 +700,10 @@ var AXInputConverter = Class.create(AXJ, {
 			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		}
 		
-		var jqueryTargetObjID = jQuery("#" + cfg.targetID + "_AX_" + objID);
+		var jqueryTargetObjID = axdom("#" + cfg.targetID + "_AX_" + objID);
 		//trace({objID:objID, objSeq:objSeq});
 
-		if (jQuery("#" + cfg.targetID + "_AX_" + objID).data("blurEvent")) {
+		if (axdom("#" + cfg.targetID + "_AX_" + objID).data("blurEvent")) {
 			//blur event 발생 상태 메소드 작동 중지
 			return;
 		}
@@ -711,14 +711,14 @@ var AXInputConverter = Class.create(AXJ, {
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
 			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 				//비활성 처리후 메소드 종료
 				return;
 			}
 		}
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 		//Expand Box 생성 구문 작성
 		var anchorWidth = jqueryTargetObjID.width() - 2; // anchor width
 		var anchorHeight = jqueryTargetObjID.data("height") - 1;
@@ -733,10 +733,10 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("	<div class=\"AXLoadingSmall bindSelectorNodes\"></div>");
 		po.push("</div>");
 		po.push("</div>");
-		jQuery(document.body).append(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").addClass("on");
+		axdom(document.body).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").addClass("on");
 
-		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+		var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
 		if (obj.config.positionFixed) {
 			expandBox.css({ "position": "fixed" });
 		}
@@ -776,13 +776,13 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
 		}
-		jQuery(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
+		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		
 	},
 	bindSelectorBlur: function(objID){
 		var cfg = this.config;
 		var objSeq = null;
-		jQuery.each(this.objects, function (idx, O) {
+		axf.each(this.objects, function (idx, O) {
 			//if (this.id == objID && this.isDel == true) objSeq = idx;
 			if (this.id == objID) {
 				objSeq = idx;
@@ -795,14 +795,14 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var cfg = this.config;
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 
 			//비활성 처리후 메소드 종료
 
-			jQuery(document).unbind("click.AXInput");
-			jQuery("#" + objID).unbind("keydown.AXInput");
-			jQuery("#" + objID).unbind("change.AXInput");
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
+			axdom("#" + objID).unbind("change.AXInput");
 
 			if (obj.config.isChangedSelect) {
 				var myVal = "";
@@ -812,9 +812,9 @@ var AXInputConverter = Class.create(AXJ, {
 
 				if (obj.config.appendable) {
 					//trace(myVal);
-					if (myVal != "") jQuery("#" + objID).val(myVal);
+					if (myVal != "") axdom("#" + objID).val(myVal);
 				} else {
-					jQuery("#" + objID).val(myVal);
+					axdom("#" + objID).val(myVal);
 				}
 
 				if (obj.config.onChange || obj.config.onchange) {
@@ -833,7 +833,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (obj.config.selectedObject) this.bindSelectorInputChange(objID, objSeq);
 			else {
 				if (!obj.config.appendable){
-					if (!obj.config.selectedObject && !obj.inProgress) jQuery("#" + objID).val("");
+					if (!obj.config.selectedObject && !obj.inProgress) axdom("#" + objID).val("");
 				}
 			}
 			//if(event) event.stopPropagation(); // disableevent
@@ -848,7 +848,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!obj.config.options) return;
 
 		var po = [];
-		jQuery.each(obj.config.options, function (index, O) {
+		axf.each(obj.config.options, function (index, O) {
 			if (optionPrintLength != "") {
 				if (index > optionPrintLength - 1) return false;
 			}
@@ -861,11 +861,11 @@ var AXInputConverter = Class.create(AXJ, {
 			if (AXConfig.AXInput) selectorOptionEmpty = (AXConfig.AXInput.selectorOptionEmpty || "empty options");
 			po.push("<div class=\"empty\">" + selectorOptionEmpty + "</div>");
 		}
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
 
-		var expandScrollHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").outerHeight();
+		var expandScrollHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").outerHeight();
 		if (expandScrollHeight > maxHeight) expandScrollHeight = maxHeight;
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").css({ height: expandScrollHeight + "px" });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").css({ height: expandScrollHeight + "px" });
 
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
@@ -876,8 +876,8 @@ var AXInputConverter = Class.create(AXJ, {
 			bindSelectorKeyup(objID, objSeq, event);
 		}
 
-		jQuery(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
-		jQuery("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
+		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
+		axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
 
 		if (obj.myUIScroll) obj.myUIScroll.unbind();
 		obj.myUIScroll = new AXScroll();
@@ -890,7 +890,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.myUIScroll.scrollTop(0);
 
 		if (obj.config.selectedIndex != undefined) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
 			obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option"); //focus
 			obj.config.focusedIndex = obj.config.selectedIndex;
 		}
@@ -910,7 +910,7 @@ var AXInputConverter = Class.create(AXJ, {
 			},
 			find: function (evt, evtIDs) {
 				if (evt.id == "") return false;
-				if (evt.id == objID || jQuery(evt).hasClass("bindSelectorNodes")) {
+				if (evt.id == objID || axdom(evt).hasClass("bindSelectorNodes")) {
 					return true;
 				} else {
 					return false;
@@ -972,7 +972,7 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindSelectorSelect(objID, objSeq, focusIndex);
 		} else if (event.keyCode == AXUtil.Event.KEY_RETURN) {
 			if (obj.config.focusedIndex == null) {
-				jQuery("#" + objID).blur();
+				axdom("#" + objID).blur();
 				this.bindSelectorClose(objID, objSeq, event); // 닫기
 				return;
 			} else {
@@ -980,8 +980,8 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
 				obj.config.selectedIndex = obj.config.focusedIndex;
 				obj.config.isChangedSelect = true;
-				jQuery("#" + objID).val(obj.config.selectedObject.optionText.dec());
-				jQuery("#" + objID).blur();
+				axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+				axdom("#" + objID).blur();
 				this.bindSelectorClose(objID, objSeq, event); // 닫기
 				return;
 			}
@@ -998,7 +998,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 		var bindSelectorSearch = this.bindSelectorSearch.bind(this);
 
 		if (obj.config.onsearch) {
@@ -1029,7 +1029,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
 			var url = obj.config.ajaxUrl;
 			var pars = obj.config.ajaxPars;
-			var selectorName = obj.config.selectorName || jQuery("#" + objID).attr("name");
+			var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
 			if (pars == "") {
 				pars = selectorName + "=" + objVal.enc();
 			} else if ((typeof pars).toLowerCase() == "string") {
@@ -1069,8 +1069,8 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorInputChange: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		if (jQuery("#" + objID).val() != obj.config.selectedObject.optionText.dec()) {
-			if (!obj.config.appendable) jQuery("#" + objID).val("");
+		if (axdom("#" + objID).val() != obj.config.selectedObject.optionText.dec()) {
+			if (!obj.config.appendable) axdom("#" + objID).val("");
 			obj.config.selectedObject = null;
 			obj.config.selectedIndex = null;
 			obj.config.focusedIndex = null;
@@ -1089,7 +1089,7 @@ var AXInputConverter = Class.create(AXJ, {
 		trace(obj.config.options);
 
 		var selectedIndex = null;
-		jQuery.each(obj.config.options, function (oidx, opt) {
+		axf.each(obj.config.options, function (oidx, opt) {
 			if (opt.optionValue == value) selectedIndex = oidx;
 		});
 
@@ -1097,7 +1097,7 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			jQuery("#" + objID).val(obj.config.selectedObject.optionText.dec());
+			axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -1139,20 +1139,20 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		if (obj.config.focusedIndex != undefined) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
 		}
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option").addClass("on");
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option").addClass("on");
 		obj.config.focusedIndex = index;
 		//obj.config.selectedObject = obj.config.options[index];
 		//obj.config.isChangedSelect = true;
-		//if(!changeValue) jQuery("#"+objID).val(obj.config.selectedObject.optionText.dec());
+		//if(!changeValue) axdom("#"+objID).val(obj.config.selectedObject.optionText.dec());
 		obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option"); //focus
 	},
 	bindSelectorSelectClear: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		if (obj.config.selectedIndex != undefined) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").removeClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").removeClass("on");
 		}
 		obj.config.selectedIndex = null;
 		obj.config.focusedIndex = null;
@@ -1164,10 +1164,10 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
-		obj.bindAnchorTarget = jQuery("#" + cfg.targetID + "_AX_" + objID);
-		obj.bindTarget = jQuery("#" + objID);
+		obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		obj.bindTarget = axdom("#" + objID);
 		
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox").remove();
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox").remove();
 
 		var w = obj.bindAnchorTarget.width();
 		var h = obj.bindAnchorTarget.data("height");
@@ -1195,26 +1195,26 @@ var AXInputConverter = Class.create(AXJ, {
 		//, background:"#eee"
 
 
-		var maxTitleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
-		var minTitleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
+		var maxTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
+		var minTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
 		if(maxTitleWidth < 30) maxTitleWidth = 30;
 		if(minTitleWidth < 30) minTitleWidth = 30;
-		jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").css({ width: minTitleWidth + "px" });
-		jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").css({ width: maxTitleWidth + "px" });
+		axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").css({ width: minTitleWidth + "px" });
+		axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").css({ width: maxTitleWidth + "px" });
 		var sliderBarWidth = w - minTitleWidth - maxTitleWidth;
 		obj.bindAnchorTarget.find(".AXanchorSliderBar").css({ width: sliderBarWidth + "px", left: minTitleWidth + "px", top: h / 2 + 2 });
 		//------------------------------------
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ width: maxTitleWidth });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ width: maxTitleWidth });
 		obj.config._maxTitleWidth = maxTitleWidth;
-		obj.config._handleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").width();
+		obj.config._handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").width();
 		obj.config._trackWidth = sliderBarWidth;
 		this.bindSliderSetValue(objID, objSeq);
 
 		var onmousedown = this.bindSliderMouseDown.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("mousedown.AXInput", function () {
 			onmousedown(objID, objSeq);
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("dragstart.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").bind("dragstart.AXInput", function (event) {
 			event.stopPropagation(); // disable  event
 			return false;
 		});
@@ -1244,8 +1244,8 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindSliderMouseUp = function (event) {
 				bindSliderMouseUp(objID, objSeq, event);
 			};
-			jQuery(document.body).bind("mousemove.AXInput", obj.bindSliderMouseMove);
-			jQuery(document.body).bind("mouseup.AXInput", obj.bindSliderMouseUp);
+			axdom(document.body).bind("mousemove.AXInput", obj.bindSliderMouseMove);
+			axdom(document.body).bind("mouseup.AXInput", obj.bindSliderMouseUp);
 			obj.config.isMoving = true;
 		}
 
@@ -1255,7 +1255,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 
 		var eX = event.pageX;
-		var cX = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
+		var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
 
 		var rX = eX - cX;
 
@@ -1288,23 +1288,23 @@ var AXInputConverter = Class.create(AXJ, {
 		var stX = rX - (obj.config._maxTitleWidth / 2);
 
 		//trace({rX:rX, pixelWidth:pixelWidth, objVal:objVal, valueWidth:valueWidth});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({ left: sX });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: stX });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
-		jQuery("#" + objID).val(objVal);
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({ left: sX });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: stX });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
+		axdom("#" + objID).val(objVal);
 	},
 	bindSliderMouseUp: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 		if (obj.config.onChange || obj.config.onchange) {
 			var onchange = obj.config.onChange || obj.config.onchange;
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
 
-		jQuery(document.body).unbind("mousemove.AXInput");
-		jQuery(document.body).unbind("mouseup.AXInput");
+		axdom(document.body).unbind("mousemove.AXInput");
+		axdom(document.body).unbind("mouseup.AXInput");
 		obj.config.isMoving = false;
 	},
 	bindSliderSetValue: function (objID, objSeq, value) {
@@ -1316,7 +1316,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (value != undefined) {
 			var objVal = value;
 		} else {
-			var objVal = jQuery("#" + objID).val();
+			var objVal = axdom("#" + objID).val();
 		}
 
 		if (objVal.number() < obj.config.min.number()) objVal = obj.config.min;
@@ -1325,12 +1325,12 @@ var AXInputConverter = Class.create(AXJ, {
 		var pixelWidth = obj.config._trackWidth;
 		var pixelLeft = ((objVal - obj.config.min) * pixelWidth) / valueWidth;
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({ left: pixelLeft - (obj.config._handleWidth / 2) });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: pixelLeft });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: pixelLeft - (obj.config._maxTitleWidth / 2) });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({ left: pixelLeft - (obj.config._handleWidth / 2) });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: pixelLeft });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: pixelLeft - (obj.config._maxTitleWidth / 2) });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
 
-		jQuery("#" + objID).val(objVal);
+		axdom("#" + objID).val(objVal);
 	},
 
 	sliderTouchStart: function (objID, objSeq) {
@@ -1366,7 +1366,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var touch = event.touches[0];
 
 		var eX = touch.pageX;
-		var cX = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
+		var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
 		var rX = eX - cX;
 
 		var valueWidth = obj.config.max.number() - obj.config.min.number();
@@ -1391,18 +1391,18 @@ var AXInputConverter = Class.create(AXJ, {
 		var stX = rX - (obj.config._maxTitleWidth / 2);
 
 		//trace({rX:rX, pixelWidth:pixelWidth, objVal:objVal, valueWidth:valueWidth});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({ left: sX });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: stX });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
-		jQuery("#" + objID).val(objVal);
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({ left: sX });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({ left: stX });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
+		axdom("#" + objID).val(objVal);
 		if (obj.config.onChange) obj.config.onChange(objID, objVal);
 		else if (obj.config.onchange) obj.config.onchange(objID, objVal);
 	},
 	sliderTouchEnd: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 
 		if (obj.config.onChange || obj.config.onchange) {
 			var onchange = obj.config.onChange || obj.config.onchange;
@@ -1431,9 +1431,9 @@ var AXInputConverter = Class.create(AXJ, {
 	bindTwinSlider: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
-		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
-		var objValString = jQuery("#" + objID).val();
+		var w = axdom("#" + cfg.targetID + "_AX_" + objID).width();
+		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
+		var objValString = axdom("#" + objID).val();
 		var separator = obj.config.separator || "~";
 		var objVal = this.bindTwinSliderGetVals(objValString, separator);
 		obj.vals = objVal;
@@ -1459,39 +1459,39 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("</div>");
 
 		//append to anchor
-		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto" });
+		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto" });
 		//, background:"#eee"
-		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
-		jQuery("#" + objID).hide();
+		axdom("#" + cfg.targetID + "_AX_" + objID).show();
+		axdom("#" + objID).hide();
 
-		var maxTitleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
-		var minTitleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
-		jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").css({ width: minTitleWidth + "px" });
-		jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").css({ width: maxTitleWidth + "px" });
+		var maxTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
+		var minTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
+		axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").css({ width: minTitleWidth + "px" });
+		axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").css({ width: maxTitleWidth + "px" });
 		var sliderBarWidth = w - minTitleWidth - maxTitleWidth;
-		jQuery("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderBar").css({ width: sliderBarWidth + "px", left: minTitleWidth + "px", top: h / 2 + 2 });
+		axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderBar").css({ width: sliderBarWidth + "px", left: minTitleWidth + "px", top: h / 2 + 2 });
 		//------------------------------------
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ width: maxTitleWidth });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ width: maxTitleWidth });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ width: maxTitleWidth });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ width: maxTitleWidth });
 		obj.config._maxTitleWidth = maxTitleWidth;
-		obj.config._handleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").width();
+		obj.config._handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").width();
 		obj.config._trackWidth = sliderBarWidth;
 		this.bindTwinSliderSetValue(objID, objSeq);
 
 		var onmousedown = this.bindTwinSliderMouseDown.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("mousedown.AXInput", function () {
 			onmousedown(objID, objSeq, "min");
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("mousedown.AXInput", function () {
 			onmousedown(objID, objSeq, "max");
 		});
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("dragstart.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").bind("dragstart.AXInput", function (event) {
 			event.stopPropagation(); // disable  event
 			return false;
 		});
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("dragstart.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").bind("dragstart.AXInput", function (event) {
 			event.stopPropagation(); // disable  event
 			return false;
 		});
@@ -1520,8 +1520,8 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindTwinSliderMouseUp = function (event) {
 				bindTwinSliderMouseUp(objID, objSeq, event, handleName);
 			};
-			jQuery(document.body).bind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
-			jQuery(document.body).bind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
+			axdom(document.body).bind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
+			axdom(document.body).bind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
 			obj.config.isMoving = true;
 		}
 
@@ -1531,7 +1531,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 
 		var eX = event.pageX;
-		var cX = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
+		var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
 
 		var rX = eX - cX;
 
@@ -1562,12 +1562,12 @@ var AXInputConverter = Class.create(AXJ, {
 			var sX = rX - (obj.config._handleWidth);
 			var stX = rX - (obj.config._maxTitleWidth);
 			obj.handleMinLeft = rX;
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({ left: sX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ left: stX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.number().money() + obj.config.unit);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
-			//jQuery("#"+objID).val(objVal);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({ left: sX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ left: stX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.number().money() + obj.config.unit);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
+			//axdom("#"+objID).val(objVal);
 			obj.vals.min = objVal;
 		} else {
 			if (objVal < obj.vals.min) {
@@ -1577,29 +1577,29 @@ var AXInputConverter = Class.create(AXJ, {
 			var sX = rX;
 			var stX = rX;
 			obj.handleMaxLeft = rX;
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({ left: sX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ left: stX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.number().money() + obj.config.unit);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
-			//jQuery("#"+objID).val(objVal);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({ left: sX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ left: stX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.number().money() + obj.config.unit);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
+			//axdom("#"+objID).val(objVal);
 			obj.vals.max = objVal;
 		}
 		var separator = obj.config.separator || "~";
-		jQuery("#" + objID).val(obj.vals.min + separator + obj.vals.max);
+		axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
 
 	},
 	bindTwinSliderMouseUp: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 		if (obj.config.onChange || obj.config.onchange) {
 			var onchange = obj.config.onChange || obj.config.onchange;
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
 
-		jQuery(document.body).unbind("mousemove.AXInput");
-		jQuery(document.body).unbind("mouseup.AXInput");
+		axdom(document.body).unbind("mousemove.AXInput");
+		axdom(document.body).unbind("mouseup.AXInput");
 		obj.config.isMoving = false;
 	},
 	bindTwinSliderSetValue: function (objID, objSeq, value) {
@@ -1608,7 +1608,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (value != undefined) {
 			var objValString = value;
 		} else {
-			var objValString = jQuery("#" + objID).val();
+			var objValString = axdom("#" + objID).val();
 		}
 
 		var separator = obj.config.separator || "~";
@@ -1625,19 +1625,19 @@ var AXInputConverter = Class.create(AXJ, {
 		var pixelMinLeft = ((objVal.min - obj.config.min) * pixelWidth) / valueWidth;
 		var pixelMaxLeft = ((objVal.max - obj.config.min) * pixelWidth) / valueWidth;
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({ left: pixelMinLeft - (obj.config._handleWidth) });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ left: pixelMinLeft - (obj.config._maxTitleWidth) });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.min.number().money() + obj.config.unit);
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({ left: pixelMinLeft - (obj.config._handleWidth) });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ left: pixelMinLeft - (obj.config._maxTitleWidth) });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.min.number().money() + obj.config.unit);
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({ left: pixelMaxLeft });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ left: pixelMaxLeft });
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.max.number().money() + obj.config.unit);
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({ left: pixelMaxLeft });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ left: pixelMaxLeft });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.max.number().money() + obj.config.unit);
 
 		obj.handleMinLeft = pixelMinLeft;
 		obj.handleMaxLeft = pixelMaxLeft;
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: pixelMinLeft, width: pixelMaxLeft - pixelMinLeft });
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: pixelMinLeft, width: pixelMaxLeft - pixelMinLeft });
 
-		jQuery("#" + objID).val(obj.vals.min + separator + obj.vals.max);
+		axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
 	},
 
 	//add touch event
@@ -1674,7 +1674,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		//var eX = event.pageX;
 		var eX = touch.pageX;
-		var cX = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
+		var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
 		var rX = eX - cX;
 
 		var valueWidth = obj.config.max.number() - obj.config.min.number();
@@ -1705,12 +1705,12 @@ var AXInputConverter = Class.create(AXJ, {
 			var sX = rX - (obj.config._handleWidth);
 			var stX = rX - (obj.config._maxTitleWidth);
 			obj.handleMinLeft = rX;
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({ left: sX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ left: stX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.number().money() + obj.config.unit);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
-			//jQuery("#"+objID).val(objVal);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({ left: sX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ left: stX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.number().money() + obj.config.unit);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ width: rX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
+			//axdom("#"+objID).val(objVal);
 			obj.vals.min = objVal;
 		} else {
 			if (objVal < obj.vals.min) {
@@ -1720,15 +1720,15 @@ var AXInputConverter = Class.create(AXJ, {
 			var sX = rX;
 			var stX = rX;
 			obj.handleMaxLeft = rX;
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({ left: sX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ left: stX });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.number().money() + obj.config.unit);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
-			//jQuery("#"+objID).val(objVal);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({ left: sX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ left: stX });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.number().money() + obj.config.unit);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({ left: obj.handleMinLeft, width: obj.handleMaxLeft - obj.handleMinLeft });
+			//axdom("#"+objID).val(objVal);
 			obj.vals.max = objVal;
 		}
 		var separator = obj.config.separator || "~";
-		jQuery("#" + objID).val(obj.vals.min + separator + obj.vals.max);
+		axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
 		if (obj.config.onChange) obj.config.onChange(objID, obj.vals.min + separator + obj.vals.max);
 		else if (obj.config.onchange) obj.config.onchange(objID, obj.vals.min + separator + obj.vals.max);
 	},
@@ -1736,7 +1736,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 		if (obj.config.onChange || obj.config.onchange) {
 			var onchange = obj.config.onChange || obj.config.onchange;
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
@@ -1753,8 +1753,8 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
-		obj.bindAnchorTarget = jQuery("#" + cfg.targetID + "_AX_" + objID);
-		obj.bindTarget = jQuery("#" + objID);
+		obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		obj.bindTarget = axdom("#" + objID);
 		
 		var w = obj.bindAnchorTarget.width();
 		var h = obj.bindAnchorTarget.data("height");
@@ -1801,22 +1801,22 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		if (obj.switchValue == "on") {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
 			obj.switchValue = "off";
-			jQuery("#" + objID).val(obj.config.off);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.off);
+			axdom("#" + objID).val(obj.config.off);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.off);
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").addClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").addClass("on");
 			obj.switchValue = "on";
-			jQuery("#" + objID).val(obj.config.on);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.on);
+			axdom("#" + objID).val(obj.config.on);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.on);
 		}
 		if (obj.config.onChange || obj.config.onchange) {
 			var sendObj = {
 				targetID: objID,
 				on: obj.config.on,
 				off: obj.config.off,
-				value: jQuery("#" + objID).val()
+				value: axdom("#" + objID).val()
 			}
 			if (obj.config.onChange) obj.config.onChange.call(sendObj);
 			if (obj.config.onchange) obj.config.onchange.call(sendObj);
@@ -1834,25 +1834,25 @@ var AXInputConverter = Class.create(AXJ, {
 			switchValue = obj.config.off;
 			obj.switchValue = "off";
 		}
-		jQuery("#" + objID).val(switchValue);
+		axdom("#" + objID).val(switchValue);
 
 		if (obj.switchValue == "off") {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
 			obj.switchValue = "off";
-			jQuery("#" + objID).val(obj.config.off);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.off);
+			axdom("#" + objID).val(obj.config.off);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.off);
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").addClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").addClass("on");
 			obj.switchValue = "on";
-			jQuery("#" + objID).val(obj.config.on);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.on);
+			axdom("#" + objID).val(obj.config.on);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay").html(obj.config.on);
 		}
 		if (obj.config.onChange || obj.config.onchange) {
 			var sendObj = {
 				targetID: objID,
 				on: obj.config.on,
 				off: obj.config.off,
-				value: jQuery("#" + objID).val()
+				value: axdom("#" + objID).val()
 			}
 			if (obj.config.onChange) obj.config.onChange.call(sendObj);
 			else if (obj.config.onchange) obj.config.onchange.call(sendObj);
@@ -1872,15 +1872,15 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
-		obj.bindAnchorTarget = jQuery("#" + cfg.targetID + "_AX_" + objID);
-		obj.bindTarget = jQuery("#" + objID);
+		obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		obj.bindTarget = axdom("#" + objID);
 		
 		var w = obj.bindAnchorTarget.width();
 		var h = obj.bindAnchorTarget.data("height");
 		var objVal = obj.bindTarget.val();
 		var segmentOptions = obj.config.options;
 		obj.selectedSegmentIndex = null;
-		jQuery.each(segmentOptions, function (idx, seg) {
+		axf.each(segmentOptions, function (idx, seg) {
 			//trace({optionValue:this.optionValue, objVal:objVal});
 			if (this.optionValue == objVal) {
 				obj.selectedSegmentIndex = idx;
@@ -1897,7 +1897,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var po = [];
 		var theme = obj.config.theme || cfg.anchorSegmentBoxClassName;
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SegmentBox\" class=\"" + theme + "\" style=\"left:0px;top:0px;width:" + w + "px;\">");
-		jQuery.each(segmentOptions, function (idx, seg) {
+		axf.each(segmentOptions, function (idx, seg) {
 			var addClass = "";
 			if (idx == 0) addClass = " segmentLeft";
 			else if (idx == segmentOptions.length - 1) addClass = " segmentRight";
@@ -1923,7 +1923,7 @@ var AXInputConverter = Class.create(AXJ, {
 			bindSegmentClick(objID, objSeq, event);
 		};
 		
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentBox").find(".AXanchorSegmentHandle").bind("click.AXInput", obj.bindSegmentClick);
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentBox").find(".AXanchorSegmentHandle").bind("click.AXInput", obj.bindSegmentClick);
 	},
 	bindSegmentClick: function (objID, objSeq, event) {
 		var cfg = this.config;
@@ -1935,21 +1935,21 @@ var AXInputConverter = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("AXanchorSegmentHandle")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXanchorSegmentHandle")) ? true : false; }
 		});
 
 		if (myTarget) {
 
 			var seq = myTarget.id.split(/_AX_/g).last();
 			if (obj.selectedSegmentIndex != seq) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).removeClass("on");
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + seq).addClass("on");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).removeClass("on");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + seq).addClass("on");
 				obj.selectedSegmentIndex = seq;
 				obj.selectedSegment = segmentOptions[seq];
 			}
 			//strace(obj.selectedSegment.optionValue);
-			jQuery("#" + objID).val(obj.selectedSegment.optionValue);
-			//trace(jQuery("#"+objID).val());
+			axdom("#" + objID).val(obj.selectedSegment.optionValue);
+			//trace(axdom("#"+objID).val());
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
 					targetID: objID,
@@ -1972,7 +1972,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var objVal = value;
 		var segmentOptions = obj.config.options;
 		obj.selectedSegmentIndex = null;
-		jQuery.each(segmentOptions, function (idx, seg) {
+		axf.each(segmentOptions, function (idx, seg) {
 			if (this.optionValue == objVal) {
 				obj.selectedSegmentIndex = idx;
 				obj.selectedSegment = seg;
@@ -1982,11 +1982,11 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.selectedSegmentIndex = 0;
 			obj.selectedSegment = segmentOptions[0];
 		}
-		jQuery("#" + objID).val(obj.selectedSegment.optionValue);
+		axdom("#" + objID).val(obj.selectedSegment.optionValue);
 
 		if (selectedSegmentIndex != obj.selectedSegmentIndex) {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + selectedSegmentIndex).removeClass("on");
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).addClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + selectedSegmentIndex).removeClass("on");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).addClass("on");
 		}
 
 		if (obj.config.onChange || obj.config.onchange) {
@@ -2005,18 +2005,18 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDate: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
+		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
 		var po = [];
 		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
-		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
+		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID).show();
 
 		var bindDateExpand = this.bindDateExpand.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click.AXInput", function (event) {
 			bindDateExpand(objID, objSeq, true, event);
 		});
-		jQuery("#" + objID).bind("focus.AXInput", function (event) {
-			jQuery("#" + objID).select();
+		axdom("#" + objID).bind("focus.AXInput", function (event) {
+			axdom("#" + objID).select();
 			/* 포거스 되었을 때 달력 도구 오픈 처리 방식 변경 2013-07-10 오전 11:09:40
 			if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 				bindDateExpand(objID, objSeq, false, event);
@@ -2025,7 +2025,7 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		jQuery("#" + objID).bind("keyup.AXInput", function (event) {
+		axdom("#" + objID).bind("keyup.AXInput", function (event) {
 			if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 				var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
 				var _this = this;
@@ -2063,7 +2063,7 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var bindDateInputBlur = this.bindDateInputBlur.bind(this);
-		jQuery("#" + objID).bind("blur.AXInput", function (event) {
+		axdom("#" + objID).bind("blur.AXInput", function (event) {
 			bindDateInputBlur(objID, objSeq, event);
 		});
 	},
@@ -2080,16 +2080,16 @@ var AXInputConverter = Class.create(AXJ, {
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
 			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 				//비활성 처리후 메소드 종료
 				return;
 			}
 		}
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
 
 		//Expand Box 생성 구문 작성
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 		if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
 
 		var today = new Date();
@@ -2124,8 +2124,8 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("	</div>");
 		po.push("</div>");
 
-		jQuery(document.body).append(po.join('')); // bindDateExpandBox append
-		//jQuery("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
+		axdom(document.body).append(po.join('')); // bindDateExpandBox append
+		//axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
 
 		// AXCalendar display
 		obj.nDate = myDate;
@@ -2162,12 +2162,12 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.mycalendarPageType = "y";
 			obj.mycalendar.printYearPage(myDate.print("yyyy"));
 			printDate = myDate.print("yyyy");
-			jQuery("#" + objID).val(printDate);
+			axdom("#" + objID).val(printDate);
 		} else if (obj.config.selectType == "m") {
 			obj.mycalendarPageType = "m";
 			obj.mycalendar.printMonthPage(myDate);
 			printDate = myDate.print("yyyy" + separator + "mm");
-			jQuery("#" + objID).val(printDate);
+			axdom("#" + objID).val(printDate);
 		} else {
 			if (obj.config.defaultSelectType) {
 				if (obj.config.defaultSelectType == "y") {
@@ -2184,7 +2184,7 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.expandTime) {
 					printDate += " " + myDate.print("hh:mi");
 				}
-				jQuery("#" + objID).val(printDate);
+				axdom("#" + objID).val(printDate);
 
 			} else {
 				obj.mycalendarPageType = "d";
@@ -2194,18 +2194,18 @@ var AXInputConverter = Class.create(AXJ, {
 					printDate += " " + myDate.print("hh:mi");
 				}
 
-				jQuery("#" + objID).val(printDate);
+				axdom("#" + objID).val(printDate);
 			}
 		}
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AXCalendar display
 
 		// expandBox set Position ~~~~~~~~~~~~~~~~~~~~~~~~~
-		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+		var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
 		var expBoxWidth = expandBox.outerWidth();
 		var expBoxHeight = expandBox.outerHeight();
-		var offset = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").offset();
-		var handleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").width();
-		var handleHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").height();
+		var offset = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").offset();
+		var handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").width();
+		var handleHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").height();
 
 		var css = {};
 		if (obj.config.align == "left") {
@@ -2263,24 +2263,24 @@ var AXInputConverter = Class.create(AXJ, {
 			bindDateKeyup(objID, objSeq, event);
 		}
 		if (obj.config.selectType == "y") {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").css({ left: "70px" });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").hide();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").css({ left: "70px" });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").hide();
 		}
-		jQuery(document).bind("click.AXinput", obj.documentclickEvent);
-		jQuery("#" + objID).bind("keydown.AXinput", obj.inputKeyup);
+		axdom(document).bind("click.AXinput", obj.documentclickEvent);
+		axdom("#" + objID).bind("keydown.AXinput", obj.inputKeyup);
 	},
 	/* bindDate for mobile --------- s */
 		bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
 			var cfg = this.config;
 			var obj = this.objects[objSeq];
 			
-			jQuery("#" + objID).bind("keydown.AXinput", obj.inputKeyup);
+			axdom("#" + objID).bind("keydown.AXinput", obj.inputKeyup);
 			
 			//Selector Option box Expand
 			if (isToggle) { // 활성화 여부가 토글 이면
 				if(obj.modal && obj.modal.opened){
 					obj.modal.close();
-					jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+					axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 					//비활성 처리후 메소드 종료
 					return;
 				}
@@ -2308,7 +2308,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var separator = (obj.config.separator) ? obj.config.separator : "-";
 			
 			//Expand Box 생성 구문 작성
-			var objVal = jQuery("#" + objID).val();
+			var objVal = axdom("#" + objID).val();
 			if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정			
 			
 			var today = new Date();
@@ -2395,12 +2395,12 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.mycalendarPageType = "y";
 				obj.mycalendar.printYearPage(myDate.print("yyyy"));
 				printDate = myDate.print("yyyy");
-				jQuery("#" + objID).val(printDate);
+				axdom("#" + objID).val(printDate);
 			} else if (obj.config.selectType == "m") {
 				obj.mycalendarPageType = "m";
 				obj.mycalendar.printMonthPage(myDate);
 				printDate = myDate.print("yyyy" + separator + "mm");
-				jQuery("#" + objID).val(printDate);
+				axdom("#" + objID).val(printDate);
 			} else {
 				if (obj.config.defaultSelectType) {
 					if (obj.config.defaultSelectType == "y") {
@@ -2417,7 +2417,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.expandTime) {
 						printDate += " " + myDate.print("hh:mi");
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 	
 				} else {
 					obj.mycalendarPageType = "d";
@@ -2426,7 +2426,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.expandTime) {
 						printDate += " " + myDate.print("hh:mi");
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 				}
 			}
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AXCalendar display
@@ -2508,7 +2508,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.expandTime) {
 						printDate += " " + obj.mycalendartime.getTime();
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 					//obj.modal.close();
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else if (act == "month") {
@@ -2565,132 +2565,132 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		if(obj.modal && obj.modal.opened){ /* mobile modal close */
-			var objVal = jQuery("#" + objID).val();
+			var objVal = axdom("#" + objID).val();
 			if (objVal == "") {
 
 			} else {
 				var separator = (obj.config.separator) ? obj.config.separator : "-";
 				if (obj.config.selectType == "y") {
-					jQuery("#" + objID).val(obj.nDate.print("yyyy"));
+					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
-					jQuery("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
+					axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
 				} else {
-					//jQuery("#"+objID).val(obj.nDate.print("yyyy"+separator+"mm"+separator+"dd"));
+					//axdom("#"+objID).val(obj.nDate.print("yyyy"+separator+"mm"+separator+"dd"));
 					printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
 					if (obj.config.expandTime) {
 						printDate += " " + obj.mycalendartime.getTime();
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 				}
 			}
 
 			if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
 			if (obj.config.onChange) {
-				if (jQuery.isFunction(obj.config.onChange)) {
+				if (axdom.isFunction(obj.config.onChange)) {
 					obj.config.onChange.call({
 						objID: objID,
-						value: jQuery("#" + objID).val()
+						value: axdom("#" + objID).val()
 					});
 				} else {
 					var st_date, ed_date;
 					if (obj.config.onChange.earlierThan) {
-						st_date = jQuery("#" + objID).val();
-						ed_date = jQuery("#" + obj.config.onChange.earlierThan).val();
+						st_date = axdom("#" + objID).val();
+						ed_date = axdom("#" + obj.config.onChange.earlierThan).val();
 					} else if (obj.config.onChange.laterThan) {
-						ed_date = jQuery("#" + objID).val();
-						st_date = jQuery("#" + obj.config.onChange.laterThan).val();
+						ed_date = axdom("#" + objID).val();
+						st_date = axdom("#" + obj.config.onChange.laterThan).val();
 					}
 					if (st_date != "" && ed_date != "") {
 						if (st_date.date().diff(ed_date) < 0) {
 							this.msgAlert(obj.config.onChange.err);
-							jQuery("#" + objID).val("");
+							axdom("#" + objID).val("");
 							return;
 						}
 					}
 					if (obj.config.onChange.onChange) {
 						obj.config.onChange.onChange.call({
 							objID: objID,
-							value: jQuery("#" + objID).val()
+							value: axdom("#" + objID).val()
 						});
 					} else if (obj.config.onChange.onchange) {
 						obj.config.onChange.onchange.call({
 							objID: objID,
-							value: jQuery("#" + objID).val()
+							value: axdom("#" + objID).val()
 						});
 					}
 				}
 			}
 
 			obj.modal.close();
-			jQuery("#" + objID).unbind("keydown.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-			var objVal = jQuery("#" + objID).val();
+			var objVal = axdom("#" + objID).val();
 
 			if (objVal == "") {
 
 			} else {
 				var separator = (obj.config.separator) ? obj.config.separator : "-";
 				if (obj.config.selectType == "y") {
-					jQuery("#" + objID).val(obj.nDate.print("yyyy"));
+					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
-					jQuery("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
+					axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
 				} else {
-					//jQuery("#"+objID).val(obj.nDate.print("yyyy"+separator+"mm"+separator+"dd"));
+					//axdom("#"+objID).val(obj.nDate.print("yyyy"+separator+"mm"+separator+"dd"));
 					printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
 					if (obj.config.expandTime) {
 						printDate += " " + obj.mycalendartime.getTime();
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 				}
 			}
 
 			if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
 			if (obj.config.onChange) {
-				if (jQuery.isFunction(obj.config.onChange)) {
+				if (axdom.isFunction(obj.config.onChange)) {
 					obj.config.onChange.call({
 						objID: objID,
-						value: jQuery("#" + objID).val()
+						value: axdom("#" + objID).val()
 					});
 				} else {
 					var st_date, ed_date;
 					if (obj.config.onChange.earlierThan) {
-						st_date = jQuery("#" + objID).val();
-						ed_date = jQuery("#" + obj.config.onChange.earlierThan).val();
+						st_date = axdom("#" + objID).val();
+						ed_date = axdom("#" + obj.config.onChange.earlierThan).val();
 					} else if (obj.config.onChange.laterThan) {
-						ed_date = jQuery("#" + objID).val();
-						st_date = jQuery("#" + obj.config.onChange.laterThan).val();
+						ed_date = axdom("#" + objID).val();
+						st_date = axdom("#" + obj.config.onChange.laterThan).val();
 					}
 					if (st_date != "" && ed_date != "") {
 						if (st_date.date().diff(ed_date) < 0) {
 							this.msgAlert(obj.config.onChange.err);
-							jQuery("#" + objID).val("");
+							axdom("#" + objID).val("");
 							return;
 						}
 					}
 					if (obj.config.onChange.onChange) {
 						obj.config.onChange.onChange.call({
 							objID: objID,
-							value: jQuery("#" + objID).val()
+							value: axdom("#" + objID).val()
 						});
 					} else if (obj.config.onChange.onchange) {
 						obj.config.onChange.onchange.call({
 							objID: objID,
-							value: jQuery("#" + objID).val()
+							value: axdom("#" + objID).val()
 						});
 					}
 				}
 			}
 
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 			//비활성 처리후 메소드 종료
-			jQuery(document).unbind("click.AXInput");
-			jQuery("#" + objID).unbind("keydown.AXInput");
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -2699,20 +2699,20 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateInputBlur: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var objVal = jQuery("#" + objID).val();
+		var objVal = axdom("#" + objID).val();
 
 		if (objVal == "") {
 
 		} else {
 			var clearDate = false;
 			var nDate = (obj.nDate || new Date());
-			var va = jQuery("#" + objID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
+			var va = axdom("#" + objID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
 			if (va.search(/\d+/g) == -1) {
 				clearDate = true;
 			}
 
 			if (clearDate) {
-				jQuery("#" + objID).val("");
+				axdom("#" + objID).val("");
 			} else {
 				var separator = (obj.config.separator) ? obj.config.separator : "-";
 				if (obj.config.selectType == "y") {
@@ -2724,7 +2724,7 @@ var AXInputConverter = Class.create(AXJ, {
 					var dd = nDate.getDate();
 					obj.nDate = new Date(yy, mm, dd, 12);
 
-					jQuery("#" + objID).val(obj.nDate.print("yyyy"));
+					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 
 				} else if (obj.config.selectType == "m") {
 
@@ -2741,7 +2741,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy < 1000) yy += 2000;
 					obj.nDate = new Date(yy, mm, dd, 12);
 
-					jQuery("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
+					axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
 
 				} else {
 					var needAlert = false;
@@ -2796,57 +2796,57 @@ var AXInputConverter = Class.create(AXJ, {
 					if (needAlert) {
 						this.msgAlert("날짜 형식이 올바르지 않습니다.");
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 				}
 			}
 		}
 
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
-			if (jQuery("#" + objID).data("val") != jQuery("#" + objID).val()) {
+			if (axdom("#" + objID).data("val") != axdom("#" + objID).val()) {
 
-				if (jQuery.isFunction(obj.config.onChange)) {
+				if (axdom.isFunction(obj.config.onChange)) {
 					obj.config.onChange.call({
 						objID: objID,
-						value: jQuery("#" + objID).val()
+						value: axdom("#" + objID).val()
 					});
 				} else {
 					var st_date, ed_date;
 					if (obj.config.onChange.earlierThan) {
-						st_date = jQuery("#" + objID).val();
-						ed_date = jQuery("#" + obj.config.onChange.earlierThan).val();
+						st_date = axdom("#" + objID).val();
+						ed_date = axdom("#" + obj.config.onChange.earlierThan).val();
 					} else if (obj.config.onChange.laterThan) {
-						ed_date = jQuery("#" + objID).val();
-						st_date = jQuery("#" + obj.config.onChange.laterThan).val();
+						ed_date = axdom("#" + objID).val();
+						st_date = axdom("#" + obj.config.onChange.laterThan).val();
 					}
 					if (st_date != "" && ed_date != "") {
 						if (st_date.date().diff(ed_date) < 0) {
 							this.msgAlert(obj.config.onChange.err);
-							jQuery("#" + objID).val("");
+							axdom("#" + objID).val("");
 						}
 					}
 					if (obj.config.onChange.onChange) {
 						obj.config.onChange.onChange.call({
 							objID: objID,
-							value: jQuery("#" + objID).val()
+							value: axdom("#" + objID).val()
 						});
 					} else if (obj.config.onChange.onchange) {
 						obj.config.onChange.onchange.call({
 							objID: objID,
-							value: jQuery("#" + objID).val()
+							value: axdom("#" + objID).val()
 						});
 					}
 				}
-				jQuery("#" + objID).data("val", jQuery("#" + objID).val());
+				axdom("#" + objID).data("val", axdom("#" + objID).val());
 
 			}
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 		//비활성 처리후 메소드 종료
-		jQuery(document).unbind("click.AXinput");
-		jQuery("#" + objID).unbind("keydown.AXinput");
+		axdom(document).unbind("click.AXinput");
+		axdom("#" + objID).unbind("keydown.AXinput");
 
 		event.stopPropagation(); // disableevent
 		return;
@@ -2856,7 +2856,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var objID = obj.id;
 		var objSeq = null;
 
-		jQuery.each(this.objects, function (oidx, O) {
+		axf.each(this.objects, function (oidx, O) {
 			if (this.id == objID) {
 				objSeq = oidx;
 				return false;
@@ -2866,16 +2866,16 @@ var AXInputConverter = Class.create(AXJ, {
 		if (objSeq != null) {
 			var obj = this.objects[objSeq];
 
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 			//비활성 처리후 메소드 종료
-			jQuery(document).unbind("click.AXInput");
-			jQuery("#" + objID).unbind("keydown.AXInput");
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
 		}
 
 		var collect = [];
 		var removeAnchorId;
-		jQuery.each(this.objects, function () {
+		axf.each(this.objects, function () {
 			if (this.id != obj.id) collect.push(this);
 			else {
 				removeAnchorId = this.anchorID;
@@ -2883,7 +2883,7 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 		this.objects = collect;
 
-		jQuery("#" + removeAnchorId).remove();
+		axdom("#" + removeAnchorId).remove();
 
 	},
 	bindDateTimeChange: function (objID, objSeq, myTime) {
@@ -2894,7 +2894,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (obj.config.expandTime) {
 			printDate += " " + obj.mycalendartime.getTime();
 		}
-		jQuery("#" + objID).val(printDate);
+		axdom("#" + objID).val(printDate);
 	},
 	bindDateExpandBoxClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -2957,7 +2957,7 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.expandTime) {
 					printDate += " " + obj.mycalendartime.getTime();
 				}
-				jQuery("#" + objID).val(printDate);
+				axdom("#" + objID).val(printDate);
 				
 				this.bindDateExpandClose(objID, objSeq, event);
 			} else if (ename == "month") {
@@ -3011,61 +3011,61 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.nDate = setDate;
 			obj.mycalendar.printMonthPage(setDate);
 			var myYear = setDate.getFullYear();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
 		} else if (pageType == "y") {
 			obj.mycalendarPageType = "y";
 			obj.nDate = setDate;
 			obj.mycalendar.printYearPage(setDate.getFullYear());
 			var myYear = setDate.getFullYear();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
 		} else {
 			obj.mycalendarPageType = "d";
 			obj.nDate = setDate;
 			obj.mycalendar.printDayPage(setDate);
 			var myYear = setDate.getFullYear();
 			var myMonth = (setDate.getMonth() + 1).setDigit(2);
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").html(myMonth + "월");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").html(myMonth + "월");
 		}
 
 		if (obj.config.selectType == "y") {
-			jQuery("#" + objID).val(obj.nDate.print("yyyy"));
+			axdom("#" + objID).val(obj.nDate.print("yyyy"));
 		} else if (obj.config.selectType == "m") {
-			jQuery("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
+			axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
 		} else {
-			//jQuery("#"+objID).val(obj.nDate.print("yyyy"+separator+"mm"+separator+"dd"));
+			//axdom("#"+objID).val(obj.nDate.print("yyyy"+separator+"mm"+separator+"dd"));
 			var printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime.getTime();
 			}
-			jQuery("#" + objID).val(printDate);
+			axdom("#" + objID).val(printDate);
 		}
 	},
 	/* twinDate ~~~~~~~~~~~~~~~~~ */
 	bindTwinDate: function (objID, objSeq, option) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
+		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
 		var po = [];
 		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
-		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
+		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_" + objID).show();
 
 		var bindDateExpand = this.bindTwinDateExpand.bind(this);
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").bind("click.AXInput", function (event) {
 			bindDateExpand(objID, objSeq, true, event);
 		});
-		jQuery("#" + objID).bind("focus.AXInput", function (event) {
-			jQuery("#" + objID).select();
+		axdom("#" + objID).bind("focus.AXInput", function (event) {
+			axdom("#" + objID).select();
 			/*
 			if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 				bindDateExpand(objID, objSeq, false, event);
 			}
 			*/
 		});
-		jQuery("#" + obj.config.startTargetID).bind("focus.AXInput", function (event) {
-			jQuery("#" + obj.config.startTargetID).select();
+		axdom("#" + obj.config.startTargetID).bind("focus.AXInput", function (event) {
+			axdom("#" + obj.config.startTargetID).select();
 			/*
 			if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 				bindDateExpand(objID, objSeq, false, event);
@@ -3075,7 +3075,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		jQuery("#" + objID + ", #" + obj.config.startTargetID).bind("keyup.AXInput", function (event) {
+		axdom("#" + objID + ", #" + obj.config.startTargetID).bind("keyup.AXInput", function (event) {
 			//alert(this.value);
 			if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 
@@ -3115,15 +3115,15 @@ var AXInputConverter = Class.create(AXJ, {
 
 
 		var bindTwinDateInputBlur = this.bindTwinDateInputBlur.bind(this);
-		jQuery("#" + objID).bind("blur.AXInput", function (event) {
+		axdom("#" + objID).bind("blur.AXInput", function (event) {
 			bindTwinDateInputBlur(objID, objSeq, event, 2);
 		});
-		jQuery("#" + obj.config.startTargetID).bind("blur.AXInput", function (event) {
+		axdom("#" + obj.config.startTargetID).bind("blur.AXInput", function (event) {
 			bindTwinDateInputBlur(objID, objSeq, event, 1);
 		});
 		
-		var objVal1 = jQuery("#" + obj.config.startTargetID).val();
-		var objVal2 = jQuery("#" + objID).val();
+		var objVal1 = axdom("#" + obj.config.startTargetID).val();
+		var objVal2 = axdom("#" + objID).val();
 		var myDate1 = objVal1.date(separator);
 		var myDate2 = objVal2.date(separator);
 		obj.nDate1 = myDate1;
@@ -3137,18 +3137,18 @@ var AXInputConverter = Class.create(AXJ, {
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
 			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
 				//비활성 처리후 메소드 종료
 				return;
 			}
 		}
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
-		//jQuery("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").removeClass("on");
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
+		//axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").removeClass("on");
 
 		//Expand Box 생성 구문 작성
-		var objVal1 = jQuery("#" + obj.config.startTargetID).val();
-		var objVal2 = jQuery("#" + objID).val();
+		var objVal1 = axdom("#" + obj.config.startTargetID).val();
+		var objVal2 = axdom("#" + objID).val();
 
 		if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
 
@@ -3225,8 +3225,8 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("		<input type=\"button\" value=\"OK\" class=\"AXButton Classic W70\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_closeButton\">");
 		po.push("	</div>");
 		po.push("</div>");
-		jQuery(document.body).append(po.join('')); // bindDateExpandBox append
-		//jQuery("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
+		axdom(document.body).append(po.join('')); // bindDateExpandBox append
+		//axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
 
 		// AXCalendar display
 		obj.nDate1 = myDate1;
@@ -3293,16 +3293,16 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.mycalendar2.printYearPage(myDate2.print("yyyy"));
 			printDate1 = myDate1.print("yyyy");
 			printDate2 = myDate2.print("yyyy");
-			jQuery("#" + obj.config.startTargetID).val(printDate1);
-			jQuery("#" + objID).val(printDate2);
+			axdom("#" + obj.config.startTargetID).val(printDate1);
+			axdom("#" + objID).val(printDate2);
 		} else if (obj.config.selectType == "m") {
 			obj.mycalendarPageType = "m";
 			obj.mycalendar1.printMonthPage(myDate1);
 			obj.mycalendar2.printMonthPage(myDate2);
 			printDate1 = myDate1.print("yyyy" + separator + "mm");
 			printDate2 = myDate2.print("yyyy" + separator + "mm");
-			jQuery("#" + obj.config.startTargetID).val(printDate1);
-			jQuery("#" + objID).val(printDate2);
+			axdom("#" + obj.config.startTargetID).val(printDate1);
+			axdom("#" + objID).val(printDate2);
 		} else {
 			obj.mycalendarPageType = "d";
 			obj.mycalendar1.printDayPage(myDate1);
@@ -3313,18 +3313,18 @@ var AXInputConverter = Class.create(AXJ, {
 				printDate1 += " " + myDate1.print("hh:mi");
 				printDate2 += " " + myDate2.print("hh:mi");
 			}
-			jQuery("#" + obj.config.startTargetID).val(printDate1);
-			jQuery("#" + objID).val(printDate2);
+			axdom("#" + obj.config.startTargetID).val(printDate1);
+			axdom("#" + objID).val(printDate2);
 		}
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AXCalendar display
 
 		// expandBox set Position ~~~~~~~~~~~~~~~~~~~~~~~~~
-		var expandBox = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+		var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
 		var expBoxWidth = expandBox.outerWidth();
 		var expBoxHeight = expandBox.outerHeight();
-		var offset = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").offset();
-		var handleWidth = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").width();
-		var handleHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").height();
+		var offset = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").offset();
+		var handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").width();
+		var handleHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").height();
 
 
 
@@ -3385,16 +3385,16 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 
 		if (obj.config.selectType == "y") {
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").css({ left: "70px" });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1").hide();
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").css({ left: "70px" });
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").hide();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").css({ left: "70px" });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1").hide();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").css({ left: "70px" });
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").hide();
 		}
 
-		jQuery(document).bind("click.AXInput", obj.documentclickEvent);
-		jQuery("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
+		axdom(document).bind("click.AXInput", obj.documentclickEvent);
+		axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
 		var bindTwinDateExpandClose = this.bindTwinDateExpandClose.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_closeButton").bind("click.AXInput", function (event) {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_closeButton").bind("click.AXInput", function (event) {
 			bindTwinDateExpandClose(objID, objSeq, event);
 		});
 	},
@@ -3407,14 +3407,14 @@ var AXInputConverter = Class.create(AXJ, {
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime1.getTime();
 			}
-			jQuery("#" + obj.config.startTargetID).val(printDate);
+			axdom("#" + obj.config.startTargetID).val(printDate);
 		} else {
 			var separator = (obj.config.separator) ? obj.config.separator : "-";
 			var printDate = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime2.getTime();
 			}
-			jQuery("#" + objID).val(printDate);
+			axdom("#" + objID).val(printDate);
 		}
 	},
 	bindTwinDateExpandClose: function (objID, objSeq, event) {
@@ -3423,26 +3423,26 @@ var AXInputConverter = Class.create(AXJ, {
 		//trace("bindTwinDateExpandClose");
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 
-			//jQuery("#"+cfg.targetID+"_AX_"+objID+"_AX_Handle").removeClass("on");
+			//axdom("#"+cfg.targetID+"_AX_"+objID+"_AX_Handle").removeClass("on");
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-			var objVal1 = jQuery("#" + obj.config.startTargetID).val();
-			var objVal2 = jQuery("#" + objID).val();
+			var objVal1 = axdom("#" + obj.config.startTargetID).val();
+			var objVal2 = axdom("#" + objID).val();
 			var separator = (obj.config.separator) ? obj.config.separator : "-";
 
 			if (obj.config.selectType == "y") {
-				if (objVal1.length < 4) jQuery("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
+				if (objVal1.length < 4) axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
 				else {
 					objVal1 = objVal1.left(4);
-					jQuery("#" + obj.config.startTargetID).val(objVal1);
+					axdom("#" + obj.config.startTargetID).val(objVal1);
 				}
-				if (objVal2.length < 4) jQuery("#" + objID).val(obj.nDate2.print("yyyy"));
+				if (objVal2.length < 4) axdom("#" + objID).val(obj.nDate2.print("yyyy"));
 				else {
 					objVal2 = objVal2.left(4);
-					jQuery("#" + objID).val(objVal2);
+					axdom("#" + objID).val(objVal2);
 				}
 			} else if (obj.config.selectType == "m") {
-				jQuery("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
-				jQuery("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
+				axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
+				axdom("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
 			} else {
 				printDate1 = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
 				printDate2 = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
@@ -3450,25 +3450,25 @@ var AXInputConverter = Class.create(AXJ, {
 					printDate1 += " " + obj.mycalendartime1.getTime();
 					printDate2 += " " + obj.mycalendartime2.getTime();
 				}
-				jQuery("#" + obj.config.startTargetID).val(printDate1);
-				jQuery("#" + objID).val(printDate2);
+				axdom("#" + obj.config.startTargetID).val(printDate1);
+				axdom("#" + objID).val(printDate2);
 			}
 
-			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 			if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 			if (obj.config.onChange) {
 				obj.config.onChange.call({
 					ST_objID: obj.config.startTargetID,
 					ED_objID: objID,
-					ST_value: jQuery("#" + obj.config.startTargetID).val(),
-					ED_value: jQuery("#" + objID).val()
+					ST_value: axdom("#" + obj.config.startTargetID).val(),
+					ED_value: axdom("#" + objID).val()
 				});
 			}
 
 			//비활성 처리후 메소드 종료
-			jQuery(document).unbind("click.AXInput");
-			jQuery("#" + objID).unbind("keydown.AXInput");
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -3556,7 +3556,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.expandTime) {
 						printDate += " " + obj.mycalendartime1.getTime();
 					}
-					jQuery("#" + obj.config.startTargetID).val(printDate);
+					axdom("#" + obj.config.startTargetID).val(printDate);
 					obj.mycalendar1.dayPageSetDay(obj.nDate1);
 				} else {
 					obj.nDate2 = ids[ids.length - 2].date();
@@ -3564,7 +3564,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.expandTime) {
 						printDate += " " + obj.mycalendartime2.getTime();
 					}
-					jQuery("#" + objID).val(printDate);
+					axdom("#" + objID).val(printDate);
 					obj.mycalendar2.dayPageSetDay(obj.nDate2);
 				}
 
@@ -3575,7 +3575,7 @@ var AXInputConverter = Class.create(AXJ, {
 						if (obj.config.expandTime) {
 							printDate += " " + obj.mycalendartime2.getTime();
 						}
-						jQuery("#" + objID).val(printDate);
+						axdom("#" + objID).val(printDate);
 						obj.mycalendar2.dayPageSetDay(obj.nDate2);
 					} else {
 						obj.nDate1 = obj.nDate2;
@@ -3583,7 +3583,7 @@ var AXInputConverter = Class.create(AXJ, {
 						if (obj.config.expandTime) {
 							printDate += " " + obj.mycalendartime1.getTime();
 						}
-						jQuery("#" + obj.config.startTargetID).val(printDate);
+						axdom("#" + obj.config.startTargetID).val(printDate);
 						obj.mycalendar1.dayPageSetDay(obj.nDate1);
 					}
 				}
@@ -3596,7 +3596,7 @@ var AXInputConverter = Class.create(AXJ, {
 						var dd = nDate1.getDate();
 						obj.nDate1 = new Date(yy, myMonth, dd);
 						var printDate = obj.nDate1.print("yyyy" + separator + "mm");
-						jQuery("#" + obj.config.startTargetID).val(printDate);
+						axdom("#" + obj.config.startTargetID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
 						obj.mycalendar1.monthPageSetMonth(obj.nDate1);
 					} else {
@@ -3612,7 +3612,7 @@ var AXInputConverter = Class.create(AXJ, {
 						var dd = nDate2.getDate();
 						obj.nDate2 = new Date(yy, myMonth, dd);
 						var printDate = obj.nDate2.print("yyyy" + separator + "mm");
-						jQuery("#" + objID).val(printDate);
+						axdom("#" + objID).val(printDate);
 						obj.mycalendar2.monthPageSetMonth(obj.nDate2);
 					} else {
 						var yy = nDate2.getFullYear();
@@ -3626,8 +3626,8 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.nDate1.diff(obj.nDate2) < 0) {
 						obj.nDate2 = obj.nDate1;
 						var printDate = obj.nDate2.print("yyyy" + separator + "mm");
-						jQuery("#" + objID).val(printDate);
-						jQuery("#" + obj.config.startTargetID).val(printDate);
+						axdom("#" + objID).val(printDate);
+						axdom("#" + obj.config.startTargetID).val(printDate);
 						obj.mycalendar2.monthPageSetMonth(obj.nDate2);
 					}
 				}
@@ -3641,7 +3641,7 @@ var AXInputConverter = Class.create(AXJ, {
 						var dd = nDate1.getDate();
 						obj.nDate1 = new Date(myYear, mm, dd);
 						var printDate = obj.nDate1.print("yyyy");
-						jQuery("#" + obj.config.startTargetID).val(printDate);
+						axdom("#" + obj.config.startTargetID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
 						obj.mycalendar1.yearPageSetYear(obj.nDate1);
 					} else {
@@ -3656,7 +3656,7 @@ var AXInputConverter = Class.create(AXJ, {
 						var dd = nDate2.getDate();
 						obj.nDate2 = new Date(myYear, mm, dd);
 						var printDate = obj.nDate2.print("yyyy");
-						jQuery("#" + objID).val(printDate);
+						axdom("#" + objID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
 						obj.mycalendar2.yearPageSetYear(obj.nDate2);
 					} else {
@@ -3671,8 +3671,8 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.nDate1.print("yyyy").number() > obj.nDate2.print("yyyy").number()) {
 						obj.nDate2 = obj.nDate1;
 						var printDate = obj.nDate2.print("yyyy");
-						jQuery("#" + obj.config.startTargetID).val(printDate);
-						jQuery("#" + objID).val(printDate);
+						axdom("#" + obj.config.startTargetID).val(printDate);
+						axdom("#" + objID).val(printDate);
 						obj.mycalendar2.yearPageSetYear(obj.nDate2);
 					}
 				}
@@ -3700,13 +3700,13 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.nDate1 = setDate;
 				obj.mycalendar1.printMonthPage(setDate);
 				var myYear = setDate.getFullYear();
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").html(myYear + "년");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").html(myYear + "년");
 			} else {
 				//obj.mycalendarPageType = "m";
 				obj.nDate2 = setDate;
 				obj.mycalendar2.printMonthPage(setDate);
 				var myYear = setDate.getFullYear();
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").html(myYear + "년");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").html(myYear + "년");
 			}
 		} else if (pageType == "y") {
 			if (objType == 1) {
@@ -3714,13 +3714,13 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.nDate1 = setDate;
 				obj.mycalendar1.printYearPage(setDate.getFullYear());
 				var myYear = setDate.getFullYear();
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").html(myYear + "년");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").html(myYear + "년");
 			} else {
 				//obj.mycalendarPageType = "y";
 				obj.nDate2 = setDate;
 				obj.mycalendar2.printYearPage(setDate.getFullYear());
 				var myYear = setDate.getFullYear();
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").html(myYear + "년");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").html(myYear + "년");
 			}
 		} else {
 			//obj.mycalendarPageType = "d";
@@ -3732,41 +3732,41 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.mycalendar1.printDayPage(setDate);
 				var myYear = setDate.getFullYear();
 				var myMonth = (setDate.getMonth() + 1).setDigit(2);
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").html(myYear + "년");
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1").html(myMonth + "월");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").html(myYear + "년");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1").html(myMonth + "월");
 			} else {
 				obj.nDate2 = setDate;
 				obj.mycalendar2.printDayPage(setDate);
 				var myYear = setDate.getFullYear();
 				var myMonth = (setDate.getMonth() + 1).setDigit(2);
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").html(myYear + "년");
-				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").html(myMonth + "월");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").html(myYear + "년");
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").html(myMonth + "월");
 			}
 		}
 
 		if (objType == 1) {
 			if (obj.config.selectType == "y") {
-				jQuery("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
+				axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
 			} else if (obj.config.selectType == "m") {
-				jQuery("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
+				axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
 			} else {
 				var printDate = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
 				if (obj.config.expandTime) {
 					printDate += " " + obj.mycalendartime1.getTime();
 				}
-				jQuery("#" + obj.config.startTargetID).val(printDate);
+				axdom("#" + obj.config.startTargetID).val(printDate);
 			}
 		} else {
 			if (obj.config.selectType == "y") {
-				jQuery("#" + objID).val(obj.nDate2.print("yyyy"));
+				axdom("#" + objID).val(obj.nDate2.print("yyyy"));
 			} else if (obj.config.selectType == "m") {
-				jQuery("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
+				axdom("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
 			} else {
 				var printDate = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
 				if (obj.config.expandTime) {
 					printDate += " " + obj.mycalendartime2.getTime();
 				}
-				jQuery("#" + objID).val(printDate);
+				axdom("#" + objID).val(printDate);
 			}
 		}
 	},
@@ -3776,10 +3776,10 @@ var AXInputConverter = Class.create(AXJ, {
 		var objVal, targetObjID;
 		if (seq == 1) {
 			targetObjID = obj.config.startTargetID;
-			objVal = jQuery("#" + obj.config.startTargetID).val();
+			objVal = axdom("#" + obj.config.startTargetID).val();
 		} else {
 			targetObjID = objID;
-			objVal = jQuery("#" + objID).val();
+			objVal = axdom("#" + objID).val();
 		}
 
 		if (objVal == "") {
@@ -3787,13 +3787,13 @@ var AXInputConverter = Class.create(AXJ, {
 		} else {
 			var clearDate = false;
 			var nDate = (obj["nDate" + seq] || new Date());
-			var va = jQuery("#" + targetObjID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
+			var va = axdom("#" + targetObjID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
 			if (va.search(/\d+/g) == -1) {
 				clearDate = true;
 			}
 
 			if (clearDate) {
-				jQuery("#" + targetObjID).val("");
+				axdom("#" + targetObjID).val("");
 			} else {
 				var separator = (obj.config.separator) ? obj.config.separator : "-";
 				if (obj.config.selectType == "y") {
@@ -3805,7 +3805,7 @@ var AXInputConverter = Class.create(AXJ, {
 					var dd = nDate.getDate();
 					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
 
-					jQuery("#" + targetObjID).val(obj["nDate" + seq].print("yyyy"));
+					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy"));
 
 				} else if (obj.config.selectType == "m") {
 
@@ -3822,7 +3822,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy < 1000) yy += 2000;
 					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
 
-					jQuery("#" + targetObjID).val(obj["nDate" + seq].print("yyyy" + separator + "mm"));
+					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy" + separator + "mm"));
 
 				} else {
 					var needAlert = false;
@@ -3859,10 +3859,10 @@ var AXInputConverter = Class.create(AXJ, {
 					if (needAlert) {
 						this.msgAlert("날짜 형식이 올바르지 않습니다.");
 					}
-					jQuery("#" + targetObjID).val(printDate);
+					axdom("#" + targetObjID).val(printDate);
 
 					if (obj.nDate1 == undefined) {
-						var va = jQuery("#" + obj.config.startTargetID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
+						var va = axdom("#" + obj.config.startTargetID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
 						if (va.search(/\d+/g) != -1) {
 							if (va.length > 7) {
 								var yy = va.left(4).number();
@@ -3889,7 +3889,7 @@ var AXInputConverter = Class.create(AXJ, {
 						if (obj.config.expandTime) {
 							printDate += " " + obj["mycalendartime" + 2].getTime();
 						}
-						jQuery("#" + objID).val(printDate);
+						axdom("#" + objID).val(printDate);
 					}
 
 					if (obj.nDate1.diff(obj.nDate2) < 0) {
@@ -3899,21 +3899,21 @@ var AXInputConverter = Class.create(AXJ, {
 							if (obj.config.expandTime) {
 								printDate += " " + obj["mycalendartime" + 2].getTime();
 							}
-							jQuery("#" + objID).val(printDate);
+							axdom("#" + objID).val(printDate);
 						} else {
 							obj.nDate1 = obj.nDate2;
 							printDate = obj["nDate" + 1].print("yyyy" + separator + "mm" + separator + "dd");
 							if (obj.config.expandTime) {
 								printDate += " " + obj["mycalendartime" + 1].getTime();
 							}
-							jQuery("#" + obj.config.startTargetID).val(printDate);
+							axdom("#" + obj.config.startTargetID).val(printDate);
 						}
 					}
 				}
 			}
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
@@ -3921,14 +3921,14 @@ var AXInputConverter = Class.create(AXJ, {
 				event:event,
 				ST_objID: obj.config.startTargetID,
 				ED_objID: objID,
-				ST_value: jQuery("#" + obj.config.startTargetID).val(),
-				ED_value: jQuery("#" + objID).val()
+				ST_value: axdom("#" + obj.config.startTargetID).val(),
+				ED_value: axdom("#" + objID).val()
 			});
 		}
 
 		//비활성 처리후 메소드 종료
-		jQuery(document).unbind("click.AXInput");
-		jQuery("#" + objID).unbind("keydown.AXInput");
+		axdom(document).unbind("click.AXInput");
+		axdom("#" + objID).unbind("keydown.AXInput");
 
 		event.stopPropagation(); // disableevent
 		return;
@@ -3938,8 +3938,8 @@ var AXInputConverter = Class.create(AXJ, {
 var AXInput = new AXInputConverter();
 AXInput.setConfig({ targetID: "inputBasic" });
 
-jQuery.fn.unbindInput = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.unbindInput = function (config) {
+	axf.each(this, function () {
 		if (config == undefined) config = {};
 		config.id = this.id;
 		AXInput.unbind(config);
@@ -3947,8 +3947,8 @@ jQuery.fn.unbindInput = function (config) {
 	});
 };
 
-jQuery.fn.bindSearch = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindSearch = function (config) {
+	axf.each(this, function () {
 		if (config == undefined) config = {};
 		config.id = this.id;
 		config.bindType = "search";
@@ -3957,8 +3957,8 @@ jQuery.fn.bindSearch = function (config) {
 	});
 };
 
-jQuery.fn.bindNumber = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindNumber = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "number";
 		AXInput.bind(config);
@@ -3966,8 +3966,8 @@ jQuery.fn.bindNumber = function (config) {
 	});
 };
 
-jQuery.fn.bindMoney = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindMoney = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "money";
 		AXInput.bind(config);
@@ -3975,23 +3975,23 @@ jQuery.fn.bindMoney = function (config) {
 	});
 };
 
-jQuery.fn.bindSelector = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindSelector = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "selector";
 		AXInput.bind(config);
 		return this;
 	});
 };
-jQuery.fn.bindSelectorBlur = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindSelectorBlur = function (config) {
+	axf.each(this, function () {
 		AXInput.bindSelectorBlur(this.id);
 		return this;
 	});
 };
 
-jQuery.fn.bindSlider = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindSlider = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "slider";
 		AXInput.bind(config);
@@ -3999,8 +3999,8 @@ jQuery.fn.bindSlider = function (config) {
 	});
 };
 
-jQuery.fn.bindTwinSlider = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindTwinSlider = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "twinSlider";
 		AXInput.bind(config);
@@ -4008,8 +4008,8 @@ jQuery.fn.bindTwinSlider = function (config) {
 	});
 };
 
-jQuery.fn.bindSwitch = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindSwitch = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "switch";
 		AXInput.bind(config);
@@ -4017,8 +4017,8 @@ jQuery.fn.bindSwitch = function (config) {
 	});
 };
 
-jQuery.fn.bindSegment = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindSegment = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "segment";
 		AXInput.bind(config);
@@ -4026,8 +4026,8 @@ jQuery.fn.bindSegment = function (config) {
 	});
 };
 
-jQuery.fn.bindDate = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindDate = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "date";
 		AXInput.bind(config);
@@ -4035,16 +4035,16 @@ jQuery.fn.bindDate = function (config) {
 	});
 };
 
-jQuery.fn.unbindDate = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.unbindDate = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		AXInput.unbindDate(config);
 		return this;
 	});
 };
 
-jQuery.fn.bindDateTime = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindDateTime = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "date";
 		config.expandTime = true;
@@ -4053,8 +4053,8 @@ jQuery.fn.bindDateTime = function (config) {
 	});
 };
 
-jQuery.fn.bindTwinDate = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindTwinDate = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "twinDate";
 		AXInput.bind(config);
@@ -4062,8 +4062,8 @@ jQuery.fn.bindTwinDate = function (config) {
 	});
 };
 
-jQuery.fn.bindTwinDateTime = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindTwinDateTime = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "twinDateTime";
 		config.expandTime = true;
@@ -4072,8 +4072,8 @@ jQuery.fn.bindTwinDateTime = function (config) {
 	});
 };
 
-jQuery.fn.bindPlaceHolder = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindPlaceHolder = function (config) {
+	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
 		config.bindType = "placeHolder";
 		AXInput.bind(config);
@@ -4081,15 +4081,15 @@ jQuery.fn.bindPlaceHolder = function (config) {
 	});
 };
 
-jQuery.fn.setConfigInput = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.setConfigInput = function (config) {
+	axf.each(this, function () {
 		AXInput.bindSetConfig(this.id, config);
 		return this;
 	});
 };
 
-jQuery.fn.setValueInput = function (value) {
-	jQuery.each(this, function () {
+axdom.fn.setValueInput = function (value) {
+	axf.each(this, function () {
 		AXInput.bindSetValue(this.id, value);
 		return this;
 	});

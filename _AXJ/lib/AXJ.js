@@ -6,25 +6,325 @@
  * http://axisJ.com/license
  * axisJ를 사용하시려면 라이선스 페이지를 확인 및 숙지 후 사용 하시기 바람니다. 무단 사용시 예상치 못한 피해가 발생 하실 수 있습니다.
  */
-
-/* *** jquery event extend for mobile ***************************** */
-var rkeyEvent = /^key/;
-var rmouseEvent = /^(?:mouse|contextmenu)|click/;
-jQuery.each(("touchstart touchmove touchend").split(" "), function (i, name) {
-	jQuery.fn[name] = function (data, fn) {
-		if (fn == null) { fn = data; data = null; }
-		return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
-	};
-	if (rkeyEvent.test(name)) { jQuery.event.fixHooks[name] = jQuery.event.keyHooks; }
-	if (rmouseEvent.test(name)) { jQuery.event.fixHooks[name] = jQuery.event.mouseHooks; }
-});
-
-jQuery.fn.longpress = function (fn) {
-	jQuery.each(this, function () {
-		
-		return this;
-	});
+var AXConfig = {
+	weekDays: [
+		{ label: "일" },
+		{ label: "월" },
+		{ label: "화" },
+		{ label: "수" },
+		{ label: "목" },
+		{ label: "금" },
+		{ label: "토" }
+	],
+	AXReq: {
+		async: true, // AJAX 비동기 처리 여부
+		okCode: "ok", // 통신 성공 코드
+		responseType: "", // AJAX responseType
+		dataType: "", // AJAX return Data type
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8", // AJAX contentType
+		dataSendMethod: "parameter", // AJAX parameter send type
+		crossDomain: false,
+		resultFormatter: function () { // onsucc formatter
+			return this;
+		}
+	},
+	AXGrid: {
+		passiveMode: false,
+		passiveRemoveHide: false,
+		fitToWidthRightMargin: 10,
+		fitToWidth: false,
+		pageSize: 10,
+		pageHeight: 400,
+		keyResult: "result",
+		keyList: "list",
+		emptyListMSG: "목록이 없습니다.",
+		listCountMSG: "<b>{listCount}</b> Count"
+	},
+	AXTree: {
+		fitToWidthRightMargin: 10,
+		fitToWidth: false,
+		pageSize: 10,
+		pageHeight: 400,
+		keyResult: "result",
+		keyTree: "tree",
+		keyList: "list",
+		emptyListMSG: "목록이 없습니다."
+	},
+	AXProgress: {
+		cancelMsg: "프로세스를 취소 하시겠습니까?"
+	},
+	AXUpload5: {
+		buttonTxt: "Upload files",
+		deleteConfirm: "정말 삭제하시겠습니까?",
+		uploadSelectTxt: "업로드 하실 파일을 선택해주세요.",
+		dropZoneTxt: "업로드할 파일을 여기에 놓습니다."
+	},
+	AXModal: {
+		contentDivClass: "bodyHeightDiv"
+	},
+	AXInput: {
+		errorPrintType: "toast",
+		selectorOptionEmpty: "목록이 없습니다.",
+		yearText:"{year}년",
+		monthText:"{month}월",
+		confirmText:"확인"
+	},
+	AXContextMenu: {
+		title:"선택하세요"
+	},
+	mobile: {
+		responsiveWidth: 648
+	}
 };
+
+var axf = AXUtil = {
+	async: true,
+	ajaxOkCode: "ok",
+	ajaxResponseType: "",
+	ajaxDataType: "",
+	gridPassiveMode: false,
+	gridPassiveRemoveHide: false,
+	gridFitToWidthRightMargin: 10,
+	getId: function(id) { return document.getElementById(id);  },
+	each:  function(obj, callback){
+		if(obj){
+			var name, i = 0, length = obj.length,
+			isObj = length === undefined || Object.isFunction( obj );
+			if ( isObj ) {
+				for ( name in obj ) {
+					if ( callback.call( obj[ name ], name, obj[ name ] ) === false ) {
+						break;
+					}
+				}
+			} else {
+				for ( ; i < length; ) {
+					if ( callback.call( obj[ i ], i, obj[ i++ ] ) === false ) {
+						break;
+					}
+				}
+			}
+		}
+	},
+	browser: (function () {
+		var ua = navigator.userAgent.toLowerCase();
+		var mobile = (ua.search(/mobile/g) != -1) ? true : false;
+		if (ua.search(/iphone/g) != -1) {
+			return { name: "iphone", version: 0, mobile: true }
+		} else if (ua.search(/ipad/g) != -1) {
+			return { name: "ipad", version: 0, mobile: true }
+		} else if (ua.search(/android/g) != -1) {
+			var match = /(android)[ \/]([\w.]+)/.exec(ua) ||
+				[];
+			var browserVersion = (match[2] || "0");
+			return { name: "android", version: browserVersion, mobile: mobile }
+		} else {
+			var browserName = "";
+
+			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+				/(webkit)[ \/]([\w.]+)/.exec(ua) ||
+				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+				/(msie) ([\w.]+)/.exec(ua) ||
+				ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+				[];
+
+			var browser = (match[1] || "");
+			var browserVersion = (match[2] || "0");
+
+			if (browser == "msie") browser = "ie";
+			return {
+				name: browser,
+				version: browserVersion,
+				mobile: mobile
+			}
+		}
+	})(),
+	docTD: (function () {
+		if (!document.compatMode || document.compatMode == 'BackCompat') return "Q";
+		else return "S";
+	})(),
+	timekey: function () {
+		var d = new Date();
+		return ("A" + d.getHours().setDigit(2) + d.getMinutes().setDigit(2) + d.getSeconds().setDigit(2) + d.getMilliseconds());
+	},
+	overwriteObject: function (tg, obj, rewrite) {
+		if (rewrite == undefined) rewrite = true;
+		//trace(tg[k]);
+		if (obj) AXUtil.each(obj, function (k, v) {
+			if (rewrite) { tg[k] = v; }
+			else {
+				//trace(tg[k]);
+				if (tg[k] == undefined) tg[k] = v;
+			}
+		});
+		return tg;
+	},
+	copyObject: function (obj) {
+		//return Object.clone(obj);
+		return Object.toJSON(obj).object();
+	},
+	consonantKR: function (cword) {
+		var cons = [
+			{ c: "ㄱ", re: "[가-깋]" }, { c: "ㄲ", re: "[까-낗]" }, { c: "ㄴ", re: "[나-닣]" }, { c: "ㄷ", re: "[다-딯]" }, { c: "ㄸ", re: "[따-띻]" }, { c: "ㄹ", re: "[라-맇]" },
+			{ c: "ㅁ", re: "[마-밓]" }, { c: "ㅂ", re: "[바-빟]" }, { c: "ㅃ", re: "[빠-삫]" }, { c: "ㅅ", re: "[사-싷]" }, { c: "ㅆ", re: "[싸-앃]" }, { c: "ㅇ", re: "[아-잏]" }, { c: "ㅈ", re: "[자-짛]" },
+			{ c: "ㅉ", re: "[짜-찧]" }, { c: "ㅊ", re: "[차-칳]" }, { c: "ㅋ", re: "[카-킿]" }, { c: "ㅌ", re: "[타-팋]" }, { c: "ㅍ", re: "[파-핗]" }, { c: "ㅎ", re: "[하-힣]" }
+		];
+		var rword = "";
+		var cwords = cword.split("");
+		AXUtil.each(cwords, function (i, n) {
+			var fos = cons.searchObject(function () {
+				return this.item.c == n;
+			});
+			var fo = fos.first();
+			if (fo) rword += fo.re;
+			else rword += n;
+		});
+		return rword;
+	},
+	setCookie: function (name, value, expiredays) { if (expiredays) { var todayDate = new Date(); todayDate.setDate(todayDate.getDate() + expiredays); document.cookie = name + '=' + escape(value) + '; path=/; expires=' + todayDate.toGMTString() + ';'; } else { document.cookie = name + '=' + escape(value) + '; path=/;'; } },
+	getCookie: function (name) { var nameOfCookie = name + "="; var x = 0; while (x <= document.cookie.length) { var y = (x + nameOfCookie.length); if (document.cookie.substring(x, y) == nameOfCookie) { if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length; return unescape(document.cookie.substring(y, endOfCookie)); } x = document.cookie.indexOf(" ", x) + 1; if (x == 0) break; } return ""; },
+	JSONFilter: /^\/\*-secure-([\s\S]*)\*\/\s*$/,
+	dayLen: function (y, m) { if ([3, 5, 8, 10].has(function () { return this.item == m; })) { return 30; } else if (m == 1) { return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)) ? 29 : 28; } else { return 31; } },
+	clientHeight: function () { return (AXUtil.docTD == "Q") ? document.body.clientHeight : document.documentElement.clientHeight; },
+	scrollHeight: function () { return (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight; },
+	clientWidth: function () { return (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth; },
+	scrollWidth: function () { return (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth; },
+	Event: { KEY_BACKSPACE: 8, KEY_TAB: 9, KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46, KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {} },
+	console: function (obj) {
+		var po = "";
+		if (arguments.length > 1) {
+			for (i = 0; i < arguments.length; i++) {
+				var obji = arguments[i];
+				var objStr = "";
+				var type = (typeof obji).toLowerCase();
+				if (type == "undefined" || type == "function") {
+					objStr = type;
+				} else if (type == "boolean" || type == "number" || type == "string") {
+					objStr = obji;
+				} else if (type == "object") {
+					objStr = Object.toJSON(obji);
+				}
+				if (po != "") po += ", ";
+				po += "arg[" + i + "] : " + objStr;
+			}
+		} else {
+			var type = (typeof obj).toLowerCase();
+			if (type == "undefined" || type == "function") {
+				po = type;
+			} else if (type == "boolean" || type == "number" || type == "string") {
+				po = obj;
+			} else if (type == "object") {
+				po = Object.toJSON(obj);
+			}
+		}
+
+		if(AXUtil.mobileConsole){
+			AXUtil.mobileConsole.append("<div>" + po + "</div>");
+		}else{
+			if (window.console == undefined) {
+			} else {
+				try {
+					console.log(po);
+				} catch (e) {
+					alert(e);
+				}
+			}
+		}
+	},
+	alert: function (obj) {
+		var po = "";
+		if (arguments.length > 1) {
+			for (i = 0; i < arguments.length; i++) {
+				var obji = arguments[i];
+				var objStr = "";
+				var type = (typeof obji).toLowerCase();
+				if (type == "undefined" || type == "function") {
+					objStr = type;
+				} else if (type == "boolean" || type == "number" || type == "string") {
+					objStr = obji;
+				} else if (type == "object") {
+					objStr = Object.toJSON(obji);
+				}
+				if (po != "") po += ", ";
+				po += "arguments[" + i + "] : " + objStr;
+			}
+		} else {
+			var type = (typeof obj).toLowerCase();
+			if (type == "undefined" || type == "function") {
+				po = type;
+			} else if (type == "boolean" || type == "number" || type == "string") {
+				po = obj;
+			} else if (type == "object") {
+				po = Object.toJSON(obj);
+			}
+		}
+		alert(po);
+	},
+	confirm: function (obj) {
+		var po = "";
+		var type = (typeof obj).toLowerCase();
+		if (type == "undefined" || type == "function") {
+			po = type;
+		} else if (type == "boolean" || type == "number" || type == "string") {
+			po = obj;
+		} else if (type == "object") {
+			po = Object.toJSON(obj);
+		}
+		var result = confirm(po);
+		return result;
+	},
+	importJS: function (src) {
+		var scriptElement = document.createElement("script");
+		scriptElement.setAttribute("src", src);
+		scriptElement.setAttribute("type", "text/javascript");
+		document.getElementsByTagName("head")[0].appendChild(scriptElement);
+	},
+	bindPlaceholder: function () {
+
+	},
+	isEmpty: function (val) {
+		return (val === "" || val == null || val == undefined) ? true : false;
+	},
+	getUrlInfo: function () {
+		var url, url_param, param, referUrl, pathName, AXparam, pageProtocol, pageHostName;
+		url_param = window.location.href;
+		param = window.location.search;
+		referUrl = document.referrer;
+		pathName = window.location.pathname;
+		url = url_param.replace(param, '');
+		param = param.replace(/^\?/, '');
+		pageProtocol = window.location.protocol;
+		pageHostName = window.location.hostname;
+		AXparam = url_param.replace(pageProtocol + "//", "");
+		AXparam = (param) ? AXparam.replace(pageHostName + pathName + "?" + param, "") : AXparam.replace(pageHostName + pathName, "");
+		return {
+			url : url,
+			param : param,
+			anchorData : AXparam,
+			urlParam : url_param,
+			referUrl : referUrl,
+			pathName : pathName,
+			protocol : pageProtocol,
+			hostName : pageHostName
+		};
+	},
+	encParam: function (str) {
+		var re = new RegExp("[^&?]*?=[^&?]*", "ig");
+		var pars = [];
+		var arr;
+		while ((arr = re.exec(str)) != null) {
+			var strContent = arr.toString();
+			var dotIndex = strContent.indexOf("=");
+			pars.push(strContent.substring(0, dotIndex) + "=" + strContent.substring(dotIndex + 1).enc());
+		}
+		return pars.join("&");
+	},
+	readyMobileConsole: function(){
+		AXUtil.mobileConsole = axdom("<div class=\"AXMobileConsole\"></div>");
+		axdom(document.body).append(AXUtil.mobileConsole);
+	}
+};
+
+var axdom = jQuery;
 
 /* *** extend implement block ***************************** */
 var Class = (function () {
@@ -275,7 +575,7 @@ Object.extend(String.prototype, (function () {
 		} else {
 			var localNums = localNum.split(/\//g);
 			var tempNum = _this.left(3);
-			jQuery.each(localNums, function () {
+			AXUtil.each(localNums, function () {
 				if (this == tempNum) {
 					myLocalNums = this;
 					return false;
@@ -597,7 +897,7 @@ Object.extend(Array.prototype, (function () {
 	function remove(callBack) {
 		var _self = this;
 		var collect = [];
-		jQuery.each(this, function (index, O) {
+		AXUtil.each(this, function (index, O) {
 			if (!callBack.call({ index: index, item: O }, index, O)) collect.push(O);
 		});
 		return collect;
@@ -605,7 +905,7 @@ Object.extend(Array.prototype, (function () {
 	function search(callBack) {
 		var _self = this;
 		var collect = [];
-		jQuery.each(this, function (index, O) {
+		AXUtil.each(this, function (index, O) {
 			if (callBack.call({ index: index, item: O }, index, O)) collect.push(O);
 		});
 		return collect.length;
@@ -613,7 +913,7 @@ Object.extend(Array.prototype, (function () {
 	function getObject(callBack) {
 		var _self = this;
 		var collect = [];
-		jQuery.each(this, function (index, O) {
+		AXUtil.each(this, function (index, O) {
 			if (callBack.call({ index: index, item: O }, index, O)) collect.push(O);
 		});
 		return collect;
@@ -621,7 +921,7 @@ Object.extend(Array.prototype, (function () {
 	function hasObject(callBack) {
 		var _self = this;
 		var collect = null;
-		jQuery.each(this, function (index, O) {
+		AXUtil.each(this, function (index, O) {
 			if (callBack.call({ index: index, item: O }, index, O)) {
 				collect = O;
 				return false;
@@ -746,7 +1046,7 @@ Object.extend(Array.prototype, (function () {
 				var pHashs = pHash.split(/_/g);
 				var pTree = tree;
 				var pTreeItem;
-				jQuery.each(pHashs, function (idx, T) {
+				AXUtil.each(pHashs, function (idx, T) {
 					if (idx > 0) {
 						pTreeItem = pTree[T.number()];
 						pTree = pTree[T.number()].subTree;
@@ -816,342 +1116,9 @@ Object.extend(Array.prototype, (function () {
 function AXgetId(id) { return document.getElementById(id); }
 function AX_A(iterable) { if (!iterable) return []; if ('toArray' in Object(iterable)) return iterable.toArray(); var length = iterable.length || 0, results = new Array(length); while (length--) results[length] = iterable[length]; return results; }
 
-/* jQuery 1.9 bug fix */
-var AXConfig = {
-	weekDays: [
-		{ label: "일" },
-		{ label: "월" },
-		{ label: "화" },
-		{ label: "수" },
-		{ label: "목" },
-		{ label: "금" },
-		{ label: "토" }
-	],
-	AXReq: {
-		async: true, // AJAX 비동기 처리 여부
-		okCode: "ok", // 통신 성공 코드
-		responseType: "", // AJAX responseType
-		dataType: "", // AJAX return Data type
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8", // AJAX contentType
-		dataSendMethod: "parameter", // AJAX parameter send type
-		crossDomain: false,
-		resultFormatter: function () { // onsucc formatter
-			return this;
-		}
-	},
-	AXGrid: {
-		passiveMode: false,
-		passiveRemoveHide: false,
-		fitToWidthRightMargin: 10,
-		fitToWidth: false,
-		pageSize: 10,
-		pageHeight: 400,
-		keyResult: "result",
-		keyList: "list",
-		emptyListMSG: "목록이 없습니다.",
-		listCountMSG: "<b>{listCount}</b> Count"
-	},
-	AXTree: {
-		fitToWidthRightMargin: 10,
-		fitToWidth: false,
-		pageSize: 10,
-		pageHeight: 400,
-		keyResult: "result",
-		keyTree: "tree",
-		keyList: "list",
-		emptyListMSG: "목록이 없습니다."
-	},
-	AXProgress: {
-		cancelMsg: "프로세스를 취소 하시겠습니까?"
-	},
-	AXUpload5: {
-		buttonTxt: "Upload files",
-		deleteConfirm: "정말 삭제하시겠습니까?",
-		uploadSelectTxt: "업로드 하실 파일을 선택해주세요.",
-		dropZoneTxt: "업로드할 파일을 여기에 놓습니다."
-	},
-	AXModal: {
-		contentDivClass: "bodyHeightDiv"
-	},
-	AXInput: {
-		errorPrintType: "toast",
-		selectorOptionEmpty: "목록이 없습니다.",
-		yearText:"{year}년",
-		monthText:"{month}월",
-		confirmText:"확인"
-	},
-	AXContextMenu: {
-		title:"선택하세요"
-	},
-	mobile: {
-		responsiveWidth: 648
-	}
-};
+var trace = axf.console;
+var getUrlInfo = axf.getUrlInfo;
 
-var AXUtil = {
-	async: true,
-	ajaxOkCode: "ok",
-	ajaxResponseType: "",
-	ajaxDataType: "",
-	gridPassiveMode: false,
-	gridPassiveRemoveHide: false,
-	gridFitToWidthRightMargin: 10,
-
-	browser: (function () {
-		var ua = navigator.userAgent.toLowerCase();
-		var mobile = (ua.search(/mobile/g) != -1) ? true : false;
-		if (ua.search(/iphone/g) != -1) {
-			return { name: "iphone", version: 0, mobile: true }
-		} else if (ua.search(/ipad/g) != -1) {
-			return { name: "ipad", version: 0, mobile: true }
-		} else if (ua.search(/android/g) != -1) {
-			var match = /(android)[ \/]([\w.]+)/.exec(ua) ||
-				[];
-			var browserVersion = (match[2] || "0");
-			return { name: "android", version: browserVersion, mobile: mobile }
-		} else {
-			var browserName = "";
-
-			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-				/(webkit)[ \/]([\w.]+)/.exec(ua) ||
-				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
-				/(msie) ([\w.]+)/.exec(ua) ||
-				ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
-				[];
-
-			var browser = (match[1] || "");
-			var browserVersion = (match[2] || "0");
-
-			if (browser == "msie") browser = "ie";
-			return {
-				name: browser,
-				version: browserVersion,
-				mobile: mobile
-			}
-		}
-	})(),
-	docTD: (function () {
-		if (!document.compatMode || document.compatMode == 'BackCompat') return "Q";
-		else return "S";
-	})(),
-	timekey: function () {
-		var d = new Date();
-		return ("A" + d.getHours().setDigit(2) + d.getMinutes().setDigit(2) + d.getSeconds().setDigit(2) + d.getMilliseconds());
-	},
-	overwriteObject: function (tg, obj, rewrite) {
-		if (rewrite == undefined) rewrite = true;
-		//trace(tg[k]);
-		if (obj) jQuery.each(obj, function (k, v) {
-			if (rewrite) { tg[k] = v; }
-			else {
-				//trace(tg[k]);
-				if (tg[k] == undefined) tg[k] = v;
-			}
-		});
-		return tg;
-	},
-	copyObject: function (obj) {
-		//return Object.clone(obj);
-		return Object.toJSON(obj).object();
-	},
-	consonantKR: function (cword) {
-		var cons = [
-			{ c: "ㄱ", re: "[가-깋]" }, { c: "ㄲ", re: "[까-낗]" }, { c: "ㄴ", re: "[나-닣]" }, { c: "ㄷ", re: "[다-딯]" }, { c: "ㄸ", re: "[따-띻]" }, { c: "ㄹ", re: "[라-맇]" },
-			{ c: "ㅁ", re: "[마-밓]" }, { c: "ㅂ", re: "[바-빟]" }, { c: "ㅃ", re: "[빠-삫]" }, { c: "ㅅ", re: "[사-싷]" }, { c: "ㅆ", re: "[싸-앃]" }, { c: "ㅇ", re: "[아-잏]" }, { c: "ㅈ", re: "[자-짛]" },
-			{ c: "ㅉ", re: "[짜-찧]" }, { c: "ㅊ", re: "[차-칳]" }, { c: "ㅋ", re: "[카-킿]" }, { c: "ㅌ", re: "[타-팋]" }, { c: "ㅍ", re: "[파-핗]" }, { c: "ㅎ", re: "[하-힣]" }
-		];
-		var rword = "";
-		var cwords = cword.split("");
-		jQuery.each(cwords, function (i, n) {
-			var fos = cons.searchObject(function () {
-				return this.item.c == n;
-			});
-			var fo = fos.first();
-			if (fo) rword += fo.re;
-			else rword += n;
-		});
-		return rword;
-	},
-	setCookie: function (name, value, expiredays) { if (expiredays) { var todayDate = new Date(); todayDate.setDate(todayDate.getDate() + expiredays); document.cookie = name + '=' + escape(value) + '; path=/; expires=' + todayDate.toGMTString() + ';'; } else { document.cookie = name + '=' + escape(value) + '; path=/;'; } },
-	getCookie: function (name) { var nameOfCookie = name + "="; var x = 0; while (x <= document.cookie.length) { var y = (x + nameOfCookie.length); if (document.cookie.substring(x, y) == nameOfCookie) { if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length; return unescape(document.cookie.substring(y, endOfCookie)); } x = document.cookie.indexOf(" ", x) + 1; if (x == 0) break; } return ""; },
-	JSONFilter: /^\/\*-secure-([\s\S]*)\*\/\s*$/,
-	dayLen: function (y, m) {
-		if ([3, 5, 8, 10].has(function () { return this.item == m; })) { return 30; } else if (m == 1) { return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)) ? 29 : 28; } else { return 31; }
-	},
-	clientHeight: function () {
-		return (AXUtil.docTD == "Q") ? document.body.clientHeight : document.documentElement.clientHeight;
-	},
-	scrollHeight: function () {
-		return (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight;
-	},
-	clientWidth: function () {
-		return (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth;
-	},
-	scrollWidth: function () {
-		return (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth;
-	},
-	Event: {
-		KEY_BACKSPACE: 8,
-		KEY_TAB: 9,
-		KEY_RETURN: 13,
-		KEY_ESC: 27,
-		KEY_LEFT: 37,
-		KEY_UP: 38,
-		KEY_RIGHT: 39,
-		KEY_DOWN: 40,
-		KEY_DELETE: 46,
-		KEY_HOME: 36,
-		KEY_END: 35,
-		KEY_PAGEUP: 33,
-		KEY_PAGEDOWN: 34,
-		KEY_INSERT: 45,
-		KEY_SPACE: 32,
-		cache: {}
-	},
-	console: function (obj) {
-		var po = "";
-		if (arguments.length > 1) {
-			for (i = 0; i < arguments.length; i++) {
-				var obji = arguments[i];
-				var objStr = "";
-				var type = (typeof obji).toLowerCase();
-				if (type == "undefined" || type == "function") {
-					objStr = type;
-				} else if (type == "boolean" || type == "number" || type == "string") {
-					objStr = obji;
-				} else if (type == "object") {
-					objStr = Object.toJSON(obji);
-				}
-				if (po != "") po += ", ";
-				po += "arg[" + i + "] : " + objStr;
-			}
-		} else {
-			var type = (typeof obj).toLowerCase();
-			if (type == "undefined" || type == "function") {
-				po = type;
-			} else if (type == "boolean" || type == "number" || type == "string") {
-				po = obj;
-			} else if (type == "object") {
-				po = Object.toJSON(obj);
-			}
-		}
-
-		if(AXUtil.mobileConsole){
-			AXUtil.mobileConsole.append("<div>" + po + "</div>");
-		}else{
-			if (window.console == undefined) {
-			} else {
-				try {
-					console.log(po);
-				} catch (e) {
-					alert(e);
-				}
-			}
-		}
-	},
-	alert: function (obj) {
-		var po = "";
-		if (arguments.length > 1) {
-			for (i = 0; i < arguments.length; i++) {
-				var obji = arguments[i];
-				var objStr = "";
-				var type = (typeof obji).toLowerCase();
-				if (type == "undefined" || type == "function") {
-					objStr = type;
-				} else if (type == "boolean" || type == "number" || type == "string") {
-					objStr = obji;
-				} else if (type == "object") {
-					objStr = Object.toJSON(obji);
-				}
-				if (po != "") po += ", ";
-				po += "arguments[" + i + "] : " + objStr;
-			}
-		} else {
-			var type = (typeof obj).toLowerCase();
-			if (type == "undefined" || type == "function") {
-				po = type;
-			} else if (type == "boolean" || type == "number" || type == "string") {
-				po = obj;
-			} else if (type == "object") {
-				po = Object.toJSON(obj);
-			}
-		}
-		alert(po);
-	},
-	confirm: function (obj) {
-		var po = "";
-		var type = (typeof obj).toLowerCase();
-		if (type == "undefined" || type == "function") {
-			po = type;
-		} else if (type == "boolean" || type == "number" || type == "string") {
-			po = obj;
-		} else if (type == "object") {
-			po = Object.toJSON(obj);
-		}
-		var result = confirm(po);
-		return result;
-	},
-	importJS: function (src) {
-		var scriptElement = document.createElement("script");
-		scriptElement.setAttribute("src", src);
-		scriptElement.setAttribute("type", "text/javascript");
-		document.getElementsByTagName("head")[0].appendChild(scriptElement);
-	},
-	bindPlaceholder: function () {
-
-	},
-	isEmpty: function (val) {
-		return (val === "" || val == null || val == undefined) ? true : false;
-	},
-	getUrlInfo: function () {
-
-		var url, url_param, param, referUrl, pathName, AXparam, pageProtocol, pageHostName;
-		url_param = window.location.href;
-		param = window.location.search;
-		referUrl = document.referrer;
-		pathName = window.location.pathname;
-		url = url_param.replace(param, '');
-		param = param.replace(/^\?/, '');
-		pageProtocol = window.location.protocol;
-		pageHostName = window.location.hostname;
-
-		AXparam = url_param.replace(pageProtocol + "//", "");
-		if (param) {
-			AXparam = AXparam.replace(pageHostName + pathName + "?" + param, "");
-		} else {
-			AXparam = AXparam.replace(pageHostName + pathName, "");
-		}
-
-		pageInfo = {};
-		pageInfo.url = url;
-		pageInfo.param = param;
-		pageInfo.anchorData = AXparam;
-		pageInfo.urlParam = url_param;
-		pageInfo.referUrl = referUrl;
-		pageInfo.pathName = pathName;
-		pageInfo.protocol = pageProtocol;
-		pageInfo.hostName = pageHostName;
-
-		return pageInfo;
-	},
-	encParam: function (str) {
-		var re = new RegExp("[^&?]*?=[^&?]*", "ig");
-		var pars = [];
-		var arr;
-		while ((arr = re.exec(str)) != null) {
-			var strContent = arr.toString();
-			var dotIndex = strContent.indexOf("=");
-			pars.push(strContent.substring(0, dotIndex) + "=" + strContent.substring(dotIndex + 1).enc());
-		}
-		return pars.join("&");
-	},
-	readyMobileConsole: function(){
-		AXUtil.mobileConsole = jQuery("<div class=\"AXMobileConsole\"></div>");
-		jQuery(document.body).append(AXUtil.mobileConsole);
-	}
-};
-var trace = AXUtil.console;
-var getUrlInfo = AXUtil.getUrlInfo;
 /* ** AXJ ********************************************** */
 var AXJ = Class.create({
 	version: "AXJ - v1.0",
@@ -1189,12 +1156,12 @@ var AXJ = Class.create({
 	},
 	setConfig: function (configs) {
 		var _self = this;
-		if (configs) jQuery.each(configs, function (k, v) { _self.config[k] = v; });
+		if (configs) AXUtil.each(configs, function (k, v) { _self.config[k] = v; });
 		this.init();
 	},
 	changeConfig: function (configs) {
 		var _self = this;
-		if (configs) jQuery.each(configs, function (k, v) { _self.config[k] = v; });
+		if (configs) AXUtil.each(configs, function (k, v) { _self.config[k] = v; });
 	},
 	getEventTarget: function (arg) {
 		var eventTarget = arg.evt;
@@ -1311,7 +1278,7 @@ var AXReqQue = Class.create({
 			contentType: AXConfig.AXReq.contentType,
 			debug: false
 		};
-		jQuery.each(myQue.configs, function (k, v) { // update to {this.config}
+		AXUtil.each(myQue.configs, function (k, v) { // update to {this.config}
 			if (k == "pars") {
 
 			}
@@ -1338,7 +1305,7 @@ var AXReqQue = Class.create({
 		if (config.debug) trace({ url: myQue.url, pars: myQue.configs.pars });
 
 		var ajaxOption = {};
-		jQuery.each(config, function (k, v) { // update to {this.config}
+		AXUtil.each(config, function (k, v) { // update to {this.config}
 			ajaxOption[k] = v;
 		});
 		ajaxOption.url = myQue.url;
@@ -1350,7 +1317,7 @@ var AXReqQue = Class.create({
 		ajaxOption.error = onerr;
 		ajaxOption.timeout = ontimeout;
 
-		this.que[0]._jQueryAjax = jQuery.ajax(ajaxOption);
+		this.que[0]._jQueryAjax = axdom.ajax(ajaxOption);
 	},
 	onsucc: function (req) {
 		if (req != undefined) {
@@ -1448,10 +1415,10 @@ var AXMask = Class.create(AXJ, {
 		this.blinkTrack = [];
 	},
 	init: function () {
-		this.mask = jQuery("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
+		this.mask = axdom("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
 	},
 	open: function (configs) {
-		jQuery(document.body).append(this.mask);
+		axdom(document.body).append(this.mask);
 		var bodyHeight = 0;
 		(AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
 		
@@ -1530,9 +1497,9 @@ var AXNotification = Class.create(AXJ, {
 	init: function () {
 		var config = this.config;
 		if (config.type == "toast") {
-			this.toastTray = jQuery("<div class=\"AXNotificationTray\" id=\"" + config.targetID + "\"></div>");
+			this.toastTray = axdom("<div class=\"AXNotificationTray\" id=\"" + config.targetID + "\"></div>");
 		} else if (config.type == "dialog") {
-			this.dialogTray = jQuery("<div class=\"AXNotificationTrayDialog\" id=\"" + config.targetID + "\"></div>");
+			this.dialogTray = axdom("<div class=\"AXNotificationTrayDialog\" id=\"" + config.targetID + "\"></div>");
 			//dialog type display center;
 		}
 	},
@@ -1593,7 +1560,7 @@ var AXNotification = Class.create(AXJ, {
 			po.push("	</table>");
 			if (obj.buttons) {
 				po.push("	<div class=\"AXNotificationButtons\">");
-				jQuery.each(obj.buttons, function (index, B) {
+				AXUtil.each(obj.buttons, function (index, B) {
 					po.push("	<input type=\"button\" value=\"" + this.buttonValue + "\" class=\"AXButton " + (this.buttonClass || "") + "\"  id=\"bread_AX_" + breadID + "_AX_buttons_AX_" + index + "\" />");
 				});
 				po.push("	</div>");
@@ -1608,34 +1575,34 @@ var AXNotification = Class.create(AXJ, {
 		}
 
 		if (config.type == "toast") {
-			if (!AXgetId(config.targetID)) jQuery(document.body).append(this.toastTray);
+			if (!AXgetId(config.targetID)) axdom(document.body).append(this.toastTray);
 			this.bread.push({ breadID: breadID, type: obj.type, html: po.join('').enc() });
 			this.insertBread();
 		} else if (config.type == "dialog") {
-			if (!AXgetId(config.targetID)) jQuery(document.body).append(this.dialogTray);
+			if (!AXgetId(config.targetID)) axdom(document.body).append(this.dialogTray);
 			this.dialogTray.prepend(po.join(''));
 
 			mask.open();
 			var bodyWidth = (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth;
 			var l = bodyWidth / 2 - this.dialogTray.width() / 2;
 			this.dialogTray.css({ left: l + "px" });
-			jQuery("#bread_AX_" + breadID).fadeIn();
+			axdom("#bread_AX_" + breadID).fadeIn();
 
 			var endCheck = this.endCheck.bind(this);
 
 			//Confirm button
-			jQuery("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
+			axdom("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
 				if (obj.onConfirm) obj.onConfirm(obj.data);
-				jQuery("#bread_AX_" + breadID).fadeOut({
+				axdom("#bread_AX_" + breadID).fadeOut({
 					duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
-						jQuery("#bread_AX_" + breadID).remove();
+						axdom("#bread_AX_" + breadID).remove();
 						endCheck();
 					}
 				});
 			});
 
 			//AXBUTTON
-			jQuery(".AXNotificationButtons").find(".AXButton").bind("click", function (event) {
+			axdom(".AXNotificationButtons").find(".AXButton").bind("click", function (event) {
 				var eid = event.target.id.split(/_AX_/g);
 				var myBreadID = eid[1];
 				var buttonSeq = eid.last();
@@ -1644,21 +1611,21 @@ var AXNotification = Class.create(AXJ, {
 						if (obj.buttons[buttonSeq].onClick) obj.buttons[buttonSeq].onClick(obj.buttons[buttonSeq].data);
 					}
 				}
-				jQuery("#bread_AX_" + myBreadID).fadeOut({
+				axdom("#bread_AX_" + myBreadID).fadeOut({
 					duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
-						jQuery("#bread_AX_" + myBreadID).remove();
+						axdom("#bread_AX_" + myBreadID).remove();
 						endCheck();
 					}
 				});
 			});
 
-			jQuery(".AXNotificationButtons").find(".AXButton").get(0).focus();
+			axdom(".AXNotificationButtons").find(".AXButton").get(0).focus();
 
-			jQuery(document.body).unbind("keyup."+breadID).bind("keyup."+breadID, function(event){
+			axdom(document.body).unbind("keyup."+breadID).bind("keyup."+breadID, function(event){
 				if(event.keyCode == AXUtil.Event.KEY_ESC){
-					jQuery("#bread_AX_" + breadID).fadeOut({
+					axdom("#bread_AX_" + breadID).fadeOut({
 						duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
-							jQuery("#bread_AX_" + breadID).remove();
+							axdom("#bread_AX_" + breadID).remove();
 							endCheck(breadID);
 						}
 					});
@@ -1679,25 +1646,25 @@ var AXNotification = Class.create(AXJ, {
 
 		var myQue = this.bread.first();
 		var breadID = myQue.breadID;
-		jQuery("#" + config.targetID).prepend(myQue.html.decode());
-		jQuery("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
-			jQuery("#bread_AX_" + breadID).fadeOut({
+		axdom("#" + config.targetID).prepend(myQue.html.decode());
+		axdom("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
+			axdom("#bread_AX_" + breadID).fadeOut({
 				duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
-					jQuery("#bread_AX_" + breadID).remove();
+					axdom("#bread_AX_" + breadID).remove();
 					endCheck();
 				}
 			});
 		});
 
-		jQuery("#bread_AX_" + breadID).slideDown({
+		axdom("#bread_AX_" + breadID).slideDown({
 			duration: config.easing.open.duration, easing: config.easing.open.easing, complete: function () {
 				nextBread();
-				//jQuery("#msg").html(jQuery("#msg").html()+"<br/>"+AXgetId("bread_AX_"+breadID)+"/"+breadID);
+				//axdom("#msg").html(axdom("#msg").html()+"<br/>"+AXgetId("bread_AX_"+breadID)+"/"+breadID);
 				if (myQue.type != "Caution") {
 					setTimeout(function () {
-						jQuery("#bread_AX_" + breadID).fadeOut({
+						axdom("#bread_AX_" + breadID).fadeOut({
 							duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
-								jQuery("#bread_AX_" + breadID).remove();
+								axdom("#bread_AX_" + breadID).remove();
 								endCheck();
 							}
 						});
@@ -1712,11 +1679,11 @@ var AXNotification = Class.create(AXJ, {
 		this.insertBread();
 	},
 	endCheck: function (breadID) {
-		if (jQuery("#" + this.config.targetID).html() == "") {
+		if (axdom("#" + this.config.targetID).html() == "") {
 			this.lasBreadSeq = 0;
 			if (this.config.type == "dialog") {
 				mask.close();	
-				if(breadID) jQuery(document.body).unbind("keyup."+breadID);
+				if(breadID) axdom(document.body).unbind("keyup."+breadID);
 			}
 		}
 	}
@@ -1771,8 +1738,8 @@ var AXScroll = Class.create(AXJ, {
 			trace("need scrollID - setConfig({scrollID:''})");
 			return;
 		}
-		this.scrollTargetID = jQuery("#" + config.targetID);
-		this.scrollScrollID = jQuery("#" + config.scrollID);
+		this.scrollTargetID = axdom("#" + config.targetID);
+		this.scrollScrollID = axdom("#" + config.scrollID);
 		this.scrollTargetID.addClass(this.config.CT_className);
 		this.scrollScrollID.addClass(this.config.ST_className);
 		this.initScroll();
@@ -1800,12 +1767,12 @@ var AXScroll = Class.create(AXJ, {
 			this.scroll = true;
 
 			if (cfg.yscroll) {
-				this.scrollTrack = jQuery("#" + cfg.targetID + "_AX_scrollTrack");
-				this.scrollBar = jQuery("#" + cfg.targetID + "_AX_scrollBar");
+				this.scrollTrack = axdom("#" + cfg.targetID + "_AX_scrollTrack");
+				this.scrollBar = axdom("#" + cfg.targetID + "_AX_scrollBar");
 			}
 			if (cfg.xscroll) {
-				this.xscrollTrack = jQuery("#" + cfg.targetID + "_AX_xscrollTrack");
-				this.xscrollBar = jQuery("#" + cfg.targetID + "_AX_xscrollBar");
+				this.xscrollTrack = axdom("#" + cfg.targetID + "_AX_xscrollTrack");
+				this.xscrollBar = axdom("#" + cfg.targetID + "_AX_xscrollBar");
 			}
 		} else {
 			if (!cfg.yscroll) {
@@ -2258,15 +2225,15 @@ var AXScroll = Class.create(AXJ, {
 		this.scrollBarAttr = { x: (SBpos.left - pos.x).number(), y: (SBpos.top - pos.y).number(), h: SBh.number(), sth: STh };
 		//trace("y:"+SBpos.top +" - "+ pos.y +", h:"+ SBh +", sth:"+STh+", calc y : "+(SBpos.top - pos.y).number());
 
-		jQuery(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveBind);
-		jQuery(document.body).bind("mouseup.AXScroll", this.SBonMouseUpBind);
-		jQuery(document.body).bind("mouseleave.AXScroll", this.SBonMouseUpBind);
+		axdom(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveBind);
+		axdom(document.body).bind("mouseup.AXScroll", this.SBonMouseUpBind);
+		axdom(document.body).bind("mouseleave.AXScroll", this.SBonMouseUpBind);
 	},
 	SBonMouseMove: function (event) {
 		var config = this.config;
 		if (this.scrollBarMove) {
-			jQuery(document.body).attr("onselectstart", "return false");
-			jQuery(document.body).addClass("AXUserSelectNone");
+			axdom(document.body).attr("onselectstart", "return false");
+			axdom(document.body).addClass("AXUserSelectNone");
 			var pos = this.getMousePosition(event);
 
 			var SBy = pos.y + this.scrollBarAttr.y;
@@ -2285,12 +2252,12 @@ var AXScroll = Class.create(AXJ, {
 		if (this.scrollBarMove) {
 			var config = this.config;
 			this.scrollBarMove = false;
-			jQuery(document.body).removeAttr("onselectstart");
-			jQuery(document.body).removeClass("AXUserSelectNone");
+			axdom(document.body).removeAttr("onselectstart");
+			axdom(document.body).removeClass("AXUserSelectNone");
 		}
-		jQuery(document.body).unbind("mousemove.AXScroll");
-		jQuery(document.body).unbind("mouseup.AXScroll");
-		jQuery(document.body).unbind("mouseleave.AXScroll");
+		axdom(document.body).unbind("mousemove.AXScroll");
+		axdom(document.body).unbind("mouseup.AXScroll");
+		axdom(document.body).unbind("mouseleave.AXScroll");
 	},
 
 	SBonMouseDownX: function (event) {
@@ -2307,16 +2274,16 @@ var AXScroll = Class.create(AXJ, {
 
 		this.scrollBarAttr = { x: (SBpos.left - pos.x).number(), w: SBw.number(), stw: STw };
 
-		jQuery(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveXBind);
-		jQuery(document.body).bind("mouseup.AXScroll", this.SBonMouseUpXBind);
-		jQuery(document.body).bind("mouseleave.AXScroll", this.SBonMouseUpXBind);
+		axdom(document.body).bind("mousemove.AXScroll", this.SBonMouseMoveXBind);
+		axdom(document.body).bind("mouseup.AXScroll", this.SBonMouseUpXBind);
+		axdom(document.body).bind("mouseleave.AXScroll", this.SBonMouseUpXBind);
 	},
 	SBonMouseMoveX: function (event) {
 		var config = this.config;
 		if (this.scrollBarMove) {
 
-			jQuery(document.body).attr("onselectstart", "return false");
-			jQuery(document.body).addClass("AXUserSelectNone");
+			axdom(document.body).attr("onselectstart", "return false");
+			axdom(document.body).addClass("AXUserSelectNone");
 			var pos = this.getMousePosition(event);
 
 			var SBx = pos.x + this.scrollBarAttr.x;
@@ -2335,12 +2302,12 @@ var AXScroll = Class.create(AXJ, {
 		if (this.scrollBarMove) {
 			var config = this.config;
 			this.scrollBarMove = false;
-			jQuery(document.body).removeAttr("onselectstart");
-			jQuery(document.body).removeClass("AXUserSelectNone");
+			axdom(document.body).removeAttr("onselectstart");
+			axdom(document.body).removeClass("AXUserSelectNone");
 		}
-		jQuery(document.body).unbind("mousemove.AXScroll");
-		jQuery(document.body).unbind("mouseup.AXScroll");
-		jQuery(document.body).unbind("mouseleave.AXScroll");
+		axdom(document.body).unbind("mousemove.AXScroll");
+		axdom(document.body).unbind("mouseup.AXScroll");
+		axdom(document.body).unbind("mouseleave.AXScroll");
 	},
 
 	SBonWheel: function (e) {
@@ -2579,8 +2546,8 @@ var AXScroll = Class.create(AXJ, {
 	focusElement: function (id) {
 		var config = this.config;
 		if (AXgetId(id)) {
-			//trace(jQuery("#"+id).position());
-			var pos = jQuery("#" + id).position();
+			//trace(axdom("#"+id).position());
+			var pos = axdom("#" + id).position();
 
 			var myNewTop = pos.top;
 			var CTheight = this.scrollTargetID.innerHeight();
@@ -2634,10 +2601,10 @@ var AXScroll = Class.create(AXJ, {
 		this.scrollTargetID.unbind("mouseover", this.tractActiveBind);
 		this.scrollTargetID.unbind("mouseout", this.tractInActiveBind);
 
-		//jQuery("#"+config.targetID+"_AX_scrollBar").unbind("dragstart", this.cancelEventBind);
-		//jQuery("#"+config.targetID+"_AX_scrollBar").unbind("mousedown", this.SBonMouseDownBind);
-		jQuery(document.body).unbind("mousemove.AXScroll", this.SBonMouseMoveBind);
-		jQuery(document.body).unbind("mouseup.AXScroll", this.SBonMouseUpBind);
+		//axdom("#"+config.targetID+"_AX_scrollBar").unbind("dragstart", this.cancelEventBind);
+		//axdom("#"+config.targetID+"_AX_scrollBar").unbind("mousedown", this.SBonMouseDownBind);
+		axdom(document.body).unbind("mousemove.AXScroll", this.SBonMouseMoveBind);
+		axdom(document.body).unbind("mouseup.AXScroll", this.SBonMouseUpBind);
 
 		var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 		if (document.attachEvent) { //if IE (and Opera depending on user setting)
@@ -2717,7 +2684,7 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("<table cellspacing=\"0\" cellpadding=\"0\" class=\"calendarPage\">");
 		po.push("<thead>");
 		po.push("<tr>");
-		jQuery.each(cfg.weeks, function (wi, ww) {
+		AXUtil.each(cfg.weeks, function (wi, ww) {
 			po.push("<td class=\"head_" + wi + " dayofweek_" + wi + "\">" + ww.name + "</td>");
 		});
 		po.push("</tr>");
@@ -2742,12 +2709,12 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("</tbody>");
 		po.push("</table>");
 		po.push("</div>");
-		jQuery("#" + cfg.targetID).html(po.join(''));
+		axdom("#" + cfg.targetID).html(po.join(''));
 	},
 	dayPageSetDay: function (date) {
 		var cfg = this.config;
-		jQuery("#" + cfg.targetID).find(".calendarDate").removeClass("selected");
-		jQuery("#" + cfg.targetID + "_AX_" + date.print(this.config.valueFormat) + "_AX_date").addClass("selected");
+		axdom("#" + cfg.targetID).find(".calendarDate").removeClass("selected");
+		axdom("#" + cfg.targetID + "_AX_" + date.print(this.config.valueFormat) + "_AX_date").addClass("selected");
 	},
 	printMonthPage: function (date) {
 		var cfg = this.config;
@@ -2778,12 +2745,12 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("</tbody>");
 		po.push("</table>");
 		po.push("</div>");
-		jQuery("#" + cfg.targetID).html(po.join(''));
+		axdom("#" + cfg.targetID).html(po.join(''));
 	},
 	monthPageSetMonth: function (date) {
 		var cfg = this.config;
-		jQuery("#" + cfg.targetID).find(".calendarMonth").removeClass("selected");
-		jQuery("#" + cfg.targetID + "_AX_" + (date.getMonth() + 1) + "_AX_month").addClass("selected");
+		axdom("#" + cfg.targetID).find(".calendarMonth").removeClass("selected");
+		axdom("#" + cfg.targetID + "_AX_" + (date.getMonth() + 1) + "_AX_month").addClass("selected");
 	},
 	printYearPage: function (year) {
 		var cfg = this.config;
@@ -2812,12 +2779,12 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("</tbody>");
 		po.push("</table>");
 		po.push("</div>");
-		jQuery("#" + cfg.targetID).html(po.join(''));
+		axdom("#" + cfg.targetID).html(po.join(''));
 	},
 	yearPageSetYear: function (date) {
 		var cfg = this.config;
-		jQuery("#" + cfg.targetID).find(".calendarMonth").removeClass("selected");
-		jQuery("#" + cfg.targetID + "_AX_" + date.print("yyyy") + "_AX_year").addClass("selected");
+		axdom("#" + cfg.targetID).find(".calendarMonth").removeClass("selected");
+		axdom("#" + cfg.targetID + "_AX_" + date.print("yyyy") + "_AX_year").addClass("selected");
 	},
 	printTimePage: function (displayTime) {
 		var cfg = this.config;
@@ -2863,23 +2830,23 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("<div class='AMPM'><input type='text' id='" + cfg.targetID + "_AX_AMPM' value='" + apm + "' style='width:50px;height:21px;border:0px none;' /></div>");
 		po.push("</div>");
 		po.push("</div>");
-		jQuery("#" + cfg.targetID).html(po.join(''));
+		axdom("#" + cfg.targetID).html(po.join(''));
 
 		var timePageChange = this.timePageChange.bind(this);
-		jQuery("#" + cfg.targetID + "_AX_hour").unbindInput();
-		jQuery("#" + cfg.targetID + "_AX_minute").unbindInput();
-		jQuery("#" + cfg.targetID + "_AX_AMPM").unbindInput();
-		jQuery("#" + cfg.targetID + "_AX_hour").bindSlider({
+		axdom("#" + cfg.targetID + "_AX_hour").unbindInput();
+		axdom("#" + cfg.targetID + "_AX_minute").unbindInput();
+		axdom("#" + cfg.targetID + "_AX_AMPM").unbindInput();
+		axdom("#" + cfg.targetID + "_AX_hour").bindSlider({
 			min: 1, max: 12, onChange: function (objID, objVal) {
 				timePageChange(objID, objVal);
 			}
 		});
-		jQuery("#" + cfg.targetID + "_AX_minute").bindSlider({
+		axdom("#" + cfg.targetID + "_AX_minute").bindSlider({
 			min: 0, max: 59, onChange: function (objID, objVal) {
 				timePageChange(objID, objVal);
 			}
 		});
-		jQuery("#" + cfg.targetID + "_AX_AMPM").bindSwitch({
+		axdom("#" + cfg.targetID + "_AX_AMPM").bindSwitch({
 			off: "AM", on: "PM", onChange: function (objID, objVal) {
 				timePageChange(objID, objVal);
 			}
@@ -2887,21 +2854,21 @@ var AXCalendar = Class.create(AXJ, {
 	},
 	timePageChange: function (objID, objVal) {
 		var cfg = this.config;
-		var mytime = jQuery("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) + ":" + jQuery("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) + " " + jQuery("#" + cfg.targetID + "_AX_AMPM").val();
-		jQuery("#" + cfg.targetID + "_AX_box").find(".timeDisplay").html(mytime);
+		var mytime = axdom("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) + ":" + axdom("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) + " " + axdom("#" + cfg.targetID + "_AX_AMPM").val();
+		axdom("#" + cfg.targetID + "_AX_box").find(".timeDisplay").html(mytime);
 		if (cfg.onChange) {
-			var hh = jQuery("#" + cfg.targetID + "_AX_hour").val().number();
-			var mi = jQuery("#" + cfg.targetID + "_AX_minute").val().number();
-			var apm = jQuery("#" + cfg.targetID + "_AX_AMPM").val();
+			var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
+			var mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
+			var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
 			if (apm == "PM") hh += 12;
 			cfg.onChange(hh.setDigit(2) + ":" + mi.setDigit(2));
 		}
 	},
 	getTime: function () {
 		var cfg = this.config;
-		var hh = jQuery("#" + cfg.targetID + "_AX_hour").val().number();
-		var mi = jQuery("#" + cfg.targetID + "_AX_minute").val().number();
-		var apm = jQuery("#" + cfg.targetID + "_AX_AMPM").val();
+		var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
+		var mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
+		var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
 		if (apm == "PM") hh += 12;
 		return hh.setDigit(2) + ":" + mi.setDigit(2);
 	}
@@ -2934,7 +2901,7 @@ var AXMultiSelect = Class.create(AXJ, {
 	init: function () {
 
 		var mouseClick = this.onmouseClick.bind(this);
-		this._selectStage = jQuery("#" + this.config.selectStage);
+		this._selectStage = axdom("#" + this.config.selectStage);
 		this._selectStage.css({ "position": "relative" });
 
 		/*
@@ -2949,11 +2916,11 @@ var AXMultiSelect = Class.create(AXJ, {
 			mouseClick(this, event);
 		});
 
-		this.helper = jQuery("<div class='AXMultiselectorHelper'></div>");
+		this.helper = axdom("<div class='AXMultiselectorHelper'></div>");
 		this.collect();
 
-		jQuery(window).bind("resize.AXMultiSelect", this.collect.bind(this));
-		jQuery(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
+		axdom(window).bind("resize.AXMultiSelect", this.collect.bind(this));
+		axdom(window).bind("keydown.AXMultiSelect", this.onKeydown.bind(this));
 		this._selectStage.bind("scroll", this.onScrollStage.bind(this));
 		
 		this._selectStage.bind("touchstart", this.touchstart.bind(this));
@@ -2968,11 +2935,11 @@ var AXMultiSelect = Class.create(AXJ, {
 		if (!AXUtil.browser.mobile) {
 			if (this.helperAppened || this.helperAppenedReady) {
 				this.moveSens = 0;
-				jQuery(document.body).unbind("mousemove.AXMultiSelect");
-				jQuery(document.body).unbind("mouseup.AXMultiSelect");
-				jQuery(document.body).unbind("mouseleave.AXMultiSelect");
-				jQuery(document.body).removeAttr("onselectstart");
-				jQuery(document.body).removeClass("AXUserSelectNone");
+				axdom(document.body).unbind("mousemove.AXMultiSelect");
+				axdom(document.body).unbind("mouseup.AXMultiSelect");
+				axdom(document.body).unbind("mouseleave.AXMultiSelect");
+				axdom(document.body).removeAttr("onselectstart");
+				axdom(document.body).removeClass("AXUserSelectNone");
 				this.helperAppenedReady = false;
 				this.helperAppened = false;
 				this.helper.remove();
@@ -2989,7 +2956,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
 			until: function (evt, evtIDs) { return (AXgetId(evt.parentNode) == AXgetId(cfg.selectStage)) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass(cfg.selectClassName)) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass(cfg.selectClassName)) ? true : false; }
 		});
 		//trace("click");
 		if (myTarget) {
@@ -3013,13 +2980,13 @@ var AXMultiSelect = Class.create(AXJ, {
 	/* class method ~~~~~~ */
 	collect: function () {
 		var cfg = this.config;
-		this._selectTargets = jQuery("#" + cfg.selectStage + " ." + cfg.selectClassName);
+		this._selectTargets = axdom("#" + cfg.selectStage + " ." + cfg.selectClassName);
 		this.selectTargets = this._selectTargets.get();
 		var scrollLeft = this._selectStage.scrollLeft().number();
 		var scrollTop = this._selectStage.scrollTop().number();
 		this._selectTargets.each(function () {
-			var jQuerythis = jQuery(this), pos = jQuerythis.position();
-			jQuery.data(this, "selectableItem", {
+			var jQuerythis = axdom(this), pos = jQuerythis.position();
+			axdom.data(this, "selectableItem", {
 				element: this,
 				jQueryelement: jQuerythis,
 				left: pos.left + scrollLeft,
@@ -3034,7 +3001,7 @@ var AXMultiSelect = Class.create(AXJ, {
 	clearSelects: function () {
 		var cfg = this.config;
 		this._selectTargets.each(function () {
-			var selectTarget = jQuery.data(this, "selectableItem");
+			var selectTarget = axdom.data(this, "selectableItem");
 			if (selectTarget) {
 				if (selectTarget.selecting) {
 					selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
@@ -3058,14 +3025,14 @@ var AXMultiSelect = Class.create(AXJ, {
 
 		this.clearSelects();
 
-		var selectTarget = jQuery.data(Obj, "selectableItem");
+		var selectTarget = axdom.data(Obj, "selectableItem");
 		selectTarget.jQueryelement.addClass(cfg.beselectClassName);
 		selectTarget.selected = true;
 	},
 	toggleSelects: function (Obj) {
 		var cfg = this.config;
 
-		var selectTarget = jQuery.data(Obj, "selectableItem");
+		var selectTarget = axdom.data(Obj, "selectableItem");
 		if (selectTarget.selected) {
 			selectTarget.jQueryelement.removeClass(cfg.beselectClassName);
 			selectTarget.selected = false;
@@ -3080,7 +3047,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var selectedLength = 0;
 		var li, si;
 		this._selectTargets.each(function (stIndex, ST) {
-			var selectTarget = jQuery.data(this, "selectableItem");
+			var selectTarget = axdom.data(this, "selectableItem");
 			if (selectTarget) {
 				if (selectTarget.selected) {
 					selectedLength++;
@@ -3103,7 +3070,7 @@ var AXMultiSelect = Class.create(AXJ, {
 				li = temp;
 			}
 			this._selectTargets.each(function (stIndex, ST) {
-				var selectTarget = jQuery.data(this, "selectableItem");
+				var selectTarget = axdom.data(this, "selectableItem");
 				if (selectTarget) {
 					if (si <= stIndex && li >= stIndex) {
 						selectTarget.jQueryelement.addClass(cfg.beselectClassName);
@@ -3118,12 +3085,12 @@ var AXMultiSelect = Class.create(AXJ, {
 	mousedown: function (event) {
 		var cfg = this.config;
 
-		jQuery(document.body).bind("mousemove.AXMultiSelect", this.mousemove.bind(this));
-		jQuery(document.body).bind("mouseup.AXMultiSelect", this.mouseup.bind(this));
-		jQuery(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
+		axdom(document.body).bind("mousemove.AXMultiSelect", this.mousemove.bind(this));
+		axdom(document.body).bind("mouseup.AXMultiSelect", this.mouseup.bind(this));
+		axdom(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
 
-		jQuery(document.body).attr("onselectstart", "return false");
-		jQuery(document.body).addClass("AXUserSelectNone");
+		axdom(document.body).attr("onselectstart", "return false");
+		axdom(document.body).addClass("AXUserSelectNone");
 
 		this.helperAppenedReady = true;
 	},
@@ -3141,12 +3108,12 @@ var AXMultiSelect = Class.create(AXJ, {
 		this.helperAppenedReady = false;
 		this.moveSens = 0;
 
-		jQuery(document.body).unbind("mousemove.AXMultiSelect");
-		jQuery(document.body).unbind("mouseup.AXMultiSelect");
-		jQuery(document.body).unbind("mouseleave.AXMultiSelect");
+		axdom(document.body).unbind("mousemove.AXMultiSelect");
+		axdom(document.body).unbind("mouseup.AXMultiSelect");
+		axdom(document.body).unbind("mouseleave.AXMultiSelect");
 
-		jQuery(document.body).removeAttr("onselectstart");
-		jQuery(document.body).removeClass("AXUserSelectNone");
+		axdom(document.body).removeAttr("onselectstart");
+		axdom(document.body).removeClass("AXUserSelectNone");
 
 		if (this.helperAppened) {
 			this.helperAppened = false;
@@ -3154,7 +3121,7 @@ var AXMultiSelect = Class.create(AXJ, {
 
 			/* selected change */
 			this._selectTargets.each(function () {
-				var selectTarget = jQuery.data(this, "selectableItem");
+				var selectTarget = axdom.data(this, "selectableItem");
 				if (selectTarget) {
 					if (selectTarget.selecting) {
 						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
@@ -3190,7 +3157,7 @@ var AXMultiSelect = Class.create(AXJ, {
 
 			this._selectTargets.each(function () {
 
-				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
+				var selectTarget = axdom.data(this, "selectableItem"), hit = false;
 				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */
 				if (!selectTarget) return;
 
@@ -3229,9 +3196,9 @@ var AXMultiSelect = Class.create(AXJ, {
 
 		} else {
 			this.helperAppened = true;
-			jQuery(document.body).append(this.helper);
+			axdom(document.body).append(this.helper);
 
-			var css = { left: (event.pageX - jQuery(document.body).offset().left), top: (event.pageY - jQuery(document.body).offset().top), width: 0, height: 0 };
+			var css = { left: (event.pageX - axdom(document.body).offset().left), top: (event.pageY - axdom(document.body).offset().top), width: 0, height: 0 };
 			this.helper.css(css);
 			var stagePos = this._selectStage.offset();
 			this.helperPos = {
@@ -3241,8 +3208,8 @@ var AXMultiSelect = Class.create(AXJ, {
 				y: css.top.number(),
 				scrollLeft: this._selectStage.scrollLeft().number(),
 				scrollTop: this._selectStage.scrollTop().number(),
-				bodyLeft: jQuery(document.body).offset().left,
-				bodyTop: jQuery(document.body).offset().top
+				bodyLeft: axdom(document.body).offset().left,
+				bodyTop: axdom(document.body).offset().top
 			};
 		}
 	},
@@ -3330,7 +3297,7 @@ var AXMultiSelect = Class.create(AXJ, {
 
 			this._selectTargets.each(function () {
 
-				var selectTarget = jQuery.data(this, "selectableItem"), hit = false;
+				var selectTarget = axdom.data(this, "selectableItem"), hit = false;
 				/*trace({sl:selectTarget.left, sr:selectTarget.right, st:selectTarget.top, sb:selectTarget.bottom, x1:x1, x2:x2, y1:y1, y2:y2}); */
 				if (!selectTarget) return;
 
@@ -3369,9 +3336,9 @@ var AXMultiSelect = Class.create(AXJ, {
 
 		} else {
 			this.helperAppened = true;
-			jQuery(document.body).append(this.helper);
+			axdom(document.body).append(this.helper);
 
-			var css = { left: (touch.pageX - jQuery(document.body).offset().left), top: (touch.pageY - jQuery(document.body).offset().top), width: 0, height: 0 };
+			var css = { left: (touch.pageX - axdom(document.body).offset().left), top: (touch.pageY - axdom(document.body).offset().top), width: 0, height: 0 };
 			this.helper.css(css);
 			var stagePos = this._selectStage.offset();
 			this.helperPos = {
@@ -3381,8 +3348,8 @@ var AXMultiSelect = Class.create(AXJ, {
 				y: css.top.number(),
 				scrollLeft: this._selectStage.scrollLeft().number(),
 				scrollTop: this._selectStage.scrollTop().number(),
-				bodyLeft: jQuery(document.body).offset().left,
-				bodyTop: jQuery(document.body).offset().top
+				bodyLeft: axdom(document.body).offset().left,
+				bodyTop: axdom(document.body).offset().top
 			};
 		}
 	},
@@ -3405,7 +3372,7 @@ var AXMultiSelect = Class.create(AXJ, {
 
 			/* selected change */
 			this._selectTargets.each(function () {
-				var selectTarget = jQuery.data(this, "selectableItem");
+				var selectTarget = axdom.data(this, "selectableItem");
 				if (selectTarget) {
 					if (selectTarget.selecting) {
 						selectTarget.jQueryelement.removeClass(cfg.selectingClassName);
@@ -3423,7 +3390,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;
 		var selects = [];
 		this._selectTargets.each(function () {
-			var selectTarget = jQuery.data(this, "selectableItem");
+			var selectTarget = axdom.data(this, "selectableItem");
 			if (selectTarget) {
 				if (selectTarget.selected) {
 					selects.push(selectTarget.element);
@@ -3436,7 +3403,7 @@ var AXMultiSelect = Class.create(AXJ, {
 		var cfg = this.config;
 		var selects = [];
 		this._selectTargets.each(function () {
-			var selectTarget = jQuery.data(this, "selectableItem");
+			var selectTarget = axdom.data(this, "selectableItem");
 			if (selectTarget) {
 				if (selectTarget.selected) {
 					selects.push(selectTarget.element);
@@ -3464,7 +3431,7 @@ var AXResizable = Class.create(AXJ, {
 		this.config.bindResiableHandle = "AXResizableHandle";
 	},
 	init: function () {
-		this.helper = jQuery("<div class='AXResizableHelper'></div>");
+		this.helper = axdom("<div class='AXResizableHelper'></div>");
 	},
 	bind: function (obj) {
 		var cfg = this.config;
@@ -3479,7 +3446,7 @@ var AXResizable = Class.create(AXJ, {
 		var objID = obj.id;
 		var objSeq = null;
 
-		jQuery.each(this.objects, function (idx, O) {
+		AXUtil.each(this.objects, function (idx, O) {
 			/*if (this.id == objID && this.isDel == true) objSeq = idx;*/
 			if (this.id == objID) {
 				objSeq = idx;
@@ -3490,7 +3457,7 @@ var AXResizable = Class.create(AXJ, {
 			this.objects.push({
 				id: objID,
 				element: AXgetId(objID),
-				jQueryElement: jQuery("#" + objID),
+				jQueryElement: axdom("#" + objID),
 				config: obj
 			});
 		} else {
@@ -3502,7 +3469,7 @@ var AXResizable = Class.create(AXJ, {
 	unbind: function (obj) {
 		var cfg = this.config;
 		var removeIdx;
-		jQuery.each(this.objects, function (idx, O) {
+		AXUtil.each(this.objects, function (idx, O) {
 			if (O.id != obj.id) {
 			} else {
 				if (O.isDel != true) {
@@ -3533,12 +3500,12 @@ var AXResizable = Class.create(AXJ, {
 		var _this = this;
 		var cfg = this.config;
 
-		jQuery(window).bind("mousemove.AXResizable", this.mousemove.bind(this, objID, objSeq));
-		jQuery(window).bind("mouseup.AXResizable", this.mouseup.bind(this, objID, objSeq));
-		/*jQuery(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
+		axdom(window).bind("mousemove.AXResizable", this.mousemove.bind(this, objID, objSeq));
+		axdom(window).bind("mouseup.AXResizable", this.mouseup.bind(this, objID, objSeq));
+		/*axdom(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
 
-		jQuery(document.body).attr("onselectstart", "return false");
-		jQuery(document.body).addClass("AXUserSelectNone");
+		axdom(document.body).attr("onselectstart", "return false");
+		axdom(document.body).addClass("AXUserSelectNone");
 
 		this.helperAppenedReady = true;
 	},
@@ -3557,12 +3524,12 @@ var AXResizable = Class.create(AXJ, {
 		this.helperAppenedReady = false;
 		this.moveSens = 0;
 
-		jQuery(window).unbind("mousemove.AXResizable");
-		jQuery(window).unbind("mouseup.AXResizable");
-		/*jQuery(document.body).unbind("mouseleave.AXResizable");*/
+		axdom(window).unbind("mousemove.AXResizable");
+		axdom(window).unbind("mouseup.AXResizable");
+		/*axdom(document.body).unbind("mouseleave.AXResizable");*/
 
-		jQuery(document.body).removeAttr("onselectstart");
-		jQuery(document.body).removeClass("AXUserSelectNone");
+		axdom(document.body).removeAttr("onselectstart");
+		axdom(document.body).removeClass("AXUserSelectNone");
 
 		if (this.helperAppened) {
 			this.helperAppened = false;
@@ -3635,10 +3602,10 @@ var AXResizable = Class.create(AXJ, {
 
 		} else {
 			this.helperAppened = true;
-			jQuery(document.body).append(this.helper);
+			axdom(document.body).append(this.helper);
 
-			var bodyLeft = jQuery(document.body).offset().left;
-			var bodyTop = jQuery(document.body).offset().top;
+			var bodyLeft = axdom(document.body).offset().left;
+			var bodyTop = axdom(document.body).offset().top;
 
 			var pos = obj.jQueryElement.offset();
 			var css = {
@@ -3652,8 +3619,8 @@ var AXResizable = Class.create(AXJ, {
 			this.helperPos = {
 				x: css.left,
 				y: css.top,
-				bodyLeft: jQuery(document.body).offset().left,
-				bodyTop: jQuery(document.body).offset().top
+				bodyLeft: axdom(document.body).offset().left,
+				bodyTop: axdom(document.body).offset().top
 			};
 		}
 	}
@@ -3661,16 +3628,16 @@ var AXResizable = Class.create(AXJ, {
 var AXResizableBinder = new AXResizable();
 AXResizableBinder.setConfig({ targetID: "defaultResiable" });
 
-jQuery.fn.bindAXResizable = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.bindAXResizable = function (config) {
+	AXUtil.each(this, function () {
 		config = config || {}; config.id = this.id;
 		AXResizableBinder.bind(config);
 		return this;
 	});
 };
 
-jQuery.fn.unbindAXResizable = function (config) {
-	jQuery.each(this, function () {
+axdom.fn.unbindAXResizable = function (config) {
+	AXUtil.each(this, function () {
 		if (config == undefined) config = {};
 		config.id = this.id;
 		AXResizableBinder.unbind(config);
@@ -3702,7 +3669,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 	},
 	bindSetConfig: function (objID, configs) {
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		AXUtil.each(this.objects, function (index, O) {
 			if (O.id == objID) {
 				findIndex = index;
 				return false;
@@ -3713,7 +3680,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			return;
 		} else {
 			var _self = this.objects[findIndex];
-			jQuery.each(configs, function (k, v) {
+			AXUtil.each(configs, function (k, v) {
 				_self.config[k] = v;
 			});
 		}
@@ -3725,7 +3692,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			return;
 		}
 		var objSeq = null;
-		jQuery.each(this.objects, function (idx, O) {
+		AXUtil.each(this.objects, function (idx, O) {
 			if (this.id == obj.id) {
 				objSeq = idx;
 				return false;
@@ -3767,7 +3734,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		//trace(subMenu.length);		
 		var po = [];
 		po.push("<div id=\"" + subMenuID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;left:" + (width.number() - 15) + "px;display:none;\">");
-		jQuery.each(subMenu, function (idx, menu) {
+		AXUtil.each(subMenu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
 				var className = (menu.className) ? menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
@@ -3800,7 +3767,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 	mobileOpen: function(myobj, position){
 		var cfg = this.config;
 		var objSeq = null;
-		jQuery.each(this.objects, function (index, O) {
+		AXUtil.each(this.objects, function (index, O) {
 			if (O.id == myobj.id) {
 				objSeq = index;
 				return false;
@@ -3854,7 +3821,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var po = [];
 		po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
 		po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
-		jQuery.each(obj.menu, function (idx, menu) {
+		AXUtil.each(obj.menu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
 				var className = (menu.className) ? " " + menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
@@ -3895,7 +3862,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 	deskTopOpen: function (myobj, position) {
 		var cfg = this.config;
 		var objSeq = null;
-		jQuery.each(this.objects, function (index, O) {
+		AXUtil.each(this.objects, function (index, O) {
 			if (O.id == myobj.id) {
 				objSeq = index;
 				return false;
@@ -3917,7 +3884,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var theme = obj.theme || cfg.theme;
 		var width = obj.width || cfg.width;
 
-		jQuery("#" + objID).remove();
+		axdom("#" + objID).remove();
 
 		var href = (obj.href == undefined) ? cfg.href : obj.href;
 
@@ -3925,7 +3892,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var getSubMenu = this.getSubMenu.bind(this);
 		var po = [];
 		po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
-		jQuery.each(obj.menu, function (idx, menu) {
+		AXUtil.each(obj.menu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
 				if (menu.upperLine) {
 					po.push("<div class=\"hline\"></div>");
@@ -3951,16 +3918,16 @@ var AXContextMenuClass = Class.create(AXJ, {
 			}
 		});
 		po.push("</div>");
-		jQuery(document.body).append(po.join(''));
+		axdom(document.body).append(po.join(''));
 
-		jQuery("#" + objID + " .contextMenuItem:first-child").addClass("first");
-		jQuery("#" + objID + " .contextMenuItem:last-child").addClass("last");
+		axdom("#" + objID + " .contextMenuItem:first-child").addClass("first");
+		axdom("#" + objID + " .contextMenuItem:last-child").addClass("last");
 
 		var contextMenuItemMouseOver = this.contextMenuItemMouseOver.bind(this);
 		this.contextMenuItemMouseOverBind = function (event) {
 			contextMenuItemMouseOver(event, objSeq, objID);
 		};
-		jQuery("#" + objID + " .contextMenuItem").bind("mouseover", this.contextMenuItemMouseOverBind);
+		axdom("#" + objID + " .contextMenuItem").bind("mouseover", this.contextMenuItemMouseOverBind);
 
 		//컨텍스트 메뉴의 위치 지정
 		var css = {};
@@ -3975,13 +3942,13 @@ var AXContextMenuClass = Class.create(AXJ, {
 		}
 
 		// -- 부모박스 정보와 박스 정보
-		var pElement = jQuery("#" + objID).offsetParent();
+		var pElement = axdom("#" + objID).offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
 		var clientHeight = (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight;
 		var clienWidth = (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth;
 		if (clienWidth > pBox.width) pBox.width = clienWidth;
 		if (clientHeight > pBox.height) pBox.height = clientHeight;
-		var _box = { width: jQuery("#" + objID).outerWidth(), height: jQuery("#" + objID).outerHeight() };
+		var _box = { width: axdom("#" + objID).outerWidth(), height: axdom("#" + objID).outerHeight() };
 		// -- 부모박스 정보와 박스 정보		
 
 		if ((_box.height.number() + css.top.number()) > pBox.height) {
@@ -4012,7 +3979,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			css.left = "auto";
 			this.openLR = "right";
 		}
-		jQuery("#" + objID).css(css);
+		axdom("#" + objID).css(css);
 
 		this.eventBind(objSeq, objID);
 	},
@@ -4024,13 +3991,13 @@ var AXContextMenuClass = Class.create(AXJ, {
 			contextMenuItemDown(event, objSeq, objID);
 		};
 
-		jQuery(document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
-		jQuery(document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
+		axdom(document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
+		axdom(document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
 
-		jQuery(document).find("iframe").each(function () {
+		axdom(document).find("iframe").each(function () {
 			try{
-				jQuery(window[this.name].document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
-				jQuery(window[this.name].document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
+				axdom(window[this.name].document).bind("mousedown.AXContenxtMenu", contextMenuItemDownBind);
+				axdom(window[this.name].document).bind("keydown.AXContenxtMenu", contextMenuItemDownBind);
 			}catch(e){
 				
 			}
@@ -4043,19 +4010,19 @@ var AXContextMenuClass = Class.create(AXJ, {
 		this.contextMenuItemClickBind = function (event) {
 			contextMenuItemClick(event, objSeq, objID);
 		};
-		jQuery("#" + objID).find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
+		axdom("#" + objID).find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
 	},
 	_close: function (objSeq, objID) {
 		var cfg = this.config;
-		jQuery("#" + objID).fadeOut("fast", function () {
-			jQuery("#" + objID).remove();
+		axdom("#" + objID).fadeOut("fast", function () {
+			axdom("#" + objID).remove();
 		});
-		jQuery(document).unbind("keydown.AXContenxtMenu");
-		jQuery(document).unbind("mousedown.AXContenxtMenu");
+		axdom(document).unbind("keydown.AXContenxtMenu");
+		axdom(document).unbind("mousedown.AXContenxtMenu");
 
-		jQuery(document).find("iframe").each(function () {
-			jQuery(window[this.name].document).unbind("mousedown.AXContenxtMenu");
-			jQuery(window[this.name].document).unbind("keydown.AXContenxtMenu");
+		axdom(document).find("iframe").each(function () {
+			axdom(window[this.name].document).unbind("mousedown.AXContenxtMenu");
+			axdom(window[this.name].document).unbind("keydown.AXContenxtMenu");
 		});
 
 		this.showedItem = {}; // 초기화
@@ -4065,7 +4032,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 	close: function (myobj) {
 		var cfg = this.config;
 		var objSeq = null;
-		jQuery.each(this.objects, function (index, O) {
+		AXUtil.each(this.objects, function (index, O) {
 			if (O.id == myobj.id) {
 				objSeq = index;
 				return false;
@@ -4078,12 +4045,12 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var objID = obj.id;
 
-		jQuery("#" + objID).fadeOut("fast", function () {
-			jQuery("#" + objID).remove();
+		axdom("#" + objID).fadeOut("fast", function () {
+			axdom("#" + objID).remove();
 		});
 
-		jQuery(document).unbind("keydown", this.contextMenuItemDownBind);
-		jQuery(document).unbind("mousedown", this.contextMenuItemDownBind);
+		axdom(document).unbind("keydown", this.contextMenuItemDownBind);
+		axdom(document).unbind("mousedown", this.contextMenuItemDownBind);
 
 		this.showedItem = {}; // 초기화
 		this.openTB = "";
@@ -4099,33 +4066,33 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("contextMenuItem")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
 		});
 		// event target search ------------------------    	
 		if (myTarget) {
 			var poi = myTarget.id.split(/_AX_/g);
 			var depth = poi[poi.length - 2];
 			if (this.showedItem[depth]) {
-				jQuery("#" + this.showedItem[depth]).hide();
+				axdom("#" + this.showedItem[depth]).hide();
 			}
-			if (jQuery(myTarget).hasClass("hasSubMenu")) {
+			if (axdom(myTarget).hasClass("hasSubMenu")) {
 
 				// -- 부모박스 정보와 박스 정보
-				var pElement = jQuery("#" + myTarget.id + "_AX_subMenu").offsetParent();
+				var pElement = axdom("#" + myTarget.id + "_AX_subMenu").offsetParent();
 				var pBox = { width: pElement.width(), height: pElement.height() };
 				var clientHeight = (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight;
 				var clienWidth = (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth;
 				if (clienWidth > pBox.width) pBox.width = clienWidth;
 				if (clientHeight > pBox.height) pBox.height = clientHeight;
-				var _box = { width: jQuery("#" + myTarget.id + "_AX_subMenu").outerWidth(), height: jQuery("#" + myTarget.id + "_AX_subMenu").outerHeight() };
+				var _box = { width: axdom("#" + myTarget.id + "_AX_subMenu").outerWidth(), height: axdom("#" + myTarget.id + "_AX_subMenu").outerHeight() };
 				// -- 부모박스 정보와 박스 정보		
 
-				var subMenuTop = jQuery("#" + myTarget.id).position().top;
+				var subMenuTop = axdom("#" + myTarget.id).position().top;
 
 				var css;
 				if (this.openTB == "up") {
-					var ph = jQuery("#" + myTarget.id).offsetParent().height();
-					var h = jQuery("#" + myTarget.id).height();
+					var ph = axdom("#" + myTarget.id).offsetParent().height();
+					var h = axdom("#" + myTarget.id).height();
 					var bottom = ph - subMenuTop - h;
 					css = { top: "auto", bottom: bottom };
 				} else {
@@ -4136,8 +4103,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 					css.left = -(20);
 				}
 
-				jQuery("#" + myTarget.id + "_AX_subMenu").css(css);
-				jQuery("#" + myTarget.id + "_AX_subMenu").show();
+				axdom("#" + myTarget.id + "_AX_subMenu").css(css);
+				axdom("#" + myTarget.id + "_AX_subMenu").show();
 
 				this.showedItem[depth] = myTarget.id + "_AX_subMenu";
 			}
@@ -4157,7 +4124,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("contextMenuItem")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -4176,7 +4143,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("contextMenuItem")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -4193,7 +4160,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			hashs = hashs.reverse();
 
 			var menu = obj.menu;
-			jQuery.each(hashs, function (idx, hash) {
+			AXUtil.each(hashs, function (idx, hash) {
 				if (idx == 0) menu = menu[hash];
 				else menu = menu.subMenu[hash];
 			});
@@ -4217,12 +4184,12 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 	open: function (myobj, position) {
 		var cfg = this.config;
 		var objSeq = null;
-		jQuery.each(this.objects, function (index, O) {
+		AXUtil.each(this.objects, function (index, O) {
 			if (O.id == myobj.id) {
 				objSeq = index;
 				//return false;
 			} else {
-				jQuery("#" + O.id).remove();
+				axdom("#" + O.id).remove();
 			}
 		});
 		if (objSeq == null) {
@@ -4259,7 +4226,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 			if (position.arrowLeft) arrowStyle = "background-position:" + position.arrowLeft + "px 0px;"
 		}
 
-		jQuery("#" + objID).remove();
+		axdom("#" + objID).remove();
 
 		var href = (obj.href == undefined) ? cfg.href : obj.href;
 
@@ -4271,7 +4238,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 		po.push("<div class=\"arrowBottom\" style=\"" + arrowStyle + "\"></div>");
 		po.push("<div class=\"blockContainer\">");
 		if (obj.menu) {
-			jQuery.each(obj.menu, function (idx, menu) {
+			AXUtil.each(obj.menu, function (idx, menu) {
 				if (!menu) return false;
 				if (filter(objSeq, objID, myobj, menu)) {
 					if (menu.upperLine) {
@@ -4304,21 +4271,21 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 		}
 		po.push("</div>");
 		po.push("</div>");
-		jQuery(document.body).append(po.join(''));
+		axdom(document.body).append(po.join(''));
 
 		if (direction == "top") {
-			jQuery("#" + objID).find(".arrowTop").show();
-			jQuery("#" + objID).find(".arrowBottom").hide();
+			axdom("#" + objID).find(".arrowTop").show();
+			axdom("#" + objID).find(".arrowBottom").hide();
 		} else if (direction == "bottom") {
-			jQuery("#" + objID).find(".arrowTop").hide();
-			jQuery("#" + objID).find(".arrowBottom").show();
+			axdom("#" + objID).find(".arrowTop").hide();
+			axdom("#" + objID).find(".arrowBottom").show();
 		} else {
-			jQuery("#" + objID).find(".arrowTop").show();
-			jQuery("#" + objID).find(".arrowBottom").hide();
+			axdom("#" + objID).find(".arrowTop").show();
+			axdom("#" + objID).find(".arrowBottom").hide();
 		}
 
-		jQuery("#" + objID + " .contextMenuItem:first-child").addClass("first");
-		jQuery("#" + objID + " .contextMenuItem:last-child").addClass("last");
+		axdom("#" + objID + " .contextMenuItem:first-child").addClass("first");
+		axdom("#" + objID + " .contextMenuItem:last-child").addClass("last");
 
 		var contextMenuItemMouseOver = this.contextMenuItemMouseOver.bind(this);
 		this.contextMenuItemMouseOverBind = function (event) {
@@ -4332,9 +4299,9 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 		var eventClear = function () {
 			if (this.observer) clearTimeout(this.observer); //닫기 명령 제거
 		}
-		jQuery("#" + objID + " .contextMenuItem").bind("mouseover", this.contextMenuItemMouseOverBind);
-		jQuery("#" + objID).bind("mouseover", eventClear.bind(this));
-		jQuery("#" + objID).bind("mouseout", this.contextMenuMouseOutBind);
+		axdom("#" + objID + " .contextMenuItem").bind("mouseover", this.contextMenuItemMouseOverBind);
+		axdom("#" + objID).bind("mouseover", eventClear.bind(this));
+		axdom("#" + objID).bind("mouseout", this.contextMenuMouseOutBind);
 
 		this.contentMenuSetCss(null, position, objSeq, objID);
 
@@ -4364,30 +4331,30 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 			css.top = mouse.pageY;
 		}
 		// -- 부모박스 정보와 박스 정보
-		var pElement = jQuery("#" + objID).offsetParent();
+		var pElement = axdom("#" + objID).offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
 		var clientHeight = (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight;
 		var clienWidth = (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth;
 		if (clienWidth > pBox.width) pBox.width = clienWidth;
 		if (clientHeight > pBox.height) pBox.height = clientHeight;
-		var _box = { width: jQuery("#" + objID).outerWidth(), height: jQuery("#" + objID).outerHeight() };
+		var _box = { width: axdom("#" + objID).outerWidth(), height: axdom("#" + objID).outerHeight() };
 		// -- 부모박스 정보와 박스 정보		
 		var openTB = "";
 		if (direction == "top") {
 			openTB = "top";
 		} else if (direction == "bottom") {
-			css.top -= jQuery("#" + objID).outerHeight();
+			css.top -= axdom("#" + objID).outerHeight();
 			openTB = "bottom";
 		} else {
 			if ((_box.height.number() + css.top.number()) > pBox.height) {
 				css.top = css.top - _box.height.number() - position.handleHeight - 3;
-				jQuery("#" + objID).find(".arrowTop").hide();
-				jQuery("#" + objID).find(".arrowBottom").show();
+				axdom("#" + objID).find(".arrowTop").hide();
+				axdom("#" + objID).find(".arrowBottom").show();
 				//css.top -= ((_box.height.number() + css.top.number()) - pBox.height) + 5;
 				openTB = "bottom";
 			} else {
-				jQuery("#" + objID).find(".arrowTop").show();
-				jQuery("#" + objID).find(".arrowBottom").hide();
+				axdom("#" + objID).find(".arrowTop").show();
+				axdom("#" + objID).find(".arrowBottom").hide();
 				openTB = "top";
 			}
 		}
@@ -4397,9 +4364,9 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 				var moveLeft = ((_box.width.number() + css.left.number()) - pBox.width) + 5;
 				css.left -= moveLeft;
 				if (openTB == "top") {
-					jQuery("#" + objID).find(".arrowTop").css({ "background-position": (moveLeft + 5) + "px 0px;" });
+					axdom("#" + objID).find(".arrowTop").css({ "background-position": (moveLeft + 5) + "px 0px;" });
 				} else {
-					jQuery("#" + objID).find(".arrowBottom").css({ "background-position": (moveLeft + 5) + "px 0px;" });
+					axdom("#" + objID).find(".arrowBottom").css({ "background-position": (moveLeft + 5) + "px 0px;" });
 				}
 			} else {
 
@@ -4407,7 +4374,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 		} else {
 
 		}
-		jQuery("#" + objID).css(css);
+		axdom("#" + objID).css(css);
 	},
 	contextMenuItemMouseOver: function (event, objSeq, objID) {
 		var cfg = this.config;
@@ -4421,21 +4388,21 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("contextMenuItem")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
 		});
 		// event target search ------------------------    	
 		if (myTarget) {
 			var poi = myTarget.id.split(/_AX_/g);
 			var depth = poi[poi.length - 2];
 			if (this.showedItem[depth]) {
-				jQuery("#" + this.showedItem[depth]).hide();
+				axdom("#" + this.showedItem[depth]).hide();
 			}
-			if (jQuery(myTarget).hasClass("hasSubMenu")) {
-				var subMenuTop = jQuery("#" + myTarget.id).position().top;
+			if (axdom(myTarget).hasClass("hasSubMenu")) {
+				var subMenuTop = axdom("#" + myTarget.id).position().top;
 				var css;
 				if (this.openTB == "up") {
-					var ph = jQuery("#" + myTarget.id).offsetParent().height();
-					var h = jQuery("#" + myTarget.id).height();
+					var ph = axdom("#" + myTarget.id).offsetParent().height();
+					var h = axdom("#" + myTarget.id).height();
 					var bottom = ph - subMenuTop - h;
 					css = { top: "auto", bottom: bottom };
 				} else {
@@ -4445,8 +4412,8 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 					//css.left = -(menuWidth - 15);
 					css.left = -(20);
 				}
-				jQuery("#" + myTarget.id + "_AX_subMenu").css(css);
-				jQuery("#" + myTarget.id + "_AX_subMenu").show();
+				axdom("#" + myTarget.id + "_AX_subMenu").css(css);
+				axdom("#" + myTarget.id + "_AX_subMenu").show();
 
 				this.showedItem[depth] = myTarget.id + "_AX_subMenu";
 			}
@@ -4462,10 +4429,10 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 var AXPopOver = new AXPopOverClass();
 AXPopOver.setConfig({ theme: "AXPopOver" });
 
-jQuery.fn.bindTooltip = function (config) {
+axdom.fn.bindTooltip = function (config) {
 	if (config == undefined) config = {};
-	jQuery.each(this, function () {
-		var tooltipContent = jQuery("#" + this.id + "_AX_tooltip").html();
+	AXUtil.each(this, function () {
+		var tooltipContent = axdom("#" + this.id + "_AX_tooltip").html();
 		AXPopOver.bind({
 			id: this.id + "_AX_tooltipobj",
 			theme: (config.theme || "AXPopOverTooltip"), // 선택항목
@@ -4474,16 +4441,16 @@ jQuery.fn.bindTooltip = function (config) {
 			body: tooltipContent
 		});
 
-		jQuery(this).bind((config.event || "mouseover"), function () {
-			var pos = jQuery(this).offset();
+		axdom(this).bind((config.event || "mouseover"), function () {
+			var pos = axdom(this).offset();
 			var direction = (config.direction || "top");
 			var posTop = pos.top;
 			if (direction == "bottom") {
 				posTop -= 3;
 			} else {
-				posTop += jQuery(this).outerHeight() + 3;
+				posTop += axdom(this).outerHeight() + 3;
 			}
-			AXPopOver.open({ id: this.id + "_AX_tooltipobj", sendObj: {} }, { left: pos.left, top: posTop, handleHeight: (jQuery(this).outerHeight().number() + 3) }); // event 직접 연결 방식
+			AXPopOver.open({ id: this.id + "_AX_tooltipobj", sendObj: {} }, { left: pos.left, top: posTop, handleHeight: (axdom(this).outerHeight().number() + 3) }); // event 직접 연결 방식
 		});
 		return this;
 	});
@@ -4537,8 +4504,8 @@ var AXMobileModal = Class.create(AXJ, {
 		po.push('		<div  id="', modalId, '_AX_foot" class="mobileModalFoot"></div>');
 		po.push('	</div>');
 		po.push('</div>');
-		this.jQueryModal = jQuery(po.join(''));
-		jQuery(document.body).append(this.jQueryModal);
+		this.jQueryModal = axdom(po.join(''));
+		axdom(document.body).append(this.jQueryModal);
 
 		this.modalPanel = this.jQueryModal.find(".AXMobileModalPanel");
 		this.modalHead = this.modalPanel.find(".mobileModalHead");
@@ -4550,7 +4517,7 @@ var AXMobileModal = Class.create(AXJ, {
 		this.modalPanel.find(".mobileModelClose").bind("click", this.close.bind(this));
 		this.jQueryModal.bind("click", this.modalClick.bind(this));
 		
-		jQuery(window).unbind("resize.AXMobileModal").bind("resize.AXMobileModal", this.reposition.bind(this));
+		axdom(window).unbind("resize.AXMobileModal").bind("resize.AXMobileModal", this.reposition.bind(this));
 		
 		this.opened = true;
 		
@@ -4680,7 +4647,7 @@ var AXMobileModal = Class.create(AXJ, {
 		remove.delay(0.01);
 		*/
 		this.opened = false;
-		jQuery(window).unbind("resize.AXMobileModal");
+		axdom(window).unbind("resize.AXMobileModal");
 	},
 	remove: function () {
 		var cfg = this.config;
@@ -4737,7 +4704,7 @@ var AXMobileModal = Class.create(AXJ, {
 /* ********************************************** AXMobileModal ** */
 
 /* ** jQuery easing plugin ********************************************** */
-jQuery.extend(true, {
+axdom.extend(true, {
 	easing: {
 		backIn: function (p, n, f, d) { var c = f + d; var s = 1.70158; return c * (p /= 1) * p * ((s + 1) * p - s) + f; },
 		backOut: function (p, n, f, d) { var c = f + d; var s = 1.70158; return c * ((p = p / 1 - 1) * p * ((s + 1) * p + s) + 1) + f; },
@@ -4772,7 +4739,7 @@ jQuery.extend(true, {
 /* ********************************************** jQuery easing plugin ** */
 
 /* ** jQuery misc plugin ***********************************************/
-jQuery.fn.scrollToDiv = function (margin, boxDim, leftScroll) {
+axdom.fn.scrollToDiv = function (margin, boxDim, leftScroll) {
 	var pElement = this.offsetParent();
 	var pBox = { width: pElement.width(), height: pElement.height() };
 	if (boxDim) {
@@ -4812,11 +4779,11 @@ var __r20 = /%20/g,
 	__rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
 	__rselectTextarea = /^(?:select|textarea)/i;
 
-jQuery.fn.extend({
+axdom.fn.extend({
 	serializeObject: function () {
 
 		var myArray = this.map(function () {
-			return this.elements ? jQuery.makeArray(this.elements) : this;
+			return this.elements ? axdom.makeArray(this.elements) : this;
 		})
 		.filter(function () {
 			return this.name && !this.disabled &&
@@ -4824,13 +4791,13 @@ jQuery.fn.extend({
 					__rinput.test(this.type));
 		})
 		.map(function (i, elem) {
-			var val = jQuery(this).val();
+			var val = axdom(this).val();
 			//(elem.title || elem.placeholder || "")  //ie에서는 placeholder를 인식하지못함
-			var label = (jQuery(elem).attr("title") || jQuery(elem).attr("placeholder") || "");
+			var label = (axdom(elem).attr("title") || axdom(elem).attr("placeholder") || "");
 			return val == null ?
 				null :
-				jQuery.isArray(val) ?
-					jQuery.map(val, function (val, i) {
+				axdom.isArray(val) ?
+					axdom.map(val, function (val, i) {
 						return { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
 					}) :
 					{ id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
@@ -4840,12 +4807,12 @@ jQuery.fn.extend({
 	}
 });
 
-jQuery(document.body).ready(function () {
-	jQuery("input[type=text]").bind("mousedown", function () { this.focus(); });
-	jQuery("textarea").bind("mousedown", function () { this.focus(); });
+axdom(document.body).ready(function () {
+	axdom("input[type=text]").bind("mousedown", function () { this.focus(); });
+	axdom("textarea").bind("mousedown", function () { this.focus(); });
 });
 
-jQuery.fn.endFocus = function () {
+axdom.fn.endFocus = function () {
 	var elem = this;
 	var elemLen = elem.val().length;
 	if (elemLen == 0) {
@@ -4862,4 +4829,23 @@ jQuery.fn.endFocus = function () {
 		// Firefox/Chrome
 		elem.focus().val(elem.val());
 	} // if
+};
+
+/* *** jquery event extend for mobile ***************************** */
+var rkeyEvent = /^key/;
+var rmouseEvent = /^(?:mouse|contextmenu)|click/;
+AXUtil.each(("touchstart touchmove touchend").split(" "), function (i, name) {
+	axdom.fn[name] = function (data, fn) {
+		if (fn == null) { fn = data; data = null; }
+		return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
+	};
+	if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
+	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
+});
+
+axdom.fn.longpress = function (fn) {
+	AXUtil.each(this, function () {
+		
+		return this;
+	});
 };
