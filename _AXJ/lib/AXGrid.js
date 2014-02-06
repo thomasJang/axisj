@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.46",
+	version: "AXGrid v1.47",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -48,7 +48,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스",
 		"2014-01-03 오후 3:31:09 tom : gridBodyClick 이벤트함수 수정",
 		"2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가",
-		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가"
+		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가",
+		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();

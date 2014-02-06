@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.34",
+	version: "AXInputConverter v1.35",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -29,7 +29,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-01-10 오후 5:07:44 : tom - event bind modify, fix",
 		"2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스",
 		"2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결",
-		"2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스"
+		"2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스",
+		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
