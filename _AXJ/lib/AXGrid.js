@@ -823,8 +823,6 @@ var AXGrid = Class.create(AXJ, {
 	init: function () {
 		var cfg = this.config;
 		
-		if(cfg.target) if(cfg.target.id === undefined) axdom(cfg.target).attr("id", cfg.target.id = cfg.targetID = "AXGrid"+axf.timekey());
-		
 		if (Object.isUndefined(cfg.targetID)) {
 			trace("need targetID - setConfig({targetID:''})");
 			return;

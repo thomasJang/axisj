@@ -8,7 +8,7 @@
  */
 
 var AXTree = Class.create(AXJ, {
-	version: "AXTree v1.42",
+	version: "AXTree v1.43",
 	author: "tom@axisj.com",
 	logs: [
 		"2013-02-14 오후 2:36:35",
@@ -28,7 +28,8 @@ var AXTree = Class.create(AXJ, {
 		"2013-10-03 오후 9:24:42 AXTreeSplit 속성 추가 ui 클래스 포함 - tom",
 		"2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom",
 		"2013-11-26 오후 1:48:19 tom : appendTree 버그픽스",
-		"2013-11-26 오후 2:07:40 tom : body.oncontract 기능 추가"
+		"2013-11-26 오후 2:07:40 tom : body.oncontract 기능 추가",
+		"2014-02-06 오후 8:43:42 tom : jQuery 독립을 위한 문자열 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -67,7 +68,7 @@ var AXTree = Class.create(AXJ, {
 		var showColLen = 0;
 		if (!rewrite) this.fixedColSeq = cfg.fixedColSeq;
 
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axf.each(cfg.colGroup, function (cidx, CG) {
 			if (CG.colSeq == undefined) CG.colSeq = cidx;
 			if (CG.display == undefined) CG.display = true;
 			if (CG.display) {
@@ -86,7 +87,7 @@ var AXTree = Class.create(AXJ, {
 				var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
 				var zoomRatio = bodyWidth / this.colWidth;
 				colWidth = 0;
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!rewrite) CG._owidth = CG.width; // 최초의 너비값 기억 하기
 					CG.width = (CG._owidth * zoomRatio).ceil();
 					if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
@@ -114,7 +115,7 @@ var AXTree = Class.create(AXJ, {
 			var colMaxLen = 0;
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -158,7 +159,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			}
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -176,13 +177,13 @@ var AXTree = Class.create(AXJ, {
 				});
 			}
 			//colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여
-			jQuery.each(cfg.colHead._maps.last(), function (midx, m) {
+			axf.each(cfg.colHead._maps.last(), function (midx, m) {
 				if (m) cfg.colHead.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { // colGroup 중에 숨겨진 col 이 존재하는 경우
 				// colspan 감소 시키기
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.colHead._maps.length; a++) {
 							var rowPosition = cfg.colHead._maps[a][cidx];
@@ -198,7 +199,7 @@ var AXTree = Class.create(AXJ, {
 			// colHeadRow 정해지지 않은 경우
 			cfg.colHead._maps = [[]];
 			var colHeadRows = [[]];
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				var adder = {
 					key: CG.key,
 					colSeq: CG.colSeq,
@@ -225,7 +226,7 @@ var AXTree = Class.create(AXJ, {
 			var colMaxLen = 0;
 			for (var r = 0; r < cfg.body.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+				axf.each(cfg.body.rows[r], function (CHidx, CH) {
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
 						CH._colspan = 1;
@@ -262,7 +263,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.body.rows.length; r++) {
-				jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+				axf.each(cfg.body.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -280,13 +281,13 @@ var AXTree = Class.create(AXJ, {
 				});
 			}
 			//body._maps 마지막 줄에 해당하는 cfg.body.rows 에 속성부여
-			jQuery.each(cfg.body._maps.last(), function (midx, m) {
+			axf.each(cfg.body._maps.last(), function (midx, m) {
 				if (m) cfg.body.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { // colGroup 중에 숨겨진 col 이 존재하는 경우
 				// colspan 감소 시키기
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.body._maps.length; a++) {
 							var rowPosition = cfg.body._maps[a][cidx];
@@ -301,7 +302,7 @@ var AXTree = Class.create(AXJ, {
 			// bodyRow 정해지지 않은 경우
 			cfg.body._maps = [[]];
 			var bodyRows = [[]];
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				var adder = {
 					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: "middle", isLastCell: true,
 					display: CG.display, formatter: CG.formatter, checked: CG.checked, disabled: CG.disabled, indent: CG.indent, getIconClass: CG.getIconClass,
@@ -324,7 +325,7 @@ var AXTree = Class.create(AXJ, {
 				colMaxLen = 0;
 				for (var r = 0; r < cfg.body.marker.rows.length; r++) {
 					var colLen = 0;
-					jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+					axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 						if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 						if (CH.colspan == undefined || CH.colspan == null) {
 							CH.colspan = 1;
@@ -360,7 +361,7 @@ var AXTree = Class.create(AXJ, {
 					}
 				};
 				for (var r = 0; r < cfg.body.marker.rows.length; r++) {
-					jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+					axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 						if (CH.colSeq != undefined) {
 							var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 						} else {
@@ -374,13 +375,13 @@ var AXTree = Class.create(AXJ, {
 					});
 				}
 				//colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여
-				jQuery.each(cfg.body.marker._maps.last(), function (midx, m) {
+				axf.each(cfg.body.marker._maps.last(), function (midx, m) {
 					if (m) cfg.body.marker.rows[m.r][m.c].isLastCell = true;
 				});
 
 				if (hasHiddenCell) { // colGroup 중에 숨겨진 col 이 존재하는 경우
 					// colspan 감소 시키기
-					jQuery.each(cfg.colGroup, function (cidx, CG) {
+					axf.each(cfg.colGroup, function (cidx, CG) {
 						if (!CG.display) {
 							for (var a = 0; a < cfg.body.marker._maps.length; a++) {
 								var rowPosition = cfg.body.marker._maps[a][cidx];
@@ -400,7 +401,7 @@ var AXTree = Class.create(AXJ, {
 			colMaxLen = 0;
 			for (var r = 0; r < cfg.head.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+				axf.each(cfg.head.rows[r], function (CHidx, CH) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -441,7 +442,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.head.rows.length; r++) {
-				jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+				axf.each(cfg.head.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -456,13 +457,13 @@ var AXTree = Class.create(AXJ, {
 			}
 
 			//colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여
-			jQuery.each(cfg.head._maps.last(), function (midx, m) {
+			axf.each(cfg.head._maps.last(), function (midx, m) {
 				if (m) cfg.head.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { // colGroup 중에 숨겨진 col 이 존재하는 경우
 				// colspan 감소 시키기
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.head._maps.length; a++) {
 							var rowPosition = cfg.head._maps[a][cidx];
@@ -480,7 +481,7 @@ var AXTree = Class.create(AXJ, {
 			colMaxLen = 0;
 			for (var r = 0; r < cfg.foot.rows.length; r++) {
 				var colLen = 0;
-				jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+				axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -520,7 +521,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.foot.rows.length; r++) {
-				jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+				axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -534,13 +535,13 @@ var AXTree = Class.create(AXJ, {
 				});
 			}
 			//colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여
-			jQuery.each(cfg.foot._maps.last(), function (midx, m) {
+			axf.each(cfg.foot._maps.last(), function (midx, m) {
 				if (m) cfg.foot.rows[m.r][m.c].isLastCell = true;
 			});
 
 			if (hasHiddenCell) { // colGroup 중에 숨겨진 col 이 존재하는 경우
 				// colspan 감소 시키기
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.foot._maps.length; a++) {
 							var rowPosition = cfg.foot._maps[a][cidx];
@@ -560,7 +561,7 @@ var AXTree = Class.create(AXJ, {
 				colMaxLen = 0;
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
 					var colLen = 0;
-					jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 						if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 						if (CH.colspan == undefined || CH.colspan == null) {
 							CH.colspan = 1;
@@ -596,7 +597,7 @@ var AXTree = Class.create(AXJ, {
 					}
 				};
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
-					jQuery.each(cfg.editor.rows[r], function (CHidx, CH) {
+					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
 						if (CH.colSeq != undefined) {
 							var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 						} else {
@@ -610,13 +611,13 @@ var AXTree = Class.create(AXJ, {
 					});
 				}
 				//colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여
-				jQuery.each(cfg.editor._maps.last(), function (midx, m) {
+				axf.each(cfg.editor._maps.last(), function (midx, m) {
 					if (m) cfg.editor.rows[m.r][m.c].isLastCell = true;
 				});
 
 				if (hasHiddenCell) { // colGroup 중에 숨겨진 col 이 존재하는 경우
 					// colspan 감소 시키기
-					jQuery.each(cfg.colGroup, function (cidx, CG) {
+					axf.each(cfg.colGroup, function (cidx, CG) {
 						if (!CG.display) {
 							for (var a = 0; a < cfg.editor._maps.length; a++) {
 								var rowPosition = cfg.editor._maps[a][cidx];
@@ -633,15 +634,15 @@ var AXTree = Class.create(AXJ, {
 		if (cfg.fixedColSeq != undefined && cfg.fixedColSeq != null) {
 
 			var fixedColSeq = this.fixedColSeq;
-			jQuery.each(cfg.colHead._maps, function (midx, m) {
-				jQuery.each(m, function (cidx, c) {
+			axf.each(cfg.colHead._maps, function (midx, m) {
+				axf.each(m, function (cidx, c) {
 					if (c) {
 						if ((fixedColSeq + 1) > cidx) cfg.colHead.rows[c.r][c.c].isFixedCell = true;
 					}
 				});
 			});
-			jQuery.each(cfg.body._maps, function (midx, m) {
-				jQuery.each(m, function (cidx, c) {
+			axf.each(cfg.body._maps, function (midx, m) {
+				axf.each(m, function (cidx, c) {
 					if (c) {
 						if (fixedColSeq == cidx) cfg.body.rows[c.r][c.c].isFixedEndCell = true;
 						if ((fixedColSeq + 1) > cidx) cfg.body.rows[c.r][c.c].isFixedCell = true;
@@ -649,8 +650,8 @@ var AXTree = Class.create(AXJ, {
 				});
 			});
 			if (cfg.head) {
-				jQuery.each(cfg.head._maps, function (midx, m) {
-					jQuery.each(m, function (cidx, c) {
+				axf.each(cfg.head._maps, function (midx, m) {
+					axf.each(m, function (cidx, c) {
 						if (c) {
 							if (fixedColSeq == cidx) cfg.head.rows[c.r][c.c].isFixedEndCell = true;
 							if ((fixedColSeq + 1) > cidx) cfg.head.rows[c.r][c.c].isFixedCell = true;
@@ -659,8 +660,8 @@ var AXTree = Class.create(AXJ, {
 				});
 			}
 			if (cfg.foot) {
-				jQuery.each(cfg.foot._maps, function (midx, m) {
-					jQuery.each(m, function (cidx, c) {
+				axf.each(cfg.foot._maps, function (midx, m) {
+					axf.each(m, function (cidx, c) {
 						if (c) {
 							if (fixedColSeq == cidx) cfg.foot.rows[c.r][c.c].isFixedEndCell = true;
 							if ((fixedColSeq + 1) > cidx) cfg.foot.rows[c.r][c.c].isFixedCell = true;
@@ -671,8 +672,8 @@ var AXTree = Class.create(AXJ, {
 
 			if (cfg.body.marker) {
 				if (cfg.body.marker.rows) {
-					jQuery.each(cfg.body.marker._maps, function (midx, m) {
-						jQuery.each(m, function (cidx, c) {
+					axf.each(cfg.body.marker._maps, function (midx, m) {
+						axf.each(m, function (cidx, c) {
 							if (c) {
 								if (fixedColSeq == cidx) cfg.body.marker.rows[c.r][c.c].isFixedEndCell = true;
 								if ((fixedColSeq + 1) > cidx) cfg.body.marker.rows[c.r][c.c].isFixedCell = true;
@@ -684,8 +685,8 @@ var AXTree = Class.create(AXJ, {
 
 			if (cfg.editor) {
 				if (cfg.editor.rows) {
-					jQuery.each(cfg.editor._maps, function (midx, m) {
-						jQuery.each(m, function (cidx, c) {
+					axf.each(cfg.editor._maps, function (midx, m) {
+						axf.each(m, function (cidx, c) {
 							if (c) {
 								if (fixedColSeq == cidx) cfg.editor.rows[c.r][c.c].isFixedEndCell = true;
 								if ((fixedColSeq + 1) > cidx) cfg.editor.rows[c.r][c.c].isFixedCell = true;
@@ -698,7 +699,7 @@ var AXTree = Class.create(AXJ, {
 			if (hasHiddenCell) {
 				var minusFixedCol = 0;
 				var fixedColSeq = this.fixedColSeq;
-				jQuery.each(cfg.colGroup, function (cidx, CG) {
+				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (!CG.display) {
 						if ((fixedColSeq + 1) > cidx) minusFixedCol++;
 					}
@@ -715,7 +716,7 @@ var AXTree = Class.create(AXJ, {
 
 			var fixedColSeq = this.fixedColSeq;
 			fixedColWidth = 0;
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					fixedColWidth += CG.width.number();
 				}
@@ -727,6 +728,7 @@ var AXTree = Class.create(AXJ, {
 	},
 	init: function () {
 		var cfg = this.config;
+		
 		if (Object.isUndefined(cfg.targetID)) {
 			trace("need targetID - setConfig({targetID:''})");
 			return;
@@ -758,12 +760,12 @@ var AXTree = Class.create(AXJ, {
 			cfg.relation = relation;
 		}
 
-		var targetInnerHeight = jQuery("#" + cfg.targetID).innerHeight();
+		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
 		if (targetInnerHeight == 0) targetInnerHeight = 400;
 		this.theme = (cfg.theme) ? cfg.theme : "AXTree"; // 테마기본값 지정
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; // 그리드 높이 지정
 
-		this.target = jQuery("#" + cfg.targetID);
+		this.target = axdom("#" + cfg.targetID);
 		var theme = this.theme;
 		var treeCss = [];
 
@@ -783,11 +785,11 @@ var AXTree = Class.create(AXJ, {
 		// tree 뼈대 그리기 -----------------------------------------------------------------------------------------------------
 
 		// 주요 타깃 설정
-		this.gridBody = jQuery("#" + cfg.targetID + "_AX_tree");
-		this.scrollBody = jQuery("#" + cfg.targetID + "_AX_treeScrollBody");
-		this.colHead = jQuery("#" + cfg.targetID + "_AX_treeColHead");
-		this.body = jQuery("#" + cfg.targetID + "_AX_treeBody");
-		this.editor = jQuery("#" + cfg.targetID + "_AX_treeEditor");
+		this.gridBody = axdom("#" + cfg.targetID + "_AX_tree");
+		this.scrollBody = axdom("#" + cfg.targetID + "_AX_treeScrollBody");
+		this.colHead = axdom("#" + cfg.targetID + "_AX_treeColHead");
+		this.body = axdom("#" + cfg.targetID + "_AX_treeBody");
+		this.editor = axdom("#" + cfg.targetID + "_AX_treeEditor");
 
 		/// define part -----------------------------------------------------------------------------------------------------
 		this.defineConfig(); // config object define
@@ -824,20 +826,20 @@ var AXTree = Class.create(AXJ, {
 
 			var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 			if (document.attachEvent) { //if IE (and Opera depending on user setting)
-				//AXgetId(cfg.targetID+"_AX_treeBody").detachEvent("on"+mousewheelevt, this.contentScrollScrollWheelBind);
-				if (AXgetId(cfg.targetID + "_AX_treeBody")) AXgetId(cfg.targetID + "_AX_treeBody").attachEvent("on" + mousewheelevt, contentScrollScrollWheel);
+				//axf.getId(cfg.targetID+"_AX_treeBody").detachEvent("on"+mousewheelevt, this.contentScrollScrollWheelBind);
+				if (axf.getId(cfg.targetID + "_AX_treeBody")) axf.getId(cfg.targetID + "_AX_treeBody").attachEvent("on" + mousewheelevt, contentScrollScrollWheel);
 			} else if (document.addEventListener) { //WC3 browsers
-				///AXgetId(cfg.targetID+"_AX_treeBody").removeEventListener(mousewheelevt, this.contentScrollScrollWheelBind, false);
-				if (AXgetId(cfg.targetID + "_AX_treeBody")) AXgetId(cfg.targetID + "_AX_treeBody").addEventListener(mousewheelevt, contentScrollScrollWheel, false);
+				///axf.getId(cfg.targetID+"_AX_treeBody").removeEventListener(mousewheelevt, this.contentScrollScrollWheelBind, false);
+				if (axf.getId(cfg.targetID + "_AX_treeBody")) axf.getId(cfg.targetID + "_AX_treeBody").addEventListener(mousewheelevt, contentScrollScrollWheel, false);
 			}
 
 			if (document.addEventListener) {
-				//AXgetId(cfg.targetID+"_AX_treeBody").removeEventListener("touchstart", this.contentScrollTouchstartBind, false);
-				if (AXgetId(cfg.targetID + "_AX_treeBody")) AXgetId(cfg.targetID + "_AX_treeBody").addEventListener("touchstart", contentScrollTouchstart, false);
+				//axf.getId(cfg.targetID+"_AX_treeBody").removeEventListener("touchstart", this.contentScrollTouchstartBind, false);
+				if (axf.getId(cfg.targetID + "_AX_treeBody")) axf.getId(cfg.targetID + "_AX_treeBody").addEventListener("touchstart", contentScrollTouchstart, false);
 			}
 		}
 
-		jQuery("#" + cfg.targetID).bind("keydown", this.onKeydown.bind(this));
+		axdom("#" + cfg.targetID).bind("keydown", this.onKeydown.bind(this));
 
 		if (cfg.contextMenu) {
 
@@ -848,7 +850,7 @@ var AXTree = Class.create(AXJ, {
 				menu: cfg.contextMenu.menu
 			});
 
-			jQuery("#" + cfg.targetID).bind("contextmenu", this.onContextmenu.bind(this));
+			axdom("#" + cfg.targetID).bind("contextmenu", this.onContextmenu.bind(this));
 
 		}
 		/* body event bind */
@@ -860,7 +862,7 @@ var AXTree = Class.create(AXJ, {
 		if (cfg.height == "auto") {
 			this.target.css({ height: "auto", "max-height": "auto" });
 			var colHeadHeight = this.colHead.outerHeight();
-			var scrollBodyHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+			var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 			this.scrollBody.css({ height: scrollBodyHeight + colHeadHeight }); //colhead + body height
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); // body Height
 		} else {
@@ -870,12 +872,12 @@ var AXTree = Class.create(AXJ, {
 			this.scrollBody.css({ height: scrollBodyHeight }); //colhead + body height
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) }); // body Height
 		}
-		if (!react) jQuery(window).bind("resize", this.contentScrollResize.bind(this));
+		if (!react) axdom(window).bind("resize", this.contentScrollResize.bind(this));
 	},
 	resetHeight: function () {
 		var cfg = this.config;
 
-		var targetInnerHeight = jQuery("#" + cfg.targetID).innerHeight();
+		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
 		if (targetInnerHeight == 0) targetInnerHeight = 400;
 		cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
 
@@ -894,13 +896,13 @@ var AXTree = Class.create(AXJ, {
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) }); // body Height
 
 			var bodyHeight = this.body.height();
-			var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+			var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
-			var scrollTrackYHeight = (cfg.xscroll) ? bodyHeight - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight() : bodyHeight;
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
+			var scrollTrackYHeight = (cfg.xscroll) ? bodyHeight - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight() : bodyHeight;
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
 
-			var scrollYHandleHeight = ((bodyHeight - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()) * scrollTrackYHeight) / scrollHeight;
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
+			var scrollYHandleHeight = ((bodyHeight - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()) * scrollTrackYHeight) / scrollHeight;
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
 
 		} catch (e) {
 			//trace(e);
@@ -913,7 +915,7 @@ var AXTree = Class.create(AXJ, {
 		var po = [];
 		po.push("<colgroup>");
 		if (suffix != "FC" && suffix != "FB" && suffix != "FE") {
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display) {
 					if (cfg.width == "auto" || cfg.width == "*") {
 						po.push("<col style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
@@ -925,7 +927,7 @@ var AXTree = Class.create(AXJ, {
 			if (suffix == "CB") po.push("<col />");
 		} else {
 			//fixedCol 존재
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					if (cfg.width == "auto" || cfg.width == "*") {
 						po.push("<col style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
@@ -970,7 +972,7 @@ var AXTree = Class.create(AXJ, {
 			this.checked = checked;
 		});
 
-		jQuery("#" + cfg.targetID + "_AX_fixedColHead").find(".treeCheckBox_colHead_colSeq" + colSeq).each(function () {
+		axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".treeCheckBox_colHead_colSeq" + colSeq).each(function () {
 			this.checked = checked;
 		});
 
@@ -1016,8 +1018,8 @@ var AXTree = Class.create(AXJ, {
 		if (eventTarget.tagName.toLowerCase() == "input") return; //input 인 경우 제외
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("bodyTd") || jQuery(evt).hasClass("bodyNodeIndent")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyNodeIndent")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -1028,14 +1030,14 @@ var AXTree = Class.create(AXJ, {
 			var ids = targetID.split(/_AX_/g);
 
 			if (this.selectedCells.length > 0) {
-				jQuery.each(this.selectedCells, function () {
-					jQuery("#" + this).removeClass("selected");
+				axf.each(this.selectedCells, function () {
+					axdom("#" + this).removeClass("selected");
 				});
 				this.selectedCells.clear();
 			}
 			if (this.selectedRow.length > 0) {
 				var body = this.body;
-				jQuery.each(this.selectedRow, function () {
+				axf.each(this.selectedRow, function () {
 					body.find(".gridBodyTr_" + this).removeClass("selected");
 				});
 			}
@@ -1052,8 +1054,8 @@ var AXTree = Class.create(AXJ, {
 	copyData: function () {
 		var cfg = this.config;
 		var copyOut = [];
-		jQuery.each(this.selectedCells, function (index, n) {
-			var html = jQuery("#" + n).find(".bodyNode").html();
+		axf.each(this.selectedCells, function (index, n) {
+			var html = axdom("#" + n).find(".bodyNode").html();
 			copyOut.push(html + '\t');
 		});
 
@@ -1135,7 +1137,7 @@ var AXTree = Class.create(AXJ, {
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				po.push("<tr>");
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.colspan > 0) {
 						//radio, check exception
 						var tdHtml = CH.label || "untitle";
@@ -1165,7 +1167,7 @@ var AXTree = Class.create(AXJ, {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				po.push("<tr>");
 				var colCount = 0;
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.colspan > 0) {
 						//radio, check exception
 						var tdHtml = CH.label || "untitle";
@@ -1197,7 +1199,7 @@ var AXTree = Class.create(AXJ, {
 				var isLastTR = (cfg.colHead.rows.length - 1 == r);
 				fpo.push("<tr>");
 				var colCount = 0;
-				jQuery.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
 					if (CH.display && CH.isFixedCell && CH.colspan > 0) {
 						//trace({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)});
 						//radio, check exception
@@ -1224,7 +1226,7 @@ var AXTree = Class.create(AXJ, {
 		////////////////////////////////////////////////////////////////////////////////////////////// fixedCol 구현
 
 		this.colHead.html(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_fixedColHead").remove();
+		axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
 		if (fpo) this.colHead.after(fpo.join(''));
 
 		//resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다.
@@ -1234,18 +1236,18 @@ var AXTree = Class.create(AXJ, {
 			var tdID = resizerID.replace("colHeadResizer", "colHead");
 			var txtID = resizerID.replace("colHeadResizer", "colHeadText");
 			var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-			var rowspan = jQuery("#" + tdID).attr("rowspan");
-			var valign = jQuery("#" + tdID).attr("valign");
+			var rowspan = axdom("#" + tdID).attr("rowspan");
+			var valign = axdom("#" + tdID).attr("valign");
 			if (!rowspan) rowspan = 1;
-			var tdHeight = jQuery("#" + tdID).height();
-			jQuery(this).css({ height: tdHeight });
-			jQuery(this).parent().css({ height: tdHeight });
+			var tdHeight = axdom("#" + tdID).height();
+			axdom(this).css({ height: tdHeight });
+			axdom(this).parent().css({ height: tdHeight });
 			if (rowspan > 1) {
 				var cellMarginTop = 0;
-				if (valign == "bottom") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) + 5;
-				if (valign == "middle") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) / 2 + 5;
-				jQuery("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-				jQuery("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+				if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
+				if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+				axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+				axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 			}
 		});
 
@@ -1257,25 +1259,25 @@ var AXTree = Class.create(AXJ, {
 		this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 
 		if (this.hasFixed) { //fixedColHead에 대한 바인딩 및 처리
-			this.fixedColHead = jQuery("#" + cfg.targetID + "_AX_fixedColHead");
+			this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
 
 			this.fixedColHead.find(".colHeadResizer").each(function () {
 				var resizerID = this.id;
 				var tdID = resizerID.replace("colHeadResizer", "colHead");
 				var txtID = resizerID.replace("colHeadResizer", "colHeadText");
 				var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-				var rowspan = jQuery("#" + tdID).attr("rowspan");
-				var valign = jQuery("#" + tdID).attr("valign");
+				var rowspan = axdom("#" + tdID).attr("rowspan");
+				var valign = axdom("#" + tdID).attr("valign");
 				if (!rowspan) rowspan = 1;
-				var tdHeight = jQuery("#" + tdID).height();
-				jQuery(this).css({ height: tdHeight });
-				jQuery(this).parent().css({ height: tdHeight });
+				var tdHeight = axdom("#" + tdID).height();
+				axdom(this).css({ height: tdHeight });
+				axdom(this).parent().css({ height: tdHeight });
 				if (rowspan > 1) {
 					var cellMarginTop = 0;
-					if (valign == "bottom") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) + 5;
-					if (valign == "middle") cellMarginTop = (tdHeight - jQuery("#" + txtID).outerHeight()) / 2 + 5;
-					jQuery("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-					jQuery("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+					if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
+					if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+					axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+					axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 				}
 			});
 
@@ -1296,8 +1298,8 @@ var AXTree = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("colHeadTd")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("colHeadTd")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -1305,7 +1307,7 @@ var AXTree = Class.create(AXJ, {
 			//colHeadTool ready
 			var targetID = myTarget.id;
 			var toolID = targetID.replace("colHead", "colHeadTool");
-			jQuery("#" + toolID).addClass("readyTool");
+			axdom("#" + toolID).addClass("readyTool");
 		}
 	},
 	colHeadMouseOut: function (event) {
@@ -1316,8 +1318,8 @@ var AXTree = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("colHeadTd")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXGridColHead")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("colHeadTd")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -1325,7 +1327,7 @@ var AXTree = Class.create(AXJ, {
 			//colHeadTool unready
 			var targetID = myTarget.id;
 			var toolID = targetID.replace("colHead", "colHeadTool");
-			jQuery("#" + toolID).removeClass("readyTool");
+			axdom("#" + toolID).removeClass("readyTool");
 		}
 	},
 	colHeadResizerMouseDown: function (event) {
@@ -1342,10 +1344,10 @@ var AXTree = Class.create(AXJ, {
 		if (this.colResizing) {
 			this.colHeadResizerEnd();
 		}
-		var offset = jQuery("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").position();
-		var relBlockWidth = jQuery("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").width();
+		var offset = axdom("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").position();
+		var relBlockWidth = axdom("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").width();
 		var rightPosition = offset.left.number() + relBlockWidth.number();
-		var blockWidth = jQuery("#" + cfg.targetID + "_AX_col_AX_" + colSeq + "_AX_CH").attr("width");
+		var blockWidth = axdom("#" + cfg.targetID + "_AX_col_AX_" + colSeq + "_AX_CH").attr("width");
 		this.colResizeTarget = { colSeq: colSeq, leftPosition: (rightPosition - blockWidth), blockWidth: blockWidth, newWidth: blockWidth };
 		//trace(this.colResizeTarget);
 
@@ -1358,13 +1360,13 @@ var AXTree = Class.create(AXJ, {
 		this.colHeadResizerMouseUpBind = function (event) {
 			colHeadResizerMouseUp(event);
 		}
-		jQuery(document.body).bind("mousemove.AXTree", this.colHeadResizerMouseMoveBind);
-		jQuery(document.body).bind("mouseup.AXTree", this.colHeadResizerMouseUpBind);
-		jQuery(document.body).bind("mouseleave.AXTree", this.colHeadResizerMouseUpBind);
-		jQuery("iframe").bind("mouseover.AXTree", this.colHeadResizerMouseUpBind);
+		axdom(document.body).bind("mousemove.AXTree", this.colHeadResizerMouseMoveBind);
+		axdom(document.body).bind("mouseup.AXTree", this.colHeadResizerMouseUpBind);
+		axdom(document.body).bind("mouseleave.AXTree", this.colHeadResizerMouseUpBind);
+		axdom("iframe").bind("mouseover.AXTree", this.colHeadResizerMouseUpBind);
 
-		jQuery(document.body).attr("onselectstart", "return false");
-		jQuery(document.body).addClass("AXUserSelectNone");
+		axdom(document.body).attr("onselectstart", "return false");
+		axdom(document.body).addClass("AXUserSelectNone");
 		/* resize event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	colHeadResizerMouseMove: function (event) {
@@ -1379,35 +1381,35 @@ var AXTree = Class.create(AXJ, {
 		var newWidth = (this.colResizeTarget.leftPosition - mouse.x).abs();
 		if (newWidth < 31) return;
 		/* colHead/colBody colGroup width 조정 */
-		jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CH").attr("width", newWidth);
-		jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CB").attr("width", newWidth);
-		jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_EB").attr("width", newWidth);
+		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CH").attr("width", newWidth);
+		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CB").attr("width", newWidth);
+		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_EB").attr("width", newWidth);
 
 		cfg.colGroup[this.colResizeTarget.colSeq].width = newWidth;
 
 		if (this.hasFixed) {
 			var fixedColSeq = this.fixedColSeq;
 
-			jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FC").attr("width", newWidth);
-			jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FB").attr("width", newWidth);
-			jQuery("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FE").attr("width", newWidth);
+			axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FC").attr("width", newWidth);
+			axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FB").attr("width", newWidth);
+			axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FE").attr("width", newWidth);
 
 			//if(this.colResizeTarget.colSeq < fixedColSeq+1){
 
 			var fixedColWidth = 0;
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axf.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					fixedColWidth += CG.width.number();
 				}
 			});
 			this.fixedColWidth = fixedColWidth;
 
-			jQuery("#" + cfg.targetID + "_AX_fixedColHead").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedColHead").find(".colHeadTable").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").css({ width: fixedColWidth });
-			jQuery("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedColHead").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".colHeadTable").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedScrollContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").css({ width: fixedColWidth });
+			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
 			//}
 
 		}
@@ -1420,7 +1422,7 @@ var AXTree = Class.create(AXJ, {
 				var CH = cfg.editor.rows[rc.r][rc.c];
 				var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + rc.r + "_AX_" + rc.c;
 				//trace(formID);
-				if (AXgetId(formID)) if (AXgetId(formID).tagName == "INPUT") AXInput.alignAnchor(formID);
+				if (axf.getId(formID)) if (axf.getId(formID).tagName == "INPUT") AXInput.alignAnchor(formID);
 			}
 		}
 
@@ -1441,13 +1443,13 @@ var AXTree = Class.create(AXJ, {
 	colHeadResizerEnd: function () {
 		this.moveSens = 0;
 		this.colResizing = false;
-		jQuery(document.body).unbind("mousemove.AXTree");
-		jQuery(document.body).unbind("mouseup.AXTree");
-		jQuery(document.body).unbind("mouseleave.AXTree");
-		jQuery("iframe").unbind("mouseover.AXTree");
+		axdom(document.body).unbind("mousemove.AXTree");
+		axdom(document.body).unbind("mouseup.AXTree");
+		axdom(document.body).unbind("mouseleave.AXTree");
+		axdom("iframe").unbind("mouseover.AXTree");
 
-		jQuery(document.body).removeAttr("onselectstart");
-		jQuery(document.body).removeClass("AXUserSelectNone");
+		axdom(document.body).removeAttr("onselectstart");
+		axdom(document.body).removeClass("AXUserSelectNone");
 	},
 	colHeadNodeClick: function (event) {
 		var cfg = this.config;
@@ -1460,11 +1462,11 @@ var AXTree = Class.create(AXJ, {
 			return; // 에디터가 오픈된 상태이면 비활성화
 		}
 
-		if (jQuery(eventTarget).hasClass("colHeadTdCheck")) {
+		if (axdom(eventTarget).hasClass("colHeadTdCheck")) {
 			this.colHeadCheckBoxClick(event);
 			return; // checkbox block click
 		}
-		if (jQuery(eventTarget).hasClass("gridCheckBox")) return; // checkbox click
+		if (axdom(eventTarget).hasClass("gridCheckBox")) return; // checkbox click
 
 		var lastIdx = eid.length - 1;
 		var colHeadR = eid[lastIdx - 1];
@@ -1479,14 +1481,14 @@ var AXTree = Class.create(AXJ, {
 			/* -- 현재 기술로는 정렬 지원 어려움
             if(this.nowSortHeadID){
             if(this.nowSortHeadID != tdID){
-            jQuery("#"+this.nowSortHeadID).removeClass("sortDesc");
-            jQuery("#"+this.nowSortHeadID).removeClass("sortAsc");
+            axdom("#"+this.nowSortHeadID).removeClass("sortDesc");
+            axdom("#"+this.nowSortHeadID).removeClass("sortAsc");
             this.nowSortHeadObj.sort = undefined;
             }
             }
             //trace(myColHead);
-            if(cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") jQuery("#"+tdID).removeClass("sortDesc");
-            else jQuery("#"+tdID).removeClass("sortAsc");
+            if(cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") axdom("#"+tdID).removeClass("sortDesc");
+            else axdom("#"+tdID).removeClass("sortAsc");
 
             var nsort = "";
             if(myColHead.sort == "desc") nsort = "asc";
@@ -1495,9 +1497,9 @@ var AXTree = Class.create(AXJ, {
 
             //sort 처리하기
             if(nsort == "desc"){
-            jQuery("#"+tdID).addClass("sortDesc");
+            axdom("#"+tdID).addClass("sortDesc");
             }else{
-            jQuery("#"+tdID).addClass("sortAsc");
+            axdom("#"+tdID).addClass("sortAsc");
             }
 
             this.list = this.sortList(nsort, myColHead, this.list);
@@ -1538,11 +1540,11 @@ var AXTree = Class.create(AXJ, {
 		var myColHead = cfg.colHead.rows[colHeadR][colHeadC];
 		//toast.push("클릭된 colGroup seq : " + myColHead.colSeq);
 
-		jQuery("#" + cfg.targetID + "_AX_colHeadMenu").remove();
+		axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
 
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_colHeadMenu\" class=\"AXTreeColGroupListBox\">");
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axf.each(cfg.colGroup, function (cidx, CG) {
 			var addClass = (CG.display) ? " on" : "";
 			var lastClass = (cidx == cfg.colGroup.length - 1) ? " last" : "";
 			po.push("<a href=\"#AXexec\" class=\"AXTreeColGroupListBoxItem" + addClass + lastClass + "\" id=\"" + cfg.targetID + "_AX_colHeadMenu_AX_" + CG.colSeq + "\">");
@@ -1550,30 +1552,30 @@ var AXTree = Class.create(AXJ, {
 			po.push("</a>");
 		});
 		po.push("</div>");
-		jQuery(document.body).append(po.join(''));
+		axdom(document.body).append(po.join(''));
 
-		var offset = jQuery(eventTarget).offset();
+		var offset = axdom(eventTarget).offset();
 		var css = {};
 		css.top = offset.top - 5;
 		css.left = offset.left - 20;
-		jQuery("#" + cfg.targetID + "_AX_colHeadMenu").css(css);
+		axdom("#" + cfg.targetID + "_AX_colHeadMenu").css(css);
 
 		/* colGroup click event bind */
 		var colGroupListClick = this.colGroupListClick.bind(this);
 		this.colGroupListClickBind = function (event) {
 			colGroupListClick(event);
 		}
-		jQuery(document).bind("click", this.colGroupListClickBind);
-		jQuery(document).bind("keydown", this.colGroupListClickBind);
+		axdom(document).bind("click", this.colGroupListClickBind);
+		axdom(document).bind("keydown", this.colGroupListClickBind);
 		/* colGroup click bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	colGroupListClick: function (event) {
 		var cfg = this.config;
 
 		if (event.keyCode == AXUtil.Event.KEY_ESC) {
-			jQuery("#" + cfg.targetID + "_AX_colHeadMenu").remove();
-			jQuery(document).unbind("keydown", this.colGroupListClickBind);
-			jQuery(document).unbind("click", this.colGroupListClickBind);
+			axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
+			axdom(document).unbind("keydown", this.colGroupListClickBind);
+			axdom(document).unbind("click", this.colGroupListClickBind);
 			return;
 		}
 
@@ -1583,29 +1585,29 @@ var AXTree = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("AXTreeColGroupListBoxItem") || jQuery(evt).hasClass("colHeadTool")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXTreeColGroupListBoxItem") || axdom(evt).hasClass("colHeadTool")) ? true : false; }
 		});
 		// event target search ------------------------
 
 		if (myTarget) {
-			if (jQuery(myTarget).hasClass("colHeadTool")) return;
+			if (axdom(myTarget).hasClass("colHeadTool")) return;
 			//colHeadTool ready
 			var targetID = myTarget.id;
 			var colSeq = targetID.split(/_AX_/g).last();
 			//trace(cfg.colGroup[colSeq]);
 			if (cfg.colGroup[colSeq].display) {
 				cfg.colGroup[colSeq].display = false;
-				jQuery("#" + targetID).removeClass("on");
+				axdom("#" + targetID).removeClass("on");
 			} else {
 				cfg.colGroup[colSeq].display = true;
-				jQuery("#" + targetID).addClass("on");
+				axdom("#" + targetID).addClass("on");
 			}
 			//redraw grid
 			this.redrawGrid();
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_colHeadMenu").remove();
-			jQuery(document).unbind("keydown", this.colGroupListClickBind);
-			jQuery(document).unbind("click", this.colGroupListClickBind);
+			axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
+			axdom(document).unbind("keydown", this.colGroupListClickBind);
+			axdom(document).unbind("click", this.colGroupListClickBind);
 		}
 	},
 	colHeadCheckBoxClick: function (event) {
@@ -1614,8 +1616,8 @@ var AXTree = Class.create(AXJ, {
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
-		if (jQuery(eventTarget).hasClass("colHeadTdCheck")) {
-			eventTarget = jQuery(eventTarget).find("input").get(0);
+		if (axdom(eventTarget).hasClass("colHeadTdCheck")) {
+			eventTarget = axdom(eventTarget).find("input").get(0);
 			eventTarget.checked = !eventTarget.checked;
 		}
 		var lastIdx = eid.length - 1;
@@ -1653,7 +1655,7 @@ var AXTree = Class.create(AXJ, {
 					result = myColHead.formatter.call(sendObj);
 					//result 값이 money 형식인지 체크 합니다.
 					var moneyCheck = result.replace(/,/g, "");
-					if (jQuery.isNumeric(moneyCheck)) result = result.number();
+					if (axdom.isNumeric(moneyCheck)) result = result.number();
 				}
 				return result;
 			} else {
@@ -1747,8 +1749,8 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		// scroll event bind
-		jQuery("#" + cfg.targetID + "_AX_scrollYHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
-		jQuery("#" + cfg.targetID + "_AX_scrollXHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
+		axdom("#" + cfg.targetID + "_AX_scrollYHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
+		axdom("#" + cfg.targetID + "_AX_scrollXHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
 		// scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	},
 	listLoadingDisplay: function () {
@@ -1764,14 +1766,14 @@ var AXTree = Class.create(AXJ, {
 		po.push("</td>");
 		po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
 		po.push("</tr>");
-		jQuery("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
 		
 		po = [];
 		po.push("<tr class=\"noListTr\">");
 		po.push("<td colspan=\"" + (this.showColLen) + "\">");
 		po.push("</td>");
 		po.push("</tr>");
-		jQuery("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
 	},
 	getAXTreeSplit: function(isFix){
 		var cfg = this.config;
@@ -1797,7 +1799,7 @@ var AXTree = Class.create(AXJ, {
 
 		this.listLoadingDisplay();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ width: "auto" });
+		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ width: "auto" });
 
 		if (obj.ajaxUrl) {
 			this.ajaxInfo = obj;
@@ -1832,7 +1834,7 @@ var AXTree = Class.create(AXJ, {
 		} else {
 
 			this.ajaxInfo = null;
-			if (jQuery.isArray(obj)) {
+			if (axdom.isArray(obj)) {
 				if (obj.length == 0) {
 
 					/*
@@ -1840,7 +1842,7 @@ var AXTree = Class.create(AXJ, {
 						po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
 						po.push("목록이 없습니다.");
 						po.push("</div>");
-						jQuery("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
+						axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
 					*/
 					//return;
 				}
@@ -2072,7 +2074,7 @@ var AXTree = Class.create(AXJ, {
 			var isLastTR = (cfg.body.rows.length - 1 == r);
 			if (hasTrValue) tpo.push("<tr class=\"gridBodyTr gridBodyTr_" + itemIndex + " " + evenClassName + " " + hashClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_tr_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\" style=\"" + trStyles.join('') + "\">");
 			var colCount = 0;
-			jQuery.each(cfg.body.rows[r], function (CHidx, CH) {
+			axf.each(cfg.body.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == "n" || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -2216,7 +2218,7 @@ var AXTree = Class.create(AXJ, {
 			var isLastTR = (cfg.body.marker.rows.length - 1 == r);
 			tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
 			var colCount = 0;
-			jQuery.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+			axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == "n" || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -2291,7 +2293,7 @@ var AXTree = Class.create(AXJ, {
 		var getAXTreeSplit = this.getAXTreeSplit.bind(this);
 
 		var po = [];
-		jQuery.each(this.list, function (itemIndex, item) {
+		axf.each(this.list, function (itemIndex, item) {
 			if (!item.isRoot && !item._isDel) {
 				if(item.AXTreeSplit){
 					po.push(getAXTreeSplit("n"));
@@ -2303,12 +2305,12 @@ var AXTree = Class.create(AXJ, {
 				}
 			}
 		});
-		jQuery("#" + cfg.targetID + "_AX_tbody").empty();
-		jQuery("#" + cfg.targetID + "_AX_tbody").append(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_tbody").empty();
+		axdom("#" + cfg.targetID + "_AX_tbody").append(po.join(''));
 		
 		if (this.hasFixed) {
 			po = [];
-			jQuery.each(this.list, function (itemIndex, item) {
+			axf.each(this.list, function (itemIndex, item) {
 				if (!item.isRoot && item[cfg.reserveKeys.displayKey] && !item._isDel) {
 					if(item.AXTreeSplit){
 						po.push(getAXTreeSplit("fix"));
@@ -2320,8 +2322,8 @@ var AXTree = Class.create(AXJ, {
 					}
 				}
 			});
-			jQuery("#" + cfg.targetID + "_AX_fixedTbody").empty();
-			jQuery("#" + cfg.targetID + "_AX_fixedTbody").append(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_fixedTbody").empty();
+			axdom("#" + cfg.targetID + "_AX_fixedTbody").append(po.join(''));
 		}
 
 		this.selectedCells.clear(); // selectedCells clear
@@ -2331,13 +2333,13 @@ var AXTree = Class.create(AXJ, {
 
 		var _tree = this.tree;
 		var list_pointer = {};
-		jQuery.each(this.list, function (lidx, L) {
+		axf.each(this.list, function (lidx, L) {
 			list_pointer[L.hash] = lidx;
 		});
 		//trace(list_pointer);
 		
 		var _list = this.list;
-		jQuery.each(this.list, function (lidx, L) {
+		axf.each(this.list, function (lidx, L) {
 			if(L.__checked){
 				var hashs = L.hash.split(/_/g);
 				hashs.shift();
@@ -2394,9 +2396,9 @@ var AXTree = Class.create(AXJ, {
 			var fpo = this.getItem(itemIndex, item, "fix", "notr");
 		}
 
-		jQuery("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).html(npo);
+		axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).html(npo);
 		if (this.hasFixed) {
-			jQuery("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).html(npo);
+			axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).html(npo);
 		}
 
 		this.body.find(".gridBodyTr").unbind("mouseover", this.gridBodyOverBind);
@@ -2426,12 +2428,12 @@ var AXTree = Class.create(AXJ, {
 			var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 			var lastR = cfg.body.rows.length - 1;
 			for (var r = 0; r < cfg.body.rows.length; r++) {
-				jQuery("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").removeClass("expand");
+				axdom("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").removeClass("expand");
 			}
 
 			//trace(pHash);
 			var removepHashs = [];
-			jQuery.each(this.list, function (itemIndex, item) {
+			axf.each(this.list, function (itemIndex, item) {
 				if(!item.AXTreeSplit){
 					if (pHash == item[cfg.reserveKeys.parentHashKey].left(pHash.length)) {
 						removepHashs.push(item[cfg.reserveKeys.parentHashKey]);
@@ -2441,13 +2443,13 @@ var AXTree = Class.create(AXJ, {
 			});
 
 			var _body = this.body;
-			jQuery.each(removepHashs, function () {
+			axf.each(removepHashs, function () {
 				_body.find(".gridBodyTr.parentHash" + this).hide();
 			});
 			item[cfg.reserveKeys.openKey] = false;
 
 			var myTree = this.tree;
-			jQuery.each(hashs, function (hidx, HH) {
+			axf.each(hashs, function (hidx, HH) {
 				if (hidx == 0) {
 
 				} else if (hidx == 1) {
@@ -2486,7 +2488,7 @@ var AXTree = Class.create(AXJ, {
 			item[cfg.reserveKeys.openKey] = true;
 
 			for (var r = 0; r < cfg.body.rows.length; r++) {
-				jQuery("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").addClass("expand");
+				axdom("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").addClass("expand");
 			}
 
 			var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
@@ -2495,7 +2497,7 @@ var AXTree = Class.create(AXJ, {
 
 
 			var myTree = this.tree;
-			jQuery.each(hashs, function (hidx, HH) {
+			axf.each(hashs, function (hidx, HH) {
 				if (hidx == 0) {
 
 				} else if (hidx == 1) {
@@ -2509,7 +2511,7 @@ var AXTree = Class.create(AXJ, {
 			var preFixHash = hashs.join("_");
 			var getAddHashs = function (_tree, pfHash) {
 				addHashs.push(pfHash);
-				jQuery.each(_tree, function (treeIndex, nTree) {
+				axf.each(_tree, function (treeIndex, nTree) {
 					if (nTree.subTree.length > 0 && nTree[cfg.reserveKeys.openKey]) getAddHashs(nTree.subTree, pfHash + "_" + treeIndex.setDigit(cfg.hashDigit));
 				});
 			};
@@ -2521,7 +2523,7 @@ var AXTree = Class.create(AXJ, {
 			var _list = this.list;
 			var itemChangeDisplay = this.itemChangeDisplay.bind(this);
 			var _body = this.body;
-			jQuery.each(addHashs, function () {
+			axf.each(addHashs, function () {
 				_body.find(".gridBodyTr.parentHash" + this).each(function () {
 					var trIndex = this.id.split(/_AX_/g).last();
 					itemChangeDisplay(trIndex, true);
@@ -2613,8 +2615,8 @@ var AXTree = Class.create(AXJ, {
 		}
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("bodyTd") || jQuery(evt).hasClass("bodyNodeIndent")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyNodeIndent")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -2667,7 +2669,7 @@ var AXTree = Class.create(AXJ, {
 						} else if (event.ctrlKey) {
 							if (this.selectedRow.length > 0) {
 								var body = this.body;
-								jQuery.each(this.selectedRow, function () {
+								axf.each(this.selectedRow, function () {
 									body.find(".gridBodyTr_" + this).removeClass("selected");
 								});
 								this.selectedRow.clear();
@@ -2675,7 +2677,7 @@ var AXTree = Class.create(AXJ, {
 
 							var hasID = false;
 							var collect = [];
-							jQuery.each(this.selectedCells, function () {
+							axf.each(this.selectedCells, function () {
 								if (this == targetID) {
 									hasID = true;
 								} else {
@@ -2683,22 +2685,22 @@ var AXTree = Class.create(AXJ, {
 								}
 							});
 							if (hasID) {
-								jQuery("#" + targetID).removeClass("selected");
+								axdom("#" + targetID).removeClass("selected");
 								this.selectedCells = collect;
 							} else {
-								jQuery("#" + targetID).addClass("selected");
+								axdom("#" + targetID).addClass("selected");
 								this.selectedCells.push(targetID);
 							}
 						} else {
 							if (this.selectedCells.length > 0) {
-								jQuery.each(this.selectedCells, function () {
-									jQuery("#" + this).removeClass("selected");
+								axf.each(this.selectedCells, function () {
+									axdom("#" + this).removeClass("selected");
 								});
 								this.selectedCells.clear();
 							}
 							if (this.selectedRow.length > 0) {
 								var body = this.body;
-								jQuery.each(this.selectedRow, function () {
+								axf.each(this.selectedRow, function () {
 									body.find(".gridBodyTr_" + this).removeClass("selected");
 								});
 							}
@@ -2715,7 +2717,7 @@ var AXTree = Class.create(AXJ, {
 
 								var hashs = item.hash.split(/_/g);
 								var subTree = this.tree;
-								jQuery.each(hashs, function (idx, arg) {
+								axf.each(hashs, function (idx, arg) {
 									if (idx == 1) {
 										subTree = subTree[this.number()];
 									} else if (idx > 1) {
@@ -2756,8 +2758,8 @@ var AXTree = Class.create(AXJ, {
 		if (eventTarget.tagName.toLowerCase() == "input") return; //input 인 경우 제외
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (jQuery(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (jQuery(evt).hasClass("bodyTd")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd")) ? true : false; }
 		});
 		// event target search ------------------------
 
@@ -2770,7 +2772,7 @@ var AXTree = Class.create(AXJ, {
 
 			if (this.selectedRow.length > 0) {
 				var body = this.body;
-				jQuery.each(this.selectedRow, function () {
+				axf.each(this.selectedRow, function () {
 					body.find(".gridBodyTr_" + this).removeClass("selected");
 				});
 			}
@@ -2816,14 +2818,14 @@ var AXTree = Class.create(AXJ, {
 			var phash = item[reserveKeys.hashKey];
 
 			var childIndex = [];
-			jQuery.each(this.list, function (lidx, list) {
+			axf.each(this.list, function (lidx, list) {
 				if (!this.isRoot) {
 					if (this[reserveKeys.hashKey].left(phash.length) == phash && this[reserveKeys.hashKey] != phash) {
 						childIndex.push(lidx);
 					}
 				}
 			});
-			jQuery.each(childIndex, function () {
+			axf.each(childIndex, function () {
 				if (_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + this).get(0)) {
 					_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + this).get(0).checked = checked;
 				}
@@ -2835,7 +2837,7 @@ var AXTree = Class.create(AXJ, {
 
 			// 자식 트리 개체에 checked 속성을 부여 합니다. -------------- s
 			var stree = this.tree;
-			jQuery.each(hashs, function (hidx, H) {
+			axf.each(hashs, function (hidx, H) {
 				if (hidx == 0) {
 					stree = stree[this.number()];
 				} else {
@@ -2843,7 +2845,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			});
 			var subTreeChecked = function (T, checked) {
-				jQuery.each(T.subTree, function () {
+				axf.each(T.subTree, function () {
 					this.__checked = checked;
 					if (this.subTree) subTreeChecked(this, checked);
 				});
@@ -2873,7 +2875,7 @@ var AXTree = Class.create(AXJ, {
 			if (!parentIsRootTree) {
 				var childIsAllChecked = true;
 				/*
-				jQuery.each(ptree[reserveKeys.subTree], function(){
+				axf.each(ptree[reserveKeys.subTree], function(){
 					if(!this.__checked) childIsAllChecked = false;
 				});
 				*/
@@ -2883,7 +2885,7 @@ var AXTree = Class.create(AXJ, {
 					var p_tree = this.tree;
 					var checkedHashs = [];
 
-					jQuery.each(hashs, function (hidx, H) {
+					axf.each(hashs, function (hidx, H) {
 						if (hidx == 0) {
 							p_tree = p_tree[this.number()];
 						} else {
@@ -2897,8 +2899,8 @@ var AXTree = Class.create(AXJ, {
 					//trace(findhash);
 					//trace(checkedHashs);
 					var _body = this.body;
-					jQuery.each(this.list, function (lidx, list) {
-						jQuery.each(checkedHashs, function () {
+					axf.each(this.list, function (lidx, list) {
+						axf.each(checkedHashs, function () {
 							if (list[reserveKeys.hashKey] == this) {
 								if (_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + lidx).get(0)) {
 									_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + lidx).get(0).checked = checked;
@@ -2919,14 +2921,14 @@ var AXTree = Class.create(AXJ, {
 			if (checkboxRelationFixed != null) {
 				var phash = item[reserveKeys.hashKey];
 				var childIndex = [];
-				jQuery.each(this.list, function (lidx, list) {
+				axf.each(this.list, function (lidx, list) {
 					if (!this.isRoot) {
 						if (this[reserveKeys.hashKey].left(phash.length) == phash && this[reserveKeys.hashKey] != phash) {
 							childIndex.push(lidx);
 						}
 					}
 				});
-				jQuery.each(childIndex, function () {
+				axf.each(childIndex, function () {
 					if (_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + this).get(0)) {
 						_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + this).get(0).checked = checked;
 					}
@@ -2938,7 +2940,7 @@ var AXTree = Class.create(AXJ, {
 	
 				// 자식 트리 개체에 checked 속성을 부여 합니다. -------------- s
 				var stree = this.tree;
-				jQuery.each(hashs, function (hidx, H) {
+				axf.each(hashs, function (hidx, H) {
 					if (hidx == 0) {
 						stree = stree[this.number()];
 					} else {
@@ -2946,7 +2948,7 @@ var AXTree = Class.create(AXJ, {
 					}
 				});
 				var subTreeChecked = function (T, checked) {
-					jQuery.each(T.subTree, function () {
+					axf.each(T.subTree, function () {
 						this.__checked = checked;
 						if (this.subTree) subTreeChecked(this, checked);
 					});
@@ -2975,7 +2977,7 @@ var AXTree = Class.create(AXJ, {
 					eval("myTree = this.tree" + subTreeStr);
 					//trace(myTree.hash);
 					var childIsAllUnChecked = true;
-					jQuery.each(myTree[reserveKeys.subTree], function () {
+					axf.each(myTree[reserveKeys.subTree], function () {
 						if (this.__checked) childIsAllUnChecked = false;
 					});
 					if (childIsAllUnChecked) {
@@ -2988,8 +2990,8 @@ var AXTree = Class.create(AXJ, {
 				//trace(findhash);
 				//trace(checkedHashs);
 				var _body = this.body;
-				jQuery.each(this.list, function (lidx, list) {
-					jQuery.each(checkedHashs, function () {
+				axf.each(this.list, function (lidx, list) {
+					axf.each(checkedHashs, function () {
 						if (list[reserveKeys.hashKey] == this) {
 							if (_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + lidx).get(0)) {
 								_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + lidx).get(0).checked = checked;
@@ -3007,82 +3009,82 @@ var AXTree = Class.create(AXJ, {
 		var cfg = this.config;
 
 		var bodyHeight = this.body.height();
-		var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
 		var bodyWidth = this.body.width();
 		var scrollWidth = (this.colWidth > bodyWidth) ? this.colWidth : bodyWidth;
 
-		if (cfg.width == "auto") scrollWidth = jQuery("#" + cfg.targetID + "_AX_scrollContent").find("table.treeBodyTable").width().number();
+		if (cfg.width == "auto") scrollWidth = axdom("#" + cfg.targetID + "_AX_scrollContent").find("table.treeBodyTable").width().number();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
-		this.colHead.css({ width: scrollWidth + jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").width() });  // colHead width 재정의
+		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
+		this.colHead.css({ width: scrollWidth + axdom("#" + cfg.targetID + "_AX_scrollTrackXY").width() });  // colHead width 재정의
 
 		if (this.hasEditor) this.editor.css({ width: scrollWidth });
 
 		if (resetLeft != false) {
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ left: 0 });
-			jQuery("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-			jQuery("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
-			if (this.hasEditor) jQuery("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ left: 0 });
+			axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
+			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
 		}
 
 		if (bodyHeight < scrollHeight && cfg.height != "auto") {
 
 			if (cfg.width == "auto") {
 				//trace(scrollWidth);
-				//trace(jQuery("#" + cfg.targetID + "_AX_scrollContent").width());
+				//trace(axdom("#" + cfg.targetID + "_AX_scrollContent").width());
 				//scrollWidth += 50;
-				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
-				//trace(jQuery("#" + cfg.targetID + "_AX_scrollContent").width());
+				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
+				//trace(axdom("#" + cfg.targetID + "_AX_scrollContent").width());
 			}
 
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").show();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").show();
 
-			var scrollTrackYHeight = (cfg.xscroll) ? bodyHeight - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight() : bodyHeight;
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
+			var scrollTrackYHeight = (cfg.xscroll) ? bodyHeight - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight() : bodyHeight;
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
 
-			var scrollYHandleHeight = ((bodyHeight - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()) * scrollTrackYHeight) / scrollHeight;
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
+			var scrollYHandleHeight = ((bodyHeight - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()) * scrollTrackYHeight) / scrollHeight;
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
 			
 			
 
 		} else {
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackY").hide();
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: 0 });
+			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackY").hide();
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: 0 });
 		}
 
 		if (scrollWidth > bodyWidth && cfg.xscroll) {
 
 			this.show_scrollTrackX = true;
 
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").show();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackX").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").show();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackX").show();
 
-			var scrollTrackXWidth = bodyWidth - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").width();
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackX").css({ width: scrollTrackXWidth });
-			var scrollXHandleWidth = ((bodyWidth - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth()) * scrollTrackXWidth) / (scrollWidth + 50);
+			var scrollTrackXWidth = bodyWidth - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").width();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackX").css({ width: scrollTrackXWidth });
+			var scrollXHandleWidth = ((bodyWidth - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth()) * scrollTrackXWidth) / (scrollWidth + 50);
 
-			jQuery("#" + cfg.targetID + "_AX_scrollXHandle").css({ width: scrollXHandleWidth - 2 });
+			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ width: scrollXHandleWidth - 2 });
 
 			// cfg.height == "auto" 길이 늘이기
 			if (cfg.height == "auto") {
 				var colHeadHeight = this.colHead.outerHeight();
-				var scrollBodyHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-				var scrollTrackXYHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()
+				var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+				var scrollTrackXYHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight()
 
 				this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight + scrollTrackXYHeight) }); //colhead + body height
 				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight + scrollTrackXYHeight) }); // body Height
 			}
 		} else {
 			this.show_scrollTrackX = false;
-			jQuery("#" + cfg.targetID + "_AX_scrollTrackX").hide();
-			//jQuery("#"+cfg.targetID+"_AX_scrollTrackXY").hide();
+			axdom("#" + cfg.targetID + "_AX_scrollTrackX").hide();
+			//axdom("#"+cfg.targetID+"_AX_scrollTrackXY").hide();
 
 			if (cfg.height == "auto") {
 				var colHeadHeight = this.colHead.outerHeight();
-				var scrollBodyHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
+				var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
 				this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) }); //colhead + body height
 				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); // body Height
@@ -3099,32 +3101,32 @@ var AXTree = Class.create(AXJ, {
 				this.contentScrollXAttr = {
 					bodyWidth: this.body.width(),
 					scrollWidth: scrollWidth,
-					scrollTrackXWidth: jQuery("#" + cfg.targetID + "_AX_scrollTrackX").width(),
-					scrollXHandleWidth: jQuery("#" + cfg.targetID + "_AX_scrollXHandle").outerHeight()
+					scrollTrackXWidth: axdom("#" + cfg.targetID + "_AX_scrollTrackX").width(),
+					scrollXHandleWidth: axdom("#" + cfg.targetID + "_AX_scrollXHandle").outerHeight()
 				};
 			}
 
 			//x 변경
 			var L = (this.contentScrollXAttr.scrollWidth * (pos.left) / this.contentScrollXAttr.scrollTrackXWidth).round(0);
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ left: -L });
-			jQuery("#" + cfg.targetID + "_AX_treeColHead").css({ left: -L });
-			if (this.hasEditor) jQuery("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ left: -L });
+			axdom("#" + cfg.targetID + "_AX_treeColHead").css({ left: -L });
+			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
 			//trace({top:-L});
 		} else {
 			if (cfg.height == "auto") return;
 			if (!this.contentScrollYAttr) {
 				this.contentScrollYAttr = {
 					bodyHeight: this.body.height(),
-					scrollHeight: jQuery("#" + cfg.targetID + "_AX_scrollContent").height(),
-					scrollTrackYHeight: jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height(),
-					scrollYHandleHeight: jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
+					scrollHeight: axdom("#" + cfg.targetID + "_AX_scrollContent").height(),
+					scrollTrackYHeight: axdom("#" + cfg.targetID + "_AX_scrollTrackY").height(),
+					scrollYHandleHeight: axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
 				};
 			}
 
 			//y 변경
 			var T = (this.contentScrollYAttr.scrollHeight * (pos.top) / this.contentScrollYAttr.scrollTrackYHeight).round(0);
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: -T });
-			if (AXgetId(cfg.targetID + "_AX_fixedScrollContent")) jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: -T });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: -T });
+			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: -T });
 			if (this.editorOpend) {
 				this.editor.css({ top: -T + this.editorOpenTop });
 			}
@@ -3139,10 +3141,10 @@ var AXTree = Class.create(AXJ, {
 			if (cfg.height == "auto") return;
 			if (!this.contentScrollYAttr) {
 				this.contentScrollYAttr = {
-					bodyHeight: this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
-					scrollHeight: jQuery("#" + cfg.targetID + "_AX_scrollContent").height(),
-					scrollTrackYHeight: jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height(),
-					scrollYHandleHeight: jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
+					bodyHeight: this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
+					scrollHeight: axdom("#" + cfg.targetID + "_AX_scrollContent").height(),
+					scrollTrackYHeight: axdom("#" + cfg.targetID + "_AX_scrollTrackY").height(),
+					scrollYHandleHeight: axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
 				};
 			}
 
@@ -3152,8 +3154,8 @@ var AXTree = Class.create(AXJ, {
 			//trace({h1:(handleTop + this.contentScrollYAttr.handleHeight), trackHeight:this.contentScrollYAttr.trackHeight});
 			//if((handleTop + this.contentScrollYAttr.handleHeight) > this.contentScrollYAttr.trackHeight) handleTop = this.contentScrollYAttr.trackHeight - this.contentScrollYAttr.handleHeight;
 
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
-			if (AXgetId(cfg.targetID + "_AX_fixedScrollContent")) jQuery("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: pos.top });
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
+			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: pos.top });
 			if (this.editorOpend) {
 				this.editor.css({ top: pos.top + this.editorOpenTop });
 			}
@@ -3161,7 +3163,7 @@ var AXTree = Class.create(AXJ, {
 		}
 	},
 	getMousePositionToContentScroll: function (event, contentScrollID) {
-		var pos = jQuery("#" + contentScrollID).offset();
+		var pos = axdom("#" + contentScrollID).offset();
 		var x = (event.pageX - pos.left);
 		var y = (event.pageY - pos.top);
 		return { x: x, y: y };
@@ -3193,14 +3195,14 @@ var AXTree = Class.create(AXJ, {
 			this.contentScrollAttrs.scrollTrack = cfg.targetID + "_AX_scrollTrackX";
 		}
 
-		jQuery(event.target).addClass("hover");
+		axdom(event.target).addClass("hover");
 		var pos = this.getMousePositionToContentScroll(event, this.contentScrollAttrs.scrollTrack);
-		this.contentScrollAttrs.x = jQuery(event.target).position().left - pos.x;
-		this.contentScrollAttrs.y = jQuery(event.target).position().top - pos.y;
-		this.contentScrollAttrs.handleWidth = jQuery(event.target).outerWidth();
-		this.contentScrollAttrs.handleHeight = jQuery(event.target).outerHeight();
-		this.contentScrollAttrs.trackWidth = jQuery("#" + this.contentScrollAttrs.scrollTrack).width();
-		this.contentScrollAttrs.trackHeight = jQuery("#" + this.contentScrollAttrs.scrollTrack).height();
+		this.contentScrollAttrs.x = axdom(event.target).position().left - pos.x;
+		this.contentScrollAttrs.y = axdom(event.target).position().top - pos.y;
+		this.contentScrollAttrs.handleWidth = axdom(event.target).outerWidth();
+		this.contentScrollAttrs.handleHeight = axdom(event.target).outerHeight();
+		this.contentScrollAttrs.trackWidth = axdom("#" + this.contentScrollAttrs.scrollTrack).width();
+		this.contentScrollAttrs.trackHeight = axdom("#" + this.contentScrollAttrs.scrollTrack).height();
 
 		/* srcoll event bind */
 		var contentScrollScrollMove = this.contentScrollScrollMove.bind(this);
@@ -3211,13 +3213,13 @@ var AXTree = Class.create(AXJ, {
 		this.contentScrollScrollEndBind = function (event) {
 			contentScrollScrollEnd(event);
 		};
-		jQuery(document.body).bind("mousemove.AXTree", this.contentScrollScrollMoveBind);
-		jQuery(document.body).bind("mouseup.AXTree", this.contentScrollScrollEndBind);
-		jQuery(document.body).bind("mouseleave.AXTree", this.contentScrollScrollEndBind);
-		jQuery("iframe").bind("mouseover.AXTree", this.contentScrollScrollEndBind);
+		axdom(document.body).bind("mousemove.AXTree", this.contentScrollScrollMoveBind);
+		axdom(document.body).bind("mouseup.AXTree", this.contentScrollScrollEndBind);
+		axdom(document.body).bind("mouseleave.AXTree", this.contentScrollScrollEndBind);
+		axdom("iframe").bind("mouseover.AXTree", this.contentScrollScrollEndBind);
 
-		jQuery(document.body).attr("onselectstart", "return false");
-		jQuery(document.body).addClass("AXUserSelectNone");
+		axdom(document.body).attr("onselectstart", "return false");
+		axdom(document.body).addClass("AXUserSelectNone");
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	contentScrollScrollMove: function (event) {
@@ -3232,13 +3234,13 @@ var AXTree = Class.create(AXJ, {
 				handleTop = pos.y + this.contentScrollAttrs.y;
 				if (handleTop < 0) handleTop = 0;
 				if ((handleTop + this.contentScrollAttrs.handleHeight) > this.contentScrollAttrs.trackHeight) handleTop = this.contentScrollAttrs.trackHeight - this.contentScrollAttrs.handleHeight;
-				jQuery("#" + cfg.targetID + "_AX_" + handleName).css({ top: handleTop });
+				axdom("#" + cfg.targetID + "_AX_" + handleName).css({ top: handleTop });
 				this.contentScrollScrollSync({ top: handleTop });
 			} else {
 				handleLeft = pos.x + this.contentScrollAttrs.x;
 				if (handleLeft < 0) handleLeft = 0;
 				if ((handleLeft + this.contentScrollAttrs.handleWidth) > this.contentScrollAttrs.trackWidth) handleLeft = this.contentScrollAttrs.trackWidth - this.contentScrollAttrs.handleWidth;
-				jQuery("#" + cfg.targetID + "_AX_" + handleName).css({ left: handleLeft });
+				axdom("#" + cfg.targetID + "_AX_" + handleName).css({ left: handleLeft });
 				this.contentScrollScrollSync({ left: handleLeft });
 			}
 		} catch (e) {
@@ -3247,15 +3249,15 @@ var AXTree = Class.create(AXJ, {
 	},
 	contentScrollScrollEnd: function (event) {
 		var cfg = this.config;
-		jQuery(document.body).unbind("mousemove.AXTree");
-		jQuery(document.body).unbind("mouseup.AXTree");
-		jQuery(document.body).unbind("mouseleave.AXTree");
-		jQuery("iframe").unbind("mouseover.AXTree");
+		axdom(document.body).unbind("mousemove.AXTree");
+		axdom(document.body).unbind("mouseup.AXTree");
+		axdom(document.body).unbind("mouseleave.AXTree");
+		axdom("iframe").unbind("mouseover.AXTree");
 
-		jQuery(document.body).removeAttr("onselectstart");
-		jQuery(document.body).removeClass("AXUserSelectNone");
+		axdom(document.body).removeAttr("onselectstart");
+		axdom(document.body).removeClass("AXUserSelectNone");
 
-		jQuery("#" + cfg.targetID + "_AX_" + this.contentScrollAttrs.handleName).removeClass("hover");
+		axdom("#" + cfg.targetID + "_AX_" + this.contentScrollAttrs.handleName).removeClass("hover");
 	},
 	contentScrollScrollWheel: function (e) {
 		var cfg = this.config;
@@ -3265,12 +3267,12 @@ var AXTree = Class.create(AXJ, {
 			var event = window.event || e;
 			var delta = event.detail ? event.detail * (-20) : event.wheelDelta / 2 //check for detail first so Opera uses that instead of wheelDelta
 
-			var scrollTop = jQuery("#" + cfg.targetID + "_AX_scrollContent").position().top;
-			var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-			var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-			//var handleTop = jQuery("#"+cfg.targetID+"_AX_scrollYHandle").position().top; i want this value
-			var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-			var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+			var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+			var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+			var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+			//var handleTop = axdom("#"+cfg.targetID+"_AX_scrollYHandle").position().top; i want this value
+			var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+			var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 
 			if (scrollHeight < bodyHeight) {
 				return;
@@ -3291,7 +3293,7 @@ var AXTree = Class.create(AXJ, {
 				eventCancle = true;
 			}
 
-			jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 			this.contentScrollContentSync({ top: scrollTop });
 
 			if (!eventCancle) {
@@ -3306,23 +3308,23 @@ var AXTree = Class.create(AXJ, {
 		var cfg = this.config;
 		var event = window.event || e;
 		this.contentScrollTouchMoved = true;
-		this.contentScrollIDOffset = jQuery("#" + cfg.targetID + "_AX_gridBody").offset();
+		this.contentScrollIDOffset = axdom("#" + cfg.targetID + "_AX_gridBody").offset();
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
 
 		var pos = this.getTouchPositionToContentScroll(event);
 
-		var YhandleTop = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
-		var YhandleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var YtrackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		var YhandleTop = axdom("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
+		var YhandleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+		var YtrackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollYHandle").addClass("hover");
+		axdom("#" + cfg.targetID + "_AX_scrollYHandle").addClass("hover");
 
-		var XhandleTop = jQuery("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
-		var XhandleHeight = jQuery("#" + cfg.targetID + "_AX_scrollXHandle").outerWidth();
-		var XtrackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackX").width();
+		var XhandleTop = axdom("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
+		var XhandleHeight = axdom("#" + cfg.targetID + "_AX_scrollXHandle").outerWidth();
+		var XtrackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackX").width();
 
-		jQuery("#" + cfg.targetID + "_AX_scrollXHandle").addClass("hover");
+		axdom("#" + cfg.targetID + "_AX_scrollXHandle").addClass("hover");
 
 		this.scrollTouchAttr = {
 			y: (YhandleTop - pos.y).number(), h: YhandleHeight.number(), th: YtrackHeight,
@@ -3351,24 +3353,24 @@ var AXTree = Class.create(AXJ, {
 			var pos = this.getTouchPositionToContentScroll(event);
 			var scrollTouchAttr = this.scrollTouchAttr;
 
-			var htop = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
+			var htop = axdom("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
 			var handleTop = pos.y + scrollTouchAttr.y;
 			if (handleTop < 0) handleTop = 0;
 			if ((handleTop + scrollTouchAttr.h) > scrollTouchAttr.th) handleTop = scrollTouchAttr.th - scrollTouchAttr.h;
 
 			if ((htop - handleTop).abs() > 2) {
-				jQuery("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
+				axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
 				this.contentScrollScrollSync({ top: handleTop });
 			}
 
 			if (this.show_scrollTrackX) {
-				var hleft = jQuery("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
+				var hleft = axdom("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
 				var handleLeft = pos.x + this.scrollTouchAttr.x;
 				if (handleLeft < 0) handleLeft = 0;
 				if ((handleLeft + scrollTouchAttr.w) > scrollTouchAttr.tw) handleLeft = scrollTouchAttr.tw - scrollTouchAttr.w;
 
 				if ((hleft - handleLeft).abs() > 2) {
-					jQuery("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: handleLeft });
+					axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: handleLeft });
 					this.contentScrollScrollSync({ left: handleLeft });
 				}
 			}
@@ -3382,8 +3384,8 @@ var AXTree = Class.create(AXJ, {
 		var event = window.event || e;
 		if (this.contentScrollTouchMoved) {
 
-			jQuery("#" + cfg.targetID + "_AX_scrollXHandle").removeClass("hover");
-			jQuery("#" + cfg.targetID + "_AX_scrollYHandle").removeClass("hover");
+			axdom("#" + cfg.targetID + "_AX_scrollXHandle").removeClass("hover");
+			axdom("#" + cfg.targetID + "_AX_scrollYHandle").removeClass("hover");
 
 			if (document.removeEventListener) {
 				document.removeEventListener("touchend", this.contentScrollTouchEndBind, false);
@@ -3399,14 +3401,14 @@ var AXTree = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (this.selectedCells.length > 0) {
-			jQuery.each(this.selectedCells, function () {
-				jQuery("#" + this).removeClass("selected");
+			axf.each(this.selectedCells, function () {
+				axdom("#" + this).removeClass("selected");
 			});
 			this.selectedCells.clear();
 		}
 		if (this.selectedRow.length > 0) {
 			var body = this.body;
-			jQuery.each(this.selectedRow, function () {
+			axf.each(this.selectedRow, function () {
 				body.find(".gridBodyTr_" + this).removeClass("selected");
 			});
 		}
@@ -3419,19 +3421,19 @@ var AXTree = Class.create(AXJ, {
 			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
 	
-			var scrollHeight = jQuery("#" + cfg.targetID + "_AX_scrollContent").height();
-			var bodyHeight = this.body.height() - jQuery("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-			var handleHeight = jQuery("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-			var trackHeight = jQuery("#" + cfg.targetID + "_AX_scrollTrackY").height();
+			var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+			var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
+			var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
+			var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
 	
 			if (trTop.number() + trHeight.number() > bodyHeight) {
 				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-				jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 				this.contentScrollContentSync({ top: scrollTop });
 			} else {
 				if (trTop.number() == 0) {
 					var scrollTop = 0;
-					jQuery("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
 				}
 			}
@@ -3447,7 +3449,7 @@ var AXTree = Class.create(AXJ, {
 		var subTree = this.tree;
 		
 		var opendPath = [];
-		jQuery.each(hashs, function (idx, arg) {
+		axf.each(hashs, function (idx, arg) {
 			if (idx == 1) {
 				subTree = subTree[this.number()];
 				opendPath.push(subTree[reserveKeys.hashKey]);
@@ -3471,8 +3473,8 @@ var AXTree = Class.create(AXJ, {
 
 		if(open == "open"){
 			var expandList = [];
-			jQuery.each(this.list, function(lidx, L){
-				jQuery.each(opendPath, function(pidx, P){
+			axf.each(this.list, function(lidx, L){
+				axf.each(opendPath, function(pidx, P){
 					if(L[reserveKeys.hashKey] == P){
 						if(!L[reserveKeys.openKey]){
 							expandList.push(lidx);	
@@ -3531,7 +3533,7 @@ var AXTree = Class.create(AXJ, {
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		//dataSet 빈 Key 채우기
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		//dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~
@@ -3542,7 +3544,7 @@ var AXTree = Class.create(AXJ, {
 			tpo.push("<tr class=\"gridBodyTr gridBodyTr_foot\" id=\"" + cfg.targetID + "_AX_head_" + r + "_AX_" + (isfix || "n") + "\">");
 			var colCount = 0;
 
-			jQuery.each(cfg.head.rows[r], function (CHidx, CH) {
+			axf.each(cfg.head.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == undefined || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -3592,7 +3594,7 @@ var AXTree = Class.create(AXJ, {
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		//dataSet 빈 Key 채우기
-		jQuery.each(cfg.colGroup, function () {
+		axf.each(cfg.colGroup, function () {
 			if (dataSet[this.key] == undefined) dataSet[this.key] = "";
 		});
 		//dataSet 빈 Key 채우기 ~~~~~~~~~~~~~~~~
@@ -3603,7 +3605,7 @@ var AXTree = Class.create(AXJ, {
 			tpo.push("<tr class=\"gridBodyTr gridBodyTr_foot\" id=\"" + cfg.targetID + "_AX_foot_" + r + "_AX_" + (isfix || "n") + "\">");
 			var colCount = 0;
 
-			jQuery.each(cfg.foot.rows[r], function (CHidx, CH) {
+			axf.each(cfg.foot.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == undefined || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -3653,7 +3655,7 @@ var AXTree = Class.create(AXJ, {
 		if (obj.ajaxUrl) {
 
 		} else {
-			if (jQuery.isPlainObject(obj)) {
+			if (axdom.isPlainObject(obj)) {
 				this.dataSet = obj;
 				if (cfg.head) this.printHead();
 				if (cfg.foot) this.printFoot();
@@ -3673,11 +3675,11 @@ var AXTree = Class.create(AXJ, {
 		var getDataSet = this.getHeadDataSet.bind(this);
 		var po = [];
 		po.push(getDataSet(this.dataSet));
-		jQuery("#" + cfg.targetID + "_AX_thead").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_thead").html(po.join(''));
 		if (this.hasFixed) {
 			po = [];
 			po.push(getDataSet(this.dataSet, "fix"));
-			jQuery("#" + cfg.targetID + "_AX_fixedThead").html(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_fixedThead").html(po.join(''));
 		}
 	},
 	printFoot: function () {
@@ -3685,11 +3687,11 @@ var AXTree = Class.create(AXJ, {
 		var getDataSet = this.getFootDataSet.bind(this);
 		var po = [];
 		po.push(getDataSet(this.dataSet));
-		jQuery("#" + cfg.targetID + "_AX_tfoot").html(po.join(''));
+		axdom("#" + cfg.targetID + "_AX_tfoot").html(po.join(''));
 		if (this.hasFixed) {
 			po = [];
 			po.push(getDataSet(this.dataSet, "fix"));
-			jQuery("#" + cfg.targetID + "_AX_fixedTfoot").html(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_fixedTfoot").html(po.join(''));
 		}
 	},
 	/* head & foot 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -3739,7 +3741,7 @@ var AXTree = Class.create(AXJ, {
 			});
 		} else {
 			this.ajaxInfo = null;
-			if (jQuery.isArray(obj)) {
+			if (axdom.isArray(obj)) {
 				this.tree = obj;
 				this.list = this.convertHashListToTree(obj);
 				//trace(this.list);
@@ -3769,13 +3771,13 @@ var AXTree = Class.create(AXJ, {
 	setLoading: function (itemIndex, item) {
 		var cfg = this.config;
 		for (var r = 0; r < cfg.body.rows.length; r++) {
-			jQuery("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").addClass("loading");
+			axdom("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").addClass("loading");
 		}
 	},
 	endLoading: function (itemIndex, item) {
 		var cfg = this.config;
 		for (var r = 0; r < cfg.body.rows.length; r++) {
-			jQuery("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").removeClass("loading");
+			axdom("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex).find(".bodyNodeIndent").removeClass("loading");
 		}
 	},
 	appendTree: function (itemIndex, item, subTree) {
@@ -3788,7 +3790,7 @@ var AXTree = Class.create(AXJ, {
 
 			var tree = this.tree;
 			
-			jQuery.each(subTree, function () {
+			axf.each(subTree, function () {
 				this[cfg.reserveKeys.subTree] = [];
 				tree.push(this);
 			});
@@ -3798,13 +3800,13 @@ var AXTree = Class.create(AXJ, {
 			
 		} else { // 부모 하위 개체로 추가할 때에.
 
-			jQuery.each(subTree, function () {
+			axf.each(subTree, function () {
 				if (!this[cfg.reserveKeys.subTree]) this[cfg.reserveKeys.subTree] = [];
 			});
 			var hashs = item.hash.split(/_/g);
 
 			var tree = this.tree; // 추가될 트리 구하기
-			jQuery.each(hashs, function (idx, T) {
+			axf.each(hashs, function (idx, T) {
 				if (idx > 0) {
 					if (idx == 1) tree = tree[T.number()];
 					else tree = tree[cfg.reserveKeys.subTree][T.number()];
@@ -3813,7 +3815,7 @@ var AXTree = Class.create(AXJ, {
 
 			//tree.subTree = 
 			tree[reserveKeys.openKey] = true;
-			jQuery.each(subTree, function () {
+			axf.each(subTree, function () {
 				tree[reserveKeys.subTree].push(this);
 			});
 
@@ -3837,10 +3839,10 @@ var AXTree = Class.create(AXJ, {
 		if (parentHash != "0".setDigit(cfg.hashDigit)) parentSubTreeLength = parentArr[reserveKeys.subTree].length;
 		else parentSubTreeLength = parentArr.length;
 
-		jQuery.each(arr, function (idx, A) {
+		axf.each(arr, function (idx, A) {
 			var pushItem = {};
 			var hasOpenKey = false, hasSubTree = false;
-			jQuery.each(A, function (k, v) {
+			axf.each(A, function (k, v) {
 				if (k == reserveKeys.openKey) {
 					hasOpenKey = true;
 					pushItem[k] = v;
@@ -3925,7 +3927,7 @@ var AXTree = Class.create(AXJ, {
 
 		var __subTreeLength = 0;
 		if (ptree.subTree) {
-			jQuery.each(ptree.subTree, function () {
+			axf.each(ptree.subTree, function () {
 				if (!this._isDel) __subTreeLength++;
 			});
 		}
@@ -3933,11 +3935,11 @@ var AXTree = Class.create(AXJ, {
 		// 삭제할 item 에 종속된 itemIndex 구한다.
 		var pItem = null;
 
-		jQuery.each(this.list, function (idx, L) {
+		axf.each(this.list, function (idx, L) {
 
 			if (L[reserveKeys.hashKey].left(item[reserveKeys.hashKey].length) == item[reserveKeys.hashKey]) {
 				L._isDel = true;
-				jQuery(".gridBodyTr_" + idx).remove();
+				axdom(".gridBodyTr_" + idx).remove();
 			}
 			if (phash == L[reserveKeys.hashKey]) {
 				pItem = { itemIndex: idx, item: L };
@@ -3952,16 +3954,16 @@ var AXTree = Class.create(AXJ, {
 			/* */
 			if (__subTreeLength == 0) {
 				var lastR = cfg.body.rows.length - 1;
-				jQuery("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
-				jQuery("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
-				jQuery("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
-				jQuery("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
+				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
+				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
+				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
+				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
 			}
 		}
 
 		if (this.selectedRow.length > 0) {
 			var body = this.body;
-			jQuery.each(this.selectedRow, function () {
+			axf.each(this.selectedRow, function () {
 				body.find(".gridBodyTr_" + this).removeClass("selected");
 			});
 			this.selectedRow.clear();
@@ -4177,7 +4179,7 @@ var AXTree = Class.create(AXJ, {
 			this.eventForDocument = function (event) {
 				eventForDocument(event);
 			}
-			jQuery(document.body).bind("keydown", this.eventForDocument);
+			axdom(document.body).bind("keydown", this.eventForDocument);
 
 		}
 	},
@@ -4233,7 +4235,7 @@ var AXTree = Class.create(AXJ, {
 			move_Tree_parent_subTree = move_Tree_parent.subTree;
 		}
 
-		jQuery.each(move_Tree_parent_subTree, function (subTreeIndex, ST) {
+		axf.each(move_Tree_parent_subTree, function (subTreeIndex, ST) {
 			if (ST[relation.childKey] == moveObj[relation.childKey]) {
 				copyObject = AXUtil.copyObject(ST);
 			} else {
@@ -4275,7 +4277,7 @@ var AXTree = Class.create(AXJ, {
 
 		//이동된 아이템 제거
 		var new_subTree = [];
-		jQuery.each(move_Tree_parent_subTree, function (subTreeIndex, ST) {
+		axf.each(move_Tree_parent_subTree, function (subTreeIndex, ST) {
 			if (ST[relation.childKey] == moveObj[relation.childKey]) {
 
 			} else {
@@ -4319,12 +4321,12 @@ var AXTree = Class.create(AXJ, {
 		this.body.find(".gridBodyTr.disable").removeClass("disable");
 
 		this.moveTarget = null;
-		jQuery(document.body).unbind("keydown", this.eventForDocument);
+		axdom(document.body).unbind("keydown", this.eventForDocument);
 	},
 	addClassItem: function (Option) {
 		var body = this.body;
 
-		jQuery.each(this.list, function (listIndex, item) {
+		axf.each(this.list, function (listIndex, item) {
 			if (Option.addClass) {
 				if (Option.addClass.call(item)) {
 					body.find(".gridBodyTr_" + listIndex).addClass(Option.className);
@@ -4335,7 +4337,7 @@ var AXTree = Class.create(AXJ, {
 	removeClassItem: function (Option) {
 		var body = this.body;
 
-		jQuery.each(this.list, function (listIndex, item) {
+		axf.each(this.list, function (listIndex, item) {
 			if (Option.removeClass) {
 				if (Option.removeClass.call(item)) {
 					//trace(listIndex);
@@ -4373,12 +4375,12 @@ var AXTree = Class.create(AXJ, {
 
 		if (!arr[reserveKeys.subTree]) arr[reserveKeys.subTree] = [];
 
-		jQuery.each(arr, function (idx, A) {
+		axf.each(arr, function (idx, A) {
 			var pushItem = {};
 			var hasOpenKey = false, hasSubTree = false;
 			
 			delete A.__subTreeLength;
-			jQuery.each(A, function (k, v) {
+			axf.each(A, function (k, v) {
 				if (k == reserveKeys.openKey) {
 					hasOpenKey = true;
 					pushItem[k] = v;
@@ -4434,9 +4436,9 @@ var AXTree = Class.create(AXJ, {
 			var pHash = item[reserveKeys.parentHashKey];
 			var hashs = item[reserveKeys.hashKey].split(re);
 			var pushItem = {};
-			jQuery.each(item, function (k, v) {
+			axf.each(item, function (k, v) {
 				var addOk = true;
-				jQuery.each(reserveKeys, function (kk, vv) {
+				axf.each(reserveKeys, function (kk, vv) {
 					if (k == vv) {
 						addOk = false;
 						return false;
@@ -4507,7 +4509,7 @@ var AXTree = Class.create(AXJ, {
 				var pHash = pItem[reserveKeys.hashKey];
 				var pHashs = pHash.split(/_/g);
 				var pTree = tree;
-				jQuery.each(pHashs, function (idx, T) {
+				axf.each(pHashs, function (idx, T) {
 					if (idx > 0) pTree = pTree[T.number()].subTree;
 				});
 				L[reserveKeys.subTree] = [];
@@ -4555,7 +4557,7 @@ var AXTree = Class.create(AXJ, {
 
 			var parentIndex = null;
 			if (pno != "0") {
-				jQuery.each(this.list, function (findIndex, findItem) {
+				axf.each(this.list, function (findIndex, findItem) {
 					if (findItem[relation.childKey] == pno) {
 						parentIndex = findIndex;
 						return false;
@@ -4575,8 +4577,8 @@ var AXTree = Class.create(AXJ, {
 	relationFixedSync: function(){
 		var cfg = this.config;
 		var _body = this.body;
-		jQuery.each(this.list, function(lidx, L){
-			jQuery("#" + cfg.targetID + "_AX_treeBody").find(".gridBodyTr_"+lidx+" .treeCheckBox_body").each(function(){
+		axf.each(this.list, function(lidx, L){
+			axdom("#" + cfg.targetID + "_AX_treeBody").find(".gridBodyTr_"+lidx+" .treeCheckBox_body").each(function(){
 				this.checked = L.__checked;
 			});
 		});	
@@ -4584,7 +4586,7 @@ var AXTree = Class.create(AXJ, {
 	expandAll: function(){
 		var cfg = this.config;
 		var _body = this.body;
-		jQuery.each(this.list, function (itemIndex, item) {
+		axf.each(this.list, function (itemIndex, item) {
 			item[cfg.reserveKeys.openKey] = true;
 			item[cfg.reserveKeys.displayKey] = true;
 			item[cfg.reserveKeys.parentHashKey] = undefined;
@@ -4596,7 +4598,7 @@ var AXTree = Class.create(AXJ, {
 	collapseAll: function(){
 		var cfg = this.config;
 		var _body = this.body;
-		jQuery.each(this.list, function (itemIndex, item) {
+		axf.each(this.list, function (itemIndex, item) {
 			item[cfg.reserveKeys.openKey] = false;
 			if(item[cfg.relation.parentKey] == 0){
 				item[cfg.reserveKeys.displayKey] = true;

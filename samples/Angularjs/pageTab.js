@@ -1,5 +1,6 @@
 ﻿var myTabOption = [
-	{optionValue:"AXGrid", optionText:"AXGrid for Angularjs", addClass:"", url:"index.html"}
+	{optionValue:"AXGrid", optionText:"AXGrid for Angularjs", addClass:"", url:"index.html"},
+	{optionValue:"AXTree", optionText:"AXTree for Angularjs", addClass:"", url:"AXTree.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

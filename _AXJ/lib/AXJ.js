@@ -1157,6 +1157,7 @@ var AXJ = Class.create({
 	setConfig: function (configs) {
 		var _self = this;
 		if (configs) AXUtil.each(configs, function (k, v) { _self.config[k] = v; });
+		if(_self.config.target) if(_self.config.target.id === undefined) axdom(_self.config.target).attr("id", _self.config.target.id = _self.config.targetID = "AX"+axf.timekey());
 		this.init();
 	},
 	changeConfig: function (configs) {
