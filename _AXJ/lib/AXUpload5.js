@@ -1899,7 +1899,8 @@ var AXUpload5 = Class.create(AXJ, {
 	uploadSuccess: function(file, itemID, res){ // 업로드 아이템별 이벤트
 		var cfg = this.config;
 		var uploadedItem = {id:itemID};
-		jQuery.each(res, function(k, v){
+		var _res = (Object.isArray(res)) ? res[0] : res; /* Array 타입 예외처리 */
+		jQuery.each(_res, function(k, v){
 			uploadedItem[k] = v;
 		});
 		if(cfg.queueBoxAppendType == "prepend") this.uploadedList.push(uploadedItem);
