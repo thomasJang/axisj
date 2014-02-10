@@ -187,7 +187,7 @@
 }
 .AXScroll .scrollBar:hover {
   width: 11px;
-  right: 1px;
+  right: 0px;
 }
 .AXScroll .scrollBar_hover {
   -moz-opacity: 0.5;
@@ -237,7 +237,7 @@
 }
 .AXScroll .xscrollBar:hover {
   height: 11px;
-  bottom: 1px;
+  bottom: 0px;
 }
 .AXScroll .xscrollBar_hover {
   -moz-opacity: 0.5;
@@ -1258,15 +1258,18 @@
   position: relative;
   min-height: 30px;
   overflow: hidden;
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray {
   background: url(img/AXTabBg.png);
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray .trayScroll {
   position: absolute;
   left: 0px;
   top: 0px;
   height: 30px;
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray .AXTab {
   display: block;
@@ -1275,6 +1278,7 @@
   height: 26px;
   min-width: 50px;
   padding: 0px 10px;
+  box-sizing: content-box !important;
   margin: 2px 0px 0px 2px;
   border: 1px solid #b9babc;
   border-top-left-radius: 4px;

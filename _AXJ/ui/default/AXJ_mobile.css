@@ -187,7 +187,7 @@
 }
 .AXScroll .scrollBar:hover {
   width: 11px;
-  right: 1px;
+  right: 0px;
 }
 .AXScroll .scrollBar_hover {
   -moz-opacity: 0.5;
@@ -237,7 +237,7 @@
 }
 .AXScroll .xscrollBar:hover {
   height: 11px;
-  bottom: 1px;
+  bottom: 0px;
 }
 .AXScroll .xscrollBar_hover {
   -moz-opacity: 0.5;
@@ -1174,11 +1174,13 @@
   position: relative;
   min-height: 42px;
   overflow: hidden;
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray {
   background: #f8f8f8;
   border-top: 1px solid #cccccc;
   border-bottom: 1px solid #717b85;
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray .trayScroll {
   position: absolute;
@@ -1186,6 +1188,7 @@
   top: 1px;
   height: 42px;
   background: #f8f8f8;
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray .AXTab {
   display: block;
@@ -1200,6 +1203,7 @@
   text-align: center;
   text-decoration: none;
   outline: none;
+  box-sizing: content-box !important;
 }
 .AXTabs .AXTabsTray .AXTab.on {
   background: url(img/AXMobile/tabDefault.png) repeat-x 0px 39px;
