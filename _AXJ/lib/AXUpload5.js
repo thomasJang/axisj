@@ -1854,16 +1854,19 @@ var AXUpload5 = Class.create(AXJ, {
 				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadLabel").show();
 				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcess").hide();
 				
-				if(res[cfg.fileKeys.thumbPath]){
+				var _res = (Object.isArray(res)) ? res[0] : res; /* Array 타입 예외처리 */
+
+				if(_res[cfg.fileKeys.thumbPath]){
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
-						"background-image":"url('"+(res[cfg.fileKeys.thumbPath]||"").dec()+"')"
+						"background-image":"url('"+(_res[cfg.fileKeys.thumbPath]||"").dec()+"')"
 					}).addClass("AXUploadPreview");
 				}else{
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((res[cfg.fileKeys.type]||"").dec().replace(".", ""));
+					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((_res[cfg.fileKeys.type]||"").dec().replace(".", ""));
 				}
 				
-				uploadSuccess(obj.file, itemID, res);
+				uploadSuccess(obj.file, itemID, _res);
+				
 				// --------------------- s
 				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
 					onClickDeleteButton(itemID);
