@@ -10,7 +10,7 @@
 	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
 		<!-- css block -->
-		<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+		<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 		<!--[if lt IE 9]>
 		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
@@ -27,6 +27,9 @@
 		var fnObj = {
 			pageStart: function(){
 				AXCode.bind(); // 소스보기
+				
+				
+				
 			},
 			easingPlay: function(){
 				var topEasing = $("#topEasing").val();
@@ -34,6 +37,8 @@
 				
 				$("#toggleSlide").slideToggle(duEasing, topEasing);
 				
+				
+
 				if($("#Animate").data("hide") == "true"){
 					$("#Animate").animate(
 						{right:"0px"},

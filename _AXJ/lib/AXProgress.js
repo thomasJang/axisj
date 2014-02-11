@@ -93,9 +93,10 @@ var AXProgress = Class.create(AXJ, {
 		}
 		
 		var loadedCount = this.loadedCount;
+		
 		var progressID = this.progressID;
 		var loadedRate = ((loadedCount-1) / (totalCount.number()) * 100).round(1);
-
+		if(loadedRate > 100) loadedRate = 100;
 		jQuery("#"+progressID+"_AX_loadedText").html(loadedRate+"%<span>"+(loadedCount-1).money()+"/"+totalCount.money()+"</span>");
 		
 		if(theme == "AXlineProgress"){
@@ -116,11 +117,11 @@ var AXProgress = Class.create(AXJ, {
 		}else{
 			//circle
 			setTimeout(function(){
-				jQuery("#"+progressID+"_AX_bar").addClass("percent"+((loadedCount / totalCount * 100).round(0) / 5).round() * 5);
+				jQuery("#"+progressID+"_AX_bar").addClass("percent"+((loadedCount / (totalCount.number()) * 100).round(0) / 5).round() * 5);
 				if(config.callBack){
 					config.callBack.call({
 						totalCount:totalCount,
-						loadedCount:loadedCount,
+						loadedCount:loadedCount-1,
 						loadedRate:(loadedCount / (totalCount.number()+1) * 100).round(1),
 						isEnd:((loadedCount-1) == totalCount)
 					});

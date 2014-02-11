@@ -140,7 +140,7 @@ For Each File in Upload.Files
 		thumb = thbfolderName&thbName
 	end if
 
-	response.write "{"
+	response.write "[{"
 		For Each Item in Upload.Form
 			Response.Write Item.Name & ":'" & enc(Item.Value) &"', "
 		Next
@@ -150,7 +150,7 @@ For Each File in Upload.Files
 	response.write "fileSize:'"&File.size&"', "
 	response.write "uploadedPath:'"&enc(folderName)&"', "
 	response.write "thumbUrl:'"&enc(thumb)&"'"
-	response.write "}"
+	response.write "}]"
 
 Next
 

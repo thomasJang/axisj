@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
 	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../../css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
@@ -38,7 +38,7 @@
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
-
+	
 			myModal.setConfig({
 				windowID:"myModalCT", width:740,
 				displayLoading:true
@@ -47,7 +47,7 @@
 		modalOpen: function(){
 			myModal.open({
 				url:"modal.asp",
-				pars:"",
+				pars:"a=1&b=2&c=3".queryToObject(),
 				top:100,
 				closeByEscKey:true
 			});

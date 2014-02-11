@@ -74,6 +74,7 @@
 }
 .AXMobileConsole {
   padding: 5px;
+  box-sizing: content-box !important;
   font-size: 12px;
   font-weight: bold;
   z-index: 10000;
@@ -119,6 +120,7 @@
   border: 1px solid #444;
   background: #fff;
   padding: 5px;
+  box-sizing: content-box !important;
   margin: 0px 0px 0px 0px;
   box-shadow: 0px 0px 3px #888;
   border-radius: 5px;
@@ -139,11 +141,13 @@
 }
 .AXdemoPageTabTarget {
   padding: 10px 0px 0px 0px;
+  box-sizing: content-box !important;
   background: #fff;
   height: 30px;
 }
 .AXdemoPageContent {
   padding: 20px;
+  box-sizing: content-box !important;
 }
 /* ------------------ AXScroll ----------------------- */
 .AXScroll {
@@ -308,6 +312,7 @@
   vertical-align: middle;
   height: 26px;
   padding: 0px 5px;
+  box-sizing: content-box !important;
   margin: 0px 0px;
   border: 1px solid #b9babc;
   border-radius: 4px;
@@ -344,6 +349,7 @@
   cursor: pointer;
   height: 20px;
   padding: 0px 5px;
+  box-sizing: content-box !important;
   margin: 0px 0px;
   border: 1px solid #b9babc;
   border-radius: 4px;
@@ -380,6 +386,7 @@
   cursor: pointer;
   height: 20px;
   padding: 0px 5px;
+  box-sizing: content-box !important;
   margin: 0px 0px;
   border: 1px solid #b9babc;
   border-radius: 4px;
@@ -416,6 +423,7 @@
   cursor: pointer;
   height: 46px;
   padding: 0px 10px;
+  box-sizing: content-box !important;
   margin: 0px 0px;
   border: 1px solid #b9babc;
   border-radius: 4px;
@@ -1398,6 +1406,7 @@
   height: 40px;
   min-width: 100px;
   padding: 0px 10px;
+  box-sizing: content-box !important;
   margin: 4px 0px 0px 4px;
   border: 1px solid #b9babc;
   border-top-left-radius: 4px;
@@ -1514,6 +1523,7 @@
   height: 20px;
   min-width: 60px;
   padding: 0px 10px;
+  box-sizing: content-box !important;
   margin: 2px 0px 0px 1px;
   border: 1px solid #b9babc;
   border-top-left-radius: 4px;
@@ -1628,6 +1638,7 @@
   width: 26px;
   min-height: 80px;
   padding: 10px 0px;
+  box-sizing: content-box !important;
   margin: 2px 0 0 2px;
   border: 1px solid #b9babc;
   font-size: 12px;
@@ -1750,6 +1761,7 @@
   width: 40px;
   min-height: 100px;
   padding: 10px 0px;
+  box-sizing: content-box !important;
   margin: 4px 0 0 4px;
   border: 1px solid #b9babc;
   font-size: 14px;
@@ -1868,6 +1880,7 @@
   width: 20px;
   min-height: 60px;
   padding: 10px 0px;
+  box-sizing: content-box !important;
   margin: 2px 0 0 1px;
   border: 1px solid #b9babc;
   font-size: 11px;
@@ -1984,6 +1997,7 @@
   height: 20px;
   line-height: 20px;
   padding: 0px;
+  box-sizing: content-box !important;
   text-align: center;
   border-right: 1px solid #f2f2f3;
   border-bottom: 1px solid #b9babc;
@@ -2016,6 +2030,7 @@
   height: 25px;
   line-height: 25px;
   padding: 0px;
+  box-sizing: content-box !important;
   text-align: center;
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
@@ -2067,6 +2082,7 @@
   height: 43px;
   line-height: 43px;
   padding: 0px;
+  box-sizing: content-box !important;
   text-align: center;
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
@@ -2078,6 +2094,7 @@
 .AXCalendar table.calendarPageMonth tbody td.bodyRow_3 {
   border-bottom: 0px none;
   padding-bottom: 1px;
+  box-sizing: content-box !important;
 }
 .AXCalendar table.calendarPageMonth tbody td.setDate {
   background: #f3e2df;
@@ -2154,6 +2171,7 @@
   box-shadow: inset 0px 1px 2px #828282;
   border-radius: 5px;
   padding: 0px 20px;
+  box-sizing: content-box !important;
   margin: 0px;
   font-size: 12px;
   color: #fff;
@@ -2180,6 +2198,7 @@
   background: #fff;
   box-shadow: 0px 0px 1px #a6a6a6;
   padding: 0px;
+  box-sizing: content-box !important;
   margin: 0px 0px 10px 0px;
   font-size: 12px;
   color: #525252;
@@ -2227,6 +2246,7 @@
   height: 30px;
   line-height: 30px;
   padding: 0px 5px 0px 30px;
+  box-sizing: content-box !important;
   color: #5e5e5e;
   text-decoration: none;
   white-space: nowrap;
@@ -2322,6 +2342,7 @@
   top: 0px;
   width: 140px;
   padding: 6px;
+  box-sizing: content-box !important;
   background: #cccccc;
   border: 1px solid #808080;
   border-radius: 5px;
@@ -2349,6 +2370,7 @@
   height: 30px;
   line-height: 30px;
   padding: 0px 10px 0px 10px;
+  box-sizing: content-box !important;
   color: #5e5e5e;
   text-decoration: none;
   background-repeat: no-repeat;
@@ -2390,14 +2412,17 @@
 }
 .AXPopOver .contextMenuItem.docline {
   padding: 0px 5px 0px 30px;
+  box-sizing: content-box !important;
   background-image: url(img/contextMenuIcon_docline.png);
 }
 .AXPopOver .contextMenuItem.plus {
   padding: 0px 5px 0px 30px;
+  box-sizing: content-box !important;
   background-image: url(img/contextMenuIcon_plus.png);
 }
 .AXPopOver .contextMenuItem.minus {
   padding: 0px 5px 0px 30px;
+  box-sizing: content-box !important;
   background-image: url(img/contextMenuIcon_minus.png);
 }
 .AXPopOver .contextMenuItem.group {
@@ -2456,6 +2481,7 @@
 /* AXPopOverTooltip *************************************************************************** */
 .AXTooltipContent {
   display: none;
+  box-sizing: content-box !important;
 }
 .AXPopOverTooltip {
   z-index: 4999;
@@ -2464,6 +2490,7 @@
   top: 0px;
   width: 140px;
   padding: 6px;
+  box-sizing: content-box !important;
   background: #FFFFF0;
   border: 1px solid #B55A00;
   border-radius: 5px;
@@ -2497,6 +2524,7 @@
   height: 30px;
   line-height: 30px;
   padding: 0px 10px 0px 10px;
+  box-sizing: content-box !important;
   color: #5e5e5e;
   text-decoration: none;
   background-repeat: no-repeat;
@@ -2609,6 +2637,7 @@
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
   background: url(img/gridheadBG.png) repeat-x;
+  box-sizing: content-box !important;
 }
 .AXGridTable thead td {
   background: url(img/gridheadBorder.png) no-repeat 100% 0px;
@@ -2619,6 +2648,7 @@
 }
 .AXGridTable thead td .tdRel {
   padding: 0px 10px;
+  box-sizing: content-box !important;
   text-align: center;
   color: #000;
 }
@@ -2649,6 +2679,7 @@
 .AXFormTable td,
 .AXFormTable th {
   padding: 5px;
+  box-sizing: content-box !important;
 }
 .AXFormTable td .tdRel,
 .AXFormTable th .tdRel {
@@ -2712,6 +2743,7 @@
 .AXSearchTable td .tdRel,
 .AXSearchTable th .tdRel {
   padding: 0px 10px;
+  box-sizing: content-box !important;
 }
 .AXSearchTable tbody td {
   min-height: 36px;
@@ -2800,6 +2832,7 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle {
   padding: 0px 10px;
+  box-sizing: content-box !important;
   line-height: 44px;
   color: #3b3b3b;
   font-size: 15px;
@@ -2885,6 +2918,7 @@
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll a {
   display: block;
   padding: 0px 10px;
+  box-sizing: content-box !important;
   font-size: 12px;
   line-height: 43px;
   color: #3b3b3b;
@@ -2901,4 +2935,5 @@
 .AXMobileModal .AXMobileModalPanel .mobileModalFoot .AXDateButtonBox {
   text-align: center;
   padding: 7px;
+  box-sizing: content-box !important;
 }

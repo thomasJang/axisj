@@ -31,7 +31,7 @@
 	id:"/API/prototype/Array/convertTree",
 	head:{
 		type:"method", 
-		name:"clear",
+		name:"convertTree",
 		flnm:"Prototype.Array.convertTree",
 		file:"_AXJ/lib/AXJ.js",
 		tags:"Prototype,Array,convertTree"
