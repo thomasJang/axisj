@@ -2095,7 +2095,7 @@ var AXUpload5 = Class.create(AXJ, {
 						});
 					}
 					
-					removeUploadedList(file.id);
+					removeUploadedList(file.id);	
 					if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
 					if(onEnd) onEnd();
 				}else{
