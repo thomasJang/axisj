@@ -1,0 +1,36 @@
+﻿.readyDrag{}
+.modsSortGhost{float:left;width:1px;height:93px;margin:5px 0px 5px 5px;}
+.bedroped{}
+
+.userSelectBox{
+	border:1px solid #aaa;
+	padding:5px;
+	border-radius:4px;
+	overflow:auto;
+}
+
+.userSelectBox .readyDrag{
+	border:1px solid #aaa;
+	padding:3px 5px;
+	border-radius:3px;
+	margin-bottom:5px;
+	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+	color:#444;
+    background:url(img/defaultRegular.png) repeat-x;
+    height:auto;line-height:auto;
+}
+.userSelectBox .readyDrag div{
+	height:20px ! important;line-height:20px ! important;
+}
+
+.userSelectBox .modsSortGhost{
+	float:none;width:auto;height:1px;margin:5px 0px;
+	border:1px solid #aaa;
+	background:url(img/defaultRegular.png) repeat-x;
+}
+
+.userSelectBox .bedraged{border:2px solid #ff3300 !important;}
+.userSelectBox .beSelected{border:1px solid #222;
+background-position:0px -26px;
+}
+
