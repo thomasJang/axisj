@@ -1,0 +1,111 @@
+﻿/* AXMobileMenu */
+.AXMobileMenu .AXMobileModalPanel .mobileModalHead .mobileMenuHome{
+	display:block;
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:44px;height:44px;
+	background:url(img/AXMobile/home.png) center center no-repeat;
+	background-size:50% 50%;
+	line-height:1000px;overflow:hidden;
+}
+.AXMobileMenu .AXMobileModalPanel .mobileModalHead .mobileMenuPrev{
+	display:block;
+	position:absolute;
+	left:44px;
+	top:0px;
+	height:44px;
+	line-height:44px;
+	padding-left:36px;
+	color:#3b3b3b;font-size:15px;
+	font-weight:bold;
+	text-decoration:none;
+	background:url(img/AXMobile/prev.png) 0px center no-repeat;
+	background-size:22px auto;
+}
+
+/* menu container */
+.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody{
+	padding:7px;
+	width:286px;
+	height:286px;
+	overflow:hidden;
+	position:relative;
+	background:#717b85;
+}
+.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuBodyScroll{
+	position:absolute;
+	left:0px;top:7px;
+	height:286px;
+}
+.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuBodyPage{
+	float:left;
+	width:286px;height:286px;
+	margin:0px 0px 0px 9px;
+}
+	/* menu container > menu */
+	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem{
+		display:block;float:left;
+		padding:5px;
+		width:82px;height:82px;
+		background:#f3f3f4;
+		margin:1px;
+		color:#717b85;
+		font-size:13px;
+		line-height:18px;
+		text-decoration:none;
+		word-break:break-all;
+		border-radius:4px;
+	}
+	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem.hasSubMenu{
+		background:url(img/AXMobile/hasSubMenu.png) no-repeat 100% 100% #f3f3f4;
+		background-size:16px 16px;
+	}
+	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem:active{
+		background-color:#ccc;
+	}
+	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem.selected{
+		background-color:#ccc;
+	}
+	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItemGhost{
+		padding:5px;
+		width:82px;height:82px;
+		background:#f3f3f4;
+		margin:1px;
+		color:#717b85;
+		font-size:13px;
+		line-height:18px;
+		text-decoration:none;
+		word-break:break-all;
+		border-radius:4px;
+		border:1px solid #717b85;
+	}
+	
+.AXMobileMenu .AXMobileModalPanel .mobileModalFoot .mobileMenuFoot{
+	text-align:center;height:44px;
+}
+	.AXMobileMenu .AXMobileModalPanel .mobileModalFoot .mobileMenuFoot .pageNav{
+		display:inline-block;
+		width:20px;height:44px;
+		background:url(img/AXMobile/pageNav.png) no-repeat center center;
+		background-size:10px 10px;
+	}
+	.AXMobileMenu .AXMobileModalPanel .mobileModalFoot .mobileMenuFoot .pageNav.on{
+		background:url(img/AXMobile/pageNavOn.png) no-repeat center center;
+		background-size:10px 10px;
+	}
+	
+.AXmobileMenuGhost{
+	display:block;
+	position:absolute;
+	padding:5px;
+	width:82px;height:82px;
+	background:#f3f3f4;
+	margin:1px;
+	color:#717b85;
+	font-size:13px;
+	line-height:18px;
+	text-decoration:none;
+	word-break:break-all;
+	border-radius:4px;
+}
