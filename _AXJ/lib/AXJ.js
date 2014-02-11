@@ -438,7 +438,8 @@ Object.extend(Function.prototype, (function () {
 	function defer() { var args = update([0.01], arguments); return this.delay.apply(this, args); }
 	function wrap(wrapper) { var __method = this; return function () { var a = update([__method.bind(this)], arguments); return wrapper.apply(this, a); } }
 	function methodize() { if (this._methodized) return this._methodized; var __method = this; return this._methodized = function () { var a = update([this], arguments); return __method.apply(null, a); }; }
-	return { argumentNames: argumentNames, bind: bind, curry: curry, delay: delay, defer: defer, wrap: wrap, methodize: methodize }
+	function addPrototype(fns) { var name, i = 0, length = fns.length, isObj = length === undefined || Object.isFunction( fns ); if ( isObj ) { for ( name in fns ) { this.prototype[name] = fns[name]; } } }	
+	return { argumentNames: argumentNames, bind: bind, curry: curry, delay: delay, defer: defer, wrap: wrap, methodize: methodize, addPrototype:addPrototype }
 })());
 
 Object.extend(String.prototype, (function () {
@@ -1046,7 +1047,7 @@ Object.extend(Array.prototype, (function () {
 				var pHashs = pHash.split(/_/g);
 				var pTree = tree;
 				var pTreeItem;
-				AXUtil.each(pHashs, function (idx, T) {
+				axf.each(pHashs, function (idx, T) {
 					if (idx > 0) {
 						pTreeItem = pTree[T.number()];
 						pTree = pTree[T.number()].subTree;
@@ -3732,33 +3733,19 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var subMenuID = parentID + "_AX_subMenu";
 
 		var href = (obj.href == undefined) ? cfg.href : obj.href;
-
-		//trace(subMenu.length);		
 		var po = [];
 		po.push("<div id=\"" + subMenuID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;left:" + (width.number() - 15) + "px;display:none;\">");
 		AXUtil.each(subMenu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
-				if (menu.upperLine) {
-					po.push("<div class=\"hline\"></div>");
-				}
+				if (menu.upperLine) po.push("<div class=\"hline\"></div>");
 				var className = (menu.className) ? menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
 				po.push("<a " + href + " class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
 				po.push(menu.label);
-				if (menu.subMenu) {
-					if (menu.subMenu.length > 0) {
-						po.push("<div class=\"contextSubMenuIcon\"></div>");
-					}
-				}
+				if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
 				po.push("</a>");
-				if (menu.subMenu) {
-					if (menu.subMenu.length > 0) {
-						po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu.subMenu, (depth + 1)));
-					}
-				}
-				if (menu.underLine) {
-					po.push("<div class=\"hline\"></div>");
-				}
+				if (menu.subMenu && menu.subMenu.length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu.subMenu, (depth + 1)));
+				if (menu.underLine) po.push("<div class=\"hline\"></div>");
 			}
 		});
 		po.push("</div>");
@@ -3796,14 +3783,10 @@ var AXContextMenuClass = Class.create(AXJ, {
 			head:{
 				title:(myobj.title||AXConfig.AXContextMenu.title),
 				close:{
-					onclick:function(){
-						
-					}
+					onclick:function(){}
 				}
 			},
-			onclose: function(){
-
-			}
+			onclose: function(){}
 		});
 		
     	var initMobileModalBind = this.initMobileModal.bind(this);
@@ -3831,22 +3814,14 @@ var AXContextMenuClass = Class.create(AXJ, {
 		po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
 		AXUtil.each(obj.menu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
-				if (menu.upperLine) {
-					po.push("<div class=\"hline\"></div>");
-				}
+				if (menu.upperLine) po.push("<div class=\"hline\"></div>");
 				var className = (menu.className) ? " " + menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
 				po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
 				po.push(menu.label);
-				if (menu.subMenu) {
-					if (menu.subMenu.length > 0) {
-						po.push("<div class=\"contextSubMenuIcon\"></div>");
-					}
-				}
+				if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
 				po.push("</a>");
-				if (menu.underLine) {
-					po.push("<div class=\"hline\"></div>");
-				}
+				if (menu.underLine) po.push("<div class=\"hline\"></div>");
 			}
 		});
 		po.push("</div>");
@@ -4848,7 +4823,7 @@ axdom.fn.endFocus = function () {
 /* *** jquery event extend for mobile ***************************** */
 var rkeyEvent = /^key/;
 var rmouseEvent = /^(?:mouse|contextmenu)|click/;
-AXUtil.each(("touchstart touchmove touchend").split(" "), function (i, name) {
+axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
 	axdom.fn[name] = function (data, fn) {
 		if (fn == null) { fn = data; data = null; }
 		return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
