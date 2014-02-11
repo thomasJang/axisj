@@ -1200,14 +1200,14 @@ var AXUpload5 = Class.create(AXJ, {
 
 		if( cfg.dropBoxTarget ){
 			if(cfg.dropBoxTarget.id === undefined || cfg.dropBoxTarget.id == ""){
-				axdom(cfg.dropBoxTarget).attr("id", cfg.dropBoxTarget.id = cfg.dropBoxID = "AX_dropBox_"+axf.timekey());
+				axdom(cfg.dropBoxTarget).attr("id", cfg.dropBoxTarget.id = cfg.dropBoxID = "AXJUnique_dropBox_"+axf.getUniqueId());
 			}else if(axf.isEmpty(cfg.dropBoxID)){
 				cfg.dropBoxID = cfg.dropBoxTarget.id;
 			}
 		}
 		if( cfg.queueBoxTarget ){
 			if( cfg.queueBoxTarget.id === undefined || cfg.queueBoxTarget.id == "" ){
-				axdom(cfg.queueBoxTarget).attr("id", cfg.queueBoxTarget.id = cfg.queueBoxID = "AX_queueBox_"+axf.timekey());
+				axdom(cfg.queueBoxTarget).attr("id", cfg.queueBoxTarget.id = cfg.queueBoxID = "AXJUnique_queueBox_"+axf.getUniqueId());
 				alert(cfg.queueBoxID);
 			}else if(axf.isEmpty(cfg.queueBoxID)){
 				cfg.queueBoxID = cfg.queueBoxTarget.id;

@@ -85,6 +85,9 @@ var axf = AXUtil = {
 	gridPassiveMode: false,
 	gridPassiveRemoveHide: false,
 	gridFitToWidthRightMargin: 10,
+	
+	uniqueSeq: 0,
+	getUniqueId: function(){ return (axf.uniqueSeq += 1); },
 	getId: function(id) { return document.getElementById(id);  },
 	each:  function(obj, callback){
 		if(obj){
@@ -1158,7 +1161,7 @@ var AXJ = Class.create({
 	setConfig: function (configs) {
 		var _self = this;
 		if (configs) AXUtil.each(configs, function (k, v) { _self.config[k] = v; });
-		if(_self.config.target) if(_self.config.target.id === undefined || _self.config.target.id == "") axdom(_self.config.target).attr("id", _self.config.target.id = _self.config.targetID = "AX"+axf.timekey());
+		if(_self.config.target) if(_self.config.target.id === undefined || _self.config.target.id == "") axdom(_self.config.target).attr("id", _self.config.target.id = _self.config.targetID = "AXJUnique_"+axf.getUniqueId());
 		this.init();
 	},
 	changeConfig: function (configs) {
