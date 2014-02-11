@@ -1,0 +1,31 @@
+﻿@mobileWidth: 648px; /* mobile device width */
+
+.Hspace(@height: 1px){
+	font-size:1px;line-height:1px;height:@height;
+}
+.Opacity(@opac:50){
+	-moz-opacity: @opac/100;
+	opacity: @opac/100;
+	filter: alpha(opacity=@opac);
+}
+.Radius(@rad: 5px){
+	border-radius:@rad;-webkit-border-radius:@rad;-moz-border-radius:@rad;
+}
+.Ellip(){
+	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.Placeholder(@height: 20px){
+	color:#bbb;
+}
+.Linear-gradient(@scolor: #fff, @ecolor: #ccc){
+	background: -webkit-linear-gradient(@scolor, @ecolor); /* For Safari */
+	background: -o-linear-gradient(@scolor, @ecolor); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(@scolor, @ecolor); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(@scolor , @ecolor); /* Standard syntax */
+    _background: @scolor;   /* ie6 */
+    *background: @scolor;   /* ie6 ie7 */
+    background: @scolor~'\9';  /* ie8 ie9 */
+} 
+.TextHidden(){
+	line-height:90000px;overflow:hidden;	
+}

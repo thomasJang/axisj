@@ -1,0 +1,11 @@
+@import url('AXJ_mobile.css') all and (max-width: 648px);
+@import url('AXJ_desktop.css') (min-width: 648px);
+/* mobile device width */
+@charset "utf-8";
+/*!
+ * AxisJ Javascript Library
+ * http://axisj.com
+ *
+ * Copyright AXISJ
+ * http://axisj.com/license
+ */
