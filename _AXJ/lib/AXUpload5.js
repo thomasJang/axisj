@@ -1196,6 +1196,24 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 		}
 		
+		/* dropBoxID, queueBoxID 자동 생성 */
+
+		if( cfg.dropBoxTarget ){
+			if(cfg.dropBoxTarget.id === undefined || cfg.dropBoxTarget.id == ""){
+				axdom(cfg.dropBoxTarget).attr("id", cfg.dropBoxTarget.id = cfg.dropBoxID = "AX"+axf.timekey());
+			}else if(axf.isEmpty(cfg.dropBoxID)){
+				cfg.dropBoxID = cfg.dropBoxTarget.id;
+			}
+		}
+		if( cfg.queueBoxTarget ){
+			if( cfg.queueBoxTarget.id === undefined || cfg.queueBoxTarget.id == "" ){
+				axdom(cfg.queueBoxTarget).attr("id", cfg.queueBoxTarget.id = cfg.queueBoxID = "AX"+axf.timekey());
+				alert(cfg.queueBoxID);
+			}else if(axf.isEmpty(cfg.queueBoxID)){
+				cfg.queueBoxID = cfg.queueBoxTarget.id;
+			}
+		}
+		
 		this.target = jQuery("#"+cfg.targetID);
 		if(reset == undefined){
 			this.target.empty();
@@ -1701,9 +1719,13 @@ var AXUpload5 = Class.create(AXJ, {
 					if(f.size <= cfg.uploadMaxFileSize){
 						uploadedCount++;
 						if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
+							
 							var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 							this.queue.push({id:itemID, file:f});
 							//큐박스에 아이템 추가
+							
+							trace(cfg.queueBoxID);
+							
 							if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
 							else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
 							jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
