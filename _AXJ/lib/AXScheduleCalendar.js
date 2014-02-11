@@ -12,7 +12,8 @@ var AXScheduleCalendar = Class.create(AXJ, {
 	version: "AXScheduleCalendar v1.0",
 	author: "tom@axisj.com",
 	logs: [
-		"2013-10-04"
+		"2013-10-04",
+		"2013-12-20 root : this.config.viewModeChange 달력 뷰모드 변경 속성 추가, reserveKeys 적용 "
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -31,7 +32,10 @@ var AXScheduleCalendar = Class.create(AXJ, {
 		this.config.printFormat = "d";
 		this.config.titleFormat = "yyyy/mm/dd";
 		this.config.valueFormat = "yyyy-mm-dd";
-
+		this.config.viewModeChange = true;
+		this.config.datePicker = false;
+		this.config.datePickerID = "";
+		
 		this.list = [];
 		this.cstdate = null;
 		this.ceddate = null;
@@ -40,7 +44,21 @@ var AXScheduleCalendar = Class.create(AXJ, {
 	/* 공통 영역 */
 	init: function () {
 		var cfg = this.config;
-
+		
+		//{ schduleid: 1, schedulename: '휴일 1', sdate: "2013-12-09", edate: "2013-12-09" },
+		var reserveKeys = {
+			schduleid: "schduleid", 	
+			schedulename: "schedulename", 	
+			sdate: "sdate", 			
+			edate: "edate" 		
+		};
+		
+		if (cfg.reserveKeys) {
+			AXUtil.overwriteObject(reserveKeys, cfg.reserveKeys, true);
+		} else {
+			cfg.reserveKeys = reserveKeys;
+		}
+		
 		if (Object.isUndefined(cfg.targetID)) {
 			tracd("undefined targetID");
 			return;
@@ -104,11 +122,14 @@ var AXScheduleCalendar = Class.create(AXJ, {
 	},
 	onclickday: function(date){
 		var cfg = this.config;
-		cfg.viewMode = "D";
-		cfg.basicDate = date;
-		this.printDayPage(date);
-		if (cfg.onChangeView) {
-			cfg.onChangeView.call({viewMode:"D"});
+		
+		if (cfg.viewModeChange){
+			cfg.viewMode = "D";
+			cfg.basicDate = date;
+			this.printDayPage(date);
+			if (cfg.onChangeView) {
+				cfg.onChangeView.call({viewMode:"D"});
+			}
 		}
 	},
 	setViewMode: function(viewMode){
@@ -161,7 +182,15 @@ var AXScheduleCalendar = Class.create(AXJ, {
 		var toDay = (new Date()).print().date();
 		var setDate = (date) ? date.date() : (new Date()).print().date();
 		
-		$("#"+cfg.displayID).html( setDate.print("YYYY년 MM월") );
+		if (cfg.datePicker){
+			if (cfg.datePickerID != ""){
+				$("#"+cfg.datePickerID).val( setDate.print("YYYY-MM") );
+			}else{
+				toast.push("날자셀렉터 ID 가 없습니다.");
+			}
+		}else{
+			$("#"+cfg.displayID).html( setDate.print("YYYY년 MM월") );
+		}
 		
 		this.datePointer = {};
 
@@ -216,6 +245,7 @@ var AXScheduleCalendar = Class.create(AXJ, {
 		$("#" + cfg.targetID).find(".calendarDate").click(function () {
 			var ids = this.id.split(/_AX_/g);
 			var myDate = ids[(ids.length - 2)];
+			/* 달력 클릭시 날자로 돌아가지 않게 주석*/
 			onclickday(myDate);
 		});
 		
@@ -395,7 +425,9 @@ var AXScheduleCalendar = Class.create(AXJ, {
 		this.list = list;
 
 		$.each(this.list, function (lindex, L) {
-			this.duration = this.sdate.date().diff(this.edate) + 1;
+			//this.duration = this.sdate.date().diff(this.edate) + 1;
+			this.duration = this[cfg.reserveKeys.sdate].date().diff(this[cfg.reserveKeys.edate]) + 1;
+			
 		});
 
 		this.list = this.list.sort(function (pItem, nItem) {
@@ -426,7 +458,9 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 		$.each(this.list, function (lindex, L) {
 
-			var roopDate = this.sdate.date();
+			//var roopDate = this.sdate.date();
+			var roopDate = this[cfg.reserveKeys.sdate].date();
+			
 			var roopEndDate = null;
 			var maxWidthForDayEnd = 7 - roopDate.getDay();
 
@@ -436,7 +470,7 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 					var itemID = roopDate.print("YYYYMMDD");
 					var pos = $("#" + cfg.targetID + "_AX_D_AX_" + itemID).position();
-					var boxCss = { left: pos.left.number(), top: (pos.top.number() + 25) };
+					var boxCss = { left: pos.left.number()+2, top: (pos.top.number() + 25) };
 
 					var dotPosition = 0;
 					while (datePointer["D" + roopDate.print("YYYYMMDD")][dotPosition] != undefined) {
@@ -465,11 +499,13 @@ var AXScheduleCalendar = Class.create(AXJ, {
 					var boxWidth = $("#" + cfg.targetID + "_AX_D_AX_" + itemID).width().round();
 
 					//boxCss.width = (boxWidth) * this.duration - (7 - this.duration) + 3;
-					boxCss.width = (endpos.left + boxWidth) - boxCss.left - 2;
+					boxCss.width = (endpos.left + boxWidth) - boxCss.left - 4;
 
 					var po = [];
 					po.push('<div id="SCH_AX_' + lindex + '_AX_0" class="schduleItem dotPosition_' + dotPosition + ' schduleItem_' + lindex + '" style="left:' + boxCss.left + 'px;top:' + boxCss.top + 'px;width:' + boxCss.width + 'px;">');
-					po.push(L.schedulename);
+					//po.push(L.schedulename);
+					po.push(L[cfg.reserveKeys.schedulename]);
+					
 					po.push('</div>');
 
 					$("#" + cfg.targetID + "_editSpace").append(po.join(''));
@@ -518,7 +554,8 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 					var po = [];
 					po.push('<div id="SCH_AX_' + lindex + '_AX_0" class="schduleItem dotPosition_' + dotPosition + ' schduleItem_' + lindex + '" style="left:' + boxCss.left + 'px;top:' + boxCss.top + 'px;width:' + boxCss.width + 'px;">');
-					po.push(L.schedulename);
+					//po.push(L.schedulename);
+					po.push(L[cfg.reserveKeys.schedulename]);
 					po.push('</div>');
 
 					$("#" + cfg.targetID + "_editSpace").append(po.join(''));
@@ -587,7 +624,8 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 							var po = [];
 							po.push('<div id="SCH_AX_' + lindex + '_AX_' + subIndex + '" class="schduleItem dotPosition_' + dotPosition + ' schduleItem_' + lindex + '" style="left:' + boxCss.left + 'px;top:' + boxCss.top + 'px;width:' + boxCss.width + 'px;">');
-							po.push(L.schedulename);
+							//po.push(L.schedulename);
+							po.push(L[cfg.reserveKeys.schedulename]);
 							po.push('</div>');
 
 							$("#" + cfg.targetID + "_editSpace").append(po.join(''));
@@ -661,8 +699,9 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 		var dotPosition = 0;
 		$.each(this.list, function (lindex, L) {
-			if (basicDate.diff(this.sdate) <= 0 && basicDate.diff(this.edate) >= 0) {
-				
+			//if (basicDate.diff(this.sdate) <= 0 && basicDate.diff(this.edate) >= 0) {
+			if (basicDate.diff(this[cfg.reserveKeys.sdate]) <= 0 && basicDate.diff(this[cfg.reserveKeys.edate]) >= 0) {
+			
 				var myTop = boxCss.top + dotPosition * 21;
 				boxCss.width = (endpos.left + boxWidth) - boxCss.left - 2;
 
@@ -672,7 +711,8 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 				var po = [];
 				po.push('<div id="SCH_AX_' + lindex + '_AX_0" class="schduleItem dotPosition_' + dotPosition + ' schduleItem_' + lindex + '" style="left:' + boxCss.left + 'px;top:' + myTop + 'px;width:' + boxCss.width + 'px;">');
-				po.push(L.schedulename);
+				//po.push(L.schedulename);
+				po.push(L[cfg.reserveKeys.schedulename]);
 				po.push('</div>');
 
 				$("#" + cfg.targetID + "_editSpace").append(po.join(''));
@@ -717,7 +757,8 @@ var AXScheduleCalendar = Class.create(AXJ, {
 
 		var po = [];
 		po.push('<div id="SCH_AX_' + lindex + '_AX_0" class="schduleItem dotPosition_' + dotPosition + ' schduleItem_' + lindex + '" style="left:' + boxCss.left + 'px;top:' + boxCss.top + 'px;width:' + boxCss.width + 'px;">');
-		po.push(L.schedulename);
+		//po.push(L.schedulename);
+		po.push(L[cfg.reserveKeys.schedulename]);
 		po.push('</div>');
 
 		$("#" + cfg.targetID + "_editSpace").append(po.join(''));
