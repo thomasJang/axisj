@@ -3655,7 +3655,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 		"2013-03-22 오후 6:08:57",
 		"2013-09-03 오후 7:10:14 메뉴확장 위치 제어 버그 픽스",
 		"2013-12-16 href=javascript 설정했을 때 onbeforeunload 이벤트 충돌문제 해결",
-		"2013-12-26 오후 4:27:00 tom left, top position "
+		"2013-12-26 오후 4:27:00 tom, left, top position ",
+		"2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -3737,6 +3738,9 @@ var AXContextMenuClass = Class.create(AXJ, {
 		po.push("<div id=\"" + subMenuID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;left:" + (width.number() - 15) + "px;display:none;\">");
 		AXUtil.each(subMenu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
+				if (menu.upperLine) {
+					po.push("<div class=\"hline\"></div>");
+				}
 				var className = (menu.className) ? menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
 				po.push("<a " + href + " class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
@@ -3751,6 +3755,9 @@ var AXContextMenuClass = Class.create(AXJ, {
 					if (menu.subMenu.length > 0) {
 						po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu.subMenu, (depth + 1)));
 					}
+				}
+				if (menu.underLine) {
+					po.push("<div class=\"hline\"></div>");
 				}
 			}
 		});
@@ -3824,6 +3831,9 @@ var AXContextMenuClass = Class.create(AXJ, {
 		po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
 		AXUtil.each(obj.menu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
+				if (menu.upperLine) {
+					po.push("<div class=\"hline\"></div>");
+				}
 				var className = (menu.className) ? " " + menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
 				po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
@@ -3834,6 +3844,9 @@ var AXContextMenuClass = Class.create(AXJ, {
 					}
 				}
 				po.push("</a>");
+				if (menu.underLine) {
+					po.push("<div class=\"hline\"></div>");
+				}
 			}
 		});
 		po.push("</div>");
