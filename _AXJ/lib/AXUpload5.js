@@ -1143,7 +1143,7 @@ swfobject.addDomLoadEvent(function () {
  */
 
 var AXUpload5 = Class.create(AXJ, {
-	version : "AXUpload5 V1.22",
+	version : "AXUpload5 V1.23",
 	author : "tom@axisj.com",
 	logs: [
 		"2013-10-02 오후 2:19:36 - 시작 tom",
@@ -1151,7 +1151,8 @@ var AXUpload5 = Class.create(AXJ, {
 		"2013-10-29 오후 3:26:33 - 기타 버그 패치 최지연",
 		"2013-10-30 오후 3:38:05 - config.uploadPars, config.deletePars 초기 설정값 패치 by tom",
 		"2013-12-11 오후 5:15:51 - tom&root setUploadedList, setUpoadeFile 버그패치",
-		"2013-12-17 오전 11:24:38 - tom : AXUploadPreview css 적용"
+		"2013-12-17 오전 11:24:38 - tom : AXUploadPreview css 적용",
+		"2014-02-11 오후 3:29:51 - tom : deleteFile 개선, 서버 JSON에 error 가 없으면 정상 처리 되도록 변경"
 	],
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -2085,7 +2086,7 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			
 			new AXReq(cfg.deleteUrl, {debug:false, pars:sendPars, onsucc:function(res){
-				if(res.result == AXConfig.AXReq.okCode){
+				if(res.result == AXConfig.AXReq.okCode || res.error === undefined){
 					if(cfg.isSingleUpload){
 						jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
 					}else{
