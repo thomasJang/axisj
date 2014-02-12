@@ -10,5 +10,11 @@
  * http://axisj.com/license
  */
 
-@import url('AXButton_desktop.css') 		(min-width: @mobileWidth);
-@import url('AXButton_mobile.css') 	only screen and (max-width: @mobileWidth);
+
+@media (min-width: @mobileWidth) {
+	@import "AXButton_desktop.css";
+}
+
+@media only screen and (max-width: @mobileWidth){
+	@import "AXButton_mobile.css";
+}
