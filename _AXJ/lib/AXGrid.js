@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.47",
+	version: "AXGrid v1.48",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -49,7 +49,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-01-03 오후 3:31:09 tom : gridBodyClick 이벤트함수 수정",
 		"2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가",
 		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가",
-		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경"
+		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
+		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -127,7 +128,7 @@ var AXGrid = Class.create(AXJ, {
 				var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
 				axf.each(cfg.colGroup, function (cidx, CG) {
 					if (CG.display && CG.widthAstric) {
-						CG._owidth = remainsWidth / astricCount;
+						CG._owidth = (remainsWidth / astricCount).ceil();
 						CG.width = CG._owidth;
 						colWidth += (CG._owidth || 0).number();
 					}
@@ -1118,7 +1119,7 @@ var AXGrid = Class.create(AXJ, {
 		var collect = [];
 		var list = this.list;
 		this.body.find(".gridCheckBox_body_colSeq" + colSeq).each(function () {
-			if (this.checked) {
+			if (!this.disabled && this.checked) {
 				var itemIndex = this.id.split(/_AX_/g).last();
 				collect.push(list[itemIndex]);
 			}
@@ -1248,11 +1249,11 @@ var AXGrid = Class.create(AXJ, {
 
 			po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
 			po.push("<div class=\"tdRelBlock\">");
-			po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\">");
-			po.push(arg.tdHtml);
-			po.push("</div>");
-			if (toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
-			po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
+				po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\">");
+				po.push(arg.tdHtml);
+				po.push("</div>");
+				if (toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
+				po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
 			po.push("</div>");
 			po.push("</td>");
 
@@ -2130,7 +2131,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			}
 
-			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + disabled + " />";
+			result = "<label class=\"gridCheckboxLabel\"><input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + disabled + " /></label>";
 		} else {
 			try {
 				var sendObj = {
@@ -2244,8 +2245,8 @@ var AXGrid = Class.create(AXJ, {
 						}
 
 						tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "body_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						tpo.push("<div class=\"tdRelBlock\" title=\"" + tooltipValue + "\">");
-						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\">");
+						/*tpo.push("<div class=\"tdRelBlock\">");*/
+						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" title=\"" + tooltipValue + "\" title=\"" + tooltipValue + "\">");
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
 							if (CH.formatter) {
 								tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
@@ -2256,7 +2257,7 @@ var AXGrid = Class.create(AXJ, {
 							tpo.push("&nbsp;");
 						}
 						tpo.push("</div>");
-						tpo.push("</div>");
+						/*tpo.push("</div>");*/
 						tpo.push("</td>");
 					}
 				}
@@ -2347,7 +2348,7 @@ var AXGrid = Class.create(AXJ, {
 						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
 
 						tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "bodyMarker_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						tpo.push("<div class=\"tdRelBlock\">");
+						/*tpo.push("<div class=\"tdRelBlock\">");*/
 						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyMarkerText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\">");
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
 							if (CH.formatter) {
@@ -2359,7 +2360,7 @@ var AXGrid = Class.create(AXJ, {
 							tpo.push("&nbsp;");
 						}
 						tpo.push("</div>");
-						tpo.push("</div>");
+						/*tpo.push("</div>");*/
 						tpo.push("</td>");
 					}
 				}
@@ -3718,7 +3719,7 @@ var AXGrid = Class.create(AXJ, {
 						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
 
 						tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "head_AX_" + r + "_AX_" + CHidx + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						tpo.push("<div class=\"tdRelBlock\">");
+						/*tpo.push("<div class=\"tdRelBlock\">");*/
 						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_headText_AX_" + r + "_AX_" + CHidx + "\">");
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
 							if (CH.formatter) {
@@ -3730,7 +3731,7 @@ var AXGrid = Class.create(AXJ, {
 							tpo.push("&nbsp;");
 						}
 						tpo.push("</div>");
-						tpo.push("</div>");
+						/*tpo.push("</div>");*/
 						tpo.push("</td>");
 					}
 				}
@@ -3779,7 +3780,7 @@ var AXGrid = Class.create(AXJ, {
 						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
 
 						tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "foot_AX_" + r + "_AX_" + CHidx + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						tpo.push("<div class=\"tdRelBlock\">");
+						/*tpo.push("<div class=\"tdRelBlock\">");*/
 						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_footText_AX_" + r + "_AX_" + CHidx + "\">");
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
 							if (CH.formatter) {
@@ -3791,7 +3792,7 @@ var AXGrid = Class.create(AXJ, {
 							tpo.push("&nbsp;");
 						}
 						tpo.push("</div>");
-						tpo.push("</div>");
+						/*tpo.push("</div>");*/
 						tpo.push("</td>");
 					}
 				}
@@ -4004,7 +4005,7 @@ var AXGrid = Class.create(AXJ, {
 						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
 
 						tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "editor_AX_" + r + "_AX_" + CHidx + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						tpo.push("<div class=\"tdRelBlock\">");
+						/*tpo.push("<div class=\"tdRelBlock\">");*/
 						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_editorText_AX_" + r + "_AX_" + CHidx + "\">");
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
 							if (CH.form) {
@@ -4018,7 +4019,7 @@ var AXGrid = Class.create(AXJ, {
 							tpo.push("&nbsp;");
 						}
 						tpo.push("</div>");
-						tpo.push("</div>");
+						/*tpo.push("</div>");*/
 						tpo.push("</td>");
 					}
 				} else {
