@@ -7,31 +7,34 @@
  * http://AxisJ.com/license
  * Date 2012-09-28 오후 1:17:52
  */
+/*
+@colors-button-classic	:["#f00", "#0f0", "#00f"];
+@colors-button-small	:"#f00", "#0f0", "#00f";
+*/
 /** .AXButton.Classic **/
-.AXButton.Classic {
-  border: 1px solid #82898f;
-  color: #ecf4f7;
-  text-shadow: 0px -1px #919aa2;
-  background: url(img/classicRegular.png) repeat-x;
+/*
+.AXButton.Classic{
+	
+	border:1px solid #f00;
+	color:#ecf4f7;text-shadow:0px -1px #919aa2;
+	background:url(img/classicRegular.png) repeat-x;
 }
-.AXButton.Classic:hover,
-.AXButton.Classic:focus {
-  border: 1px solid #383f45;
-  background-position: 0px -26px;
-  box-shadow: 0px 1px 3px #c8cacd;
-  color: #fff;
-  text-shadow: 0px -1px #000000;
+.AXButton.Classic:hover, .AXButton.Classic:focus{
+	border:1px solid #383f45;
+	background-position:0px -26px;
+	box-shadow:0px 1px 3px #c8cacd;
+	color:#fff;text-shadow:0px -1px #000;
 }
-.AXButton.Classic:active {
-  border: 1px solid #454c56;
-  background-position: 0px -52px;
-  box-shadow: none;
-  color: #c7d0d7;
-  text-shadow: 0px 1px #515c65;
+.AXButton.Classic:active{
+	border:1px solid #454c56;
+	background-position:0px -52px;
+	box-shadow:none;
+	color:#c7d0d7;text-shadow:0px 1px #515c65;
 }
+*/
 /** .AXButtonSmall.Classic **/
 .AXButtonSmall.Classic {
-  border: 1px solid #82898f;
+  border: 1px solid #f00;
   color: #ecf4f7;
   text-shadow: 0px -1px #919aa2;
   background: url(img/classicSmall.png) repeat-x;
@@ -53,7 +56,7 @@
 }
 /** .AXButtonExtraSmall.Classic **/
 .AXButtonExtraSmall.Classic {
-  border: 1px solid #82898f;
+  border: 1px solid #f00;
   color: #ecf4f7;
   text-shadow: 0px -1px #919aa2;
   background: url(img/classicSmall.png) repeat-x;
@@ -75,7 +78,7 @@
 }
 /** .AXButtonLarge.Classic **/
 .AXButtonLarge.Classic {
-  border: 1px solid #82898f;
+  border: 1px solid #f00;
   color: #ecf4f7;
   text-shadow: 0px -1px #919aa2;
   background: url(img/classicLarge.png) repeat-x;

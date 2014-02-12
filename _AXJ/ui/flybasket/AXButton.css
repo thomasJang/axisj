@@ -7,9 +7,5 @@
  * Copyright AXISJ
  * http://axisj.com/license
  */
-@media (min-width: 648px) {
-  @import "AXButton_desktop.css";
-}
-@media only screen and (max-width: 648px) {
-  @import "AXButton_mobile.css";
-}
+@import url("AXButton_desktop.css") (min-width: 648px);
+@import url("AXButton_mobile.css" only screen and (max-width: 648px);
