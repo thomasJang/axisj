@@ -1,0 +1,156 @@
+/*----- default tag styleCSS -----*/
+/* Font-Face */
+/*@import url(font/nanumgothic.css);*/
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body, select, input, a, textarea{
+	font-family:'Apple SD Gothic Neo', 'Nanum Gothic';
+	font-size:12px;
+	line-height:1.6em;
+}
+
+* { -webkit-tap-highlight-color: rgba(0,0,0,0);} 
+body{background:#fff;margin:0px;padding:0px;}
+select{vertical-align:middle;}
+input{vertical-align:middle;}
+label{vertical-align:middle;}
+form{margin:0px;padding:0px;}
+img{border:0px;}
+a{}
+
+
+/*----- default class styleCSS -----*/
+.Hspace1{font-size:1px;line-height:1px;height:1px;}
+.Hspace2{font-size:1px;line-height:1px;height:2px;}
+.Hspace3{font-size:1px;line-height:1px;height:3px;}
+.Hspace5{font-size:1px;line-height:1px;height:5px;}
+.Hspace10{font-size:1px;line-height:1px;height:10px;}
+.Hspace15{font-size:1px;line-height:1px;height:15px;}
+.Hspace20{font-size:1px;line-height:1px;height:20px;}
+.Hspace30{font-size:1px;line-height:1px;height:30px;}
+.padding5{padding:5px;}
+.padding10{padding:10px;}
+.noBorder{border:0px none ! important;}
+.rel{position:relative;}
+.abs{position:absolute;}
+.Ablock{display:block}
+
+/*----- 폰트 색상 class styleCSS -----*/
+.font00{color:#2c2c2c;}
+.font01{color:#335997;}
+.fontEA{font-size:10px;color:#888;font-family:Arial;}
+.fontTiny{font-size:11px;letter-spacing:-1px;}
+.fontwhite{color:#fff;text-shadow:0px -1px #5c5c5c;}
+.ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+
+/*----- box class styleCSS -----*/
+.floatLeft{float:left;}
+.floatRight{float:right;}
+.clear{clear:both;}
+
+/*----- support form class styleCSS -----*/
+.textarea{border:1px solid #eee;}
+.textarea textarea{border:0px none;width:100%;margin:0px;padding:0px;}
+.int{text-align:right;}
+.float{text-align:left;}
+
+.layoutTable{
+	table-layout:fixed;width:100%;	
+}
+
+/*----- common -----*/
+.contentArea{
+	padding:10px;
+}
+
+.split{
+	height: 1px;border-top: 1px dashed #ccc;
+}
+
+.masterModalBody div.title{
+	font-size: 12px;
+	font-weight:bold;
+	height:25px;line-height:25px;
+}
+
+.wrapInput{padding:0 10px 0 0;}
+.wrapInput input{width:100%;}
+
+
+
+.wrapTA{
+	padding:0 5px 0 0; 	
+}
+
+.wrapTA textarea{
+	border:1px solid #ccc;
+	width:100%;	
+}
+
+.formTable{
+	width:100%;
+	table-layout: fixed;
+	border:1px solid #ccc;
+	border-collapse: collapse;
+}
+	.formTable th, .formTable td{
+		border:1px solid #ccc;
+		padding:3px 4px;
+	}
+
+	.formTable th{
+		text-align: center;
+		font-size: 11px;
+		background:url(../../_AXJ/ui/default/img/gridheadBG.png) repeat-x 0px 0px #fff;
+		background-color: transparent;
+		color:#5e5e5e;
+	}
+
+	.formTable td{
+		
+	}
+
+	.formTable td textarea, .formTable td select{
+		border:1px solid #ccc;
+	}
+	
+	.formTable td input.inline{
+		border:1px solid #ccc;
+		vertical-align:middle;
+		height:20px;line-height: 20px;
+		padding:0 3px;
+	}
+
+
+.btnDiv{
+	padding:5px;
+}
+
+a.mailto {
+	color:#2c699b;
+	text-decoration:underline;
+}
+
+
+/*----- optional CSS -----*/
+.b1 {border:1px solid #cc0000;}
+
+.tac {text-align:center;}
+.tal {text-align:left;}
+.tar {text-align:right;}
+
+.ime_d {ime-mode:disabled;} 
+.ime_a {ime-mode:active;} 
+.ime_ia {ime-mode:inactive;}
+
+.cp {cursor:pointer;}
+
+.w10 {width:10px;} .w20 {width:20px;} .w30 {width:30px;} .w40 {width:40px;} .w50 {width:50px;} .w60 {width:60px;} .w70 {width:70px;} .w80 {width:80px;} .w90 {width:90px;}
+.w100 {width:100px;} .w110 {width:110px;} .w120 {width:120px;} .w130 {width:130px;} .w140 {width:140px;} .w150 {width:150px;} .w160 {width:160px;} .w170 {width:170px;} .w180 {width:180px;} .w190 {width:190px;}
+.w200 {width:200px;} .w210 {width:210px;} .w220 {width:220px;} .w230 {width:230px;} .w240 {width:240px;} .w250 {width:250px;} .w260 {width:260px;} .w270 {width:270px;} .w280 {width:280px;} .w290 {width:290px;}
+.w300 {width:300px;} .w310 {width:310px;} .w220 {width:320px;} .w330 {width:330px;} .w340 {width:340px;} .w350 {width:350px;} .w360 {width:360px;} .w370 {width:370px;} .w380 {width:380px;} .w390 {width:390px;}
+.w400 {width:400px;} .w410 {width:410px;} .w220 {width:420px;} .w430 {width:430px;} .w440 {width:440px;} .w450 {width:450px;} .w460 {width:460px;} .w470 {width:470px;} .w480 {width:480px;} .w490 {width:490px;}
+.w500 {width:500px;} .w510 {width:510px;} .w220 {width:520px;} .w530 {width:530px;} .w540 {width:540px;} .w550 {width:550px;} .w560 {width:560px;} .w570 {width:570px;} .w580 {width:580px;} .w590 {width:590px;}
+.w600 {width:600px;} 
+

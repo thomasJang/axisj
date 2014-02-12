@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXUpload</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXUpload.css?v=11" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	
+	/* formTBL */
+	.formTBL{
+		border:1px solid #c1c1c1;border-bottom:0px none;
+		width:100%;table-layout:fixed;
+		font-size:12px;
+		box-shadow:1px 1px 3px #eee;
+	}
+	
+	.formTBL thead td{
+		background:url(/_AXJ/ui/default/img/gridheadBorder.png) no-repeat 100% 0px;
+		height:30px;line-height:30px;
+		border-bottom:1px solid #c1c1c1;
+		}
+		.formTBL thead td .tdRel{
+			padding:0px 10px;
+			text-align:center;color:#000;
+		}
+		.formTBL thead td.last{
+			background:url() repeat-y 100% 0px;	
+		}
+		
+	.formTBL tbody th{
+		height:36px;line-height:30px;
+		border-bottom:1px solid #c1c1c1;
+		border-right:1px solid #c1c1c1;
+		text-align:center;
+		background:#e5e5e5;
+		}
+		.formTBL tbody th .tdRel{
+			padding:0px 10px;
+		}
+		.formTBL tbody th.pk .tdRel{
+			background:url(/html/img/tick-red.png) no-repeat 95% center;
+		}
+	.formTBL tbody td{
+		border-bottom:1px solid #c1c1c1;
+		}
+		.formTBL tbody td .tdRel{
+			padding:5px;
+		}
+		.formTBL tbody td.last{
+		background:url() repeat-y 100% 0px;	
+		}	
+		
+	.formTBL label.tip{
+		font-size:11px;color:#888;	
+	}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXUpload.js"></script>
+
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			$("#myAXUpload_single").bindAXUpload({
+				button_image_url: "../../_AXJ/ui/default/img/AXBtnUpload_69x32.png",
+				button_width: "69",
+				button_height: "32",
+				flash_url : "../../_AXJ/lib/swfupload.swf",
+				upload_url:"uploadFile.asp",
+				delete_url:"deleteFile.asp",
+				file_types : "*.*",
+				file_types_description : "All Files",
+				file_size_limit:(1024*1024*20),
+				onStartUpload: function(){},
+				onEndUpload: function(){},
+				onEndFileUpload: function(file){
+					trace(file);
+				},
+				onEndFileDelete: function(file){
+					trace(file);
+				},
+				onclick: function(file){
+					AXUtil.alert(file);
+				}
+			});
+			
+			$("#myAXUpload_singleImage").bindAXUpload({
+				button_image_url: "../../_AXJ/ui/default/img/AXBtnUpload_69x32.png",
+				button_width: "69",
+				button_height: "32",
+				flash_url : "../../_AXJ/lib/swfupload.swf",
+				upload_url:"uploadFile.asp",
+				delete_url:"deleteFile.asp",
+				file_types : "*.*",
+				file_types_description : "All Files",
+				file_upload_limit : 100,
+				onStartUpload: function(){},
+				onEndUpload: function(){},
+				onEndFileUpload: function(file){
+					trace(file);
+				},
+				onEndFileDelete: function(file){
+					trace(file);
+				},
+				onclick: function(file){
+					AXUtil.alert(file);
+				}
+			});
+			
+			//$("#myAXUpload_single").bindAXUploadSetFile({id:"01", ti:"11", nm:"22", ty:"", size:"", path:"", thumb:""});
+			//의 사용법을 참조
+			
+			//var file = $("#myAXUpload_single").bindAXUploadGetFile();
+			//업로드된 파일 정보 얻기 사용법
+			
+		}
+	};
+
+	$(document.body).ready(fnObj.pageStart);
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div class="contentContainer">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">MultiUpload</a>
+				<a href="single.html" class="AXTab Blue on">SingleUpload</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXUpload</h2>
+
+		<table cellpadding="0" cellspacing="0" class="formTBL">
+			<colgroup>
+				<col width="100" />
+				<col />
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>파일선택</th>
+					<td>
+						<div class="tdRel">
+							<div id="myAXUpload_single"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>이미지선택</th>
+					<td>
+						<div class="tdRel">
+							<div id="myAXUpload_singleImage"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td>
+						<div class="tdRel">
+							<input type="text" name="" value="" class="AXInput" />	
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="padding:10px;display:none;">
+			<!--<input type="button" value="전송중지" class="AXButton" id="cancelBtn" disabled="disabled" onclick="fnObj.upload.cancelUpload();" />-->
+			<input type="button" value="삭제" class="AXButton" onclick="fnObj.upload.deleteSelect('all');" />
+		</div>
+
+
+		<div class="Hspace20"></div>
+
+	</div>
+
+</body>
+</html>

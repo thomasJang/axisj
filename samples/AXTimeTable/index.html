@@ -1,0 +1,101 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Time Table</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="Description" />
+    
+	    <meta property="og:image" content="/img/axisj_sns.png" /> 
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<!-- css block -->
+		<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTimeTable.css" />
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+		<![endif]-->
+		
+		<style type="text/css">
+		H2, H3{font-family:consolas;}
+		</style>
+		<!-- css block -->
+		
+		<!-- js block -->
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXTimeTable.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+		<script type="text/javascript" src="pageTab.js"></script>
+		<script type="text/javascript">
+		var pageID = "AXTimeTable";
+		var myTimeZone = new AXTimeTable();	
+		var myTimeZoneWeek = new AXTimeTable();	
+		var fnObj = {
+			pageStart: function(){
+				AXCode.bind(); // 소스보기
+				myTimeZone.setConfig({
+					targetID:"AXTimeTable"
+				});
+				myTimeZoneWeek.setConfig({
+					targetID:"AXTimeTableWeek",
+					zoneSet:[
+						{label:"일", start:"09:00", end:"18:00", disabled:true, bgColor:"#FFE8E8"},
+						{label:"월", start:"09:00", end:"18:00", disabled:false},
+						{label:"화", start:"09:00", end:"18:00", disabled:false},
+						{label:"수", start:"09:00", end:"18:00", disabled:false},
+						{label:"목", start:"09:00", end:"18:00", disabled:false},
+						{label:"금", start:"09:00", end:"18:00", disabled:false},
+						{label:"토", start:"09:00", end:"18:00", disabled:true, bgColor:"#E1F0FF"}
+					],
+					userDisable:true
+				});
+			},
+			getData1: function(){
+				var data = myTimeZone.getData();
+				toast.push(Object.toJSON(data));
+			},
+			getData2: function(){
+				var data = myTimeZoneWeek.getData();
+				toast.push(Object.toJSON(data));
+			}
+		};
+		
+		$(document.body).ready(fnObj.pageStart);
+		</script>
+		<!-- js block -->
+		
+	</head>
+	<body>
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+			
+			<h2>AXTimeTable</h2>			
+	
+			<table cellpadding="20">
+				<tr>
+					<td>
+						<div id="AXTimeTable" style="width:200px;border:1px solid #d6d6d6;"></div>
+						<div style="padding:10px;" align="center">
+							<input type="button" value="선택값 가져오기" class="AXButton" onclick="fnObj.getData1();" />
+						</div>
+					</td>
+					<td>
+						<div id="AXTimeTableWeek" style="width:800px;border:1px solid #d6d6d6;"></div>
+						<div style="padding:10px;" align="center">
+							<input type="button" value="선택값 가져오기" class="AXButton" onclick="fnObj.getData2();" />
+						</div>
+					</td>
+				</tr>	
+			</table>	
+	
+			<div class="Hspace10"></div>
+			
+		</div>
+
+	</body>
+</html>

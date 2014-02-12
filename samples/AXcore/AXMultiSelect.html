@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXISJ</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs_desktop.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	.item{
+		margin:10px 0px 0px 10px;
+		border:1px solid #000;
+		border-radius:5px;
+		box-shadow:0px 0px 5px #888;
+		padding:5px;	
+		width:100px;height:100px;float:left;
+		background:#ffffee;
+	}
+	.item.beSelected{
+		background:#68adcf;color:#fff;
+	}
+	.AX_selecting{
+		background:#CFE4EF;
+	}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<script type="text/javascript">
+	var pageID = "AXMultiSelect";
+	var multiSelector;
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+		
+			multiSelector = new AXMultiSelect();
+			multiSelector.setConfig({
+				selectStage       : "selectStageBox",
+				selectClassName   : "readyselect",
+				beselectClassName : "beSelected",
+				selectingClassName: "AX_selecting"
+			});
+			
+		},
+		getSelect: function(){
+			var selectsId = [];
+			var selectedElements = multiSelector.getSelects();
+			$.each(selectedElements, function(){
+				selectsId.push(this.id);
+			});
+			toast.push(selectsId.join(","));
+		}
+	};
+	$(document).ready(fnObj.pageStart);
+	</script>
+	<!-- js block -->
+	
+</head>
+<body style="position:relative;margin:0px;">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h1>AXMultiSelect</h1>		
+
+		<div id="selectStageBox" class="" style="height:320px;border:1px solid #000;overflow:auto;">
+				
+			<div class="readyselect item" id="item0">0</div>
+			<div class="readyselect item" id="item1">1</div>
+			<div class="readyselect item" id="item2">2</div>
+			<div class="readyselect item" id="item3">3</div>
+			<div class="readyselect item" id="item4">4</div>
+			<div class="readyselect item" id="item5">5</div>
+			<div class="readyselect item" id="item6">6</div>
+			<div class="readyselect item" id="item7">7</div>
+			<div class="readyselect item" id="item8">8</div>
+			<div class="readyselect item" id="item9">9</div>
+			<div class="readyselect item" id="item10">10</div>
+			<div class="readyselect item" id="item11">11</div>
+			<div class="readyselect item" id="item12">12</div>
+			<div class="readyselect item" id="item13">13</div>
+			<div class="readyselect item" id="item14">14</div>
+			<div class="readyselect item" id="item15">15</div>
+			<div class="readyselect item" id="item16">16</div>
+			<div class="readyselect item" id="item17">17</div>
+			<div class="readyselect item" id="item18">18</div>
+			<div class="readyselect item" id="item19">19</div>
+			<div class="readyselect item" id="item20">20</div>
+			
+			<div class="clear Hspace10"></div>
+			
+		</div>
+		
+		<div style="padding:10px;">
+			<input type="button" value="getSelects" onclick="fnObj.getSelect();" />	
+		</div>
+
+	</div>	
+</body>
+</html>

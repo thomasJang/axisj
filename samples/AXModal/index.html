@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXModal</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+		
+	<script type="text/javascript">
+	var pageID = "AXModal";
+	var myModal = new AXModal();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+	
+			myModal.setConfig({
+				windowID:"myModalCT", width:740,
+				displayLoading:true
+			});
+		},
+		modalOpen: function(){
+			myModal.open({
+				url:"modal.asp",
+				pars:"a=1&b=2&c=3".queryToObject(),
+				top:100,
+				closeByEscKey:true
+			});
+		},
+		modalOpenDiv: function(){
+			myModal.openDiv({
+				modalID:"modalDiv01",
+				targetID:"modalContent",
+				width:300,
+				top:100
+			});
+		},
+		modalOpenDiv2: function(){
+			myModal.openDiv({
+				modalID:"modalDiv02",
+				targetID:"modalContent2",
+				width:300,
+				top:100,
+				closeByEscKey:true
+			});
+		},
+		newOpen: function(){
+			myModal.openNew({
+				url:"modal.asp",
+				pars:"",
+				name:"mymodal_new",
+				options: "width=600,height=400,resizable=yes"
+			});
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+		
+		<h2>AXModal</h2>
+		
+		<input type="button" value="창열기" class="AXButton" onclick="fnObj.modalOpen();" />
+		
+		<input type="button" value="DIV열기" class="AXButton" onclick="fnObj.modalOpenDiv();" />
+		<input type="button" value="DIV열기" class="AXButton" onclick="fnObj.modalOpenDiv2();" />
+		
+		<input type="button" value="새창열기" class="AXButton" onclick="fnObj.newOpen();" />
+
+		<div style="display:none;">
+			<div id="modalContent" style="padding:20px;">
+				111<br/>
+				222	
+				<br/>
+				<br/>
+				<input type="button" value="창닫기" class="AXButton" onclick="myModal.close('modalDiv01');" />
+			</div>
+			<div id="modalContent2" style="padding:20px;">
+				999999999<br/>
+				8888888
+				<br/>
+				<br/>
+				<input type="button" value="창닫기" class="AXButton" onclick="myModal.close('modalDiv02');" />
+			</div>
+		</div>
+		
+		<div class="Hspace10"></div>
+
+	</div>
+
+</body>
+</html>

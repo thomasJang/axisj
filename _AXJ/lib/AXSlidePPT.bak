@@ -1,0 +1,433 @@
+/*!
+ * axisJ Javascript Library Version 1.0
+ * http://axisJ.com
+ * 
+ * 아래 소스의 라이선스는 axisJ.com 에서 확인 하실 수 있습니다.
+ * http://axisJ.com/license
+ * axisJ를 사용하시려면 라이선스 페이지를 확인 및 숙지 후 사용 하시기 바람니다. 무단 사용시 예상치 못한 피해가 발생 하실 수 있습니다.
+ */
+
+var AXSlidePPT = Class.create(AXJ, {
+    version: "AXSlidePPT V0.1",
+    author: "tom@axisj.com",
+	logs: [
+		"2014-02-06 오후 8:31:00 - tom: start"
+	],
+    initialize: function(AXJ_super) {
+        AXJ_super();
+		this.config.theme = "AXSlidePPT";
+    },
+    init: function() {
+		var cfg = this.config;
+		var _this = this;
+		
+		this.domTarget = axdom("#"+cfg.targetID);
+		this.domTarget.addClass(cfg.theme);
+		this.domTarget.attr("onselectstart", "return false;");
+		
+		axdom(window).resize(this.windowResize.bind(this));
+		
+		/*
+		this.myProgress = new AXProgress();
+		this.myProgress.setConfig({
+			theme:"AXCircleProgress",
+			totalCount: cfg.slides.length, 
+			width:66, 
+			top:66, 
+			title:"AXSlide Loading"
+		});
+		mask.open();
+		this.myProgress.start();
+		*/
+		
+		//this.preLoadingSlide(this.slideInit.bind(this));
+		
+		this.slideInit(); // 처리후 setSize 호출 해줘야 함.
+		this.setSize();
+		this.isInit = true;
+		this.bindEvent("slide");
+    },
+    setSize: function(){
+    	var _this = this;
+    	var brSize = {};
+    	/*
+		if(axf.browser.mobile){
+			if(axf.browser.name == "iphone"){
+				brSize.width = window.innerWidth;
+				if( window.orientation % 180 ){
+					brSize.height = window.innerHeight;
+				}else{
+					brSize.height = window.innerHeight + 40;
+				}
+			}else if(axf.browser.name == "android"){
+				var rate = ( window.outerWidth == screen.width ) ? window.devicePixelRatio : 1 ;
+				brSize.width = window.outerWidth / rate;
+				brSize.height = window.outerHeight / rate;				
+			}
+			axf.alert(brSize);
+			//this.domTarget.css(brSize);
+		}else{
+			brSize.width = axf.clientWidth();
+			brSize.height = axf.clientHeight();
+		}
+		*/
+		brSize.width = axf.clientWidth();
+		brSize.height = axf.clientHeight();
+		
+		this.domTarget.css({width:brSize.width, height:brSize.height, background:"#eee"});
+		
+		var ratio = 0.35, screenRatio;
+		if((screenRatio = brSize.width / brSize.height) > 2) ratio = 0.5 + (screenRatio - 2)/5;
+    	this.sildeCT.css({height:brSize.height * ratio});
+    	var sildeScrollWidth = 0;
+    	var itemWidth = ((brSize.height * ratio) * 0.6).floor();
+    	var itemHeight = (brSize.height * ratio) - 5;
+    	axf.each(this.slideDoms, function(idx, item){
+			//if(_this.isInit) elem.animate({width:(itemWidth = (brSize.height * ratio) * 0.6), height: (brSize.height * ratio) - 5, left:((itemWidth + 5) * idx) + 5});
+			//else  elem.css({width:(itemWidth = (brSize.height * ratio) * 0.6), height: (brSize.height * ratio) - 5, left:((itemWidth + 5) * idx) + 5});
+			item.axdom.css({width: itemWidth, height: itemHeight, left:(item.left = item._left = ((itemWidth + 5) * idx) + 5)});
+			sildeScrollWidth += itemWidth + 5;
+    	});
+    	this.itemWidth = itemWidth + 5;
+    	this.itemHeight = itemHeight;
+    	this.sildeScrollWidth = sildeScrollWidth;
+    	
+    	//this.sildeScroll.css({width:sildeScrollWidth-5});
+    	//this.sildeScroll1.css({width:sildeScrollWidth-5});
+    },
+    windowResizeApply: function(){
+    	this.setSize();
+    },
+    
+    preLoadingSlide: function(onEnd){
+    	var cfg = this.config;
+
+    	var myProgress = this.myProgress;
+    	var imgIndex = 1;
+    	var loadImg = function(){
+    		if(imgIndex == cfg.slides.length){
+    			if(onEnd) onEnd();
+    			mask.close();
+    			myProgress.close();
+    			return;
+    		}
+			var myImg = new Image();
+			/*trace(cfg.slides[imgIndex].src);*/
+			myImg.src = cfg.slides[imgIndex].src;
+			myImg.onload = function(){
+				myProgress.update();
+				loadImg();
+				imgIndex++;
+			}
+    	};
+    	loadImg();
+    },
+    slideInit: function(){
+    	var cfg = this.config;
+    	var _this = this;
+    	
+    	this.selectedIndex = 0;
+    	
+    	var po = [];
+    	po.push('<div class="AXSlideThumbnail">');
+    	po.push('<div class="AXSlideThumbnailScroll">');
+    	var sidx = 0;
+    	for(;sidx<10;){
+    		po.push('<div class="AXSlideItem" id="AXSlideItem_AX_', sidx,'">', sidx,'</div>');
+    		sidx++;
+    	}
+    	
+    	/*
+    	po.push('<table>');
+    	po.push('	<tbody>');
+    	po.push('		<tr>');
+    	axf.each(cfg.slides, function(){
+    		po.push('<td>');
+    		po.push('<div class="AXSlideItem" style="background:url(' + this.src + ') no-repeat #fff center center;background-size:contain;">');
+    		po.push('</div>');
+    		po.push('</td>');
+    	});
+    	po.push('		</tr>');
+    	po.push('	</tbody>');
+    	po.push('</table>');
+    	*/
+    	po.push('</div>');
+    	po.push('</div>');
+    	this.domTarget.append(po.join(''));
+    	
+    	//po = [];
+    	//po.push('<div class="AXSlideDoc" id="' + cfg.targetID + '_0" style="background:url(' + cfg.slides[this.selectedIndex].src + ') no-repeat #fff center center;background-size:contain;">');
+    	//po.push('</div>');
+    	//this.domTarget.append(po.join(''));
+    	
+    	this.sildeCT = this.domTarget.find(".AXSlideThumbnail");
+    	this.sildeScroll = this.domTarget.find(".AXSlideThumbnailScroll");
+    	this.sildeScroll1 = this.domTarget.find(".AXSlideThumbnailScroll1");
+    	this.sildeScroll.data("left", 0);
+    	var slideDoms = [];
+    	this.domTarget.find(".AXSlideItem").each(function(){
+    		slideDoms.push({id:this.id.split(/_AX_/g).last().number(), axdom:axdom(this), dom:this});
+    	});
+    	this.slideDoms = slideDoms;
+    },
+	bindEvent: function (type) {
+		var cfg = this.config, _this = this;
+		
+		/* event 선언자 */
+		var cancelEvent = this.cancelEvent.bind(this);
+		this.cancelEventBind = function (event) {
+			cancelEvent(event, type);
+		}
+		var onMouseDown = this.onMouseDown.bind(this);
+		this.onMouseDownBind = function (event) {
+			onMouseDown(event, type);
+		}
+		var onMouseMove = this.onMouseMove.bind(this);
+		this.onMouseMoveBind = function (event) {
+			onMouseMove(event, type);
+		}
+		var onMouseUp = this.onMouseUp.bind(this);
+		this.onMouseUpBind = function (event) {
+			onMouseUp(event, type);
+		}
+		//this.onWheelBind = this.onWheel.bind(this);
+		/* event 선언자 */
+
+		this.domTarget.bind("dragstart", this.cancelEventBind);
+		this.sildeCT.bind("mousedown", this.onMouseDownBind);
+
+		/*
+		var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+		if (document.attachEvent) { //if IE (and Opera depending on user setting)
+			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).attachEvent("on" + mousewheelevt, this.SBonWheelBind);
+		} else if (document.addEventListener) { //WC3 browsers
+			if (AXgetId(cfg.targetID)) AXgetId(cfg.targetID).addEventListener(mousewheelevt, this.SBonWheelBind, false);
+		}
+		*/
+		if (document.addEventListener) {
+			var onTouchstart = this.onTouchstart.bind(this);
+			this.touchstartBind = function () {
+				onTouchstart(null, type);
+			};
+			if (axf.getId(cfg.targetID)){
+				axf.getId(cfg.targetID).addEventListener("touchstart", this.touchstartBind, false);
+			}			
+		}
+	},
+	
+	/* events */
+	getMousePosition: function (event, type) {
+		var cfg = this.config;
+		var pos = {left:0, top:0};
+		var mouse = {};
+		if(event.touches){
+			mouse.x = event.touches[0].pageX;
+			mouse.y = event.touches[0].pageY;
+		}else{
+			mouse.x = event.pageX;
+			mouse.y = event.pageY;
+		}
+		if(this.mouseDownAttr){
+			return { ox:this.mouseDownAttr.x, oy:this.mouseDownAttr.y, x: (mouse.x - pos.left), y: (mouse.y - pos.top), dx:(this.mouseDownAttr.x - mouse.x - pos.left), dy:(this.mouseDownAttr.y - mouse.y - pos.top) };
+		}else{
+			return { x: (mouse.x - pos.left), y: (mouse.y - pos.top) };
+		}
+	},
+	onMouseDown: function(event, type){
+		if (this.onMoveEndObserver) clearTimeout(this.onMoveEndObserver);
+		if (this.onMoveAfterObserver) clearTimeout(this.onMoveAfterObserver);
+		
+		var cfg = this.config, _this = this;
+
+		var mouse = this.getMousePosition(event);
+		this.mouseDownAttr = { 
+			sTime: ((new Date()).getTime() / 1000), x:mouse.x, y:mouse.y,
+			ex:mouse.x, ey:mouse.y
+		};
+		
+		if(type == "slide"){
+	    	axf.each(this.slideDoms, function(idx, item){
+	    		item.left = item._left = item.axdom.position().left;
+	    	});
+		}
+		
+		axdom(document.body).bind("mousemove.AXSlidePPT", this.onMouseMoveBind);
+		axdom(document.body).bind("mouseup.AXSlidePPT", this.onMouseUpBind);
+		axdom(document.body).bind("mouseleave.AXSlidePPT", this.onMouseUpBind);
+	},
+	onMouseMove: function(event, type){
+		if (this.onMoveEndObserver) clearTimeout(this.onMoveEndObserver);
+		if (this.onMoveAfterObserver) clearTimeout(this.onMoveAfterObserver);
+		
+		var cfg = this.config, _this = this;
+		var mouse = this.getMousePosition(event);
+		
+		this.moveSlide(event, -mouse.dx);
+		this.mouseDownAttr.eex = mouse.x;
+		this.mouseDownAttr.eey = mouse.y;
+		
+		var onMoveAfter = this.onMoveAfter.bind(this);
+		this.onMoveAfterObserver = setTimeout(function () {
+			onMoveAfter(event);
+		}, 50);
+	},
+	onMouseUp: function(event, type){
+		var cfg = this.config, _this = this;
+		
+		axdom(document.body).unbind("mousemove.AXSlidePPT");
+		axdom(document.body).unbind("mouseup.AXSlidePPT");
+		axdom(document.body).unbind("mouseleave.AXSlidePPT");
+		
+		var moveEndSlide = this.moveEndSlide.bind(this);
+		this.onMoveEndObserver = setTimeout(function () {
+			moveEndSlide();
+		}, 10);
+	},
+	onTouchstart: function(event, type){
+		if (this.onMoveEndObserver) clearTimeout(this.onMoveEndObserver);
+		if (this.onMoveAfterObserver) clearTimeout(this.onMoveAfterObserver);
+		var cfg = this.config, _this = this;
+		var event = window.event;
+		var mouse = this.getMousePosition(event);		
+		this.mouseDownAttr = { 
+			sTime: ((new Date()).getTime() / 1000), x:mouse.x, y:mouse.y,
+			ex:mouse.x, ey:mouse.y
+		};
+		
+		if(type == "slide"){
+	    	axf.each(this.slideDoms, function(idx, item){
+	    		item.left = item._left = item.axdom.position().left;
+	    	});
+		}
+		
+		var touchEnd = this.onTouchEnd.bind(this);
+		this.touchEndBind = function () {
+			touchEnd(event);
+		};	
+		var touchMove = this.onTouchMove.bind(this);
+		this.touchMoveBind = function () {
+			touchMove(event);
+		};
+		
+		if (document.removeEventListener) {
+			document.removeEventListener("touchend", this.touchEndBind, false);
+			document.removeEventListener("touchmove", this.touchMoveBind, false);
+		}
+		if (document.addEventListener) {
+			document.addEventListener("touchend", this.touchEndBind, false);
+			document.addEventListener("touchmove", this.touchMoveBind, false);
+		}			
+	},
+	onTouchMove: function (e) {
+		if (this.onMoveEndObserver) clearTimeout(this.onMoveEndObserver);
+		if (this.onMoveAfterObserver) clearTimeout(this.onMoveAfterObserver);
+		var cfg = this.config, _this = this;
+		
+		var event = window.event;
+		var mouse = this.getMousePosition(event);
+		this.mouseDownAttr.eex = mouse.x;
+		this.mouseDownAttr.eey = mouse.y;
+		
+		this.moveSlide(event, -mouse.dx);
+		
+		var onMoveAfter = this.onMoveAfter.bind(this);
+		this.onMoveAfterObserver = setTimeout(function () {
+			onMoveAfter(mouse);
+		}, 50);
+		
+		if (event.stopPropagation) event.stopPropagation();
+		if (event.preventDefault) event.preventDefault();
+		return false;
+	},
+	onTouchEnd: function (e) {
+		var cfg = this.config;
+		var event = window.event || e;
+		//var mouse = this.getMousePosition(event);
+
+		if (document.removeEventListener) {
+			document.removeEventListener("touchend", this.touchEndBind, false);
+			document.removeEventListener("touchmove", this.touchMoveBind, false);
+		}
+		
+		//trace("moveEndSlide");
+		
+		var moveEndSlide = this.moveEndSlide.bind(this);
+		this.onMoveEndObserver = setTimeout(function () {
+			moveEndSlide();
+		}, 10);
+	},
+	
+	onMoveAfter: function(e){
+		//trace("onMoveAfter");
+		var event = window.event || e;
+		var mouse = this.getMousePosition(event);
+		try{
+			this.mouseDownAttr.sTime = ((new Date()).getTime() / 1000);
+			this.mouseDownAttr.ex = mouse.x;
+			this.mouseDownAttr.ey = mouse.y;
+		}catch(e){
+			//trace(e);
+		}
+	},
+	cancelEvent: function (event, type) {
+		event.stopPropagation(); // disable  event
+		event.preventDefault();
+		return false;
+	},
+	/* events */
+	
+	moveSlide: function(event, dx, type){
+		var cfg = this.config, _this = this;
+		var itemWidth = this.itemWidth;
+		var sildeScrollWidth = this.sildeScrollWidth;
+    	axf.each(this.slideDoms, function(idx, item){
+    		if( (item.left + dx) > sildeScrollWidth-itemWidth ){
+    			//trace(idx);
+    			item.axdom.css( {left:( (item.left + dx) - sildeScrollWidth )} );
+    		}else if( (item.left + dx) < -itemWidth ){
+    			item.axdom.css( {left:( (item.left + dx) + sildeScrollWidth ) } );
+    		}else{
+    			item.axdom.css( {left: (item.left + dx) } );
+    		}
+    	});
+	},
+	moveEndSlide: function(){
+		var cfg = this.config, _this = this;
+		/* 관성발동여부 체크 */
+		if(!this.mouseDownAttr) return;
+		if(this.mouseDownAttr.ex === undefined) return;
+
+		var sTime = this.mouseDownAttr.sTime;
+		var eTime = ((new Date()).getTime() / 1000);
+		var dTime = eTime - sTime;
+
+		var d_ex = this.mouseDownAttr.ex - this.mouseDownAttr.eex;
+		var velocityLeft = Math.ceil((d_ex/dTime)/1); // 속력= 거리/시간
+		var end_x = Math.ceil(d_ex + velocityLeft); //스크롤할때 목적지
+		
+		//trace(end_x.abs());
+		
+		if(isNaN(end_x)) return;
+		
+		//percent, 
+		//this.options.duration * percent, 
+		//0, 
+		//1, 
+		//this.options.duration
+		//trace( end_x, end_x / (Math.PI / 2) );
+		
+		var moving = function(){
+			var move_x;
+			end_x -= ( move_x = (end_x/3) ).floor();
+			if(end_x.abs() < 1 || move_x.abs() < 1) return;
+			//trace(move_x);
+			_this.moveSlide(null, move_x, "");
+			setTimeout(function(){
+				moving();
+			}, 10);
+		};
+		moving();
+
+		this.mouseDownAttr = null;
+	}
+});

@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXEditor</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXEditor.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXUpload.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	
+	<script type="text/javascript" src="../../_AXJ/lib/AXDOMRange.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXEditor.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXUpload.js"></script>
+	
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
+	<script type="text/javascript">
+	var pageID = "withAXUpload";
+		
+	var myEditor = new AXEditor();
+	var myUpload = new AXUpload();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			myEditor.setConfig({
+				targetID: "AXEditorTarget",
+				lang: "kr",
+				height:300,
+				frameSrc: "../../_AXJ/lib/AXEditor.html",
+				editorFontFamily: "Malgun Gothic",
+				fonts:["Malgun Gothic","Gulim","Dotum","궁서"],
+				onReady: function(){
+					myEditor.setContent($("#editContent"));
+				}
+			});
+			
+			fnObj.upload.init();
+
+		},
+		upload: {
+			init: function(){
+				myUpload.setSetting({
+					button_image_url: "../../_AXJ/ui/default/img/AXBtnUpload_69x32.png",
+					button_width: "69",
+					button_height: "32",
+					button_placeholder_id: "spanButtonPlaceHolder",
+					queueBox_id: "uploadQueueBox",
+					flash_url : "../../_AXJ/lib/swfupload.swf",
+					upload_url:"uploadFile.asp",
+					delete_url:"deleteFile.asp",
+					file_types : "*.*",
+					file_types_description : "All Files",
+					file_upload_limit : 100,
+					onStartUpload: fnObj.upload.onStartUpload,
+					onEndUpload: fnObj.upload.onEndUpload,
+					onEndFileUpload: fnObj.upload.onEndFileUpload,
+					onEndFileDelete: fnObj.upload.onEndFileDelete
+				});
+				
+				/*
+				if(attFiles.length > 0){
+					myUpload.setUploadedList(attFiles);
+				}
+				*/
+				
+			},
+			onStartUpload: function(){
+				$("#cancelBtn").get(0).disabled = false;
+			},
+			onEndUpload: function(){
+				$("#cancelBtn").get(0).disabled = true;
+			},
+			cancelUpload: function(){
+				myUpload.cancelUpload();
+			},
+			onEndFileUpload: function(file){
+				//{id:"", ti:"", nm:"", ty:"", sz:"", path:"", thumb:""}
+				//editor 에 이미지 삽입
+				myEditor.insertIMG(file);
+			},
+			onEndFileDelete: function(file){
+				myEditor.removeIMG("MF_"+file.nm.replace(file.ty, "").dec());
+			},
+			getFileList: function(arg){
+				var myFileList = myUpload.getUploadedList(arg);
+				alert(myFileList);
+			},
+			getSelectFileList: function(arg){
+				var myFileList = myUpload.getSelectUploadedList(arg);
+				alert(myFileList);
+			},
+			deleteSelect: function(arg){
+				if(!confirm("정말 삭제하시겠습니까?")) return;
+				myUpload.deleteSelect(arg);
+			}
+		},
+		saveEditor: function(){
+			//AXEditor 의 내용 얻기
+			var myContent = myEditor.getContent();
+			var content = [];
+			while(myContent.length > 0){
+				content.push("content="+myContent.substr(0, 102399).enc());
+				myContent = myContent.substr(102399);
+			}
+			alert(content);
+			
+			//AXUpload 의 파일 리스트 얻기
+			var files = myUpload.getUploadedList();
+			var fpas = [];
+			$.each(files, function(index, f){
+				fpas.push("attFileName="+f.nm+"&attPath="+f.path+"&attFileType="+f.ty+"&attTitle="+f.ti+"&attFileSize="+f.size+"&attthumb="+f.thumb);
+			});
+			alert(fpas);
+			
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h2>AXEditor with AXUpload</h2>
+		
+		<p>AXUpload5 사용을 권장합니다. AXUpload에서 지원되는 모든 기능은 AXUpload5 에서 사용 가능합니다.</p>
+		
+		<div id="AXEditorTarget"></div>
+		<div id="editContent" style="display:none;">에디터의 사용 법은 ?</div>
+
+		<div class="Hspace10"></div>
+
+		<div class="AXUploadButton">
+			<span id="spanButtonPlaceHolder">업로드 버튼영역</span>
+			<span class="buttonMsg">
+				업로드 하실 파일을 선택해 주세요
+			</span>
+		</div>
+		<div id="uploadQueueBox" class="AXUploadQueueBox" style="height:120px;overflow:auto;padding-bottom:10px;margin-top:5px;"></div>
+		<div style="padding-top:5px;">
+			<input type="button" value="전송중지" class="AXButton" id="cancelBtn" disabled="disabled" onclick="fnObj.upload.cancelUpload();" />
+			<input type="button" value="선택삭제" class="AXButton" onclick="fnObj.upload.deleteSelect();" />
+			<input type="button" value="모두삭제" class="AXButton" onclick="fnObj.upload.deleteSelect('all');" />
+		</div>
+
+		<div class="Hspace20"></div>
+		
+		<div style="padding:5px;" align="center">
+			<input type="button" value="파라미터 추출" class="AXButtonLarge Red" onclick="fnObj.saveEditor();" />
+		</div>
+
+
+		<div class="Hspace20"></div>		
+
+	</div>
+
+</body>
+</html>

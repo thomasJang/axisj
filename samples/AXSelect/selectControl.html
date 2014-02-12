@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXSelect</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
+	<script type="text/javascript">
+	var pageID = "AXSelectControl";
+	var fnObj = {
+		pageStart: function () {
+			
+			AXCode.bind(); // 소스보기
+			
+			$("#AXSelect1").bindSelect({
+				maxHeight: 150,
+				onChange: function(){
+				
+				}
+			});
+			
+		}
+	};
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+
+		<h2>AXSelect bind Select</h2>
+
+		<h3>default</h3>
+		<select name="" class="AXSelect" id="AXSelect1">
+			<option value="">-- 선택하세요 --</option>
+			<option value="1">ABCDE #1</option>
+			<option value="2" selected="selected">ABCDE #2</option>
+			<option value="3">ABCDE #3</option>
+			<option value="4">ABCDE #4</option>
+			<option value="5">ABCDE #5</option>
+			<option value="6">ABCDE #6</option>
+			<option value="7">ABCDE #7</option>
+			<option value="8">ABCDE #8</option>
+		</select>
+		
+		<div class="Hspace10"></div>
+		<input type="button" value="bindSelectSetValue(1)" class="AXButton" onclick="$('#AXSelect1').bindSelectSetValue('1');" />
+		<input type="button" value="bindSelectSetValue(2)" class="AXButton" onclick="$('#AXSelect1').bindSelectSetValue('2');" />
+		<input type="button" value="bindSelectSetValue()" class="AXButton" onclick="$('#AXSelect1').bindSelectSetValue('');" />
+
+	</div>
+
+</body>
+</html>

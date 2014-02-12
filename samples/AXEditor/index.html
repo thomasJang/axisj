@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXEditor</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXEditor.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	
+	<script type="text/javascript" src="../../_AXJ/lib/AXDOMRange.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXEditor.js"></script>
+
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
+	<script type="text/javascript">
+	var pageID = "AXEditor";
+		
+	var myEditor = new AXEditor();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			myEditor.setConfig({
+				targetID: "AXEditorTarget",
+				lang: "kr",
+				height:300,
+				frameSrc: "../../_AXJ/lib/AXEditor.html",
+				editorFontFamily: "Malgun Gothic",
+				fonts:["Malgun Gothic","Gulim","Dotum","궁서"],
+				onReady: function(){
+					myEditor.setContent($("#editContent"));
+					//myEditor.setContent("ABCDEF");
+				}
+			});
+
+		},
+		saveEditor: function(){
+			var myContent = myEditor.getContent();
+			var content = [];
+			while(myContent.length > 0){
+				content.push("content="+myContent.substr(0, 102399).enc());
+				myContent = myContent.substr(102399);
+			}
+			alert(content);
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h2>AXEditor</h2>
+		
+		<div id="AXEditorTarget"></div>
+		<div id="editContent" style="display:none;"><p>sdfsfsdfdsfd에디터의 사용 법은 ? asdfsdfsdfsd</p></div>
+		<div class="Hspace20"></div>
+		
+		<div style="padding:5px;" align="center">
+			<input type="button" value="파라미터 추출" class="AXButtonLarge Red" onclick="fnObj.saveEditor();" />
+		</div>
+
+	</div>
+
+</body>
+</html>

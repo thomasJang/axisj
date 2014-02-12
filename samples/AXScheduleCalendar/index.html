@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXScheduleCalendar</title>
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXScheduleCalendar.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXScheduleCalendar.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<style type="text/css">
+	
+	.leftArrow{
+	    display:block;
+		width:16px;height:16px;
+		background:url(../../_AXJ/ui/default/img/leftArrows.png) no-repeat -7px -4px;
+	}
+	.rightArrow{
+	    display:block;
+		width:16px;height:16px;
+		background:url(../../_AXJ/ui/default/img/rightArrows.png) no-repeat -5px -4px;
+	}
+	</style>
+
+
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">	
+	var pageID = "AXScheduleCalendar";
+	var myModal = new AXModal();
+	var myCalendar = new AXScheduleCalendar();
+	var myGrid = new AXGrid();
+	var fnObj = {
+		pageStart: function (h, w) {
+	        
+	        AXCode.bind(); // 소스보기
+	        
+			myModal.setConfig({ windowID: "myModalCT", width: 860 });
+	
+			$("#calendarViewMode").bindSegment({
+				options: [
+	                { optionValue: "D", optionText: "일" },
+	                { optionValue: "W", optionText: "주" },
+	                { optionValue: "M", optionText: "월" }
+				],
+				onChange: function () {
+					fnObj.calendar.setViewMode(this.selectedOption.optionValue);
+				}
+			});
+			
+			fnObj.grid.init();
+			fnObj.calendar.init();
+			
+		},
+		pageResize: function () {
+	
+		},
+		calendar: {
+			init: function () {
+				
+				myCalendar.setConfig({
+					targetID: "AXCalendarTarget",
+					displayID: "calendarDisplay",
+					toDay: (new Date()).print(),
+					viewMode: "M",
+					onChangeView: function(){
+						$('#calendarViewMode').setValueInput(this.viewMode);
+					},
+					onChangeDate: function () {
+						if (this.viewMode == "M") {
+							var toDay = (new Date()).print("yyyymm");
+							var calendarDay = this.date.print("yyyymm");
+							if (toDay == calendarDay) {
+								$("#goToday").removeClass("Blue");
+								$("#goToday").get(0).disabled = true;
+							} else {
+								$("#goToday").addClass("Blue");
+								$("#goToday").get(0).disabled = false;
+							}
+						} else if (this.viewMode == "W") {
+							var toDay = (new Date()).print().date();
+							var calendarDay = this.date;
+							var weekStart = calendarDay.add(-calendarDay.getDay());
+							var isToday = false;
+							for (var a = 0; a < 7; a++) {
+								if (toDay.diff(weekStart) == 0) isToday = true;
+								weekStart = weekStart.add(1);
+							}
+							if (isToday) {
+								$("#goToday").removeClass("Blue");
+								$("#goToday").get(0).disabled = true;
+							} else {
+								$("#goToday").addClass("Blue");
+								$("#goToday").get(0).disabled = false;
+							}
+						} else if (this.viewMode == "D") {
+							var toDay = (new Date()).print().date();
+							var calendarDay = this.date;
+							var isToday = false;
+							if (toDay.diff(calendarDay) == 0) isToday = true;
+	
+							if (isToday) {
+								$("#goToday").removeClass("Blue");
+								$("#goToday").get(0).disabled = true;
+							} else {
+								$("#goToday").addClass("Blue");
+								$("#goToday").get(0).disabled = false;
+							}
+						}
+					},
+					onclick: function () {
+	
+						myModal.open({
+							url: "/Template/WBS/UI/calendarView.aspx",
+							pars: { schduleid: this.item.schduleid },
+							width: 640,
+							top: 20
+						});
+	
+					}
+				});
+				fnObj.calendar.load();
+			},
+			move: function (direction) {
+				myCalendar.moveDate(direction);
+				fnObj.calendar.load();
+			},
+			goToday: function () {
+				myCalendar.goToday();
+			},
+			setViewMode: function (viewMode) {
+				myCalendar.setViewMode(viewMode);
+			},
+			load: function () {
+				
+                var list = [
+			        { schduleid: 1, schedulename: '일정 1', sdate: "2013-10-09", edate: "2013-10-09" },
+			        { schduleid: 2, schedulename: '일정 2', sdate: "2013-10-09", edate: "2013-11-18" },
+			        { schduleid: 3, schedulename: '일정 3', sdate: "2013-10-10", edate: "2013-10-16" },
+			        { schduleid: 4, schedulename: '일정 4', sdate: "2013-10-11", edate: "2013-10-11" },
+			        { schduleid: 5, schedulename: '일정 5', sdate: "2013-10-13", edate: "2013-10-14" },
+			        { schduleid: 6, schedulename: '일정 6', sdate: "2013-10-13", edate: "2013-10-14" },
+			        { schduleid: 7, schedulename: '일정 7', sdate: "2013-10-24", edate: "2013-10-30" },
+			        { schduleid: 8, schedulename: '일정 8', sdate: "2013-10-31", edate: "2013-11-05" },
+			        { schduleid: 9, schedulename: '일정 9', sdate: "2013-10-11", edate: "2013-10-12" }
+		        ];
+
+		        myGrid.setList(list);
+		        myCalendar.setList(list);
+			}
+		},
+		grid: {
+			init: function () {
+				myGrid.setConfig({
+					targetID: "AXCalendarList",
+					passiveMode: false,
+					colGroup: [
+	                    { key: "schduleid", label: "ID", width: "40", align: "center" },
+	                    { key: "schedulename", label: "Schedule", width: "120" },
+						{
+							key: "dates", label: "dates", width: "100", formatter: function () {
+								return this.item.sdate.date().print("MM/DD") + "~" + this.item.edate.date().print("MM/DD");
+							}
+						}
+					],
+					body: {
+						onclick: function () {
+	
+							myModal.open({
+								url: "/Template/WBS/UI/calendarView.aspx",
+								pars: { schduleid: this.item.schduleid },
+								width: 640,
+								top: 20
+							});
+	
+						}
+					},
+					page: {
+						paging: false,
+						status: { formatter: null }
+					}
+				});
+	
+			}
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+		
+		    <h2>&nbsp;&nbsp;AXScheduleCalendar</h2>
+
+            <div id="calendarControler">
+                <table style="table-layout:fixed;width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="padding-right:5px;">
+                                <table style="table-layout:fixed;width:100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <button class="AXButton" id="goToday" onclick="fnObj.calendar.goToday();" disabled="disabled"><span>Today</span></button>
+                                                <button class="AXButton" onclick="fnObj.calendar.move(-1);"><span class="leftArrow"></span></button>
+                                                <button class="AXButton" onclick="fnObj.calendar.move(1);"><span class="rightArrow"></span></button>
+                                                <span id="calendarDisplay" style="padding-left:20px;font-weight:bold;"></span>
+                                            </td>
+                                            <td align="right">
+                                                <input type="text" name="" value="M" id="calendarViewMode" style="width:150px;height:20px;" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="300">
+
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                    
+            </div>
+		    
+            <table style="table-layout:fixed;width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="padding-right:5px;">
+                            <div id="AXCalendarTarget" style="height:600px;"></div>
+                        </td>
+                        <td width="300">
+                            <div id="AXCalendarList" style="height:600px;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+		    <div class="padding10">
+			    
+		    </div>
+		
+    </div>
+</body>
+</html>

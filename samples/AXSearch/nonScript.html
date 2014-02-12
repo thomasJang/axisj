@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXSearch</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
+	<script type="text/javascript">
+	var pageID = "nonScript";
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+			$("#expandHandle").click(function(){
+				if($(this).data("expand") == "open"){
+					$(this).data("expand", "close");
+					$(".expandShowHideTarget").hide();
+					$(this).html("상세검색");
+				}else{
+					$(this).data("expand", "open");
+					$(".expandShowHideTarget").show();
+					$(this).html("상세검색창 닫기");
+				}
+			});
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 100);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h2>AXSearch</h2>
+			
+			<h3>style 3 - 스타일시트 가이드</h3>
+			
+			<div>
+				<table cellpadding="0" cellspacing="0" class="AXSearchTable">
+					<colgroup>
+						<col width="100" />
+						<col />
+						<col width="100" />
+						<col />
+					</colgroup>
+					<tbody>
+						<tr class="gray">
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td>
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+								</div>
+							</td>
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+									<input type="button" class="AXButton" value="Search" />
+								</div>
+							</td>	
+						</tr>
+						<tr class="expandShowHideTarget" style="display:none;">
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td>
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+								</div>
+							</td>
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+									<input type="button" class="AXButton" value="Search" />
+								</div>
+							</td>	
+						</tr>
+						<tr class="expandShowHideTarget" style="display:none;">
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td>
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+								</div>
+							</td>
+							<th>
+								<div class="tdRel">검색어</div>
+							</th>
+							<td class="last">
+								<div class="tdRel">
+									<input type="text" name="" value="" class="AXInput" />
+									<input type="button" class="AXButton" value="Search" />
+								</div>
+							</td>	
+						</tr>
+					</tbody>
+				</table>
+				<div class="AXSearch">
+					<a href="#axexec" class="expandHandle" id="expandHandle">상세검색</a>
+				</div>
+			</div>
+			
+			
+	</div>
+
+</body>
+</html>

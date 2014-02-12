@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXUIScroll</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2{font-family:consolas;}
+	
+	.containerBox{}
+	.containerBox a{
+		display:block;white-space:nowrap;text-decoration:none;color:#444;border-bottom:1px solid #888;height:25px;line-height:25px;
+		white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+		}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<script type="text/javascript">
+	var pageID = "AXScroll";
+	var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+	var myUIScroll2 = new AXScroll(); // 스크롤 인스턴스 선언
+	var fnObj = {
+		pageStart: function(){
+			AXUtil.readyMobileConsole();
+			
+			//trace(11);
+			
+			AXCode.bind(); // 소스보기
+			
+			myUIScroll.setConfig({
+				targetID:"UIScrollContainer",
+				scrollID:"UIScrollTarget"
+			});
+
+			myUIScroll2.setConfig({
+				targetID:"UIScrollContainer2",
+				scrollID:"UIScrollTarget2"
+			});
+
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h2>AXScroll</h2>
+		<p>bounces 속성을 사용 하지 않는 경우 스크롤의 시작과 끝에서 페이지 스크롤 됩니다.</p>
+		<div style="position:relative;border:1px solid #888;background:#eee;width:300px;height:300px;box-shadow:0px 0px 3px #888;">
+			<div class="containerBox" id="UIScrollContainer" style="background:#fff;border:1px solid #ccc;overflow:hidden;width:140px;height:280px;position:absolute;left:10px;top:10px;">
+				<div class="inBox" id="UIScrollTarget">
+					<div style="padding:5px;">
+						<a href="#" style="">1. Are U FEEL ! - 양동근Are U FEEL ! - 양동근Are U FEEL ! - 양동근Are U FEEL ! - 양동근</a>
+						<a href="#" style="">2. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">3. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">4. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">5. AxisJ - 장기영</a>
+						<a href="#" style="">6. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">7. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">8. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">9. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">10. AxisJ - 장기영</a>
+						<a href="#" style="">11. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">12. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">13. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">14. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">15. AxisJ - 장기영</a>
+						<a href="#" style="">16.Are U FEEL ! - 양동근</a>
+						<a href="#" style="">17. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">18. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">19. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">20. AxisJ - 장기영</a>
+						<a href="#" style="">1. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">2. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">3. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">4. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">5. AxisJ - 장기영</a>
+						<a href="#" style="">6. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">7. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">8. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">9. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">10. AxisJ - 장기영</a>
+						<a href="#" style="">11. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">12. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">13. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">14. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">15. AxisJ - 장기영</a>
+						<a href="#" style="">16.Are U FEEL ! - 양동근</a>
+						<a href="#" style="">17. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">18. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">19. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">20. AxisJ - 장기영</a>
+					</div>
+				</div>
+			</div>
+	
+			<div class="containerBox" id="UIScrollContainer2" style="background:#FFFFEE;border:1px solid #888;overflow:hidden;width:130px;height:280px;position:absolute;left:160px;top:10px;">
+				<div class="inBox" id="UIScrollTarget2">
+					<div style="padding:5px;">
+						<a href="#" style="">1. Are U FEEL ! - 양동근Are U FEEL ! - 양동근Are U FEEL ! - 양동근Are U FEEL ! - 양동근</a>
+						<a href="#" style="">2. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">3. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">4. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">5. AxisJ - 장기영</a>
+						<a href="#" style="">6. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">7. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">8. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">9. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">10. AxisJ - 장기영</a>
+						<a href="#" style="">11. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">12. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">13. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">14. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">15. AxisJ - 장기영</a>
+						<a href="#" style="">16.Are U FEEL ! - 양동근</a>
+						<a href="#" style="">17. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">18. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">19. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">20. AxisJ - 장기영</a>
+						<a href="#" style="">1. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">2. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">3. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">4. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">5. AxisJ - 장기영</a>
+						<a href="#" style="">6. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">7. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">8. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">9. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">10. AxisJ - 장기영</a>
+						<a href="#" style="">11. Are U FEEL ! - 양동근</a>
+						<a href="#" style="">12. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">13. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">14. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">15. AxisJ - 장기영</a>
+						<a href="#" style="">16.Are U FEEL ! - 양동근</a>
+						<a href="#" style="">17. 비트를 찾아나서 - 양동근</a>
+						<a href="#" style="">18. HO박씨 스타일 - 양동근</a>
+						<a href="#" style="">19. 머피의 법칙 - 양동근</a>
+						<a href="#" style="">20. AxisJ - 장기영</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="AXHspace20"></div>
+		<div class="AXHspace20"></div>
+		<div class="AXHspace20"></div>
+		
+	</div>
+
+</body>
+</html>

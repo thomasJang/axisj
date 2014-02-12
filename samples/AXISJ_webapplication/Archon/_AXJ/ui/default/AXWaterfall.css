@@ -1,0 +1,18 @@
+﻿/*!
+ * AxisJ Javascript Library Version 1.0
+ * http://AxisJ.com
+ * 
+ * Copyright AxisJ
+ * http://AxisJ.com/license
+ * Date 2012-09-28 오후 1:17:52
+ */
+ 
+.AXWaterfall{
+ 	position:relative;
+}
+	.AXWaterfall .WaterBox{
+		position:absolute;left:-200px;top:0px;
+	}
+	.AXWaterfall .WaterBoxMobile{
+		position:absolute;left:-200px;top:0px;width:300px;
+	}

@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXUpload</title>
+    
+    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXUpload.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js?v=001"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXUpload.js"></script>
+
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript">
+	var myUpload = new AXUpload();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			fnObj.upload.init();
+		},
+		upload: {
+			init: function(){
+				myUpload.setSetting({
+					button_image_url: "../../_AXJ/ui/default/img/AXBtnUpload_69x32.png",
+					button_width: "69",
+					button_height: "32",
+					button_placeholder_id: "spanButtonPlaceHolder",
+					queueBox_id: "uploadQueueBox",
+					flash_url : "../../_AXJ/lib/swfupload.swf",
+					upload_url:"uploadFile.asp",
+					delete_url:"deleteFile.asp",
+					file_types : "*.*",
+					file_types_description : "All Files",
+					file_size_limit:(1024*1024*20),
+					file_upload_limit : 10,
+					onStartUpload: fnObj.upload.onStartUpload,
+					onEndUpload: fnObj.upload.onEndUpload,
+					onEndFileUpload: fnObj.upload.onEndFileUpload,
+					onEndFileDelete: fnObj.upload.onEndFileDelete,
+					onclick: function(file){
+						AXUtil.alert(file);
+					}
+				});
+				
+				/*
+				if(attFiles.length > 0){
+					myUpload.setUploadedList(attFiles);
+				}
+				*/
+				var url = "loadFileList.asp";
+				var pars = "dummy="+AXUtil.timekey();
+				new AXReq(url, {pars:pars, onsucc:function(res){
+					if(res.result == "ok"){
+						//{id:"", ti:"", nm:"", ty:"", size:"", path:"", thumb:""}
+						//trace(res.ds);
+						myUpload.setUploadedList(res.ds);
+					}else{
+						alert(res.msg.dec());
+					}
+				}});
+				
+			},
+			onStartUpload: function(){
+				$("#cancelBtn").get(0).disabled = false;
+			},
+			onEndUpload: function(){
+				
+				$("#cancelBtn").get(0).disabled = true;
+			},
+			cancelUpload: function(){
+				myUpload.cancelUpload();
+			},
+			onEndFileUpload: function(file){
+				//{id:"", ti:"", nm:"", ty:"", size:"", path:"", thumb:""}
+				//editor 에 이미지 삽입
+				//myEditor.insertIMG(file);
+			},
+			onEndFileDelete: function(file){
+				//myEditor.removeIMG("MF_"+file.nm.replace(file.ty, "").dec());
+			},
+			getFileList: function(arg){
+				var myFileList = myUpload.getUploadedList(arg);
+				alert(myFileList);
+			},
+			getSelectFileList: function(arg){
+				var myFileList = myUpload.getSelectUploadedList(arg);
+				alert(myFileList);
+			},
+			deleteSelect: function(arg){
+				if(!confirm("정말 삭제하시겠습니까?")) return;
+				myUpload.deleteSelect(arg);
+			}
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div class="contentContainer">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue on">MultiUpload</a>
+				<a href="single.html" class="AXTab Blue">SingleUpload</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXUpload</h2>
+
+		<div class="AXUploadButton">
+			<span id="spanButtonPlaceHolder">업로드 버튼영역</span>
+			<span class="buttonMsg">
+				업로드 하실 파일을 선택해 주세요
+			</span>
+		</div>
+		<div id="uploadQueueBox" class="AXUploadQueueBox" style="height:120px;overflow:auto;padding-bottom:10px;margin-top:5px;position:relative;"></div>
+		
+		<div style="padding-top:5px;">
+			<input type="button" value="전송중지" class="AXButton" id="cancelBtn" disabled="disabled" onclick="fnObj.upload.cancelUpload();" />
+			<input type="button" value="선택삭제" class="AXButton" onclick="fnObj.upload.deleteSelect();" />
+			<input type="button" value="모두삭제" class="AXButton" onclick="fnObj.upload.deleteSelect('all');" />
+
+			<input type="button" value="Get Object" class="AXButton" onclick="fnObj.upload.getFileList('object')" />
+			<input type="button" value="Get Param" class="AXButton" onclick="fnObj.upload.getFileList('param')" />
+			<input type="button" value="Get Select Param" class="AXButton" onclick="fnObj.upload.getSelectFileList('param')" />
+			<input type="button" value="Get Select Object" class="AXButton" onclick="fnObj.upload.getSelectFileList('object')" />
+		</div>
+
+		<div class="Hspace20"></div>
+
+	</div>
+
+</body>
+</html>
