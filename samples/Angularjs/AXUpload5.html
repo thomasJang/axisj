@@ -115,7 +115,6 @@
             });
         };
 
-        
         // load fileList
         $scope.loadFileList = function(){
 			// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- s
@@ -166,6 +165,17 @@
 		</div>
 
 		<div class="Hspace20"></div>
+
+		<div ng-controller="ax_upload_controller">
+			<div class="AXUpload5"></div>
+			<div class="Hspace10"></div>
+			<div class="AXUpload5QueueBox" style="height:188px;"></div>
+			<div class="Hspace10"></div>
+			<div style="padding-top:5px;">
+				<button class="AXButton" ng-click="deleteSelect()">선택삭제</button>
+				<button class="AXButton" ng-click="deleteSelect('all')">모두삭제</button>
+			</div>
+		</div>
 
 	</div>
 </body>

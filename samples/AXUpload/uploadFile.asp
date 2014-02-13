@@ -6,7 +6,7 @@ Response.AddHeader "Pragma","no-cache"
 Response.AddHeader "cache-control", "no-staff"
 Response.Expires  = -1
 
-uploadRoot = "/_file/"
+uploadRoot = "/samples/_file/"
 
 '## functions ######################################################################################
 function getNewFileName()

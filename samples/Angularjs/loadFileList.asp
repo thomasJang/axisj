@@ -11,7 +11,7 @@ end function
 
 
 Set fso = CreateObject("Scripting.FileSystemObject")
-Set f = fso.GetFolder(server.mappath("/_file/1/"))
+Set f = fso.GetFolder(server.mappath("/samples/_file/1/"))
 'Set sf = f.SubFolders
 Set fc = f.Files
 
