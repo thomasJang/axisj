@@ -1,5 +1,5 @@
 ﻿@import "csslib";
-
+@import "LessUtils";
 // CSS
 /*!
  * AxisJ Javascript Library Version 1.0
@@ -139,210 +139,132 @@
 
 
 
-/* ------------------ AXButton ----------------------- */
-.AXButton{
+// S:AXButton ///////////////////////////////////////////
+// AXButton Preset //
+.axbutton-colors-normal(){
+	@color-fill-a:#fdfdfd;
+	@color-fill-b:#e8e8e8;	
+	@color-stroke:#b9babc;
+	@color-text:#6e7a85;
+	@color-bg:#fdfdfd;
+}
+.axbutton-colors-disabled(){
+	@color-fill-a:#d7d7d7;
+	@color-fill-b:#d7d7d7;
+	@color-stroke:#ccc;
+	@color-text:#eaeaea;
+	@color-bg:#d7d7d7;
+}
+
+// AXButton Style //
+.axbutton-style-normal{
+	.axbutton-colors-normal();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px 1px 0px rgba(255,255,255,0.8);
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius(4px);	
+}
+.axbutton-style-disabled{
+	.axbutton-colors-disabled();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.10);	
+	box-shadow: none;
+	.util-border-radius(4px);		
+}
+.axbutton-style-size {
+	&.W20			{width:20px;}	
+	&.W30			{width:30px;}	
+	&.W40			{width:40px;}	
+	&.W50			{width:50px;}	
+	&.W60			{width:60px;}	
+	&.W70			{width:70px;}	
+	&.W80			{width:80px;}								
+	&.W90			{width:90px;}								
+	&.W100			{width:100px;}								
+	&.W110			{width:110px;}	
+	&.W120			{width:120px;}	
+	&.W130			{width:130px;}	
+	&.W140			{width:140px;}	
+	&.W150			{width:150px;}	
+	&.W160			{width:160px;}	
+	&.W170			{width:170px;}	
+	&.W180			{width:180px;}	
+	&.W190			{width:190px;}	
+	&.W200			{width:200px;}			
+}
+
+// AXButton Events //
+.axbutton-event-normal{
+	&				{.axbutton-style-normal;}
+	&:hover, &:focus{
+		.axbutton-colors-normal();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}		
+}
+.axbutton-event-disabled{
+	&				{.axbutton-style-disabled;}
+	&:hover, &:focus{
+		.axbutton-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+// AXButton Component //
+//AXButton
+.AXButton {
 	position:relative;
+	font-size:12px; 
+	height:26px;line-height:26px;
+	margin:0;padding:0 10px;
 	cursor:pointer;
-	vertical-align:middle;
-	height:26px;
-	padding:0px 5px;
-	margin:0px 0px;
-	border:1px solid #b9babc;
-	.Radius(4px);
-	font-size:12px;color:#6e7a86;line-height:1em;
-	background:url(img/defaultRegular.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	vertical-align:middle;	
 	outline:none;
-}
-.AXButton:hover, .AXButton:focus{
-	border:1px solid #949fa8;
-	background-position:0px -26px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButton:active{
-	border:1px solid #b9babc;
-	background-position:0px -52px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButton SPAN{
-	display:block;
-	height:24px;line-height:24px;
-	vertical-align:middle;
+	&				{.axbutton-event-normal;}
+	&[disabled]		{.axbutton-event-disabled;}	
+	.axbutton-style-size;								
 }
 
+
+//AXButton Small
 .AXButtonSmall{
+	position:relative;
+	font-size:11px; 
+	height:20px;line-height:20px;
+	margin:0;padding:0 10px;
 	cursor:pointer;
-	height:20px;
-	padding:0px 5px;
-	margin:0px 0px;
-	border:1px solid #b9babc;.Radius(4px);
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	vertical-align:middle;	
 	outline:none;
-}
-.AXButtonSmall:hover, .AXButtonSmall:focus{
-	border:1px solid #949fa8;
-	background-position:0px -20px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButtonSmall:active{
-	border:1px solid #b9babc;
-	background-position:0px -40px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButtonSmall SPAN{
-	display:block;
-	height:18px;line-height:18px;
-	vertical-align:middle;
+	&				{.axbutton-event-normal;}
+	&[disabled]		{.axbutton-event-disabled;}	
+	.axbutton-style-size;									
 }
 
-.AXButtonExtraSmall{
-	cursor:pointer;
-	height:20px;
-	padding:0px 5px;
-	margin:0px 0px;
-	border:1px solid #b9babc;.Radius(4px);
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
-	outline:none;
-}
-.AXButtonExtraSmall:hover, .AXButtonExtraSmall:focus{
-	border:1px solid #949fa8;
-	background-position:0px -20px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButtonExtraSmall:active{
-	border:1px solid #b9babc;
-	background-position:0px -40px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButtonExtraSmall SPAN{
-	display:block;
-	height:18px;line-height:18px;
-	vertical-align:middle;
-}
-
+//AXButton Large
 .AXButtonLarge{
+	position:relative;
+	font-size:12px; 
+	height:46px;line-height:46px;
+	margin:0;padding:0 10px;
 	cursor:pointer;
-	height:46px;
-	padding:0px 10px;
-	margin:0px 0px;
-	border:1px solid #b9babc;.Radius(4px);
-	font-size:12px;color:#6e7a86;line-height:46px;
-	background:url(img/defaultLarge.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	vertical-align:middle;	
 	outline:none;
+	&				{.axbutton-event-normal;}
+	&[disabled]		{.axbutton-event-disabled;}		
+	.axbutton-style-size;		
 }
-.AXButtonLarge:hover, .AXButtonLarge:focus{
-	border:1px solid #949fa8;
-	background-position:0px -46px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButtonLarge:active{
-	border:1px solid #b9babc;
-	background-position:0px -92px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButtonLarge SPAN{
-	display:block;
-	height:44px;line-height:44px;
-	vertical-align:middle;
-}
+// E:AXButton ///////////////////////////////////////////
 
-.AXButtonExtraSmall.W20{width:20px;padding:0px;}
-.AXButtonExtraSmall.W30{width:30px;padding:0px;}
-.AXButtonExtraSmall.W40{width:40px;padding:0px;}
-.AXButtonExtraSmall.W50{width:50px;padding:0px;}
-.AXButtonExtraSmall.W60{width:60px;padding:0px;}
-.AXButtonExtraSmall.W70{width:70px;padding:0px;}
-.AXButtonExtraSmall.W80{width:80px;padding:0px;}
-.AXButtonExtraSmall.W90{width:90px;padding:0px;}
-.AXButtonExtraSmall.W100{width:100px;padding:0px;}
-.AXButtonExtraSmall.W110{width:110px;padding:0px;}
-.AXButtonExtraSmall.W120{width:120px;padding:0px;}
-.AXButtonExtraSmall.W130{width:130px;padding:0px;}
-.AXButtonExtraSmall.W140{width:140px;padding:0px;}
-.AXButtonExtraSmall.W150{width:150px;padding:0px;}
-.AXButtonExtraSmall.W160{width:160px;padding:0px;}
-.AXButtonExtraSmall.W170{width:170px;padding:0px;}
-.AXButtonExtraSmall.W180{width:180px;padding:0px;}
-.AXButtonExtraSmall.W190{width:190px;padding:0px;}
-.AXButtonExtraSmall.W200{width:200px;padding:0px;}
 
-.AXButtonSmall.W20{width:20px;padding:0px;}
-.AXButtonSmall.W30{width:30px;padding:0px;}
-.AXButtonSmall.W40{width:40px;padding:0px;}
-.AXButtonSmall.W50{width:50px;padding:0px;}
-.AXButtonSmall.W60{width:60px;padding:0px;}
-.AXButtonSmall.W70{width:70px;padding:0px;}
-.AXButtonSmall.W80{width:80px;padding:0px;}
-.AXButtonSmall.W90{width:90px;padding:0px;}
-.AXButtonSmall.W100{width:100px;padding:0px;}
-.AXButtonSmall.W110{width:110px;padding:0px;}
-.AXButtonSmall.W120{width:120px;padding:0px;}
-.AXButtonSmall.W130{width:130px;padding:0px;}
-.AXButtonSmall.W140{width:140px;padding:0px;}
-.AXButtonSmall.W150{width:150px;padding:0px;}
-.AXButtonSmall.W160{width:160px;padding:0px;}
-.AXButtonSmall.W170{width:170px;padding:0px;}
-.AXButtonSmall.W180{width:180px;padding:0px;}
-.AXButtonSmall.W190{width:190px;padding:0px;}
-.AXButtonSmall.W200{width:200px;padding:0px;}
-
-.AXButton.W20{width:20px;padding:0px;}
-.AXButton.W30{width:30px;padding:0px;}
-.AXButton.W40{width:40px;padding:0px;}
-.AXButton.W50{width:50px;padding:0px;}
-.AXButton.W60{width:60px;padding:0px;}
-.AXButton.W70{width:70px;padding:0px;}
-.AXButton.W80{width:80px;padding:0px;}
-.AXButton.W90{width:90px;padding:0px;}
-.AXButton.W100{width:100px;padding:0px;}
-.AXButton.W110{width:110px;padding:0px;}
-.AXButton.W120{width:120px;padding:0px;}
-.AXButton.W130{width:130px;padding:0px;}
-.AXButton.W140{width:140px;padding:0px;}
-.AXButton.W150{width:150px;padding:0px;}
-.AXButton.W160{width:160px;padding:0px;}
-.AXButton.W170{width:170px;padding:0px;}
-.AXButton.W180{width:180px;padding:0px;}
-.AXButton.W190{width:190px;padding:0px;}
-.AXButton.W200{width:200px;padding:0px;}
-
-.AXButtonLarge.W30{width:30px;padding:0px;}
-.AXButtonLarge.W40{width:40px;padding:0px;}
-.AXButtonLarge.W50{width:50px;padding:0px;}
-.AXButtonLarge.W60{width:60px;padding:0px;}
-.AXButtonLarge.W70{width:70px;padding:0px;}
-.AXButtonLarge.W80{width:80px;padding:0px;}
-.AXButtonLarge.W90{width:90px;padding:0px;}
-.AXButtonLarge.W100{width:100px;padding:0px;}
-.AXButtonLarge.W110{width:110px;padding:0px;}
-.AXButtonLarge.W120{width:120px;padding:0px;}
-.AXButtonLarge.W130{width:130px;padding:0px;}
-.AXButtonLarge.W140{width:140px;padding:0px;}
-.AXButtonLarge.W150{width:150px;padding:0px;}
-.AXButtonLarge.W160{width:160px;padding:0px;}
-.AXButtonLarge.W170{width:170px;padding:0px;}
-.AXButtonLarge.W180{width:180px;padding:0px;}
-.AXButtonLarge.W190{width:190px;padding:0px;}
-.AXButtonLarge.W200{width:200px;padding:0px;}
-
-/* ------------------ AXButton ----------------------- */
 
 .AXNotificationTray{
 	position:fixed;right:10px;top:0px;z-index:5001;

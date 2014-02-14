@@ -11,7 +11,7 @@
  * Feb 12, 2014
  *
  */
-.style-normal {
+.axbutton-style-normal {
   background-color: #fdfdfd;
   background-image: -webkit-linear-gradient(top, #fdfdfd, #e8e8e8);
   background-image: -moz-linear-gradient(top, #fdfdfd, #e8e8e8);
@@ -24,8 +24,14 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.style-classic {
+.axbutton-style-classic {
   background-color: #c1cdd5;
   background-image: -webkit-linear-gradient(top, #c1cdd5, #98a4ae);
   background-image: -moz-linear-gradient(top, #c1cdd5, #98a4ae);
@@ -38,8 +44,14 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.style-blue {
+.axbutton-style-blue {
   background-color: #6faee1;
   background-image: -webkit-linear-gradient(top, #6faee1, #468ec9);
   background-image: -moz-linear-gradient(top, #6faee1, #468ec9);
@@ -52,8 +64,14 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.style-green {
+.axbutton-style-green {
   background-color: #98c87b;
   background-image: -webkit-linear-gradient(top, #98c87b, #79aa5a);
   background-image: -moz-linear-gradient(top, #98c87b, #79aa5a);
@@ -66,8 +84,14 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.style-red {
+.axbutton-style-red {
   background-color: #c65a5b;
   background-image: -webkit-linear-gradient(top, #c65a5b, #a93b3e);
   background-image: -moz-linear-gradient(top, #c65a5b, #a93b3e);
@@ -80,60 +104,201 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.style-disabled {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
+.axbutton-style-disabled {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
   color: #eaeaea;
   border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   box-shadow: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.event-focus {
+.axbutton-event-normal {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(top, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(top, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(top, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(top, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(top, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axbutton-event-normal:hover,
+.axbutton-event-normal:focus {
   background: #e8e8e8;
 }
-.event-focus.Classic {
+.axbutton-event-normal:active {
+  box-shadow: none;
+}
+.axbutton-event-classic {
+  background-color: #c1cdd5;
+  background-image: -webkit-linear-gradient(top, #c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(top, #c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(top, #c1cdd5, #98a4ae);
+  background-image: -ms-linear-gradient(top, #c1cdd5, #98a4ae);
+  background-image: linear-gradient(top, #c1cdd5, #98a4ae);
+  color: #ebf4f7;
+  border: 1px solid #81898e;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axbutton-event-classic:hover,
+.axbutton-event-classic:focus {
   background: #98a4ae;
 }
-.event-focus.Blue {
+.axbutton-event-classic:active {
+  box-shadow: none;
+}
+.axbutton-event-blue {
+  background-color: #6faee1;
+  background-image: -webkit-linear-gradient(top, #6faee1, #468ec9);
+  background-image: -moz-linear-gradient(top, #6faee1, #468ec9);
+  background-image: -o-linear-gradient(top, #6faee1, #468ec9);
+  background-image: -ms-linear-gradient(top, #6faee1, #468ec9);
+  background-image: linear-gradient(top, #6faee1, #468ec9);
+  color: #d0ebfe;
+  border: 1px solid #3f80b1;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axbutton-event-blue:hover,
+.axbutton-event-blue:focus {
   background: #468ec9;
 }
-.event-focus.Green {
+.axbutton-event-blue:active {
+  box-shadow: none;
+}
+.axbutton-event-green {
+  background-color: #98c87b;
+  background-image: -webkit-linear-gradient(top, #98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(top, #98c87b, #79aa5a);
+  background-image: -o-linear-gradient(top, #98c87b, #79aa5a);
+  background-image: -ms-linear-gradient(top, #98c87b, #79aa5a);
+  background-image: linear-gradient(top, #98c87b, #79aa5a);
+  color: #dffebe;
+  border: 1px solid #6a9751;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axbutton-event-green:hover,
+.axbutton-event-green:focus {
   background: #79aa5a;
 }
-.event-focus[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
+.axbutton-event-green:active {
+  box-shadow: none;
+}
+.axbutton-event-red {
+  background-color: #c65a5b;
+  background-image: -webkit-linear-gradient(top, #c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(top, #c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(top, #c65a5b, #a93b3e);
+  background-image: -ms-linear-gradient(top, #c65a5b, #a93b3e);
+  background-image: linear-gradient(top, #c65a5b, #a93b3e);
+  color: #fcccc9;
+  border: 1px solid #87302b;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axbutton-event-red:hover,
+.axbutton-event-red:focus {
+  background: #a93b3e;
+}
+.axbutton-event-red:active {
+  box-shadow: none;
+}
+.axbutton-event-disabled {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
   color: #eaeaea;
   border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axbutton-event-disabled:hover,
+.axbutton-event-disabled:focus {
+  background: #d7d7d7;
+}
+.axbutton-event-disabled:active {
   box-shadow: none;
 }
-.event-active {
-  box-shadow: none;
-}
-.event-active.Classic {
-  box-shadow: none;
-}
-.event-active.Blue {
-  box-shadow: none;
-}
-.event-active.Green {
-  box-shadow: none;
-}
-.event-active.Red {
-  box-shadow: none;
-}
-.event-active[disabled] {
-  box-shadow: none;
+.AXButton {
+  position: relative;
+  font-size: 12px;
+  height: 26px;
+  line-height: 26px;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  vertical-align: middle;
+  outline: none;
 }
 .AXButton {
   background-color: #fdfdfd;
@@ -148,52 +313,18 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
 .AXButton:hover,
 .AXButton:focus {
   background: #e8e8e8;
 }
-.AXButton:hover.Classic,
-.AXButton:focus.Classic {
-  background: #98a4ae;
-}
-.AXButton:hover.Blue,
-.AXButton:focus.Blue {
-  background: #468ec9;
-}
-.AXButton:hover.Green,
-.AXButton:focus.Green {
-  background: #79aa5a;
-}
-.AXButton:hover[disabled],
-.AXButton:focus[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
-  color: #eaeaea;
-  border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  box-shadow: none;
-}
 .AXButton:active {
-  box-shadow: none;
-}
-.AXButton:active.Classic {
-  box-shadow: none;
-}
-.AXButton:active.Blue {
-  box-shadow: none;
-}
-.AXButton:active.Green {
-  box-shadow: none;
-}
-.AXButton:active.Red {
-  box-shadow: none;
-}
-.AXButton:active[disabled] {
   box-shadow: none;
 }
 .AXButton.Classic {
@@ -209,6 +340,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButton.Classic:hover,
+.AXButton.Classic:focus {
+  background: #98a4ae;
+}
+.AXButton.Classic:active {
+  box-shadow: none;
 }
 .AXButton.Blue {
   background-color: #6faee1;
@@ -223,6 +367,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButton.Blue:hover,
+.AXButton.Blue:focus {
+  background: #468ec9;
+}
+.AXButton.Blue:active {
+  box-shadow: none;
 }
 .AXButton.Green {
   background-color: #98c87b;
@@ -237,6 +394,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButton.Green:hover,
+.AXButton.Green:focus {
+  background: #79aa5a;
+}
+.AXButton.Green:active {
+  box-shadow: none;
 }
 .AXButton.Red {
   background-color: #c65a5b;
@@ -251,18 +421,55 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButton.Red:hover,
+.AXButton.Red:focus {
+  background: #a93b3e;
+}
+.AXButton.Red:active {
+  box-shadow: none;
 }
 .AXButton[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
   color: #eaeaea;
   border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   box-shadow: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButton[disabled]:hover,
+.AXButton[disabled]:focus {
+  background: #d7d7d7;
+}
+.AXButton[disabled]:active {
+  box-shadow: none;
+}
+.AXButtonSmall {
+  position: relative;
+  font-size: 11px;
+  height: 20px;
+  line-height: 20px;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  vertical-align: middle;
+  outline: none;
 }
 .AXButtonSmall {
   background-color: #fdfdfd;
@@ -277,52 +484,18 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
 .AXButtonSmall:hover,
 .AXButtonSmall:focus {
   background: #e8e8e8;
 }
-.AXButtonSmall:hover.Classic,
-.AXButtonSmall:focus.Classic {
-  background: #98a4ae;
-}
-.AXButtonSmall:hover.Blue,
-.AXButtonSmall:focus.Blue {
-  background: #468ec9;
-}
-.AXButtonSmall:hover.Green,
-.AXButtonSmall:focus.Green {
-  background: #79aa5a;
-}
-.AXButtonSmall:hover[disabled],
-.AXButtonSmall:focus[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
-  color: #eaeaea;
-  border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  box-shadow: none;
-}
 .AXButtonSmall:active {
-  box-shadow: none;
-}
-.AXButtonSmall:active.Classic {
-  box-shadow: none;
-}
-.AXButtonSmall:active.Blue {
-  box-shadow: none;
-}
-.AXButtonSmall:active.Green {
-  box-shadow: none;
-}
-.AXButtonSmall:active.Red {
-  box-shadow: none;
-}
-.AXButtonSmall:active[disabled] {
   box-shadow: none;
 }
 .AXButtonSmall.Classic {
@@ -338,6 +511,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonSmall.Classic:hover,
+.AXButtonSmall.Classic:focus {
+  background: #98a4ae;
+}
+.AXButtonSmall.Classic:active {
+  box-shadow: none;
 }
 .AXButtonSmall.Blue {
   background-color: #6faee1;
@@ -352,6 +538,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonSmall.Blue:hover,
+.AXButtonSmall.Blue:focus {
+  background: #468ec9;
+}
+.AXButtonSmall.Blue:active {
+  box-shadow: none;
 }
 .AXButtonSmall.Green {
   background-color: #98c87b;
@@ -366,6 +565,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonSmall.Green:hover,
+.AXButtonSmall.Green:focus {
+  background: #79aa5a;
+}
+.AXButtonSmall.Green:active {
+  box-shadow: none;
 }
 .AXButtonSmall.Red {
   background-color: #c65a5b;
@@ -380,18 +592,55 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonSmall.Red:hover,
+.AXButtonSmall.Red:focus {
+  background: #a93b3e;
+}
+.AXButtonSmall.Red:active {
+  box-shadow: none;
 }
 .AXButtonSmall[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
   color: #eaeaea;
   border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   box-shadow: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonSmall[disabled]:hover,
+.AXButtonSmall[disabled]:focus {
+  background: #d7d7d7;
+}
+.AXButtonSmall[disabled]:active {
+  box-shadow: none;
+}
+.AXButtonLarge {
+  position: relative;
+  font-size: 12px;
+  height: 46px;
+  line-height: 46px;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  vertical-align: middle;
+  outline: none;
 }
 .AXButtonLarge {
   background-color: #fdfdfd;
@@ -406,52 +655,18 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
 .AXButtonLarge:hover,
 .AXButtonLarge:focus {
   background: #e8e8e8;
 }
-.AXButtonLarge:hover.Classic,
-.AXButtonLarge:focus.Classic {
-  background: #98a4ae;
-}
-.AXButtonLarge:hover.Blue,
-.AXButtonLarge:focus.Blue {
-  background: #468ec9;
-}
-.AXButtonLarge:hover.Green,
-.AXButtonLarge:focus.Green {
-  background: #79aa5a;
-}
-.AXButtonLarge:hover[disabled],
-.AXButtonLarge:focus[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
-  color: #eaeaea;
-  border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  box-shadow: none;
-}
 .AXButtonLarge:active {
-  box-shadow: none;
-}
-.AXButtonLarge:active.Classic {
-  box-shadow: none;
-}
-.AXButtonLarge:active.Blue {
-  box-shadow: none;
-}
-.AXButtonLarge:active.Green {
-  box-shadow: none;
-}
-.AXButtonLarge:active.Red {
-  box-shadow: none;
-}
-.AXButtonLarge:active[disabled] {
   box-shadow: none;
 }
 .AXButtonLarge.Classic {
@@ -467,6 +682,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonLarge.Classic:hover,
+.AXButtonLarge.Classic:focus {
+  background: #98a4ae;
+}
+.AXButtonLarge.Classic:active {
+  box-shadow: none;
 }
 .AXButtonLarge.Blue {
   background-color: #6faee1;
@@ -481,6 +709,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonLarge.Blue:hover,
+.AXButtonLarge.Blue:focus {
+  background: #468ec9;
+}
+.AXButtonLarge.Blue:active {
+  box-shadow: none;
 }
 .AXButtonLarge.Green {
   background-color: #98c87b;
@@ -495,6 +736,19 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonLarge.Green:hover,
+.AXButtonLarge.Green:focus {
+  background: #79aa5a;
+}
+.AXButtonLarge.Green:active {
+  box-shadow: none;
 }
 .AXButtonLarge.Red {
   background-color: #c65a5b;
@@ -509,16 +763,42 @@
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonLarge.Red:hover,
+.AXButtonLarge.Red:focus {
+  background: #a93b3e;
+}
+.AXButtonLarge.Red:active {
+  box-shadow: none;
 }
 .AXButtonLarge[disabled] {
-  background-color: #cccccc;
-  background-image: -webkit-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -moz-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -o-linear-gradient(top, #cccccc, #cccccc);
-  background-image: -ms-linear-gradient(top, #cccccc, #cccccc);
-  background-image: linear-gradient(top, #cccccc, #cccccc);
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
   color: #eaeaea;
   border: 1px solid #cccccc;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXButtonLarge[disabled]:hover,
+.AXButtonLarge[disabled]:focus {
+  background: #d7d7d7;
+}
+.AXButtonLarge[disabled]:active {
   box-shadow: none;
 }
