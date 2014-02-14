@@ -194,8 +194,8 @@
 										//trace(this.selectedOption);
 										if(this.selectedOption){
 											myGrid.setEditorForm({
-												key:"writer",
-												position:[0,3], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
+												key:"title",
+												position:[0,2], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
 												value:this.selectedOption.optionText
 											});
 										}
@@ -253,6 +253,9 @@
 							myGrid.updateList(this.index, this.list[this.index]);
 						}
 						
+					},
+					onkeyup: function(event, element){
+						trace(event.keyCode, element.id);
 					}
 				},
 				contextMenu: {

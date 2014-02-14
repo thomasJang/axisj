@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.48",
+	version: "AXGrid v1.49",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -50,7 +50,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가",
 		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가",
 		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
-		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결"
+		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결",
+		"2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1142,6 +1143,7 @@ var AXGrid = Class.create(AXJ, {
 		if (event.keyCode == 67 && event.ctrlKey) {
 			/*this.copyData(); */
 		}
+		if(this.editorOpend) return;
 		if (event.keyCode == AXUtil.Event.KEY_UP) { /* */
 			this.focusMove(-1, event);
 		} else if (event.keyCode == AXUtil.Event.KEY_DOWN) { /* */
@@ -4042,7 +4044,7 @@ var AXGrid = Class.create(AXJ, {
 		return tpo.join('');
 	},
 	setEditor: function (item, itemIndex, insertIndex) {
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 
 		if (!this.hasEditor) {
 			alert("setConfig 에 editor 가 설정 되지 않아 요청을 처리 할 수 없습니다.");
@@ -4157,8 +4159,18 @@ var AXGrid = Class.create(AXJ, {
 
 		axdom("#" + cfg.targetID + "_AX_scrollTrackXY").before(this.editor);
 		this.editor.show();
-		this.editor.find("input[type=text],textarea").bind("mousedown", function () { this.focus(); });
-
+		this.editor.find("input[type=text],textarea").bind("mousedown.AXGrid", function () { this.focus(); });
+		
+		if(cfg.editor.onkeyup){
+			this.editor.find("input[type=text],textarea").unbind("keyup.AXGrid").bind("keyup.AXGrid", function (event) {
+				cfg.editor.onkeyup.call({
+					list: _this.list,
+					item: item,
+					element: this
+				}, event, this);
+			});
+		}
+		
 		/* form item bind AX */
 		for (var r = 0; r < cfg.editor.rows.length; r++) {
 			axf.each(cfg.editor.rows[r], function (CHidx, CH) {

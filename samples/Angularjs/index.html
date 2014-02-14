@@ -42,55 +42,7 @@
 	</script>
 	<!-- js block -->
 
-    <script type="text/javascript">
-    var ax_myGrid_controller = function($scope, $element){
-		
-		$scope.onclick = function(arg){
-			toast.push({body:arg, type:"Caution"});
-		};
-		$scope.dblClick = function(arg){
-			toast.push("더블클릭" + arg);
-		};
-		
-		$scope.myGrid = new AXGrid();
-		$scope.myGrid.setConfig({
-			target : $element,
-			colGroup : [
-				{key:"no", label:"번호", width:"50", align:"right"},
-				{key:"title", label:"제목", width:"200"},
-				{key:"writer", label:"작성자", width:"100"},
-				{key:"regDate", label:"작성일", width:"100"},
-				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
-				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
-				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
-					return (this.item.price.number() * this.item.amount.number()).money();
-				}},
-				{key:"desc", label:"비고", width:"200"}
-			],
-			colHeadAlign: "center",
-			body : {
-				onclick: function(){
-					$scope.onclick(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-				},
-				/* ondblclick 선언하면 onclick 이벤트가 0.25 초 지연 발생 됩니다. 주의 하시기 바람니다. */
-				ondblclick: function(){
-					$scope.dblClick(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-				}
-			},
-			page: {
-                paging: false
-            }
-		});
 
-		var list = [
-			{no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
-			{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
-			{no:3, title:"AXGrid 세번째 줄 입니다.", writer:"한기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5}
-		];
-		$scope.myGrid.setList(list);
-
-    };
-    </script>
 
 </head>
 <body>
@@ -98,8 +50,30 @@
 	<div class="AXdemoPageContent">
 
     	<h1>AXISJ for Angular</h1>
-      	<div ng-controller="ax_myGrid_controller"></div>
+      	<div ng-controller="ax_myGrid_controller">
+      		
+      		<div>Some1</div>
+      		<div class="colgroup">Some2</div>
+      		<colgroup>
+      			<col>Some3</col>
+      		</colgroup>
+      		
+      	</div>
 
 	</div>
 </body>
 </html>
+
+    <script type="text/javascript">
+    var ax_myGrid_controller = function($scope, $element){
+//alert($scope.username);
+//alert(axdom($element).html());
+		
+		//trace( $element.find("div").text() );
+		trace( axdom( $element ).find("div.colgroup").text() );
+		trace( axdom( $element ).find("colgroup").html() );
+		//trace( axdom( $element ).find("div.cll").text() );
+		trace( $element.children("colgroup").html() );
+		
+    };
+    </script>
