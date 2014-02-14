@@ -42,7 +42,19 @@
 	</script>
 	<!-- js block -->
 
-
+    <script type="text/javascript">
+    var ax_myGrid_controller = function($scope, $element){
+//alert($scope.username);
+//alert(axdom($element).html());
+		
+		//trace( $element.find("div").text() );
+		trace( axdom( $element ).find("div.colgroup").text() );
+		trace( axdom( $element ).find("colgroup").html() );
+		//trace( axdom( $element ).find("div.cll").text() );
+		trace( $element.children("colgroup").html() );
+		
+    };
+    </script>
 
 </head>
 <body>
@@ -64,16 +76,3 @@
 </body>
 </html>
 
-    <script type="text/javascript">
-    var ax_myGrid_controller = function($scope, $element){
-//alert($scope.username);
-//alert(axdom($element).html());
-		
-		//trace( $element.find("div").text() );
-		trace( axdom( $element ).find("div.colgroup").text() );
-		trace( axdom( $element ).find("colgroup").html() );
-		//trace( axdom( $element ).find("div.cll").text() );
-		trace( $element.children("colgroup").html() );
-		
-    };
-    </script>

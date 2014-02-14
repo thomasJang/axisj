@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.36",
+	version: "AXInputConverter v1.37",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -31,7 +31,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결",
 		"2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스",
 		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
-		"2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스"
+		"2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스",
+		"2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -184,8 +185,11 @@ var AXInputConverter = Class.create(AXJ, {
 			var objID = obj.id;
 			var obj = this.objects[removeIdx];
 			if (obj.documentclickEvent) axdom(document).unbind("click.AXInput", obj.documentclickEvent);
-			if (obj.inputKeyup) axdom("#" + objID).unbind("keydown.AXInput", obj.inputKeyup);
-			if (obj.inputChange) axdom("#" + objID).unbind("change.AXInput", obj.inputChange);
+			axdom("#" + objID).unbind("keydown.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInputCheck");
+			
+			axdom("#" + objID).unbind("change.AXInput");
+			
 			if (obj.bindSliderMouseMove) axdom(document.body).unbind("mousemove.AXInput", obj.bindSliderMouseMove);
 			if (obj.bindSliderMouseUp) axdom(document.body).unbind("mouseup.AXInput", obj.bindSliderMouseUp);
 			if (obj.bindSliderTouchMove) document.removeEventListener("touchmove.AXInput", obj.bindSliderTouchMove, false);
@@ -672,6 +676,11 @@ var AXInputConverter = Class.create(AXJ, {
 				bindSelectorExpand(objID, objSeq, false, event);
 			}
 		});
+		axdom("#" + objID).unbind("keydown.AXInputCheck").bind("keydown.AXInputCheck", function(event){
+			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
+				bindSelectorExpand(objID, objSeq, false, event);
+			}			
+		});
 
 		if (obj.config.finder) {
 			if (obj.config.finder.onclick) {
@@ -974,7 +983,7 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindSelectorSelect(objID, objSeq, focusIndex);
 		} else if (event.keyCode == AXUtil.Event.KEY_RETURN) {
 			if (obj.config.focusedIndex == null) {
-				axdom("#" + objID).blur();
+				/*axdom("#" + objID).blur();*/
 				this.bindSelectorClose(objID, objSeq, event); // 닫기
 				return;
 			} else {
@@ -983,7 +992,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedIndex = obj.config.focusedIndex;
 				obj.config.isChangedSelect = true;
 				axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
-				axdom("#" + objID).blur();
+				/*axdom("#" + objID).blur();*/
 				this.bindSelectorClose(objID, objSeq, event); // 닫기
 				return;
 			}
@@ -1033,7 +1042,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var pars = obj.config.ajaxPars;
 			var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
 			if (pars == "") {
-				pars = selectorName + "=" + objVal.enc();
+				pars = selectorName + "=" + (objVal||"").enc();
 			} else if ((typeof pars).toLowerCase() == "string") {
 				pars += "&" + selectorName + "=" + objVal.enc();
 			} else if ((typeof pars).toLowerCase() == "object") {

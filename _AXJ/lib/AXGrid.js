@@ -51,7 +51,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가",
 		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
 		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결",
-		"2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가"
+		"2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가",
+		"2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2624,6 +2625,7 @@ var AXGrid = Class.create(AXJ, {
 
 		pushItem._CUD = "C";
 		if (insertIndex != null && insertIndex != undefined) {
+			
 			var itemIndex = insertIndex;
 			var newList = [];
 			axf.each(this.list, function (listIndex, L) {
@@ -3686,6 +3688,7 @@ var AXGrid = Class.create(AXJ, {
 	},
 	getHeadDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
+		if(dataSet == undefined) return;
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
@@ -3747,6 +3750,7 @@ var AXGrid = Class.create(AXJ, {
 	},
 	getFootDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
+		if(dataSet == undefined) return;
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
@@ -4052,7 +4056,7 @@ var AXGrid = Class.create(AXJ, {
 		}
 		this.unbindAXbind();
 
-		var dataSet;
+		var dataSet = {};
 		if (item) {
 			dataSet = item;
 		}
@@ -4118,6 +4122,7 @@ var AXGrid = Class.create(AXJ, {
 
 			var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
 			var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
+			var trHeight = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).outerHeight();
 			var list = this.list;
 			var itemTRheight = (function () {
 				if (list.length == 0) {
@@ -4135,25 +4140,42 @@ var AXGrid = Class.create(AXJ, {
 					return p2 - p1;
 				}
 			})();
+
+			editorTop += trHeight;
+			
 			this.editor.css({ top: editorTop + scrollTop });
 			this.editorOpend = true;
 			this.editorOpenTop = editorTop;
 			this.editorInsertIndex = insertIndex;
 
 			var trTop = -editorTop; /*this.body.find(".gridBodyTr_" + insertIndex).position().top; */
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
-			this.contentScrollContentSync({ top: trTop });
+			
+			if( this.body.height() < axdom("#" + cfg.targetID + "_AX_scrollContent").height() ){
+				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
+				this.contentScrollContentSync({ top: trTop });
+			}
 
 		} else {
+			
+			var scrollTop = 0, editorTop = 0, itemTRheight = 0;
+			if(insertIndex == undefined && this.list.length){
+				insertIndex = this.list.length-1;
+				scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+				editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
+				var trHeight = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).outerHeight();
+				editorTop += trHeight;
+			}
 
-			var editorTop = 0;
-			var itemTRheight = 0;
-			this.editor.css({ top: 0 });
+			this.editor.css({ top: editorTop + scrollTop });
 			this.editorOpend = true;
 			this.editorOpenTop = editorTop;
 			this.editorItemIndex = null;
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: 0 });
-			this.contentScrollContentSync({ top: 0 });
+			var trTop = -editorTop; /*this.body.find(".gridBodyTr_" + insertIndex).position().top; */
+			
+			if( this.body.height() < axdom("#" + cfg.targetID + "_AX_scrollContent").height() ){
+				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
+				this.contentScrollContentSync({ top: trTop });
+			}
 
 		}
 
@@ -4257,15 +4279,15 @@ var AXGrid = Class.create(AXJ, {
 			});
 		}
 
-		var editorContentHeight = axdom("#" + cfg.targetID + "_AX_editorContent").height();
-		var fixedEditorContentHeight = axdom("#" + cfg.targetID + "_AX_fixedEditorContent").height();
+		var editorContentHeight = axdom("#" + cfg.targetID + "_AX_editorContent").outerHeight();
+		var fixedEditorContentHeight = axdom("#" + cfg.targetID + "_AX_fixedEditorContent").innerHeight();
 		if (editorContentHeight < fixedEditorContentHeight) {
 			editorContentHeight = fixedEditorContentHeight;
 			axdom("#" + cfg.targetID + "_AX_editorContent").find(".gridBodyTable").css({ height: editorContentHeight });
 		} else {
 			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ height: editorContentHeight });
 		}
-		axdom("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight });
+		axdom("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight-1 });
 		this.editor.css({ height: (editorContentHeight.number() + 40) });
 		var editorBoxHeight = (editorContentHeight.number() + 40);
 
@@ -4299,6 +4321,15 @@ var AXGrid = Class.create(AXJ, {
 		var formID = cfg.targetID + "_AX_" + obj.key + "_AX_" + obj.position.join("_AX_");
 		if (!axf.getId(formID)) alert(formID + "로 Element를 찾을 수 없습니다.");
 		axdom("#" + formID).val(obj.value);
+	},
+	focusEditorForm: function(key){ /* editor 활성화 된 폼의 특정 요소에 포커스 주기 */
+		var cfg = this.config;
+		this.editor.find("input[type=text],textarea").each(function () {
+			if(this.name == key){
+				this.focus();
+				return false;	
+			}
+		});
 	},
 	saveEditor: function () {
 		var cfg = this.config;
@@ -4735,6 +4766,7 @@ var AXGrid = Class.create(AXJ, {
 	},
 	getExcelHeadDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
+		if(dataSet == undefined) return;
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
@@ -4777,6 +4809,7 @@ var AXGrid = Class.create(AXJ, {
 	},
 	getExcelFootDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
+		if(dataSet == undefined) return;
 		var tpo = [];
 		var getDataSetFormatterValue = this.getDataSetFormatterValue.bind(this);
 		/*dataSet 빈 Key 채우기 */
