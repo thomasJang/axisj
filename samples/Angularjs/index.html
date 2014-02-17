@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app='myApp'>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>AX for Angular.js</title>
@@ -43,17 +43,30 @@
 	<!-- js block -->
 
     <script type="text/javascript">
-    var ax_myGrid_controller = function($scope, $element){
-//alert($scope.username);
-//alert(axdom($element).html());
-		
-		//trace( $element.find("div").text() );
-		trace( axdom( $element ).find("div.colgroup").text() );
-		trace( axdom( $element ).find("colgroup").html() );
-		//trace( axdom( $element ).find("div.cll").text() );
-		trace( $element.children("colgroup").html() );
-		
-    };
+    var myAppModule = angular.module('myApp', []);
+    myAppModule.controller('ax_myGrid_controller', 
+	    function ax_myGrid_controller($scope, $element){
+			$scope.myGrid = new AXGrid();
+			
+			var tableJson = axf.parsingTable( axdom( $element ).find(".AXGridData"), "json" );
+			var colGroup = tableJson.head;
+			colGroup.cost = {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+			}};
+			
+			$scope.myGrid.setConfig({
+				target : $element,
+				colGroup : colGroup,
+				body : {
+					onclick: function(){
+						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+					}
+				}
+			});
+
+			$scope.myGrid.setList(tableJson.body);
+	    }
+	);
     </script>
 
 </head>
@@ -61,15 +74,105 @@
 	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 	<div class="AXdemoPageContent">
 
+	<h1>AXISJ for Angular</h1>
+  	<div ng-controller="ax_myGrid_controller" style="height:200px;">
+  		<table class="AXGridData" border="1">
+  			<thead>
+  				<tr>
+  					<td name="no" align="right" width="50">번호</td>
+  					<td name="title">제목</td>
+  					<td name="writer" width="100">작성자</td>
+  					<td name="regDate" width="100">작성일</td>
+  					<td name="price" width="100" align="right">가격</td>
+  					<td name="amount" width="100" align="right">수량</td>
+  					<td name="cost" width="100" align="right">금액</td>
+  					<td name="desc">비고</td>
+  				</tr>
+  			</thead>
+  			<tbody>
+  			</tbody>
+  		</table>
+  	</div>
+
+
     	<h1>AXISJ for Angular</h1>
       	<div ng-controller="ax_myGrid_controller">
-      		
-      		<div>Some1</div>
-      		<div class="colgroup">Some2</div>
-      		<colgroup>
-      			<col>Some3</col>
-      		</colgroup>
-      		
+      		<table class="AXGridData" border="1" style="height:200px;">
+      			<thead>
+      				<tr>
+      					<td name="no" align="right" width="50">번호</td>
+      					<td name="title">제목</td>
+      					<td name="writer" width="100">작성자</td>
+      					<td name="regDate" width="100">작성일</td>
+      					<td name="price" width="100" align="right">가격</td>
+      					<td name="amount" width="100" align="right">수량</td>
+      					<td name="cost" width="100" align="right">금액</td>
+      					<td name="desc">비고</td>
+      				</tr>
+      			</thead>
+      			<tbody>
+      				<tr>
+      					<td name="no">1</td>
+      					<td name="title">AXGrid 첫번째 줄입니다.</td>
+      					<td name="writer">장기영</td>
+      					<td name="regDate">2013-01-18</td>
+      					<td name="price">5000</td>
+      					<td name="amount">2</td>
+      					<td name="cost"></td>
+      					<td name="desc">AXGrid는 Angularjs 에서도 사용이 가능합니다.</td>
+      				</tr>
+      				<tr>
+      					<td name="no">2</td>
+      					<td name="title">AXGrid 두번째 줄입니다.</td>
+      					<td name="writer">장기영</td>
+      					<td name="regDate">2013-01-18</td>
+      					<td name="price">5000</td>
+      					<td name="amount">2</td>
+      					<td name="cost"></td>
+      					<td name="desc">AXGrid는 Angularjs 에서도 사용이 가능합니다.</td>
+      				</tr>
+      				<tr>
+      					<td name="no">3</td>
+      					<td name="title">AXGrid 세번째 줄입니다.</td>
+      					<td name="writer">장기영</td>
+      					<td name="regDate">2013-01-18</td>
+      					<td name="price">5000</td>
+      					<td name="amount">2</td>
+      					<td name="cost"></td>
+      					<td name="desc">AXGrid는 Angularjs 에서도 사용이 가능합니다.</td>
+      				</tr>
+      				<tr>
+      					<td name="no">1</td>
+      					<td name="title">AXGrid 첫번째 줄입니다.</td>
+      					<td name="writer">장기영</td>
+      					<td name="regDate">2013-01-18</td>
+      					<td name="price">5000</td>
+      					<td name="amount">2</td>
+      					<td name="cost"></td>
+      					<td name="desc">AXGrid는 Angularjs 에서도 사용이 가능합니다.</td>
+      				</tr>
+      				<tr>
+      					<td name="no">2</td>
+      					<td name="title">AXGrid 두번째 줄입니다.</td>
+      					<td name="writer">장기영</td>
+      					<td name="regDate">2013-01-18</td>
+      					<td name="price">5000</td>
+      					<td name="amount">2</td>
+      					<td name="cost"></td>
+      					<td name="desc">AXGrid는 Angularjs 에서도 사용이 가능합니다.</td>
+      				</tr>
+      				<tr>
+      					<td name="no">3</td>
+      					<td name="title">AXGrid 세번째 줄입니다.</td>
+      					<td name="writer">장기영</td>
+      					<td name="regDate">2013-01-18</td>
+      					<td name="price">5000</td>
+      					<td name="amount">2</td>
+      					<td name="cost"></td>
+      					<td name="desc">AXGrid는 Angularjs 에서도 사용이 가능합니다.</td>
+      				</tr>
+      			</tbody>
+      		</table>	
       	</div>
 
 	</div>

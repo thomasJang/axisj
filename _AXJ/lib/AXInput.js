@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.37",
+	version: "AXInputConverter v1.38",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -32,7 +32,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스",
 		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
 		"2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스",
-		"2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거"
+		"2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거",
+		"2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2979,12 +2980,12 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "m") {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd);
+					obj.nDate = new Date(yy, myMonth, dd, 12);
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd);
+					obj.nDate = new Date(yy, myMonth, dd, 12);
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "d");
 				}
 			} else if (ename == "year") {
@@ -2992,12 +2993,12 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "y") {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd);
+					obj.nDate = new Date(myYear, mm, dd, 12);
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd);
+					obj.nDate = new Date(myYear, mm, dd, 12);
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "m");
 				}
 			}

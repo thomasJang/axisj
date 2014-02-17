@@ -324,6 +324,31 @@ var axf = AXUtil = {
 	readyMobileConsole: function(){
 		AXUtil.mobileConsole = axdom("<div class=\"AXMobileConsole\"></div>");
 		axdom(document.body).append(AXUtil.mobileConsole);
+	},
+	parsingTable: function(elemObj, returnType){
+		var head = {}, body = [];
+		elemObj.find("thead tr td").each(function(){
+			var elem = axdom( this );
+			var attrs = {
+				key: elem.attr("name"),
+				label: (elem.html() || ""),
+				width: (elem.attr("width") || "*"),
+				align: (elem.attr("align") || "")
+			};
+			head[attrs.key] = attrs;
+		});
+		
+		elemObj.find("tbody tr").each(function(){
+			var item = {};
+			axdom( this ).find("td").each(function(){
+				var elem = axdom( this );
+				item[ elem.attr("name") ] = elem.html();
+			});
+			body.push(item);
+		});
+		return {
+			head: head, body: body
+		};
 	}
 };
 

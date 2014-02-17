@@ -834,6 +834,14 @@ var AXGrid = Class.create(AXJ, {
 			trace("need colGroup - setConfig({colGroup:[]})");
 			return;
 		}
+		
+		if(Object.isObject(cfg.colGroup)){
+			var newColGroup = [];
+			$.each(cfg.colGroup, function(){
+				newColGroup.push(this);
+			});
+			cfg.colGroup = newColGroup;
+		}
 
 		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
 		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXGrid.pageHeight || 400);

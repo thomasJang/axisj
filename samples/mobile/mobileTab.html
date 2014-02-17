@@ -26,6 +26,22 @@
 	<script type="text/javascript" src="pageTab.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
 
+	<!-- js block -->
+	<script type="text/javascript">
+	var pageID = "AXMobileTab";	
+	</script>
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="Hspace10"></div>
+	<div id="myTab01"></div>
+	<div class="Hspace10"></div>
+	<div id="myTab02"></div>
+	<div class="Hspace10"></div>
+	<div id="myTab03"></div>
+	
+	<div class="AXdemoPageContent"></div>
+	
 	<script type="text/javascript">
 	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
 	AXConfig.mobile.responsiveWidth = 648;
@@ -129,22 +145,8 @@
 			AXCode.bind(); // 소스보기
 		}
 	};
-	$(document.body).ready(function(){
-		fnObj.pageStart.delay(0.1);
-	});
+	$(document.body).ready(fnObj.pageStart);
 	</script>
-	<!-- js block -->
-
-</head>
-<body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="Hspace10"></div>
-	<div id="myTab01"></div>
-	<div class="Hspace10"></div>
-	<div id="myTab02"></div>
-	<div class="Hspace10"></div>
-	<div id="myTab03"></div>
 	
-	<div class="AXdemoPageContent"></div>
 </body>
 </html>

@@ -36,9 +36,9 @@ For Each f1 in fc
 		response.write "saveName:'"&enc(f1.name)&"',"
 		response.write "type:'"&fileExt&"',"
 		response.write "fileSize:'"&f1.size&"',"
-		response.write "uploadedPath:'"&enc("/_file/1/")&"',"
+		response.write "uploadedPath:'"&enc("/samples/_file/1/")&"',"
 		if fileExt = ".gif" or fileExt = ".jpg" or fileExt = ".png" or fileExt = ".bmp" then
-		response.write "thumbUrl:'"&enc("/_file/1/T_"&f1.name)&"'"
+		response.write "thumbUrl:'"&enc("/samples/_file/1/T_"&f1.name)&"'"
 			if seq = 0 then
 				response.write ", mainImage: true"
 			end if

@@ -28,18 +28,18 @@
 	background:#b2b2b2;border:1px solid #b2b2b2;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;font-size:1px;line-height:1px;}
 .AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadProcess .AXUploadProcessBar{background:#fff;height:8px;width:0px;min-width:5px;border-radius:4px;}
 .AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadBtns{position:absolute;left:0px;top:0px;line-height:1em;}
-.AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadBtns .AXUploadBtnsA{display:block;width:24px;height:24px;background:url(img/AXUpload5/removeIcon.png) no-repeat center center;text-indent:-1000px;overflow:hidden;}
+.AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadBtns .AXUploadBtnsA{display:block;width:24px;height:24px;background:url(img/AXUpload5/removeIcon.png) no-repeat center center;text-indent:-1000px;overflow:hidden;line-height:50000px;}
 
 .AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadLabel{position:absolute;left:24px;top:4px;line-height:1em;}
 
 .AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadLabel .AXUploadDownload{
-	display:block;width:16px;height:16px;background:url(img/AXUpload5/downloadIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;
+	display:block;width:16px;height:16px;background:url(img/AXUpload5/downloadIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;line-height:50000px;
 }
 .AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadLabel .AXUploadDownload:hover{
 	background-color:#000;
 }
 .AXUpload5 .AXFileDisplay .AXUploadItem .AXUploadLabel .AXUploadMainImage{
-	display:block;width:16px;height:16px;background:url(img/AXUpload5/mainImageIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;float:left;
+	display:block;width:16px;height:16px;background:url(img/AXUpload5/mainImageIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;float:left;line-height:50000px;
 }
 
 .AXUpload5QueueBox{
@@ -75,16 +75,16 @@
 .AXUpload5QueueBox .AXUploadItem .AXUploadProcess{position:absolute;left:20px;top:54px;height:8px;width:78px;background:#b2b2b2;border:1px solid #b2b2b2;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;font-size:1px;line-height:1px;}
 .AXUpload5QueueBox .AXUploadItem .AXUploadProcess .AXUploadProcessBar{background:#fff;height:8px;width:0px;min-width:5px;border-radius:4px;}
 .AXUpload5QueueBox .AXUploadItem .AXUploadBtns{position:absolute;left:3px;top:110px;line-height:1em;}
-.AXUpload5QueueBox .AXUploadItem .AXUploadBtns .AXUploadBtnsA{display:block;width:24px;height:24px;background:url(img/AXUpload5/removeIcon_black.png) no-repeat center center;text-indent:-1000px;overflow:hidden;}
+.AXUpload5QueueBox .AXUploadItem .AXUploadBtns .AXUploadBtnsA{display:block;width:24px;height:24px;background:url(img/AXUpload5/removeIcon_black.png) no-repeat center center;text-indent:-1000px;overflow:hidden;line-height:50000px;}
 
 .AXUpload5QueueBox .AXUploadItem .AXUploadLabel{position:absolute;right:14px;top:14px;line-height:1em;}
 
 .AXUpload5QueueBox .AXUploadItem .AXUploadLabel .AXUploadMainImage{
-	display:none;width:16px;height:16px;background:url(img/AXUpload5/mainImageIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;float:left;
+	display:none;width:16px;height:16px;background:url(img/AXUpload5/mainImageIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;float:left;line-height:50000px;
 }
 
 .AXUpload5QueueBox .AXUploadItem .AXUploadLabel .AXUploadDownload{
-	display:block;width:16px;height:16px;background:url(img/AXUpload5/downloadIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;
+	display:block;width:16px;height:16px;background:url(img/AXUpload5/downloadIcon.png) no-repeat #fff;text-indent:-1000px;overflow:hidden;line-height:50000px;
 }
 .AXUpload5QueueBox .AXUploadItem .AXUploadLabel .AXUploadDownload:hover{
 	background-color:#000;

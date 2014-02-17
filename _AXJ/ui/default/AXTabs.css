@@ -1,6 +1,13 @@
 @import url('AXTabs_desktop.css') (min-width: 648px);
 @import url('AXTabs_mobile.css') only screen and (max-width: 648px);
 /* mobile device width */
+/*!
+ * AXISJ Javascript Library
+ * http://www.axisj.com
+ * 
+ * Copyright axisj
+ * http://axisj.com/license
+ */
 @charset "utf-8";
 /*!
  * AxisJ Javascript Library

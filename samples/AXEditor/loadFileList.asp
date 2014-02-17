@@ -36,8 +36,8 @@ For Each f1 in fc
 		response.write "nm:'"&enc(f1.name)&"',"
 		response.write "ty:'"&fileExt&"',"
 		response.write "size:'"&f1.size&"',"
-		response.write "path:'"&enc("/_file/1/")&"',"
-		response.write "thumb:'"&enc("/_file/1/T_"&f1.name)&"'"
+		response.write "path:'"&enc("/samples/_file/1/")&"',"
+		response.write "thumb:'"&enc("/samples/_file/1/T_"&f1.name)&"'"
 		response.write "}"
 		seq = seq + 1
 	end if
