@@ -1,5 +1,12 @@
 /* mobile device width */
 /*!
+ * AXISJ Javascript Library
+ * http://www.axisj.com
+ * 
+ * Copyright axisj
+ * http://axisj.com/license
+ */
+/*!
  * AxisJ Javascript Library Version 1.0
  * http://AxisJ.com
  *
@@ -754,6 +761,7 @@
   right: 10px;
   top: 0px;
   z-index: 5001;
+  width: 322px;
 }
 .AXNotificationTrayDialog {
   position: fixed;
