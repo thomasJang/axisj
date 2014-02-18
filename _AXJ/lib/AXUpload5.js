@@ -2056,14 +2056,29 @@ var AXUpload5 = Class.create(AXJ, {
 			cfg.onClickUploadedItem.call(myFile, myFile);
 		}
 	},
-	deleteFile: function(file, onEnd){
+	deleteFile: function(file, onEnd, withOutServer){
 		var cfg = this.config;
-		if(!onEnd) if(!confirm(AXConfig.AXUpload5.deleteConfirm)) return;
+		if(!onEnd) if(!confirm(AXConfig.AXUpload5.deleteConfirm)) return;		
 		var removeUploadedList = this.removeUploadedList.bind(this);
 		
 		//trace(file);
 		//{"id":"AXA220125984_AX_0", "name":"38540011%2EJPG", "type":"%2EJPG", "saveName":"0DA0316011A0001%2EJPG", "fileSize":"3172720", "uploadedPath":"%2F%5Ffile%2F1%2F", "thumbPath":"%2F%5Ffile%2F1%2FT%5F0DA0316011A0001%2EJPG"}
 		if (file != undefined){
+				
+			if(withOutServer == "withOutServer"){
+				if(cfg.isSingleUpload){
+					jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+				}else{
+					jQuery("#"+file.id).hide(function(){
+						jQuery(this).remove();
+					});
+				}
+				removeUploadedList(file.id);	
+				if(cfg.onDelete) cfg.onDelete.call({file:file, response:withOutServer}, file);
+				if(onEnd) onEnd();
+				return;	
+			}
+			
 			var pars = [];
 			var sendPars = "";
 			jQuery.each(file, function(k, v){
@@ -2094,7 +2109,6 @@ var AXUpload5 = Class.create(AXJ, {
 							jQuery(this).remove();
 						});
 					}
-					
 					removeUploadedList(file.id);	
 					if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
 					if(onEnd) onEnd();
@@ -2107,13 +2121,13 @@ var AXUpload5 = Class.create(AXJ, {
 			trace("file undefined");
 		}
 	},
-	deleteSelect: function(arg){
+	deleteSelect: function(arg, withOutServer){
 		if(arg == "all"){
 			var deleteQueue = [];
 			jQuery.each(this.uploadedList, function(){
 				deleteQueue.push(this.id);
 			});
-			this.ccDelete(deleteQueue, 0);
+			this.ccDelete(deleteQueue, 0, withOutServer);
 			deleteQueue = null;
 		}else{
 			if(!this.multiSelector) return;
@@ -2123,14 +2137,14 @@ var AXUpload5 = Class.create(AXJ, {
 				jQuery.each(selectObj, function(){
 					deleteQueue.push(this.id);
 				});
-				this.ccDelete(deleteQueue, 0);
+				this.ccDelete(deleteQueue, 0, withOutServer);
 				deleteQueue = null;
 			}else{
 				alert("삭제하실 파일을 선택해 주세요");
 			}
 		}
 	},
-	ccDelete: function(deleteQueue, index){
+	ccDelete: function(deleteQueue, index, withOutServer){
 		if(deleteQueue.length > index){
 			var myFile;
 			jQuery.each(this.uploadedList, function(){
@@ -2141,8 +2155,8 @@ var AXUpload5 = Class.create(AXJ, {
 			});
 			var ccDelete = this.ccDelete.bind(this);
 			this.deleteFile(myFile, function(){
-				ccDelete(deleteQueue, (index+1));
-			});
+				ccDelete(deleteQueue, (index+1), withOutServer);
+			}, withOutServer);
 		}
 	},
 	removeUploadedList: function(fid){
