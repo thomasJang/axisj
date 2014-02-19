@@ -1,9 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+	<base href="/samples/AXUpload5/" target="_blank" />
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>AXUpload</title>
-    
+	
     <meta property="og:image" content="/img/axisj_sns.png" /> 
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
@@ -35,7 +37,7 @@
 	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
-	var pageID = "AXUpload5";
+	var pageID = "AXUpload5_option";
 	var myUpload = new AXUpload5();
 	
 	var fnObj = {
@@ -65,12 +67,13 @@
 					
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
 					uploadMaxFileCount:10, // 업로드될 파일갯수 제한 0 은 무제한
-					uploadUrl:"uploadFile.asp",
+					uploadUrl:"/uploadFile.asp",
 					uploadPars:{userID:'tom', userName:'액시스'},
-					deleteUrl:"deleteFile.asp",
+					deleteUrl:"/deleteFile.asp",
 					deletePars:{userID:'tom', userName:'액시스'},
 
-					buttonTxt:"파일올리기",
+					buttonTxt:"파일선택하기",
+					fileSelectAutoUpload: false,
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
 						name:"name",
@@ -82,7 +85,7 @@
 					},
 					
 					onbeforeFileSelect: function(){
-						trace(this);
+						//trace(this);
 						return true;
 					},
 					
@@ -94,12 +97,12 @@
 					onComplete: function(){
 						//trace(this);
 						//trace("onComplete");
-						$("#uploadCancelBtn").get(0).disabled = true; // 전송중지 버튼 제어
+						$(".uploadQueueBtn").each(function(){ this.disabled = true; /* 큐 버튼 제어 */ });
 					},
 					onStart: function(){
 						//trace(this);
 						//trace("onStart");
-						$("#uploadCancelBtn").get(0).disabled = false; // 전송중지 버튼 제어
+						$(".uploadQueueBtn").each(function(){ this.disabled = false; /* 큐 버튼 제어 */ });
 					},
 					onDelete: function(){
 						trace(this);
@@ -170,7 +173,10 @@
 		<div id="uploadQueueBox" class="AXUpload5QueueBox" style="height:188px;"></div>
 		<div class="Hspace10"></div>
 		<div style="padding-top:5px;">
-			<input type="button" value="전송중지" class="AXButton" id="uploadCancelBtn" disabled="disabled" onclick="myUpload.cancelUpload();" />
+			<input type="button" value="전송" class="AXButton uploadQueueBtn" disabled="disabled" onclick="myUpload.uploadQueue(true);" />
+			
+			<input type="button" value="전송중지" class="AXButton uploadQueueBtn" disabled="disabled" onclick="myUpload.cancelUpload();" />
+			
 			<input type="button" value="선택삭제" class="AXButton" onclick="myUpload.deleteSelect(null);" />
 			<!--<input type="button" value="모두삭제" class="AXButton" onclick="myUpload.deleteSelect('all', 'withOutServer');" />-->
 			<input type="button" value="모두삭제" class="AXButton" onclick="myUpload.deleteSelect('all');" />
@@ -183,100 +189,6 @@
 		</div>
 
 		<div class="Hspace20"></div>
-
-<fieldset class="AXscriptSource" id="AXscriptSource2">
-	<legend>AXUpload5</legend>
-	<textarea class="fieldsetBody" style="height:800px;">
-myUpload.setConfig({
-	targetID:"AXUpload5",
-	targetButtonClass:"Green",
-	uploadFileName:"files[]",
-	file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
-	dropBoxID:"uploadQueueBox",
-	queueBoxID:"uploadQueueBox", // upload queue targetID
-	// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
-	flash_url : "../../_AXJ/lib/swfupload.swf",
-	flash9_url : "../../_AXJ/lib/swfupload_fp9.swf",
-	// --------- e
-	onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
-		//trace(this);
-		window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
-	},
-	
-	uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
-	uploadMaxFileCount:5, // 업로드될 파일갯수 제한 0 은 무제한
-	uploadUrl:"uploadFile.asp",
-	uploadPars:{userID:'tom', userName:'액시스'},
-	deleteUrl:"deleteFile.asp",
-	deletePars:{userID:'tom', userName:'액시스'},
-	
-	buttonTxt:"파일올리기",
-	
-	fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
-		name:"name",
-		type:"type",
-		saveName:"saveName",
-		fileSize:"fileSize",
-		uploadedPath:"uploadedPath",
-		thumbPath:"thumbUrl" // 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
-	},
-	onbeforeFileSelect: function(){
-		trace(this);
-		return true;
-	},
-	onUpload: function(){
-		trace(this);
-		//trace("onUpload");
-	},
-	onComplete: function(){
-		//trace(this);
-		//trace("onComplete");
-		$("#uploadCancelBtn").get(0).disabled = true; // 전송중지 버튼 제어
-	},
-	onStart: function(){
-		//trace(this);
-		//trace("onStart");
-		$("#uploadCancelBtn").get(0).disabled = false; // 전송중지 버튼 제어
-	},
-	onDelete: function(){
-		//trace(this);
-		//trace("onDelete");
-	},
-	onError: function(errorType, extData){
-		if(errorType == "html5Support"){
-			//dialog.push('The File APIs are not fully supported in this browser.');
-		}else if(errorType == "fileSize"){
-			trace(extData);
-			alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.\n("+extData.name+" : "+extData.size.byte()+")");
-		}else if(errorType == "fileCount"){
-			alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
-		}
-	}
-});
-// 업로드 갯수 등 업로드 관련 옵션을 동적으로 변경 할 수 있습니다. 
-myUpload.changeConfig({
-	/*
-	uploadUrl:"uploadFile.asp",
-	uploadPars:{userID:'tom', userName:'액시스'},
-	deleteUrl:"deleteFile.asp",
-	deletePars:{userID:'tom', userName:'액시스'},
-	*/
-	uploadMaxFileCount:10
-});	
-			
-// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- s
-var url = "loadFileList.asp";
-var pars = "dummy="+AXUtil.timekey();
-new AXReq(url, {pars:pars, onsucc:function(res){
-	if(res.result == "ok"){
-		myUpload.setUploadedList(res.ds);
-	}else{
-		alert(res.msg.dec());
-	}
-}});
-// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
-	</textarea>
-</fieldset>
 
 	</div>
 </body>

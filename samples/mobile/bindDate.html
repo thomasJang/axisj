@@ -62,6 +62,13 @@
 			$("#AXInputDate02").bindDateTime();
 			
 			AXCode.bind(); // 소스보기
+			
+			trace({
+				a:"123",
+				b: function(){
+				 return "123";	
+				}	
+			});
 		}
 	};
 	$(document.body).ready(fnObj.pageStart);

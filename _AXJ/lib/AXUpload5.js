@@ -1163,6 +1163,7 @@ var AXUpload5 = Class.create(AXJ, {
 		this.isSingleUpload = false;
 		this.config.uploadFileName = "files[]";
 		this.config.file_types = "*.*";
+		this.config.fileSelectAutoUpload = true;
 		this.supportHtml5 = false;
 		if (window.File && window.FileReader && window.FileList && window.Blob) this.supportHtml5 = true;
 		if(!AXConfig.AXUpload5){
@@ -1197,8 +1198,14 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 		}
 		
+		var baseUrl = axdom("base").attr("href");
+		if(cfg.uploadUrl.left(1) == "/"){
+			cfg.uploadUrl = baseUrl + cfg.uploadUrl;
+		}
+		if(cfg.deleteUrl.left(1) == "/"){
+			cfg.deleteUrl = baseUrl + cfg.deleteUrl;
+		}
 		/* dropBoxID, queueBoxID 자동 생성 */
-
 		if( cfg.dropBoxTarget ){
 			if(cfg.dropBoxTarget.id === undefined || cfg.dropBoxTarget.id == ""){
 				axdom(cfg.dropBoxTarget).attr("id", cfg.dropBoxTarget.id = cfg.dropBoxID = "AXJUnique_dropBox_"+axf.getUniqueId());
@@ -1725,7 +1732,7 @@ var AXUpload5 = Class.create(AXJ, {
 							this.queue.push({id:itemID, file:f});
 							//큐박스에 아이템 추가
 							
-							trace(cfg.queueBoxID);
+							/*trace(cfg.queueBoxID);*/
 							
 							if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
 							else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
@@ -1806,8 +1813,13 @@ var AXUpload5 = Class.create(AXJ, {
 	pauseQueue: function(){
 		this.queueLive = false;
 	},
-	uploadQueue: function(){
+	uploadQueue: function(fileUpload){
 		var cfg = this.config;
+		
+		if(cfg.fileSelectAutoUpload == false && fileUpload == undefined){
+			return;	
+		}
+		
 		if(!this.queueLive) return;
 		if(this.queue.length == 0){
 			//trace("uploadEnd");
@@ -1902,7 +1914,7 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 
 			// --------------------- e
-			uploadQueue();
+			uploadQueue(fileUpload);
 		};
 		var setUploadingObj = function(){
 			this.uploadingObj = null;

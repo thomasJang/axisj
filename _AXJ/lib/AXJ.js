@@ -220,13 +220,14 @@ var axf = AXUtil = {
 			}
 		}
 
-		if(AXUtil.mobileConsole){
-			AXUtil.mobileConsole.append("<div>" + po + "</div>");
+		if(axf.mobileConsole){
+			axf.mobileConsole.append("<div>" + po + "</div>");
 		}else{
 			if (window.console == undefined) {
 			} else {
 				try {
-					console.log(po);
+					console.log( po );
+					 //+ ":" + axf.console.caller.name 
 				} catch (e) {
 					alert(e);
 				}
@@ -371,9 +372,10 @@ var Class = (function () {
 		var isqoute = qoute;
 		if (isqoute == undefined) isqoute = true;
 		switch (type) {
-			case 'undefined':
+			case 'undefined': return "undefined";
+			//case 'function': return "\"" + object.toString().replace(/\"/g, "\\\"") + "\"";
 			case 'function': return;
-			case 'unknown': return;
+			case 'unknown': return "unknown";
 			case 'boolean': return object.toString();
 			case 'number': return object.toString();
 			case 'string': return object.axtoJSON(true);
@@ -395,14 +397,14 @@ var Class = (function () {
 		var isqoute = qoute;
 		if (isqoute == undefined) isqoute = true;
 		switch (type) {
-			case 'undefined':
+			case 'undefined': return "undefined";
 			case 'function':
 							try {
 								return toJSONfn(object(), isqoute);
 							} catch (e) {
 								return;
 							}
-			case 'unknown': return;
+			case 'unknown': return "unknown";
 			case 'boolean': return object.toString();
 			case 'number': return object.toString();
 			case 'string': return object.axtoJSON(true);
