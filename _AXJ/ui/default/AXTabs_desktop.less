@@ -1,4 +1,4 @@
-@import "csslib";
+@import "LessUtils";
 
 /*!
  * AxisJ Javascript Library Version 1.0
@@ -7,10 +7,267 @@
  * Copyright AxisJ
  * http://AxisJ.com/license
  * Date 2012-09-28 오후 1:17:52
+ *
+ * Refactoring by Jowrney
+ * http://flybakset.com 
+ * Feb 12, 2014
+ *
  */
 
-/** horizen **/
-/** .AXTabs.Classic **/
+
+// AXTabs Preset ///////////////////////////////////////////////////
+.axtabs-colors-normal(){
+	@color-fill-a:#fdfdfd;
+	@color-fill-b:#e8e8e8;	
+	@color-stroke:#b9babc;
+	@color-text:#6e7a85;
+	@color-bg:#fdfdfd;
+}
+
+.axtabs-colors-classic(){
+	@color-fill-a:#c1cdd5;
+	@color-fill-b:#98a4ae;	
+	@color-stroke:#81898e;
+	@color-text:#ebf4f7;
+	@color-bg:#c1cdd5;
+}
+
+.axtabs-colors-blue(){
+	@color-fill-a:#6faee1;
+	@color-fill-b:#468ec9;	
+	@color-stroke:#3f80b1;
+	@color-text:#d0ebfe;
+	@color-bg:#6faee1;
+}
+
+.axtabs-colors-green(){
+	@color-fill-a:#98c87b;
+	@color-fill-b:#79aa5a;	
+	@color-stroke:#6a9751;
+	@color-text:#dffebe;
+	@color-bg:#98c87b;
+}
+
+.axtabs-colors-red(){
+	@color-fill-a:#c65a5b;
+	@color-fill-b:#a93b3e;
+	@color-stroke:#87302b;
+	@color-text:#fcccc9;
+	@color-bg:#c65a5b;
+}
+
+.axtabs-colors-disabled(){
+	@color-fill-a:#d7d7d7;
+	@color-fill-b:#d7d7d7;
+	@color-stroke:#ccc;
+	@color-text:#eaeaea;
+	@color-bg:#d7d7d7;
+}
+
+// AXTabs Style ///////////////////////////////////////////////////
+.axtabs-style-normal{
+	.axtabs-colors-normal();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px 1px 0px rgba(255,255,255,0.8);
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius (4px, 4px, 0, 0);
+}
+.axtabs-style-classic{
+	.axtabs-colors-classic();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.25);
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius (4px, 4px, 0, 0);
+}
+.axtabs-style-blue{
+	.axtabs-colors-blue();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.25);
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius (4px, 4px, 0, 0);
+}
+.axtabs-style-green{
+	.axtabs-colors-green();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.25);	
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius (4px, 4px, 0, 0);
+}
+.axtabs-style-red{
+	.axtabs-colors-red();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.25);	
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius (4px, 4px, 0, 0);
+}
+.axtabs-style-disabled{
+	.axtabs-colors-disabled();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.10);	
+	box-shadow: none;
+	.util-border-radius (4px, 4px, 0, 0);
+}
+
+// AXTabs Events ///////////////////////////////////////////////////
+.axtabs-event-normal{
+	&				{.axtabs-style-normal;}
+	&:hover, &:focus{
+		.axtabs-colors-normal();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}		
+}
+
+.axtabs-event-classic{
+	&				{.axtabs-style-classic;}
+	&:hover, &:focus{
+		.axtabs-colors-classic();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+.axtabs-event-blue{
+	&				{.axtabs-style-blue;}
+	&:hover, &:focus{
+		.axtabs-colors-blue();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+.axtabs-event-green{
+	&				{.axtabs-style-green;}
+	&:hover, &:focus{
+		.axtabs-colors-green();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+.axtabs-event-red{
+	&				{.axtabs-style-red;}
+	&:hover, &:focus{
+		.axtabs-colors-red();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+.axtabs-event-disabled{
+	&				{.axtabs-style-disabled;}
+	&:hover, &:focus{
+		.axtabs-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+
+// AXTabs Component ///////////////////////////////////////////////////
+//AXTabs Container
+.AXTabs {
+	position:relative;
+	min-height:30px;
+	overflow:hidden;
+	box-sizing:content-box !important;
+	
+	.AXTabsTray{
+		background:url(img/AXTabBg.png);
+		box-sizing:content-box !important;
+		
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:30px;
+			box-sizing:content-box !important;
+		}
+	}
+	
+	
+		
+	
+}
+
+//AXTab
+.AXTab {
+	position:relative;
+	font-size:12px; 
+	height:26px;line-height:26px;
+	margin:0;padding:0 10px;
+	cursor:pointer;
+	vertical-align:middle;	
+	outline:none;
+	&				{.axtabs-event-normal}
+	&.Classic		{.axtabs-event-classic;}
+	&.Blue			{.axtabs-event-blue;}
+	&.Green			{.axtabs-event-green;}		
+	&.Red			{.axtabs-event-red;}
+	&[disabled]		{.axtabs-event-disabled;}		
+}
+
+
+//AXTab Small
+.AXTabSmall{
+	position:relative;
+	font-size:11px; 
+	height:20px;line-height:20px;
+	margin:0;padding:0 10px;
+	cursor:pointer;
+	vertical-align:middle;	
+	outline:none;
+	&				{.axtabs-event-normal;}
+	&.Classic		{.axtabs-event-classic;}
+	&.Blue			{.axtabs-event-blue;}
+	&.Green			{.axtabs-event-green;}		
+	&.Red			{.axtabs-event-red;}	
+	&[disabled]		{.axtabs-event-disabled;}		
+}
+
+//AXTab Large
+.AXTabLarge{
+	position:relative;
+	font-size:12px; 
+	height:46px;line-height:46px;
+	margin:0;padding:0 10px;
+	cursor:pointer;
+	vertical-align:middle;	
+	outline:none;
+	&				{.axtabs-event-normal;}
+	&.Classic		{.axtabs-event-classic;}
+	&.Blue			{.axtabs-event-blue;}
+	&.Green			{.axtabs-event-green;}		
+	&.Red			{.axtabs-event-red;}
+	&[disabled]		{.axtabs-event-disabled;}				
+}
+
+
+/*
+//horizontal //
 .AXTabs .AXTabsTray .AXTab.Classic{
 	border:1px solid #82898f;
 	color:#ecf4f7;text-shadow:0px -1px #919aa2;
@@ -74,7 +331,7 @@
 	background:#fff;border-bottom:1px solid #fff;
 }
 
-/** .AXTabs.Blue **/
+// .AXTabs.Blue
 .AXTabs .AXTabsTray .AXTab.Blue{
 	border:1px solid #3d7fb3;
 	color:#d0ebff;text-shadow:0px -1px #5692c2;
@@ -138,7 +395,7 @@
 	background:#fff;border-bottom:1px solid #fff;
 }
 
-/** .AXTabs.Green **/
+// .AXTabs.Green
 .AXTabs .AXTabsTray .AXTab.Green{
 	border:1px solid #69994d;
 	color:#deffbb;text-shadow:0px -1px #729a59;
@@ -202,7 +459,7 @@
 	background:#fff;border-bottom:1px solid #fff;
 }
 
-/** .AXTabs.Red **/
+// .AXTabs.Red 
 .AXTabs .AXTabsTray .AXTab.Red{
 	border:1px solid #882f29;
 	color:#ffccc8;text-shadow:0px -1px #aa4949;
@@ -267,8 +524,8 @@
 }
 
 
-/** vertical **/
-/** .AXTabsVertical.Classic **/
+// vertical //
+// .AXTabsVertical.Classic
 .AXTabsVertical .AXTabsTray .AXTab.Classic{
 	border:1px solid #82898f;
 	color:#ecf4f7;text-shadow:0px -1px #919aa2;
@@ -382,7 +639,7 @@
 	border-left:1px solid #fff;
 }
 
-/** .AXTabsVertical.Blue **/
+// .AXTabsVertical.Blue
 .AXTabsVertical .AXTabsTray .AXTab.Blue{
 	border:1px solid #3d7fb3;
 	color:#d0ebff;text-shadow:0px -1px #5692c2;
@@ -497,7 +754,7 @@
 	border-left:1px solid #fff;
 }
 
-/** .AXTabsVertical.Green **/
+// .AXTabsVertical.Green 
 .AXTabsVertical .AXTabsTray .AXTab.Green{
 	border:1px solid #69994d;
 	color:#deffbb;text-shadow:0px -1px #729a59;
@@ -612,7 +869,7 @@
 	border-left:1px solid #fff;
 }
 
-/** .AXTabsVertical.Red **/
+// .AXTabsVertical.Red 
 .AXTabsVertical .AXTabsTray .AXTab.Red{
 	border:1px solid #882f29;
 	color:#ffccc8;text-shadow:0px -1px #aa4949;
@@ -727,3 +984,4 @@
 .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.Red.on{
 	border-left:1px solid #fff;
 }
+*/

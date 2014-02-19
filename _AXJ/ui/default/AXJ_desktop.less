@@ -581,368 +581,304 @@
 	text-align:right;
 }
 
-/* ---------------------------- AXTabs ------------------------------- */
-	/* horizen AXTabs */
-.AXTabs{
+
+// S:AXTabs ///////////////////////////////////////////
+// AXTabs Preset //
+.axtabs-colors-normal(){
+	@color-fill-a:#fdfdfd;
+	@color-fill-b:#e8e8e8;	
+	@color-stroke:#b9babc;
+	@color-text:#6e7a85;
+	@color-bg:#fdfdfd;
+}
+.axtabs-colors-disabled(){
+	@color-fill-a:#d7d7d7;
+	@color-fill-b:#d7d7d7;
+	@color-stroke:#ccc;
+	@color-text:#eaeaea;
+	@color-bg:#d7d7d7;
+}
+
+// AXTabs Horizontal Style //////
+.axtabs-style-normal{
+	.axtabs-colors-normal();
+	.util-gradient(left, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.25);		
+	.util-border-radius(4px,4px,0, 0);			
+}
+.axtabs-style-disabled{
+	.axtabs-colors-disabled();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.10);	
+	.util-border-radius(4px);			
+}
+
+// AXTabs Events //
+.axtabs-event-normal{
+	&				{.axtabs-style-normal;}
+	&:hover, &:focus{
+		.axtabs-colors-normal();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}		
+	&.on{
+		background:#fff; border-bottom:1px solid #fff;
+	}
+}
+.axtabs-event-disabled{
+	&				{.axtabs-style-disabled;}
+	&:hover, &:focus{
+		.axtabs-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+	&:first-child{margin-left:5px;}	
+}
+
+// AXTabs Component //
+//AXTabs
+.AXTabs {
 	position:relative;min-height:30px;
 	overflow:hidden;
 	box-sizing:content-box !important;
-}
-.AXTabs .AXTabsTray{
-	background:url(img/AXTabBg.png);
-	box-sizing:content-box !important;
-}
-.AXTabs .AXTabsTray .trayScroll{
-	position:absolute;
-	left:0px;top:0px;
-	height:30px;
-	box-sizing:content-box !important;
-}
-.AXTabs .AXTabsTray .AXTab{
-	display:block;float:left;
-	cursor:pointer;
-	height:26px;min-width:50px;
-	padding:0px 10px;
-	box-sizing:content-box !important;
-	margin:2px 0px 0px 2px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
-	text-decoration:none;
-	background:url(img/defaultRegular.png) repeat-x;
-	outline:none;
-}
-.AXTabs .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -26px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabs .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -52px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabs .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
-}
-.AXTabs .AXTabsTray .AXTabSplit{
-	display:none;
+	.AXTabsTray{
+		background:url(img/AXTabBg.png);
+		box-sizing:content-box !important;	
+		.trayScroll{
+			position:absolute; 
+			left:0px;top:0px;
+			height:30px;
+			box-sizing:content-box !important;		
+		}
+		.AXTabSplit{
+			display:none;
+		}
+		.AXTab					{.axtabs-unit-tab}
+		.leftArrowHandleBox		{.axtabs-unit-left}		
+		.rightArrowHandleBox	{.axtabs-unit-right}				
+		.rightArrowMoreBox		{.axtabs-unit-more}
+	}	
 }
 
-.AXTabs .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:28px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabs .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:28px;
-	background:url(img/leftArrows.png) no-repeat -5px 0px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabs .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -30px;
-}
-	
-.AXTabs .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:28px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabs .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:26px;
-	background:url(img/rightArrows.png) no-repeat 10px 0px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabs .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -30px;
-}
 
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-	.AXTabs .rightArrowMoreBox{
-		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:28px;
-		background:#fff;
-	}
-	.AXTabs .rightArrowMoreBox .tabArrow{
-		display:block;width:24px;height:26px;
-		background:url(img/rightArrowsMore.png) no-repeat center 0px;
-		text-indent:-1000px;overflow:hidden;
-	}
-	.AXTabs .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -30px;
-	}
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-	
-	/* horizen AXTabsLarge */
 .AXTabsLarge{
 	position:relative;min-height:46px;
 	overflow:hidden;
-}
-.AXTabsLarge .AXTabsTray{
-	background:url(img/AXTabBgLarge.png);
-}
-.AXTabsLarge .AXTabsTray .trayScroll{
-	position:absolute;
-	left:0px;top:0px;
-	height:46px;
-}
-.AXTabsLarge .AXTabsTray .AXTab{
-	display:block;float:left;
-	cursor:pointer;
-	height:40px;min-width:100px;
-	padding:0px 10px;
-	margin:4px 0px 0px 4px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
-	text-decoration:none;
-	background:url(img/defaultLarge.png) repeat-x;
-	outline:none;
-}
-.AXTabsLarge .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabsLarge .AXTabsTray .AXTab:hover, .AXTabsLarge .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -46px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsLarge .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -92px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsLarge .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
-}
-
-.AXTabsLarge .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:44px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabsLarge .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:44px;
-	background:url(img/leftArrows.png) no-repeat -5px 6px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsLarge .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -24px;
-}
-	
-.AXTabsLarge .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:44px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabsLarge .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:44px;
-	background:url(img/rightArrows.png) no-repeat 10px 6px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsLarge .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -24px;
-}
-
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-	.AXTabsLarge .rightArrowMoreBox{
-		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:44px;
-		background:#fff;
+	.AXTabsTray{
+		background:url(img/AXTabBgLarge.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:46px;
+		}
+		.AXTab					{.axtabs-unit-tab(40px, 100px, 14px, 4px)}
+		.leftArrowHandleBox		{.axtabs-unit-left(44px)}		
+		.rightArrowHandleBox	{.axtabs-unit-right(44px)}				
+		.rightArrowMoreBox		{.axtabs-unit-more(44px)}
 	}
-	.AXTabsLarge .rightArrowMoreBox .tabArrow{
-		display:block;width:24px;height:44px;
-		background:url(img/rightArrowsMore.png) no-repeat center 6px;
-		text-indent:-1000px;overflow:hidden;
-	}
-	.AXTabsLarge .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -24px;
-	}
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
+}
 
 
-	/* horizen AXTabsSmall */
 .AXTabsSmall{
 	position:relative;min-height:24px;
 	overflow:hidden;
+	.AXTabsTray{
+		background:url(img/AXTabBgSmall.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:24px;
+		}
+		.AXTab					{.axtabs-unit-tab(20px, 60px, 11px, 2px)}
+		.leftArrowHandleBox		{.axtabs-unit-left(22px)}		
+		.rightArrowHandleBox	{.axtabs-unit-right(22px)}				
+		.rightArrowMoreBox		{.axtabs-unit-more(22px)}
+	}
 }
-.AXTabsSmall .AXTabsTray{
-	background:url(img/AXTabBgSmall.png);
-}
-.AXTabsSmall .AXTabsTray .trayScroll{
-	position:absolute;
-	left:0px;top:0px;
-	height:24px;
-}
-.AXTabsSmall .AXTabsTray .AXTab{
+
+
+//Acc
+.axtabs-unit-tab(@height:26px, @min-width:50px, @font-size:12px; @margin:2px){
+	//Default Horzonntal 
 	display:block;float:left;
 	cursor:pointer;
-	height:20px;min-width:60px;
+	height:@height;min-width:@min-width;
 	padding:0px 10px;
-	margin:2px 0px 0px 1px;
+	box-sizing:content-box !important;
+	margin:@margin 0px 0px @margin;
 	border:1px solid #b9babc;
 	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
+	font-size:@font-size;color:#6e7a86;line-height:@height; text-align:center;
 	text-decoration:none;
-	background:url(img/defaultSmall.png) repeat-x;
+	background:url(img/defaultRegular.png) repeat-x;
 	outline:none;
-}
-.AXTabsSmall .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabsSmall .AXTabsTray .AXTab:hover, .AXTabsSmall .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -20px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsSmall .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -40px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsSmall .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
+	& {.axtabs-event-normal;}
+	&:first-child{margin-left:5px;}
 }
 
-
-.AXTabsSmall .leftArrowHandleBox{
+.axtabs-unit-left(@height:28px){
 	position:absolute;
 	left:0px;top:1px;
-	width:29px;height:22px;
+	width:29px;height:@height;
 	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabsSmall .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:22px;
-	background:url(img/leftArrows.png) no-repeat -5px -5px;
-	text-indent:-1000px;overflow:hidden;
+	.tabArrow{
+		display:block;width:29px;height:@height;
+		background:url(img/leftArrows.png) no-repeat -5px 0px;
+		text-indent:-1000px;overflow:hidden;
+		&:hover{
+			background:url(img/leftArrows.png) no-repeat -5px -30px;	
+		}
+	}
 }
-.AXTabsSmall .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -35px;
-}
-	
-.AXTabsSmall .rightArrowHandleBox{
+
+.axtabs-unit-right(@height:28px){
 	position:absolute;
 	right:24px;top:1px;
-	width:29px;height:22px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabsSmall .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:22px;
-	background:url(img/rightArrows.png) no-repeat 10px -3px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsSmall .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -33px;
-}
-
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-	.AXTabsSmall .rightArrowMoreBox{
-		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:22px;
-		background:#fff;
-	}
-	.AXTabsSmall .rightArrowMoreBox .tabArrow{
-		display:block;width:29px;height:22px;
-		background:url(img/rightArrowsMore.png) no-repeat center -3px;
+	width:29px;height:@height;
+	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;	
+	.tabArrow{
+		display:block;width:29px;height:@height;
+		background:url(img/rightArrows.png) no-repeat 50%;
 		text-indent:-1000px;overflow:hidden;
-	}
-	.AXTabsSmall .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -33px;
-	}
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
+		&:hover{
+			background:url(img/rightArrows.png) no-repeat 50%;
+		}
+	}	
+}
 
-	/* AXTabsVertical */
+.axtabs-unit-more(@height:28px){
+	position:absolute;
+	right:0px;top:1px;
+	width:24px;height:@height;
+	background:#fff;	
+	.tabArrow{
+		display:block;width:24px;height:@height;
+		background:url(img/rightArrowsMore.png) no-repeat 50%;
+		text-indent:-1000px;overflow:hidden;
+		&:hover{
+			background:url(img/rightArrowsMore.png) no-repeat 50%;
+		}
+	}	
+}
+
+
+
+// AXTabs Vertical Style /////
+.axtabs-vertical-style-normal(@direction:left){
+	.axtabs-colors-normal();
+	.util-gradient(@direction, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px 1px 0px rgba(255,255,255,0.8);
+	.util-border-radius(4px, 0, 4px, 0);			
+}
+.axtabs-vertical-style-disabled(@direction:left){
+	.axtabs-colors-disabled();
+	.util-gradient(@direction, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.10);	
+	.util-border-radius(4px);			
+}
+
+// AXTabs Events //
+.axtabs-vertical-event-normal{
+	&				{.axtabs-vertical-style-normal;}
+	&:hover, &:focus{
+		.axtabs-colors-normal();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}		
+	&.on{
+		background:#fff; border-bottom:1px solid #fff;
+	}
+}
+.axtabs-vertical-event-disabled{
+	&				{.axtabs-vertical-style-disabled;}
+	&:hover, &:focus{
+		.axtabs-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+	&:first-child{margin-left:5px;}	
+}
+
 .AXTabsVertical{
-	position:relative;min-width:30px;
+	position:relative;min-width:30px;	
+	&.leftSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png);
+			.AXTab{
+
+				.axtabs-vertical-unit-tab; 
+				.AXTabText {.axtabs-unit-text-left}
+			}
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
+			.AXTab{
+				.axtabs-vertical-unit-tab; 
+				.AXTabText {.axtabs-unit-text-right}
+			}
+		}
+	}
+	.AXTabsTray{
+		width:30px;		
+		.AXTab{
+			.axtabs-vertical-unit-tab; 
+			.AXTabText {.axtabs-unit-text-left}
+		}
+	}	
 }
-.AXTabsVertical .AXTabsTray{
-	width:30px;
-}
-.AXTabsVertical.leftSide .AXTabsTray{
-	background:url(img/AXTabBgVerticalLeft.png);
-}
-.AXTabsVertical.rightSide .AXTabsTray{
-	background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
-}
-.AXTabsVertical .AXTabsTray .AXTab{
-	display:block;
+
+.axtabs-vertical-unit-tab(@height:26px, @min-width:50px, @font-size:12px; @margin:2px){
+	display:block;float:left;
 	cursor:pointer;
 	width:26px;min-height:80px;
-	padding:10px 0px;
-	margin:2px 0 0 2px;
+	padding:10px 0px;	
+	box-sizing:content-box !important;
+	margin:@margin 0px 0px @margin;
 	border:1px solid #b9babc;
-	font-size:12px;color:#6e7a86;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:@font-size;color:#6e7a86;line-height:@height; text-align:center;
 	text-decoration:none;
+	background:url(img/defaultRegular.png) repeat-x;
 	outline:none;
-	position:relative;
+	&				{.axtabs-vertical-event-normal}
+	&[disabled]		{.axtabs-vertical-event-disabled;}			
 }
-.AXTabsVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:4px;border-bottom-left-radius:4px;
-	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:4px;border-bottom-right-radius:4px;
-	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
-}
-.AXTabsVertical .AXTabsTray .AXTab:hover, .AXTabsVertical .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background-position:-26px 0px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab:focus{
-	border-left:1px solid #949fa8;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab:focus{
-	border-right:1px solid #949fa8;
-}
-.AXTabsVertical .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background-position:-52px 0px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab:active{
-	border-left:1px solid #b9babc;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:active{
-	border-right:1px solid #b9babc;
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff;border-right:1px solid #fff;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff;border-left:1px solid #fff;
-}
-.AXTabsVertical .AXTabsTray .AXTab .AXTabText{
-	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
+
+.axtabs-unit-text-left(){
 	display:block;
 	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
 	text-align:center;.Ellip();
-
-	transform:rotate(-90deg) translateX(-70px) translateY(19px);
-	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-
-.AXTabsVertical.leftSide .AXTabsTray .AXTab .AXTabText{
 	left:5px;top:4px;
 	transform:rotate(-90deg) translateX(-70px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
 	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+
 }
 
-.AXTabsVertical.rightSide .AXTabsTray .AXTab .AXTabText{
+.axtabs-unit-text-right(){
+	display:block;
+	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
+	text-align:center;.Ellip();
 	left:2px;top:4px;
 	transform:rotate(90deg) translateX(-20px) translateY(0px);
 	-o-transform:rotate(90deg) translateX(-20px) translateY(0px); -o-transform-origin:0 100%;
@@ -951,189 +887,576 @@
 	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
 }
 
-	/* AXTabsLargeVertical */
+
+
+/* ---------------------------- AXTabs ------------------------------- */
+/* horizen AXTabs */
+/*
+.AXTabs{
+	position:relative;min-height:30px;
+	overflow:hidden;
+	box-sizing:content-box !important;
+	.AXTabsTray{
+		background:url(img/AXTabBg.png);
+		box-sizing:content-box !important;
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:30px;
+			box-sizing:content-box !important;		
+		}
+		.AXTabSplit{
+			display:none;
+		}		
+		.AXTab{
+			display:block;float:left;
+			cursor:pointer;
+			height:26px;min-width:50px;
+			padding:0px 10px;
+			box-sizing:content-box !important;
+			margin:2px 0px 0px 2px;
+			border:1px solid #b9babc;
+			border-top-left-radius:4px;border-top-right-radius:4px;
+			font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
+			text-decoration:none;
+			background:url(img/defaultRegular.png) repeat-x;
+			outline:none;
+			&.on{
+				background:#fff;border-bottom:1px solid #fff;
+			}
+			&:first-child{margin-left:5px;}
+			&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+				background-position:0px -26px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+				background-position:0px -52px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+		}
+		.leftArrowHandleBox{
+			position:absolute;
+			left:0px;top:1px;
+			width:29px;height:28px;
+			background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+			.tabArrow{
+				display:block;width:29px;height:28px;
+				background:url(img/leftArrows.png) no-repeat -5px 0px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/leftArrows.png) no-repeat -5px -30px;	
+				}
+			}
+			
+		}
+		.rightArrowHandleBox{
+			position:absolute;
+			right:24px;top:1px;
+			width:29px;height:28px;
+			background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+			.tabArrow{
+				display:block;width:29px;height:26px;
+				background:url(img/rightArrows.png) no-repeat 10px 0px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrows.png) no-repeat 10px -30px;
+				}
+			}
+		} 
+		.rightArrowMoreBox{
+			position:absolute;
+			right:0px;top:1px;
+			width:24px;height:28px;
+			background:#fff;
+			.tabArrow{
+				display:block;width:24px;height:26px;
+				background:url(img/rightArrowsMore.png) no-repeat center 0px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrowsMore.png) no-repeat center -30px;
+				}
+
+			}
+			
+		}			
+	}
+}
+
+
+	
+// horizen AXTabsLarge
+.AXTabsLarge{
+	position:relative;min-height:46px;
+	overflow:hidden;
+	.AXTabsTray{
+		background:url(img/AXTabBgLarge.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:46px;
+		}
+		.AXTab{
+			display:block;float:left;
+			cursor:pointer;
+			height:40px;min-width:100px;
+			padding:0px 10px;
+			margin:4px 0px 0px 4px;
+			border:1px solid #b9babc;
+			border-top-left-radius:4px;border-top-right-radius:4px;
+			font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
+			text-decoration:none;
+			background:url(img/defaultLarge.png) repeat-x;
+			outline:none;
+			&:first-child{margin-left:5px;}
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+				background-position:0px -46px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+				background-position:0px -92px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			&.on{
+				background:#fff;border-bottom:1px solid #fff;
+			}
+		}
+		.leftArrowHandleBox{
+			position:absolute;
+			left:0px;top:1px;
+			width:29px;height:44px;
+			background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+			.tabArrow{
+				display:block;width:29px;height:44px;
+				background:url(img/leftArrows.png) no-repeat -5px 6px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/leftArrows.png) no-repeat -5px -24px;
+				}
+			}
+		}	
+		.rightArrowHandleBox{
+			position:absolute;
+			right:24px;top:1px;
+			width:29px;height:44px;
+			background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+			.tabArrow{
+				display:block;width:29px;height:44px;
+				background:url(img/rightArrows.png) no-repeat 10px 6px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrows.png) no-repeat 10px -24px;
+				}
+				
+			}			
+		}
+		.rightArrowMoreBox{
+			position:absolute;
+			right:0px;top:1px;
+			width:24px;height:44px;
+			background:#fff;
+			.tabArrow{
+				display:block;width:24px;height:44px;
+				background:url(img/rightArrowsMore.png) no-repeat center 6px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrowsMore.png) no-repeat center -24px;
+				}
+			}
+			
+		}
+	}
+}
+
+
+// horizen AXTabsSmall
+.AXTabsSmall{
+	position:relative;min-height:24px;
+	overflow:hidden;
+	.AXTabsTray{
+		background:url(img/AXTabBgSmall.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:24px;
+		}
+		.AXTab{
+			display:block;float:left;
+			cursor:pointer;
+			height:20px;min-width:60px;
+			padding:0px 10px;
+			margin:2px 0px 0px 1px;
+			border:1px solid #b9babc;
+			border-top-left-radius:4px;border-top-right-radius:4px;
+			font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
+			text-decoration:none;
+			background:url(img/defaultSmall.png) repeat-x;
+			outline:none;
+			&:first-child{margin-left:5px;}
+			&:hover, &:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+				background-position:0px -20px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+				background-position:0px -40px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			&.on{
+				background:#fff;border-bottom:1px solid #fff;
+			}
+		}
+		.leftArrowHandleBox{
+			position:absolute;
+			left:0px;top:1px;
+			width:29px;height:22px;
+			background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+			.tabArrow{
+				display:block;width:29px;height:22px;
+				background:url(img/leftArrows.png) no-repeat -5px -5px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/leftArrows.png) no-repeat -5px -35px;
+				}
+			}			
+		} 				
+		.rightArrowHandleBox{
+			position:absolute;
+			right:24px;top:1px;
+			width:29px;height:22px;
+			background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+			.tabArrow{
+				display:block;width:29px;height:22px;
+				background:url(img/rightArrows.png) no-repeat 10px -3px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrows.png) no-repeat 10px -33px;
+				}
+			}
+		} 
+		.rightArrowMoreBox{
+			position:absolute;
+			right:0px;top:1px;
+			width:24px;height:22px;
+			background:#fff;
+			.tabArrow{
+				display:block;width:29px;height:22px;
+				background:url(img/rightArrowsMore.png) no-repeat center -3px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrowsMore.png) no-repeat center -33px;
+				}
+
+			}			
+		}
+		
+
+	}
+}
+*/
+
+/*
+// AXTabsVertical 
+.AXTabsVertical{
+	position:relative;min-width:30px;
+	&.leftSide{ 
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png);
+			.AXTab{
+				border-top-left-radius:4px;border-bottom-left-radius:4px;
+				background:url(img/defaultRegularVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-left:1px solid #949fa8;
+				}
+				&:active{	
+					border-left:1px solid #b9babc;											
+				}
+				&.on{
+					background:#fff;border-right:1px solid #fff;
+				}
+				.AXTabText{
+					left:5px;top:4px;
+					transform:rotate(-90deg) translateX(-70px) translateY(19px);
+					-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+				}
+			}
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
+			.AXTab{
+				border-top-right-radius:4px;border-bottom-right-radius:4px;
+				background:url(img/defaultRegularVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-right:1px solid #949fa8;
+				}
+				&:active{				
+					border-right:1px solid #b9babc;				
+				}
+				&.on{
+					background:#fff;border-left:1px solid #fff;
+				}
+				.AXTabText{
+					left:2px;top:4px;
+					transform:rotate(90deg) translateX(-20px) translateY(0px);
+					-o-transform:rotate(90deg) translateX(-20px) translateY(0px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(90deg) translateX(-20px) translateY(0px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(90deg) translateX(-20px) translateY(0px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+				}								
+			}
+		}
+	}
+	.AXTabsTray{
+		width:30px;
+		.AXTab{
+			display:block;
+			cursor:pointer;
+			width:26px;min-height:80px;
+			padding:10px 0px;
+			margin:2px 0 0 2px;
+			border:1px solid #b9babc;
+			font-size:12px;color:#6e7a86;
+			text-decoration:none;
+			outline:none;
+			position:relative;
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+				background-position:-26px 0px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+				background-position:-52px 0px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;			
+			}
+			.AXTabText{
+				display:block;
+				position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
+				text-align:center;.Ellip();
+			
+				transform:rotate(-90deg) translateX(-70px) translateY(19px);
+				-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
+				-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
+				-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
+				filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}			
+						
+		}		
+	}
+	
+	
+}
+
+
+
+// AXTabsLargeVertical 
 .AXTabsLargeVertical{
 	position:relative;min-width:46px;
+	&.leftSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgLargeVerticalLeft.png);
+			.AXTab{
+				border-top-left-radius:4px;border-bottom-left-radius:4px;
+				background:url(img/defaultLargeVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-left:1px solid #949fa8;
+				}
+				&:active{
+					border-left:1px solid #b9babc;		
+				}
+				&.on{
+					background:#fff;border-right:1px solid #fff;
+				}	
+				.AXTabText{
+				
+					transform:rotate(-90deg) translateX(-82px) translateY(31px);
+					-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+				}
+							
+			}			
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgLargeVerticalLeft.png) -41px 0px;
+			.AXTab{
+				border-top-right-radius:4px;border-bottom-right-radius:4px;
+				background:url(img/defaultLargeVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-right:1px solid #949fa8;
+				}
+				&:active{
+					border-right:1px solid #b9babc;
+				}				
+				&.on{
+					background:#fff;border-left:1px solid #fff;
+				}
+				.AXTabText{
+				
+					transform:rotate(90deg) translateX(-30px) translateY(1px);
+					-o-transform:rotate(90deg) translateX(-30px) translateY(1px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(90deg) translateX(-30px) translateY(1px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(90deg) translateX(-30px) translateY(1px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+				}
+			}
+			
+		}
+	}
+	.AXTabsTray{
+		width:46px;
+		.AXTab{
+			display:block;
+			cursor:pointer;
+			width:40px;min-height:100px;
+			padding:10px 0px;
+			margin:4px 0 0 4px;
+			border:1px solid #b9babc;
+			font-size:14px;color:#6e7a86;
+			text-decoration:none;
+			outline:none;
+			position:relative;
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+				background-position:-46px 0px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+				background-position:-92px 0px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			.AXTabText{
+				display:block;
+				position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
+				text-align:center;.Ellip();
+				transform:rotate(-90deg) translateX(-82px) translateY(31px);
+				-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
+				-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
+				-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
+				filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}
+		}
+		
+	}	
 }
-.AXTabsLargeVertical .AXTabsTray{
-	width:46px;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray{
-	background:url(img/AXTabBgLargeVerticalLeft.png);
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray{
-	background:url(img/AXTabBgLargeVerticalLeft.png) -41px 0px;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab{
-	display:block;
-	cursor:pointer;
-	width:40px;min-height:100px;
-	padding:10px 0px;
-	margin:4px 0 0 4px;
-	border:1px solid #b9babc;
-	font-size:14px;color:#6e7a86;
-	text-decoration:none;
-	outline:none;
-	position:relative;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:4px;border-bottom-left-radius:4px;
-	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:4px;border-bottom-right-radius:4px;
-	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab:hover, .AXTabsLargeVertical .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background-position:-46px 0px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:focus{
-	border-left:1px solid #949fa8;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:focus{
-	border-right:1px solid #949fa8;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background-position:-92px 0px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:active{
-	border-left:1px solid #b9babc;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:active{
-	border-right:1px solid #b9babc;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff;border-right:1px solid #fff;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff;border-left:1px solid #fff;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab .AXTabText{
-	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
-	display:block;
-	position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
-	text-align:center;.Ellip();
 
-	transform:rotate(-90deg) translateX(-82px) translateY(31px);
-	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
 
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab .AXTabText{
-
-	transform:rotate(-90deg) translateX(-82px) translateY(31px);
-	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab .AXTabText{
-
-	transform:rotate(90deg) translateX(-30px) translateY(1px);
-	-o-transform:rotate(90deg) translateX(-30px) translateY(1px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(90deg) translateX(-30px) translateY(1px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(90deg) translateX(-30px) translateY(1px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
-}
-
-	/* AXTabsSmallVertical */
+// AXTabsSmallVertical 
 .AXTabsSmallVertical{
 	position:relative;min-width:24px;
-}
-.AXTabsSmallVertical .AXTabsTray{
-	width:24px;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray{
-	background:url(img/AXTabBgSmallVerticalLeft.png)-1px 0px;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray{
-	background:url(img/AXTabBgSmallVerticalLeft.png) -22px 0px;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab{
-	display:block;
-	cursor:pointer;
-	width:20px;min-height:60px;
-	padding:10px 0px;
-	margin:2px 0 0 1px;
-	border:1px solid #b9babc;
-	font-size:11px;color:#6e7a86;
-	text-decoration:none;
-	outline:none;
-	position:relative;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:4px;border-bottom-left-radius:4px;
-	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:4px;border-bottom-right-radius:4px;
-	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab:hover, .AXTabsSmallVertical .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background-position:-20px 0px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:focus{
-	border-left:1px solid #949fa8;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.rihgtSide .AXTabsTray .AXTab:focus{
-	border-right:1px solid #949fa8;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background-position:-40px 0px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:active{
-	border-left:1px solid #b9babc;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:active{
-	border-right:1px solid #b9babc;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff;border-right:1px solid #fff;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff;border-left:1px solid #fff;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab .AXTabText{
-	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
-	display:block;
-	position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
-	text-align:center;.Ellip();
+	&.leftSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgSmallVerticalLeft.png)-1px 0px;
+			.AXTab{
+				border-top-left-radius:4px;border-bottom-left-radius:4px;
+				background:url(img/defaultSmallVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-left:1px solid #949fa8;
+				}
+				&:active{
+					border-left:1px solid #b9babc;
+				}
+				&.on{
+					background:#fff;border-right:1px solid #fff;
+				}
+				.AXTabText{
+					left:2px;top:2px;
+					transform:rotate(-90deg) translateX(-57px) translateY(19px);
+					-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+				}
+				
+			}
 
-	transform:rotate(-90deg) translateX(-57px) translateY(19px);
-	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgSmallVerticalLeft.png) -22px 0px;
+			.AXTab{
+				border-top-right-radius:4px;border-bottom-right-radius:4px;
+				background:url(img/defaultSmallVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-right:1px solid #949fa8;
+				}
+				&:active{
+					border-right:1px solid #b9babc;
+				}
+				&.on{
+					background:#fff;border-left:1px solid #fff;
+				}
+				.AXTabText{
+					left:0px;top:2px;
+					transform:rotate(90deg) translateX(-18px) translateY(0px);
+					-o-transform:rotate(90deg) translateX(-18px) translateY(0px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(90deg) translateX(-18px) translateY(0px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(90deg) translateX(-18px) translateY(0px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+				}
+			}
+		}
+	}
+	.AXTabsTray{
+		width:24px;
+		.AXTab{
+			display:block;
+			cursor:pointer;
+			width:20px;min-height:60px;
+			padding:10px 0px;
+			margin:2px 0 0 1px;
+			border:1px solid #b9babc;
+			font-size:11px;color:#6e7a86;
+			text-decoration:none;
+			outline:none;
+			position:relative;
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+				background-position:-20px 0px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+				background-position:-40px 0px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			.AXTabText{
+				display:block;
+				position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
+				text-align:center;.Ellip();
+				transform:rotate(-90deg) translateX(-57px) translateY(19px);
+				-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
+				-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
+				-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
+				filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}		
+		}		
+	}
+	
+	
 }
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab .AXTabText{
-	left:2px;top:2px;
-	transform:rotate(-90deg) translateX(-57px) translateY(19px);
-	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab .AXTabText{
-	left:0px;top:2px;
-	transform:rotate(90deg) translateX(-18px) translateY(0px);
-	-o-transform:rotate(90deg) translateX(-18px) translateY(0px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(90deg) translateX(-18px) translateY(0px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(90deg) translateX(-18px) translateY(0px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
-}
+*/
+
 
 
 /* ---------------------------- AXCalendar ------------------------------- */

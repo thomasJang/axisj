@@ -1311,8 +1311,89 @@
   text-shadow: 0px -1px #b6b6b6;
   text-align: right;
 }
-/* ---------------------------- AXTabs ------------------------------- */
-/* horizen AXTabs */
+.axtabs-style-normal {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.axtabs-style-disabled {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
+  color: #eaeaea;
+  border: 1px solid #cccccc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axtabs-event-normal {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.axtabs-event-normal:hover,
+.axtabs-event-normal:focus {
+  background: #e8e8e8;
+}
+.axtabs-event-normal:active {
+  box-shadow: none;
+}
+.axtabs-event-normal.on {
+  background: #fff;
+  border-bottom: 1px solid #fff;
+}
+.axtabs-event-disabled {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(top, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(top, #d7d7d7, #d7d7d7);
+  color: #eaeaea;
+  border: 1px solid #cccccc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axtabs-event-disabled:hover,
+.axtabs-event-disabled:focus {
+  background: #d7d7d7;
+}
+.axtabs-event-disabled:active {
+  box-shadow: none;
+}
+.axtabs-event-disabled:first-child {
+  margin-left: 5px;
+}
 .AXTabs {
   position: relative;
   min-height: 30px;
@@ -1329,6 +1410,9 @@
   top: 0px;
   height: 30px;
   box-sizing: content-box !important;
+}
+.AXTabs .AXTabsTray .AXTabSplit {
+  display: none;
 }
 .AXTabs .AXTabsTray .AXTab {
   display: block;
@@ -1350,33 +1434,35 @@
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
 }
-.AXTabs .AXTabsTray .AXTab:first-child {
-  margin-left: 5px;
+.AXTabs .AXTabsTray .AXTab {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
 }
 .AXTabs .AXTabsTray .AXTab:hover,
 .AXTabs .AXTabsTray .AXTab:focus {
-  border-top: 1px solid #949fa8;
-  border-left: 1px solid #949fa8;
-  border-right: 1px solid #949fa8;
-  background-position: 0px -26px;
-  text-shadow: 0px 1px #fff;
+  background: #e8e8e8;
 }
 .AXTabs .AXTabsTray .AXTab:active {
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-right: 1px solid #b9babc;
-  background-position: 0px -52px;
-  color: #fff;
-  text-shadow: 0px 1px #c5ccd0;
+  box-shadow: none;
 }
 .AXTabs .AXTabsTray .AXTab.on {
   background: #fff;
   border-bottom: 1px solid #fff;
 }
-.AXTabs .AXTabsTray .AXTabSplit {
-  display: none;
+.AXTabs .AXTabsTray .AXTab:first-child {
+  margin-left: 5px;
 }
-.AXTabs .leftArrowHandleBox {
+.AXTabs .AXTabsTray .leftArrowHandleBox {
   position: absolute;
   left: 0px;
   top: 1px;
@@ -1384,7 +1470,7 @@
   height: 28px;
   background: url(img/leftArrowsBg.png) repeat-y 0px 0px;
 }
-.AXTabs .leftArrowHandleBox .tabArrow {
+.AXTabs .AXTabsTray .leftArrowHandleBox .tabArrow {
   display: block;
   width: 29px;
   height: 28px;
@@ -1392,10 +1478,10 @@
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabs .leftArrowHandleBox .tabArrow:hover {
+.AXTabs .AXTabsTray .leftArrowHandleBox .tabArrow:hover {
   background: url(img/leftArrows.png) no-repeat -5px -30px;
 }
-.AXTabs .rightArrowHandleBox {
+.AXTabs .AXTabsTray .rightArrowHandleBox {
   position: absolute;
   right: 24px;
   top: 1px;
@@ -1403,19 +1489,18 @@
   height: 28px;
   background: url(img/rightArrowsBg.png) repeat-y 100% 0px;
 }
-.AXTabs .rightArrowHandleBox .tabArrow {
+.AXTabs .AXTabsTray .rightArrowHandleBox .tabArrow {
   display: block;
   width: 29px;
-  height: 26px;
-  background: url(img/rightArrows.png) no-repeat 10px 0px;
+  height: 28px;
+  background: url(img/rightArrows.png) no-repeat 50%;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabs .rightArrowHandleBox .tabArrow:hover {
-  background: url(img/rightArrows.png) no-repeat 10px -30px;
+.AXTabs .AXTabsTray .rightArrowHandleBox .tabArrow:hover {
+  background: url(img/rightArrows.png) no-repeat 50%;
 }
-/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-.AXTabs .rightArrowMoreBox {
+.AXTabs .AXTabsTray .rightArrowMoreBox {
   position: absolute;
   right: 0px;
   top: 1px;
@@ -1423,19 +1508,17 @@
   height: 28px;
   background: #fff;
 }
-.AXTabs .rightArrowMoreBox .tabArrow {
+.AXTabs .AXTabsTray .rightArrowMoreBox .tabArrow {
   display: block;
   width: 24px;
-  height: 26px;
-  background: url(img/rightArrowsMore.png) no-repeat center 0px;
+  height: 28px;
+  background: url(img/rightArrowsMore.png) no-repeat 50%;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabs .rightArrowMoreBox .tabArrow:hover {
-  background: url(img/rightArrowsMore.png) no-repeat center -30px;
+.AXTabs .AXTabsTray .rightArrowMoreBox .tabArrow:hover {
+  background: url(img/rightArrowsMore.png) no-repeat 50%;
 }
-/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-/* horizen AXTabsLarge */
 .AXTabsLarge {
   position: relative;
   min-height: 46px;
@@ -1457,42 +1540,48 @@
   height: 40px;
   min-width: 100px;
   padding: 0px 10px;
+  box-sizing: content-box !important;
   margin: 4px 0px 0px 4px;
   border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 14px;
   color: #6e7a86;
-  line-height: 42px;
+  line-height: 40px;
   text-align: center;
   text-decoration: none;
-  background: url(img/defaultLarge.png) repeat-x;
+  background: url(img/defaultRegular.png) repeat-x;
   outline: none;
 }
-.AXTabsLarge .AXTabsTray .AXTab:first-child {
-  margin-left: 5px;
+.AXTabsLarge .AXTabsTray .AXTab {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
 }
 .AXTabsLarge .AXTabsTray .AXTab:hover,
 .AXTabsLarge .AXTabsTray .AXTab:focus {
-  border-top: 1px solid #949fa8;
-  border-left: 1px solid #949fa8;
-  border-right: 1px solid #949fa8;
-  background-position: 0px -46px;
-  text-shadow: 0px 1px #fff;
+  background: #e8e8e8;
 }
 .AXTabsLarge .AXTabsTray .AXTab:active {
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-right: 1px solid #b9babc;
-  background-position: 0px -92px;
-  color: #fff;
-  text-shadow: 0px 1px #c5ccd0;
+  box-shadow: none;
 }
 .AXTabsLarge .AXTabsTray .AXTab.on {
   background: #fff;
   border-bottom: 1px solid #fff;
 }
-.AXTabsLarge .leftArrowHandleBox {
+.AXTabsLarge .AXTabsTray .AXTab:first-child {
+  margin-left: 5px;
+}
+.AXTabsLarge .AXTabsTray .leftArrowHandleBox {
   position: absolute;
   left: 0px;
   top: 1px;
@@ -1500,18 +1589,18 @@
   height: 44px;
   background: url(img/leftArrowsBg.png) repeat-y 0px 0px;
 }
-.AXTabsLarge .leftArrowHandleBox .tabArrow {
+.AXTabsLarge .AXTabsTray .leftArrowHandleBox .tabArrow {
   display: block;
   width: 29px;
   height: 44px;
-  background: url(img/leftArrows.png) no-repeat -5px 6px;
+  background: url(img/leftArrows.png) no-repeat -5px 0px;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabsLarge .leftArrowHandleBox .tabArrow:hover {
-  background: url(img/leftArrows.png) no-repeat -5px -24px;
+.AXTabsLarge .AXTabsTray .leftArrowHandleBox .tabArrow:hover {
+  background: url(img/leftArrows.png) no-repeat -5px -30px;
 }
-.AXTabsLarge .rightArrowHandleBox {
+.AXTabsLarge .AXTabsTray .rightArrowHandleBox {
   position: absolute;
   right: 24px;
   top: 1px;
@@ -1519,19 +1608,18 @@
   height: 44px;
   background: url(img/rightArrowsBg.png) repeat-y 100% 0px;
 }
-.AXTabsLarge .rightArrowHandleBox .tabArrow {
+.AXTabsLarge .AXTabsTray .rightArrowHandleBox .tabArrow {
   display: block;
   width: 29px;
   height: 44px;
-  background: url(img/rightArrows.png) no-repeat 10px 6px;
+  background: url(img/rightArrows.png) no-repeat 50%;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabsLarge .rightArrowHandleBox .tabArrow:hover {
-  background: url(img/rightArrows.png) no-repeat 10px -24px;
+.AXTabsLarge .AXTabsTray .rightArrowHandleBox .tabArrow:hover {
+  background: url(img/rightArrows.png) no-repeat 50%;
 }
-/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-.AXTabsLarge .rightArrowMoreBox {
+.AXTabsLarge .AXTabsTray .rightArrowMoreBox {
   position: absolute;
   right: 0px;
   top: 1px;
@@ -1539,19 +1627,17 @@
   height: 44px;
   background: #fff;
 }
-.AXTabsLarge .rightArrowMoreBox .tabArrow {
+.AXTabsLarge .AXTabsTray .rightArrowMoreBox .tabArrow {
   display: block;
   width: 24px;
   height: 44px;
-  background: url(img/rightArrowsMore.png) no-repeat center 6px;
+  background: url(img/rightArrowsMore.png) no-repeat 50%;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabsLarge .rightArrowMoreBox .tabArrow:hover {
-  background: url(img/rightArrowsMore.png) no-repeat center -24px;
+.AXTabsLarge .AXTabsTray .rightArrowMoreBox .tabArrow:hover {
+  background: url(img/rightArrowsMore.png) no-repeat 50%;
 }
-/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-/* horizen AXTabsSmall */
 .AXTabsSmall {
   position: relative;
   min-height: 24px;
@@ -1573,7 +1659,8 @@
   height: 20px;
   min-width: 60px;
   padding: 0px 10px;
-  margin: 2px 0px 0px 1px;
+  box-sizing: content-box !important;
+  margin: 2px 0px 0px 2px;
   border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -1582,33 +1669,38 @@
   line-height: 20px;
   text-align: center;
   text-decoration: none;
-  background: url(img/defaultSmall.png) repeat-x;
+  background: url(img/defaultRegular.png) repeat-x;
   outline: none;
 }
-.AXTabsSmall .AXTabsTray .AXTab:first-child {
-  margin-left: 5px;
+.AXTabsSmall .AXTabsTray .AXTab {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
 }
 .AXTabsSmall .AXTabsTray .AXTab:hover,
 .AXTabsSmall .AXTabsTray .AXTab:focus {
-  border-top: 1px solid #949fa8;
-  border-left: 1px solid #949fa8;
-  border-right: 1px solid #949fa8;
-  background-position: 0px -20px;
-  text-shadow: 0px 1px #fff;
+  background: #e8e8e8;
 }
 .AXTabsSmall .AXTabsTray .AXTab:active {
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-right: 1px solid #b9babc;
-  background-position: 0px -40px;
-  color: #fff;
-  text-shadow: 0px 1px #c5ccd0;
+  box-shadow: none;
 }
 .AXTabsSmall .AXTabsTray .AXTab.on {
   background: #fff;
   border-bottom: 1px solid #fff;
 }
-.AXTabsSmall .leftArrowHandleBox {
+.AXTabsSmall .AXTabsTray .AXTab:first-child {
+  margin-left: 5px;
+}
+.AXTabsSmall .AXTabsTray .leftArrowHandleBox {
   position: absolute;
   left: 0px;
   top: 1px;
@@ -1616,18 +1708,18 @@
   height: 22px;
   background: url(img/leftArrowsBg.png) repeat-y 0px 0px;
 }
-.AXTabsSmall .leftArrowHandleBox .tabArrow {
+.AXTabsSmall .AXTabsTray .leftArrowHandleBox .tabArrow {
   display: block;
   width: 29px;
   height: 22px;
-  background: url(img/leftArrows.png) no-repeat -5px -5px;
+  background: url(img/leftArrows.png) no-repeat -5px 0px;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabsSmall .leftArrowHandleBox .tabArrow:hover {
-  background: url(img/leftArrows.png) no-repeat -5px -35px;
+.AXTabsSmall .AXTabsTray .leftArrowHandleBox .tabArrow:hover {
+  background: url(img/leftArrows.png) no-repeat -5px -30px;
 }
-.AXTabsSmall .rightArrowHandleBox {
+.AXTabsSmall .AXTabsTray .rightArrowHandleBox {
   position: absolute;
   right: 24px;
   top: 1px;
@@ -1635,19 +1727,18 @@
   height: 22px;
   background: url(img/rightArrowsBg.png) repeat-y 100% 0px;
 }
-.AXTabsSmall .rightArrowHandleBox .tabArrow {
+.AXTabsSmall .AXTabsTray .rightArrowHandleBox .tabArrow {
   display: block;
   width: 29px;
   height: 22px;
-  background: url(img/rightArrows.png) no-repeat 10px -3px;
+  background: url(img/rightArrows.png) no-repeat 50%;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabsSmall .rightArrowHandleBox .tabArrow:hover {
-  background: url(img/rightArrows.png) no-repeat 10px -33px;
+.AXTabsSmall .AXTabsTray .rightArrowHandleBox .tabArrow:hover {
+  background: url(img/rightArrows.png) no-repeat 50%;
 }
-/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-.AXTabsSmall .rightArrowMoreBox {
+.AXTabsSmall .AXTabsTray .rightArrowMoreBox {
   position: absolute;
   right: 0px;
   top: 1px;
@@ -1655,101 +1746,151 @@
   height: 22px;
   background: #fff;
 }
-.AXTabsSmall .rightArrowMoreBox .tabArrow {
+.AXTabsSmall .AXTabsTray .rightArrowMoreBox .tabArrow {
   display: block;
-  width: 29px;
+  width: 24px;
   height: 22px;
-  background: url(img/rightArrowsMore.png) no-repeat center -3px;
+  background: url(img/rightArrowsMore.png) no-repeat 50%;
   text-indent: -1000px;
   overflow: hidden;
 }
-.AXTabsSmall .rightArrowMoreBox .tabArrow:hover {
-  background: url(img/rightArrowsMore.png) no-repeat center -33px;
+.AXTabsSmall .AXTabsTray .rightArrowMoreBox .tabArrow:hover {
+  background: url(img/rightArrowsMore.png) no-repeat 50%;
 }
-/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-/* AXTabsVertical */
+.axtabs-vertical-event-normal {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+.axtabs-vertical-event-normal:hover,
+.axtabs-vertical-event-normal:focus {
+  background: #e8e8e8;
+}
+.axtabs-vertical-event-normal:active {
+  box-shadow: none;
+}
+.axtabs-vertical-event-normal.on {
+  background: #fff;
+  border-bottom: 1px solid #fff;
+}
+.axtabs-vertical-event-disabled {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(left, #d7d7d7, #d7d7d7);
+  color: #eaeaea;
+  border: 1px solid #cccccc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.axtabs-vertical-event-disabled:hover,
+.axtabs-vertical-event-disabled:focus {
+  background: #d7d7d7;
+}
+.axtabs-vertical-event-disabled:active {
+  box-shadow: none;
+}
+.axtabs-vertical-event-disabled:first-child {
+  margin-left: 5px;
+}
 .AXTabsVertical {
   position: relative;
   min-width: 30px;
 }
-.AXTabsVertical .AXTabsTray {
-  width: 30px;
-}
 .AXTabsVertical.leftSide .AXTabsTray {
   background: url(img/AXTabBgVerticalLeft.png);
 }
-.AXTabsVertical.rightSide .AXTabsTray {
-  background: url(img/AXTabBgVerticalLeft.png) -27px 0px;
-}
-.AXTabsVertical .AXTabsTray .AXTab {
+.AXTabsVertical.leftSide .AXTabsTray .AXTab {
   display: block;
+  float: left;
   cursor: pointer;
   width: 26px;
   min-height: 80px;
   padding: 10px 0px;
-  margin: 2px 0 0 2px;
+  box-sizing: content-box !important;
+  margin: 2px 0px 0px 2px;
   border: 1px solid #b9babc;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   font-size: 12px;
   color: #6e7a86;
+  line-height: 26px;
+  text-align: center;
   text-decoration: none;
+  background: url(img/defaultRegular.png) repeat-x;
   outline: none;
-  position: relative;
 }
 .AXTabsVertical.leftSide .AXTabsTray .AXTab {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  background: url(img/defaultRegularVerticalLeft.png) repeat-y;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  background: url(img/defaultRegularVerticalLeft.png) repeat-y;
-}
-.AXTabsVertical .AXTabsTray .AXTab:hover,
-.AXTabsVertical .AXTabsTray .AXTab:focus {
-  border-top: 1px solid #949fa8;
-  border-left: 1px solid #949fa8;
-  border-bottom: 1px solid #949fa8;
-  background-position: -26px 0px;
-  text-shadow: 0px 1px #fff;
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
 }
 .AXTabsVertical.leftSide .AXTabsTray .AXTab:hover,
 .AXTabsVertical.leftSide .AXTabsTray .AXTab:focus {
-  border-left: 1px solid #949fa8;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover,
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:focus {
-  border-right: 1px solid #949fa8;
-}
-.AXTabsVertical .AXTabsTray .AXTab:active {
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-bottom: 1px solid #b9babc;
-  background-position: -52px 0px;
-  color: #fff;
-  text-shadow: 0px 1px #c5ccd0;
+  background: #e8e8e8;
 }
 .AXTabsVertical.leftSide .AXTabsTray .AXTab:active {
-  border-left: 1px solid #b9babc;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:active {
-  border-right: 1px solid #b9babc;
+  box-shadow: none;
 }
 .AXTabsVertical.leftSide .AXTabsTray .AXTab.on {
   background: #fff;
-  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
 }
-.AXTabsVertical.rightSide .AXTabsTray .AXTab.on {
-  background: #fff;
-  border-left: 1px solid #fff;
+.AXTabsVertical.leftSide .AXTabsTray .AXTab[disabled] {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(left, #d7d7d7, #d7d7d7);
+  color: #eaeaea;
+  border: 1px solid #cccccc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.AXTabsVertical .AXTabsTray .AXTab .AXTabText {
-  /*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
-
+.AXTabsVertical.leftSide .AXTabsTray .AXTab[disabled]:hover,
+.AXTabsVertical.leftSide .AXTabsTray .AXTab[disabled]:focus {
+  background: #d7d7d7;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab[disabled]:active {
+  box-shadow: none;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab[disabled]:first-child {
+  margin-left: 5px;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab .AXTabText {
   display: block;
   position: absolute;
-  left: 5px;
-  top: 4px;
   width: 90px;
   height: 20px;
   line-height: 20px;
@@ -1757,16 +1898,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transform: rotate(-90deg) translateX(-70px) translateY(19px);
-  -o-transform: rotate(-90deg) translateX(-70px) translateY(19px);
-  -o-transform-origin: 0 100%;
-  -moz-transform: rotate(-90deg) translateX(-70px) translateY(19px);
-  -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(-90deg) translateX(-70px) translateY(19px);
-  -webkit-transform-origin: 0 100%;
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab .AXTabText {
   left: 5px;
   top: 4px;
   transform: rotate(-90deg) translateX(-70px) translateY(19px);
@@ -1778,7 +1909,92 @@
   -webkit-transform-origin: 0 100%;
   filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
 }
+.AXTabsVertical.rightSide .AXTabsTray {
+  background: url(img/AXTabBgVerticalLeft.png) -27px 0px;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab {
+  display: block;
+  float: left;
+  cursor: pointer;
+  width: 26px;
+  min-height: 80px;
+  padding: 10px 0px;
+  box-sizing: content-box !important;
+  margin: 2px 0px 0px 2px;
+  border: 1px solid #b9babc;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  font-size: 12px;
+  color: #6e7a86;
+  line-height: 26px;
+  text-align: center;
+  text-decoration: none;
+  background: url(img/defaultRegular.png) repeat-x;
+  outline: none;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover,
+.AXTabsVertical.rightSide .AXTabsTray .AXTab:focus {
+  background: #e8e8e8;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab:active {
+  box-shadow: none;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab.on {
+  background: #fff;
+  border-bottom: 1px solid #fff;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab[disabled] {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(left, #d7d7d7, #d7d7d7);
+  color: #eaeaea;
+  border: 1px solid #cccccc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab[disabled]:hover,
+.AXTabsVertical.rightSide .AXTabsTray .AXTab[disabled]:focus {
+  background: #d7d7d7;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab[disabled]:active {
+  box-shadow: none;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab[disabled]:first-child {
+  margin-left: 5px;
+}
 .AXTabsVertical.rightSide .AXTabsTray .AXTab .AXTabText {
+  display: block;
+  position: absolute;
+  left: 5px;
+  width: 90px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   left: 2px;
   top: 4px;
   transform: rotate(90deg) translateX(-20px) translateY(0px);
@@ -1790,248 +2006,668 @@
   -webkit-transform-origin: 0 100%;
   filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
 }
-/* AXTabsLargeVertical */
-.AXTabsLargeVertical {
-  position: relative;
-  min-width: 46px;
+.AXTabsVertical .AXTabsTray {
+  width: 30px;
 }
-.AXTabsLargeVertical .AXTabsTray {
-  width: 46px;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray {
-  background: url(img/AXTabBgLargeVerticalLeft.png);
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray {
-  background: url(img/AXTabBgLargeVerticalLeft.png) -41px 0px;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab {
+.AXTabsVertical .AXTabsTray .AXTab {
   display: block;
+  float: left;
   cursor: pointer;
-  width: 40px;
-  min-height: 100px;
+  width: 26px;
+  min-height: 80px;
   padding: 10px 0px;
-  margin: 4px 0 0 4px;
+  box-sizing: content-box !important;
+  margin: 2px 0px 0px 2px;
   border: 1px solid #b9babc;
-  font-size: 14px;
-  color: #6e7a86;
-  text-decoration: none;
-  outline: none;
-  position: relative;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab {
   border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  background: url(img/defaultLargeVerticalLeft.png) repeat-y;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab {
   border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  background: url(img/defaultLargeVerticalLeft.png) repeat-y;
+  font-size: 12px;
+  color: #6e7a86;
+  line-height: 26px;
+  text-align: center;
+  text-decoration: none;
+  background: url(img/defaultRegular.png) repeat-x;
+  outline: none;
 }
-.AXTabsLargeVertical .AXTabsTray .AXTab:hover,
-.AXTabsLargeVertical .AXTabsTray .AXTab:focus {
-  border-top: 1px solid #949fa8;
-  border-left: 1px solid #949fa8;
-  border-bottom: 1px solid #949fa8;
-  background-position: -46px 0px;
-  text-shadow: 0px 1px #fff;
+.AXTabsVertical .AXTabsTray .AXTab {
+  background-color: #fdfdfd;
+  background-image: -webkit-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: -ms-linear-gradient(left, #fdfdfd, #e8e8e8);
+  background-image: linear-gradient(left, #fdfdfd, #e8e8e8);
+  color: #6e7a85;
+  border: 1px solid #b9babc;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
 }
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:hover,
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:focus {
-  border-left: 1px solid #949fa8;
+.AXTabsVertical .AXTabsTray .AXTab:hover,
+.AXTabsVertical .AXTabsTray .AXTab:focus {
+  background: #e8e8e8;
 }
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:hover,
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:focus {
-  border-right: 1px solid #949fa8;
+.AXTabsVertical .AXTabsTray .AXTab:active {
+  box-shadow: none;
 }
-.AXTabsLargeVertical .AXTabsTray .AXTab:active {
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-bottom: 1px solid #b9babc;
-  background-position: -92px 0px;
-  color: #fff;
-  text-shadow: 0px 1px #c5ccd0;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:active {
-  border-left: 1px solid #b9babc;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:active {
-  border-right: 1px solid #b9babc;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.on {
+.AXTabsVertical .AXTabsTray .AXTab.on {
   background: #fff;
-  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
 }
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.on {
-  background: #fff;
-  border-left: 1px solid #fff;
+.AXTabsVertical .AXTabsTray .AXTab[disabled] {
+  background-color: #d7d7d7;
+  background-image: -webkit-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: -ms-linear-gradient(left, #d7d7d7, #d7d7d7);
+  background-image: linear-gradient(left, #d7d7d7, #d7d7d7);
+  color: #eaeaea;
+  border: 1px solid #cccccc;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
-.AXTabsLargeVertical .AXTabsTray .AXTab .AXTabText {
-  /*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
-
+.AXTabsVertical .AXTabsTray .AXTab[disabled]:hover,
+.AXTabsVertical .AXTabsTray .AXTab[disabled]:focus {
+  background: #d7d7d7;
+}
+.AXTabsVertical .AXTabsTray .AXTab[disabled]:active {
+  box-shadow: none;
+}
+.AXTabsVertical .AXTabsTray .AXTab[disabled]:first-child {
+  margin-left: 5px;
+}
+.AXTabsVertical .AXTabsTray .AXTab .AXTabText {
   display: block;
   position: absolute;
+  width: 90px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   left: 5px;
   top: 4px;
-  width: 110px;
-  height: 29px;
-  line-height: 29px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  -o-transform: rotate(-90deg) translateX(-82px) translateY(31px);
+  transform: rotate(-90deg) translateX(-70px) translateY(19px);
+  -o-transform: rotate(-90deg) translateX(-70px) translateY(19px);
   -o-transform-origin: 0 100%;
-  -moz-transform: rotate(-90deg) translateX(-82px) translateY(31px);
+  -moz-transform: rotate(-90deg) translateX(-70px) translateY(19px);
   -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(-90deg) translateX(-82px) translateY(31px);
+  -webkit-transform: rotate(-90deg) translateX(-70px) translateY(19px);
   -webkit-transform-origin: 0 100%;
   filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
 }
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab .AXTabText {
-  transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  -o-transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  -o-transform-origin: 0 100%;
-  -moz-transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(-90deg) translateX(-82px) translateY(31px);
-  -webkit-transform-origin: 0 100%;
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab .AXTabText {
-  transform: rotate(90deg) translateX(-30px) translateY(1px);
-  -o-transform: rotate(90deg) translateX(-30px) translateY(1px);
-  -o-transform-origin: 0 100%;
-  -moz-transform: rotate(90deg) translateX(-30px) translateY(1px);
-  -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(90deg) translateX(-30px) translateY(1px);
-  -webkit-transform-origin: 0 100%;
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
-}
-/* AXTabsSmallVertical */
-.AXTabsSmallVertical {
-  position: relative;
-  min-width: 24px;
-}
-.AXTabsSmallVertical .AXTabsTray {
-  width: 24px;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray {
-  background: url(img/AXTabBgSmallVerticalLeft.png) -1px 0px;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray {
-  background: url(img/AXTabBgSmallVerticalLeft.png) -22px 0px;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab {
-  display: block;
-  cursor: pointer;
-  width: 20px;
-  min-height: 60px;
-  padding: 10px 0px;
-  margin: 2px 0 0 1px;
-  border: 1px solid #b9babc;
-  font-size: 11px;
-  color: #6e7a86;
-  text-decoration: none;
-  outline: none;
-  position: relative;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  background: url(img/defaultSmallVerticalLeft.png) repeat-y;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  background: url(img/defaultSmallVerticalLeft.png) repeat-y;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab:hover,
-.AXTabsSmallVertical .AXTabsTray .AXTab:focus {
-  border-top: 1px solid #949fa8;
-  border-left: 1px solid #949fa8;
-  border-bottom: 1px solid #949fa8;
-  background-position: -20px 0px;
-  text-shadow: 0px 1px #fff;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:hover,
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:focus {
-  border-left: 1px solid #949fa8;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:hover,
-.AXTabsSmallVertical.rihgtSide .AXTabsTray .AXTab:focus {
-  border-right: 1px solid #949fa8;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab:active {
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-bottom: 1px solid #b9babc;
-  background-position: -40px 0px;
-  color: #fff;
-  text-shadow: 0px 1px #c5ccd0;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:active {
-  border-left: 1px solid #b9babc;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:active {
-  border-right: 1px solid #b9babc;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.on {
-  background: #fff;
-  border-right: 1px solid #fff;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.on {
-  background: #fff;
-  border-left: 1px solid #fff;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab .AXTabText {
-  /*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
+/* ---------------------------- AXTabs ------------------------------- */
+/* horizen AXTabs */
+/*
+.AXTabs{
+	position:relative;min-height:30px;
+	overflow:hidden;
+	box-sizing:content-box !important;
+	.AXTabsTray{
+		background:url(img/AXTabBg.png);
+		box-sizing:content-box !important;
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:30px;
+			box-sizing:content-box !important;		
+		}
+		.AXTabSplit{
+			display:none;
+		}		
+		.AXTab{
+			display:block;float:left;
+			cursor:pointer;
+			height:26px;min-width:50px;
+			padding:0px 10px;
+			box-sizing:content-box !important;
+			margin:2px 0px 0px 2px;
+			border:1px solid #b9babc;
+			border-top-left-radius:4px;border-top-right-radius:4px;
+			font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
+			text-decoration:none;
+			background:url(img/defaultRegular.png) repeat-x;
+			outline:none;
+			&.on{
+				background:#fff;border-bottom:1px solid #fff;
+			}
+			&:first-child{margin-left:5px;}
+			&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+				background-position:0px -26px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+				background-position:0px -52px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+		}
+		.leftArrowHandleBox{
+			position:absolute;
+			left:0px;top:1px;
+			width:29px;height:28px;
+			background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+			.tabArrow{
+				display:block;width:29px;height:28px;
+				background:url(img/leftArrows.png) no-repeat -5px 0px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/leftArrows.png) no-repeat -5px -30px;	
+				}
+			}
+			
+		}
+		.rightArrowHandleBox{
+			position:absolute;
+			right:24px;top:1px;
+			width:29px;height:28px;
+			background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+			.tabArrow{
+				display:block;width:29px;height:26px;
+				background:url(img/rightArrows.png) no-repeat 10px 0px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrows.png) no-repeat 10px -30px;
+				}
+			}
+		} 
+		.rightArrowMoreBox{
+			position:absolute;
+			right:0px;top:1px;
+			width:24px;height:28px;
+			background:#fff;
+			.tabArrow{
+				display:block;width:24px;height:26px;
+				background:url(img/rightArrowsMore.png) no-repeat center 0px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrowsMore.png) no-repeat center -30px;
+				}
 
-  display: block;
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  width: 76px;
-  height: 18px;
-  line-height: 18px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -o-transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -o-transform-origin: 0 100%;
-  -moz-transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -webkit-transform-origin: 0 100%;
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}
+			
+		}			
+	}
 }
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab .AXTabText {
-  left: 2px;
-  top: 2px;
-  transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -o-transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -o-transform-origin: 0 100%;
-  -moz-transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(-90deg) translateX(-57px) translateY(19px);
-  -webkit-transform-origin: 0 100%;
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+
+
+	
+// horizen AXTabsLarge
+.AXTabsLarge{
+	position:relative;min-height:46px;
+	overflow:hidden;
+	.AXTabsTray{
+		background:url(img/AXTabBgLarge.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:46px;
+		}
+		.AXTab{
+			display:block;float:left;
+			cursor:pointer;
+			height:40px;min-width:100px;
+			padding:0px 10px;
+			margin:4px 0px 0px 4px;
+			border:1px solid #b9babc;
+			border-top-left-radius:4px;border-top-right-radius:4px;
+			font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
+			text-decoration:none;
+			background:url(img/defaultLarge.png) repeat-x;
+			outline:none;
+			&:first-child{margin-left:5px;}
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+				background-position:0px -46px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+				background-position:0px -92px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			&.on{
+				background:#fff;border-bottom:1px solid #fff;
+			}
+		}
+		.leftArrowHandleBox{
+			position:absolute;
+			left:0px;top:1px;
+			width:29px;height:44px;
+			background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+			.tabArrow{
+				display:block;width:29px;height:44px;
+				background:url(img/leftArrows.png) no-repeat -5px 6px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/leftArrows.png) no-repeat -5px -24px;
+				}
+			}
+		}	
+		.rightArrowHandleBox{
+			position:absolute;
+			right:24px;top:1px;
+			width:29px;height:44px;
+			background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+			.tabArrow{
+				display:block;width:29px;height:44px;
+				background:url(img/rightArrows.png) no-repeat 10px 6px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrows.png) no-repeat 10px -24px;
+				}
+				
+			}			
+		}
+		.rightArrowMoreBox{
+			position:absolute;
+			right:0px;top:1px;
+			width:24px;height:44px;
+			background:#fff;
+			.tabArrow{
+				display:block;width:24px;height:44px;
+				background:url(img/rightArrowsMore.png) no-repeat center 6px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrowsMore.png) no-repeat center -24px;
+				}
+			}
+			
+		}
+	}
 }
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab .AXTabText {
-  left: 0px;
-  top: 2px;
-  transform: rotate(90deg) translateX(-18px) translateY(0px);
-  -o-transform: rotate(90deg) translateX(-18px) translateY(0px);
-  -o-transform-origin: 0 100%;
-  -moz-transform: rotate(90deg) translateX(-18px) translateY(0px);
-  -moz-transform-origin: 0 100%;
-  -webkit-transform: rotate(90deg) translateX(-18px) translateY(0px);
-  -webkit-transform-origin: 0 100%;
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+
+
+// horizen AXTabsSmall
+.AXTabsSmall{
+	position:relative;min-height:24px;
+	overflow:hidden;
+	.AXTabsTray{
+		background:url(img/AXTabBgSmall.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:24px;
+		}
+		.AXTab{
+			display:block;float:left;
+			cursor:pointer;
+			height:20px;min-width:60px;
+			padding:0px 10px;
+			margin:2px 0px 0px 1px;
+			border:1px solid #b9babc;
+			border-top-left-radius:4px;border-top-right-radius:4px;
+			font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
+			text-decoration:none;
+			background:url(img/defaultSmall.png) repeat-x;
+			outline:none;
+			&:first-child{margin-left:5px;}
+			&:hover, &:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
+				background-position:0px -20px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
+				background-position:0px -40px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			&.on{
+				background:#fff;border-bottom:1px solid #fff;
+			}
+		}
+		.leftArrowHandleBox{
+			position:absolute;
+			left:0px;top:1px;
+			width:29px;height:22px;
+			background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
+			.tabArrow{
+				display:block;width:29px;height:22px;
+				background:url(img/leftArrows.png) no-repeat -5px -5px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/leftArrows.png) no-repeat -5px -35px;
+				}
+			}			
+		} 				
+		.rightArrowHandleBox{
+			position:absolute;
+			right:24px;top:1px;
+			width:29px;height:22px;
+			background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
+			.tabArrow{
+				display:block;width:29px;height:22px;
+				background:url(img/rightArrows.png) no-repeat 10px -3px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrows.png) no-repeat 10px -33px;
+				}
+			}
+		} 
+		.rightArrowMoreBox{
+			position:absolute;
+			right:0px;top:1px;
+			width:24px;height:22px;
+			background:#fff;
+			.tabArrow{
+				display:block;width:29px;height:22px;
+				background:url(img/rightArrowsMore.png) no-repeat center -3px;
+				text-indent:-1000px;overflow:hidden;
+				&:hover{
+					background:url(img/rightArrowsMore.png) no-repeat center -33px;
+				}
+
+			}			
+		}
+		
+
+	}
 }
+*/
+/*
+// AXTabsVertical 
+.AXTabsVertical{
+	position:relative;min-width:30px;
+	&.leftSide{ 
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png);
+			.AXTab{
+				border-top-left-radius:4px;border-bottom-left-radius:4px;
+				background:url(img/defaultRegularVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-left:1px solid #949fa8;
+				}
+				&:active{	
+					border-left:1px solid #b9babc;											
+				}
+				&.on{
+					background:#fff;border-right:1px solid #fff;
+				}
+				.AXTabText{
+					left:5px;top:4px;
+					transform:rotate(-90deg) translateX(-70px) translateY(19px);
+					-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+				}
+			}
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
+			.AXTab{
+				border-top-right-radius:4px;border-bottom-right-radius:4px;
+				background:url(img/defaultRegularVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-right:1px solid #949fa8;
+				}
+				&:active{				
+					border-right:1px solid #b9babc;				
+				}
+				&.on{
+					background:#fff;border-left:1px solid #fff;
+				}
+				.AXTabText{
+					left:2px;top:4px;
+					transform:rotate(90deg) translateX(-20px) translateY(0px);
+					-o-transform:rotate(90deg) translateX(-20px) translateY(0px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(90deg) translateX(-20px) translateY(0px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(90deg) translateX(-20px) translateY(0px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+				}								
+			}
+		}
+	}
+	.AXTabsTray{
+		width:30px;
+		.AXTab{
+			display:block;
+			cursor:pointer;
+			width:26px;min-height:80px;
+			padding:10px 0px;
+			margin:2px 0 0 2px;
+			border:1px solid #b9babc;
+			font-size:12px;color:#6e7a86;
+			text-decoration:none;
+			outline:none;
+			position:relative;
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+				background-position:-26px 0px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+				background-position:-52px 0px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;			
+			}
+			.AXTabText{
+				display:block;
+				position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
+				text-align:center;.Ellip();
+			
+				transform:rotate(-90deg) translateX(-70px) translateY(19px);
+				-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
+				-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
+				-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
+				filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}			
+						
+		}		
+	}
+	
+	
+}
+
+
+
+// AXTabsLargeVertical 
+.AXTabsLargeVertical{
+	position:relative;min-width:46px;
+	&.leftSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgLargeVerticalLeft.png);
+			.AXTab{
+				border-top-left-radius:4px;border-bottom-left-radius:4px;
+				background:url(img/defaultLargeVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-left:1px solid #949fa8;
+				}
+				&:active{
+					border-left:1px solid #b9babc;		
+				}
+				&.on{
+					background:#fff;border-right:1px solid #fff;
+				}	
+				.AXTabText{
+				
+					transform:rotate(-90deg) translateX(-82px) translateY(31px);
+					-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+				}
+							
+			}			
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgLargeVerticalLeft.png) -41px 0px;
+			.AXTab{
+				border-top-right-radius:4px;border-bottom-right-radius:4px;
+				background:url(img/defaultLargeVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-right:1px solid #949fa8;
+				}
+				&:active{
+					border-right:1px solid #b9babc;
+				}				
+				&.on{
+					background:#fff;border-left:1px solid #fff;
+				}
+				.AXTabText{
+				
+					transform:rotate(90deg) translateX(-30px) translateY(1px);
+					-o-transform:rotate(90deg) translateX(-30px) translateY(1px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(90deg) translateX(-30px) translateY(1px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(90deg) translateX(-30px) translateY(1px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+				}
+			}
+			
+		}
+	}
+	.AXTabsTray{
+		width:46px;
+		.AXTab{
+			display:block;
+			cursor:pointer;
+			width:40px;min-height:100px;
+			padding:10px 0px;
+			margin:4px 0 0 4px;
+			border:1px solid #b9babc;
+			font-size:14px;color:#6e7a86;
+			text-decoration:none;
+			outline:none;
+			position:relative;
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+				background-position:-46px 0px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+				background-position:-92px 0px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			.AXTabText{
+				display:block;
+				position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
+				text-align:center;.Ellip();
+				transform:rotate(-90deg) translateX(-82px) translateY(31px);
+				-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
+				-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
+				-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
+				filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}
+		}
+		
+	}	
+}
+
+
+// AXTabsSmallVertical 
+.AXTabsSmallVertical{
+	position:relative;min-width:24px;
+	&.leftSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgSmallVerticalLeft.png)-1px 0px;
+			.AXTab{
+				border-top-left-radius:4px;border-bottom-left-radius:4px;
+				background:url(img/defaultSmallVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-left:1px solid #949fa8;
+				}
+				&:active{
+					border-left:1px solid #b9babc;
+				}
+				&.on{
+					background:#fff;border-right:1px solid #fff;
+				}
+				.AXTabText{
+					left:2px;top:2px;
+					transform:rotate(-90deg) translateX(-57px) translateY(19px);
+					-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+				}
+				
+			}
+
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgSmallVerticalLeft.png) -22px 0px;
+			.AXTab{
+				border-top-right-radius:4px;border-bottom-right-radius:4px;
+				background:url(img/defaultSmallVerticalLeft.png) repeat-y;
+				&:hover,&:focus{
+					border-right:1px solid #949fa8;
+				}
+				&:active{
+					border-right:1px solid #b9babc;
+				}
+				&.on{
+					background:#fff;border-left:1px solid #fff;
+				}
+				.AXTabText{
+					left:0px;top:2px;
+					transform:rotate(90deg) translateX(-18px) translateY(0px);
+					-o-transform:rotate(90deg) translateX(-18px) translateY(0px); -o-transform-origin:0 100%;
+					-moz-transform:rotate(90deg) translateX(-18px) translateY(0px); -moz-transform-origin:0 100%;
+					-webkit-transform:rotate(90deg) translateX(-18px) translateY(0px); -webkit-transform-origin:0 100%;
+					filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
+				}
+			}
+		}
+	}
+	.AXTabsTray{
+		width:24px;
+		.AXTab{
+			display:block;
+			cursor:pointer;
+			width:20px;min-height:60px;
+			padding:10px 0px;
+			margin:2px 0 0 1px;
+			border:1px solid #b9babc;
+			font-size:11px;color:#6e7a86;
+			text-decoration:none;
+			outline:none;
+			position:relative;
+			&:hover,&:focus{
+				border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
+				background-position:-20px 0px;
+				text-shadow:0px 1px #fff;
+			}
+			&:active{
+				border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
+				background-position:-40px 0px;
+				color:#fff;
+				text-shadow:0px 1px #c5ccd0;
+			}
+			.AXTabText{
+				display:block;
+				position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
+				text-align:center;.Ellip();
+				transform:rotate(-90deg) translateX(-57px) translateY(19px);
+				-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
+				-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
+				-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
+				filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+			}		
+		}		
+	}
+	
+	
+}
+*/
 /* ---------------------------- AXCalendar ------------------------------- */
 .AXCalendar {
   position: relative;
