@@ -32,10 +32,10 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXProgress.js"></script>
 	<script type="text/javascript" src="apiTab.js"></script>
 	<script type="text/javascript">
-	var pageID = "BMG";
+	var pageID = "gitHub";
 	
-	var apiServer = "http://api.bmg.name:9000";
-	//var apiServer = "192.168.0.8:9000";
+	var apiServer = "https://github.com";
+	//var apiServer = "http://192.168.0.8:9000";
 	
 	var myProgress = new AXProgress();
 	var fnObj = {
@@ -68,7 +68,7 @@
 			});
 			$("#resultArea").val("API 서버와 통신을 진행중입니다. 잠시만 기다려 주세요.");
 			
-			new AXReq( apiServer + "/" + _url, 
+			new AXReq(apiServer + "/" + _url, 
 			{
 				debug: false, 
 				pars: _param, 
@@ -97,6 +97,36 @@
 				}
 			});
 			
+			/*
+			$.ajax({
+				type:_method,
+				url:"http://" + apiServer + "/" + _url,      
+				data: _param,
+				contentType:"application/json",
+				headers : _headers,
+				success:function(res){
+					//trace(res);
+					$("#resultJsonArea").val(Object.toJSON(res));
+					$("#resultArea").html(fnObj.printJSON(res));
+					
+					if(res.user_token){
+						frm.X_User_Token.value = res.user_token;
+					}
+					
+					myProgress.close();
+					mask.close();
+					toast.push("API 통신 성공");
+				},
+				error:function(e){
+					trace(e);
+					$("#resultJsonArea").val(Object.toJSON(e));
+					$("#resultArea").html(fnObj.printJSON(e));
+					myProgress.close();
+					mask.close();
+					toast.push("서버에서 에러가 발생 하였습니다.");
+				}
+			});
+			*/
 			return false;			
 		},
 		printJSON: function(json){
@@ -158,7 +188,7 @@
 				</th>
 				<td>
 					<label class="AXInputLabel fullWidth">
-						<span>http://api.bmg.name:9000/</span>
+						<span>https://github.com/</span>
 						<input type="text" name="url" class="AXInput" placeholder="games" value="games" />
 					</label>
 				</td>

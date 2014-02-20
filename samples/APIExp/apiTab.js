@@ -1,5 +1,6 @@
 ﻿var myTabOption = [
-	{optionValue:"BMG", optionText:"BMG API", addClass:"", url:"bmg.html"}
+	{optionValue:"BMG", optionText:"BMG API", addClass:"", url:"bmg.html"},
+	{optionValue:"gitHub", optionText:"gitHub API", addClass:"", url:"gitHub.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){
