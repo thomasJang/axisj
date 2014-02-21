@@ -14,6 +14,9 @@
  * http://AxisJ.com/license
  * Date 2012-09-28 오후 1:17:52
  */
+input::-ms-clear {
+  display: none;
+}
 .clear {
   clear: both;
 }

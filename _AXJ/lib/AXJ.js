@@ -4861,10 +4861,27 @@ axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
 	if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
 	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
 });
-
+/*
 axdom.fn.longpress = function (fn) {
 	AXUtil.each(this, function () {
-		
 		return this;
 	});
+};
+*/
+axdom.fn.setCaret = function (pos) {
+    var input = this[0];
+    if (input.setSelectionRange) {
+        input.focus();
+        input.setSelectionRange(pos, pos);
+    } else if (input.createTextRange) {
+        var range = input.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
+    } else if(input.selectionStart){
+        input.focus();
+        input.selectionStart = pos;
+        input.selectionEnd = pos;
+    }
 };

@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.38",
+	version: "AXInputConverter v1.39",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -33,7 +33,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
 		"2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스",
 		"2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거",
-		"2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스"
+		"2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스",
+		"2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -556,35 +557,47 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	/* money ~~~~~~~~~~~~~~~ */
 	bindMoney: function (objID, objSeq) {
-		axdom("#" + objID).css({ "text-align": "right" });
+		var obj = this.objects[objSeq];
+		obj.bindTarget.css({ "text-align": "right" });
 		var bindMoneyCheck = this.bindMoneyCheck.bind(this);
-		var val = axdom("#" + objID).val().trim();
-		if (val != "") val = axdom("#" + objID).val().number().money()
-		axdom("#" + objID).val(val);
-		axdom("#" + objID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
+		var val = obj.bindTarget.val().trim();
+		if (val != "") val = obj.bindTarget.val().number().money()
+		obj.bindTarget.val(val);
+		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
+	
+			var elem = obj.bindTarget.get(0);
+			var elemFocusPosition;
+	        if ('selectionStart' in elem) {
+	            // Standard-compliant browsers
+	            elemFocusPosition = elem.selectionStart;
+	        } else if (document.selection) {
+	            // IE
+	            //elem.focus();
+	            var sel = document.selection.createRange();
+	            var selLen = document.selection.createRange().text.length;
+	            sel.moveStart('character', -elem.value.length);
+	            elemFocusPosition = sel.text.length - selLen;
+	        }
+			//trace(elemFocusPosition);
+			
+			// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
+			
+			obj.bindTarget.data("focusPosition", elemFocusPosition);
+			obj.bindTarget.data("prevLen", elem.value.length);
+
 			var event = window.event || e;
 			// ignore tab & shift key 스킵 & ctrl
 			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
 			if (event.ctrlKey && event.keyCode == 65) return;
 			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 				bindMoneyCheck(objID, objSeq, "keyup");
-				/*
-				var val = this.value.trim();
-				if (val != "") val = this.value.number().money()
-				this.value = val;
-				*/
 			} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
 				bindMoneyCheck(objID, objSeq, "keyup");
 			}
 		});
 
-		axdom("#" + objID).unbind("change.AXInput").bind("change.AXInput", function (event) {
+		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindMoneyCheck(objID, objSeq, "change");
-			/*
-			var val = axdom("#" + objID).val().trim();
-			if (val != "") val = axdom("#" + objID).val().number().money()
-			this.value = val;
-			*/
 		});
 	},
 	bindMoneyCheck: function (objID, objSeq, eventType) {
@@ -595,47 +608,52 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
-		if (axdom("#" + objID).val() == "") {
+		if (obj.bindTarget.val() == "") {
 			if (minval != undefined && minval != null) {
 				nval = minval;
 			} else {
-				nval = axdom("#" + objID).val().number();
+				nval = obj.bindTarget.val().number();
 			}
 		} else {
-			nval = axdom("#" + objID).val().number();
+			nval = obj.bindTarget.val().number();
 		}
 		if (maxval != undefined && maxval != null) {
 			if ((nval) > maxval) {
-				axdom("#" + objID).val(maxval.money());
+				obj.bindTarget.val(maxval.money());
 				try {
 					this.msgAlert("설정된 최대값{" + maxval.number().money() + "} 을 넘어서는 입력입니다.");
 				} catch (e) { }
 			} else {
 				if (minval != undefined && minval != null && eventType == "change") {
 					if ((nval) < minval) {
-						axdom("#" + objID).val(minval.money());
+						obj.bindTarget.val(minval.money());
 						try {
 							this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 						} catch (e) { }
 					} else {
-						axdom("#" + objID).val(nval.money());
+						obj.bindTarget.val(nval.money());
 					}
 				}
 			}
 		} else {
 			if (minval != undefined && minval != null && eventType == "change") {
 				if ((nval) < minval) {
-					axdom("#" + objID).val(minval.money());
+					obj.bindTarget.val(minval.money());
 					try {
 						this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 					} catch (e) { }
 				}
 			} else {
-				axdom("#" + objID).val(nval.money());
+				obj.bindTarget.val(nval.money());
 			}
 		}
+		
+		if( !axf.isEmpty( obj.bindTarget.data("focusPosition") ) ){
+			obj.bindTarget.setCaret( obj.bindTarget.data("focusPosition").number() + ( obj.bindTarget.val().length - obj.bindTarget.data("prevLen") ) );
+		}
+		
 		if (obj.config.onChange) {
-			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
+			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: obj.bindTarget.val().number() });
 		}
 	},
 
@@ -2145,7 +2163,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox",
 			basicDate: myDate,
-			href: cfg.href
+			href: obj.config.href
 		});
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
 			obj.nDate = myDate;
@@ -2378,7 +2396,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox",
 			basicDate: myDate,
-			href: cfg.href
+			href: obj.config.href
 		});
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
 			obj.nDate = myDate;
@@ -2577,11 +2595,12 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 
-		//비활성 처리후 메소드 종료
-		axdom(document).unbind("click.AXInput");
-		axdom("#" + objID).unbind("keydown.AXInput");
-
-		if (!obj) return;
+		if (!obj){
+			//비활성 처리후 메소드 종료
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
+			return;
+		}
 		
 		if (obj.modal && obj.modal.opened) { /* mobile modal close */
 			var objVal = axdom("#" + objID).val();
@@ -2710,6 +2729,9 @@ var AXInputConverter = Class.create(AXJ, {
 			event.stopPropagation(); // disableevent
 			return;
 		}
+		//비활성 처리후 메소드 종료
+		axdom(document).unbind("click.AXInput");
+		axdom("#" + objID).unbind("keydown.AXInput");
 	},
 	bindDateInputBlur: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
