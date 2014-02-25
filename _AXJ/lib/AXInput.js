@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.39",
+	version: "AXInputConverter v1.40",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -34,7 +34,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스",
 		"2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거",
 		"2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스",
-		"2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가"
+		"2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가",
+		"2014-02-25 오후 9:05:04 tom : earlierThan/ laterThan 설정 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2286,6 +2287,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var bindDateExpandBoxClick = this.bindDateExpandBoxClick.bind(this);
 		obj.documentclickEvent = function (event) {
+			//trace(objID, objSeq);
 			bindDateExpandBoxClick(objID, objSeq, event);
 		}
 		var bindDateKeyup = this.bindDateKeyup.bind(this);
@@ -2296,6 +2298,7 @@ var AXInputConverter = Class.create(AXJ, {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").css({ left: "70px" });
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").hide();
 		}
+		//trace("event bind");
 		axdom(document).bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
 	},
@@ -2662,6 +2665,10 @@ var AXInputConverter = Class.create(AXJ, {
 
 			obj.modal.close();
 			axdom("#" + objID).unbind("keydown.AXInput");
+			
+			//비활성 처리후 메소드 종료
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -2726,12 +2733,13 @@ var AXInputConverter = Class.create(AXJ, {
 
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
+			//비활성 처리후 메소드 종료
+			axdom(document).unbind("click.AXInput");
+			axdom("#" + objID).unbind("keydown.AXInput");
+
 			event.stopPropagation(); // disableevent
 			return;
 		}
-		//비활성 처리후 메소드 종료
-		axdom(document).unbind("click.AXInput");
-		axdom("#" + objID).unbind("keydown.AXInput");
 	},
 	bindDateInputBlur: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -2962,7 +2970,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 			var ids = myTarget.id.split(/_AX_/g);
 			var ename = ids.last();
-
+			
 			var nDate = obj.nDate;
 			var separator = (obj.config.separator) ? obj.config.separator : "-";
 			if (ename == "expandPrev") {
@@ -2995,7 +3003,6 @@ var AXInputConverter = Class.create(AXJ, {
 					printDate += " " + obj.mycalendartime.getTime();
 				}
 				axdom("#" + objID).val(printDate);
-
 				this.bindDateExpandClose(objID, objSeq, event);
 			} else if (ename == "month") {
 				var myMonth = ids[ids.length - 2].number() - 1;
