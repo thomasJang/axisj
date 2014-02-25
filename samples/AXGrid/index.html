@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>AXGrid</title>
     
-    <meta property="og:image" content="/img/axisj_sns.png" /> 
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
@@ -49,7 +49,7 @@
 					{key:"no", label:"번호", width:"50", align:"right"},
 					{
 						key:"title", label:"제목", width:"200", tooltip:function(){
-							return this.item.no + "." + this.item.title;
+							return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
 						}
 					},
 					{key:"writer", label:"작성자", width:"100"},
@@ -107,7 +107,9 @@
 				colHeadAlign: "center", // 헤드의 기본 정렬 값
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right"}, 
-					{key:"title", label:"제목", width:"*"},
+					{key:"title", label:"제목", width:"*", formatter: function(){
+						return this.item.no + "." + this.item.title + "/" + this.key;
+					}},
 					{key:"writer", label:"작성자", width:"100", align:"center"},
 					{key:"regDate", label:"작성일", width:"100", align:"center"},
 					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},

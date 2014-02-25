@@ -1143,7 +1143,7 @@ swfobject.addDomLoadEvent(function () {
  */
 
 var AXUpload5 = Class.create(AXJ, {
-	version : "AXUpload5 V1.23",
+	version : "AXUpload5 V1.24",
 	author : "tom@axisj.com",
 	logs: [
 		"2013-10-02 오후 2:19:36 - 시작 tom",
@@ -1152,7 +1152,9 @@ var AXUpload5 = Class.create(AXJ, {
 		"2013-10-30 오후 3:38:05 - config.uploadPars, config.deletePars 초기 설정값 패치 by tom",
 		"2013-12-11 오후 5:15:51 - tom&root setUploadedList, setUpoadeFile 버그패치",
 		"2013-12-17 오전 11:24:38 - tom : AXUploadPreview css 적용",
-		"2014-02-11 오후 3:29:51 - tom : deleteFile 개선, 서버 JSON에 error 가 없으면 정상 처리 되도록 변경"
+		"2014-02-11 오후 3:29:51 - tom : deleteFile 개선, 서버 JSON에 error 가 없으면 정상 처리 되도록 변경",
+		"2014-02-23 오후 7:39:11 - tom : this.uploadedList 초기화 버그 픽스",
+		"2014-02-23 오후 8:44:07 - <base> attr 인식 처리 구문 추가"
 	],
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -1199,6 +1201,7 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 		
 		var baseUrl = axdom("base").attr("href");
+		if(axf.isEmpty(baseUrl)) baseUrl = "";
 		if(cfg.uploadUrl.left(1) == "/"){
 			cfg.uploadUrl = baseUrl + cfg.uploadUrl;
 		}
@@ -1225,6 +1228,7 @@ var AXUpload5 = Class.create(AXJ, {
 		this.target = jQuery("#"+cfg.targetID);
 		if(reset == undefined){
 			this.target.empty();
+			this.uploadedList = [];
 		}
 		
 		var inputFileMultiple = 'multiple="multiple"';
@@ -2195,7 +2199,7 @@ var AXUpload5 = Class.create(AXJ, {
 		//if (!files.length) return;
 		
 		if(cfg.isSingleUpload){
-
+			this.uploadedList = [];
 			var f;
 			if(jQuery.isArray(files)){
 				if( jQuery.isArray(files.first()) ){

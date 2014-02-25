@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.49",
+	version: "AXGrid v1.50",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -52,7 +52,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
 		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결",
 		"2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가",
-		"2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경"
+		"2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경",
+		"2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2127,7 +2128,9 @@ var AXGrid = Class.create(AXJ, {
 				index: itemIndex,
 				list: this.list,
 				item: item,
-				page: this.page
+				page: this.page,
+				key: key, 
+				value: value
 			};
 			if (CH.checked) {
 				var callResult = CH.checked.call(sendObj);
@@ -2149,7 +2152,9 @@ var AXGrid = Class.create(AXJ, {
 					index: itemIndex,
 					list: this.list,
 					item: item,
-					page: this.page
+					page: this.page,
+					key: key, 
+					value: value
 				};
 				result = formatter.call(sendObj, itemIndex, item);
 			} catch (e) {
@@ -2179,7 +2184,9 @@ var AXGrid = Class.create(AXJ, {
 					index: itemIndex,
 					list: this.list,
 					item: item,
-					page: this.page
+					page: this.page,
+					key: key, 
+					value: value
 				};
 				var callResult = CH.checked.call(sendObj);
 				if (callResult) {
@@ -2193,7 +2200,9 @@ var AXGrid = Class.create(AXJ, {
 					index: itemIndex,
 					list: this.list,
 					item: item,
-					page: this.page
+					page: this.page,
+					key: key, 
+					value: value
 				};
 				result = formatter.call(sendObj, itemIndex, item);
 			} catch (e) {
@@ -3684,7 +3693,9 @@ var AXGrid = Class.create(AXJ, {
 				list: this.list,
 				item: dataSet,
 				dataSet: dataSet,
-				page: this.page
+				page: this.page,
+				key: key, 
+				value: value
 			};
 			try {
 				result = formatter.call(sendObj);
@@ -3886,7 +3897,9 @@ var AXGrid = Class.create(AXJ, {
 				list: this.list,
 				item: dataSet,
 				dataSet: dataSet,
-				page: this.page
+				page: this.page,
+				key: key, 
+				value: value
 			};
 			try {
 				result = formatter.call(sendObj);
