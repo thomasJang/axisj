@@ -8,10 +8,11 @@
  */
 
 var AXMobileMenu = Class.create(AXJ, {
-    version: "AXMobileMenu V0.1",
+    version: "AXMobileMenu V0.2",
     author: "tom@axisj.com",
 	logs: [
-		"2013-12-13 오전 10:53:43"
+		"2013-12-13 오전 10:53:43",
+		"2014-02-26 오전 11:42:23 tom : 각종 버그 픽스"
 	],
     initialize: function(AXJ_super) {
 		AXJ_super();
@@ -82,7 +83,7 @@ var AXMobileMenu = Class.create(AXJ, {
 				}
 			});
 			
-			if(menu[cfg.reserveKeys.subMenuKey][lpoi][cfg.reserveKeys.subMenuKey] && menu[cfg.reserveKeys.subMenuKey][lpoi][cfg.reserveKeys.subMenuKey].length > 0){
+			if(menu[cfg.reserveKeys.subMenuKey] && menu[cfg.reserveKeys.subMenuKey][lpoi][cfg.reserveKeys.subMenuKey] && menu[cfg.reserveKeys.subMenuKey][lpoi][cfg.reserveKeys.subMenuKey].length > 0){
 				apoi.push(lpoi);
 				var tpl = this.getMenu(this.modalID, menu[cfg.reserveKeys.subMenuKey][lpoi], apoi);
 			}else{
@@ -135,7 +136,7 @@ var AXMobileMenu = Class.create(AXJ, {
     	this.mobileMenuBodyScroll = obj.modalBody.find(".mobileMenuBodyScroll");
     	obj.modalBody.find(".mobileMenuBodyScroll").css({width:tpl.pageNum * this.menuPageWidth});
     },
-    getMenu: function(modalID, _menu, poi){    	
+    getMenu: function(modalID, _menu, poi){
     	var cfg = this.config;
     	var countPerBlock = 9;
     	var menu = _menu;
@@ -152,7 +153,7 @@ var AXMobileMenu = Class.create(AXJ, {
     	if(menuTitle != ""){
     		headPo.push('<a ' + cfg.href + ' class="mobileMenuPrev" id="', modalID ,'_AX_menuTitle_AX_', poi.join("_"),'">', menuTitle,'</a>');
     	}
-    	    	
+		
     	var bodyPo = [];
     	bodyPo.push('<div class="mobileMenuBody">');
     	bodyPo.push('	<div class="mobileMenuBodyScroll" id="', modalID ,'_AX_bodyScroll">');
@@ -189,12 +190,14 @@ var AXMobileMenu = Class.create(AXJ, {
     	bodyPo.push('	</div>');
     	bodyPo.push('</div>');
 
-		var pageNum = (menu.length / countPerBlock).floor();
+		var pageNum = (menu.length / (countPerBlock)).floor();
 		this.pageNo = 0;
+		if(pageNum === 0) pageNum = 1;
 		this.pageNum = pageNum;
+
     	var pagePo = [];
     	pagePo.push('<div class="mobileMenuFoot">');
-    	jQuery.each(pageNum.rangeFrom(), function(pidx, p){
+    	jQuery.each(pageNum.rangeFrom(1), function(pidx, p){
     		if(pidx == 0) pagePo.push('<div class="pageNav on" ');
     		else pagePo.push('<div class="pageNav" ');
     		pagePo.push(' id="', modalID ,'_AX_pageNav_AX_', pidx ,'"></div>');
@@ -205,7 +208,7 @@ var AXMobileMenu = Class.create(AXJ, {
     		headPo : headPo.join(''),
     		bodyPo : bodyPo.join(''),
     		pagePo : pagePo.join(''),
-    		pageNum : (pageNum+1)
+    		pageNum : ( pageNum )
     	};
     },    
     close: function(){
@@ -231,15 +234,19 @@ var AXMobileMenu = Class.create(AXJ, {
 		
 		jQuery.each(menu, function(idx, M){
 			if(M[cfg.reserveKeys.primaryKey] == menuID){
-				pois = idx;
+				pois = idx + "";
 				return false;
 			}else{
 				if(M[cfg.reserveKeys.subMenuKey] && M[cfg.reserveKeys.subMenuKey].length > 0) treeFn(M[cfg.reserveKeys.subMenuKey], idx);
 			}
 		});
 
-		var poi = pois.split(/_/g);
+		var poi;
+		if(pois != "") poi = pois.split(/_/g);
 		this.selectedPoi = poi;
+    },
+    setHighLightMenu: function(menuID){
+    	this.setHighLight(menuID);
     },
     onclickModalBody: function(event){
     	var cfg = this.config;
@@ -323,6 +330,9 @@ var AXMobileMenu = Class.create(AXJ, {
     	
     	var tpl = this.getMenu(this.modalID, menu, apoi);
     	this.printMenu(tpl);
+    },
+    setTree: function(tree){
+    	this.config.menu = tree;
     },
     /* 메뉴 터치 이동관련 함수 - s */
 	touchstart: function (e) {
@@ -423,11 +433,11 @@ var AXMobileMenu = Class.create(AXJ, {
 	},
 	moveBlock: function(moveX){
 		var cfg = this.config;
-		var newLeft = (this.touchStartXY.sLeft + (moveX * 1.5));
+		var newLeft = (this.touchStartXY.sLeft + (moveX * 1));
 		if(newLeft > this.menuPageWidth*0.5){
 			newLeft = this.menuPageWidth*0.5;
-		}else if(newLeft < ( - this.mobileMenuBodyScroll.width()) * 0.8){
-			newLeft = ( - this.mobileMenuBodyScroll.width()) * 0.8;
+		}else if(newLeft < ( - this.mobileMenuBodyScroll.width()) * 0.5){
+			newLeft = ( - this.mobileMenuBodyScroll.width()) * 0.5;
 		}
 		this.mobileMenuBodyScroll.css({left: newLeft});
 	},
@@ -452,7 +462,7 @@ var AXMobileMenu = Class.create(AXJ, {
 		}else{
 			absPage += 1;
 		}
-		if(absPage > this.pageNum) absPage = this.pageNum;
+		if(absPage > this.pageNum-1) absPage = this.pageNum - 1;
 		newLeft = this.menuPageWidth * absPage;
 		
 		//trace(absPage);

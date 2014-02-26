@@ -1803,6 +1803,7 @@
   text-align: center;
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
+  background: #ececee;
   background: -webkit-linear-gradient(#fbfbfb, #ececee);
   /* For Safari */
   background: -o-linear-gradient(#fbfbfb, #ececee);
@@ -1811,12 +1812,8 @@
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#fbfbfb, #ececee);
   /* Standard syntax */
-  _background: #fbfbfb;
-  /* ie6 */
-  *background: #fbfbfb;
-  /* ie6 ie7 */
-  background: #fbfbfb \9;
-  /* ie8 ie9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fbfbfb, endColorstr=#ececee);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_6 {
   border-right: 0px none;
@@ -1869,6 +1866,7 @@
   text-align: center;
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
+  background: #ececee;
   background: -webkit-linear-gradient(#fbfbfb, #ececee);
   /* For Safari */
   background: -o-linear-gradient(#fbfbfb, #ececee);
@@ -1877,12 +1875,8 @@
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#fbfbfb, #ececee);
   /* Standard syntax */
-  _background: #fbfbfb;
-  /* ie6 */
-  *background: #fbfbfb;
-  /* ie6 ie7 */
-  background: #fbfbfb \9;
-  /* ie8 ie9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fbfbfb, endColorstr=#ececee);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_2 {
   border-right: 0px none;

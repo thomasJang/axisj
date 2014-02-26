@@ -47,6 +47,7 @@
   border: 1px solid #b9babc;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
+  background: #ececee;
   background: -webkit-linear-gradient(#fbfbfb, #ececee);
   /* For Safari */
   background: -o-linear-gradient(#fbfbfb, #ececee);
@@ -55,12 +56,8 @@
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#fbfbfb, #ececee);
   /* Standard syntax */
-  _background: #fbfbfb;
-  /* ie6 */
-  *background: #fbfbfb;
-  /* ie6 ie7 */
-  background: #fbfbfb \9;
-  /* ie8 ie9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fbfbfb, endColorstr=#ececee);
+  /*For IE7-8-9*/
   overflow: hidden;
 }
 .AXanchorIncrease {
@@ -401,6 +398,7 @@
   text-shadow: 0px -1px 2px #97a1a8;
   text-align: center;
   text-decoration: none;
+  background: #94a0ac;
   background: -webkit-linear-gradient(#c2ced6, #94a0ac);
   /* For Safari */
   background: -o-linear-gradient(#c2ced6, #94a0ac);
@@ -409,18 +407,15 @@
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#c2ced6, #94a0ac);
   /* Standard syntax */
-  _background: #c2ced6;
-  /* ie6 */
-  *background: #c2ced6;
-  /* ie6 ie7 */
-  background: #c2ced6 \9;
-  /* ie8 ie9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c2ced6, endColorstr=#94a0ac);
+  /*For IE7-8-9*/
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle:hover,
 .AXanchorSegmentBox .AXanchorSegmentHandle:focus {
+  background: #74818a;
   background: -webkit-linear-gradient(#4e5760, #74818a);
   /* For Safari */
   background: -o-linear-gradient(#4e5760, #74818a);
@@ -429,12 +424,8 @@
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#4e5760, #74818a);
   /* Standard syntax */
-  _background: #4e5760;
-  /* ie6 */
-  *background: #4e5760;
-  /* ie6 ie7 */
-  background: #4e5760 \9;
-  /* ie8 ie9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#4e5760, endColorstr=#74818a);
+  /*For IE7-8-9*/
   color: #fff;
   text-shadow: 0px 1px #4e585f;
 }
@@ -448,6 +439,7 @@
   border-bottom-right-radius: 5px;
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.on {
+  background: #74818a;
   background: -webkit-linear-gradient(#4e5760, #74818a);
   /* For Safari */
   background: -o-linear-gradient(#4e5760, #74818a);
@@ -456,12 +448,8 @@
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#4e5760, #74818a);
   /* Standard syntax */
-  _background: #4e5760;
-  /* ie6 */
-  *background: #4e5760;
-  /* ie6 ie7 */
-  background: #4e5760 \9;
-  /* ie8 ie9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#4e5760, endColorstr=#74818a);
+  /*For IE7-8-9*/
   color: #fff;
   text-shadow: 0px 1px #4e585f;
 }

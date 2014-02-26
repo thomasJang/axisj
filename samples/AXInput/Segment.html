@@ -152,6 +152,43 @@
 	
 	<script type="text/javascript">
 	var pageID = "Segment";
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+
+		<h2>AXInput bind Switch</h2>
+
+		<input type="text" name="" value="0" id="AXInputSegment" class="AXInput" style="width:150px;" />
+		
+		<div style="padding:10px 0px;">
+			<input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('0');" />
+			<input type="button" value="가운데로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('1');" />
+			<input type="button" value="오른쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('2');" />
+		</div>
+		
+		<div class="Hspace20"></div>
+
+		<h2>AXInput bind Switch (custom css)</h2>
+
+		<input type="text" name="" value="0" id="AXInputSegmentForImage" style="width:150px;height:50px;" />
+		
+		<div style="padding:10px 0px;">
+			<input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegmentForImage').setValueInput('0');" />
+			<input type="button" value="가운데로" class="AXButton" onclick="$('#AXInputSegmentForImage').setValueInput('1');" />
+			<input type="button" value="오른쪽으로" class="AXButton" onclick="$('#AXInputSegmentForImage').setValueInput('2');" />
+		</div>
+
+		<h2>AXInput bind Switch (custom css)</h2>
+
+		<input type="text" name="" value="0" id="AXInputSegmentForImage2" style="width:260px;height:30px;" />
+
+	</div>
+	<script type="text/javascript">
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
@@ -199,46 +236,7 @@
 			});
 		}
 	};
-	
-	$(document.body).ready(function(){
-		setTimeout(fnObj.pageStart, 1);
-	});
+	fnObj.pageStart();
 	</script>
-	<!-- js block -->
-	
-</head>
-<body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
-
-
-		<h2>AXInput bind Switch</h2>
-
-		<input type="text" name="" value="0" id="AXInputSegment" class="AXInput" style="width:150px;" />
-		
-		<div style="padding:10px 0px;">
-			<input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('0');" />
-			<input type="button" value="가운데로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('1');" />
-			<input type="button" value="오른쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('2');" />
-		</div>
-		
-		<div class="Hspace20"></div>
-
-		<h2>AXInput bind Switch (custom css)</h2>
-
-		<input type="text" name="" value="0" id="AXInputSegmentForImage" style="width:150px;height:50px;" />
-		
-		<div style="padding:10px 0px;">
-			<input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegmentForImage').setValueInput('0');" />
-			<input type="button" value="가운데로" class="AXButton" onclick="$('#AXInputSegmentForImage').setValueInput('1');" />
-			<input type="button" value="오른쪽으로" class="AXButton" onclick="$('#AXInputSegmentForImage').setValueInput('2');" />
-		</div>
-
-		<h2>AXInput bind Switch (custom css)</h2>
-
-		<input type="text" name="" value="0" id="AXInputSegmentForImage2" style="width:260px;height:30px;" />
-
-	</div>
-
 </body>
 </html>

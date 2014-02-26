@@ -17,15 +17,14 @@
 .Placeholder(@height: 20px){
 	color:#bbb;
 }
-.Linear-gradient(@scolor: #fff, @ecolor: #ccc){
+.Linear-gradient(@scolor:#fff, @ecolor:#ccc){
+	background: @ecolor;
 	background: -webkit-linear-gradient(@scolor, @ecolor); /* For Safari */
 	background: -o-linear-gradient(@scolor, @ecolor); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(@scolor, @ecolor); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(@scolor , @ecolor); /* Standard syntax */
-    _background: @scolor;   /* ie6 */
-    *background: @scolor;   /* ie6 ie7 */
-    background: @scolor~'\9';  /* ie8 ie9 */
-} 
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@scolor, endColorstr=@ecolor); /*For IE7-8-9*/ 
+}
 .TextHidden(){
 	line-height:90000px;overflow:hidden;	
 }
