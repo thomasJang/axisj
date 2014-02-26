@@ -8,7 +8,7 @@
  */
 
 var AXMobileMenu = Class.create(AXJ, {
-    version: "AXMobileMenu V0.2",
+    version: "AXMobileMenu V0.3",
     author: "tom@axisj.com",
 	logs: [
 		"2013-12-13 오전 10:53:43",
@@ -75,7 +75,7 @@ var AXMobileMenu = Class.create(AXJ, {
     		var apoi = this.selectedPoi.concat();
     		apoi.pop();
     		var menu = cfg.menu;
-			jQuery.each(apoi, function(idx, P){
+			axf.each(apoi, function(idx, P){
 				if(idx == 0){
 					menu = menu[P];
 				}else{
@@ -167,7 +167,7 @@ var AXMobileMenu = Class.create(AXJ, {
     		selectedPoi = this.selectedPoi.join("_");
     	}
     	
-    	jQuery.each(menu, function(midx, M){
+    	axf.each(menu, function(midx, M){
     		if(midx % countPerBlock == 0 && midx > 0){
     			bodyPo.push('	</div>');
     			bodyPo.push('	<div class="mobileMenuBodyPage">');
@@ -190,20 +190,19 @@ var AXMobileMenu = Class.create(AXJ, {
     	bodyPo.push('	</div>');
     	bodyPo.push('</div>');
 
-		var pageNum = (menu.length / (countPerBlock)).floor();
+		var pageNum = (menu.length / (countPerBlock)).ceil();
 		this.pageNo = 0;
-		if(pageNum === 0) pageNum = 1;
 		this.pageNum = pageNum;
 
     	var pagePo = [];
     	pagePo.push('<div class="mobileMenuFoot">');
-    	jQuery.each(pageNum.rangeFrom(1), function(pidx, p){
+    	axf.each(pageNum.rangeFrom(1), function(pidx, p){
     		if(pidx == 0) pagePo.push('<div class="pageNav on" ');
     		else pagePo.push('<div class="pageNav" ');
     		pagePo.push(' id="', modalID ,'_AX_pageNav_AX_', pidx ,'"></div>');
     	});
     	pagePo.push('</div>');
-    	
+
     	return {
     		headPo : headPo.join(''),
     		bodyPo : bodyPo.join(''),
@@ -222,7 +221,7 @@ var AXMobileMenu = Class.create(AXJ, {
 		var pois = "";
 		
 		var treeFn = function(subTree, parentPoi){
-			jQuery.each(subTree, function(idx, M){
+			axf.each(subTree, function(idx, M){
 				if(M[cfg.reserveKeys.primaryKey] == menuID){
 					pois = parentPoi + "_" + idx;
 					return false;
@@ -232,7 +231,7 @@ var AXMobileMenu = Class.create(AXJ, {
 			});
 		};
 		
-		jQuery.each(menu, function(idx, M){
+		axf.each(menu, function(idx, M){
 			if(M[cfg.reserveKeys.primaryKey] == menuID){
 				pois = idx + "";
 				return false;
@@ -254,8 +253,8 @@ var AXMobileMenu = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt : eventTarget, evtIDs : eid,
-			until:function(evt, evtIDs){ return ($(evt.parentNode).hasClass("mobileMenuBodyScroll")) ? true:false; },
-			find:function(evt, evtIDs){ return ($(evt).hasClass("mobileMenuItem")) ? true : false; }
+			until:function(evt, evtIDs){ return (axdom(evt.parentNode).hasClass("mobileMenuBodyScroll")) ? true:false; },
+			find:function(evt, evtIDs){ return (axdom(evt).hasClass("mobileMenuItem")) ? true : false; }
 		});
 		
 		if(myTarget){
@@ -264,7 +263,7 @@ var AXMobileMenu = Class.create(AXJ, {
 			var poi = myTarget.id.split(/_AX_/g).last();
 			var menu = cfg.menu;
 			var apoi = poi.split(/_/g);
-			jQuery.each(apoi, function(idx, P){
+			axf.each(apoi, function(idx, P){
 				if(idx == 0){
 					menu = menu[P];
 				}else{
@@ -280,7 +279,7 @@ var AXMobileMenu = Class.create(AXJ, {
 
 				var mobileMenuBody = this.modalObj.modalBody.find(".mobileMenuBodyScroll");
 				var bodyPos = mobileMenuBody.position();
-				var cloneMenuItem = jQuery("<div class='mobileMenuItemGhost' id='"+this.modalID+"_AX_cloneMenuItem'>" + menuItem.html() + "</div>");
+				var cloneMenuItem = axdom("<div class='mobileMenuItemGhost' id='"+this.modalID+"_AX_cloneMenuItem'>" + menuItem.html() + "</div>");
 				mobileMenuBody.append(cloneMenuItem);
 				cloneMenuItem.css({
 					position:"absolute",
@@ -320,7 +319,7 @@ var AXMobileMenu = Class.create(AXJ, {
 		var apoi = poi.split(/_/g);
 		apoi.pop();
 		
-		jQuery.each(apoi, function(idx, P){
+		axf.each(apoi, function(idx, P){
 			if(idx == 0){
 				menu = menu[P];
 			}else{
@@ -373,8 +372,8 @@ var AXMobileMenu = Class.create(AXJ, {
 				document.addEventListener("touchmove", this.touchMoveBind, false);
 			}
 		}else{
-			jQuery(document.body).bind("mouseup.AXMobileMenu", this.touchEnd.bind(this));
-			jQuery(document.body).bind("mousemove.AXMobileMenu", this.touchMove.bind(this));
+			axdom(document.body).bind("mouseup.AXMobileMenu", this.touchEnd.bind(this));
+			axdom(document.body).bind("mousemove.AXMobileMenu", this.touchMove.bind(this));
 		}
 		
 		this.mobileMenuBodyScroll.stop();
@@ -422,8 +421,8 @@ var AXMobileMenu = Class.create(AXJ, {
 				document.removeEventListener("touchmove", this.touchMoveBind, false);
 			}
 		}else{
-			jQuery(document.body).unbind("mouseup.AXMobileMenu");
-			jQuery(document.body).unbind("mousemove.AXMobileMenu");
+			axdom(document.body).unbind("mouseup.AXMobileMenu");
+			axdom(document.body).unbind("mousemove.AXMobileMenu");
 		}
 		
 		var moveEndBlock = this.moveEndBlock.bind(this);
@@ -432,12 +431,13 @@ var AXMobileMenu = Class.create(AXJ, {
 		}, 10);
 	},
 	moveBlock: function(moveX){
+		trace(this.mobileMenuBodyScroll.width());
 		var cfg = this.config;
 		var newLeft = (this.touchStartXY.sLeft + (moveX * 1));
 		if(newLeft > this.menuPageWidth*0.5){
 			newLeft = this.menuPageWidth*0.5;
-		}else if(newLeft < ( - this.mobileMenuBodyScroll.width()) * 0.5){
-			newLeft = ( - this.mobileMenuBodyScroll.width()) * 0.5;
+		}else if(newLeft < ( - this.mobileMenuBodyScroll.width()) * 1.5){
+			newLeft = ( - this.mobileMenuBodyScroll.width()) * 1.5;
 		}
 		this.mobileMenuBodyScroll.css({left: newLeft});
 	},
