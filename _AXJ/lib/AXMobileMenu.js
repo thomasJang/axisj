@@ -8,11 +8,12 @@
  */
 
 var AXMobileMenu = Class.create(AXJ, {
-    version: "AXMobileMenu V0.3",
+    version: "AXMobileMenu V0.43",
     author: "tom@axisj.com",
 	logs: [
 		"2013-12-13 오전 10:53:43",
-		"2014-02-26 오전 11:42:23 tom : 각종 버그 픽스"
+		"2014-02-26 오전 11:42:23 tom : 각종 버그 픽스",
+		"2014-02-26 오후 4:35:05 tom : hasSubMenu 분리"
 	],
     initialize: function(AXJ_super) {
 		AXJ_super();
@@ -176,14 +177,14 @@ var AXMobileMenu = Class.create(AXJ, {
     		if(this[cfg.reserveKeys.addClassKey]){
     			addClass.push(this[cfg.reserveKeys.addClassKey]);
     		}
-    		if(this[cfg.reserveKeys.subMenuKey] && this[cfg.reserveKeys.subMenuKey].length > 0){
-    			addClass.push("hasSubMenu");
-    		}
     		if(selectedPoi == (ppoi + midx)){
     			addClass.push("selected");
     		}
     		bodyPo.push('<a ' + cfg.href + ' class="mobileMenuItem ' + addClass.join(" ") + '" id="', modalID,'_AX_', ppoi, midx,'">');
     		bodyPo.push(this[cfg.reserveKeys.labelKey]);
+    		if(this[cfg.reserveKeys.subMenuKey] && this[cfg.reserveKeys.subMenuKey].length > 0){
+    			bodyPo.push('<span class="hasSubMenu"></span>');
+    		}
     		bodyPo.push('</a>');
     	});
     	bodyPo.push('		</div>');
@@ -294,12 +295,8 @@ var AXMobileMenu = Class.create(AXJ, {
 					var tpl = getMenuBind(modalID, menu, apoi);
 					printMenuBind(tpl);
 				});
-				//alert(AXgetId(this.modalID+"_AX_cloneMenuItem"));
-				//menuItem.animate({width:300, height:300});
 				
 				return;
-				var tpl = this.getMenu(this.modalID, menu, apoi);
-				this.printMenu(tpl);
 			}else{
 				if(cfg.onclick){
 					cfg.onclick.call(menu, menu);

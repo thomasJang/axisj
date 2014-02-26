@@ -45,6 +45,7 @@
 }
 	/* menu container > menu */
 	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem{
+		position:relative;
 		display:block;float:left;
 		padding:5px;
 		width:82px;height:82px;
@@ -57,8 +58,12 @@
 		word-break:break-all;
 		border-radius:4px;
 	}
-	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem.hasSubMenu{
-		background:url(img/AXMobile/hasSubMenu.png) no-repeat 100% 100% #f3f3f4;
+	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem .hasSubMenu{
+		position:absolute;right:2px;bottom:2px;
+		width:16px;height:16px;
+		background-image:url(img/AXMobile/hasSubMenu.png);
+		background-repeat:no-repeat;
+		background-position:100% 100%;
 		background-size:16px 16px;
 	}
 	.AXMobileMenu .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuItem:active{
