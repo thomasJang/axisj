@@ -8,7 +8,7 @@
  */
 
 var AXMobileMenu = Class.create(AXJ, {
-    version: "AXMobileMenu V0.43",
+    version: "AXMobileMenu V0.4",
     author: "tom@axisj.com",
 	logs: [
 		"2013-12-13 오전 10:53:43",

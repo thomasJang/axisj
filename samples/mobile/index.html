@@ -36,6 +36,7 @@
 			//AXUtil.readyMobileConsole();
 
 			myMobileModal.setConfig({
+				width:300, height:300,
 				head:{
 					close:{
 						onclick:function(){
@@ -48,15 +49,14 @@
 				}
 			});
 
-			$("#longPressTarget").longpress(function(){
-				//trace("111");
-			});
-
 			AXCode.bind(); // 소스보기
 
 		},
 		openMobileModal: function(){
 			var obj = myMobileModal.open();
+			obj.modalHead.html("adfadsfasdf");
+			obj.modalBody.html("<div style='height:250px;background:#fff;'>adfadsfasdf</div>");
+			//obj.modalFoot.html("adfadsfasdf");
 		}
 	};
 	$(document.body).ready(function(){

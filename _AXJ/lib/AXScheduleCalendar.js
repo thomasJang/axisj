@@ -27,7 +27,7 @@ var AXScheduleCalendar = Class.create(AXJ, {
 			{ name: "WED", style: "color:#7b7b7b;" },
 			{ name: "THU", style: "color:#7b7b7b;" },
 			{ name: "FRI", style: "color:#7b7b7b;" },
-			{ name: "SAT", style: "color:#627d9b;" }
+			{ name: "SAT", style: "color:#0080FF;" }
 		];
 		this.config.printFormat = "d";
 		this.config.titleFormat = "yyyy/mm/dd";
