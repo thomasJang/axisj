@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.50",
+	version: "AXGrid v1.52",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -53,7 +53,9 @@ var AXGrid = Class.create(AXJ, {
 		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결",
 		"2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가",
 		"2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경",
-		"2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가"
+		"2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가",
+		"2014-03-05 오후 12:17:26 tom : editor.response 에서 validate 후 editor 사라지도록 기능 변경, editorForm Item 중복되지 않도록 수정",
+		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -258,7 +260,6 @@ var AXGrid = Class.create(AXJ, {
 					} else {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
-
 					appendPosToColHeadMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
 				});
 			}
@@ -281,7 +282,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				});
 			}
-			/*trace(cfg.colHead._maps); _maps check */
+			/*trace(cfg.colHead._maps);  //_maps check */
 
 			/* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 		} else {
@@ -2597,6 +2598,8 @@ var AXGrid = Class.create(AXJ, {
 	},
 	updateList: function (itemIndex, item) {
 		var cfg = this.config;
+		this.cancelEditor();
+		
 		if (item._CUD == "C") {
 
 		} else if (item._CUD == "D") {
@@ -2639,7 +2642,9 @@ var AXGrid = Class.create(AXJ, {
 	},
 	pushList: function (pushItem, insertIndex) {
 		var cfg = this.config;
-
+		
+		this.cancelEditor();
+		
 		pushItem._CUD = "C";
 		if (insertIndex != null && insertIndex != undefined) {
 			
@@ -3156,8 +3161,10 @@ var AXGrid = Class.create(AXJ, {
 	contentScrollResize: function (resetLeft) {
 		var cfg = this.config;
 
+
+		var scrollContent = axdom("#" + cfg.targetID + "_AX_scrollContent");
 		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+		var scrollHeight = scrollContent.height();
 
 		var bodyWidth = this.body.width();
 		var scrollWidth = (this.colWidth > bodyWidth) ? this.colWidth : bodyWidth;
@@ -3168,10 +3175,16 @@ var AXGrid = Class.create(AXJ, {
 		if (this.hasEditor) this.editor.css({ width: scrollWidth });
 
 		if (resetLeft != false) {
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ left: 0 });
+			scrollContent.css({ left: 0 });
 			axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
 			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
 			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+		}else{
+			if((scrollContent.width() + scrollContent.position().left) < this.body.width()){
+				scrollContent.css({ left: 0 });
+				axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+				axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
+			}
 		}
 
 		if (bodyHeight < scrollHeight && cfg.height != "auto") {
@@ -4355,12 +4368,29 @@ var AXGrid = Class.create(AXJ, {
 	saveEditor: function () {
 		var cfg = this.config;
 
-		var editorFormItem = [];
+		var editorFormItem = {};
 		if (this.editorItemIndex == null) {
-			editorFormItem.push("requestType=new");
+			editorFormItem.requestType = "new";
 		} else {
-			editorFormItem.push("requestType=edit");
+			editorFormItem.requestType = "edit";
 		}
+
+		var setEditorFormItemValue = function(k, v, type){
+			if(editorFormItem[k]){
+				if(type == "checkbox"){
+					if(Object.isArray(editorFormItem[k])){
+						editorFormItem[k].push(v);
+					}else{
+						editorFormItem[k] = [editorFormItem[k]];
+						editorFormItem[k].push(v);
+					}					
+				}else{
+					editorFormItem[k] = v;
+				}
+			}else{
+				editorFormItem[k] = v;
+			}
+		};
 
 		for (var r = 0; r < cfg.editor.rows.length; r++) {
 			axf.each(cfg.editor.rows[r], function (CHidx, CH) {
@@ -4370,28 +4400,29 @@ var AXGrid = Class.create(AXJ, {
 						var checkedValue = [];
 						axf.each(CH.form.options, function (oidx, opt) {
 							var opt_formID = formID + "_AX_" + oidx;
-							if (axdom("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + axdom("#" + opt_formID).val().enc());
+							if (axdom("#" + opt_formID).get(0).checked) setEditorFormItemValue(CH.key, axdom("#" + opt_formID).val(), "radio");
+							//editorFormItem.push(CH.key + "=" + axdom("#" + opt_formID).val().enc());
 						});
 					} else if (CH.form.type == "checkbox") {
 						var checkedValue = [];
 						axf.each(CH.form.options, function (oidx, opt) {
 							var opt_formID = formID + "_AX_" + oidx;
-							if (axdom("#" + opt_formID).get(0).checked) editorFormItem.push(CH.key + "=" + axdom("#" + opt_formID).val().enc());
-							else editorFormItem.push(CH.key + "=");
+							if (axdom("#" + opt_formID).get(0).checked) setEditorFormItemValue(CH.key, axdom("#" + opt_formID).val(), "checkbox");
+							else setEditorFormItemValue(CH.key, "", "checkbox");
 						});
 					} else if (CH.form.type == "select") {
 						if (CH.form.value == "itemText") {
-							editorFormItem.push(CH.key + "=" + axf.getId(formID).options[axf.getId(formID).options.selectedIndex].text.enc());
+							setEditorFormItemValue(CH.key, axf.getId(formID).options[axf.getId(formID).options.selectedIndex].text, "select");
 						} else {
-							editorFormItem.push(CH.key + "=" + axdom("#" + formID).val().enc());
+							setEditorFormItemValue(CH.key, axdom("#" + formID).val(), "select");
 						}
 					} else {
-						editorFormItem.push(CH.key + "=" + axdom("#" + formID).val().enc());
+						setEditorFormItemValue(CH.key, axdom("#" + formID).val(), "text");
 					}
 				} else {
 					var formID = cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
 					if (axf.getId(formID)) {
-						editorFormItem.push(CH.key + "=" + axdom("#" + formID).val().enc());
+						setEditorFormItemValue(CH.key, axdom("#" + formID).val(), "text");
 					}
 				}
 			});
@@ -4455,9 +4486,8 @@ var AXGrid = Class.create(AXJ, {
 		}
 		/* form validate -- e */
 
-		this.unbindAXbind();
-
 		if (cfg.editor.request) {
+			this.unbindAXbind();
 			
 			var po = [];
 			po.push("<div class=\"editorContent\" style=\"background:#fff;\">");
@@ -4468,7 +4498,11 @@ var AXGrid = Class.create(AXJ, {
 			var saveEditorRequest = this.saveEditorRequest.bind(this);
 			var cancelEditor = this.cancelEditor.bind(this);
 			var url = cfg.editor.request.ajaxUrl;
-			var pars = (cfg.editor.request.ajaxPars) ? cfg.editor.request.ajaxPars + "&" + editorFormItem.join('&') : editorFormItem.join('&');
+			var formPars = [];
+			axf.each(editorFormItem, function(k, v){
+				formPars.push(k+"="+v.enc());
+			});
+			var pars = (cfg.editor.request.ajaxPars) ? cfg.editor.request.ajaxPars + "&" + formPars.join('&') : formPars.join('&');
 
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
@@ -4481,26 +4515,29 @@ var AXGrid = Class.create(AXJ, {
 				}
 			});
 
-			return;
+			return true;
 
 		} else {
 
+			/*
 			var po = [];
-			po.push("<div class=\"editorContent\" style=\"background:#fff;\">");
-			po.push("<div class=\"AXLoading\"></div>");
+			po.push("<div class=\"editorContent\" id=\"\" style=\"background:#fff;\">");
+			po.push("<div class=\"editorContent AXLoading\"></div>");
 			po.push("</div>");
-			this.editor.html(po.join(''));
+			this.editor.append(po.join(''));
+			*/
+			
+			// -------------- editor response 에서 return false 가 오는 상황을 고려 하면 사용
+			//this.editor.hide();
+			//this.editorOpend = false;
 
 			var saveEditorRequest = this.saveEditorRequest.bind(this);
 			var cancelEditor = this.cancelEditor.bind(this);
-			saveEditorRequest({ item: editorFormItem.join('&').queryToObjectDec() });
+			saveEditorRequest({ item: editorFormItem });
 
-			/*
-			this.editor.hide();
-			this.editorOpend = false;
-			*/
 		}
 	},
+	
 	saveEditorRequest: function (res) {
 		var cfg = this.config;
 
@@ -4508,6 +4545,7 @@ var AXGrid = Class.create(AXJ, {
 			/*this.editorItemIndex */
 			/* this.list[n] 에 서버로 부터 받은 값 덮어쓰기 */
 			if (cfg.editor.response) { /*  */
+				
 				var sendObj = {
 					res: res,
 					index: this.editorItemIndex,
@@ -4515,8 +4553,22 @@ var AXGrid = Class.create(AXJ, {
 					list: this.list,
 					page: this.page
 				};
-				cfg.editor.response.call(sendObj, this.editorItemIndex);
+				var callResult = cfg.editor.response.call(sendObj, this.editorItemIndex);
+				
+				/* 
+				// -------------- editor response 에서 return false 가 오는 상황을 고려 하면 사용
+				if(callResult === true){
+					this.editorOpend = false;
+					this.unbindAXbind();
+				}else{
+					this.editor.show();
+					this.editorOpend = true;
+				}
+				*/
+				
 			} else {
+				
+				this.unbindAXbind();
 				if (this.editorItemIndex != null && this.editorItemIndex != undefined) {
 					AXUtil.overwriteObject(this.list[this.editorItemIndex], res.item, true);
 					this.updateList(this.editorItemIndex, this.list[this.editorItemIndex]);
@@ -4525,12 +4577,12 @@ var AXGrid = Class.create(AXJ, {
 				} else {
 					this.pushList(res.item);
 				}
+				this.editorItemIndex = null;
+				this.editorInsertIndex = null;
+				this.editor.hide();
+				this.editorOpend = false;
 			}
 
-			this.editorItemIndex = null;
-			this.editorInsertIndex = null;
-			this.editor.hide();
-			this.editorOpend = false;
 		}
 	},
 	cancelEditor: function () {

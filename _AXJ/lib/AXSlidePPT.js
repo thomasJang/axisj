@@ -8,10 +8,11 @@
  */
 
 var AXSlidePPT = Class.create(AXJ, {
-    version: "AXSlidePPT V0.1",
+    version: "AXSlidePPT V0.2",
     author: "tom@axisj.com",
 	logs: [
-		"2014-02-06 오후 8:31:00 - tom: start"
+		"2014-02-06 오후 8:31:00 - tom: start",
+		"2014-03-04 오후 2:08:59 - tom : bugFix"
 	],
     initialize: function(AXJ_super) {
         AXJ_super();
@@ -200,7 +201,7 @@ var AXSlidePPT = Class.create(AXJ, {
 		this.openSlideNo = slideNo;
 		this.viewMode = "open";
 		this.animateAttr = {x:this.mouseDownAttr.x};
-		
+		_this.slideScroll.stop();
 		var applyRatio = function(ratio){
 			var myRatio = ratio + 0.1;
 			if(myRatio > 1) myRatio = 1;
@@ -227,6 +228,7 @@ var AXSlidePPT = Class.create(AXJ, {
 		this.closeSlideIng = true;
 		this.viewMode = "close";
 		
+		_this.slideScroll.stop();
 		this.animateAttr = {x:this.mouseDownAttr.x};
 		var applyRatio = function(ratio){
 			var myRatio = (ratio - 0.1).round(1);
@@ -248,6 +250,22 @@ var AXSlidePPT = Class.create(AXJ, {
 			}
 		};
 		applyRatio(this.ratio);
+	},
+	pagemoveSlide: function(slideNo){
+		if (this.onMoveEndObserver) clearTimeout(this.onMoveEndObserver);
+		if (this.onMoveAfterObserver) clearTimeout(this.onMoveAfterObserver);
+		
+		var cfg = this.config, _this = this;
+		
+		if(slideNo < 0) slideNo = 0;
+		if(slideNo > this.slideDoms.length-1) slideNo = this.slideDoms.length-1;
+		
+		this.openSlideNo = slideNo;
+		//trace("pagemoveSlide" + slideNo);
+		_this.slideScroll.stop();
+		_this.slideScroll.animate({left: - (_this.slideDoms[slideNo].axdom.position().left - 5)}, 500, "expoOut", function () {
+			
+		});
 	},
 	
 	/* events */
@@ -473,9 +491,13 @@ var AXSlidePPT = Class.create(AXJ, {
 			}else{
 				if(this.closeSlideIng) return;
 				var ratio = this.mouseDownAttr.ratio + dy/axf.clientHeight();
+				this.itemSetSize( ratio, dx );
+				/*
+				var ratio = this.mouseDownAttr.ratio + dy/axf.clientHeight();
 				if( (ratio < 0.97 && axf.browser.mobile) || (ratio < 0.90 && !axf.browser.mobile) ){
 					this.closeSlide( this.mouseDownAttr.slideNo );
 				}
+				*/
 			}
 		}else{
 			if(this.mouseDownAttr.type == "x"){
@@ -495,10 +517,13 @@ var AXSlidePPT = Class.create(AXJ, {
 		
 		if(_this.mouseDownAttr.type == "y"){
 			var bigRatio = (axf.browser.mobile) ? 0.6 : 0.6;
-			if( _this.ratio < _this._ratio ){
+			if( this.viewMode == "open" && _this.ratio < 0.95 ){
+				this.closeSlide( this.mouseDownAttr.slideNo );
+			}else if( _this.ratio < _this._ratio ){
 				_this.itemSetSize( _this._ratio );
 			}else if( _this.ratio < bigRatio ){
 				_this.itemSetSize( _this._ratio );
+				
 			}else{
 				//trace(_this.mouseDownAttr.slideNo);
 				_this.openSlide(_this.mouseDownAttr.slideNo);
@@ -526,10 +551,10 @@ var AXSlidePPT = Class.create(AXJ, {
 					
 				}else if(this.mouseDownAttr._slideScrollLeft > this.slideScroll.position().left){
 					//trace("next");
-					this.openSlide(this.openSlideNo.number() + 1);
+					this.pagemoveSlide(this.openSlideNo.number() + 1);
 				}else{
 					//trace("prev");
-					this.openSlide(this.openSlideNo.number() - 1);
+					this.pagemoveSlide(this.openSlideNo.number() - 1);
 				}
 				
 				//trace(this.slideScrollLeft, this.itemWidth, this.slideScrollLeft.abs() % this.itemWidth);

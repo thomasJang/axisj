@@ -151,6 +151,29 @@
 			po.push('	</tbody>');
 			po.push('</table>');
 			return po.join('');
+		},
+		gitTryCode: function(){
+			window.open("https://github.com/login/oauth/authorize?client_id=527d66e731a96c5921ce&redirect_uri=http://localhost:2013/samples/APIExp/getGitHubCode.asp", "gitHubAuth", "width=1024, height=600");
+		},
+		gitGetCode: function(code){
+			//alert(code);
+			new AXReq("https://github.com/login/oauth/access_token", 
+			{
+				pars: "client_id=527d66e731a96c5921ce&client_secret=b19773fe1f1855051d263f8d192f5833454a2099&code="+code, 
+				type: "post",
+				crossDomain: true,
+				onsucc: function (res) {
+					//
+					trace(res);
+					toast.push("git OK");
+				},
+				onerr: function(e){
+					toast.push("서버에서 에러가 발생 하였습니다.");
+				}
+			});
+			
+			
+			
 		}
 	}	
 	$(document.body).ready(fnObj.pageStart);
@@ -167,6 +190,13 @@
 			<col />
 		</colgroup>
 		<tbody>
+			<tr>
+				<th class="gray">Auth</th>	
+				<td>
+					"https://github.com/login/oauth/authorize"
+					<button type="button" class="AXButton Blue W100" onclick="fnObj.gitTryCode();">access_token</button>
+				</td>
+			</tr>
 			<tr>
 				<th class="gray">
 					Method
@@ -189,7 +219,7 @@
 				<td>
 					<label class="AXInputLabel fullWidth">
 						<span>https://github.com/</span>
-						<input type="text" name="url" class="AXInput" placeholder="games" value="games" />
+						<input type="text" name="url" class="AXInput" placeholder="Input API URL" value="login/oauth/access_token" />
 					</label>
 				</td>
 			</tr>

@@ -2700,6 +2700,7 @@ var AXCalendar = Class.create(AXJ, {
 	},
 	printDayPage: function (date) {
 		var cfg = this.config;
+		
 		if (Object.isUndefined(cfg.targetID)) {
 			trace("need targetID - setConfig({targetID:''})");
 			return;
@@ -2716,7 +2717,7 @@ var AXCalendar = Class.create(AXJ, {
 		po.push("<table cellspacing=\"0\" cellpadding=\"0\" class=\"calendarPage\">");
 		po.push("<thead>");
 		po.push("<tr>");
-		AXUtil.each(cfg.weeks, function (wi, ww) {
+		axf.each(cfg.weeks, function (wi, ww) {
 			po.push("<td class=\"head_" + wi + " dayofweek_" + wi + "\">" + ww.name + "</td>");
 		});
 		po.push("</tr>");

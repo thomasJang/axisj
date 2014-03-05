@@ -54,9 +54,11 @@
 					{
 						key:"no", label:"checkbox", width:"30", align:"center", formatter:"checkbox", 
 						disabled:function(){
+							return false;
 							return (this.index % 2 != 0);
 						},
 						checked:function(){
+							return false;
 							//사용 가능한 변수
 							//this.index
 							//this.item
@@ -106,7 +108,6 @@
 						]
 					]
 				},
-				
 				body : {
 					onclick: function(){
 						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
@@ -139,8 +140,7 @@
 							{colSeq:5},
 							{colSeq:6},
 							{colSeq:7},
-							{colSeq:8},
-							{colSeq:9}
+							{colSeq:8}
 						]
 					]
 				},
@@ -153,8 +153,7 @@
 							{colSeq:5},
 							{colSeq:6},
 							{colSeq:7},
-							{colSeq:8},
-							{colSeq:9}
+							{colSeq:8}
 						]
 					]
 				},
@@ -178,12 +177,15 @@
 										return this.value.dec();
 									}
 									, validate:function(){
+										return true;	
+										/*
 										if(this.value == ""){
 											alert("제목은 필수 입력 항목 입니다.");
 											return false;
 										}else{
 											return true;	
 										}
+										*/
 									}
 								}
 								, AXBind:{type:"selector", config:{
@@ -212,8 +214,6 @@
 							{colSeq:5, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"money"}},
 							{colSeq:6, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:1, max:100}}},
 							{colSeq:7, align:"right", valign:"top"},
-							//{colSeq:8, align:"left", valign:"top", form:{type:"textarea", value:"itemValue"}}
-							
 							{colSeq:8, align:"left", valign:"top", 
 								form:{
 									type:"select", value:"itemValue", 
@@ -226,10 +226,6 @@
 										AXUtil.alert(this);
 									}
 								}
-							},
-							{colSeq:9, align:"center", valign:"top", form:{type:"checkbox", value:"itemValue", options:[
-								{value:'Y', text:''}
-								]}
 							}
 							
 						]
@@ -244,18 +240,17 @@
 							//pushItem 에 추가 값 지정 가능
 							if(this.res.item.title == ""){
 								alert("제목이 비어 추가 할 수 없습니다.");
-								return;
+								return false;
 							}
 							myGrid.pushList(pushItem, this.insertIndex);
 						}else{ // 수정
-							trace(this.res.item);
+							//trace(this.res.item);
 							AXUtil.overwriteObject(this.list[this.index], this.res.item, true); // this.list[this.index] object 에 this.res.item 값 덮어쓰기
 							myGrid.updateList(this.index, this.list[this.index]);
 						}
 						
 					},
 					onkeyup: function(event, element){
-						trace(event.keyCode, element.name, element.id);
 						if(event.keyCode == 13 && element.name != "title") myGrid.saveEditor();
 						else if(event.keyCode == 13 && element.name == "title") myGrid.focusEditorForm("regDate");
 					}
