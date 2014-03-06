@@ -8,7 +8,7 @@
  */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.52",
+	version: "AXGrid v1.53",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -55,7 +55,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경",
 		"2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가",
 		"2014-03-05 오후 12:17:26 tom : editor.response 에서 validate 후 editor 사라지도록 기능 변경, editorForm Item 중복되지 않도록 수정",
-		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스"
+		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스",
+		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1547,6 +1548,9 @@ var AXGrid = Class.create(AXJ, {
 		axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_EB").attr("width", newWidth);
 
 		cfg.colGroup[this.colResizeTarget.colSeq].width = newWidth;
+		if(!cfg.colGroup[this.colResizeTarget.colSeq].widthAstric){
+			cfg.colGroup[this.colResizeTarget.colSeq]._owidth = newWidth;
+		}
 
 		if (this.hasFixed) {
 			var fixedColSeq = this.fixedColSeq;

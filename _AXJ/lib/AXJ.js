@@ -1442,12 +1442,14 @@ var AXMask = Class.create(AXJ, {
 		AXJ_super();
 		this.selects = [];
 		this.config.maskClassName = "AXMask";
+		this.config.maskContentClassName = "AXMaskContent";
 		this.config.content = "disable content";
-		this.config.maskZindex = "2000";
+		this.config.maskZindex = "5000";
 		this.blinkTrack = [];
 	},
 	init: function () {
 		this.mask = axdom("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
+		//this.content = axdom("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
 	},
 	open: function (configs) {
 		axdom(document.body).append(this.mask);
@@ -1461,7 +1463,6 @@ var AXMask = Class.create(AXJ, {
 			}
 		}
 	},
-	
 	close: function (delay) {
 		if (!delay) {
 			this.mask.unbind("click.AXMask");
@@ -1502,7 +1503,8 @@ var AXMask = Class.create(AXJ, {
 				onblink((blinkIndex + 1) % blinkTrack.length);
 			});
 		}
-	}
+	},
+	
 });
 var mask = new AXMask();
 mask.setConfig();
