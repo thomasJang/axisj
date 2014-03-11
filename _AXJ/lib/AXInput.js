@@ -124,6 +124,7 @@ var AXInputConverter = Class.create(AXJ, {
 			//if (this.id == objID && this.isDel == true) objSeq = idx;
 			if (this.id == objID) {
 				objSeq = idx;
+				return false;
 			}
 		});
 

@@ -246,12 +246,21 @@ var AXSearch = Class.create(AXJ, {
     	jQuery("#"+cfg.targetID).find(".searchSelectboxItem").bind("change", this.onChangeSelect.bind(this));
     	jQuery("#"+cfg.targetID).find(".searchInputTextItem").bind("change", this.onChangeInput.bind(this));
     	jQuery("#"+cfg.targetID).find(".searchButtonItem").bind("click", this.onclickButton.bind(this));
-    	
+
     	this.AXBinds = AXBinds;
+    	
+    	var _this = this;
+    	setTimeout(function(){
+    		_this.AXBindItems();
+    	}, 100);
+    },
+    AXBindItems: function(){
+    	var cfg = this.config;
     	jQuery.each(this.AXBinds, function(){
     		var gr = this.gr, itemIndex = this.itemIndex, item = this.item;
     		var display = this.display;
     		var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
+    		
     		if(display){
 	    		if(item.AXBind.type == "selector"){
 	    			jQuery("#"+itemID).bindSelector(item.AXBind.config);
@@ -273,8 +282,7 @@ var AXSearch = Class.create(AXJ, {
 	    			jQuery("#"+itemID).bindTwinDate(item.AXBind.config);
 	    		}
 	    	}
-    	});
-    	
+    	});    	
     },
     expandToggle: function(){
     	var cfg = this.config;

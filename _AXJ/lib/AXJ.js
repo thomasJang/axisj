@@ -1503,8 +1503,7 @@ var AXMask = Class.create(AXJ, {
 				onblink((blinkIndex + 1) % blinkTrack.length);
 			});
 		}
-	},
-	
+	}	
 });
 var mask = new AXMask();
 mask.setConfig();

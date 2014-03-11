@@ -8,7 +8,7 @@
  */
 
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v2.1",
+	version: "AXSelectConverter v2.2",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-19 오후 12:00:43",
@@ -24,7 +24,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		"2013-11-06 오후 12:47:53 - tabindex 속성 가져오기 기능 추가 : tom",
 		"2013-11-27 오후 8:03:57 - tom : positionFixed 기능 추가",
 		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가",
-		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix"
+		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix",
+		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue "
 		
 	],
 	initialize: function (AXJ_super) {
@@ -118,6 +119,15 @@ var AXSelectConverter = Class.create(AXJ, {
 		if (objSeq == null) {
 			objSeq = this.objects.length;
 			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj });
+		} else {
+			this.objects[objSeq].isDel = undefined;
+			this.objects[objSeq].config = obj;
+		}
+
+		/*
+		if (objSeq == null) {
+			objSeq = this.objects.length;
+			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj });
 			this.appendAnchor(objID);
 			this.bindSelect(objID, objSeq);
 		} else {
@@ -125,6 +135,11 @@ var AXSelectConverter = Class.create(AXJ, {
 			this.resizeAnchor(objID);
 			this.bindSelect(objID, objSeq);
 		}
+		*/
+		
+		this.appendAnchor(objID);
+		this.bindSelect(objID, objSeq);
+		
 	},
 	appendAnchor: function (objID) {
 		var cfg = this.config;
@@ -777,6 +792,28 @@ var AXSelectConverter = Class.create(AXJ, {
 		if(findIndex != null){
 			return jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox");
 		}
+	},
+	bindSelectGetValue: function(objID, onEnd){
+		var findIndex = null;
+		jQuery.each(this.objects, function (index, O) {
+			if (O.id == objID && O.isDel != true) {
+				findIndex = index;
+				return false;
+			}
+		});
+
+		if (findIndex == null) {
+			return { optionValue: null, optionText: null, error:"바인드 된 오브젝트를 찾을 수 없습니다." };
+		} else {
+			var obj = this.objects[findIndex];
+			var cfg = this.config;
+			
+			if (obj.selectedIndex != undefined) {
+				return { optionValue: AXgetId(objID).options[ obj.selectedIndex ].value, optionText: AXgetId(objID).options[ obj.selectedIndex ].text };
+			}else{
+				return { optionValue: null, optionText: null };
+			}			
+		}
 	}
 });
 
@@ -813,6 +850,10 @@ jQuery.fn.bindSelectSetValue = function (value, onEnd) {
 		AXSelect.bindSelectChangeValue(this.id, value, onEnd);
 		return this;
 	});
+};
+
+jQuery.fn.bindSelectGetValue = function (onEnd) {
+	return AXSelect.bindSelectGetValue(this[0].id, onEnd);
 };
 
 //SetText
