@@ -56,7 +56,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가",
 		"2014-03-05 오후 12:17:26 tom : editor.response 에서 validate 후 editor 사라지도록 기능 변경, editorForm Item 중복되지 않도록 수정",
 		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스",
-		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스"
+		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스",
+		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disanled 된 row 는 체크 하지않도록 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1091,17 +1092,19 @@ var AXGrid = Class.create(AXJ, {
 			});
 
 			this.body.find(".gridCheckBox_body_colSeq" + colSeq).each(function () {
-				this.checked = checked;
-				var ieid = this.id.split(/_AX_/g);
-				var checkboxColSeq = ieid[ieid.length - 2];
-				var checkboxIndex = ieid[ieid.length - 1];
-				if (cfg.colGroup[checkboxColSeq].oncheck) {
-					var sendObj = {
-						index: checkboxIndex,
-						list: _list,
-						item: _list[checkboxIndex]
-					};
-					cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, this.checked);
+				if ( $("#"+this.id).attr("disabled") != "disabled"){
+					this.checked = checked;
+					var ieid = this.id.split(/_AX_/g);
+					var checkboxColSeq = ieid[ieid.length - 2];
+					var checkboxIndex = ieid[ieid.length - 1];
+					if (cfg.colGroup[checkboxColSeq].oncheck) {
+						var sendObj = {
+							index: checkboxIndex,
+							list: _list,
+							item: _list[checkboxIndex]
+						};
+						cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, this.checked);
+					}
 				}
 			});
 		} else {
