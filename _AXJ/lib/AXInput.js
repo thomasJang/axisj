@@ -732,7 +732,9 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		
-		obj.bindTarget.data("val", obj.bindTarget.val());
+		obj.bindTarget.data("val", obj.bindTarget.val().enc());
+
+	    //alert(obj.bindTarget.data("val").end());
 		
 		if (this.opendExpandBox) {
 			this.bindSelectorClose(this.opendExpandBox.objID, this.opendExpandBox.objSeq, event); // 셀럭터 외의 영역이 므로 닫기
@@ -841,8 +843,8 @@ var AXInputConverter = Class.create(AXJ, {
 			axdom(document).unbind("click.AXInput");
 			obj.bindTarget.unbind("keydown.AXInput");
 			obj.bindTarget.unbind("change.AXInput");
-
-			if(obj.bindTarget.data("val") == obj.bindTarget.val() && !obj.config.isChangedSelect){
+	
+			if(obj.bindTarget.data("val") == obj.bindTarget.val().enc() && !obj.config.isSelectorClick) {
 				return obj.bindTarget.val();
 			}
 
@@ -905,6 +907,7 @@ var AXInputConverter = Class.create(AXJ, {
 			po.push("<div class=\"empty\">" + selectorOptionEmpty + "</div>");
 		}
 		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
+	    obj.config.isSelectorClick = false;
 
 		var expandScrollHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").outerHeight();
 		if (expandScrollHeight > maxHeight) expandScrollHeight = maxHeight;
@@ -973,6 +976,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.focusedIndex = selectedIndex;
 				obj.config.selectedObject = obj.config.options[selectedIndex];
 				obj.config.isChangedSelect = true;
+			    obj.config.isSelectorClick = true;
 				this.bindSelectorClose(objID, objSeq, event); // 값 전달 후 닫기
 			}
 		}
@@ -1058,7 +1062,7 @@ var AXInputConverter = Class.create(AXJ, {
 			//obj.config.selectedIndex = null;
 			obj.config.focusedIndex = null;
 			//obj.config.selectedObject = null;
-			obj.config.isChangedSelect = true;
+			//obj.config.isChangedSelect = true;
 			this.bindSelectorSetOptions(objID, objSeq);
 
 		} else if (obj.config.ajaxUrl) {
@@ -1089,7 +1093,7 @@ var AXInputConverter = Class.create(AXJ, {
 						//obj.config.selectedIndex = null;
 						obj.config.focusedIndex = null;
 						//obj.config.selectedObject = null;
-						obj.config.isChangedSelect = true;
+						//obj.config.isChangedSelect = true;
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
 

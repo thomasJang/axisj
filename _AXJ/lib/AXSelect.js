@@ -171,7 +171,6 @@ var AXSelectConverter = Class.create(AXJ, {
 		h = iobj.outerHeight();
 
 		var css = { left: l, top: t, width: w, height: 0 };
-		//AXUtil.alert(css);
 		jQuery("#" + cfg.targetID + "_AX_" + objID).css(css);
 		jQuery("#" + cfg.targetID + "_AX_" + objID).data("height", h);
 	},
