@@ -8,7 +8,7 @@
  */
 
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v2.2",
+	version: "AXSelectConverter v2.3",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-19 오후 12:00:43",
@@ -25,7 +25,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		"2013-11-27 오후 8:03:57 - tom : positionFixed 기능 추가",
 		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가",
 		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix",
-		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue "
+		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue ",
+		"2014-03-18 오후 10:09:21 - tom : select 포커스 후 키입력 하면 optionValue 를 비고하여 선택처리 기능 구현 - 2차버전에 한글 포커스 밑 optionText 비교 처리 구문 추가"
 		
 	],
 	initialize: function (AXJ_super) {
@@ -252,12 +253,28 @@ var AXSelectConverter = Class.create(AXJ, {
 			// PC 브라우저인 경우
 			jQuery("#" + objID).hide();
 			var bindSelectExpand = this.bindSelectExpand.bind(this);
+			var bindSelectClose = this.bindSelectClose.bind(this);
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("click.AXSelect", function (event) {
 				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
 				bindSelectExpand(objID, objSeq, true, event);
 			});
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("keydown.AXSelect", function (event) {
 				if(event.keyCode == AXUtil.Event.KEY_SPACE) bindSelectExpand(objID, objSeq, true, event);
+				//trace(String.fromCharCode(event.keyCode));
+				var chkVal = String.fromCharCode(event.keyCode), chkIndex = null;
+				axf.each(obj.options, function (index, O) {
+					if(chkVal == O.optionValue){
+						chkIndex = index;
+						return false;
+					}
+				});
+				if(chkIndex != null){
+					obj.selectedIndex = chkIndex;
+					obj.config.focusedIndex = chkIndex;
+					obj.config.selectedObject = obj.options[chkIndex];
+					obj.config.isChangedSelect = true;
+					bindSelectClose(objID, objSeq, event); // 값 전달 후 닫기
+				}
 			});
 		}
 
@@ -472,6 +489,18 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			if(event) event.stopPropagation(); // disableevent
 			return;
+		}else{
+			if (obj.config.isChangedSelect) {
+
+				AXgetId(objID).options[obj.selectedIndex].selected = true;
+				if (obj.config.onChange) {
+					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+				}
+				obj.config.isChangedSelect = false;
+
+				this.bindSelectChange(objID, objSeq);
+
+			}
 		}
 	},
 	bindSelectSetOptions: function (objID, objSeq) {

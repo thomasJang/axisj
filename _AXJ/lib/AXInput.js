@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.41",
+	version: "AXInputConverter v1.42",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -36,7 +36,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스",
 		"2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가",
 		"2014-02-25 오후 9:05:04 tom : earlierThan/ laterThan 설정 버그픽스",
-		"2014-03-18 오후 1:58:57 tom : bindSelector 텍스트 변경 안 되었을 때 이벤트 처리 안하기"
+		"2014-03-18 오후 1:58:57 tom : bindSelector 텍스트 변경 안 되었을 때 이벤트 처리 안하기",
+		"2014-03-18 오후 9:44:57 tom : 날짜 입력 시 4자리 입력 후 포커스 아웃 시 당해년도 4자리 자동 포함, 날짜 입력 시 6자리 입력 후 포커스 아웃 시 당해년도 앞 2자리 자동 포함"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2811,14 +2812,14 @@ var AXInputConverter = Class.create(AXJ, {
 						var yy = va.left(4).number();
 						var mm = va.substr(4, 2).number() - 1;
 						var dd = va.substr(6, 2).number();
-					} else if (va.length > 5) {
-						var yy = va.left(4).number();
-						var mm = va.substr(4, 2).number() - 1;
-						var dd = 1;
+					} else if (va.length > 4) {
+						var yy = "20" + va.substr(0, 2);
+						var mm = va.substr(2, 2).number() - 1;
+						var dd = va.substr(4, 2).number();
 					} else {
-						var yy = va.left(4).number();
-						var mm = nDate.getMonth();
-						var dd = nDate.getDate();
+						var yy = nDate.getFullYear(); //va.left(4).number();
+						var mm = va.substr(0, 2).number() - 1;
+						var dd = va.substr(2, 2).number();
 					}
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
