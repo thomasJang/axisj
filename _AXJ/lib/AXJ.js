@@ -849,7 +849,6 @@ Object.extend(Date.prototype, (function () {
 			return fStr;
 		}
 	}
-
 	function getTimeAgo() {
 
 		var rtnStr = ""
@@ -875,16 +874,22 @@ Object.extend(Date.prototype, (function () {
 		}
 		return rtnStr;
 	}
-
 	function date() { return this; }
 	function axtoJSON() { return '"' + this.getUTCFullYear() + '-' + (this.getUTCMonth() + 1).setDigit(2) + '-' + this.getUTCDate().setDigit(2) + 'T' + this.getUTCHours().setDigit(2) + ':' + this.getUTCMinutes().setDigit(2) + ':' + this.getUTCSeconds().setDigit(2) + 'Z"'; }
+	function axGetDay(dayOfStart){
+		if(dayOfStart == undefined) dayOfStart = 0;
+		var myDay = this.getDay() - dayOfStart;
+		if(myDay < 0) myDay = 7 + myDay;
+		return myDay;
+	}
 	return {
 		add: dateAdd,
 		diff: dayDiff,
 		print: toString,
 		date: date,
 		axtoJSON: axtoJSON,
-		getTimeAgo: getTimeAgo
+		getTimeAgo: getTimeAgo,
+		axGetDay: axGetDay
 	}
 })());
 
@@ -1503,7 +1508,7 @@ var AXMask = Class.create(AXJ, {
 				onblink((blinkIndex + 1) % blinkTrack.length);
 			});
 		}
-	}	
+	}
 });
 var mask = new AXMask();
 mask.setConfig();

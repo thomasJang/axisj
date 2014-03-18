@@ -95,7 +95,7 @@ var AXModal = Class.create(AXJ, {
 			po.push("		<div class=\"AXLoading\"></div>");
 			po.push("		<br/><br><font class='blue'>페이지를 로딩 중입니다. 잠시만 기다려 주세요.</font></div>");
 		}
-		po.push("		<a href='#modsExecption' id='" + this.config.windowID + "_close' class='closeBtn'>닫기</a>");
+		po.push("		<a id='" + this.config.windowID + "_close' class='closeBtn'>닫기</a>");
 
 		po.push("		<form name='" + this.frmID + "' method='" + (http.method || "post") + "' target='" + this.winID + "' action='" + http.url + "'>");
 		po.push("		<input type='hidden' name='winID' value='" + this.winID + "' />");
@@ -435,16 +435,14 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(document.body).unbind("keydown.AXModal");
 
-		try {
-			parent.fcObj.contentResetHeight();
-		} catch (e) {
-
-		}
-
-		try {
-			parent.fns.contentResetHeight();
-		} catch (e) {
-
+		if(this.config.onclose){
+			this.config.onclose.call(
+				{
+					winID: this.winID,
+					windowID: this.config.windowID,
+					modalID: modalID
+				}
+			);
 		}
 	},
 	remove: function (event) {

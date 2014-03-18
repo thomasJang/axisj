@@ -8,7 +8,7 @@
  */
 
 var AXInputConverter = Class.create(AXJ, {
-	version: "AXInputConverter v1.40",
+	version: "AXInputConverter v1.41",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-11-05 오후 1:23:24",
@@ -35,7 +35,8 @@ var AXInputConverter = Class.create(AXJ, {
 		"2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거",
 		"2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스",
 		"2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가",
-		"2014-02-25 오후 9:05:04 tom : earlierThan/ laterThan 설정 버그픽스"
+		"2014-02-25 오후 9:05:04 tom : earlierThan/ laterThan 설정 버그픽스",
+		"2014-03-18 오후 1:58:57 tom : bindSelector 텍스트 변경 안 되었을 때 이벤트 처리 안하기"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -127,7 +128,6 @@ var AXInputConverter = Class.create(AXJ, {
 				return false;
 			}
 		});
-
 
 		if (obj.href == undefined) obj.href = cfg.href;
 
@@ -248,7 +248,6 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 
 		if (!AXgetId(objID)) return; /* 엘리먼트 존재 여부 확인 */
-
 
 		var iobjPosition = obj.bindTarget.position();
 		var l = iobjPosition.left, t = iobjPosition.top;
@@ -663,7 +662,13 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelector: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height") - 2;
+		
+		//obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		//obj.bindTarget = axdom("#" + objID);
+		
+		obj.bindTarget.data("val", obj.bindTarget.val());
+		
+		var h = obj.bindAnchorTarget.data("height") - 2;
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleContainerClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">");
 		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Handle\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">expand</a>");
@@ -674,8 +679,8 @@ var AXInputConverter = Class.create(AXJ, {
 			po.push("</div>");
 		}
 
-		axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-		axdom("#" + cfg.targetID + "_AX_" + objID).show();
+		obj.bindAnchorTarget.append(po.join(''));
+		obj.bindAnchorTarget.show();
 
 		var bindSelectorExpand = this.bindSelectorExpand.bind(this);
 		var bindSelectorClose = this.bindSelectorClose.bind(this);
@@ -688,7 +693,7 @@ var AXInputConverter = Class.create(AXJ, {
 				bindSelectorClose(objID, objSeq, event);
 			}
 		});
-		axdom("#" + objID).unbind("focus.AXInput").bind("focus.AXInput", function (event) {
+		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
 			try {
 				this.select();
 			} catch (e) {
@@ -697,7 +702,7 @@ var AXInputConverter = Class.create(AXJ, {
 				bindSelectorExpand(objID, objSeq, false, event);
 			}
 		});
-		axdom("#" + objID).unbind("keydown.AXInputCheck").bind("keydown.AXInputCheck", function(event){
+		obj.bindTarget.unbind("keydown.AXInputCheck").bind("keydown.AXInputCheck", function(event){
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				bindSelectorExpand(objID, objSeq, false, event);
 			}			
@@ -726,7 +731,9 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
+		
+		obj.bindTarget.data("val", obj.bindTarget.val());
+		
 		if (this.opendExpandBox) {
 			this.bindSelectorClose(this.opendExpandBox.objID, this.opendExpandBox.objSeq, event); // 셀럭터 외의 영역이 므로 닫기
 			AXReqAbort(); /* AJAX 호출 중지 하기 */
@@ -784,9 +791,9 @@ var AXInputConverter = Class.create(AXJ, {
 		css.top = offset.top + anchorHeight;
 		css.left = offset.left;
 		expandBox.css(css);
-
+		
 		this.opendExpandBox = { objID: objID, objSeq: objSeq };
-
+		
 		//_AX_expandBox set options
 		//trace(obj.config.ajaxUrl);
 		if (obj.config.onsearch) {
@@ -802,7 +809,6 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindSelectorSetOptions(objID, objSeq);
 			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
 		}
-
 
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
@@ -833,10 +839,15 @@ var AXInputConverter = Class.create(AXJ, {
 			//비활성 처리후 메소드 종료
 
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
-			axdom("#" + objID).unbind("change.AXInput");
+			obj.bindTarget.unbind("keydown.AXInput");
+			obj.bindTarget.unbind("change.AXInput");
+
+			if(obj.bindTarget.data("val") == obj.bindTarget.val() && !obj.config.isChangedSelect){
+				return obj.bindTarget.val();
+			}
 
 			if (obj.config.isChangedSelect) {
+
 				var myVal = "";
 				if (obj.config.selectedObject) {
 					myVal = obj.config.selectedObject.optionText.dec();
@@ -859,7 +870,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.onChange) obj.config.onChange.call(sendObj);
 					else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 				}
-				obj.config.isChangedSelect = false;
+				obj.config.isChangedSelect = false;	
 			}
 			//trace(obj.config.selectedObject);
 			if (obj.config.selectedObject) this.bindSelectorInputChange(objID, objSeq);
@@ -2101,6 +2112,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
+		//alert(cfg.responsiveWidth);
 		if (AXUtil.clientWidth() < cfg.responsiveWidth) {
 			this.bindDateExpandMobile(objID, objSeq, isToggle, event);
 			return;
