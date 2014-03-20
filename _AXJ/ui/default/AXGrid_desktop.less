@@ -1,4 +1,4 @@
-﻿@import "csslib";
+﻿@import "AXUtils.less";
 
 /** .AXGrid **/
 .AXGrid{
@@ -65,7 +65,7 @@
 								line-height:20px;
 								padding:5px 8px;
 								color:#5e5e5e;text-shadow:0px 1px 0px #fff;
-								.Ellip();
+								.util-ellip();
 							}
 							.colHeadTdCheck{
 								height:20px;padding:7px 1px 3px 0px;
@@ -231,7 +231,7 @@
 							line-height:20px;
 							padding:5px 8px;
 							color:#3b3b3b;text-shadow:0px 1px 0px #fff;
-							.Ellip();
+							.util-ellip();
 						}
 						.bodyTdHtml{
 							padding:0px 1px 0px 0px;	
@@ -271,7 +271,7 @@
 								line-height:20px;
 								padding:5px 8px;
 								color:#3b3b3b;text-shadow:0px 1px 0px #fff;
-								.Ellip();
+								.util-ellip();
 							}
 							.bodyTdHtml
 							{
@@ -369,7 +369,7 @@
 				.gridViewIconLabel{
 					position:absolute;	
 					padding:0px;margin:0px;
-					.Ellip();
+					.util-ellip();
 				}
 				.gridViewIconDescription{
 					position:absolute;
@@ -487,7 +487,7 @@
 			position:absolute;left:0px;top:0px;
 			width:100%;
 			background:#d8e1e7;
-			border-bottom:1px solid #7f8d9c;		
+			border-bottom:1px solid #BDCCD7;
 			box-shadow:1px 1px 3px #ccc;
 		}
 		.fixedEditorContent{
@@ -496,12 +496,13 @@
 			box-shadow:0px 0px 3px #ccc;
 		}
 		.editorButtons{
-			position:absolute;left:50px;top:19px;
-			height:30px;padding:1px 3px;
+			position:absolute;left:10%;top:19px;
+			padding:2px 5px 5px 5px;
 			background:#d8e1e7;
-			border-left:1px solid #7f8d9c;
-			border-right:1px solid #7f8d9c;
-			border-bottom:1px solid #7f8d9c;
+			border-top:1px solid #d8e1e7;
+			border-left:1px solid #BDCCD7;
+			border-right:1px solid #BDCCD7;
+			border-bottom:1px solid #BDCCD7;
 			box-shadow:1px 1px 3px #ccc;
 			border-bottom-left-radius:4px;border-bottom-right-radius:4px;
 		}
@@ -512,6 +513,7 @@
 					td{
 						padding:0px;
 						background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
+						background-color:#d8e1e7 !important;
 						vertical-align:top;
 						border-bottom:0px none;
 					}
@@ -552,7 +554,7 @@
 							line-height:20px;
 							padding:5px 8px;
 							color:#3b3b3b;text-shadow:0px 1px 0px #fff;
-							.Ellip();
+							.util-ellip();
 						}
 						.bodyTdHtml{
 							padding:0px 1px 0px 0px;	
@@ -615,7 +617,7 @@
 							line-height:20px;
 							padding:5px 8px;
 							color:#3b3b3b;text-shadow:0px 1px 0px #fff;
-							.Ellip();
+							.util-ellip();
 						}
 						.bodyTdHtml{
 							padding:0px 1px 0px 0px;	

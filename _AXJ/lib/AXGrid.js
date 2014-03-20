@@ -2017,8 +2017,6 @@ var AXGrid = Class.create(AXJ, {
 
 		} else {
 
-			/*this.ajaxInfo = null; */
-
 			if (axdom.isArray(obj)) {
 				if (sortDisable || !cfg.sort) {
 					this.list = obj;
@@ -2427,12 +2425,15 @@ var AXGrid = Class.create(AXJ, {
 		var getItemMarker = this.getItemMarker.bind(this);
 		var getMarkerDisplay = this.getMarkerDisplay.bind(this);
 
+		if(this.editorOpend){
+			this.cancelEditor();
+		}
+
 		/* icon view */
 		var getIconItem = this.getIconItem.bind(this);
 		/* --------------------------- icon view */
 
 		var po = [];
-
 		/* view mode 가 grid 인경우만 유효 */
 		if (cfg.viewMode == "grid") {
 
@@ -2597,7 +2598,6 @@ var AXGrid = Class.create(AXJ, {
 			});
 		}
 		this.selectedCells.clear(); /* selectedCells clear */
-
 		this.contentScrollResize();
 
 		this.contentScrollXAttr = null;
@@ -4128,8 +4128,8 @@ var AXGrid = Class.create(AXJ, {
 			po.push("</div>");
 		}
 		po.push("<div id=\"" + cfg.targetID + "_AX_editorButtons\" class=\"editorButtons\">");
-		po.push("	<input type=\"button\" id=\"" + cfg.targetID + "_AX_editorButtons_AX_save\" value=\"Save\" class=\"AXButton Classic\" />");
-		po.push("	<input type=\"button\" id=\"" + cfg.targetID + "_AX_editorButtons_AX_cancel\" value=\"Cancel\" class=\"AXButton\" />");
+		po.push("	<input type=\"button\" id=\"" + cfg.targetID + "_AX_editorButtons_AX_save\" value=\"Save\" class=\"AXButtonSmall Classic\" />");
+		po.push("	<input type=\"button\" id=\"" + cfg.targetID + "_AX_editorButtons_AX_cancel\" value=\"Cancel\" class=\"AXButtonSmall\" />");
 		po.push("</div>");
 		this.editor.html(po.join(''));
 
@@ -4328,7 +4328,7 @@ var AXGrid = Class.create(AXJ, {
 		} else {
 			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ height: editorContentHeight });
 		}
-		axdom("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight-1 });
+		axdom("#" + cfg.targetID + "_AX_editorButtons").css({ top: editorContentHeight-2 });
 		this.editor.css({ height: (editorContentHeight.number() + 40) });
 		var editorBoxHeight = (editorContentHeight.number() + 40);
 
