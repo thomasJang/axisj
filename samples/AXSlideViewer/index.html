@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXModal</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSlideViewer.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<!-- js block -->
+	
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+		
+		<h2>AXSlideViewer</h2>
+
+		<div id="sliderIcons"></div>
+	</div>
+
+</body>
+	<script type="text/javascript">
+	var pageID = "AXSlideViewer";
+	(function(){
+		var myViewer = new AXSlideViewer();
+		//myViewer.setConfig();
+		var slides = [
+			{label:"01", url:"source/01.jpg"},
+			{label:"02", url:"source/02.jpg"},
+			{label:"03", url:"source/03.jpg"},
+			{label:"04", url:"source/04.jpg"},
+			{label:"05", url:"source/05.jpg"},
+			{label:"06", url:"source/06.jpg"}
+		];
+		var fnObj = {
+			pageStart: function(){
+				fnObj.slidePreview();
+			},
+			slidePreview: function(){
+				var po = [];
+				for(var item, itemIndex = 0, __arr = slides.concat();item = __arr.shift();itemIndex++){
+					po.push( '<img src="'+item.url+'" id="item_AX_'+ itemIndex +'" ');
+					po.push( 'style="float:left;border:1px solid #666;border-radius:8px;box-shadow:0px 0px 3px #888;margin:5px;height:100px;">' );
+				}
+
+				$("#sliderIcons").append(po.join(''));
+				$("#sliderIcons").find("img").bind("click", function(event){
+					var itemIndex = event.target.split(/_AX_/gi).last();
+					fnObj.sliderView(itemIndex);
+				});
+			},
+			sliderView: function(itemIndex){
+				myViewer.open({list:slides, selecedIndex:itemIndex});
+			}
+		};
+		fnObj.pageStart();
+	})();
+	</script>
+</html>

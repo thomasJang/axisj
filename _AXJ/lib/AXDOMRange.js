@@ -1,10 +1,5 @@
-/*!
- * http://axisㅓ.com
- * 
- * 아래 소스의 라이선스는 axisㅓ.com 에서 확인 하실 수 있습니다.
- * http://axisㅓ.com/license
- * axisJ를 사용하시려면 라이선스 페이지를 확인 및 숙지 후 사용 하시기 바람니다. 무단 사용시 예상치 못한 피해가 발생 하실 수 있습니다.
- */
+/* AXISJ Javascript UI Framework */
+/* http://www.axisj.com, license : http://www.axisj.com/license */
  
  /*
  아래 코드는 husky_framework 의 HuskyRange.js 코드를 참조하여 개발 되었습니다.

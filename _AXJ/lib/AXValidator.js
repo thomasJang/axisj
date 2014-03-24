@@ -1,4 +1,8 @@
-﻿var AXValidator = Class.create(AXJ, {
+﻿/* AXISJ Javascript UI Framework */
+/* http://www.axisj.com, license : http://www.axisj.com/license */
+ 
+
+var AXValidator = Class.create(AXJ, {
 	version: "AXValidator V1.2",
 	author: "tom@axisj.com, hwshin@collabra.com",
 	logs: [

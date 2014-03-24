@@ -1,14 +1,9 @@
-﻿/*!
- * axisJ Javascript Library Version 1.0
- * http:/*axisJ.com
- * 
- * 아래 소스의 라이선스는 axisJ.com 에서 확인 하실 수 있습니다.
- * http:/*axisJ.com/license
- * axisJ를 사용하시려면 라이선스 페이지를 확인 및 숙지 후 사용 하시기 바람니다. 무단 사용시 예상치 못한 피해가 발생 하실 수 있습니다.
- */
+﻿/* AXISJ Javascript UI Framework */
+/* http://www.axisj.com, license : http://www.axisj.com/license */
+ 
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.53",
+	version: "AXGrid v1.54",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -57,7 +52,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-03-05 오후 12:17:26 tom : editor.response 에서 validate 후 editor 사라지도록 기능 변경, editorForm Item 중복되지 않도록 수정",
 		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스",
 		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스",
-		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disanled 된 row 는 체크 하지않도록 변경"
+		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disable 된 row 는 체크 하지않도록 변경",
+		"2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();

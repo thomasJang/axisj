@@ -1,17 +1,13 @@
-﻿/*!
- * axisJ Javascript Library Version 1.0
- * http://axisJ.com
- * 
- * 아래 소스의 라이선스는 axisJ.com 에서 확인 하실 수 있습니다.
- * http://axisJ.com/license
- * axisJ를 사용하시려면 라이선스 페이지를 확인 및 숙지 후 사용 하시기 바람니다. 무단 사용시 예상치 못한 피해가 발생 하실 수 있습니다.
- */
+﻿/* AXISJ Javascript UI Framework */
+/* http://www.axisj.com, license : http://www.axisj.com/license */
+ 
 
 var AXMultiSelector = Class.create(AXJ, {
-    version: "AXMultiSelector v1.2",
+    version: "AXMultiSelector v1.21",
     author: "tom@axisj.com",
     logs: [
-		"2013-08-01 오후 3:08:07"
+		"2013-08-01 오후 3:08:07",
+		"2014-03-21 오후 2:19:52 : tom multiselect 기본값 설정 함수 추가"
 	],
     initialize: function (AXJ_super) {
         AXJ_super();
@@ -22,9 +18,16 @@ var AXMultiSelector = Class.create(AXJ, {
     	jQuery("#"+cfg.targetID).bind("click", this.expandOptionBox.bind(this));
     },
     expandOptionBox: function(){
-    	
     	var cfg = this.config;
     	
+    	jQuery.each(cfg.optionGroup, function (gidx, G) {
+    		if (G.getOptionValue) {
+    			jQuery.each(cfg.optionGroup[gidx].options, function (oidx, O) {
+    				cfg.optionGroup[gidx].options[oidx].selected = false;
+    			});
+    		}
+    	});
+
 		var po = [];
 		po.push("<div id=\""+cfg.targetID + "_AX_expandBox\" class=\"AXMultiSelector_expandBox\">");
 		var boxWidth = 0;
@@ -45,7 +48,7 @@ var AXMultiSelector = Class.create(AXJ, {
 		po.push("	<input type=\"button\" value=\"취소\" class=\"AXButton\" id=\""+cfg.targetID + "_AX_expandScrollBox_AX_cancel\" />");
 		po.push("</div>");
 		po.push("</div>");
-		jQuery(document.body).append(po.join(''));
+		$(document.body).append(po.join(''));
 		
 		boxWidth = boxWidth + (cfg.optionGroup.length * 5) + 5;
 		jQuery("#"+cfg.targetID + "_AX_expandBox").css({width:boxWidth});
@@ -57,6 +60,7 @@ var AXMultiSelector = Class.create(AXJ, {
     	css.left = offset.left;
     	jQuery("#"+cfg.targetID + "_AX_expandBox").css(css);
 
+
 		jQuery.each(cfg.optionGroup, function(gidx, G){
 			G.myUIScroll = new AXScroll();
 			G.myUIScroll.setConfig({
@@ -66,8 +70,23 @@ var AXMultiSelector = Class.create(AXJ, {
 				touchDirection:false
 			});
 			
-			jQuery.each(cfg.optionGroup[gidx].options, function(oidx, O){
-				if(O.selected) G.myUIScroll.focusElement(cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+oidx); //focus
+			var selectedValue = "";
+			if (G.getOptionValue) selectedValue = G.getOptionValue.call(G);
+
+			jQuery.each(cfg.optionGroup[gidx].options, function (oidx, O) {
+				if (G.getOptionValue) {
+					if (O.optionValue == selectedValue) {
+						O.selected = true;
+						axdom("#" + cfg.targetID + "_AX_" + gidx + "_AX_option_AX_" + oidx).addClass("on");
+						G.myUIScroll.focusElement(cfg.targetID + "_AX_" + gidx + "_AX_option_AX_" + oidx); //focus
+					}
+				}else if(O.selected){
+					O.selected = true;
+					axdom("#" + cfg.targetID + "_AX_" + gidx + "_AX_option_AX_" + oidx).addClass("on");
+					G.myUIScroll.focusElement(cfg.targetID + "_AX_" + gidx + "_AX_option_AX_" + oidx); //focus
+				} else {
+					cfg.optionGroup[gidx].options[oidx].selected = false;
+				}
 			});
 			
 		});
@@ -85,10 +104,6 @@ var AXMultiSelector = Class.create(AXJ, {
 				});
 				cfg.onChange.call(selectObj);
 			}
-			
-			
-			
-			
 			jQuery("#"+cfg.targetID + "_AX_expandBox").remove(); // 개체 삭제 처리
 		});
 		jQuery("#"+cfg.targetID + "_AX_expandScrollBox_AX_cancel").bind("click", function(){
