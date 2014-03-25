@@ -1,0 +1,13 @@
+﻿{
+  "name": "AXISJ",
+  "version": "1.0.0",
+  "ignore": [
+    "api/*.*",
+    "jquery/*.*"
+  ],
+  "dependencies": {
+	"jquery": "1.10.2",
+	"jquery": "jquery"
+  },
+  "devDependencies": {}
+}
