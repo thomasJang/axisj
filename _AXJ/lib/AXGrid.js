@@ -3,7 +3,7 @@
  
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.54",
+	version: "AXGrid v1.55",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -53,7 +53,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스",
 		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스",
 		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disable 된 row 는 체크 하지않도록 변경",
-		"2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화"
+		"2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화",
+		"2014-03-28 오전 8:18:54 tom : click 메소드 호출시 callBack 버그 픽스"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -3655,6 +3656,7 @@ var AXGrid = Class.create(AXJ, {
 		var item = this.list[itemIndex];
 
 		if (cfg.body.onclick) {
+			/*
 			var hashs = item.hash.split(/_/g);
 			var subTree = this.tree;
 			axf.each(hashs, function (idx, arg) {
@@ -3664,12 +3666,11 @@ var AXGrid = Class.create(AXJ, {
 					subTree = subTree.subTree[this.number()];
 				}
 			});
-
+			*/
 			var sendObj = {
 				index: itemIndex,
 				list: this.list,
 				item: item,
-				subTree: subTree,
 				page: this.page
 			};
 			/*trace(sendObj); */
