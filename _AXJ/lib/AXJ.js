@@ -2656,10 +2656,11 @@ var AXScroll = Class.create(AXJ, {
 
 /* ** AXCalendar ********************************************** */
 var AXCalendar = Class.create(AXJ, {
-	version: "AXCalendar v1.0",
+	version: "AXCalendar v1.1",
 	author: "tom@axisj.com",
 	logs: [
-		"2012-12-05 오후 11:54:27"
+		"2012-12-05 오후 11:54:27",
+		"2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -2888,7 +2889,17 @@ var AXCalendar = Class.create(AXJ, {
 	},
 	timePageChange: function (objID, objVal) {
 		var cfg = this.config;
-		var mytime = axdom("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) + ":" + axdom("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) + " " + axdom("#" + cfg.targetID + "_AX_AMPM").val();
+		
+		if(axdom("#" + cfg.targetID + "_AX_AMPM").val() == "PM"){
+			if(axdom("#" + cfg.targetID + "_AX_hour").val().number() > 11){
+				axdom("#" + cfg.targetID + "_AX_hour").val(11);
+				axdom("#" + cfg.targetID + "_AX_hour").setValueInput(11);
+			}
+		}
+		
+		var mytime = axdom("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) + 
+		":" + axdom("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) + 
+		" " + axdom("#" + cfg.targetID + "_AX_AMPM").val();
 		axdom("#" + cfg.targetID + "_AX_box").find(".timeDisplay").html(mytime);
 		if (cfg.onChange) {
 			var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
