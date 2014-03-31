@@ -1,19 +1,10 @@
-﻿@import "csslib";
+﻿@import "AXUtils.less";
 
-// CSS
-/*!
- * AxisJ Javascript Library Version 1.0
- * http://AxisJ.com
- *
- * Copyright AxisJ
- * http://AxisJ.com/license
- * Date 2012-09-28 오후 1:17:52
- */
 input::-ms-clear {display: none;}
 .clear{clear:both;}
 
-.AXHspace1{.Hspace(1px);} .AXHspace2{.Hspace(2px);} .AXHspace3{.Hspace(3px);} .AXHspace4{.Hspace(4px);} .AXHspace5{.Hspace(5px);} .AXHspace10{.Hspace(10px);}
-.AXHspace15{.Hspace(15px);} .AXHspace20{.Hspace(20px);} .AXHspace30{.Hspace(30px);} .AXHspace40{.Hspace(40px);} .AXHspace50{.Hspace(50px);}
+.AXHspace1{.util-hspace(1px);} .AXHspace2{.util-hspace(2px);} .AXHspace3{.util-hspace(3px);} .AXHspace4{.util-hspace(4px);} .AXHspace5{.util-hspace(5px);} .AXHspace10{.util-hspace(10px);}
+.AXHspace15{.util-hspace(15px);} .AXHspace20{.util-hspace(20px);} .AXHspace30{.util-hspace(30px);} .AXHspace40{.util-hspace(40px);} .AXHspace50{.util-hspace(50px);}
 
 .AXUserSelectNone{user-select:none;-moz-user-select:none;-webkit-user-select:none;-khtml-user-select:none;-o-user-select:none;}
 
@@ -24,21 +15,21 @@ input::-ms-clear {display: none;}
 	color:#FF00FF;
 	text-shadow:0px 1px 0px #fff;
 }
-
+wkdtjdn
 .AXMask{
 	z-index:5000;
 	position:fixed;top:0px;left:0px;width:100%;height:100%;
 	background:#000;
-	.Opacity(20);
-}
-.AXMaskContent{
-	z-index:5000;
-	position:fixed;top:0px;left:0px;width:100%;height:100%;
+	.util-opacity(20);
 }
 
 .AXLoading{
 	min-height:50px;
 	background:url(img/AXUIProgressAnimate02_white.gif) no-repeat center center;
+}
+.AXLoadingBlack{
+	min-height:50px;
+	background:url(img/AXUIProgressAnimate02_black.gif) no-repeat center center;
 }
 
 .AXLoadingSmall{
@@ -49,314 +40,222 @@ input::-ms-clear {display: none;}
 .AXCodeViewer{
 	position:fixed;right:10px;bottom:10px;
 	z-index:5001;
+	.Textbox{
+		position:absolute;right:0px;bottom:0px;
+		width:500px;height:500px;
+		border:1px solid #444;background:#fff;
+		padding:5px;margin:0px 0px 0px 0px;
+		box-shadow:0px 0px 3px #888;
+		border-radius:5px;
+		font-size:12px;color:#525252;
+		display:none;
+		.closeBtn{
+			position:absolute;right:-10px;top:-10px;
+			display:block;width:24px;height:24px;background:url(img/dialogClose.png) no-repeat;
+			overflow:hidden;text-indent:-1000px;
+		}
+	}
 }
 
-.AXCodeViewer .Textbox{
-	position:absolute;right:0px;bottom:0px;
-	width:500px;height:500px;
-	border:1px solid #444;background:#fff;
-	padding:5px;margin:0px 0px 0px 0px;
-	box-shadow:0px 0px 3px #888;
-	border-radius:5px;
-	font-size:12px;color:#525252;
-	display:none;
-}
-.AXCodeViewer .Textbox .closeBtn{
-	position:absolute;right:-10px;top:-10px;
-	display:block;width:24px;height:24px;background:url(img/dialogClose.png) no-repeat;
-	overflow:hidden;text-indent:-1000px;
-}
 .AXdemoPageTabTarget{padding:10px 0px 0px 0px;background:#fff;height:30px;}
 .AXdemoPageContent{padding:20px;}
+
 /* ------------------ AXScroll ----------------------- */
 .AXScroll{
 	position:relative;overflow:hidden;
-}
-	.AXScroll .scrollTrack{
+	.scrollTrack{
 		z-index:100;
 		position:absolute;right:2px;top:2px;
 		width:7px;height:100%;background:#000;
-		.Opacity(0);.Radius(5px);
+		.util-opacity(0);.util-border-radius(5px);
 	}
-	.AXScroll .scrollTrack_hover{.Opacity(20);}
-	.AXScroll .scrollBar{
+	.scrollTrack_hover{.util-opacity(20);}
+	.scrollBar{
 		z-index:100;
 		position:absolute;right:2px;top:2px;
 		width:7px;min-height:10px;background:#000;
-		.Opacity(10);.Radius(5px);
+		.util-opacity(10);.util-border-radius(5px);
+		&:hover{
+			width:11px;
+			right:0px;
+		}
 	}
-	.AXScroll .scrollBar:hover{
-		width:11px;
-		right:0px;
-	}
-	.AXScroll .scrollBar_hover{.Opacity(50);}
-	.AXScroll .scrollTarget{
+	.scrollBar_hover{.util-opacity(50);}
+	.scrollTarget{
 		position:absolute;left:0px;top:0px;
 	}
 	
 	/* xscroll */
-	.AXScroll .xscrollTrack{
+	.xscrollTrack{
 		z-index:100;
 		position:absolute;left:2px;bottom:2px;
 		width:100%;height:7px;background:#000;
-		.Opacity(10);.Radius(5px);
+		.util-opacity(10);.util-border-radius(5px);
 	}
-	.AXScroll .xscrollTrack_hover{.Opacity(20);}
-	.AXScroll .xscrollBar{
+	.xscrollTrack_hover{.util-opacity(20);}
+	.xscrollBar{
 		z-index:100;
 		position:absolute;left:2px;bottom:2px;
 		height:7px;min-width:10px;background:#000;
-		.Opacity(10);.Radius(5px);
+		.util-opacity(10);.util-border-radius(5px);
+		&:hover{
+			height:11px;
+			bottom:0px;
+		}
 	}
-	.AXScroll .xscrollBar:hover{
-		height:11px;
-		bottom:0px;
-	}
-	.AXScroll .xscrollBar_hover{.Opacity(50);}
-	.AXScroll .xscrollTarget{
+	.xscrollBar_hover{.util-opacity(50);}
+	.xscrollTarget{
 		position:absolute;left:0px;top:0px;
 	}
-	
+}
 
 .AXScrollSmall{
 	position:relative;overflow:hidden;
-}
-	.AXScrollSmall .scrollTrack{
+	.scrollTrack{
 		position:absolute;right:3px;top:2px;
 		width:6px;height:100%;background:#000;
-		.Opacity(10);.Radius(5px);
+		.util-opacity(10);.util-border-radius(5px);
 	}
-	.AXScrollSmall .scrollTrack_hover{.Opacity(20);}
-	.AXScrollSmall .scrollBar{
+	.scrollTrack_hover{.util-opacity(20);}
+	.scrollBar{
 		position:absolute;right:3px;top:2px;
 		width:6px;min-height:10px;background:#000;
-		.Opacity(30);.Radius(5px);
+		.util-opacity(30);.util-border-radius(5px);
+		&:hover{
+			width:10px;
+			right:1px;
+		}
 	}
-	.AXScrollSmall .scrollBar:hover{
-		width:10px;
-		right:1px;
-	}
-	.AXScrollSmall .scrollBar_hover{.Opacity(50);}
-	.AXScrollSmall .scrollTarget{
+	.scrollBar_hover{.util-opacity(50);}
+	.scrollTarget{
 		position:absolute;left:0px;top:0px;
 	}
+}
 /* ------------------ AXScroll ----------------------- */
 
 
+// S:AXButton ///////////////////////////////////////////
+// AXButton Preset //
+.axbutton-colors-normal(){
+	@color-fill-a:#fdfdfd;
+	@color-fill-b:#e8e8e8;	
+	@color-stroke:#b9babc;
+	@color-text:#6e7a85;
+	@color-bg:#fdfdfd;
+}
+.axbutton-colors-disabled(){
+	@color-fill-a:#d7d7d7;
+	@color-fill-b:#d7d7d7;
+	@color-stroke:#ccc;
+	@color-text:#eaeaea;
+	@color-bg:#d7d7d7;
+}
 
-/* ------------------ AXButton ----------------------- */
-.AXButton{
+// AXButton Style //
+.axbutton-style-normal{
+	.axbutton-colors-normal();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px 1px 0px rgba(255,255,255,0.8);
+	.util-drop-shadow (0, 1px, 0, 0, 0.15);
+	.util-border-radius(4px);	
+}
+.axbutton-style-disabled{
+	.axbutton-colors-disabled();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.10);	
+	box-shadow: none;
+	.util-border-radius(4px);		
+}
+
+// AXButton Events //
+.axbutton-event-normal{
+	&				{.axbutton-style-normal;}
+	&:hover, &:focus{
+		.axbutton-colors-normal();
+		background: @color-fill-b;
+	}
+	&:active		{
+		box-shadow: none;
+	}
+}
+.axbutton-event-disabled{
+	&				{.axbutton-style-disabled;}
+	&:hover, &:focus{
+		.axbutton-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+}
+
+// AXButton Component //
+//AXButton
+.AXButton {
 	position:relative;
+	font-size:12px; 
+	height:26px;line-height:26px;
+	margin:0px;padding:0 10px;
 	cursor:pointer;
-	vertical-align:middle;
-	height:26px;
-	padding:0px 5px;
-	margin:0px 0px;
-	border:1px solid #b9babc;
-	.Radius(4px);
-	font-size:12px;color:#6e7a86;line-height:1em;
-	background:url(img/defaultRegular.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	vertical-align:middle;	
 	outline:none;
-}
-.AXButton:hover, .AXButton:focus{
-	border:1px solid #949fa8;
-	background-position:0px -26px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButton:active{
-	border:1px solid #b9babc;
-	background-position:0px -52px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButton SPAN{
-	display:block;
-	height:24px;line-height:24px;
-	vertical-align:middle;
+	&				{.axbutton-event-normal;}
+	&[disabled]		{.axbutton-event-disabled;}	
+	.axj-style-width;	
 }
 
+//AXButton Small
 .AXButtonSmall{
+	position:relative;
+	font-size:11px; 
+	height:20px;line-height:20px;
+	margin:0;padding:0 10px;
 	cursor:pointer;
-	height:20px;
-	padding:0px 5px;
-	margin:0px 0px;
-	border:1px solid #b9babc;.Radius(4px);
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	vertical-align:middle;	
 	outline:none;
-}
-.AXButtonSmall:hover, .AXButtonSmall:focus{
-	border:1px solid #949fa8;
-	background-position:0px -20px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButtonSmall:active{
-	border:1px solid #b9babc;
-	background-position:0px -40px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButtonSmall SPAN{
-	display:block;
-	height:18px;line-height:18px;
-	vertical-align:middle;
+	&				{.axbutton-event-normal;}
+	&[disabled]		{.axbutton-event-disabled;}	
+	.axj-style-width;									
 }
 
-.AXButtonExtraSmall{
-	cursor:pointer;
-	height:20px;
-	padding:0px 5px;
-	margin:0px 0px;
-	border:1px solid #b9babc;.Radius(4px);
-	font-size:11px;color:#6e7a86;line-height:19px;
-	background:url(img/defaultSmall.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
-	outline:none;
-}
-.AXButtonExtraSmall:hover, .AXButtonExtraSmall:focus{
-	border:1px solid #949fa8;
-	background-position:0px -20px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButtonExtraSmall:active{
-	border:1px solid #b9babc;
-	background-position:0px -40px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButtonExtraSmall SPAN{
-	display:block;
-	height:18px;line-height:18px;
-	vertical-align:middle;
-}
-
+//AXButton Large
 .AXButtonLarge{
+	position:relative;
+	font-size:12px; 
+	height:46px;line-height:46px;
+	margin:0;padding:0 10px;
 	cursor:pointer;
-	height:46px;
-	padding:0px 10px;
-	margin:0px 0px;
-	border:1px solid #b9babc;.Radius(4px);
-	font-size:12px;color:#6e7a86;line-height:46px;
-	background:url(img/defaultLarge.png) repeat-x;
-	box-shadow:0px 1px #d9d9d9;
+	vertical-align:middle;	
 	outline:none;
+	&				{.axbutton-event-normal;}
+	&[disabled]		{.axbutton-event-disabled;}		
+	.axj-style-width;		
 }
-.AXButtonLarge:hover, .AXButtonLarge:focus{
-	border:1px solid #949fa8;
-	background-position:0px -46px;
-	box-shadow:0px 1px 3px #c8cacd;
-	text-shadow:0px 1px #fff;
-}
-.AXButtonLarge:active{
-	border:1px solid #b9babc;
-	background-position:0px -92px;
-	box-shadow:none;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXButtonLarge SPAN{
-	display:block;
-	height:44px;line-height:44px;
-	vertical-align:middle;
-}
-
-.AXButtonExtraSmall.W20{width:20px;padding:0px;}
-.AXButtonExtraSmall.W30{width:30px;padding:0px;}
-.AXButtonExtraSmall.W40{width:40px;padding:0px;}
-.AXButtonExtraSmall.W50{width:50px;padding:0px;}
-.AXButtonExtraSmall.W60{width:60px;padding:0px;}
-.AXButtonExtraSmall.W70{width:70px;padding:0px;}
-.AXButtonExtraSmall.W80{width:80px;padding:0px;}
-.AXButtonExtraSmall.W90{width:90px;padding:0px;}
-.AXButtonExtraSmall.W100{width:100px;padding:0px;}
-.AXButtonExtraSmall.W110{width:110px;padding:0px;}
-.AXButtonExtraSmall.W120{width:120px;padding:0px;}
-.AXButtonExtraSmall.W130{width:130px;padding:0px;}
-.AXButtonExtraSmall.W140{width:140px;padding:0px;}
-.AXButtonExtraSmall.W150{width:150px;padding:0px;}
-.AXButtonExtraSmall.W160{width:160px;padding:0px;}
-.AXButtonExtraSmall.W170{width:170px;padding:0px;}
-.AXButtonExtraSmall.W180{width:180px;padding:0px;}
-.AXButtonExtraSmall.W190{width:190px;padding:0px;}
-.AXButtonExtraSmall.W200{width:200px;padding:0px;}
-
-.AXButtonSmall.W20{width:20px;padding:0px;}
-.AXButtonSmall.W30{width:30px;padding:0px;}
-.AXButtonSmall.W40{width:40px;padding:0px;}
-.AXButtonSmall.W50{width:50px;padding:0px;}
-.AXButtonSmall.W60{width:60px;padding:0px;}
-.AXButtonSmall.W70{width:70px;padding:0px;}
-.AXButtonSmall.W80{width:80px;padding:0px;}
-.AXButtonSmall.W90{width:90px;padding:0px;}
-.AXButtonSmall.W100{width:100px;padding:0px;}
-.AXButtonSmall.W110{width:110px;padding:0px;}
-.AXButtonSmall.W120{width:120px;padding:0px;}
-.AXButtonSmall.W130{width:130px;padding:0px;}
-.AXButtonSmall.W140{width:140px;padding:0px;}
-.AXButtonSmall.W150{width:150px;padding:0px;}
-.AXButtonSmall.W160{width:160px;padding:0px;}
-.AXButtonSmall.W170{width:170px;padding:0px;}
-.AXButtonSmall.W180{width:180px;padding:0px;}
-.AXButtonSmall.W190{width:190px;padding:0px;}
-.AXButtonSmall.W200{width:200px;padding:0px;}
-
-.AXButton.W20{width:20px;padding:0px;}
-.AXButton.W30{width:30px;padding:0px;}
-.AXButton.W40{width:40px;padding:0px;}
-.AXButton.W50{width:50px;padding:0px;}
-.AXButton.W60{width:60px;padding:0px;}
-.AXButton.W70{width:70px;padding:0px;}
-.AXButton.W80{width:80px;padding:0px;}
-.AXButton.W90{width:90px;padding:0px;}
-.AXButton.W100{width:100px;padding:0px;}
-.AXButton.W110{width:110px;padding:0px;}
-.AXButton.W120{width:120px;padding:0px;}
-.AXButton.W130{width:130px;padding:0px;}
-.AXButton.W140{width:140px;padding:0px;}
-.AXButton.W150{width:150px;padding:0px;}
-.AXButton.W160{width:160px;padding:0px;}
-.AXButton.W170{width:170px;padding:0px;}
-.AXButton.W180{width:180px;padding:0px;}
-.AXButton.W190{width:190px;padding:0px;}
-.AXButton.W200{width:200px;padding:0px;}
-
-.AXButtonLarge.W30{width:30px;padding:0px;}
-.AXButtonLarge.W40{width:40px;padding:0px;}
-.AXButtonLarge.W50{width:50px;padding:0px;}
-.AXButtonLarge.W60{width:60px;padding:0px;}
-.AXButtonLarge.W70{width:70px;padding:0px;}
-.AXButtonLarge.W80{width:80px;padding:0px;}
-.AXButtonLarge.W90{width:90px;padding:0px;}
-.AXButtonLarge.W100{width:100px;padding:0px;}
-.AXButtonLarge.W110{width:110px;padding:0px;}
-.AXButtonLarge.W120{width:120px;padding:0px;}
-.AXButtonLarge.W130{width:130px;padding:0px;}
-.AXButtonLarge.W140{width:140px;padding:0px;}
-.AXButtonLarge.W150{width:150px;padding:0px;}
-.AXButtonLarge.W160{width:160px;padding:0px;}
-.AXButtonLarge.W170{width:170px;padding:0px;}
-.AXButtonLarge.W180{width:180px;padding:0px;}
-.AXButtonLarge.W190{width:190px;padding:0px;}
-.AXButtonLarge.W200{width:200px;padding:0px;}
-
-/* ------------------ AXButton ----------------------- */
+// E:AXButton ///////////////////////////////////////////
 
 .AXNotificationTray{
 	position:fixed;right:10px;top:0px;z-index:5001;
-	width:322px;
 }
 .AXNotificationTrayDialog{
 	position:fixed;left:0px;top:50px;
 	width:340px;
 	z-index:5001;
+	.AXNotification{
+		width:340px;
+		border:1px solid #444;background:#ebebeb;
+		padding:0px;margin:0px 0px;
+		box-shadow:0px 0px 3px #888;
+		font-size:12px;color:#525252;
+		overflow:hidden;
+		.util-opacity(100);.util-border-radius(4px);
+	}
+	.AXNotificationCT{
+		padding:10px;
+	}
 }
 .AXNotification{
 	width:300px;
@@ -364,99 +263,79 @@ input::-ms-clear {display: none;}
 	padding:10px;margin:10px 0px;
 	box-shadow:0px 0px 5px #b2b2b2;
 	font-size:12px;color:#525252;
-	.Opacity(90);.Radius(4px);
-}
-
-.AXNotificationTrayDialog .AXNotification{
-	width:340px;
-	border:1px solid #444;background:#ebebeb;
-	padding:0px;margin:0px 0px;
-	box-shadow:0px 0px 3px #888;
-	font-size:12px;color:#525252;
-	overflow:hidden;
-	.Opacity(100);.Radius(4px);
-}
-
-	.AXNotification .AXNotificationHead{
+	.util-opacity(90);.util-border-radius(4px);
+	.AXNotificationHead{
 		font-weight:bold;
 		color:#717b85;text-shadow:0px 1px #fff;
 		padding:5px 15px;height:20px;line-height:20px;
 		background:url(img/dialogTitle.png) repeat-x;
 		text-align:center;
 	}
-	.AXNotification .AXNotificationTable{
+	.AXNotificationTable{
 		width:100%;border:0px none !important;background:#ebebeb;
-	}
-	.AXNotificationTrayDialog .AXNotification .AXNotificationTable{
-
-	}
-	.AXNotificationTrayDialog .AXNotificationCT{
-		padding:10px;
-	}
-		.AXNotification .AXNotificationTable td, .AXNotification .AXNotificationTable th{
+		td, th{
 			border:0px none !important;background:#ebebeb;
 		}
-	.AXNotification .AXNotificationIcon{
+	}
+	.AXNotificationIcon{
 		width:42px;height:42px;
 		background:url(img/notificationComplete.png) no-repeat center 5px !important;
 	}
-	.AXNotification .AXNotificationBody{
+	.AXNotificationBody{
 		font-size:12px;color:#525252;padding-right:5px;
 		line-height:1.6em;
-	}
-
-		.AXNotification .AXNotificationBody B{
+		B{
 			color:#477e47;
 		}
-	.AXNotification .AXNotificationButton{
+	}
+	.AXNotificationButton{
 		width:45px;
 	}
-	.AXNotification .AXNotificationButtons{
+	.AXNotificationButtons{
 		padding:10px 0px;
 		text-align:center;background:#ebebeb;
 	}
-
 	/* Warning */
-	.AXNotification.Warning .AXNotificationIcon{
+	&.Warning .AXNotificationIcon{
 		width:42px;height:42px;
 		background:url(img/notificationWarning.png) no-repeat center center !important;
 	}
-		.AXNotification.Warning .AXNotificationBody B{
-			color:#bf601b;
-		}
-
+	&.Warning .AXNotificationBody B{
+		color:#bf601b;
+	}
 	/* Caution */
-	.AXNotification.Caution .AXNotificationIcon{
+	&.Caution .AXNotificationIcon{
 		width:42px;height:42px;
 		background:url(img/notificationCaution.png) no-repeat center center !important;
 	}
-	.AXNotification.Caution .AXNotificationBody B{
+	&.Caution .AXNotificationBody B{
 		color:#7e302c;
-	}
+	}	
+}
 
 /* ---------------------------- AXInputGroup ------------------------------- */
 .AXInputGroup{
 	position:relative;
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:inset 0px 1px 2px #dddddd;
-	.Radius(4px);
+	.util-border-radius(4px);
 	padding:0px 0px 0px 4px;
 	display:block;
-}
-.AXInputGroup.inline{
-	display:inline-block;
-	*display:inline;
-	*margin-right:3px;
-}
-.AXInputGroup input[type=text],.AXInputGroup input[type=password]{
-	border:0px none;padding:0px;
-	width:100%;
-	padding:4px 0px;
-	font-size:12px;line-height:15px;height:15px;
-	background:none;
-}
-.AXInputGroup.inline input[type=text], .AXInputGroup.inline input[type=password]{
-	*width:auto;
+	&.inline{
+		display:inline-block;
+		*display:inline;
+		*margin-right:3px;
+		input[type=text], input[type=password]{
+			*width:auto;
+		}	
+	}	
+	input[type=text], input[type=password]{
+		border:0px none;padding:0px;
+		width:100%;
+		padding:4px 0px;
+		font-size:12px;line-height:15px;height:15px;
+		background:none;
+	}
 }
 
 /* ---------------------------- AXInputLabel ------------------------------- */
@@ -464,23 +343,28 @@ input::-ms-clear {display: none;}
 	position:relative;
 	display:inline-block;
 	vertical-align:top;
-}
-.AXInputLabel SPAN{
-	line-height:24px;font-size:12px;color:#717b85;
-	padding:0px 3px;
-}
-	.AXInputLabel SPAN.block{
-		display:block;
+	padding:0px 0px 0px 0px;
+	SPAN{
+		line-height:24px;font-size:12px;color:#717b85;
+		padding:0px 3px;
+		&.block{
+			display:block;
+		}
 	}
-.AXInputLabel.fullWidth{
-	display:block;
-	padding-right:8px;
-}
-	.AXInputLabel.fullWidth SPAN{
+	&.fullWidth{
 		display:block;
+		padding:0px 10px 0px 0px;
+		SPAN{
+			display:block;
+		}
+		
+		input[type=text], input[type=password], .AXInput{
+			width:100%;
+		}
+		textarea{
+			width:100%;
+		}
 	}
-.AXInputLabel.fullWidth input[type=text], .AXInputLabel.fullWidth input[type=password]{
-	width:100%;
 }
 
 /* ---------------------------- AXInput ------------------------------- */
@@ -489,114 +373,67 @@ input::-ms-clear {display: none;}
 	display:none;
 	vertical-align:middle;
 }
+
 .AXInput{
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:inset 0px 1px 2px #dddddd;
-	.Radius(4px);
+	.util-border-radius(4px);
 	font-size:12px;line-height:15px;height:15px;
 	padding:4px;
 	margin:0px auto;
-}
-
-.AXInput:focus{
-	border:1px solid #949fa8;
-	box-shadow:inset 0px 0px 3px #949fa8;
+	&:focus{
+		border:1px solid #949fa8;
+		box-shadow:inset 0px 0px 3px #949fa8;
+	}
+	&.Round{border-radius:15px;}
+	.axj-style-width;
+	
+	&[readonly]{
+		background:#eee;
+		color:#676767;text-shadow:0px 1px #fff;
+		box-shadow:inset 0px 1px 2px #b1b1b1;
+	}
+	
+	&[disabled]{
+		background:url(img/defaultRegular.png) repeat-x;
+		background-position:0px -78px;
+		color:#fff;text-shadow:0px -1px #b7b7b7;
+		box-shadow:inset 0px 1px 2px #b1b1b1;
+	}
 }
 
 .AXInputSmall{
 	border:1px solid #b6b6b6;
 	box-shadow:inset 0px 1px 1px #dddddd;
-	.Radius(4px);
+	.util-border-radius(4px);
 	font-size:12px;line-height:12px;height:12px;
 	padding:3px 3px;
 	margin:0px auto;
-}
-.AXInputSmall:focus{
-	border:1px solid #949fa8;
-	box-shadow:inset 0px 0px 3px #949fa8;
-}
-
-.AXInput.W20{width:20px;}
-.AXInput.W30{width:30px;}
-.AXInput.W40{width:40px;}
-.AXInput.W50{width:50px;}
-.AXInput.W60{width:60px;}
-.AXInput.W70{width:70px;}
-.AXInput.W80{width:80px;}
-.AXInput.W90{width:90px;}
-.AXInput.W100{width:100px;}
-.AXInput.W110{width:110px;}
-.AXInput.W120{width:120px;}
-.AXInput.W130{width:130px;}
-.AXInput.W140{width:140px;}
-.AXInput.W150{width:150px;}
-.AXInput.W160{width:160px;}
-.AXInput.W170{width:170px;}
-.AXInput.W180{width:180px;}
-.AXInput.W190{width:190px;}
-.AXInput.W200{width:200px;}
-.AXInput.W300{width:300px;}
-.AXInput.W400{width:400px;}
-.AXInput.W500{width:500px;}
-
-.AXInputSmall.W20{width:20px;}
-.AXInputSmall.W30{width:30px;}
-.AXInputSmall.W40{width:40px;}
-.AXInputSmall.W50{width:50px;}
-.AXInputSmall.W60{width:60px;}
-.AXInputSmall.W70{width:70px;}
-.AXInputSmall.W80{width:80px;}
-.AXInputSmall.W90{width:90px;}
-.AXInputSmall.W100{width:100px;}
-.AXInputSmall.W110{width:110px;}
-.AXInputSmall.W120{width:120px;}
-.AXInputSmall.W130{width:130px;}
-.AXInputSmall.W140{width:140px;}
-.AXInputSmall.W150{width:150px;}
-.AXInputSmall.W160{width:160px;}
-.AXInputSmall.W170{width:170px;}
-.AXInputSmall.W180{width:180px;}
-.AXInputSmall.W190{width:190px;}
-.AXInputSmall.W200{width:200px;}
-.AXInputSmall.W300{width:300px;}
-.AXInputSmall.W400{width:400px;}
-.AXInputSmall.W500{width:500px;}
-
-.AXInput.Round{border-radius:15px;}
-.AXInputSmall.Round{border-radius:15px;}
-.AXInput[disabled]{}
-
-.AXInput[readonly]{
-	background:#eee;
-	color:#676767;text-shadow:0px 1px #fff;
-	box-shadow:inset 0px 1px 2px #b1b1b1;
+	&:focus{
+		border:1px solid #949fa8;
+		box-shadow:inset 0px 0px 3px #949fa8;
+	}
+	&.Round{border-radius:15px;}
+	.axj-style-width;
+	&[disabled]{
+		background:url(img/defaultSmall.png) repeat-x;
+		background-position:0px -60px;
+		color:#fff;text-shadow:0px -1px #b7b7b7;
+		box-shadow:inset 0px 1px 2px #b1b1b1;
+	}
+	&[readonly]{
+		background:#eee;
+		color:#676767;text-shadow:0px 1px #fff;
+		box-shadow:inset 0px 1px 2px #b1b1b1;
+	}
 }
 
-.AXInput[disabled]{
-	background:url(img/defaultRegular.png) repeat-x;
-	background-position:0px -78px;
-	color:#fff;text-shadow:0px -1px #b7b7b7;
-	box-shadow:inset 0px 1px 2px #b1b1b1;
-}
-
-.AXInputSmall[disabled]{
-	background:url(img/defaultSmall.png) repeat-x;
-	background-position:0px -60px;
-	color:#fff;text-shadow:0px -1px #b7b7b7;
-	box-shadow:inset 0px 1px 2px #b1b1b1;
-}
-.AXInputSmall[readonly]{
-	background:#eee;
-	color:#676767;text-shadow:0px 1px #fff;
-	box-shadow:inset 0px 1px 2px #b1b1b1;
-}
-
-.AXInput::-webkit-input-placeholder{.Placeholder(15px);}
-.AXInput::-moz-placeholder{.Placeholder(15px);}
-.AXInput:-ms-input-placeholder{.Placeholder(15px);}
-.AXInputSmall::-webkit-input-placeholder{.Placeholder(12px);}
-.AXInputSmall::-moz-placeholder{.Placeholder(12px);}
-.AXInputSmall:-ms-input-placeholder{.Placeholder(12px);}
+.AXInput::-webkit-input-placeholder{.util-placeholder(15px);}
+.AXInput::-moz-placeholder{.util-placeholder(15px);}
+.AXInput:-ms-input-placeholder{.util-placeholder(15px);}
+.AXInputSmall::-webkit-input-placeholder{.util-placeholder(12px);}
+.AXInputSmall::-moz-placeholder{.util-placeholder(12px);}
+.AXInputSmall:-ms-input-placeholder{.util-placeholder(12px);}
 
 .AXCheckbox{
 	position:relative;display:inline-block;
@@ -605,428 +442,336 @@ input::-ms-clear {display: none;}
 	font-weight:normal;vertical-align:top;white-space:nowrap;cursor:pointer;
 	overflow:hidden;
 	background:url(img/AXCheckbox.png) no-repeat left 0px;
-}
-.AXCheckbox.checked{
-	background-position:left -26px;
-}
-.AXCheckbox input[type="checkbox"]{
-	position:absolute;left:-56px;
+	&.checked{
+		background-position:left -26px;
+	}
+	input[type="checkbox"]{
+		position:absolute;left:-56px;
+	}
 }
 
 /* ---------------------------- AXSelect ------------------------------- */
 .AXSelect{
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:0px 1px 1px #e9eced;
-	.Radius(4px);
+	.util-border-radius(4px);
 	font-size:12px;line-height:19px;height:25px;
 	padding:2px;
 	margin:0px auto;
+	.axj-style-width;
 }
 
 .AXSelectSmall{
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:0px 1px 1px #e9eced;
-	.Radius(4px);
+	.util-border-radius(4px);
 	font-size:11px;line-height:14px;height:20px;
 	padding:2px;
 	margin:0px auto;
+	.axj-style-width;
 }
 
 .AXTextarea{
 	border:1px solid #b6b6b6;background:#fff;
 	box-shadow:inset 0px 1px 2px #dddddd;
-	.Radius(4px);
+	.util-border-radius(4px);
 	font-size:12px;line-height:15px;
 	padding:4px;
 	margin:0px auto;
 }
 
-/* ---------------------------- AXscriptSource ------------------------------- */
-.AXscriptSource{
-	padding:5px 10px 10px 10px;border:1px solid #b6b6b6;background:#FFFFEC;border-radius:0px;position:relative;overflow:hidden;
-	box-shadow:inset 1px 1px 2px #ccc;
-	}
-.AXscriptSource legend{font-size:12px;font-weight:bold;background:#b6b6b6;color:#fff;padding:3px 7px;.Radius(4px);}
-.AXscriptSource textarea.fieldsetBody{
-	display:block;border:0px none;font-size:12px;line-height:16px;font-family:Consolas;
-	background:transparent;
-	width:100%;overflow:auto;
+// S:AXTabs ///////////////////////////////////////////
+// AXTabs Preset //
+.axtabs-colors-normal(){
+	@color-fill-a:#fdfdfd;
+	@color-fill-b:#e8e8e8;	
+	@color-stroke:#b9babc;
+	@color-text:#6e7a85;
+	@color-bg:#fdfdfd;
 }
-.AXscriptSource .fieldsetBodyMirror{
-	font-size:12px;line-height:16px;font-family:Consolas;
-	overflow:auto;
-}
-.AXscriptSource .AXscriptSourceLineNumber{
-	position:absolute;left:-35px;top:0px;
-	width:25px;padding-right:2px;
-	background:#ccc;border-right:1px solid #b6b6b6;
-	font-size:12px;line-height:16px;font-family:Consolas;overflow:hidden;
-	color:#fff;text-shadow:0px -1px #b6b6b6;
-	text-align:right;
+.axtabs-colors-disabled(){
+	@color-fill-a:#d7d7d7;
+	@color-fill-b:#d7d7d7;
+	@color-stroke:#ccc;
+	@color-text:#eaeaea;
+	@color-bg:#d7d7d7;
 }
 
-/* ---------------------------- AXTabs ------------------------------- */
-	/* horizen AXTabs */
-.AXTabs{
+// AXTabs Horizontal Style //////
+.axtabs-style-normal{
+	.axtabs-colors-normal();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	.util-border-radius(4px,4px,0, 0);			
+}
+.axtabs-style-disabled{
+	.axtabs-colors-disabled();
+	.util-gradient(top, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	.util-border-radius(4px);			
+}
+
+// AXTabs Events //
+.axtabs-event-normal{
+	&				{.axtabs-style-normal;}
+	&:hover, &:focus{
+		.axtabs-colors-normal();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}		
+	&.on{
+		background:#fff; border-bottom:1px solid #fff;
+	}
+}
+.axtabs-event-disabled{
+	&				{.axtabs-style-disabled;}
+	&:hover, &:focus{
+		.axtabs-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+	&:first-child{margin-left:5px;}	
+}
+
+// AXTabs Component //
+//AXTabs
+.AXTabs {
 	position:relative;min-height:30px;
 	overflow:hidden;
 	box-sizing:content-box !important;
-}
-.AXTabs .AXTabsTray{
-	background:url(img/AXTabBg.png);
-	box-sizing:content-box !important;
-}
-.AXTabs .AXTabsTray .trayScroll{
-	position:absolute;
-	left:0px;top:0px;
-	height:30px;
-	box-sizing:content-box !important;
-}
-.AXTabs .AXTabsTray .AXTab{
-	display:block;float:left;
-	cursor:pointer;
-	height:26px;min-width:50px;
-	padding:0px 10px;
-	box-sizing:content-box !important;
-	margin:2px 0px 0px 2px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:12px;color:#6e7a86;line-height:26px;text-align:center;
-	text-decoration:none;
-	background:url(img/defaultRegular.png) repeat-x;
-	outline:none;
-}
-.AXTabs .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabs .AXTabsTray .AXTab:hover, .AXTabs .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -26px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabs .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -52px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabs .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
-}
-.AXTabs .AXTabsTray .AXTabSplit{
-	display:none;
+	.AXTabsTray{
+		background:url(img/AXTabBg.png);
+		box-sizing:content-box !important;	
+		.trayScroll{
+			position:absolute; 
+			left:0px;top:0px;
+			height:30px;
+			box-sizing:content-box !important;		
+		}
+		.AXTabSplit{
+			display:none;
+		}
+		.AXTab					{.axtabs-unit-tab}
+		.leftArrowHandleBox		{.axtabs-unit-left}		
+		.rightArrowHandleBox	{.axtabs-unit-right}				
+		.rightArrowMoreBox		{.axtabs-unit-more}
+	}	
 }
 
-.AXTabs .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:28px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabs .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:28px;
-	background:url(img/leftArrows.png) no-repeat -5px 0px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabs .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -30px;
-}
-	
-.AXTabs .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:28px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabs .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:26px;
-	background:url(img/rightArrows.png) no-repeat 10px 0px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabs .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -30px;
-}
-
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-	.AXTabs .rightArrowMoreBox{
-		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:28px;
-		background:#fff;
-	}
-	.AXTabs .rightArrowMoreBox .tabArrow{
-		display:block;width:24px;height:26px;
-		background:url(img/rightArrowsMore.png) no-repeat center 0px;
-		text-indent:-1000px;overflow:hidden;
-	}
-	.AXTabs .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -30px;
-	}
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
-	
-	/* horizen AXTabsLarge */
 .AXTabsLarge{
 	position:relative;min-height:46px;
 	overflow:hidden;
-}
-.AXTabsLarge .AXTabsTray{
-	background:url(img/AXTabBgLarge.png);
-}
-.AXTabsLarge .AXTabsTray .trayScroll{
-	position:absolute;
-	left:0px;top:0px;
-	height:46px;
-}
-.AXTabsLarge .AXTabsTray .AXTab{
-	display:block;float:left;
-	cursor:pointer;
-	height:40px;min-width:100px;
-	padding:0px 10px;
-	margin:4px 0px 0px 4px;
-	border:1px solid #b9babc;
-	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:14px;color:#6e7a86;line-height:42px;text-align:center;
-	text-decoration:none;
-	background:url(img/defaultLarge.png) repeat-x;
-	outline:none;
-}
-.AXTabsLarge .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabsLarge .AXTabsTray .AXTab:hover, .AXTabsLarge .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -46px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsLarge .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -92px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsLarge .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
-}
-
-.AXTabsLarge .leftArrowHandleBox{
-	position:absolute;
-	left:0px;top:1px;
-	width:29px;height:44px;
-	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabsLarge .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:44px;
-	background:url(img/leftArrows.png) no-repeat -5px 6px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsLarge .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -24px;
-}
-	
-.AXTabsLarge .rightArrowHandleBox{
-	position:absolute;
-	right:24px;top:1px;
-	width:29px;height:44px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabsLarge .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:44px;
-	background:url(img/rightArrows.png) no-repeat 10px 6px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsLarge .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -24px;
-}
-
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-	.AXTabsLarge .rightArrowMoreBox{
-		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:44px;
-		background:#fff;
+	.AXTabsTray{
+		background:url(img/AXTabBgLarge.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:46px;
+		}
+		.AXTab					{.axtabs-unit-tab(40px, 100px, 14px, 4px)}
+		.leftArrowHandleBox		{.axtabs-unit-left(44px)}		
+		.rightArrowHandleBox	{.axtabs-unit-right(44px)}				
+		.rightArrowMoreBox		{.axtabs-unit-more(44px)}
 	}
-	.AXTabsLarge .rightArrowMoreBox .tabArrow{
-		display:block;width:24px;height:44px;
-		background:url(img/rightArrowsMore.png) no-repeat center 6px;
-		text-indent:-1000px;overflow:hidden;
-	}
-	.AXTabsLarge .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -24px;
-	}
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
+}
 
-
-	/* horizen AXTabsSmall */
 .AXTabsSmall{
 	position:relative;min-height:24px;
 	overflow:hidden;
+	.AXTabsTray{
+		background:url(img/AXTabBgSmall.png);
+		.trayScroll{
+			position:absolute;
+			left:0px;top:0px;
+			height:24px;
+		}
+		.AXTab					{.axtabs-unit-tab(20px, 60px, 11px, 2px)}
+		.leftArrowHandleBox		{.axtabs-unit-left(22px)}		
+		.rightArrowHandleBox	{.axtabs-unit-right(22px)}				
+		.rightArrowMoreBox		{.axtabs-unit-more(22px)}
+	}
 }
-.AXTabsSmall .AXTabsTray{
-	background:url(img/AXTabBgSmall.png);
-}
-.AXTabsSmall .AXTabsTray .trayScroll{
-	position:absolute;
-	left:0px;top:0px;
-	height:24px;
-}
-.AXTabsSmall .AXTabsTray .AXTab{
+
+//Acc
+.axtabs-unit-tab(@height:26px, @min-width:50px, @font-size:12px, @margin:2px){
+	//Default Horzonntal 
 	display:block;float:left;
 	cursor:pointer;
-	height:20px;min-width:60px;
+	height:@height;min-width:@min-width;
 	padding:0px 10px;
-	margin:2px 0px 0px 1px;
+	box-sizing:content-box !important;
+	margin:@margin 0px 0px @margin;
 	border:1px solid #b9babc;
 	border-top-left-radius:4px;border-top-right-radius:4px;
-	font-size:11px;color:#6e7a86;line-height:20px;text-align:center;
+	font-size:@font-size;color:#6e7a86;line-height:@height; text-align:center;
 	text-decoration:none;
-	background:url(img/defaultSmall.png) repeat-x;
+	background:url(img/defaultRegular.png) repeat-x;
 	outline:none;
-}
-.AXTabsSmall .AXTabsTray .AXTab:first-child{margin-left:5px;}
-.AXTabsSmall .AXTabsTray .AXTab:hover, .AXTabsSmall .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-right:1px solid #949fa8;
-	background-position:0px -20px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsSmall .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-right:1px solid #b9babc;
-	background-position:0px -40px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsSmall .AXTabsTray .AXTab.on{
-	background:#fff;border-bottom:1px solid #fff;
+	& {.axtabs-event-normal;}
+	&:first-child{margin-left:5px;}
 }
 
-
-.AXTabsSmall .leftArrowHandleBox{
+.axtabs-unit-left(@height:28px){
 	position:absolute;
 	left:0px;top:1px;
-	width:29px;height:22px;
+	width:29px;height:@height;
 	background:url(img/leftArrowsBg.png) repeat-y 0px 0px;
-} 
-.AXTabsSmall .leftArrowHandleBox .tabArrow{
-	display:block;width:29px;height:22px;
-	background:url(img/leftArrows.png) no-repeat -5px -5px;
-	text-indent:-1000px;overflow:hidden;
+	.tabArrow{
+		display:block;width:29px;height:@height;
+		background:url(img/leftArrows.png) no-repeat -10px center;
+		text-indent:-1000px;overflow:hidden;
+		&:hover{
+			background:url(img/leftArrows.png) no-repeat -70px center;	
+		}
+	}
 }
-.AXTabsSmall .leftArrowHandleBox .tabArrow:hover{
-	background:url(img/leftArrows.png) no-repeat -5px -35px;
-}
-	
-.AXTabsSmall .rightArrowHandleBox{
+
+.axtabs-unit-right(@height:28px){
 	position:absolute;
 	right:24px;top:1px;
-	width:29px;height:22px;
-	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;
-} 
-.AXTabsSmall .rightArrowHandleBox .tabArrow{
-	display:block;width:29px;height:22px;
-	background:url(img/rightArrows.png) no-repeat 10px -3px;
-	text-indent:-1000px;overflow:hidden;
-}
-.AXTabsSmall .rightArrowHandleBox .tabArrow:hover{
-	background:url(img/rightArrows.png) no-repeat 10px -33px;
-}
-
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- s */
-	.AXTabsSmall .rightArrowMoreBox{
-		position:absolute;
-		right:0px;top:1px;
-		width:24px;height:22px;
-		background:#fff;
-	}
-	.AXTabsSmall .rightArrowMoreBox .tabArrow{
-		display:block;width:29px;height:22px;
-		background:url(img/rightArrowsMore.png) no-repeat center -3px;
+	width:29px;height:@height;
+	background:url(img/rightArrowsBg.png) repeat-y 100% 0px;	
+	.tabArrow{
+		display:block;width:29px;height:@height;
+		background:url(img/rightArrows.png) no-repeat 10px center;
 		text-indent:-1000px;overflow:hidden;
-	}
-	.AXTabsSmall .rightArrowMoreBox .tabArrow:hover{
-		background:url(img/rightArrowsMore.png) no-repeat center -33px;
-	}
-	/* 2013-12-26 오후 3:02:53 rightArrowMoreBox -- e */
+		&:hover{
+			background:url(img/rightArrows.png) no-repeat -50px center;
+		}
+	}	
+}
 
-	/* AXTabsVertical */
+.axtabs-unit-more(@height:28px){
+	position:absolute;
+	right:0px;top:1px;
+	width:24px;height:@height;
+	background:#fff;
+	.tabArrow{
+		display:block;width:24px;height:@height;
+		background:url(img/rightArrowsMore.png) no-repeat 0px center;
+		text-indent:-1000px;overflow:hidden;
+		&:hover{
+			background:url(img/rightArrowsMore.png) no-repeat -60px center;
+		}
+	}
+}
+
+
+
+// AXTabs Vertical Style /////
+.axtabs-vertical-style-normal(@direction:left){
+	.axtabs-colors-normal();
+	.util-gradient(@direction, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px 1px 0px rgba(255,255,255,0.8);
+	.util-border-radius(4px, 0, 4px, 0);			
+}
+.axtabs-vertical-style-disabled(@direction:left){
+	.axtabs-colors-disabled();
+	.util-gradient(@direction, @color-fill-a, @color-fill-b);
+	color:@color-text;
+	border:1px solid @color-stroke;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.10);	
+	.util-border-radius(4px);			
+}
+
+// AXTabs Events //
+.axtabs-vertical-event-normal{
+	&				{.axtabs-vertical-style-normal;}
+	&:hover, &:focus{
+		.axtabs-colors-normal();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}		
+	&.on{
+		background:#fff; border-bottom:1px solid #fff;
+	}
+}
+.axtabs-vertical-event-disabled{
+	&				{.axtabs-vertical-style-disabled;}
+	&:hover, &:focus{
+		.axtabs-colors-disabled();
+		background: @color-fill-b;		
+	}
+	&:active		{
+		box-shadow: none;
+	}	
+	&:first-child{margin-left:5px;}	
+}
+
 .AXTabsVertical{
-	position:relative;min-width:30px;
+	position:relative;min-width:30px;	
+	&.leftSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png);
+			.AXTab{
+
+				.axtabs-vertical-unit-tab; 
+				.AXTabText {.axtabs-unit-text-left}
+			}
+		}
+	}
+	&.rightSide{
+		.AXTabsTray{
+			background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
+			.AXTab{
+				.axtabs-vertical-unit-tab; 
+				.AXTabText {.axtabs-unit-text-right}
+			}
+		}
+	}
+	.AXTabsTray{
+		width:30px;		
+		.AXTab{
+			.axtabs-vertical-unit-tab; 
+			.AXTabText {.axtabs-unit-text-left}
+		}
+	}	
 }
-.AXTabsVertical .AXTabsTray{
-	width:30px;
-}
-.AXTabsVertical.leftSide .AXTabsTray{
-	background:url(img/AXTabBgVerticalLeft.png);
-}
-.AXTabsVertical.rightSide .AXTabsTray{
-	background:url(img/AXTabBgVerticalLeft.png) -27px 0px;
-}
-.AXTabsVertical .AXTabsTray .AXTab{
-	display:block;
+
+.axtabs-vertical-unit-tab(@height:26px, @min-width:50px, @font-size:12px, @margin:2px){
+	display:block;float:left;
 	cursor:pointer;
 	width:26px;min-height:80px;
-	padding:10px 0px;
-	margin:2px 0 0 2px;
+	padding:10px 0px;	
+	box-sizing:content-box !important;
+	margin:@margin 0px 0px @margin;
 	border:1px solid #b9babc;
-	font-size:12px;color:#6e7a86;
+	border-top-left-radius:4px;border-top-right-radius:4px;
+	font-size:@font-size;color:#6e7a86;line-height:@height; text-align:center;
 	text-decoration:none;
+	background:url(img/defaultRegular.png) repeat-x;
 	outline:none;
-	position:relative;
+	&				{.axtabs-vertical-event-normal}
+	&[disabled]		{.axtabs-vertical-event-disabled;}			
 }
-.AXTabsVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:4px;border-bottom-left-radius:4px;
-	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:4px;border-bottom-right-radius:4px;
-	background:url(img/defaultRegularVerticalLeft.png) repeat-y;
-}
-.AXTabsVertical .AXTabsTray .AXTab:hover, .AXTabsVertical .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background-position:-26px 0px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsVertical.leftSide .AXTabsTray .AXTab:focus{
-	border-left:1px solid #949fa8;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsVertical.rightSide .AXTabsTray .AXTab:focus{
-	border-right:1px solid #949fa8;
-}
-.AXTabsVertical .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background-position:-52px 0px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab:active{
-	border-left:1px solid #b9babc;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab:active{
-	border-right:1px solid #b9babc;
-}
-.AXTabsVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff;border-right:1px solid #fff;
-}
-.AXTabsVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff;border-left:1px solid #fff;
-}
-.AXTabsVertical .AXTabsTray .AXTab .AXTabText{
-	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
+
+.axtabs-unit-text-left(){
 	display:block;
 	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
-	text-align:center;.Ellip();
-
-	transform:rotate(-90deg) translateX(-70px) translateY(19px);
-	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-
-.AXTabsVertical.leftSide .AXTabsTray .AXTab .AXTabText{
+	text-align:center;.util-ellip;
 	left:5px;top:4px;
 	transform:rotate(-90deg) translateX(-70px) translateY(19px);
 	-o-transform:rotate(-90deg) translateX(-70px) translateY(19px); -o-transform-origin:0 100%;
 	-moz-transform:rotate(-90deg) translateX(-70px) translateY(19px); -moz-transform-origin:0 100%;
 	-webkit-transform:rotate(-90deg) translateX(-70px) translateY(19px); -webkit-transform-origin:0 100%;
 	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
+
 }
 
-.AXTabsVertical.rightSide .AXTabsTray .AXTab .AXTabText{
+.axtabs-unit-text-right(){
+	display:block;
+	position:absolute;left:5px;top:4px;width:90px;height:20px;line-height:20px;
+	text-align:center;.util-ellip();
 	left:2px;top:4px;
 	transform:rotate(90deg) translateX(-20px) translateY(0px);
 	-o-transform:rotate(90deg) translateX(-20px) translateY(0px); -o-transform-origin:0 100%;
@@ -1035,238 +780,60 @@ input::-ms-clear {display: none;}
 	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
 }
 
-	/* AXTabsLargeVertical */
-.AXTabsLargeVertical{
-	position:relative;min-width:46px;
-}
-.AXTabsLargeVertical .AXTabsTray{
-	width:46px;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray{
-	background:url(img/AXTabBgLargeVerticalLeft.png);
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray{
-	background:url(img/AXTabBgLargeVerticalLeft.png) -41px 0px;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab{
-	display:block;
-	cursor:pointer;
-	width:40px;min-height:100px;
-	padding:10px 0px;
-	margin:4px 0 0 4px;
-	border:1px solid #b9babc;
-	font-size:14px;color:#6e7a86;
-	text-decoration:none;
-	outline:none;
-	position:relative;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:4px;border-bottom-left-radius:4px;
-	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:4px;border-bottom-right-radius:4px;
-	background:url(img/defaultLargeVerticalLeft.png) repeat-y;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab:hover, .AXTabsLargeVertical .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background-position:-46px 0px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:focus{
-	border-left:1px solid #949fa8;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:focus{
-	border-right:1px solid #949fa8;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background-position:-92px 0px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab:active{
-	border-left:1px solid #b9babc;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab:active{
-	border-right:1px solid #b9babc;
-}
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff;border-right:1px solid #fff;
-}
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff;border-left:1px solid #fff;
-}
-.AXTabsLargeVertical .AXTabsTray .AXTab .AXTabText{
-	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
-	display:block;
-	position:absolute;left:5px;top:4px;width:110px;height:29px;line-height:29px;
-	text-align:center;.Ellip();
-
-	transform:rotate(-90deg) translateX(-82px) translateY(31px);
-	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-
-.AXTabsLargeVertical.leftSide .AXTabsTray .AXTab .AXTabText{
-
-	transform:rotate(-90deg) translateX(-82px) translateY(31px);
-	-o-transform:rotate(-90deg) translateX(-82px) translateY(31px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-82px) translateY(31px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-82px) translateY(31px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-
-.AXTabsLargeVertical.rightSide .AXTabsTray .AXTab .AXTabText{
-
-	transform:rotate(90deg) translateX(-30px) translateY(1px);
-	-o-transform:rotate(90deg) translateX(-30px) translateY(1px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(90deg) translateX(-30px) translateY(1px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(90deg) translateX(-30px) translateY(1px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
-}
-
-	/* AXTabsSmallVertical */
-.AXTabsSmallVertical{
-	position:relative;min-width:24px;
-}
-.AXTabsSmallVertical .AXTabsTray{
-	width:24px;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray{
-	background:url(img/AXTabBgSmallVerticalLeft.png)-1px 0px;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray{
-	background:url(img/AXTabBgSmallVerticalLeft.png) -22px 0px;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab{
-	display:block;
-	cursor:pointer;
-	width:20px;min-height:60px;
-	padding:10px 0px;
-	margin:2px 0 0 1px;
-	border:1px solid #b9babc;
-	font-size:11px;color:#6e7a86;
-	text-decoration:none;
-	outline:none;
-	position:relative;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab{
-	border-top-left-radius:4px;border-bottom-left-radius:4px;
-	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab{
-	border-top-right-radius:4px;border-bottom-right-radius:4px;
-	background:url(img/defaultSmallVerticalLeft.png) repeat-y;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab:hover, .AXTabsSmallVertical .AXTabsTray .AXTab:focus{
-	border-top:1px solid #949fa8;border-left:1px solid #949fa8;border-bottom:1px solid #949fa8;
-	background-position:-20px 0px;
-	text-shadow:0px 1px #fff;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:focus{
-	border-left:1px solid #949fa8;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:hover, .AXTabsSmallVertical.rihgtSide .AXTabsTray .AXTab:focus{
-	border-right:1px solid #949fa8;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab:active{
-	border-top:1px solid #b9babc;border-left:1px solid #b9babc;border-bottom:1px solid #b9babc;
-	background-position:-40px 0px;
-	color:#fff;
-	text-shadow:0px 1px #c5ccd0;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab:active{
-	border-left:1px solid #b9babc;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab:active{
-	border-right:1px solid #b9babc;
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab.on{
-	background:#fff;border-right:1px solid #fff;
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab.on{
-	background:#fff;border-left:1px solid #fff;
-}
-.AXTabsSmallVertical .AXTabsTray .AXTab .AXTabText{
-	/*	border:1px solid #cc0000;font-family:'malgun gothic';	*/
-	display:block;
-	position:absolute;left:2px;top:2px;width:76px;height:18px;line-height:18px;
-	text-align:center;.Ellip();
-
-	transform:rotate(-90deg) translateX(-57px) translateY(19px);
-	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-.AXTabsSmallVertical.leftSide .AXTabsTray .AXTab .AXTabText{
-	left:2px;top:2px;
-	transform:rotate(-90deg) translateX(-57px) translateY(19px);
-	-o-transform:rotate(-90deg) translateX(-57px) translateY(19px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(-90deg) translateX(-57px) translateY(19px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(-90deg) translateX(-57px) translateY(19px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=1, M21=-1, M22=0, sizingmethod='auto expand');
-}
-.AXTabsSmallVertical.rightSide .AXTabsTray .AXTab .AXTabText{
-	left:0px;top:2px;
-	transform:rotate(90deg) translateX(-18px) translateY(0px);
-	-o-transform:rotate(90deg) translateX(-18px) translateY(0px); -o-transform-origin:0 100%;
-	-moz-transform:rotate(90deg) translateX(-18px) translateY(0px); -moz-transform-origin:0 100%;
-	-webkit-transform:rotate(90deg) translateX(-18px) translateY(0px); -webkit-transform-origin:0 100%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0, M12=-1, M21=1, M22=0, sizingmethod='auto expand');
-}
-
-
 /* ---------------------------- AXCalendar ------------------------------- */
 
 .AXCalendar{
 	position:relative;
+	table.calendarPage{
+		table-layout:fixed;width:100%;border-collapse:collapse;
+		thead{
+			td{
+				font-size:8px;font-family:'Arial';
+				height:20px;line-height:20px;
+				padding:0px;text-align:center;
+				/*border-top:1px solid @color-border-calendar-head-top;*/
+				border-right:1px solid @color-border-calendar-head-right;
+				border-bottom:1px solid @color-border-calendar-head-bottom;
+				/*border-left:1px solid @color-border-calendar-head-left;*/
+				&.head_0{
+					
+				}
+				&.head_6{
+					border-right:0px none;
+				}
+				&.dayofweek_0{color:#c78b82;}
+				&.dayofweek_1{color:#7b7b7b;}
+				&.dayofweek_2{color:#7b7b7b;}
+				&.dayofweek_3{color:#7b7b7b;}
+				&.dayofweek_4{color:#7b7b7b;}
+				&.dayofweek_5{color:#7b7b7b;}
+				&.dayofweek_6{color:#627d9b;}
+			}
+		}
+		tbody{
+			td{
+				height:25px;line-height:25px;
+				padding:0px;text-align:center;
+				/*border-top:1px solid @color-border-calendar-body-top;*/
+				border-right:1px solid @color-border-calendar-body-right;
+				border-bottom:1px solid @color-border-calendar-body-bottom;
+				/*border-left:1px solid @color-border-calendar-body-left;*/
+				.util-gradient(top, @color-fill-calendar-a, @color-fill-calendar-b);
+				
+				&.bodyCol_6{
+					border-right:0px none;
+				}
+				&.bodyRow_5{
+					border-bottom:0px none;
+				}
+				&.setDate{
+					.util-gradient(top, @color-fill-calendar-on-a, @color-fill-calendar-on-b);
+				}
+			}
+		}
+	}
 }
 
-	.AXCalendar table.calendarPage{
-		table-layout:fixed;width:100%;
-	}
-	.AXCalendar table.calendarPage thead td{
-		font-size:8px;font-family:'Arial';
-		height:20px;line-height:20px;
-		padding:0px;text-align:center;
-		border-right:1px solid #f2f2f3;
-		border-bottom:1px solid #b9babc;
-	}
-	.AXCalendar table.calendarPage thead td.head_0{
-
-	}
-	.AXCalendar table.calendarPage thead td.head_6{
-		border-right:0px none;
-	}
-	.AXCalendar table.calendarPage thead td.dayofweek_0{color:#c78b82;}
-	.AXCalendar table.calendarPage thead td.dayofweek_1{color:#7b7b7b;}
-	.AXCalendar table.calendarPage thead td.dayofweek_2{color:#7b7b7b;}
-	.AXCalendar table.calendarPage thead td.dayofweek_3{color:#7b7b7b;}
-	.AXCalendar table.calendarPage thead td.dayofweek_4{color:#7b7b7b;}
-	.AXCalendar table.calendarPage thead td.dayofweek_5{color:#7b7b7b;}
-	.AXCalendar table.calendarPage thead td.dayofweek_6{color:#627d9b;}
-
-	.AXCalendar table.calendarPage tbody td{
-		height:25px;line-height:25px;
-		padding:0px;text-align:center;
-		border-right:1px solid #b9babc;
-		border-bottom:1px solid #b9babc;
-		background:url(img/calendarBgs.png) repeat-x 0px -26px;
-	}
-
-	.AXCalendar table.calendarPage tbody td.bodyCol_6{
-		border-right:0px none;
-	}
-	.AXCalendar table.calendarPage tbody td.bodyRow_5{
-		border-bottom:0px none;
-	}
-	.AXCalendar table.calendarPage tbody td.setDate{
-		background:url(img/calendarBgs.png) repeat-x 0px -76px;
-	}
 	.AXCalendar table.calendarPage tbody td A.calendarDate{
 		display:block;height:25px;line-height:25px;
 		text-decoration:none;color:#6d6e71;
@@ -1366,30 +933,30 @@ input::-ms-clear {display: none;}
 /* AXModal *************************************************************************** */
 .AXModalBox{
 	position:absolute;left:10px;top:10px;z-index:5001;
+	.windowbox{
+		border:1px solid #a6a6a6;background:#fff;
+		box-shadow:0px 0px 1px #a6a6a6;
+		padding:0px;margin:0px 0px 10px 0px;
+		font-size:12px;color:#525252;
+		.windowboxFrame{
+			-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=00);
+			&.loaded{
+				-moz-opacity: 1.0;opacity:1;filter: alpha(opacity=100);
+			}
+		}
+		.closeBtn{
+			position:absolute;right:0px;top:0px;
+			display:block;width:38px;height:38px;
+			background:url(img/axmodalClose.png) no-repeat;
+			border:1px solid #a6a6a6;
+			box-shadow:0px none;
+			overflow:hidden;text-indent:-1000px;
+			z-index:100;
+		}
+	}
 }
-.AXModalBox .windowbox{
-	border:1px solid #a6a6a6;background:#fff;
-	box-shadow:0px 0px 1px #a6a6a6;
-	padding:0px;margin:0px 0px 10px 0px;
-	font-size:12px;color:#525252;
-}
-.AXModalBox .windowbox .windowboxFrame{
-	-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=00);
-}
-.AXModalBox .windowbox .windowboxFrame.loaded{
-	-moz-opacity: 1.0;opacity:1;filter: alpha(opacity=100);
-}
-.AXModalBox .windowbox .closeBtn{
-	position:absolute;right:-39px;top:0px;
-	display:block;width:38px;height:38px;
-	background:url(img/axmodalClose.png) no-repeat;
-	border:1px solid #a6a6a6;border-left:0px none;
-	box-shadow:0px 0px 1px #a6a6a6;
-	overflow:hidden;text-indent:-1000px;
-}
+
 /**************************************************************************** AXModal */
-
-
 
 /* AXContextMenu *************************************************************************** */
 .AXContextMenu{
@@ -1406,7 +973,7 @@ input::-ms-clear {display: none;}
 		height:30px;
 		line-height:30px;padding:0px 5px 0px 30px;
 		color:#5e5e5e;text-decoration:none;
-		.Ellip();
+		.util-ellip();
 		background-image:url(img/contextMenuIcon_doc.png);
 		background-repeat:no-repeat;
 		background-position:0px center;
@@ -1750,32 +1317,30 @@ input::-ms-clear {display: none;}
 	font-size:12px;
 	box-shadow:1px 1px 3px #eee;
 	background:url(img/gridheadBG.png) repeat-x;
+	thead td{
+		background:url(img/gridheadBorder.png) no-repeat 100% 0px;
+		height:30px;line-height:30px;
+		border-bottom:1px solid #c1c1c1;
+		color:#222;
+		.tdRel{
+			padding:0px 10px;
+			text-align:center;color:#000;
+		}
+		&.last{
+			background:url() repeat-y 100% 0px;	
+		}
+	}
+	tbody td{
+		height:36px;line-height:30px;
+		border-bottom:1px solid #c1c1c1;
+		color:#666;
+		text-align:center;
+		background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
+		&.last{
+			background:url() repeat-y 100% 0px;	
+		}
+	}
 }
-
-.AXGridTable thead td{
-	background:url(img/gridheadBorder.png) no-repeat 100% 0px;
-	height:30px;line-height:30px;
-	border-bottom:1px solid #c1c1c1;
-	color:#222;
-	}
-	.AXGridTable thead td .tdRel{
-		padding:0px 10px;
-		text-align:center;color:#000;
-	}
-	.AXGridTable thead td.last{
-		background:url() repeat-y 100% 0px;	
-	}
-	
-.AXGridTable tbody td{
-	height:36px;line-height:30px;
-	border-bottom:1px solid #c1c1c1;
-	color:#666;
-	text-align:center;
-	background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
-}
-	.AXGridTable tbody td.last{
-		background:url() repeat-y 100% 0px;	
-	}
 	
 /* view Style table */
 .AXFormTable{
@@ -1784,92 +1349,108 @@ input::-ms-clear {display: none;}
 	width:100%;table-layout:fixed;
 	font-size:12px;
 	box-shadow:1px 1px 3px #eee;
-}
-.AXFormTable td, .AXFormTable th{
-	padding:5px;
-}
-.AXFormTable td .tdRel, .AXFormTable th .tdRel{
-	position:relative;	
-}
-
-.AXFormTable tbody td, .AXFormTable tbody th{
-	min-height:25px;overflow:visible;
-	border-bottom:1px solid #c1c1c1;
-	color:#666;
-	background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
-}
-.AXFormTable tbody th{
-	color:#444;
-}
-.AXFormTable td:last-child, .AXFormTable th:last-child{
-	background:none;
-}
-
-.AXFormTable tbody tr.gray td, .AXFormTable tbody tr.gray th{
-	background-color:#F5F5F5;
-}
-	.AXFormTable tbody tr td.gray, .AXFormTable tbody tr th.gray{
-		background-color:#F5F5F5;
+		
+	td, th{
+		padding:5px;
 	}
-.AXFormTable tbody tr.red td, .AXFormTable tbody tr.red th{
-	background-color:#FFE8E8;
-}
-	.AXFormTable tbody tr td.red, .AXFormTable tbody tr th.red{
-		background-color:#FFE8E8;
-	}
-.AXFormTable tbody tr.green td, .AXFormTable tbody tr.green th{
-	background-color:#F7FDEA;
-}
-.AXFormTable tbody tr.blue td, .AXFormTable tbody tr.blue th{
-	background-color:#EAF5FD;
-}
-.AXFormTable tbody tr.yellow td, .AXFormTable tbody tr.yellow th{
-	background-color:#FEFEE9;
-}
-	.AXFormTable tbody td.last, .AXFormTable tbody th.last{
-		background:url() repeat-y 100% 0px;	
+	td .tdRel, th .tdRel{
+		position:relative;	
 	}
 	
+	tbody td, tbody th{
+		min-height:25px;overflow:visible;
+		border-bottom:1px solid #c1c1c1;
+		color:#666;
+		background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
+	}
+	tbody th{
+		color:#444;
+	}
+	td:last-child, th:last-child{
+		background:none;
+	}
+	tbody tr.gray td, tbody tr.gray th{
+		background-color:#F5F5F5;
+	}
+	tbody tr td.gray, tbody tr th.gray{
+		background-color:#F5F5F5;
+	}
+	tbody tr.red td, tbody tr.red th{
+		background-color:#FFE8E8;
+	}
+	tbody tr td.red, tbody tr th.red{
+		background-color:#FFE8E8;
+	}
+	tbody tr.green td, tbody tr.green th{
+		background-color:#F7FDEA;
+	}
+	tbody tr.blue td, tbody tr.blue th{
+		background-color:#EAF5FD;
+	}
+	tbody tr.yellow td, tbody tr.yellow th{
+		background-color:#FEFEE9;
+	}
+	tbody td.last, tbody th.last{
+		background:url() repeat-y 100% 0px;	
+	}
+}
+
 /* search Style table */
 .AXSearchTable{
 	border-top:1px solid #c1c1c1;border-bottom:0px none;
 	width:100%;table-layout:fixed;
 	font-size:12px;
-}
-.AXSearchTable td .tdRel, .AXSearchTable th .tdRel{
-	padding:0px 10px;
-}
-.AXSearchTable tbody td{
-	min-height:36px;height:36px;overflow:visible;
-	border-bottom:1px solid #c1c1c1;
-	color:#666;
-	background:url(img/gridbodyBorder.png) repeat-y 100% 0px;
-}
-.AXSearchTable tbody th{
-	min-height:36px;height:36px;overflow:visible;
-	border-bottom:1px solid #c1c1c1;
-	color:#444;
-	text-align:center;
-	background:url(img/gridbodyBorder.png) repeat-y 100% 0px #fff;
-}
-.AXSearchTable tbody tr.gray td, .AXSearchTable tbody tr.gray th{
-	background-color:#F5F5F5;
-}
-.AXSearchTable tbody tr.red td, .AXSearchTable tbody tr.red th{
-	background-color:#FFE8E8;
-}
-.AXSearchTable tbody tr.green td, .AXSearchTable tbody tr.green th{
-	background-color:#F7FDEA;
-}
-.AXSearchTable tbody tr.blue td, .AXSearchTable tbody tr.blue th{
-	background-color:#EAF5FD;
-}
-.AXSearchTable tbody tr.yellow td, .AXSearchTable tbody tr.yellow th{
-	background-color:#FEFEE9;
-}
-	.AXSearchTable tbody td.last, .AXSearchTable tbody th.last{
-		background:url() repeat-y 100% 0px;	
+	td, th{
+		.tdRel{
+			padding:0px 10px;
+		}	
 	}
+	tbody{
+		td{
+			min-height:36px;height:36px;overflow:visible;
+			border-bottom:1px solid #c1c1c1;
+			color:#666;
+			background:url(img/gridbodyBorder.png) repeat-y 100% 0px;			
+		}
+		th{
+			min-height:36px;height:36px;overflow:visible;
+			border-bottom:1px solid #c1c1c1;
+			color:#444;
+			text-align:center;
+			background:url(img/gridbodyBorder.png) repeat-y 100% 0px #fff;			
+		}
+		tr{
+			.gray{
+				td, th{
+					background-color:#F5F5F5;
+				}
+			}
+			.red{
+				td, th{
+					background-color:#FFE8E8;
+				}				
+			}
+			.green{
+				td, th{
+					background-color:#F7FDEA;
+				}
+			}
+			.blue{
+				td, th{
+					background-color:#EAF5FD;
+				}
+			}
+			.yellow{
+				td, th{
+					background-color:#FEFEE9;
+				}
+			}
+		}
+		td.last, th.last{
+			background:url() repeat-y 100% 0px;	
+		}
+	}
+}
 	
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper{
@@ -1880,14 +1461,13 @@ input::-ms-clear {display: none;}
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable{
 	position:relative;
-}
-
-.AXResizable .AXResizableHandle{
-	position:absolute;
-	width:18px;height:18px;
-	right:1px;bottom:1px;
-	cursor:se-resize;
-	background:url(img/resizableHandle.png) no-repeat;
+	.AXResizableHandle{
+		position:absolute;
+		width:18px;height:18px;
+		right:1px;bottom:1px;
+		cursor:se-resize;
+		background:url(img/resizableHandle.png) no-repeat;
+	}
 }
 
 .AXResizableHelper{

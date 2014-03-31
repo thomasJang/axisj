@@ -216,7 +216,7 @@ var axf = AXUtil = {
 		}
 
 		if(axf.mobileConsole){
-			axf.mobileConsole.append("<div>" + po + "</div>");
+			axf.mobileConsole.prepend("<div>" + po + "</div>");
 		}else{
 			if (window.console == undefined) {
 			} else {

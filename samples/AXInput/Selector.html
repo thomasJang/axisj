@@ -24,7 +24,6 @@
 	
 	H2, H3{font-family:consolas;}
 	
-	
 	.AXMultiSelector_expandBox{
 		position:absolute;
 		left:100px;top:100px;
@@ -70,10 +69,12 @@
 	<script type="text/javascript" src="pageTab.js"></script>
 	
 	<script type="text/javascript">
+
 	var pageID = "Selector";
 	var MyMultiSelector = new AXMultiSelector();
  	var fnObj = {
 		pageStart: function(){
+
 			AXCode.bind(); // 소스보기
 
 			$("#AXInputSelector").bindSelector({
@@ -111,7 +112,6 @@
 				}
 			});
 			
-			
 			MyMultiSelector.setConfig({
 				targetID:"multiSelector",
 				optionGroup:[
@@ -134,6 +134,10 @@
 							{optionValue:8, optionText:"전주"},
 							{optionValue:9, optionText:"Gwangju"}
 						]
+						/*, 동적으로 option 선택 값 지정
+						getOptionValue: function () {
+							return "9";
+						}*/
 					},
 					{
 						name:"opt2",
@@ -151,7 +155,11 @@
 							{optionValue:90, optionText:"90%"},
 							{optionValue:100, optionText:"100%"}
 						]
-					}				
+						/*,
+						getOptionValue: function () {
+							return 100;
+						}*/
+					}
 				],
 				onChange: function(){
 					toast.push(Object.toJSON(this));	
@@ -182,6 +190,8 @@
 					}
 				}
 			});
+			
+			//$("#AXInputSelectorFind").val("대구");
 			
 		},
 		setValue: function(){

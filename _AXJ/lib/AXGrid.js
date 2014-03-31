@@ -3,7 +3,7 @@
  
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.55",
+	version: "AXGrid v1.56",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -54,7 +54,8 @@ var AXGrid = Class.create(AXJ, {
 		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스",
 		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disable 된 row 는 체크 하지않도록 변경",
 		"2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화",
-		"2014-03-28 오전 8:18:54 tom : click 메소드 호출시 callBack 버그 픽스"
+		"2014-03-28 오전 8:18:54 tom : click 메소드 호출시 callBack 버그 픽스",
+		"2014-03-31 오전 2:07:24 tom : init 에서 printList 호출 제거 / body.marker.addClass 속성 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -983,7 +984,7 @@ var AXGrid = Class.create(AXJ, {
 
 		axdom(window).bind("resize", this.windowResize.bind(this));
 
-		this.printList();
+		//this.printList();  printList는 setBody 에서 자동 실행 됨
 	},
 	windowResize: function () {
 		var windowResizeApply = this.windowResizeApply.bind(this);
@@ -2345,10 +2346,22 @@ var AXGrid = Class.create(AXJ, {
 		var evenClassName = "gridBodyMarker";
 		var getFormatterValue = this.getFormatterValue.bind(this);
 		var hasFixed = this.hasFixed;
-
+		var trAddClass = "";
+		if (cfg.body.marker.addClass) {
+			try {
+				trAddClass = cfg.body.marker.addClass.call({
+					index: itemIndex,
+					item: item,
+					list: this.list,
+					page: this.page
+				});
+			} catch (e) {
+				trace(e);
+			}
+		}
 		for (var r = 0; r < cfg.body.marker.rows.length; r++) {
 			var isLastTR = (cfg.body.marker.rows.length - 1 == r);
-			tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
+			tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
 			var colCount = 0;
 			axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
 				if (CH.display && CH.colspan > 0) {

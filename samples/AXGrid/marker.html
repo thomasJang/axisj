@@ -131,7 +131,17 @@
 									return "";	
 								}}
 							]
-						]
+						],
+						addClass: function(){	
+							// red, green, blue, yellow, white, gray
+							/*
+							if(this.index % 2 == 0){
+								return "green";
+							}else{
+								return "red";
+							}
+							*/
+						}
 					},
 					onclick: function(){
 						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));

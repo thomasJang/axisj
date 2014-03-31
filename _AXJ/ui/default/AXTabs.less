@@ -1,14 +1,3 @@
-@import "csslib";
-
-//css
-@charset "utf-8";
-/*!
- * AxisJ Javascript Library
- * http://axisj.com
- *
- * Copyright AXISJ
- * http://axisj.com/license
- */
-
-@import url('AXTabs_desktop.css') 		(min-width: @mobileWidth);
-@import url('AXTabs_mobile.css') 	only screen and (max-width: @mobileWidth);
+@import "AXUtils.less";
+@import "AXTabs_desktop.less";
+@import "AXTabs_mobile" all and (max-width: 639px);

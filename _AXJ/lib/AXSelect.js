@@ -3,7 +3,7 @@
  
 
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v2.3",
+	version: "AXSelectConverter v2.4",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-19 오후 12:00:43",
@@ -21,8 +21,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가",
 		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix",
 		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue ",
-		"2014-03-18 오후 10:09:21 - tom : select 포커스 후 키입력 하면 optionValue 를 비고하여 선택처리 기능 구현 - 2차버전에 한글 포커스 밑 optionText 비교 처리 구문 추가"
-		
+		"2014-03-18 오후 10:09:21 - tom : select 포커스 후 키입력 하면 optionValue를 비교하여 선택처리 기능 구현 - 2차버전에 한글 포커스 밑 optionText 비교 처리 구문 추가",
+		"2014-03-27 오후 3:38:25 - tom : onchange 함수가 setValue 속성을 부여해야만 작동하던 것을 무조건 작동 하도록 변경"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -313,7 +313,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						obj.options = AXUtil.copyObject(options);
 						obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 
-						if (obj.config.onChange && obj.config.setValue != undefined) {
+						if (obj.config.onChange) {
 							obj.config.focusedIndex = obj.selectedIndex;
 							obj.config.selectedObject = obj.options[obj.selectedIndex];
 							obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
@@ -355,9 +355,27 @@ var AXSelectConverter = Class.create(AXJ, {
 			obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 			
 			this.bindSelectChange(objID, objSeq);
+			/*
+			if (obj.config.onChange) {
+				obj.config.focusedIndex = obj.selectedIndex;
+				obj.config.selectedObject = obj.options[obj.selectedIndex];
+				obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+			}
+			*/
 
 		} else {
 			this.bindSelectChange(objID, objSeq);
+			
+			/*
+			if (obj.config.onChange) {
+				var selectedOption = this.getSelectedOption(objID, objSeq);
+				if (selectedOption) {
+					var sendObj = {optionValue:selectedOption.value, optionText:selectedOption.text};
+					obj.config.onChange.call(sendObj, sendObj);
+				}				
+			}
+			*/
+			
 		}
 	},
 	getSelectedOption: function (objID, objSeq) {

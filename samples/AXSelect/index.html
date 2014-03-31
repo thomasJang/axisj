@@ -49,6 +49,7 @@
 	            $("#AXSelect2").bindSelect({
 	            	onChange: function(){
 	            		toast.push(Object.toJSON(this));
+						//alert($('#AXSelect2').bindSelectGetValue());  
 	            	}
 	            });
 
@@ -142,6 +143,7 @@
 		<h2>AXSelect bind Select</h2>
 
 		<h3>default</h3>
+
 		<select name="" class="AXSelect" id="AXSelect1" tabindex="7">
 			<option value="">-- 선택하세요 --</option>
 			<option value="1">%가나다라마바사</option>
@@ -150,8 +152,8 @@
 			<option value="4">abcdefg 가나다라마바사</option>
 			<option value="5">abcdefg 가나다라마바사</option>
 			<option value="6">abcdefg 가나다라마바사</option>
-		</select>
-		
+		</select>	
+
 		<input type="button" value="valueCheck" class="AXButton" onclick="alert($('#AXSelect1').val())" />
 		
 		<div class="Hspace20"></div>
@@ -187,10 +189,12 @@
 		
 		<div class="Hspace20"></div>
 		
-		<input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '99');" />
-		<input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect2', '99');" />
-		<input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect3', '9');" />
-		<input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect4', '5');" />
+		<input type="button" value="AXSelect1 value(1) change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '1');" />
+		<input type="button" value="AXSelect1 value(2) change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '2');" />
+		
+		<input type="button" value="AXSelect2 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect2', '99');" />
+		<input type="button" value="AXSelect3 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect3', '9');" />
+		<input type="button" value="AXSelect4 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect4', '5');" />
 		
         <div class="Hspace20"></div>
 
@@ -241,7 +245,7 @@
 $("#AXSelect_m0").bindSelect({
     ajaxUrl: "selectData.asp", ajaxPars: "", ajaxAsync:false,
     isspace: true, isspaceTitle: "선택하세요",
-	setValue:"",
+	//setValue:"",
 	onChange: function(){
 		//toast.push(Object.toJSON(this));
 		
@@ -266,12 +270,11 @@ $("#AXSelect_m0").bindSelect({
 });
 
 
-
 // AJAX 로딩중에 #AXSelect_m1, m2 가 나중에 보일수 있는데 그 현상을 없애고 싶다면
-$("#AXSelect_m1, #AXSelect_m2").bindSelect();
+//$("#AXSelect_m1, #AXSelect_m2").bindSelect();
 
-$("#AXSelect_m0").bindSelectSetValue("3");
-$("#AXSelect_m1").bindSelectSetValue("4");
-$("#AXSelect_m2").bindSelectSetValue("5");
+//$("#AXSelect_m0").bindSelectSetValue("3");
+//$("#AXSelect_m1").bindSelectSetValue("4");
+//$("#AXSelect_m2").bindSelectSetValue("5");
 
 </script>

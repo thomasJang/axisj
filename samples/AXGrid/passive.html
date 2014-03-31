@@ -76,6 +76,8 @@
 		<div style="padding:10px 0px;">
 			<input type="button" value="list 추출" class="AXButton Green" onclick="AXUtil.alert(myGrid.list);" />
 			<input type="button" value="removedList 추출" class="AXButton Green" onclick="AXUtil.alert(myGrid.removedList);" />
+			<input type="text" name="" id="gridIndex" class="AXInput W50" value="1" />
+			<input type="button" value="클릭테스트" class="AXButton Green" onclick="myGrid.click($('#gridIndex').val());" />
 		</div>
 		
 		
@@ -89,7 +91,9 @@ var myGrid = new AXGrid();
 var fnObj = {
 	pageStart: function(){
 		AXCode.bind(); // 소스보기
-
+		
+		$("#gridIndex").bindNumber();
+		
 		myGrid.setConfig({
 			targetID : "AXGridTarget",
 			theme : "AXGrid",

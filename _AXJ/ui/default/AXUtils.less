@@ -9,6 +9,12 @@
 	font-size:1px;line-height:1px;height:@height;
 }
 
+.util-rotate(@deg:0){
+	-ms-transform: rotate(unit(@deg, deg)); /* IE 9 */
+	-webkit-transform: rotate(unit(@deg, deg)); /* Chrome, Safari, Opera */
+	transform: rotate(unit(@deg, deg));	
+}
+
 //opacity
 .util-opacity(@opac:50){
 	-moz-opacity: @opac/100;
