@@ -3,7 +3,7 @@
  
 
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v2.4",
+	version: "AXSelectConverter v2.5",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-19 오후 12:00:43",
@@ -22,7 +22,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix",
 		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue ",
 		"2014-03-18 오후 10:09:21 - tom : select 포커스 후 키입력 하면 optionValue를 비교하여 선택처리 기능 구현 - 2차버전에 한글 포커스 밑 optionText 비교 처리 구문 추가",
-		"2014-03-27 오후 3:38:25 - tom : onchange 함수가 setValue 속성을 부여해야만 작동하던 것을 무조건 작동 하도록 변경"
+		"2014-03-27 오후 3:38:25 - tom : onchange 함수가 setValue 속성을 부여해야만 작동하던 것을 무조건 작동 하도록 변경",
+		"2014-03-31 오후 4:41:18 - tom : 셀렉트 포커스 된 상태에서 키 입력하면 입력된 값으로 select 처리 하기 (현재 영문만)"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -190,7 +191,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		jQuery("#" + cfg.targetID + "_AX_" + objID).data("height", h);
 	},
 	bindSelect: function (objID, objSeq) {
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 		var obj = this.objects[objSeq];
 		
 		if(!obj.config.onChange) obj.config.onChange = obj.config.onchange;
@@ -253,23 +254,24 @@ var AXSelectConverter = Class.create(AXJ, {
 				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
 				bindSelectExpand(objID, objSeq, true, event);
 			});
+			
+			
+			
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("keydown.AXSelect", function (event) {
 				if(event.keyCode == AXUtil.Event.KEY_SPACE) bindSelectExpand(objID, objSeq, true, event);
+				if(event.keyCode == AXUtil.Event.KEY_TAB || event.keyCode == AXUtil.Event.KEY_RETURN) return; 
 				//trace(String.fromCharCode(event.keyCode));
-				var chkVal = String.fromCharCode(event.keyCode), chkIndex = null;
-				axf.each(obj.options, function (index, O) {
-					if(chkVal == O.optionValue){
-						chkIndex = index;
-						return false;
-					}
-				});
-				if(chkIndex != null){
-					obj.selectedIndex = chkIndex;
-					obj.config.focusedIndex = chkIndex;
-					obj.config.selectedObject = obj.options[chkIndex];
-					obj.config.isChangedSelect = true;
-					bindSelectClose(objID, objSeq, event); // 값 전달 후 닫기
+		
+				if(_this.selectTextBox_onkeydown_obj){
+					clearTimeout(_this.selectTextBox_onkeydown_obj);
+					_this.selectTextBox_onkeydown_data += String.fromCharCode(event.keyCode);
+				}else{
+					_this.selectTextBox_onkeydown_data = String.fromCharCode(event.keyCode);
 				}
+
+				_this.selectTextBox_onkeydown_obj = setTimeout(function(){
+					_this.selectTextBox_onkeydown(objID, objSeq, event);
+				}, 300);
 			});
 		}
 
@@ -377,6 +379,27 @@ var AXSelectConverter = Class.create(AXJ, {
 			*/
 			
 		}
+	},
+	selectTextBox_onkeydown: function(objID, objSeq, event){
+		var cfg = this.config, _this = this;
+		var obj = this.objects[objSeq];
+
+		var bindSelectClose = this.bindSelectClose.bind(this);
+		var chkVal = (_this.selectTextBox_onkeydown_data || ""), chkIndex = null;
+		axf.each(obj.options, function (index, O) {
+			if(O.optionValue.left(chkVal.length).lcase() == chkVal.lcase() || O.optionText.left(chkVal.length).lcase() == chkVal.lcase()){
+				chkIndex = index;
+				return false;
+			}
+		});
+		if(chkIndex != null){
+			obj.selectedIndex = chkIndex;
+			obj.config.focusedIndex = chkIndex;
+			obj.config.selectedObject = obj.options[chkIndex];
+			obj.config.isChangedSelect = true;
+			bindSelectClose(objID, objSeq, event); // 값 전달 후 닫기
+		}
+		_this.selectTextBox_onkeydown_data = "";
 	},
 	getSelectedOption: function (objID, objSeq) {
 		var cfg = this.config;
