@@ -1750,7 +1750,8 @@ var AXScroll = Class.create(AXJ, {
 		"2013-10-16 오후 6:45:48 mobile 스크롤 속도문제 패치 - tom",
 		"2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가",
 		"2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가",
-		"2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스"
+		"2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스",
+		"2014-03-31 오후 6:26:34 root - yscroll 이 없어지면 scroll top 을 0으로"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -1843,6 +1844,7 @@ var AXScroll = Class.create(AXJ, {
 			if (CTheight == Cheight || CTheight > Cheight) {
 				this.scrollTrack.hide();
 				this.scrollBar.hide();
+				this.scrollScrollID.css({ top: 0 });
 			} else {
 				this.scrollTrack.show();
 				this.scrollBar.show();
