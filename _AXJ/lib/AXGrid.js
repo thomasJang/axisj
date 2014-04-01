@@ -3,7 +3,7 @@
  
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.56",
+	version: "AXGrid v1.60",
 	author: "tom@axisj.com",
 	logs: [
 		"2012-12-24 오전 11:51:26",
@@ -55,7 +55,9 @@ var AXGrid = Class.create(AXJ, {
 		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disable 된 row 는 체크 하지않도록 변경",
 		"2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화",
 		"2014-03-28 오전 8:18:54 tom : click 메소드 호출시 callBack 버그 픽스",
-		"2014-03-31 오전 2:07:24 tom : init 에서 printList 호출 제거 / body.marker.addClass 속성 추가"
+		"2014-03-31 오전 2:07:24 tom : init 에서 printList 호출 제거 / body.marker.addClass 속성 추가",
+		"2014-03-31 오후 4:14:34 tom : scroll 영역 조정 ",
+		"2014-04-01 오후 7:10:34 tom : .each for 로 변경/ changeGridView 메소드 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -66,7 +68,7 @@ var AXGrid = Class.create(AXJ, {
 		this.page = { pageNo: 0, pageSize: 100, pageCount: "", listCount: 0 };
 
 		this.moveSens = 0;
-		this.config.viewMode = "grid";
+		this.config.viewMode = "grid"; // icon, mobile
 		this.config.moveSens = 1;
 		this.config.formPaddingRight = "11px";
 		this.config.sort = true;
@@ -101,7 +103,8 @@ var AXGrid = Class.create(AXJ, {
 		if (!rewrite) this.fixedColSeq = cfg.fixedColSeq;
 		var bodyWidth = this.body.width();
 		var astricCount = 0;
-		axf.each(cfg.colGroup, function (cidx, CG) {
+		
+		for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 			if (CG.colSeq == undefined) CG.colSeq = cidx;
 			if (CG.display == undefined) CG.display = true;
 			if (CG.display) {
@@ -125,37 +128,37 @@ var AXGrid = Class.create(AXJ, {
 			} else {
 				hasHiddenCell = true;
 			}
-		});
+		};
 
 		if (!cfg.fitToWidth) {
 			/* width * 예외처리 구문 ------------ s */
 			if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
 				var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (CG.display && CG.widthAstric) {
 						CG._owidth = (remainsWidth / astricCount).ceil();
 						CG.width = CG._owidth;
 						colWidth += (CG._owidth || 0).number();
 					}
-				});
+				};
 			} else {
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (CG.display && CG.widthAstric) {
 						CG._owidth = 100;
 						CG.width = 100;
 						colWidth += (CG._owidth || 0).number();
 					}
-				});
+				};
 			}
 			/* width * 예외처리 구문 ------------ e */
 		} else {
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				if (CG.display && CG.widthAstric) {
 					CG.width = 100;
 					CG._owidth = 100;
 					colWidth += (CG._owidth || 0).number();
 				}
-			});
+			};
 		}
 		this.colWidth = colWidth;
 
@@ -164,21 +167,21 @@ var AXGrid = Class.create(AXJ, {
 				var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
 				var zoomRatio = bodyWidth / this.colWidth;
 				colWidth = 0;
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					CG.width = (CG._owidth * zoomRatio).ceil();
 					if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
 					else CG.width = _bodyWidth;
 					if (CG.display) colWidth += CG.width.number();
-				});
+				};
 				this.colWidth = colWidth;
 			} else {
 				var zoomRatio = 1;
 				colWidth = 0;
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (CG._owidth == undefined) CG._owidth = (CG.width || 0).number();
 					CG.width = CG._owidth.number();
 					if (CG.display) colWidth += CG.width.number();
-				});
+				};
 				this.colWidth = colWidth;
 			}
 		}
@@ -199,7 +202,7 @@ var AXGrid = Class.create(AXJ, {
 			var colMaxLen = 0;
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var colLen = 0;
-				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.colHead.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -214,7 +217,7 @@ var AXGrid = Class.create(AXJ, {
 					if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
 					if (cfg.colHeadAlign) CH.align = "center";
 					colLen += CH.colspan.number();
-				});
+				};
 				if (colMaxLen < colLen) colMaxLen = colLen;
 			}
 			for (var _m = 0; _m < cfg.colHead._maps.length; _m++) {
@@ -245,8 +248,7 @@ var AXGrid = Class.create(AXJ, {
 			for (var r = 0; r < cfg.colHead.rows.length; r++) {
 				var startPosition = null;
 				var isMultiRow = false;
-
-				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.colHead.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -261,16 +263,16 @@ var AXGrid = Class.create(AXJ, {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
 					appendPosToColHeadMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
-				});
+				};
 			}
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-			axf.each(cfg.colHead._maps.last(), function (midx, m) {
+			for (var m, midx= 0, __arr = cfg.colHead._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 				if (m) cfg.colHead.rows[m.r][m.c].isLastCell = true;
-			});
+			};
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 				/* colspan 감소 시키기 */
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (!CG.display) {
 						var rowPosition = null;
 						for (var a = 0; a < cfg.colHead._maps.length; a++) {
@@ -280,7 +282,7 @@ var AXGrid = Class.create(AXJ, {
 							}
 						}
 					}
-				});
+				};
 			}
 			/*trace(cfg.colHead._maps);  //_maps check */
 
@@ -290,7 +292,7 @@ var AXGrid = Class.create(AXJ, {
 
 			cfg.colHead._maps = [[]];
 			var colHeadRows = [[]];
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				var adder = {
 					key: CG.key,
 					colSeq: CG.colSeq,
@@ -304,7 +306,7 @@ var AXGrid = Class.create(AXJ, {
 				};
 				colHeadRows[0].push(adder);
 				cfg.colHead._maps[0].push({ r: 0, c: cidx });
-			});
+			};
 			cfg.colHead.rows = colHeadRows;
 			cfg.colHead.rowsEmpty = true;
 			/* colHeadRow 정해지지 않은 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -318,7 +320,7 @@ var AXGrid = Class.create(AXJ, {
 			var colMaxLen = 0;
 			for (var r = 0; r < cfg.body.rows.length; r++) {
 				var colLen = 0;
-				axf.each(cfg.body.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.body.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
 						CH._colspan = 1;
@@ -330,7 +332,7 @@ var AXGrid = Class.create(AXJ, {
 					if (CH.valign == undefined || CH.valign == null) CH.valign = "middle";
 					/* if(CH.align == undefined || CH.align == null) CH.align = "left"; */
 					colLen += CH.colspan.number();
-				});
+				};
 				if (colMaxLen < colLen) colMaxLen = colLen;
 			}
 			for (var _m = 0; _m < cfg.body._maps.length; _m++) { cfg.body._maps[_m] = new Array(colMaxLen); }
@@ -354,7 +356,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.body.rows.length; r++) {
-				axf.each(cfg.body.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.body.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -369,23 +371,23 @@ var AXGrid = Class.create(AXJ, {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
 					appendPosToBodyMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
-				});
+				};
 			}
 			/*body._maps 마지막 줄에 해당하는 cfg.body.rows 에 속성부여 */
-			axf.each(cfg.body._maps.last(), function (midx, m) {
+			for (var m, midx= 0, __arr = cfg.body._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 				if (m) cfg.body.rows[m.r][m.c].isLastCell = true;
-			});
+			};
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 				/* colspan 감소 시키기 */
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.body._maps.length; a++) {
 							var rowPosition = cfg.body._maps[a][cidx];
 							cfg.body.rows[rowPosition.r][rowPosition.c].colspan--;
 						}
 					}
-				});
+				};
 			}
 
 			/* bodyRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -393,7 +395,7 @@ var AXGrid = Class.create(AXJ, {
 			/* bodyRow 정해지지 않은 경우 */
 			cfg.body._maps = [[]];
 			var bodyRows = [[]];
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				var adder = {
 					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: "middle", isLastCell: true,
 					display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter,
@@ -401,7 +403,7 @@ var AXGrid = Class.create(AXJ, {
 				};
 				bodyRows[0].push(adder);
 				cfg.body._maps[0].push({ r: 0, c: cidx });
-			});
+			};
 			cfg.body.rows = bodyRows;
 			cfg.body.rowsEmpty = true;
 			/* bodyRow 정해지지 않은 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -416,7 +418,7 @@ var AXGrid = Class.create(AXJ, {
 				colMaxLen = 0;
 				for (var r = 0; r < cfg.body.marker.rows.length; r++) {
 					var colLen = 0;
-					axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+					for (var CH, CHidx = 0, __arr = cfg.body.marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 						if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 						if (CH.colspan == undefined || CH.colspan == null) {
 							CH.colspan = 1;
@@ -427,7 +429,7 @@ var AXGrid = Class.create(AXJ, {
 						}
 						if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
 						colLen += CH.colspan.number();
-					});
+					};
 					if (colMaxLen < colLen) colMaxLen = colLen;
 				}
 				for (var _m = 0; _m < cfg.body.marker._maps.length; _m++) { cfg.body.marker._maps[_m] = new Array(colMaxLen); }
@@ -451,7 +453,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				};
 				for (var r = 0; r < cfg.body.marker.rows.length; r++) {
-					axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+					for (var CH, CHidx= 0, __arr = cfg.body.marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 						if (CH.colSeq != undefined) {
 							var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 						} else {
@@ -466,23 +468,23 @@ var AXGrid = Class.create(AXJ, {
 							AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 						}
 						appendPosToMarkerMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
-					});
+					};
 				}
 				/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-				axf.each(cfg.body.marker._maps.last(), function (midx, m) {
+				for (var m, midx= 0, __arr = cfg.body.marker._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 					if (m) cfg.body.marker.rows[m.r][m.c].isLastCell = true;
-				});
+				};
 
 				if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 					/* colspan 감소 시키기 */
-					axf.each(cfg.colGroup, function (cidx, CG) {
+					for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 						if (!CG.display) {
 							for (var a = 0; a < cfg.body.marker._maps.length; a++) {
 								var rowPosition = cfg.body.marker._maps[a][cidx];
 								cfg.body.marker.rows[rowPosition.r][rowPosition.c].colspan--;
 							}
 						}
-					});
+					};
 				}
 			}
 		}
@@ -495,7 +497,7 @@ var AXGrid = Class.create(AXJ, {
 			colMaxLen = 0;
 			for (var r = 0; r < cfg.head.rows.length; r++) {
 				var colLen = 0;
-				axf.each(cfg.head.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.head.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -507,7 +509,7 @@ var AXGrid = Class.create(AXJ, {
 					if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
 					/*if(CH.align == undefined || CH.align == null) CH.align = "left"; */
 					colLen += CH.colspan.number();
-				});
+				};
 				if (colMaxLen < colLen) colMaxLen = colLen;
 			}
 			for (var _m = 0; _m < cfg.head._maps.length; _m++) { cfg.head._maps[_m] = new Array(colMaxLen); }
@@ -533,7 +535,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.head.rows.length; r++) {
-				axf.each(cfg.head.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.head.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -548,24 +550,24 @@ var AXGrid = Class.create(AXJ, {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
 					appendPosToHeadMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
-				});
+				};
 			}
 
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-			axf.each(cfg.head._maps.last(), function (midx, m) {
+			for (var m, midx= 0, __arr = cfg.head._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 				if (m) cfg.head.rows[m.r][m.c].isLastCell = true;
-			});
+			};
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
 				/* colspan 감소 시키기 */
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.head._maps.length; a++) {
 							var rowPosition = cfg.head._maps[a][cidx];
 							cfg.head.rows[rowPosition.r][rowPosition.c].colspan--;
 						}
 					}
-				});
+				};
 			}
 		}
 		/*head 관련 데이터 정리 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -576,7 +578,7 @@ var AXGrid = Class.create(AXJ, {
 			colMaxLen = 0;
 			for (var r = 0; r < cfg.foot.rows.length; r++) {
 				var colLen = 0;
-				axf.each(cfg.foot.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.foot.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 					if (CH.colspan == undefined || CH.colspan == null) {
 						CH.colspan = 1;
@@ -587,7 +589,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 					if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
 					colLen += CH.colspan.number();
-				});
+				};
 				if (colMaxLen < colLen) colMaxLen = colLen;
 			}
 			for (var _m = 0; _m < cfg.foot._maps.length; _m++) { cfg.foot._maps[_m] = new Array(colMaxLen); }
@@ -613,7 +615,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			};
 			for (var r = 0; r < cfg.foot.rows.length; r++) {
-				axf.each(cfg.foot.rows[r], function (CHidx, CH) {
+				for (var CH, CHidx= 0, __arr = cfg.foot.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 					if (CH.colSeq != undefined) {
 						var myCG = cfg.colGroup.getToSeq(CH.colSeq);
 					} else {
@@ -628,22 +630,22 @@ var AXGrid = Class.create(AXJ, {
 						AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
 					}
 					appendPosToFootMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
-				});
+				};
 			}
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-			axf.each(cfg.foot._maps.last(), function (midx, m) {
+			for (var m, midx= 0, __arr = cfg.foot._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 				if (m) cfg.foot.rows[m.r][m.c].isLastCell = true;
-			});
+			};
 
 			if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (!CG.display) {
 						for (var a = 0; a < cfg.foot._maps.length; a++) {
 							var rowPosition = cfg.foot._maps[a][cidx];
 							cfg.foot.rows[rowPosition.r][rowPosition.c].colspan--;
 						}
 					}
-				});
+				};
 			}
 		}
 		/*foot 관련 데이터 정리 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -656,7 +658,7 @@ var AXGrid = Class.create(AXJ, {
 				colMaxLen = 0;
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
 					var colLen = 0;
-					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
+					for (var CH, CHidx= 0, __arr = cfg.editor.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 						if (CH) {
 							if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
 							if (CH.colspan == undefined || CH.colspan == null) {
@@ -669,7 +671,7 @@ var AXGrid = Class.create(AXJ, {
 							if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
 							colLen += CH.colspan.number();
 						}
-					});
+					};
 					if (colMaxLen < colLen) colMaxLen = colLen;
 				}
 				for (var _m = 0; _m < cfg.editor._maps.length; _m++) { cfg.editor._maps[_m] = new Array(colMaxLen); }
@@ -692,7 +694,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				};
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
-					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
+					for (var CH, CHidx= 0, __arr = cfg.editor.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 						if (CH) {
 							if (CH.colSeq != undefined) {
 								var myCG = cfg.colGroup.getToSeq(CH.colSeq);
@@ -708,22 +710,22 @@ var AXGrid = Class.create(AXJ, {
 							}
 							appendPosToEditorMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
 						}
-					});
+					};
 				}
 
-				axf.each(cfg.editor._maps.last(), function (midx, m) {
+				for (var m, midx= 0, __arr = cfg.editor._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 					if (m) cfg.editor.rows[m.r][m.c].isLastCell = true;
-				});
+				};
 
 				if (hasHiddenCell) {
-					axf.each(cfg.colGroup, function (cidx, CG) {
+					for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 						if (!CG.display) {
 							for (var a = 0; a < cfg.editor._maps.length; a++) {
 								var rowPosition = cfg.editor._maps[a][cidx];
 								cfg.editor.rows[rowPosition.r][rowPosition.c].colspan--;
 							}
 						}
-					});
+					};
 				}
 			}
 		}
@@ -734,76 +736,78 @@ var AXGrid = Class.create(AXJ, {
 		if (cfg.fixedColSeq != undefined && cfg.fixedColSeq != null) {
 
 			var fixedColSeq = this.fixedColSeq;
-			axf.each(cfg.colHead._maps, function (midx, m) {
-				axf.each(m, function (cidx, c) {
+			
+			for (var m, midx= 0, __arr = cfg.colHead._maps; (midx < __arr.length && (m = __arr[midx])); midx++) {
+				for (var c, cidx= 0, __arr2 = m; (cidx < __arr2.length && (c = __arr2[cidx])); cidx++) {
 					if (c) {
 						if ((fixedColSeq + 1) > cidx) cfg.colHead.rows[c.r][c.c].isFixedCell = true;
 					}
-				});
-			});
-			axf.each(cfg.body._maps, function (midx, m) {
-				axf.each(m, function (cidx, c) {
+				};
+			};
+
+			for (var m, midx= 0, __arr = cfg.body._maps; (midx < __arr.length && (m = __arr[midx])); midx++) {
+				for (var c, cidx= 0, __arr2 = m; (cidx < __arr2.length && (c = __arr2[cidx])); cidx++) {
 					if (c) {
 						if (fixedColSeq == cidx) cfg.body.rows[c.r][c.c].isFixedEndCell = true;
 						if ((fixedColSeq + 1) > cidx) cfg.body.rows[c.r][c.c].isFixedCell = true;
 					}
-				});
-			});
+				};
+			};
 			if (cfg.head) {
-				axf.each(cfg.head._maps, function (midx, m) {
-					axf.each(m, function (cidx, c) {
+				for (var m, midx= 0, __arr = cfg.head._maps; (midx < __arr.length && (m = __arr[midx])); midx++) {
+					for (var c, cidx= 0, __arr2 = m; (cidx < __arr2.length && (c = __arr2[cidx])); cidx++) {
 						if (c) {
 							if (fixedColSeq == cidx) cfg.head.rows[c.r][c.c].isFixedEndCell = true;
 							if ((fixedColSeq + 1) > cidx) cfg.head.rows[c.r][c.c].isFixedCell = true;
 						}
-					});
-				});
+					};
+				};
 			}
 			if (cfg.foot) {
-				axf.each(cfg.foot._maps, function (midx, m) {
-					axf.each(m, function (cidx, c) {
+				for (var m, midx= 0, __arr = cfg.foot._maps; (midx < __arr.length && (m = __arr[midx])); midx++) {
+					for (var c, cidx= 0, __arr2 = m; (cidx < __arr2.length && (c = __arr2[cidx])); cidx++) {
 						if (c) {
 							if (fixedColSeq == cidx) cfg.foot.rows[c.r][c.c].isFixedEndCell = true;
 							if ((fixedColSeq + 1) > cidx) cfg.foot.rows[c.r][c.c].isFixedCell = true;
 						}
-					});
-				});
+					};
+				};
 			}
 
 			if (cfg.body.marker) {
 				if (cfg.body.marker.rows) {
-					axf.each(cfg.body.marker._maps, function (midx, m) {
-						axf.each(m, function (cidx, c) {
+					for (var m, midx= 0, __arr = cfg.body.marker._maps; (midx < __arr.length && (m = __arr[midx])); midx++) {
+						for (var c, cidx= 0, __arr2 = m; (cidx < __arr2.length && (c = __arr2[cidx])); cidx++) {
 							if (c) {
 								if (fixedColSeq == cidx) cfg.body.marker.rows[c.r][c.c].isFixedEndCell = true;
 								if ((fixedColSeq + 1) > cidx) cfg.body.marker.rows[c.r][c.c].isFixedCell = true;
 							}
-						});
-					});
+						};
+					};
 				}
 			}
 
 			if (cfg.editor) {
 				if (cfg.editor.rows) {
-					axf.each(cfg.editor._maps, function (midx, m) {
-						axf.each(m, function (cidx, c) {
+					for (var m, midx= 0, __arr = cfg.editor._maps; (midx < __arr.length && (m = __arr[midx])); midx++) {
+						for (var c, cidx= 0, __arr2 = m; (cidx < __arr2.length && (c = __arr2[cidx])); cidx++) {
 							if (c) {
 								if (fixedColSeq == cidx) cfg.editor.rows[c.r][c.c].isFixedEndCell = true;
 								if ((fixedColSeq + 1) > cidx) cfg.editor.rows[c.r][c.c].isFixedCell = true;
 							}
-						});
-					});
+						};
+					};
 				}
 			}
 			this.hasFixed = true;
 			if (hasHiddenCell) {
 				var minusFixedCol = 0;
 				var fixedColSeq = this.fixedColSeq;
-				axf.each(cfg.colGroup, function (cidx, CG) {
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 					if (!CG.display) {
 						if ((fixedColSeq + 1) > cidx) minusFixedCol++;
 					}
-				});
+				};
 				cfg.fixedColSeq = this.fixedColSeq - minusFixedCol;
 			} else {
 				cfg.fixedColSeq = this.fixedColSeq;
@@ -816,11 +820,11 @@ var AXGrid = Class.create(AXJ, {
 
 			var fixedColSeq = this.fixedColSeq;
 			fixedColWidth = 0;
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					fixedColWidth += CG.width.number();
 				}
-			});
+			};
 			this.fixedColWidth = fixedColWidth;
 		}
 
@@ -838,19 +842,18 @@ var AXGrid = Class.create(AXJ, {
 		}
 		
 		if(Object.isObject(cfg.colGroup)){
-			var newColGroup = [];
-			$.each(cfg.colGroup, function(){
-				newColGroup.push(this);
-			});
+			var newColGroup = cfg.colGroup.concat();
 			cfg.colGroup = newColGroup;
 		}
+		
+		this.target = axdom("#" + cfg.targetID);
 
-		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
+		var targetInnerHeight = this.target.innerHeight();
 		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXGrid.pageHeight || 400);
 		this.theme = (cfg.theme) ? cfg.theme : "AXGrid"; /* 테마기본값 지정*/
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; /* 그리드 높이 지정 */
 
-		this.target = axdom("#" + cfg.targetID);
+		
 		var theme = this.theme;
 		var gridCss = [];
 		if (cfg.width) gridCss.push("width:" + cfg.width + ";");
@@ -874,9 +877,6 @@ var AXGrid = Class.create(AXJ, {
 		ol.push("		<div class=\"AXgridStatus\" id=\"" + cfg.targetID + "_AX_gridStatus\">");
 		ol.push("		"+  cfg.listCountMSG.replace("{listCount}", 0));
 		ol.push("		</div>");
-		/*ol.push("		<div class=\"AXgridScroller\" id=\""+cfg.targetID+"_AX_gridScroller\">"); */
-		/*ol.push("			<a href=\"#AXexec\" class=\"AXgridScrollUp\">UP</a><a href=\"#AXexec\" class=\"AXgridScrollDn\">DN</a>"); */
-		/*ol.push("		</div>"); */
 		ol.push("	</div>");
 		ol.push("</div>");
 		this.target.html(ol.join(''));
@@ -921,7 +921,7 @@ var AXGrid = Class.create(AXJ, {
 			}
 		}
 
-		this.contentScrollResize();
+		
 
 		/*colHead setting */
 		this.setColHead();
@@ -933,6 +933,8 @@ var AXGrid = Class.create(AXJ, {
 		this.editor.hide();
 
 		this.gridTargetSetSize();
+		
+		this.contentScrollResize();
 
 		/* body event bind */
 		var contentScrollTouchstart = this.contentScrollTouchstart.bind(this);
@@ -958,7 +960,7 @@ var AXGrid = Class.create(AXJ, {
 			if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener("touchstart", contentScrollTouchstart, false);
 		}
 
-		axdom("#" + cfg.targetID).bind("keydown", this.onKeydown.bind(this));
+		this.target.bind("keydown", this.onKeydown.bind(this));
 
 		if (cfg.contextMenu) {
 			AXContextMenu.bind({
@@ -967,7 +969,7 @@ var AXGrid = Class.create(AXJ, {
 				width: cfg.contextMenu.width,
 				menu: cfg.contextMenu.menu
 			});
-			axdom("#" + cfg.targetID).bind("contextmenu", this.onContextmenu.bind(this));
+			this.target.bind("contextmenu", this.onContextmenu.bind(this));
 		}
 
 		/* body event bind */
@@ -1002,7 +1004,8 @@ var AXGrid = Class.create(AXJ, {
 		if (cfg.height == "auto") {
 			this.target.css({ height: "auto", "max-height": "auto" });
 			var colHeadHeight = this.colHead.outerHeight();
-			var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+			if(colHeadHeight == 1) colHeadHeight = 0;
+			var scrollBodyHeight = this.scrollContent.height();
 			this.scrollBody.css({ height: scrollBodyHeight + colHeadHeight }); /*colhead + body height */
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
 		} else {
@@ -1011,6 +1014,7 @@ var AXGrid = Class.create(AXJ, {
 			var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
 			this.scrollBody.css({ height: scrollBodyHeight }); /*colhead + body height */
 			var colHeadHeight = this.colHead.outerHeight();
+			if(colHeadHeight == 1) colHeadHeight = 0;
 			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) }); /* body Height */
 		}
 		if (react) this.contentScrollResize(false);
@@ -1022,19 +1026,19 @@ var AXGrid = Class.create(AXJ, {
 		var po = [];
 		po.push("<colgroup>");
 		if (suffix != "FC" && suffix != "FB" && suffix != "FE") {
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				if (CG.display) {
 					po.push("<col width=\"" + CG.width + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
 				}
-			});
+			};
 			if (suffix == "CB") po.push("<col />");
 		} else {
 			/*fixedCol 존재 */
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					po.push("<col width=\"" + CG.width + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + CG.colSeq + "_AX_" + suffix + "\" />");
 				}
-			});
+			};
 		}
 		po.push("</colgroup>");
 		return po.join('');
@@ -1053,16 +1057,21 @@ var AXGrid = Class.create(AXJ, {
 	},
 	redrawGrid: function () {
 		var cfg = this.config;
-
+		
 		this.defineConfig(true);
 		this.setColHead();
+		
 		this.setBody(undefined, true);
-
-		if (this.list.length > 0) {
-			if (cfg.head) this.printHead();
-			if (cfg.foot) this.printFoot();
+		
+		if(cfg.viewMode == "grid"){
+			if (this.list.length > 0) {
+				if (cfg.head) this.printHead();
+				if (cfg.foot) this.printFoot();
+			}
 		}
 		this.gridTargetSetSize(true);
+		this.contentScrollResize();
+		
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
 	},
 	checkedColSeq: function (colSeq, checked, itemIndex) {
@@ -1286,143 +1295,115 @@ var AXGrid = Class.create(AXJ, {
 	setColHead: function () {
 		var cfg = this.config;
 		var po = [];
-
-		var getColHeadTd = this.getColHeadTd.bind(this);
-
-		if (!this.hasFixed) {  /* 일반 colHead 구현 */
-
-			var tableWidth = this.colWidth;
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:", tableWidth, "px;\">");
-			po.push(this.getColGroup("CH")); /*colGroup 삽입 */
-			po.push("<tbody>");
-			for (var r = 0; r < cfg.colHead.rows.length; r++) {
-				var isLastTR = (cfg.colHead.rows.length - 1 == r);
-				po.push("<tr>");
-				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
-					if (CH.display && CH.colspan > 0) {
-						/*radio, check exception */
-						var tdHtml = CH.label || "untitle";
-						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-						var valign = " valign=\"" + CH.valign + "\"";
-						var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
-
-						po.push(getColHeadTd({
-							valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-							align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
-							ghost: false, displayLabel: CH.displayLabel
-						}));
-					}
-				});
-				po.push("</tr>");
-			}
-			po.push("</tbody>");
-			po.push("</table>");
-
-		} else { /* fixedCol 구현 */
-
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:" + this.colWidth + "px;\">");
-			po.push(this.getColGroup("CH")); /*colGroup 삽입 */
-			po.push("<tbody>");
-			for (var r = 0; r < cfg.colHead.rows.length; r++) {
-				var isLastTR = (cfg.colHead.rows.length - 1 == r);
-				po.push("<tr>");
-				var colCount = 0;
-				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
-					if (CH.display && CH.colspan > 0) {
-						/*radio, check exception */
-						var tdHtml = CH.label || "untitle";
-						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-						var valign = " valign=\"" + CH.valign + "\"";
-						var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
-
-						po.push(getColHeadTd({
-							valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-							align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
-							ghost: (colCount < (cfg.fixedColSeq + 1))
-						}));
-
+		
+		if(cfg.viewMode == "grid"){
+			this.colHead.show();
+			var getColHeadTd = this.getColHeadTd.bind(this);
+	
+			if (!this.hasFixed) {  /* 일반 colHead 구현 */
+	
+				var tableWidth = this.colWidth;
+				po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:", tableWidth, "px;\">");
+				po.push(this.getColGroup("CH")); /*colGroup 삽입 */
+				po.push("<tbody>");
+				for (var r = 0; r < cfg.colHead.rows.length; r++) {
+					var isLastTR = (cfg.colHead.rows.length - 1 == r);
+					po.push("<tr>");
+					for (var CH, CHidx= 0, __arr = cfg.colHead.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
+						if (CH.display && CH.colspan > 0) {
+							/*radio, check exception */
+							var tdHtml = CH.label || "untitle";
+							var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+							var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+							var valign = " valign=\"" + CH.valign + "\"";
+							var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
+	
+							po.push(getColHeadTd({
+								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
+								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+								ghost: false, displayLabel: CH.displayLabel
+							}));
+						}
+					};
+					po.push("</tr>");
+				}
+				po.push("</tbody>");
+				po.push("</table>");
+	
+			} else { /* fixedCol 구현 */
+	
+				po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:" + this.colWidth + "px;\">");
+				po.push(this.getColGroup("CH")); /*colGroup 삽입 */
+				po.push("<tbody>");
+				for (var r = 0; r < cfg.colHead.rows.length; r++) {
+					var isLastTR = (cfg.colHead.rows.length - 1 == r);
+					po.push("<tr>");
+					var colCount = 0;
+					axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
+						if (CH.display && CH.colspan > 0) {
+							/*radio, check exception */
+							var tdHtml = CH.label || "untitle";
+							var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+							var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+							var valign = " valign=\"" + CH.valign + "\"";
+							var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
+	
+							po.push(getColHeadTd({
+								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
+								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+								ghost: (colCount < (cfg.fixedColSeq + 1))
+							}));
+	
+							colCount += CH.colspan;
+						}
+					});
+					po.push("</tr>");
+				}
+				po.push("</tbody>");
+				po.push("</table>");
+	
+				var fpo = [];
+				fpo.push("<div class=\"AXGridColHead fixedColHead\" id=\"" + cfg.targetID + "_AX_fixedColHead\" style=\"width:" + this.fixedColWidth + "px;\">");
+				fpo.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:" + this.fixedColWidth + "px;\">");
+				fpo.push(this.getColGroup("FC")); /*colGroup 삽입 */
+				fpo.push("<tbody>");
+				for (var r = 0; r < cfg.colHead.rows.length; r++) {
+					var isLastTR = (cfg.colHead.rows.length - 1 == r);
+					fpo.push("<tr>");
+					var colCount = 0;
+					axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
+						if (CH.display && CH.isFixedCell && CH.colspan > 0) {
+							/*trace({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)}); */
+							/*radio, check exception */
+							var tdHtml = CH.label || "untitle";
+							var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+							var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+							var valign = " valign=\"" + CH.valign + "\"";
+							var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
+	
+							fpo.push(getColHeadTd({
+								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
+								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+								ghost: false
+							}));
+						}
 						colCount += CH.colspan;
-					}
-				});
-				po.push("</tr>");
+					});
+					fpo.push("</tr>");
+				}
+				fpo.push("</tbody>");
+				fpo.push("</table>");
+				fpo.push("</div>");
 			}
-			po.push("</tbody>");
-			po.push("</table>");
-
-			var fpo = [];
-			fpo.push("<div class=\"AXGridColHead fixedColHead\" id=\"" + cfg.targetID + "_AX_fixedColHead\" style=\"width:" + this.fixedColWidth + "px;\">");
-			fpo.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:" + this.fixedColWidth + "px;\">");
-			fpo.push(this.getColGroup("FC")); /*colGroup 삽입 */
-			fpo.push("<tbody>");
-			for (var r = 0; r < cfg.colHead.rows.length; r++) {
-				var isLastTR = (cfg.colHead.rows.length - 1 == r);
-				fpo.push("<tr>");
-				var colCount = 0;
-				axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
-					if (CH.display && CH.isFixedCell && CH.colspan > 0) {
-						/*trace({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)}); */
-						/*radio, check exception */
-						var tdHtml = CH.label || "untitle";
-						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-						var valign = " valign=\"" + CH.valign + "\"";
-						var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
-
-						fpo.push(getColHeadTd({
-							valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-							align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
-							ghost: false
-						}));
-					}
-					colCount += CH.colspan;
-				});
-				fpo.push("</tr>");
-			}
-			fpo.push("</tbody>");
-			fpo.push("</table>");
-			fpo.push("</div>");
-		}
-		/* fixedCol 구현 */
-
-		this.colHead.html(po.join(''));
-		axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
-		if (fpo) this.colHead.after(fpo.join(''));
-
-		/*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
-		/*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
-		this.colHead.find(".colHeadResizer").each(function () {
-			var resizerID = this.id;
-			var tdID = resizerID.replace("colHeadResizer", "colHead");
-			var txtID = resizerID.replace("colHeadResizer", "colHeadText");
-			var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-			var rowspan = axdom("#" + tdID).attr("rowspan");
-			var valign = axdom("#" + tdID).attr("valign");
-			if (!rowspan) rowspan = 1;
-			var tdHeight = axdom("#" + tdID).height();
-			axdom(this).css({ height: tdHeight });
-			axdom(this).parent().css({ height: tdHeight });
-			if (rowspan > 1) {
-				var cellMarginTop = 0;
-				if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
-				if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
-				axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-				axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
-			}
-		});
-
-		this.colHead.bind("mouseover", this.colHeadMouseOver.bind(this));
-		this.colHead.bind("mouseout", this.colHeadMouseOut.bind(this));
-		this.colHead.find(".colHeadNode").bind("click", this.colHeadNodeClick.bind(this));
-		this.colHead.find(".colHeadTool").bind("click", this.colHeadToolClick.bind(this));
-		this.colHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
-		this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
-
-		if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
-			this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
-
-			this.fixedColHead.find(".colHeadResizer").each(function () {
+			/* fixedCol 구현 */
+	
+			this.colHead.html(po.join(''));
+			axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
+			if (fpo) this.colHead.after(fpo.join(''));
+	
+			/*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
+			/*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
+			this.colHead.find(".colHeadResizer").each(function () {
 				var resizerID = this.id;
 				var tdID = resizerID.replace("colHeadResizer", "colHead");
 				var txtID = resizerID.replace("colHeadResizer", "colHeadText");
@@ -1441,13 +1422,47 @@ var AXGrid = Class.create(AXJ, {
 					axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 				}
 			});
-
-			this.fixedColHead.bind("mouseover", this.colHeadMouseOver.bind(this));
-			this.fixedColHead.bind("mouseout", this.colHeadMouseOut.bind(this));
-			this.fixedColHead.find(".colHeadNode").bind("click", this.colHeadNodeClick.bind(this));
-			this.fixedColHead.find(".colHeadTool").bind("click", this.colHeadToolClick.bind(this));
-			this.fixedColHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
-			this.fixedColHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
+	
+			this.colHead.bind("mouseover", this.colHeadMouseOver.bind(this));
+			this.colHead.bind("mouseout", this.colHeadMouseOut.bind(this));
+			this.colHead.find(".colHeadNode").bind("click", this.colHeadNodeClick.bind(this));
+			this.colHead.find(".colHeadTool").bind("click", this.colHeadToolClick.bind(this));
+			this.colHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
+			this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
+	
+			if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
+				this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
+	
+				this.fixedColHead.find(".colHeadResizer").each(function () {
+					var resizerID = this.id;
+					var tdID = resizerID.replace("colHeadResizer", "colHead");
+					var txtID = resizerID.replace("colHeadResizer", "colHeadText");
+					var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
+					var rowspan = axdom("#" + tdID).attr("rowspan");
+					var valign = axdom("#" + tdID).attr("valign");
+					if (!rowspan) rowspan = 1;
+					var tdHeight = axdom("#" + tdID).height();
+					axdom(this).css({ height: tdHeight });
+					axdom(this).parent().css({ height: tdHeight });
+					if (rowspan > 1) {
+						var cellMarginTop = 0;
+						if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
+						if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+						axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+						axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+					}
+				});
+	
+				this.fixedColHead.bind("mouseover", this.colHeadMouseOver.bind(this));
+				this.fixedColHead.bind("mouseout", this.colHeadMouseOut.bind(this));
+				this.fixedColHead.find(".colHeadNode").bind("click", this.colHeadNodeClick.bind(this));
+				this.fixedColHead.find(".colHeadTool").bind("click", this.colHeadToolClick.bind(this));
+				this.fixedColHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
+				this.fixedColHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
+			}
+		}else if(cfg.viewMode == "icon"){
+			this.colHead.empty();
+			this.colHead.hide();
 		}
 	},
 	/* colHead events */
@@ -1563,17 +1578,17 @@ var AXGrid = Class.create(AXJ, {
 			/*if(this.colResizeTarget.colSeq < fixedColSeq+1){ */
 
 			var fixedColWidth = 0;
-			axf.each(cfg.colGroup, function (cidx, CG) {
+			for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				if (CG.display && cidx < (fixedColSeq + 1)) {
 					fixedColWidth += CG.width.number();
 				}
-			});
+			};
 			this.fixedColWidth = fixedColWidth;
 
 			axdom("#" + cfg.targetID + "_AX_fixedColHead").css({ width: fixedColWidth });
 			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".colHeadTable").css({ width: fixedColWidth });
-			axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ width: fixedColWidth });
-			axdom("#" + cfg.targetID + "_AX_fixedScrollContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
+			this.fixedScrollContent.css({ width: fixedColWidth });
+			this.fixedScrollContent.find(".gridFixedBodyTable").css({ width: fixedColWidth });
 			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").css({ width: fixedColWidth });
 			axdom("#" + cfg.targetID + "_AX_fixedEditorContent").find(".gridFixedBodyTable").css({ width: fixedColWidth });
 			/*} */
@@ -1716,13 +1731,13 @@ var AXGrid = Class.create(AXJ, {
 
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_colHeadMenu\" class=\"AXGridColGroupListBox\">");
-		axf.each(cfg.colGroup, function (cidx, CG) {
+		for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 			var addClass = (CG.display) ? " on" : "";
 			var lastClass = (cidx == cfg.colGroup.length - 1) ? " last" : "";
 			po.push("<a href=\"#AXexec\" class=\"AXGridColGroupListBoxItem" + addClass + lastClass + "\" id=\"" + cfg.targetID + "_AX_colHeadMenu_AX_" + CG.colSeq + "\">");
 			po.push(CG.label);
 			po.push("</a>");
-		});
+		};
 		po.push("</div>");
 		axdom(document.body).append(po.join(''));
 
@@ -1883,27 +1898,30 @@ var AXGrid = Class.create(AXJ, {
 		}
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_scrollContent\" class=\"gridScrollContent\">");
-		po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"gridBodyTable\"  id=\"" + cfg.targetID + "_AX_gridBodyTable\">");
-		po.push(this.getColGroup("CB")); /*colGroup 삽입 */
-		po.push("<thead id=\"" + cfg.targetID + "_AX_thead\"></thead>");
-		po.push("<tbody id=\"" + cfg.targetID + "_AX_tbody\">");
-		po.push("<tr class=\"noListTr\">");
-		po.push("<td colspan=\"" + (this.showColLen) + "\">");
-		po.push("<div class=\"tdRelBlock\">");
-		po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
-		po.push(AXConfig.AXGrid.emptyListMSG);
-		po.push("</div>");
-		po.push("</div>");
-		po.push("</td>");
-		po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
-		po.push("</tr>");
-		po.push("</tbody>");
-		po.push("<tfoot id=\"" + cfg.targetID + "_AX_tfoot\"></tfoot>");
-		po.push("</table>");
-		po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
+			if(cfg.viewMode == "grid"){
+				po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"gridBodyTable\"  id=\"" + cfg.targetID + "_AX_gridBodyTable\">");
+					po.push(this.getColGroup("CB")); /*colGroup 삽입 */
+					po.push("<thead id=\"" + cfg.targetID + "_AX_thead\"></thead>");
+					po.push("<tbody id=\"" + cfg.targetID + "_AX_tbody\">");
+						po.push("<tr class=\"noListTr\">");
+						po.push("<td colspan=\"" + (this.showColLen) + "\">");
+						po.push("<div class=\"tdRelBlock\">");
+						po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
+						po.push(AXConfig.AXGrid.emptyListMSG);
+						po.push("</div>");
+						po.push("</div>");
+						po.push("</td>");
+						po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
+						po.push("</tr>");
+					po.push("</tbody>");
+					po.push("<tfoot id=\"" + cfg.targetID + "_AX_tfoot\"></tfoot>");
+				po.push("</table>");
+			}else if(cfg.viewMode == "icon"){
+				po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
+			}
 		po.push("</div>");
 
-		if (this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
+		if (cfg.viewMode == "grid" && this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
 			po.push("<div id=\"" + cfg.targetID + "_AX_fixedScrollContent\" class=\"gridFixedScrollContent\" style=\"width:" + this.fixedColWidth + "px;\">");
 			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"gridFixedBodyTable\" style=\"width:" + this.fixedColWidth + "px;\">");
 			po.push(this.getColGroup("FB")); /*colGroup 삽입 */
@@ -1924,18 +1942,21 @@ var AXGrid = Class.create(AXJ, {
 		po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackX\" class=\"gridScrollTrackX\"><div id=\"" + cfg.targetID + "_AX_scrollXHandle\" class=\"gridScrollHandle\"></div></div>");
 		this.body.html(po.join(''));
 
+		this.scrollContent = axdom("#" + cfg.targetID + "_AX_scrollContent");
+		this.fixedScrollContent = axdom("#" + cfg.targetID + "_AX_fixedScrollContent");
+		this.scrollTrackXY = axdom("#" + cfg.targetID + "_AX_scrollTrackXY");
+		this.scrollTrackY = axdom("#" + cfg.targetID + "_AX_scrollTrackY");
+		this.scrollYHandle = axdom("#" + cfg.targetID + "_AX_scrollYHandle");
+		this.scrollTrackX = axdom("#" + cfg.targetID + "_AX_scrollTrackX");
+		this.scrollXHandle = axdom("#" + cfg.targetID + "_AX_scrollXHandle");
+
 		if (this.list.length > 0) {
 			this.setList(this.list);
 		}
-
-		/*if(!cfg.xscroll) axdom("#"+cfg.targetID+"_AX_scrollTrackX").hide(); */
-
+		
 		/* scroll event bind */
-		axdom("#" + cfg.targetID + "_AX_scrollYHandle").unbind();
-		axdom("#" + cfg.targetID + "_AX_scrollXHandle").unbind();
-
-		axdom("#" + cfg.targetID + "_AX_scrollYHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
-		axdom("#" + cfg.targetID + "_AX_scrollXHandle").bind("mousedown", this.contentScrollScrollReady.bind(this));
+		this.scrollYHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
+		this.scrollXHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 	},
 	listLoadingDisplay: function () {
@@ -2241,7 +2262,8 @@ var AXGrid = Class.create(AXJ, {
 			var isLastTR = (cfg.body.rows.length - 1 == r);
 			if (hasTrValue) tpo.push("<tr class=\"gridBodyTr gridBodyTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_tr_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
 			var colCount = 0;
-			axf.each(cfg.body.rows[r], function (CHidx, CH) {
+
+			for (var CH, CHidx = 0; (CHidx < cfg.body.rows[r].length && (CH = cfg.body.rows[r][CHidx])); CHidx++) {
 				if (CH.display && CH.colspan > 0) {
 					var printOk = false;
 					if (isfix == "n") printOk = true;
@@ -2285,7 +2307,7 @@ var AXGrid = Class.create(AXJ, {
 						tpo.push("</td>");
 					}
 				}
-			});
+			};
 			if (r == 0 && isfix == "n") {
 				tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_null_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.rows.length + "\"><div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlock_AX_" + itemIndex + "\">&nbsp;</div></td>");
 			}
@@ -2327,11 +2349,11 @@ var AXGrid = Class.create(AXJ, {
 		if (viewIconObj.buttons) {
 			if (viewIconObj.buttons.items) {
 				tpo.push("<div style=\"" + cssObj.buttons + ";\" class=\"gridViewIconbuttons\">");
-				axf.each(viewIconObj.buttons.items, function (bidx, B) {
-					tpo.push("<button type=\"button\" class=\"viewIconButtonsItem " + this.addClass + "\" id=\"" + cfg.targetID + "_AX_viewIcon_AX_" + itemIndex + "_AX_" + bidx + "\">");
-					tpo.push(this.label);
+				for (var B, bidx = 0; (bidx < viewIconObj.buttons.items.length && (B = viewIconObj.buttons.items[bidx])); bidx++) {
+					tpo.push("<button type=\"button\" class=\"viewIconButtonsItem " + B.addClass + "\" id=\"" + cfg.targetID + "_AX_viewIcon_AX_" + itemIndex + "_AX_" + bidx + "\">");
+					tpo.push(B.label);
 					tpo.push("</button> ");
-				});
+				};
 				tpo.push("</div>");
 			}
 		}
@@ -2363,7 +2385,7 @@ var AXGrid = Class.create(AXJ, {
 			var isLastTR = (cfg.body.marker.rows.length - 1 == r);
 			tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
 			var colCount = 0;
-			axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
+			for (var CH, CHidx= 0, __arr = cfg.body.marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
 				if (CH.display && CH.colspan > 0) {
 
 					if (isfix == "n" || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
@@ -2400,7 +2422,7 @@ var AXGrid = Class.create(AXJ, {
 						tpo.push("</td>");
 					}
 				}
-			});
+			};
 			if (r == 0 && isfix == "n") {
 				tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_nullMarker_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.marker.rows.length + "\"><div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlockMarker_AX_" + itemIndex + "\">&nbsp;</div></td>");
 			}
@@ -2447,16 +2469,12 @@ var AXGrid = Class.create(AXJ, {
 		/* view mode 가 grid 인경우만 유효 */
 		if (cfg.viewMode == "grid") {
 
-			axdom("#" + cfg.targetID + "_AX_gridBodyTable").show();
-			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").hide();
-
-
-			axf.each(this.list, function (itemIndex, item) {
+			for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
 				po.push(getItem(itemIndex, item, "n"));
 				if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 					po.push(getItemMarker(itemIndex, item, "n"));
 				}
-			});
+			};
 
 			if (this.list.length == 0) { /* empty tags */
 				po.push("<tr class=\"noListTr\">");
@@ -2476,12 +2494,12 @@ var AXGrid = Class.create(AXJ, {
 
 			if (this.hasFixed) {
 				po = [];
-				axf.each(this.list, function (itemIndex, item) {
+				for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
 					po.push(getItem(itemIndex, item, "fix"));
 					if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 						po.push(getItemMarker(itemIndex, item, "fix"));
 					}
-				});
+				};
 				axdom("#" + cfg.targetID + "_AX_fixedTbody").empty();
 				axdom("#" + cfg.targetID + "_AX_fixedTbody").append(po.join(''));
 			}
@@ -2494,9 +2512,9 @@ var AXGrid = Class.create(AXJ, {
 			if (this.selectedRow && this.selectedRow.length > 0) {
 
 				var body = this.body;
-				axf.each(this.selectedRow, function () {
-					body.find(".gridBodyTr_" + this).addClass("selected");
-				});
+				for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
+					body.find(".gridBodyTr_" + item).addClass("selected");
+				};
 
 				var itemIndex = this.selectedRow.last();
 				try {
@@ -2525,13 +2543,10 @@ var AXGrid = Class.create(AXJ, {
 
 			}
 
-		} else {
+		} else if(cfg.viewMode == "icon") {
 
-			axdom("#" + cfg.targetID + "_AX_gridBodyTable").hide();
-			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").show();
-
-			var viewIconObj = cfg.body.view.icon;
-
+			var viewIconObj = cfg.view_icon;
+			
 			var viewIconCss = [];
 			viewIconCss.push("width:" + viewIconObj.width.number() + "px");
 			viewIconCss.push("height:" + viewIconObj.height.number() + "px");
@@ -2575,9 +2590,9 @@ var AXGrid = Class.create(AXJ, {
 				buttons: viewIconButtonsCss.join(";")
 			};
 
-			axf.each(this.list, function (itemIndex, item) {
+			for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
 				po.push(getIconItem(itemIndex, item, viewIconObj, cssObj));
-			});
+			};
 			po.push("<div style='clear:both;'></div>");
 
 			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").empty();
@@ -2606,6 +2621,7 @@ var AXGrid = Class.create(AXJ, {
 			this.body.find(".bodyViewIcon .viewIconButtonsItem").bind("click", function (event) {
 				iconButtonClickBind(event);
 			});
+			
 		}
 		this.selectedCells.clear(); /* selectedCells clear */
 		this.contentScrollResize();
@@ -2667,12 +2683,12 @@ var AXGrid = Class.create(AXJ, {
 			
 			var itemIndex = insertIndex;
 			var newList = [];
-			axf.each(this.list, function (listIndex, L) {
+			for (var L, listIndex = 0, __arr = this.list; (listIndex < __arr.length && (L = __arr[listIndex])); listIndex++) {
 				if (listIndex == itemIndex) {
 					newList.push(pushItem);
 				}
 				newList.push(L);
-			});
+			};
 			this.list = newList;
 			var item = this.list[itemIndex];
 
@@ -3176,81 +3192,83 @@ var AXGrid = Class.create(AXJ, {
 		this.clearRange();
 	},
 	contentScrollResize: function (resetLeft) {
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
+		if(this.contentScrollResize_timer) clearTimeout(this.contentScrollResize_timer);
 
-
-		var scrollContent = axdom("#" + cfg.targetID + "_AX_scrollContent");
-		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var scrollHeight = scrollContent.height();
-
-		var bodyWidth = this.body.width();
-		var scrollWidth = (this.colWidth > bodyWidth) ? this.colWidth : bodyWidth;
-
-		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ width: scrollWidth });
-		this.colHead.css({ width: scrollWidth + axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth() });  /* colHead width 재정의 */
-
-		if (this.hasEditor) this.editor.css({ width: scrollWidth });
-
-		if (resetLeft != false) {
-			scrollContent.css({ left: 0 });
-			axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
-			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
-		}else{
-			if((scrollContent.width() + scrollContent.position().left) < this.body.width()){
-				scrollContent.css({ left: 0 });
+		this.contentScrollResize_timer = setTimeout(function(){
+			//trace("contentScrollResize_timer");
+			var bodyHeight = _this.body.height() - _this.scrollTrackXY.outerHeight();
+			var scrollHeight = _this.scrollContent.height();
+	
+			var bodyWidth = _this.body.width();
+			var scrollWidth = (_this.colWidth > bodyWidth) ? _this.colWidth : bodyWidth;
+	
+			_this.scrollContent.css({ width: scrollWidth + _this.scrollTrackXY.outerWidth() });
+			_this.colHead.css({ width: scrollWidth + _this.scrollTrackXY.outerWidth() });  /* colHead width 재정의 */
+	
+			if (_this.hasEditor) _this.editor.css({ width: scrollWidth });
+	
+			if (resetLeft != false) {
+				_this.scrollContent.css({ left: 0 });
 				axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-				axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: 0 });
+				_this.scrollXHandle.css({ left: 0 });
+				if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+			}else{
+				if((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()){
+					_this.scrollContent.css({ left: 0 });
+					axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+					_this.scrollXHandle.css({ left: 0 });
+				}
 			}
-		}
-
-		if (bodyHeight < scrollHeight && cfg.height != "auto") {
-			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").show();
-			axdom("#" + cfg.targetID + "_AX_scrollTrackY").show();
-
-			var scrollTrackYHeight = bodyHeight;
-			axdom("#" + cfg.targetID + "_AX_scrollTrackY").css({ height: scrollTrackYHeight });
-
-			var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
-			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight - 2 });
-		} else {
-			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
-			axdom("#" + cfg.targetID + "_AX_scrollTrackY").hide();
-		}
-
-		if (scrollWidth > bodyWidth && cfg.xscroll) {
-			this.show_scrollTrackX = true;
-
-			axdom("#" + cfg.targetID + "_AX_scrollTrackXY").show();
-			axdom("#" + cfg.targetID + "_AX_scrollTrackX").show();
-
-			var scrollTrackXWidth = bodyWidth - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth();
-			axdom("#" + cfg.targetID + "_AX_scrollTrackX").css({ width: scrollTrackXWidth });
-			var scrollXHandleWidth = ((bodyWidth - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerWidth()) * scrollTrackXWidth) / scrollWidth;
-
-			axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ width: scrollXHandleWidth - 2 });
-
-			/* cfg.height == "auto" 길이 늘이기 */
-			if (cfg.height == "auto") {
-				var colHeadHeight = this.colHead.outerHeight();
-				var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
-				var scrollTrackXYHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-				this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight + scrollTrackXYHeight) }); /*colhead + body height */
-				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight + scrollTrackXYHeight) }); /* body Height */
+	
+			if (bodyHeight < scrollHeight && cfg.height != "auto") {
+				_this.scrollTrackXY.show();
+				_this.scrollTrackY.show();
+	
+				var scrollTrackYHeight = bodyHeight;
+				_this.scrollTrackY.css({ height: scrollTrackYHeight });
+	
+				var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
+				_this.scrollYHandle.css({ height: scrollYHandleHeight - 2 });
+			} else {
+				_this.scrollTrackXY.hide();
+				_this.scrollTrackY.hide();
 			}
-		} else {
-			this.show_scrollTrackX = false;
-			axdom("#" + cfg.targetID + "_AX_scrollTrackX").hide();
-			if (cfg.height == "auto") axdom("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
-
-			if (cfg.height == "auto") {
-				var colHeadHeight = this.colHead.outerHeight();
-				var scrollBodyHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
-
-				this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) }); /*colhead + body height */
-				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
+	
+			if (scrollWidth > bodyWidth && cfg.xscroll) {
+				_this.show_scrollTrackX = true;
+	
+				_this.scrollTrackXY.show();
+				_this.scrollTrackX.show();
+	
+				var scrollTrackXWidth = bodyWidth - _this.scrollTrackXY.outerWidth();
+				_this.scrollTrackX.css({ width: scrollTrackXWidth });
+				var scrollXHandleWidth = ((bodyWidth - _this.scrollTrackXY.outerWidth()) * scrollTrackXWidth) / scrollWidth;
+	
+				_this.scrollXHandle.css({ width: scrollXHandleWidth - 2 });
+	
+				/* cfg.height == "auto" 길이 늘이기 */
+				if (cfg.height == "auto") {
+					var colHeadHeight = _this.colHead.outerHeight();
+					var scrollBodyHeight = _this.scrollContent.height();
+					var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
+					_this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight + scrollTrackXYHeight) }); /*colhead + body height */
+					_this.body.css({ top: colHeadHeight, height: (scrollBodyHeight + scrollTrackXYHeight) }); /* body Height */
+				}
+			} else {
+				_this.show_scrollTrackX = false;
+				_this.scrollTrackX.hide();
+				if (cfg.height == "auto") _this.scrollTrackXY.hide();
+	
+				if (cfg.height == "auto") {
+					var colHeadHeight = _this.colHead.outerHeight();
+					var scrollBodyHeight = _this.scrollContent.height();
+	
+					_this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) }); /*colhead + body height */
+					_this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
+				}
 			}
-		}
+		}, 10);
 
 	},
 	contentScrollScrollSync: function (pos) {
@@ -3262,13 +3280,13 @@ var AXGrid = Class.create(AXJ, {
 				this.contentScrollXAttr = {
 					bodyWidth: this.body.width(),
 					scrollWidth: scrollWidth,
-					scrollTrackXWidth: axdom("#" + cfg.targetID + "_AX_scrollTrackX").width(),
-					scrollXHandleWidth: axdom("#" + cfg.targetID + "_AX_scrollXHandle").outerHeight()
+					scrollTrackXWidth: this.scrollTrackX.width(),
+					scrollXHandleWidth: this.scrollXHandle.outerHeight()
 				};
 			}
 
 			var L = (this.contentScrollXAttr.scrollWidth * (pos.left) / this.contentScrollXAttr.scrollTrackXWidth).round(0);
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ left: -L });
+			this.scrollContent.css({ left: -L });
 			axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: -L });
 			if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
 			/*trace({top:-L}); */
@@ -3276,18 +3294,18 @@ var AXGrid = Class.create(AXJ, {
 			if (cfg.height == "auto") return;
 			if (!this.contentScrollYAttr) {
 				this.contentScrollYAttr = {
-					bodyHeight: this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
-					scrollHeight: axdom("#" + cfg.targetID + "_AX_scrollContent").height(),
-					scrollTrackYHeight: axdom("#" + cfg.targetID + "_AX_scrollTrackY").height(),
-					scrollYHandleHeight: axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
+					bodyHeight: this.body.height() - this.scrollTrackXY.outerHeight(),
+					scrollHeight: this.scrollContent.height(),
+					scrollTrackYHeight: this.scrollTrackY.height(),
+					scrollYHandleHeight: this.scrollYHandle.outerHeight()
 				};
 			}
 			var T = (this.contentScrollYAttr.scrollHeight * (pos.top) / this.contentScrollYAttr.scrollTrackYHeight).floor();
 
 			/*trace({ top: -T });*/
 
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: -T });
-			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: -T });
+			this.scrollContent.css({ top: -T });
+			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) this.fixedScrollContent.css({ top: -T });
 			if (this.editorOpend) {
 				this.editor.css({ top: -T + this.editorOpenTop });
 			}
@@ -3299,21 +3317,21 @@ var AXGrid = Class.create(AXJ, {
 
 		} else {
 			if (cfg.height == "auto") return;
-			if (!this.contentScrollYAttr) {
-				this.contentScrollYAttr = {
-					bodyHeight: this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight(),
-					scrollHeight: axdom("#" + cfg.targetID + "_AX_scrollContent").height(),
-					scrollTrackYHeight: axdom("#" + cfg.targetID + "_AX_scrollTrackY").height(),
-					scrollYHandleHeight: axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight()
-				};
-			}
+
+			this.contentScrollYAttr = {
+				bodyHeight: this.body.height() - this.scrollTrackXY.outerHeight(),
+				scrollHeight: this.scrollContent.height(),
+				scrollTrackYHeight: this.scrollTrackY.height(),
+				scrollYHandleHeight: this.scrollYHandle.outerHeight()
+			};
+			
 			var T = (this.contentScrollYAttr.scrollYHandleHeight * (pos.top) / this.contentScrollYAttr.bodyHeight).floor();
 			var handleTop = -T;
-			/*trace({h1:(handleTop), h2:this.contentScrollYAttr.scrollYHandleHeight, trackHeight:this.contentScrollYAttr.bodyHeight}); */
+			//trace({h1:(handleTop), h2:this.contentScrollYAttr.scrollYHandleHeight, trackHeight:this.contentScrollYAttr.bodyHeight});
 			/*if((handleTop + this.contentScrollYAttr.handleHeight) > this.contentScrollYAttr.trackHeight) handleTop = this.contentScrollYAttr.trackHeight - this.contentScrollYAttr.handleHeight; */
 
-			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
-			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) axdom("#" + cfg.targetID + "_AX_fixedScrollContent").css({ top: pos.top });
+			this.scrollYHandle.css({ top: handleTop });
+			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) this.fixedScrollContent.css({ top: pos.top });
 			if (this.editorOpend) {
 				this.editor.css({ top: pos.top + this.editorOpenTop });
 			}
@@ -3425,13 +3443,13 @@ var AXGrid = Class.create(AXJ, {
 		var event = window.event || e;
 		var delta = event.detail ? event.detail * (-20) : event.wheelDelta / 2; /*check for detail first so Opera uses that instead of wheelDelta */
 
-		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
-		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+		var bodyHeight = this.body.height() - this.scrollTrackXY.outerHeight();
+		var scrollTop = this.scrollContent.position().top;
+		var scrollHeight = this.scrollContent.height();
 
 		/*var handleTop = axdom("#"+cfg.targetID+"_AX_scrollYHandle").position().top; i want this value */
-		var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		var handleHeight = this.scrollYHandle.outerHeight();
+		var trackHeight = this.scrollTrackY.height();
 
 		if (scrollHeight < bodyHeight) {
 			return;
@@ -3451,7 +3469,7 @@ var AXGrid = Class.create(AXJ, {
 			scrollTop = 0;
 			eventCancle = true;
 		}
-		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+		this.scrollContent.css({ top: scrollTop });
 		this.contentScrollContentSync({ top: scrollTop });
 
 		if (!eventCancle) {
@@ -3479,17 +3497,17 @@ var AXGrid = Class.create(AXJ, {
 
 		var pos = this.getTouchPositionToContentScroll(event);
 
-		var YhandleTop = axdom("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
-		var YhandleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var YtrackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		var YhandleTop = this.scrollYHandle.position().top;
+		var YhandleHeight = this.scrollYHandle.outerHeight();
+		var YtrackHeight = this.scrollTrackY.height();
 
-		axdom("#" + cfg.targetID + "_AX_scrollYHandle").addClass("hover");
+		this.scrollYHandle.addClass("hover");
 
-		var XhandleTop = axdom("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
-		var XhandleHeight = axdom("#" + cfg.targetID + "_AX_scrollXHandle").outerWidth();
-		var XtrackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackX").width();
+		var XhandleTop = this.scrollXHandle.position().left;
+		var XhandleHeight = this.scrollXHandle.outerWidth();
+		var XtrackHeight = this.scrollTrackX.width();
 
-		axdom("#" + cfg.targetID + "_AX_scrollXHandle").addClass("hover");
+		this.scrollXHandle.addClass("hover");
 
 		this.scrollTouchAttr = {
 			y: (YhandleTop - pos.y).number(), h: YhandleHeight.number(), th: YtrackHeight,
@@ -3518,24 +3536,24 @@ var AXGrid = Class.create(AXJ, {
 			var pos = this.getTouchPositionToContentScroll(event);
 			var scrollTouchAttr = this.scrollTouchAttr;
 
-			var htop = axdom("#" + cfg.targetID + "_AX_scrollYHandle").position().top;
+			var htop = this.scrollYHandle.position().top;
 			var handleTop = pos.y + scrollTouchAttr.y;
 			if (handleTop < 0) handleTop = 0;
 			if ((handleTop + scrollTouchAttr.h) > scrollTouchAttr.th) handleTop = scrollTouchAttr.th - scrollTouchAttr.h;
 
 			if ((htop - handleTop).abs() > 2) {
-				axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ top: handleTop });
+				this.scrollYHandle.css({ top: handleTop });
 				this.contentScrollScrollSync({ top: handleTop });
 			}
 
 			if (this.show_scrollTrackX) {
-				var hleft = axdom("#" + cfg.targetID + "_AX_scrollXHandle").position().left;
+				var hleft = this.scrollXHandle.position().left;
 				var handleLeft = pos.x + this.scrollTouchAttr.x;
 				if (handleLeft < 0) handleLeft = 0;
 				if ((handleLeft + scrollTouchAttr.w) > scrollTouchAttr.tw) handleLeft = scrollTouchAttr.tw - scrollTouchAttr.w;
 
 				if ((hleft - handleLeft).abs() > 2) {
-					axdom("#" + cfg.targetID + "_AX_scrollXHandle").css({ left: handleLeft });
+					this.scrollXHandle.css({ left: handleLeft });
 					this.contentScrollScrollSync({ left: handleLeft });
 				}
 			}
@@ -3549,8 +3567,8 @@ var AXGrid = Class.create(AXJ, {
 		var event = window.event || e;
 		if (this.contentScrollTouchMoved) {
 
-			axdom("#" + cfg.targetID + "_AX_scrollXHandle").removeClass("hover");
-			axdom("#" + cfg.targetID + "_AX_scrollYHandle").removeClass("hover");
+			this.scrollXHandle.removeClass("hover");
+			this.scrollYHandle.removeClass("hover");
 
 			if (document.removeEventListener) {
 				document.removeEventListener("touchend", this.contentScrollTouchEndBind, false);
@@ -3577,27 +3595,27 @@ var AXGrid = Class.create(AXJ, {
 			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
 
-			var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
-			var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-			var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-			var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
+			var scrollHeight = this.scrollContent.height();
+			var bodyHeight = this.body.height() - this.scrollTrackXY.outerHeight();
+			var handleHeight = this.scrollYHandle.outerHeight();
+			var trackHeight = this.scrollTrackY.height();
 
 			if (trTop.number() + trHeight.number() > bodyHeight) {
 				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 				if (this.body.height() < scrollHeight) {
-					axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					this.scrollContent.css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
 				}
 			} else {
 				if (trTop.number() == 0) {
 					var scrollTop = 0;
-					axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+					this.scrollContent.css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
 				}
 			}
 		} catch (e) {
 			var scrollTop = 0;
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+			this.scrollContent.css({ top: scrollTop });
 			this.contentScrollContentSync({ top: scrollTop });
 		}
 	},
@@ -3624,19 +3642,19 @@ var AXGrid = Class.create(AXJ, {
 		var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 		var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
 
-		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
-		var bodyHeight = this.body.height() - axdom("#" + cfg.targetID + "_AX_scrollTrackXY").outerHeight();
-		var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
-		var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
+		var scrollHeight = this.scrollContent.height();
+		var bodyHeight = this.body.height() - this.scrollTrackXY.outerHeight();
+		var handleHeight = this.scrollYHandle.outerHeight();
+		var trackHeight = this.scrollTrackY.height();
 
 		if (trTop.number() + trHeight.number() > bodyHeight) {
 			var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-			axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+			this.scrollContent.css({ top: scrollTop });
 			this.contentScrollContentSync({ top: scrollTop });
 		} else {
 			if (trTop.number() == 0) {
 				var scrollTop = 0;
-				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+				this.scrollContent.css({ top: scrollTop });
 				this.contentScrollContentSync({ top: scrollTop });
 			}
 		}
@@ -3669,24 +3687,14 @@ var AXGrid = Class.create(AXJ, {
 		var item = this.list[itemIndex];
 
 		if (cfg.body.onclick) {
-			/*
-			var hashs = item.hash.split(/_/g);
-			var subTree = this.tree;
-			axf.each(hashs, function (idx, arg) {
-				if (idx == 1) {
-					subTree = subTree[this.number()];
-				} else if (idx > 1) {
-					subTree = subTree.subTree[this.number()];
-				}
-			});
-			*/
+
 			var sendObj = {
 				index: itemIndex,
 				list: this.list,
 				item: item,
 				page: this.page
 			};
-			/*trace(sendObj); */
+
 			try {
 				cfg.body.onclick.call(sendObj, itemIndex, item);
 			} catch (e) {
@@ -4145,7 +4153,7 @@ var AXGrid = Class.create(AXJ, {
 
 		if (itemIndex != undefined) {
 
-			var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+			var scrollTop = this.scrollContent.position().top;
 			var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
 			var list = this.list;
 			var itemTRheight = (function () {
@@ -4171,7 +4179,7 @@ var AXGrid = Class.create(AXJ, {
 
 		} else if (insertIndex != undefined) {
 
-			var scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+			var scrollTop = this.scrollContent.position().top;
 			var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
 			var trHeight = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).outerHeight();
 			var list = this.list;
@@ -4201,8 +4209,8 @@ var AXGrid = Class.create(AXJ, {
 
 			var trTop = -editorTop; /*this.body.find(".gridBodyTr_" + insertIndex).position().top; */
 			
-			if( this.body.height() < axdom("#" + cfg.targetID + "_AX_scrollContent").height() ){
-				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
+			if( this.body.height() < this.scrollContent.height() ){
+				this.scrollContent.css({ top: trTop });
 				this.contentScrollContentSync({ top: trTop });
 			}
 
@@ -4211,7 +4219,7 @@ var AXGrid = Class.create(AXJ, {
 			var scrollTop = 0, editorTop = 0, itemTRheight = 0;
 			if(insertIndex == undefined && this.list.length){
 				insertIndex = this.list.length-1;
-				scrollTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top;
+				scrollTop = this.scrollContent.position().top;
 				editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
 				var trHeight = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).outerHeight();
 				editorTop += trHeight;
@@ -4223,14 +4231,14 @@ var AXGrid = Class.create(AXJ, {
 			this.editorItemIndex = null;
 			var trTop = -editorTop; /*this.body.find(".gridBodyTr_" + insertIndex).position().top; */
 			
-			if( this.body.height() < axdom("#" + cfg.targetID + "_AX_scrollContent").height() ){
-				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: trTop });
+			if( this.body.height() < this.scrollContent.height() ){
+				this.scrollContent.css({ top: trTop });
 				this.contentScrollContentSync({ top: trTop });
 			}
 
 		}
 
-		axdom("#" + cfg.targetID + "_AX_scrollTrackXY").before(this.editor);
+		this.scrollTrackXY.before(this.editor);
 		this.editor.show();
 		this.editor.find("input[type=text],textarea").bind("mousedown.AXGrid", function () { this.focus(); });
 		
@@ -4352,16 +4360,16 @@ var AXGrid = Class.create(AXJ, {
 
 		/* editor 에 따른 scrollContent 높이 조정 */
 		var editorPosHeight = editorTop + this.editor.height();
-		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
+		var scrollHeight = this.scrollContent.height();
 
 		if (editorPosHeight > scrollHeight) {
-			axdom("#" + cfg.targetID + "_AX_scrollContent").append("<div style=\"height:" + (editorPosHeight - scrollHeight) + "px;\"></div>");
-			var scrollContentTop = axdom("#" + cfg.targetID + "_AX_scrollContent").position().top - (editorPosHeight - scrollHeight);
+			this.scrollContent.append("<div style=\"height:" + (editorPosHeight - scrollHeight) + "px;\"></div>");
+			var scrollContentTop = this.scrollContent.position().top - (editorPosHeight - scrollHeight);
 			this.contentScrollYAttr = null;
 			this.contentScrollResize(false);
 		}
 
-		var scrollLeft = axdom("#" + cfg.targetID + "_AX_scrollContent").position().left;
+		var scrollLeft = this.scrollContent.position().left;
 		axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: scrollLeft });
 
 		axdom("#" + cfg.targetID + "_AX_editorButtons_AX_save").bind("click", this.saveEditor.bind(this));
@@ -4728,7 +4736,7 @@ var AXGrid = Class.create(AXJ, {
 
 		/*스크롤 위치 변경 */
 		var scrollTop = 0;
-		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
+		this.scrollContent.css({ top: scrollTop });
 		this.contentScrollContentSync({ top: scrollTop });
 
 		/*alert(this.pageActive); */
@@ -5010,5 +5018,19 @@ var AXGrid = Class.create(AXJ, {
 			}
 		}
 		
+	},
+	
+	/* { changeGridView */
+	changeGridView: function(JSObject){
+		var cfg = this.config;
+		cfg.viewMode = JSObject.viewName;
+		if(JSObject.viewName == "icon"){
+			cfg.view_icon = JSObject.view;
+			this.redrawGrid();
+		}else if(JSObject.viewName == "grid"){
+			this.redrawGrid();
+		}		
 	}
+	
+	/* changeGridView } */
 });

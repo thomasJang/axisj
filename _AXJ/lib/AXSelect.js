@@ -41,12 +41,12 @@ var AXSelectConverter = Class.create(AXJ, {
 	},
 	bindSetConfig: function (objID, configs) {
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 		if (findIndex == null) {
 			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
 			return;
@@ -62,7 +62,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var removeAnchorId;
 		var removeIdx;
 		//trace(this.objects);
-		jQuery.each(this.objects, function (idx, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id != obj.id) {
 				// collect.push(this);
 
@@ -72,7 +72,7 @@ var AXSelectConverter = Class.create(AXJ, {
 					removeIdx = idx;
 				}
 			}
-		});
+		};
 
 		//this.objects = collect;
 
@@ -104,12 +104,12 @@ var AXSelectConverter = Class.create(AXJ, {
 		var objID = obj.id;
 		var objSeq = null;
 
-		jQuery.each(this.objects, function (idx, O) {
-			if (this.id == objID && this.isDel != true) {
-				objSeq = idx;
-				return false;
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
+			if (O.id == objID && this.isDel != true) {
+				objSeq = index;
+				break;
 			}
-		});
+		};
 
 		if (obj.href == undefined) obj.href = cfg.href;
 
@@ -121,19 +121,6 @@ var AXSelectConverter = Class.create(AXJ, {
 			this.objects[objSeq].config = obj;
 		}
 
-		/*
-		if (objSeq == null) {
-			objSeq = this.objects.length;
-			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj });
-			this.appendAnchor(objID);
-			this.bindSelect(objID, objSeq);
-		} else {
-			this.objects[objSeq] = { id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj };
-			this.resizeAnchor(objID);
-			this.bindSelect(objID, objSeq);
-		}
-		*/
-		
 		this.appendAnchor(objID);
 		this.bindSelect(objID, objSeq);
 		
@@ -221,8 +208,6 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 
-//trace(obj.options);
-
 
 		//alert(AXgetId(objID).options.selectedIndex);
 		obj.selectedIndex = AXgetId(objID).options.selectedIndex;
@@ -254,9 +239,7 @@ var AXSelectConverter = Class.create(AXJ, {
 				jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
 				bindSelectExpand(objID, objSeq, true, event);
 			});
-			
-			
-			
+
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("keydown.AXSelect", function (event) {
 				if(event.keyCode == AXUtil.Event.KEY_SPACE) bindSelectExpand(objID, objSeq, true, event);
 				if(event.keyCode == AXUtil.Event.KEY_TAB || event.keyCode == AXUtil.Event.KEY_RETURN) return; 
@@ -300,12 +283,12 @@ var AXSelectConverter = Class.create(AXJ, {
 						if (obj.config.isspace) {
 							po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
 						}
-						jQuery.each(res.options, function (oidx, opts) {
-							po.push("<option value=\"" + this.optionValue + "\"");
+						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
+							po.push("<option value=\"" + opts.optionValue + "\"");
 							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == this.optionValue || this.selected) po.push(" selected=\"selected\"");
-							po.push(">" + this.optionText.dec() + "</option>");
-						});
+							if (obj.config.setValue == opts.optionValue || opts.selected) po.push(" selected=\"selected\"");
+							po.push(">" + opts.optionText.dec() + "</option>");
+						};
 						jQuery("#" + objID).html(po.join(''));
 
 						var options = [];
@@ -341,12 +324,12 @@ var AXSelectConverter = Class.create(AXJ, {
 				po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
 			}
 
-			jQuery.each(obj.config.options, function (oidx, opts) {
-				var optionText = (this.optionText||"").dec();
-				po.push("<option value=\"" + this.optionValue + "\"");
+			for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
+				var optionText = (opts.optionText||"").dec();
+				po.push("<option value=\"" + opts.optionValue + "\"");
 				if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 				po.push(">" + optionText + "</option>");
-			});
+			};
 			jQuery("#" + objID).html(po.join(''));
 
 			var options = [];
@@ -386,12 +369,13 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		var bindSelectClose = this.bindSelectClose.bind(this);
 		var chkVal = (_this.selectTextBox_onkeydown_data || ""), chkIndex = null;
-		axf.each(obj.options, function (index, O) {
+
+		for (var O, index = 0; (index < obj.options.length && (O = obj.options[index])); index++) {
 			if(O.optionValue.left(chkVal.length).lcase() == chkVal.lcase() || O.optionText.left(chkVal.length).lcase() == chkVal.lcase()){
 				chkIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 		if(chkIndex != null){
 			obj.selectedIndex = chkIndex;
 			obj.config.focusedIndex = chkIndex;
@@ -549,11 +533,11 @@ var AXSelectConverter = Class.create(AXJ, {
 		if (obj.options.length == 0) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").hide();
 		}
+		
 		var po = [];
-
-		jQuery.each(obj.options, function (index, O) {
+		for (var O, index = 0; (index < obj.options.length && (O = obj.options[index])); index++) {
 			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\">" + O.optionText.dec() + "</a>");
-		});
+		};
 		jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
 
 		var expandScrollHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").height();
@@ -721,12 +705,13 @@ var AXSelectConverter = Class.create(AXJ, {
 	/* ~~~~~~~~~~~~~ */
 	bindSelectChangeValue: function (objID, value, onEnd) {
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 
 		if (findIndex == null) {
 			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
@@ -750,11 +735,12 @@ var AXSelectConverter = Class.create(AXJ, {
 				}
 			} else {
 				var selectedIndex = null;
-				jQuery.each(obj.options, function (oidx, O) {
+				for (var O, oidx = 0; (oidx < obj.options.length && (O = obj.options[oidx])); oidx++) {
 					if ((O.optionValue || O.value || "") == value) {
 						selectedIndex = oidx;
+						break;
 					}
-				});
+				};
 
 				if (selectedIndex != null) {
 					
@@ -777,12 +763,12 @@ var AXSelectConverter = Class.create(AXJ, {
 	},
 	bindSelectDisabled: function(objID, disabled){
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 
 		if (findIndex == null) {
 			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
@@ -808,12 +794,12 @@ var AXSelectConverter = Class.create(AXJ, {
 	},
 	bindSelectUpdate: function(objID){
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 		if(findIndex != null){
 			this.bindSelectChange(objID, findIndex);
 		}
@@ -821,12 +807,12 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelectFocus: function(objID){
 		var cfg = this.config;
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 		if(findIndex != null){
 			AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
 		}
@@ -834,12 +820,12 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelectBlur: function(objID){
 		var cfg = this.config;
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 		if(findIndex != null){
 			this.bindSelectClose(objID, findIndex);
 		}
@@ -847,24 +833,24 @@ var AXSelectConverter = Class.create(AXJ, {
 	bindSelectGetAnchorObject: function(objID){
 		var cfg = this.config;
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 		if(findIndex != null){
 			return jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox");
 		}
 	},
 	bindSelectGetValue: function(objID, onEnd){
 		var findIndex = null;
-		jQuery.each(this.objects, function (index, O) {
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				findIndex = index;
-				return false;
+				break;
 			}
-		});
+		};
 
 		if (findIndex == null) {
 			return { optionValue: null, optionText: null, error:"바인드 된 오브젝트를 찾을 수 없습니다." };

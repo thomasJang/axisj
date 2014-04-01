@@ -48,45 +48,14 @@
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
 				theme : "AXGrid",
-				viewMode: "icon", // ["grid","icon","iconGrid"]
+				viewMode: "grid", // ["grid","icon","iconGrid"]
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right"}, 
 					{key:"title", label:"제목", width:"200"},
 					{key:"writer", label:"작성자", width:"100", align:"center"}
 				],
 				
-				body : {
-					view: {
-						icon: {
-							// 속성이 없을때 예외 처리 마지막에 구현
-							width:"200",
-							height:"300",
-							img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"},
-							label:{left:"10", top:"200", width:"180", height:"20"},
-							description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
-							buttons: {
-								left:"5", top:"5", width:"180", height:"20", style:"", 
-								items:[
-									{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
-										fnObj.otherFunction(this);
-									}},
-									{label:"but2", style:"", addClass:"AXButton", onclick:function(){
-										fnObj.otherFunction(this);
-									}},
-								]
-							},
-							format: function(){
-								return {
-									imgsrc : this.item.img,
-									label : this.item.title,
-									description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
-								}
-							}
-						},
-						iconGrid: {
-							
-						}
-					},				
+				body : {			
 					onclick: function(){
 						//toast.push(Object.toJSON({index:this.index, item:this.item}));
 						//alert(this.list);
@@ -98,6 +67,7 @@
 						//alert(this.page);
 					}
 				},
+				
 				page:{
 					paging:false, 
 					status:{formatter: null}
@@ -130,11 +100,49 @@
 		},
 		otherFunction: function(reqThis){
 			toast.push(reqThis.buttonItem.label+"//"+Object.toJSON(reqThis.item));
+		},
+		changeView: function(viewMode){
+			if(viewMode == "grid"){
+				myGrid.changeGridView({
+					viewName:viewMode
+				});
+			}else{
+				myGrid.changeGridView({
+					viewName:viewMode,
+					view: {
+						// 속성이 없을때 예외 처리 마지막에 구현
+						width:"200",
+						height:"300",
+						img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"},
+						label:{left:"10", top:"200", width:"180", height:"20"},
+						description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
+						buttons: {
+							left:"5", top:"5", width:"180", height:"20", style:"", 
+							items:[
+								{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
+									fnObj.otherFunction(this);
+								}},
+								{label:"but2", style:"", addClass:"AXButton", onclick:function(){
+									fnObj.otherFunction(this);
+								}},
+							]
+						},
+						format: function(){
+							return {
+								imgsrc : this.item.img,
+								label : this.item.title,
+								description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
+							}
+						}
+					}
+				});
+			}
+				
 		}
 	};
 	
 	$(document.body).ready(function(){
-		setTimeout(fnObj.pageStart, 1);
+		fnObj.pageStart();
 	});
 	</script>
 	<!-- js block -->
@@ -147,6 +155,12 @@
 		<h2>AXGrid</h2>
 
 		<div id="AXGridTarget" style="height:600px;"></div>
+		
+		<div style="padding:10px;">
+			<button class="AXButton" onclick="fnObj.changeView('grid');">목록보기</button>
+			<button class="AXButton" onclick="fnObj.changeView('icon');">아이콘보기</button>
+		</div>
+		
 	</div>
 </body>
 </html>
