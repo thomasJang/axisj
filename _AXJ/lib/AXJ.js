@@ -348,7 +348,11 @@ var axf = AXUtil = {
 	}
 };
 
-var axdom = jQuery;
+try{
+	var axdom = jQuery;
+}catch(e){
+	var axdom = axdomConverter;
+}
 
 /* *** extend implement block ***************************** */
 var Class = (function () {
