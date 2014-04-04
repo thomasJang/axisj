@@ -1,9 +1,9 @@
 ﻿/* AXISJ Javascript UI Framework */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
- 
+
 
 var AXValidator = Class.create(AXJ, {
-	version: "AXValidator V1.2",
+	version: "AXValidator V1.3",
 	author: "tom@axisj.com, hwshin@collabra.com",
 	logs: [
 		"2013-07-18 오전 12:05:00",
@@ -13,7 +13,8 @@ var AXValidator = Class.create(AXJ, {
 	    "2013-10-15 오후 13:10:00 - shin : del 기능 추가",
 	    "2013-11-06 오후 12:41:17 - tom : 버그패치",
 	    "2013-11-08 오전 11:08:17 - shin : messageConvert 예외 처리",
-	    "2013-11-08 오전 11:41:18 - tom : onBlur 버그패치, earlierThan, laterThan 키 추가"
+	    "2013-11-08 오전 11:41:18 - tom : onBlur 버그패치, earlierThan, laterThan 키 추가",
+	    "2014-04-04 오전 10:33:08 - tom : validate(filterOption:JSObject) 옵션 추가"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -339,22 +340,48 @@ var AXValidator = Class.create(AXJ, {
 		if (addObj.message) this.elements[findIndex].message = addObj.message;
 		if (addObj.label) this.elements[findIndex].label = addObj.label;
 	},
-	validate: function () {
+	validate: function (filterOption) {
 		var cfg = this.config;
 		var raiseError = this.raiseError.bind(this);
 		var validateFormatter = this.validateFormatter.bind(this);
 
 		var returnObject = null;
-		jQuery.each(this.elements, function (eidx, Elem) {
-
+		for (var Elem, eidx= 0, __arr = this.elements; (eidx < __arr.length && (Elem = __arr[eidx])); eidx++) {
 			var targetElem;
 			if (Elem.id) {
 				targetElem = jQuery("#" + Elem.id);
-			} else if (this.name) {
+			} else if (Elem.name) {
 				targetElem = $(document[cfg.targetFormName][Elem.name]);
 			}
 
-			if (targetElem) {
+			var isCheck = true;
+			if(filterOption){
+				if(filterOption.filterType == "include"){
+					isCheck = false;
+					for (var f, fidx= 0, __arr2 = filterOption.list; (fidx < __arr2.length && (f = __arr2[fidx])); fidx++) {
+						if(f.id && f.id == Elem.id){
+							isCheck = true;
+							break;
+						}else if(f.name && f.name == Elem.name){
+							isCheck = true;
+							break;
+						}
+					}
+				}else{
+					isCheck = true;
+					for (var f, fidx= 0, __arr2 = filterOption.list; (fidx < __arr2.length && (f = __arr2[fidx])); fidx++) {
+						if(f.id && f.id == Elem.id){
+							isCheck = false;
+							break;
+						}else if(f.name && f.name == Elem.name){
+							isCheck = false;
+							break;
+						}
+					}
+				}
+			}
+
+			if (targetElem && isCheck) {
 				var val = targetElem.val();
 				var _end = false;
 				jQuery.each(Elem.config, function (k, v) {
@@ -366,19 +393,12 @@ var AXValidator = Class.create(AXJ, {
 				});
 				if (_end) return false;
 			}
-		});
+		};
 
 		if (returnObject == null) {
 			this.errElements = [];
-			/*
-		    if (this.errElements.length > 0) {
-		        this.errElements.splice(0, this.errElements.length);
-		    }
-		    */
 			return true;
 		} else {
-			//trace(this.errElements);
-			//trace(returnObject);
 			return false;
 		}
 
@@ -413,7 +433,7 @@ var AXValidator = Class.create(AXJ, {
 		} else {
 			label = (element.id || element.name);
 		}
-		
+
 		if(vKey == "earlierThan" || vKey == "laterThan"){
 			label = (validateVal.label||label);
 		}
@@ -424,7 +444,7 @@ var AXValidator = Class.create(AXJ, {
 		} else {
 			var typeMessage = (element.message[vKey] || errMessage);
 		}
-	            
+
         if (typeMessage != undefined) {
             var message = typeMessage.replace(/{label}/, label);
             message = message.replace("{" + vKey + "}", vVal);
@@ -446,7 +466,7 @@ var AXValidator = Class.create(AXJ, {
 		maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
 		minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
 		maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
-		
+
 		/* for format */
 		number: "숫자로만 입력하셔야 합니다.",
 		email: "이메일 형식이 올바르지 않습니다.",
@@ -461,7 +481,7 @@ var AXValidator = Class.create(AXJ, {
 		money: "화폐형식으로만 입력하셔야 합니다.",
 		earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
 		laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
-		
+
 		exception: "not found errmessage"
 	},
 	validateCheckClass: {
@@ -604,9 +624,9 @@ var AXValidator = Class.create(AXJ, {
 				var pattern = /^\$?[0-9]+(,[0-9]{3})*(\.[0-9]*)?$/;
 				//var pattern = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
 				result = pattern.test(ElemValue);
-			} else if (validateKey == "earlierThan") {				
+			} else if (validateKey == "earlierThan") {
 				if(ElemValue == ""){
-					result = true;	
+					result = true;
 				}else{
 					var st_date = ElemValue;
 					var ed_date = jQuery("#" + validateValue.id).val();
@@ -615,10 +635,10 @@ var AXValidator = Class.create(AXJ, {
 					}else{
 						result = true;
 					}
-				}				
+				}
 			} else if (validateKey == "laterThan") {
 				if(ElemValue == ""){
-					result = true;	
+					result = true;
 				}else{
 					var ed_date = ElemValue;
 					var st_date = jQuery("#" + validateValue.id).val();
