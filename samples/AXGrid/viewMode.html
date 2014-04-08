@@ -7,20 +7,17 @@
     <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
     <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
 	<!-- css block -->
 	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css?v=1" />
 	
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
 
 	<style type="text/css">
 	H2, H3{font-family:consolas;}
@@ -33,7 +30,7 @@
 	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
 	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>	
 	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
 	<script type="text/javascript" src="pageTab.js"></script>
 	
@@ -44,15 +41,34 @@
 	var fnObj = {
 		pageStart: function(){
 			AXCode.bind(); // 소스보기
-
+			
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
 				theme : "AXGrid",
-				viewMode: "grid", // ["grid","icon","iconGrid"]
+				viewMode: "grid", // ["grid","icon","mobile"]
+				//viewMode: "mobile",
+				
+				// 브라우저 사이즈에 따른 changeGridView 설정
+				autoChangeGridView: {
+					mobile:[0,600], grid:[600]
+				},
 				colGroup : [
-					{key:"no", label:"번호", width:"50", align:"right"}, 
+					{key:"no", label:"번호", width:"40", align:"center", formatter:"money"}, 
 					{key:"title", label:"제목", width:"200"},
-					{key:"writer", label:"작성자", width:"100", align:"center"}
+					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"regDate", label:"작성일", width:"100", align:"center"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{ key: "descSeq", label: "desc", width: "40", align:"center", formatter:function(){
+						 return (this.list.length - this.index) + ( ( this.page.pageNo - 1) * this.page.pageSize );
+					 } },
+					 { key: "ascSeq", label: "asc", width: "40", align:"center", formatter:function(){
+						 return (this.index + 1) + ( ( this.page.pageNo - 1) * this.page.pageSize );
+					 } },
+					{key:"desc", label:"비고", width:"*"}
 				],
 				
 				body : {			
@@ -67,36 +83,66 @@
 						//alert(this.page);
 					}
 				},
-				
+
+				view: {
+					label:true,
+					column: [ // col 은 4
+						{key:"title", label:"제목", col:4, addClass:"underLine"},
+						{key:"no", label:"번호", col:2}, 
+						{key:"writer", label:"작성자", col:2}
+					],
+					buttons: [
+						{addClass:"", onclick:function(){
+							
+						}},
+						{addClass:"", onclick:function(){
+							
+						}}
+					]
+				},
 				page:{
-					paging:false, 
+					paging:true,
+					pageNo:1,
+					pageSize:100,
 					status:{formatter: null}
 				}
 			});
 			
+			/*
 			var list = [
-				{no:1, title:"AXGrid 첫번째 줄 입니다.AXGrid 첫번째 줄 입니다.AXGrid 첫번째 줄 입니다.", writer:"장기영", img:"img/1.jpg", desc:"많은 글을 담고 있는 내용 입니다. 자연스럽게 줄이 넘어가고 표현되는 것이 관건 입니다."}, // item
-				{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", img:"img/2.jpg"},
-				{no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/3.jpg"},
-				{no:4, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/4.jpg"},
-				{no:5, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/5.jpg"},
-				{no:6, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/6.jpg"},
-				{no:7, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/7.jpg"},
-				{no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", img:"img/8.jpg"},
-				{no:9, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", img:"img/9.jpg"},
-				{no:10, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/10.jpg"},
-				{no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/11.jpg"},
-				{no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/12.jpg"},
-				{no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/13.jpg"},
-				{no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/14.jpg"},
-				{no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", img:"img/15.jpg"},
-				{no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/16.jpg"},
-				{no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/17.jpg"},
-				{no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/18.jpg"},
-				{no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/19.jpg"},
-				{no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/20.jpg"}
+				{no:1, title:"AXGrid 첫번째 줄 입니다.AXGrid 첫번째 줄 입니다.AXGrid 첫번째 줄 입니다.", 
+					writer:"장기영", img:"img/1.jpg", desc:"많은 글을 담고 있는 내용 입니다. 자연스럽게 줄이 넘어가고 표현되는 것이 관건 입니다.",
+					category:"액시스제이", date:"2014-04-02"
+				}, // item
+				{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", img:"img/2.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/3.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:4, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/4.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:5, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/5.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:6, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/6.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:7, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/7.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", img:"img/8.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:9, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", img:"img/9.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:10, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/10.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/11.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/12.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/13.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/14.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", img:"img/15.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/16.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/17.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/18.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/19.jpg", category:"액시스제이", date:"2014-04-02"},
+				{no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", img:"img/20.jpg", category:"액시스제이", date:"2014-04-02"}
 			];
 			myGrid.setList(list);
+			*/
+			
+			myGrid.setList({
+				ajaxUrl:"loadGrid.asp", ajaxPars:"", onLoad:function(){
+					//trace(this);
+				}
+			});
+			
 		},
 		otherFunction: function(reqThis){
 			toast.push(reqThis.buttonItem.label+"//"+Object.toJSON(reqThis.item));
@@ -104,11 +150,11 @@
 		changeView: function(viewMode){
 			if(viewMode == "grid"){
 				myGrid.changeGridView({
-					viewName:viewMode
+					viewMode:viewMode
 				});
-			}else{
+			}else if(viewMode == "icon"){
 				myGrid.changeGridView({
-					viewName:viewMode,
+					viewMode:viewMode,
 					view: {
 						// 속성이 없을때 예외 처리 마지막에 구현
 						width:"200",
@@ -124,7 +170,7 @@
 								}},
 								{label:"but2", style:"", addClass:"AXButton", onclick:function(){
 									fnObj.otherFunction(this);
-								}},
+								}}
 							]
 						},
 						format: function(){
@@ -135,6 +181,23 @@
 							}
 						}
 					}
+				});
+			}else if(viewMode == "mobile"){
+				myGrid.changeGridView({
+					viewMode:viewMode,
+					view: {
+						column: [ // col 은 4
+							{key:"title", label:"제목", col:4, addClass:"underLine"},
+							{key:"no", label:"번호", col:2, align:"right"}, 
+							{key:"writer", label:"작성자", col:2, align:"center"},
+							{key:"img", label:"이미지", col:null, align:"center"},
+							{key:"category", label:"카테고리", align:"center"},
+							{key:"date", label:"일자", align:"center"}
+						]
+					}
+				});
+				myGrid.changeGridView({
+					viewMode:viewMode
 				});
 			}
 				
@@ -154,12 +217,13 @@
 
 		<h2>AXGrid</h2>
 
-		<div id="AXGridTarget" style="height:600px;"></div>
-		
-		<div style="padding:10px;">
-			<button class="AXButton" onclick="fnObj.changeView('grid');">목록보기</button>
-			<button class="AXButton" onclick="fnObj.changeView('icon');">아이콘보기</button>
+		<div style="padding:5px 5px;">
+			<button class="AXButton W60" onclick="fnObj.changeView('grid');">리스트</button>
+			<button class="AXButton W60" onclick="fnObj.changeView('icon');">썸네일</button>
+			<button class="AXButton W60" onclick="fnObj.changeView('mobile');">모바일</button>
 		</div>
+
+		<div id="AXGridTarget" style="height:600px;"></div>
 		
 	</div>
 </body>

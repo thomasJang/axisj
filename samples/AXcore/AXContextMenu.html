@@ -47,6 +47,7 @@
 					{userType:0, label:"트리등록", className:"", onclick:function(id){
 						toast.push(Object.toJSON(this));
 						toast.push(id);
+						return true; // 메뉴창이 닫히지 않게 합니다. true 가 아니거나 null 이면 메뉴가 자동으로 사라집니다.
 					}},
 					{userType:0, label:"자식트리등록", className:"docline", underLine:true, onclick:function(){
 						toast.push(Object.toJSON(this));

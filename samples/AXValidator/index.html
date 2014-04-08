@@ -214,6 +214,8 @@
 			},
 			saveForm: function(){
 				var validateResult = myValidator.validate();
+				//var validateResult = myValidator.validate({filterType:"include", list:[{id:"userID"}]}); //포함
+				//var validateResult = myValidator.validate({filterType:"exclude", list:[{id:"userID"}]}); //제외
 				if (!validateResult) {
 					var msg = myValidator.getErrorMessage();
 					AXUtil.alert(msg);

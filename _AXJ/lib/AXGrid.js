@@ -1,64 +1,75 @@
 ﻿/* AXISJ Javascript UI Framework */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
- 
+
+/**
+ * AXGrid 
+ * @class AXGrid
+ * @extends AXJ
+ * @version v1.60
+ * @author tom@axisj.com
+ * @logs 
+  "2012-12-24 오전 11:51:26",
+  "2013-01-08 오전 10:53:46 50% 진행중 - tom",
+  "2013-01-22 오후 10:20:01 99% 완료 - tom",
+  "2013-02-11 오후 12:21:55 editor value function 구문 적용 - tom",
+  "2013-02-15 오후 7:04:03 list length 가 1일때 setEditor 버그 수정 - tom",
+  "2013-02-16 오후 1:12:17 휠 스크롤 제어 예외 처리 - tom",
+  "2013-02-16 오후 10:37:55 reloadList 추가 - tom",
+  "2013-04-08 오후 9:48:53 getCheckedListWithIndex 추가 - tom",
+  "2013-05-09 오후 1:56:53 setFocus 추가 - tom",
+  "2013-06-17 오후 12:52:04 setFocus 스크롤 자동이동 기능 보강 /  focusMove 추가 - tom ",
+  "2013-06-21 오전 10:34:04 fitToWidth 속성 추가 & marker bugfix - tom",
+  "2013-06-25 오후 5:23:29 getSelectedItem 추가 / 버그픽스 - tom",
+  "2013-06-28 오전 11:32:33 wheel 버그픽스 - tom",
+  "2013-07-04 오후 1:12:34 tooltip 속성 추가 - tom",
+  "2013-07-17 오후 4:27:34 페이지 변경시 서버 2중 호출 버그 픽스",
+  "2013-07-21 오후 10:15:09 wheel 버그픽스 - tom",
+  "2013-07-24 오전 10:17:05 page 선언안함 버그픽스 - tom",
+  "2013-09-04 오후 2:49:54 AXConfig에서 설정값 바인딩 구조로 변경 처리 - tom",
+  "2013-09-23 오후 4:07:58 printList에서 리스트가 없을때 this.redrawGrid() 호출 추가 - root",
+  "2013-09-24 오전 12:49:34 setList 선언전에 append 안되는 문제와 목록없음 표시 처리 문제 보강 / body > onscrollend 함수 지원 - tom",
+  "2013-09-29 오전 12:41:29 colGroup width:'*' 옵션추가 / colHeadAlign 우선순위 조정 - tom",
+  "2013-09-30 오전 1:40:22 colMap 함수정리 - tom",
+  "2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom",
+  "2013-10-23 오후 2:48:24 formatter radio 지원 - tom",
+  "2013-10-24 오후 10:01:27 colGroup formatter - displayLabel:true 옵션추가 - tom",
+  "2013-10-28 오전 9:37:26 page count 버그 픽스 / $ 키워드 제거 - tom",
+  "2013-11-13 오전 10:09:14 tom : fitToWidth 창 최대화 최소화 버그 픽스",
+  "2013-11-18 오후 1:34:35 tom : grid owidth 버그 픽스",
+  "2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결",
+  "2013-12-11 오후 9:31:45 tom : ajax setList 그리드 스크롤포지션 문제 해결",
+  "2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결",
+  "2013-12-24 오후 2:30:25 tom : 버그픽스",
+  "2013-12-27 오전 11:56:44 tom marker bugfix",
+  "2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스",
+  "2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스",
+  "2014-01-03 오후 3:31:09 tom : gridBodyClick 이벤트함수 수정",
+  "2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가",
+  "2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가",
+  "2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
+  "2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결",
+  "2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가",
+  "2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경",
+  "2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가",
+  "2014-03-05 오후 12:17:26 tom : editor.response 에서 validate 후 editor 사라지도록 기능 변경, editorForm Item 중복되지 않도록 수정",
+  "2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스",
+  "2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스",
+  "2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disable 된 row 는 체크 하지않도록 변경",
+  "2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화",
+  "2014-03-28 오전 8:18:54 tom : click 메소드 호출시 callBack 버그 픽스",
+  "2014-03-31 오전 2:07:24 tom : init 에서 printList 호출 제거 / body.marker.addClass 속성 추가",
+  "2014-03-31 오후 4:14:34 tom : scroll 영역 조정 ",
+  "2014-04-01 오후 7:10:34 tom : .each for 로 변경/ changeGridView 메소드 추가"
+ * @description
+ * 
+	```js
+	var myGrid = new AXGrid();
+	myGrid.setConfig(classConfig:JSObject);
+	```
+ *
+ */
 
 var AXGrid = Class.create(AXJ, {
-	version: "AXGrid v1.60",
-	author: "tom@axisj.com",
-	logs: [
-		"2012-12-24 오전 11:51:26",
-		"2013-01-08 오전 10:53:46 50% 진행중 - tom",
-		"2013-01-22 오후 10:20:01 99% 완료 - tom",
-		"2013-02-11 오후 12:21:55 editor value function 구문 적용 - tom",
-		"2013-02-15 오후 7:04:03 list length 가 1일때 setEditor 버그 수정 - tom",
-		"2013-02-16 오후 1:12:17 휠 스크롤 제어 예외 처리 - tom",
-		"2013-02-16 오후 10:37:55 reloadList 추가 - tom",
-		"2013-04-08 오후 9:48:53 getCheckedListWithIndex 추가 - tom",
-		"2013-05-09 오후 1:56:53 setFocus 추가 - tom",
-		"2013-06-17 오후 12:52:04 setFocus 스크롤 자동이동 기능 보강 /  focusMove 추가 - tom ",
-		"2013-06-21 오전 10:34:04 fitToWidth 속성 추가 & marker bugfix - tom",
-		"2013-06-25 오후 5:23:29 getSelectedItem 추가 / 버그픽스 - tom",
-		"2013-06-28 오전 11:32:33 wheel 버그픽스 - tom",
-		"2013-07-04 오후 1:12:34 tooltip 속성 추가 - tom",
-		"2013-07-17 오후 4:27:34 페이지 변경시 서버 2중 호출 버그 픽스",
-		"2013-07-21 오후 10:15:09 wheel 버그픽스 - tom",
-		"2013-07-24 오전 10:17:05 page 선언안함 버그픽스 - tom",
-		"2013-09-04 오후 2:49:54 AXConfig에서 설정값 바인딩 구조로 변경 처리 - tom",
-		"2013-09-23 오후 4:07:58 printList에서 리스트가 없을때 this.redrawGrid() 호출 추가 - root",
-		"2013-09-24 오전 12:49:34 setList 선언전에 append 안되는 문제와 목록없음 표시 처리 문제 보강 / body > onscrollend 함수 지원 - tom",
-		"2013-09-29 오전 12:41:29 colGroup width:'*' 옵션추가 / colHeadAlign 우선순위 조정 - tom",
-		"2013-09-30 오전 1:40:22 colMap 함수정리 - tom",
-		"2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom",
-		"2013-10-23 오후 2:48:24 formatter radio 지원 - tom",
-		"2013-10-24 오후 10:01:27 colGroup formatter - displayLabel:true 옵션추가 - tom",
-		"2013-10-28 오전 9:37:26 page count 버그 픽스 / $ 키워드 제거 - tom",
-		"2013-11-13 오전 10:09:14 tom : fitToWidth 창 최대화 최소화 버그 픽스",
-		"2013-11-18 오후 1:34:35 tom : grid owidth 버그 픽스",
-		"2013-12-09 오후 4:26:45 tom : setList 후 그리드 스크롤포지션 문제 해결",
-		"2013-12-11 오후 9:31:45 tom : ajax setList 그리드 스크롤포지션 문제 해결",
-		"2013-12-19 오후 3:30 tom : height=auto 일 경우 scrollTop 되는 현상 해결",
-		"2013-12-24 오후 2:30:25 tom : 버그픽스",
-		"2013-12-27 오전 11:56:44 tom marker bugfix",
-		"2013-12-30 오후 11:00:00 tom : colGroup sort:false 기능 추가 및 버그 픽스",
-		"2014-01-01 오후 8:55:17 tom : editor validate 액션버그 픽스",
-		"2014-01-03 오후 3:31:09 tom : gridBodyClick 이벤트함수 수정",
-		"2014-01-10 오후 5:08:30 tom : listCountMSG 설정 기능 추가",
-		"2014-02-04 오전 10:13:38 tom : setList 메소드 호출 할 때 pageNo : 1 로 변경 기능 추가",
-		"2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
-		"2014-02-12 오전 11:31:41 tom : 불필요한 node 제거, * 설정시 헤드 너비 오차 문제 해결",
-		"2014-02-14 오전 11:10:45 tom : setEditor 후 selector 키컨트롤 이벤트 방지, editor 안에 onkeyup 메소드 추가",
-		"2014-02-14 오후 12:42:32 tom : appendList메소드 index를 지정 하지 않으면 맨 마지막으로 추가 되도록 변경",
-		"2014-02-25 오전 11:24:29 tom : formatter 함수 this에 .value, .key 속성 추가",
-		"2014-03-05 오후 12:17:26 tom : editor.response 에서 validate 후 editor 사라지도록 기능 변경, editorForm Item 중복되지 않도록 수정",
-		"2014-03-05 오후 5:13:45 tom : 열 리사이즈했을 때 스크롤 위치 버그픽스",
-		"2014-03-06 오후 8:22:00 tom : 열 리사이즈 후 컬럼 숨기기 표시 하시 액션 너비 변경 버그픽스",
-		"2014-03-12 오후 3:04:11 root : 그리드 헤드 체크 박스 클릭시 disable 된 row 는 체크 하지않도록 변경",
-		"2014-03-20 오전 11:16:51 tom : printList 실행 할 때 editor 활성화 되었으면 에디터 비 활성화",
-		"2014-03-28 오전 8:18:54 tom : click 메소드 호출시 callBack 버그 픽스",
-		"2014-03-31 오전 2:07:24 tom : init 에서 printList 호출 제거 / body.marker.addClass 속성 추가",
-		"2014-03-31 오후 4:14:34 tom : scroll 영역 조정 ",
-		"2014-04-01 오후 7:10:34 tom : .each for 로 변경/ changeGridView 메소드 추가"
-	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.Observer = null;
@@ -86,7 +97,6 @@ var AXGrid = Class.create(AXJ, {
 		if (browser.mobile) {
 			this.isMobile = true;
 		}
-
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
@@ -841,6 +851,34 @@ var AXGrid = Class.create(AXJ, {
 			return;
 		}
 		
+		/*
+		cfg.viewMode 결정 구간.
+		*/
+		
+		if(cfg.autoChangeGridView){
+			var _viewMode = "", clientWidth = axf.clientWidth();
+			axf.each(cfg.autoChangeGridView, function(k, v){
+				if(Object.isArray(v)){
+					if(v.length > 1){
+						
+						if(v[0] <= clientWidth &&  clientWidth <= v[1]){
+							_viewMode = k;
+							return false;	
+						}
+					}else{
+						if(v[0] <= clientWidth){
+							_viewMode = k;
+							return false;
+						}		
+					}
+				}
+			});
+			if(_viewMode != ""){
+				cfg.viewMode = _viewMode;
+			}
+		}
+		
+		
 		if(Object.isObject(cfg.colGroup)){
 			var newColGroup = cfg.colGroup.concat();
 			cfg.colGroup = newColGroup;
@@ -864,15 +902,17 @@ var AXGrid = Class.create(AXJ, {
 		ol.push("<div class=\"" + theme + "\" id=\"" + cfg.targetID + "_AX_grid\" style=\"" + gridCss.join('') + "\">");
 		ol.push("	<div class=\"AXgridScrollBody\" id=\"" + cfg.targetID + "_AX_gridScrollBody\" style=\"z-index:2;\">");
 		ol.push("		<div class=\"AXGridColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_gridColHead\" onselectstart=\"return false;\"></div>");
+		ol.push("		<div class=\"AXGridToolGroup top\" id=\"" + cfg.targetID + "_AX_gridToolGroupTop\"></div>");
 		ol.push("		<div class=\"AXGridBody\" id=\"" + cfg.targetID + "_AX_gridBody\"></div>");
+		ol.push("		<div class=\"AXGridToolGroup bottom\" id=\"" + cfg.targetID + "_AX_gridToolGroupBottom\"></div>");
 		ol.push("		<div class=\"AXgridEditor\" id=\"" + cfg.targetID + "_AX_gridEditor\"></div>");
 		ol.push("	</div>");
 		ol.push("	<div class=\"AXgridPageBody\" id=\"" + cfg.targetID + "_AX_gridPageBody\" style=\"z-index:1;\">");
 		ol.push("		<div class=\"AXgridPagingUnit\" id=\"" + cfg.targetID + "_AX_gridPagingUnit\">");
-		ol.push("			<a href=\"#AXexec\" class=\"AXgridPagingPrev\">PREV</a>");
+		ol.push("			<a class=\"AXgridPagingPrev\">PREV</a>");
 		ol.push("			<div class=\"AXgridPageNumber\"><select id=\"" + cfg.targetID + "_AX_gridPageNo\" class=\"AXgridPageNo\"><option value=\"\">&nbsp;&nbsp;</option></select></div>");
 		ol.push("			<div class=\"AXgridPageNumberCount\" id=\"" + cfg.targetID + "_AX_gridPageCount\">/ ...</div>");
-		ol.push("			<a href=\"#AXexec\" class=\"AXgridPagingNext\">NEXT</a>");
+		ol.push("			<a class=\"AXgridPagingNext\">NEXT</a>");
 		ol.push("		</div>");
 		ol.push("		<div class=\"AXgridStatus\" id=\"" + cfg.targetID + "_AX_gridStatus\">");
 		ol.push("		"+  cfg.listCountMSG.replace("{listCount}", 0));
@@ -890,6 +930,7 @@ var AXGrid = Class.create(AXJ, {
 		this.editor = axdom("#" + cfg.targetID + "_AX_gridEditor");
 
 		this.pageBody = axdom("#" + cfg.targetID + "_AX_gridPageBody");
+		this.pageBody.data("display", "show");
 		this.pagingUnit = axdom("#" + cfg.targetID + "_AX_gridPagingUnit");
 		this.status = axdom("#" + cfg.targetID + "_AX_gridStatus");
 		this.scroller = axdom("#" + cfg.targetID + "_AX_gridScroller");
@@ -897,32 +938,13 @@ var AXGrid = Class.create(AXJ, {
 		/* define part --------------------------------- */
 		this.defineConfig(); /* config object define */
 		/* define part --------------------------------- */
-
-		//alert(cfg.body.rows[0][4].formatter);
-
-		/*page setting */
-		if (!cfg.page) {
-			this.pageBody.hide();
-		} else {
+		
+		if (cfg.page) {
 			this.page.pageNo = (cfg.page.pageNo || 1);
 			this.page.pageSize = (cfg.page.pageSize || (AXConfig.AXGrid.pageSize || 100));
-
-			if (cfg.page.display == false) {
-				this.pageBody.hide();
-			} else {
-				if (cfg.page.paging) {
-					this.setPaging();
-				} else {
-					this.pagingUnit.hide();
-				}
-				if (cfg.page.status == false) {
-					this.status.hide();
-				}
-			}
+			
 		}
-
 		
-
 		/*colHead setting */
 		this.setColHead();
 
@@ -996,28 +1018,94 @@ var AXGrid = Class.create(AXJ, {
 		}, 100);
 	},
 	windowResizeApply: function () {
+		var cfg = this.config;
+		
+		if(cfg.autoChangeGridView){
+			var _viewMode = "", clientWidth = axf.clientWidth();
+			axf.each(cfg.autoChangeGridView, function(k, v){
+				if(Object.isArray(v)){
+					if(v.length > 1){
+						if(v[0] <= clientWidth &&  clientWidth <= v[1]){
+							_viewMode = k;
+							return false;	
+						}
+					}else{
+						if(v[0] <= clientWidth){
+							_viewMode = k;
+							return false;
+						}		
+					}
+				}
+			});
+			if(_viewMode != ""){
+				cfg.viewMode = _viewMode;
+			}
+		}
+		
 		this.redrawGrid();
 	},
 	gridTargetSetSize: function (react) { /* AXgridScrollBody 안쪽의 높이와 관련된 요소 설정 */
 		var cfg = this.config;
 		/*cfg.height */
-		if (cfg.height == "auto") {
+		
+		if(cfg.viewMode == "mobile"){
+			
 			this.target.css({ height: "auto", "max-height": "auto" });
-			var colHeadHeight = this.colHead.outerHeight();
-			if(colHeadHeight == 1) colHeadHeight = 0;
-			var scrollBodyHeight = this.scrollContent.height();
-			this.scrollBody.css({ height: scrollBodyHeight + colHeadHeight }); /*colhead + body height */
-			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
-		} else {
-			var pageBodyHeight = this.pageBody.outerHeight();
-			if (cfg.page.display == false) pageBodyHeight = 0;
-			var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
-			this.scrollBody.css({ height: scrollBodyHeight }); /*colhead + body height */
-			var colHeadHeight = this.colHead.outerHeight();
-			if(colHeadHeight == 1) colHeadHeight = 0;
-			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) }); /* body Height */
+			this.gridBody.addClass("AXGridMobile");
+			this.gridBody.css({height:"auto"});
+			this.scrollBody.css({height:"auto"});
+			this.body.css({top:"auto", height:"auto"});
+			this.pageBody.hide();
+			this.setPaging();
+			
+		}else{
+			
+			/*page setting */
+			if (!cfg.page) {
+				this.pageBody.hide();
+				this.pageBody.data("display", "hide");
+			} else {
+				
+				if (cfg.page.display == false) {
+					this.pageBody.hide();
+					this.pageBody.data("display", "hide");
+				} else {
+					this.pageBody.show();
+					this.pageBody.data("display", "show");
+					
+					if (cfg.page.paging) {
+						this.setPaging();
+					} else {
+						this.pagingUnit.hide();
+					}
+					if (cfg.page.status == false) {
+						this.status.hide();
+					}
+				}
+			}
+
+			this.gridBody.removeClass("AXGridMobile");
+			
+			if (cfg.height == "auto") {	
+				var colHeadHeight = this.colHead.outerHeight();
+				if(colHeadHeight == 1) colHeadHeight = 0;
+				var scrollBodyHeight = this.scrollContent.height();
+				this.scrollBody.css({ height: scrollBodyHeight + colHeadHeight }); /*colhead + body height */
+				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) }); /* body Height */
+			} else {
+				
+				if(cfg.height) this.gridBody.css({height:cfg.height});
+				
+				var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
+				if (cfg.page.display == false) pageBodyHeight = 0;
+				var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
+				this.scrollBody.css({ height: scrollBodyHeight }); /*colhead + body height */
+				var colHeadHeight = this.colHead.outerHeight();
+				if(colHeadHeight == 1) colHeadHeight = 0;
+				this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) }); /* body Height */
+			}
+			if (react) this.contentScrollResize(false);
 		}
-		if (react) this.contentScrollResize(false);
 	},
 	getColGroup: function (suffix) {
 		var cfg = this.config;
@@ -1055,8 +1143,37 @@ var AXGrid = Class.create(AXJ, {
 		}
 		return colSeq;
 	},
-	redrawGrid: function () {
+/**
+ * 그리드의 모든 요소를 재 정렬 해 줍니다. 
+ * grid elements align
+ *
+ * @name AXGrid.redrawGrid
+ * @description
+ *
+ 	'''js
+ 	var myGrid = new AXGrid();
+ 	...
+ 	myGrid.redrawGrid();
+ *
+ * @param {String} changeGridView 옵션
+ */
+	redrawGrid: function (changeGridView) {
 		var cfg = this.config;
+		/*
+		모바일 모드로 요청 하면 뼈대 변경.
+		*/
+		if(changeGridView){
+			if(cfg.viewMode == "grid"){
+				this.pageBody.show();
+				this.pageBody.data("display", "show");
+			}else if(cfg.viewMode == "icon"){
+				this.pageBody.show();
+				this.pageBody.data("display", "show");
+			}else if(cfg.viewMode == "mobile"){
+				this.pageBody.hide();
+				this.pageBody.data("display", "hide");
+			}
+		}
 		
 		this.defineConfig(true);
 		this.setColHead();
@@ -1166,9 +1283,12 @@ var AXGrid = Class.create(AXJ, {
 			/*this.copyData(); */
 		}
 		if(this.editorOpend) return;
-		if (event.keyCode == AXUtil.Event.KEY_UP) { /* */
+		
+		//trace("onKeydown" + event.keyCode);
+		
+		if (event.keyCode == axf.Event.KEY_UP) { /* */
 			this.focusMove(-1, event);
-		} else if (event.keyCode == AXUtil.Event.KEY_DOWN) { /* */
+		} else if (event.keyCode == axf.Event.KEY_DOWN) { /* */
 			this.focusMove(1, event);
 		}
 	},
@@ -1461,6 +1581,9 @@ var AXGrid = Class.create(AXJ, {
 				this.fixedColHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 			}
 		}else if(cfg.viewMode == "icon"){
+			this.colHead.empty();
+			this.colHead.hide();
+		}else if(cfg.viewMode == "mobile"){ /* 모바일에서는 헤드 제거 또는 모바일용 헤드 재구성 */
 			this.colHead.empty();
 			this.colHead.hide();
 		}
@@ -1918,6 +2041,8 @@ var AXGrid = Class.create(AXJ, {
 				po.push("</table>");
 			}else if(cfg.viewMode == "icon"){
 				po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
+			}else if(cfg.viewMode == "mobile"){
+				po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
 			}
 		po.push("</div>");
 
@@ -1937,12 +2062,15 @@ var AXGrid = Class.create(AXJ, {
 			po.push("</div>");
 		}
 
-		po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackXY\" class=\"gridScrollTrackXY\"></div>");
-		po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackY\" class=\"gridScrollTrackY\"><div id=\"" + cfg.targetID + "_AX_scrollYHandle\" class=\"gridScrollHandle\"></div></div>");
-		po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackX\" class=\"gridScrollTrackX\"><div id=\"" + cfg.targetID + "_AX_scrollXHandle\" class=\"gridScrollHandle\"></div></div>");
+		if (cfg.viewMode == "grid" || cfg.viewMode == "icon"){
+			po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackXY\" class=\"gridScrollTrackXY\"></div>");
+			po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackY\" class=\"gridScrollTrackY\"><div id=\"" + cfg.targetID + "_AX_scrollYHandle\" class=\"gridScrollHandle\"></div></div>");
+			po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackX\" class=\"gridScrollTrackX\"><div id=\"" + cfg.targetID + "_AX_scrollXHandle\" class=\"gridScrollHandle\"></div></div>");
+		}
 		this.body.html(po.join(''));
 
 		this.scrollContent = axdom("#" + cfg.targetID + "_AX_scrollContent");
+		
 		this.fixedScrollContent = axdom("#" + cfg.targetID + "_AX_fixedScrollContent");
 		this.scrollTrackXY = axdom("#" + cfg.targetID + "_AX_scrollTrackXY");
 		this.scrollTrackY = axdom("#" + cfg.targetID + "_AX_scrollTrackY");
@@ -1954,31 +2082,40 @@ var AXGrid = Class.create(AXJ, {
 			this.setList(this.list);
 		}
 		
-		/* scroll event bind */
-		this.scrollYHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
-		this.scrollXHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
-		/* scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		if (cfg.viewMode == "grid" || cfg.viewMode == "icon"){
+			/* scroll event bind */
+			this.scrollYHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
+			this.scrollXHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
+			/* scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		}
 	},
 	listLoadingDisplay: function () {
 		var cfg = this.config;
 		var po = [];
-		po.push("<tr class=\"noListTr\">");
-		po.push("<td colspan=\"" + (this.showColLen) + "\">");
-		po.push("<div class=\"tdRelBlock\">");
-		po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
-		po.push("	<div class=\"AXLoading\"></div>");
-		po.push("</div>");
-		po.push("</div>");
-		po.push("</td>");
-		po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
-		po.push("</tr>");
-		axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
-		po = [];
-		po.push("<tr class=\"noListTr\">");
-		po.push("<td colspan=\"" + (this.showColLen) + "\">");
-		po.push("</td>");
-		po.push("</tr>");
-		axdom("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
+		
+		if(cfg.viewMode != "mobile"){
+			po.push("<tr class=\"noListTr\">");
+			po.push("<td colspan=\"" + (this.showColLen) + "\">");
+			po.push("<div class=\"tdRelBlock\">");
+			po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
+			po.push("	<div class=\"AXLoading\"></div>");
+			po.push("</div>");
+			po.push("</div>");
+			po.push("</td>");
+			po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
+			po.push("</tr>");
+			axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
+			po = [];
+			po.push("<tr class=\"noListTr\">");
+			po.push("<td colspan=\"" + (this.showColLen) + "\">");
+			po.push("</td>");
+			po.push("</tr>");
+			axdom("#" + cfg.targetID + "_AX_fixedTbody").html(po.join(''));
+		}else{
+			po.push("	<div class=\"AXLoading\"></div>");
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").empty();
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").append(po.join(''));
+		}
 	},
 	setList: function (obj, sortDisable, rewrite, exts) {
 		var cfg = this.config;
@@ -2362,6 +2499,60 @@ var AXGrid = Class.create(AXJ, {
 
 		return tpo.join('');
 	},
+	getMobileItem: function (itemIndex, item, mobileView){
+		var cfg = this.config;
+		var tpo = [];
+		var evenClassName = "line" + (itemIndex % 2);
+		var getFormatterValue = this.getFormatterValue.bind(this);
+		var getTooltipValue = this.getTooltipValue.bind(this);
+		var trAddClass = "";
+		if (cfg.body.addClass) {
+			try {
+				trAddClass = cfg.body.addClass.call({
+					index: itemIndex,
+					item: item,
+					list: this.list,
+					page: this.page
+				});
+			} catch (e) {
+				trace(e);
+			}
+		}
+		
+		tpo.push("<section class=\"bodyViewMobile bodyViewMobile_" + itemIndex + " " + " " + evenClassName + " " + (mobileView.addClass || "") + "\" id=\"" + cfg.targetID + "_AX_viewMobile_AX_" + itemIndex + "\">");		
+		
+		var __memoCol = null;
+		for (var CN, cidx= 0, __arr = mobileView.column; (cidx < __arr.length && (CN = __arr[cidx])); cidx++) {
+			if (CN.display == true || CN.display == undefined) {
+				var colClass = "", colAddClass = (CN.addClass||"");
+				if(CN.col) colClass = "col" + CN.col;
+				else  colClass = "colNone";
+					
+				if(__memoCol != null && !CN.col) tpo.push("<div style='clear:both;'></div>");
+				
+				tpo.push("<div class='column "+ colClass + " " + trAddClass + " " + colAddClass +"'>");
+					if(mobileView.label != false){
+						tpo.push("<span class='label'>" + CN.label + "</span>");
+						tpo.push("<span class='content'>");
+					}else{
+						tpo.push("<span class='content solid'>");
+					}
+					if (CN.formatter) {
+						tpo.push(getFormatterValue(CN.formatter, item, itemIndex, item[CN.key], CN.key, CN));
+					} else {
+						tpo.push(item[CN.key]);
+					}
+					tpo.push("</span>");
+				tpo.push("</div>");
+				__memoCol = CN.col;
+			}
+		}
+			tpo.push("<div class='columnClear'></div>");
+			tpo.push("<div class='buttonGroup'></div>");
+		tpo.push("</section>");
+		
+		return tpo.join('');
+	},
 	getItemMarker: function (itemIndex, item, isfix) {
 		var cfg = this.config;
 		var tpo = [];
@@ -2464,6 +2655,9 @@ var AXGrid = Class.create(AXJ, {
 		/* icon view */
 		var getIconItem = this.getIconItem.bind(this);
 		/* --------------------------- icon view */
+		/* mobile view */
+		var getMobileItem = this.getMobileItem.bind(this);
+		/* --------------------------- icon view */
 
 		var po = [];
 		/* view mode 가 grid 인경우만 유효 */
@@ -2509,7 +2703,7 @@ var AXGrid = Class.create(AXJ, {
 			this.body.find(".gridBodyTr").bind("click", this.gridBodyClick.bind(this));
 			if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
-			if (this.selectedRow && this.selectedRow.length > 0) {
+        if (this.selectedRow && this.selectedRow.length > 0) {
 
 				var body = this.body;
 				for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
@@ -2545,7 +2739,7 @@ var AXGrid = Class.create(AXJ, {
 
 		} else if(cfg.viewMode == "icon") {
 
-			var viewIconObj = cfg.view_icon;
+			var viewIconObj = cfg.view;
 			
 			var viewIconCss = [];
 			viewIconCss.push("width:" + viewIconObj.width.number() + "px");
@@ -2601,6 +2795,13 @@ var AXGrid = Class.create(AXJ, {
 			this.body.find(".bodyViewIcon").bind("click", this.gridBodyClick.bind(this));
 			if (this.needBindDBLClick()) this.body.find(".bodyViewIcon").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
+			if (this.selectedRow && this.selectedRow.length > 0) {
+				var body = this.body;
+				for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
+					body.find(".bodyViewIcon_" + item).addClass("selected");
+				};
+			}
+
 			var _list = this.list;
 			var iconButtonClick = function (event) {
 				var ids = event.target.id.split(/_AX_/g);
@@ -2622,6 +2823,61 @@ var AXGrid = Class.create(AXJ, {
 				iconButtonClickBind(event);
 			});
 			
+		} else if(cfg.viewMode == "mobile"){
+			
+			var mobileView = cfg.view;
+			if(mobileView == undefined){
+				var columns = [];
+				for (var CG, cidx= 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+					var col = null, addClass = "";
+					if(CG.widthAstric || CG.width.number() >= 200){
+						col = 4;
+						addClass = "underLine";
+					}else if(CG.width.number() >= 100){
+						col = 2;
+					}else if(CG.width.number() >= 40){
+						//col = 1;
+					}
+					columns.push(
+						{key:CG.key, label:CG.label, col:col, formatter:CG.formatter, addClass:addClass, sort:(CG.sort||""), display:(CG.display||true)}
+					);
+				}
+				columns = columns.sort(function (pItem, nItem) {
+					var v1 = pItem.col;
+					var v2 = nItem.col;
+					if (v1 < v2) return 1;
+					else if (v1 > v2) return -1;
+					else if (v1 == v2) return 0;
+				});
+				mobileView = {
+					labelView:true,
+					column:columns
+				}
+			}
+			
+			for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
+				po.push(getMobileItem(itemIndex, item, mobileView));
+			};
+
+			if (this.list.length == 0) { /* empty tags */
+				po.push("<div class=\"bodyViewMobile\" align=\"center\">");
+				po.push(AXConfig.AXGrid.emptyListMSG);
+				po.push("</div>");
+			}
+
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").empty();
+			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").append(po.join(''));
+
+			this.body.find(".bodyViewMobile").bind("click", this.gridBodyClick.bind(this));
+			if (this.needBindDBLClick()) this.body.find(".bodyViewMobile").bind("dblclick", this.gridBodyDBLClick.bind(this));
+
+			if (this.selectedRow && this.selectedRow.length > 0) {
+				var body = this.body;
+				for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
+					body.find(".bodyViewMobile_" + item).addClass("selected");
+				};
+			}
+
 		}
 		this.selectedCells.clear(); /* selectedCells clear */
 		this.contentScrollResize();
@@ -2961,8 +3217,8 @@ var AXGrid = Class.create(AXJ, {
 		}
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXGridBody")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon") || axdom(evt).hasClass("bodyViewMobile")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 		if (isoncheck) { /*체크박스 구현 */
@@ -2997,7 +3253,7 @@ var AXGrid = Class.create(AXJ, {
 
 				if (event.shiftKey) {
 					
-				} else if (event.ctrlKey) {
+				} else if (event.metaKey || event.ctrlKey) {
 					if (this.selectedRow.length > 0) {
 						var body = this.body;
 						axf.each(this.selectedRow, function () {
@@ -3062,14 +3318,14 @@ var AXGrid = Class.create(AXJ, {
 					/*if(this.hasEditor) this.setEditor(item, itemIndex); */
 				}
 			}
-		} else {
+		} else if(cfg.viewMode == "icon") {
 			if (myTarget) {
 				var targetID = myTarget.id;
 				var itemIndex = targetID.split(/_AX_/g).last();
 
 				if (event.shiftKey) {
 
-				} else if (event.ctrlKey) {
+				} else if (event.metaKey || event.ctrlKey) {
 
 				} else {
 
@@ -3101,8 +3357,45 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 			}
+		} else if(cfg.viewMode == "mobile") {
+			if (myTarget) {
+				var targetID = myTarget.id;
+				var itemIndex = targetID.split(/_AX_/g).last();
 
+				if (event.shiftKey) {
 
+				} else if (event.metaKey || event.ctrlKey) {
+
+				} else {
+
+					if (this.selectedRow.length > 0) {
+						var body = this.body;
+						axf.each(this.selectedRow, function () {
+							body.find(".bodyViewMobile_" + this).removeClass("selected");
+						});
+					}
+
+					this.selectedRow.clear();
+					this.body.find(".bodyViewMobile_" + itemIndex).addClass("selected");
+					this.selectedRow.push(itemIndex);
+
+					var item = this.list[itemIndex];
+
+					if (cfg.body.onclick) {
+						var sendObj = {
+							index: itemIndex,
+							list: this.list,
+							item: item,
+							page: this.page
+						};
+						try {
+							cfg.body.onclick.call(sendObj, itemIndex, item);
+						} catch (e) {
+							trace(e);
+						}
+					}
+				}
+			}
 		}
 	},
 	gridBodyDBLClick: function (event) {
@@ -3113,8 +3406,8 @@ var AXGrid = Class.create(AXJ, {
 		if (eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button") return; /*input, button 인 경우 제외 */
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon")) ? true : false; }
+			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXGridBody")) ? true : false; },
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon") || axdom(evt).hasClass("bodyViewMobile")) ? true : false; }
 		});
 		/* event target search ------------------------ */
 		if (cfg.viewMode == "grid") {
@@ -3154,7 +3447,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 			}
-		} else {
+		} else if(cfg.viewMode == "icon") {
 			if (myTarget) {
 				/*colHeadTool ready */
 				/*trace({tagName:myTarget.tagName, id:myTarget.id}); */
@@ -3186,6 +3479,38 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 			}
+		} else if(cfg.viewMode == "mobile") {
+			if (myTarget) {
+				/*colHeadTool ready */
+				/*trace({tagName:myTarget.tagName, id:myTarget.id}); */
+				var targetID = myTarget.id;
+				var itemIndex = targetID.split(/_AX_/g).last();
+
+				if (this.selectedRow.length > 0) {
+					var body = this.body;
+					axf.each(this.selectedRow, function () {
+						body.find(".bodyViewMobile_" + this).removeClass("selected");
+					});
+				}
+				this.selectedRow.clear();
+				this.body.find(".bodyViewMobile_" + itemIndex).addClass("selected");
+				this.selectedRow.push(itemIndex);
+
+				if (cfg.body.ondblclick) {
+					var item = this.list[itemIndex];
+					var sendObj = {
+						index: itemIndex,
+						list: this.list,
+						item: item,
+						page: this.page
+					};
+					try {
+						cfg.body.ondblclick.call(sendObj, itemIndex, item);
+					} catch (e) {
+						trace(e);
+					}
+				}
+			}
 		}
 
 		this.stopEvent(event);
@@ -3193,8 +3518,8 @@ var AXGrid = Class.create(AXJ, {
 	},
 	contentScrollResize: function (resetLeft) {
 		var cfg = this.config, _this = this;
+		if(cfg.viewMode == "mobile") return; // 모바일이면 scroll이 없음.
 		if(this.contentScrollResize_timer) clearTimeout(this.contentScrollResize_timer);
-
 		this.contentScrollResize_timer = setTimeout(function(){
 			//trace("contentScrollResize_timer");
 			var bodyHeight = _this.body.height() - _this.scrollTrackXY.outerHeight();
@@ -3269,7 +3594,6 @@ var AXGrid = Class.create(AXJ, {
 				}
 			}
 		}, 10);
-
 	},
 	contentScrollScrollSync: function (pos) {
 		var cfg = this.config;
@@ -3621,45 +3945,72 @@ var AXGrid = Class.create(AXJ, {
 	},
 	setFocus: function (itemIndex) {
 		var cfg = this.config;
-
-		if (this.selectedCells.length > 0) {
-			axf.each(this.selectedCells, function () {
-				axdom("#" + this).removeClass("selected");
-			});
-			this.selectedCells.clear();
-		}
-		if (this.selectedRow.length > 0) {
-			var body = this.body;
-			axf.each(this.selectedRow, function () {
-				body.find(".gridBodyTr_" + this).removeClass("selected");
-			});
-		}
-
-		this.selectedRow.clear();
-		this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-		this.selectedRow.push(itemIndex);
-
-		var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-		var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
-
-		var scrollHeight = this.scrollContent.height();
-		var bodyHeight = this.body.height() - this.scrollTrackXY.outerHeight();
-		var handleHeight = this.scrollYHandle.outerHeight();
-		var trackHeight = this.scrollTrackY.height();
-
-		if (trTop.number() + trHeight.number() > bodyHeight) {
-			var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-			this.scrollContent.css({ top: scrollTop });
-			this.contentScrollContentSync({ top: scrollTop });
-		} else {
-			if (trTop.number() == 0) {
-				var scrollTop = 0;
+		
+		if(cfg.viewMode == "grid"){
+			
+			if (this.selectedCells.length > 0) {
+				axf.each(this.selectedCells, function () {
+					axdom("#" + this).removeClass("selected");
+				});
+				this.selectedCells.clear();
+			}
+			if (this.selectedRow.length > 0) {
+				var body = this.body;
+				axf.each(this.selectedRow, function () {
+					body.find(".gridBodyTr_" + this).removeClass("selected");
+				});
+			}
+	
+			this.selectedRow.clear();
+			this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+			this.selectedRow.push(itemIndex);
+	
+			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
+			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+	
+			var scrollHeight = this.scrollContent.height();
+			var bodyHeight = this.body.height() - this.scrollTrackXY.outerHeight();
+			var handleHeight = this.scrollYHandle.outerHeight();
+			var trackHeight = this.scrollTrackY.height();
+	
+			if (trTop.number() + trHeight.number() > bodyHeight) {
+				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 				this.scrollContent.css({ top: scrollTop });
 				this.contentScrollContentSync({ top: scrollTop });
+			} else {
+				if (trTop.number() == 0) {
+					var scrollTop = 0;
+					this.scrollContent.css({ top: scrollTop });
+					this.contentScrollContentSync({ top: scrollTop });
+				}
 			}
+		}else if(cfg.viewMode == "icon"){
+			
+		}else if(cfg.viewMode == "mobile"){
+			
+			trace("move");
+			
+			if (this.selectedCells.length > 0) {
+				axf.each(this.selectedCells, function () {
+					axdom("#" + this).removeClass("selected");
+				});
+				this.selectedCells.clear();
+			}
+			if (this.selectedRow.length > 0) {
+				var body = this.body;
+				axf.each(this.selectedRow, function () {
+					body.find(".bodyViewMobile_" + this).removeClass("selected");
+				});
+			}
+	
+			this.selectedRow.clear();
+			this.body.find(".bodyViewMobile_" + itemIndex).addClass("selected");
+			this.selectedRow.push(itemIndex);
+	
+			this.body.find(".bodyViewMobile_" + itemIndex).focus();
 		}
 	},
-	focusMove: function (direction, event) {
+	focusMove: function (direction, event) {		
 		var cfg = this.config;
 		var myIndex = this.selectedRow.first();
 		var newIndex = myIndex.number() + direction;
@@ -4660,9 +5011,110 @@ var AXGrid = Class.create(AXJ, {
 		this.setEditor(item, null, insertIndex);
 	},
 	/* editor 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	setMobileTool: function(){
+		var cfg = this.config, _this = this;
+		
+		var toolGroupTop = axdom("#" + cfg.targetID + "_AX_gridToolGroupTop");
+		var toolGroupBottom = axdom("#" + cfg.targetID + "_AX_gridToolGroupBottom");
+		
+		var po = [];
+		po.push('<a name="'+cfg.targetID+'_AX_top"></a>');
+		po.push('<a class="tool-config"><span class="displayNone">congif</span></a>');
+		if (cfg.page) {
+			if (cfg.page.paging) {
+				po.push('<div class="tool-pageGroup">');
+					po.push('<a class="tool-prevPage"><span class="displayNone">prev</span></a>');
+					po.push('<div class="tool-pageNo"><span id="' + cfg.targetID + '_AX_gridToolTopPageNoDisplay"></span><select id="' + cfg.targetID + '_AX_gridToolTopPageNo"></select></div>');
+					po.push('<a class="tool-nextPage"><span class="displayNone">next</span></a>');
+				po.push('</div>');
+			}
+		}
+		po.push('<a href="#'+cfg.targetID+'_AX_bottom" class="tool-gotoTop"><span class="displayNone">top</span></a>');
+		toolGroupTop.empty();
+		toolGroupTop.append(po.join(''));
 
+		po = [];
+		po.push('<a name="'+cfg.targetID+'_AX_bottom"></a>');
+		po.push('<a class="tool-config"><span class="displayNone">congif</span></a>');
+		if (cfg.page) {
+			if (cfg.page.paging) {
+				po.push('<div class="tool-pageGroup">');
+					po.push('<a class="tool-prevPage"><span class="displayNone">prev</span></a>');
+					po.push('<div class="tool-pageNo"><span id="' + cfg.targetID + '_AX_gridToolBottomPageNoDisplay"></span><select id="' + cfg.targetID + '_AX_gridToolBottomPageNo"></select></div>');
+					po.push('<a class="tool-nextPage"><span class="displayNone">next</span></a>');
+				po.push('</div>');
+			}
+		}
+		po.push('<a href="#'+cfg.targetID+'_AX_top" class="tool-gotoBottom"><span class="displayNone">bottom</span></a>');		
+		toolGroupBottom.empty();
+		toolGroupBottom.append(po.join(''));
+		
+		var pgCount = this.page.pageCount.number();
+		var pageNo = this.page.pageNo.number();
+		
+		if (cfg.page) {
+			if (cfg.page.paging) {
+				if (pgCount == 0) {
+					po = [];
+					po.push("<option value=\"\">..</option>");
+					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").html(po.join(''));
+					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNoDisplay").html(po.join(''));
+					axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").html(po.join(''));
+					axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNoDisplay").html(po.join(''));
+				} else {
+					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").html("");
+					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNoDisplay").html(pageNo);
+					var mySelect = axf.getId(cfg.targetID + "_AX_gridToolTopPageNo");
+					axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").html("");
+					axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNoDisplay").html(pageNo);
+					var mySelectBottom = axf.getId(cfg.targetID + "_AX_gridToolBottomPageNo");
+					for (var p = 1; p < pgCount + 1; p++) {
+						mySelect.options[p] = new Option(p, p.money());
+						mySelectBottom.options[p] = new Option(p, p.money());
+						if (pageNo == p){
+							mySelect.options[p].selected = true;
+							mySelectBottom.options[p].selected = true;
+						}
+					}
+				}
+				
+				axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").bind("change", this.onPageChange.bind(this));
+				axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").bind("change", this.onPageChange.bind(this));
+				
+				/* page event bind */
+				var openMobileConfig = this.openMobileConfig.bind(this);
+				toolGroupTop.find(".tool-config").bind("click", function (event) {
+					openMobileConfig(event);
+				});
+				toolGroupBottom.find(".tool-config").bind("click", function (event) {
+					openMobileConfig(event);
+				});
+				
+				var goPageMove = this.goPageMove.bind(this);
+				toolGroupTop.find(".tool-prevPage").bind("click", function (event) {
+					goPageMove(-1);
+				});
+				toolGroupBottom.find(".tool-prevPage").bind("click", function (event) {
+					goPageMove(-1);
+				});
+				toolGroupTop.find(".tool-nextPage").bind("click", function (event) {
+					goPageMove(1);
+				});
+				toolGroupBottom.find(".tool-nextPage").bind("click", function (event) {
+					goPageMove(1);
+				});
+
+				/* page event bind */
+				
+			}
+		}
+	},
 	setPaging: function () {
 		var cfg = this.config;
+		if(cfg.viewMode == "mobile"){
+			this.setMobileTool();
+			return;
+		}
 		/* apply page vars */
 		var pageNos = axf.getId(cfg.targetID + "_AX_gridPageNo");
 		var pgCount = this.page.pageCount.number();
@@ -4718,8 +5170,9 @@ var AXGrid = Class.create(AXJ, {
 		else if (pageNo + pageAdd > pgCount) pageNo = pgCount;
 		else pageNo += pageAdd;
 
-		if (this.isMobile) {
-			axdom("#" + cfg.targetID + "_AX_gridPageNo").val(pageNo);
+		if (cfg.viewMode == "mobile") {
+			axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").val(pageNo);
+			axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").val(pageNo);
 			this.onPageChange();
 		} else {
 			axdom("#" + cfg.targetID + "_AX_gridPageNo").setValueSelect(pageNo);
@@ -4727,24 +5180,32 @@ var AXGrid = Class.create(AXJ, {
 		/*this.page.pageNo = pageNo; */
 		/*this.onPageChange(); bindSelectSetValue 시 자동 호출되는 구조 */
 	},
-	onPageChange: function () {
+	onPageChange: function (e) {
 		var cfg = this.config;
-		var pgCount = this.page.pageCount.number();
-		var pageNo = this.page.pageNo.number();
-		var npageNo = axdom("#" + cfg.targetID + "_AX_gridPageNo").val();
+		var pgCount, pageNo, npageNo;
+		pgCount = this.page.pageCount.number();
+		pageNo = this.page.pageNo.number();
+		if(cfg.viewMode == "mobile"){
+			npageNo = (e) ? e.target.value : axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").val();
+		}else{
+			npageNo = axdom("#" + cfg.targetID + "_AX_gridPageNo").val();
+		}
 		this.page.pageNo = npageNo;
 
 		/*스크롤 위치 변경 */
-		var scrollTop = 0;
-		this.scrollContent.css({ top: scrollTop });
-		this.contentScrollContentSync({ top: scrollTop });
-
-		/*alert(this.pageActive); */
-		/*alert(this.ajaxInfo); */
-
-		if (this.pageActive && this.ajaxInfo) {
-			this.setList(this.ajaxInfo, null, null, "paging");
-			this.contentScrollResize();
+		if(cfg.viewMode != "mobile"){
+			var scrollTop = 0;
+			this.scrollContent.css({ top: scrollTop });
+			this.contentScrollContentSync({ top: scrollTop });
+	
+			if (this.pageActive && this.ajaxInfo) {
+				this.setList(this.ajaxInfo, null, null, "paging");
+				this.contentScrollResize();
+			}
+		}else{
+			if (this.pageActive && this.ajaxInfo) {
+				this.setList(this.ajaxInfo, null, null, "paging");
+			}
 		}
 	},
 	setStatus: function (listLength) {
@@ -5020,17 +5481,107 @@ var AXGrid = Class.create(AXJ, {
 		
 	},
 	
-	/* { changeGridView */
+/**
+ * 그리드의 뷰모드를 체인지 합니다.
+ * change viewMode
+ *
+ * @name AXGrid.changeGridView
+ * @description
+ *
+ 	'''js
+ 	myGrid.changeGridView({
+ 		viewMode:"grid"
+ 	});
+ 	myGrid.changeGridView({
+ 		viewMode:"icon",
+		view: {
+			width:"200", // icon width
+			height:"300", // icon height
+			img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"}, 
+			label:{left:"10", top:"200", width:"180", height:"20"},
+			description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
+			buttons: {
+				left:"5", top:"5", width:"180", height:"20", style:"", 
+				items:[
+					{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
+						fnObj.otherFunction(this);
+					}},
+					{label:"but2", style:"", addClass:"AXButton", onclick:function(){
+						fnObj.otherFunction(this);
+					}}
+				]
+			},
+			format: function(){
+				return {
+					imgsrc : this.item.img,
+					label : this.item.title,
+					description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
+				}
+			}
+		}
+ 	});
+ 	myGrid.changeGridView({
+ 		viewMode:"mobile"
+ 	});
+ *
+ */
 	changeGridView: function(JSObject){
 		var cfg = this.config;
-		cfg.viewMode = JSObject.viewName;
-		if(JSObject.viewName == "icon"){
-			cfg.view_icon = JSObject.view;
-			this.redrawGrid();
-		}else if(JSObject.viewName == "grid"){
-			this.redrawGrid();
-		}		
+		
+		if(cfg.viewMode != JSObject.viewMode){
+			cfg.viewMode = JSObject.viewMode;
+			if(JSObject.viewMode == "icon"){
+				if(JSObject.view) cfg.view = JSObject.view;
+				this.redrawGrid("changeGridView");
+			}else if(JSObject.viewMode == "grid"){
+				//if(JSObject.view) cfg.view = JSObject.view;
+				this.redrawGrid("changeGridView");
+			}else if(JSObject.viewMode == "mobile"){
+				if(JSObject.view) cfg.view = JSObject.view;
+				this.redrawGrid("changeGridView");
+				
+			}		
+		}
+	},
+/**
+ * 모바일 툴바가 클릭되었을 때 이벤트 함수
+ * p[en mobile tool
+ *
+ * @name AXGrid.openMobileConfig
+ *
+ */
+	openMobileConfig: function(event){
+		var cfg = this.config;
+		//trace(cfg.view.column);
+
+		for (var CN, cidx= 0, __arr = cfg.view.column; (cidx < __arr.length && (CN = __arr[cidx])); cidx++) {
+			if(CN.display == undefined || CN.display == true){
+				CN.display = true;
+				CN.checked = true;
+			}
+		}
+		
+		var contextMenu = cfg.view.column.concat();
+		
+		AXContextMenu.bind({
+			id:cfg.targetID + "myContextMenu", 
+			theme:"AXContextMenu", // 선택항목
+			width:"150", // 선택항목
+			checkbox:"checkbox", // [checkbox|radio]
+			sortbox:true,
+			menu:contextMenu,
+			onchange: function(){ // 체크박스 선택값이 변경 된 경우 호출 됩니다.
+				trace(this.menu);
+								
+				
+			},
+			onsort: function(){ // 정렬이 변경 된 경우 호출 됩니다.
+				//trace(this.sortMenu);
+				
+				
+				return true;// 메뉴 창이 닫히지 않게 합니다.
+			}
+		});
+		AXContextMenu.open({id:cfg.targetID + "myContextMenu"}, event);		
 	}
-	
-	/* changeGridView } */
 });

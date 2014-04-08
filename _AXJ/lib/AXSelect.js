@@ -2,29 +2,35 @@
 /* http://www.axisj.com, license : http://www.axisj.com/license */
  
 
+/**
+ * AXSelectConverter
+ * @class AXSelectConverter
+ * @extends AXJ
+ * @version v2.50
+ * @author tom@axisj.com
+ * @logs
+ 		"2012-12-19 오후 12:00:43",
+ 		"2013-04-24 오후 5:45:44 - value change bug fix",
+ 		"2013-06-04 오전 11:00:42 - bind 메소드 업그레이드",
+ 		"2013-07-26 오후 1:14:16 - bind, unbind, bindSetConfig 픽스",
+ 		"2013-08-21 오후 4:45:02 - 연속 appendAnchor 버그픽스",
+ 		"2013-08-23 오후 8:14:22 - expandBox 포지션 가변 처리",
+ 		"2013-09-06 오전 10:08:28 - bindSelect % 버그픽스",
+ 		"2013-09-27 오후 1:29:14 - onLoad 추가 : tom",
+ 		"2013-10-02 오후 6:15:38 - bindSelectDisabled 기능 추가 : tom",
+ 		"2013-10-24 오후 5:54:05 - resizeAnchor 기능 추가 : tom",
+ 		"2013-11-06 오후 12:47:53 - tabindex 속성 가져오기 기능 추가 : tom",
+ 		"2013-11-27 오후 8:03:57 - tom : positionFixed 기능 추가",
+ 		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가",
+ 		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix",
+ 		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue ",
+ 		"2014-03-18 오후 10:09:21 - tom : select 포커스 후 키입력 하면 optionValue를 비교하여 선택처리 기능 구현 - 2차버전에 한글 포커스 밑 optionText 비교 처리 구문 추가",
+ 		"2014-03-27 오후 3:38:25 - tom : onchange 함수가 setValue 속성을 부여해야만 작동하던 것을 무조건 작동 하도록 변경",
+ 		"2014-03-31 오후 4:41:18 - tom : 셀렉트 포커스 된 상태에서 키 입력하면 입력된 값으로 select 처리 하기 (현재 영문만)"
+ *
+ */
+
 var AXSelectConverter = Class.create(AXJ, {
-	version: "AXSelectConverter v2.5",
-	author: "tom@axisj.com",
-	logs: [
-		"2012-12-19 오후 12:00:43",
-		"2013-04-24 오후 5:45:44 - value change bug fix",
-		"2013-06-04 오전 11:00:42 - bind 메소드 업그레이드",
-		"2013-07-26 오후 1:14:16 - bind, unbind, bindSetConfig 픽스",
-		"2013-08-21 오후 4:45:02 - 연속 appendAnchor 버그픽스",
-		"2013-08-23 오후 8:14:22 - expandBox 포지션 가변 처리",
-		"2013-09-06 오전 10:08:28 - bindSelect % 버그픽스",
-		"2013-09-27 오후 1:29:14 - onLoad 추가 : tom",
-		"2013-10-02 오후 6:15:38 - bindSelectDisabled 기능 추가 : tom",
-		"2013-10-24 오후 5:54:05 - resizeAnchor 기능 추가 : tom",
-		"2013-11-06 오후 12:47:53 - tabindex 속성 가져오기 기능 추가 : tom",
-		"2013-11-27 오후 8:03:57 - tom : positionFixed 기능 추가",
-		"2013-12-09 오후 7:03:57 - tom : bindSelectUpdate 기능추가",
-		"2014-01-10 오후 5:08:59 - tom : event modify & bugFix",
-		"2014-03-11 오전 11:08:54 - tom : add bindSelectGetValue ",
-		"2014-03-18 오후 10:09:21 - tom : select 포커스 후 키입력 하면 optionValue를 비교하여 선택처리 기능 구현 - 2차버전에 한글 포커스 밑 optionText 비교 처리 구문 추가",
-		"2014-03-27 오후 3:38:25 - tom : onchange 함수가 setValue 속성을 부여해야만 작동하던 것을 무조건 작동 하도록 변경",
-		"2014-03-31 오후 4:41:18 - tom : 셀렉트 포커스 된 상태에서 키 입력하면 입력된 값으로 select 처리 하기 (현재 영문만)"
-	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.objects = [];
@@ -33,11 +39,18 @@ var AXSelectConverter = Class.create(AXJ, {
 	},
 	init: function () {
 		var browser = AXUtil.browser;
-		//AXUtil.alert(browser);
-		this.isMobile = false;
-		if (browser.mobile) {
-			this.isMobile = true;
-		}
+		this.isMobile = browser.mobile;
+		$(window).resize(this.windowResize.bind(this));
+	},
+	windowResize: function () {
+		if (this.windowResizeObs) clearTimeout(this.windowResizeObs);
+		this.windowResizeObs = setTimeout(this.alignAllAnchor.bind(this), 10);
+	},
+	alignAllAnchor: function () {
+		var alignAnchor = this.alignAnchor.bind(this);
+		axf.each(this.objects, function (index, O) {
+			alignAnchor(O.id, index);
+		});
 	},
 	bindSetConfig: function (objID, configs) {
 		var findIndex = null;
@@ -46,10 +59,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				findIndex = index;
 				break;
 			}
-		};
-		if (findIndex == null) {
+        }
+        if (findIndex == null) {
 			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
-			return;
 		} else {
 			var _self = this.objects[findIndex];
 			jQuery.each(configs, function (k, v) {
@@ -68,24 +80,24 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			} else {
 				if (O.isDel != true) {
-					removeAnchorId = this.anchorID;
-					removeIdx = idx;
+					removeAnchorId = O.anchorID;
+					removeIdx = index;
 				}
 			}
-		};
+		}
 
 		//this.objects = collect;
 
 		if (removeAnchorId) {
-			
+			var objDom = axdom("#" + obj.id), objAnchorDom = axdom("#" + removeAnchorId);
 			this.objects[removeIdx].isDel = true;
-			jQuery("#" + obj.id).removeAttr("data-axbind");
+            objDom.removeAttr("data-axbind");
 			if (this.isMobile) {
-				jQuery("#" + removeAnchorId).before(jQuery("#" + obj.id));
-				jQuery("#" + removeAnchorId).remove();
+                objAnchorDom.before(jQuery("#" + obj.id));
+                objAnchorDom.remove();
 			} else {
-				jQuery("#" + removeAnchorId).remove();
-				jQuery("#" + obj.id).show();
+                objAnchorDom.remove();
+                objDom.show();
 			}
 		}
 	},
@@ -105,11 +117,11 @@ var AXSelectConverter = Class.create(AXJ, {
 		var objSeq = null;
 
 		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
-			if (O.id == objID && this.isDel != true) {
+			if (O.id == objID && O.isDel != true) {
 				objSeq = index;
 				break;
 			}
-		};
+		}
 
 		if (obj.href == undefined) obj.href = cfg.href;
 
@@ -130,35 +142,33 @@ var AXSelectConverter = Class.create(AXJ, {
 		/*trace("appendAnchor");*/
 		if (AXgetId(cfg.targetID + "_AX_" + objID)) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID).remove();
-			var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
-			var iobj = jQuery("#" + objID);
-			iobj.attr("data-axbind", "select");
-			iobj.after(anchorNode);
-		} else {
-			var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
-			var iobj = jQuery("#" + objID);
-			iobj.attr("data-axbind", "select");
-			iobj.after(anchorNode);
 		}
+        var anchorNode = jQuery("<div id=\"" + cfg.targetID + "_AX_" + objID + "\" class=\"" + cfg.anchorClassName + "\" style=\"display:none;\"></div>");
+        var iobj = jQuery("#" + objID);
+        iobj.attr("data-axbind", "select");
+        iobj.after(anchorNode);
 
 		/*var offSetParent = iobj.offsetParent();*/
 		var iobjPosition = iobj.position();
 		var l = iobjPosition.left, t = iobjPosition.top, w = 0, h = 0;
 
+
 		var borderW = iobj.css("border-left-width").number();
 		var borderH = iobj.css("border-top-width").number();
 		var marginW = iobj.css("margin-left").number();
 		var marginH = iobj.css("margin-top").number();
+
+
 		l = l + marginW;
 		//t = t;
 		w = iobj.outerWidth();
 		h = iobj.outerHeight();
 
-		var css = { left: l, top: t, width: w, height: 0 };
-		jQuery("#" + cfg.targetID + "_AX_" + objID).css(css);
-		jQuery("#" + cfg.targetID + "_AX_" + objID).data("height", h);
+		var css = { left: l, top: t, width: w, height: h }, objDom = axdom("#" + cfg.targetID + "_AX_" + objID);
+        objDom.css(css);
+        objDom.data("height", h);
 	},
-	resizeAnchor: function (objID){
+	alignAnchor: function (objID){
 		var cfg = this.config;
 		var iobj = jQuery("#" + objID);
 		var iobjPosition = iobj.position();
@@ -173,14 +183,21 @@ var AXSelectConverter = Class.create(AXJ, {
 		w = iobj.outerWidth();
 		h = iobj.outerHeight();
 
-		var css = { left: l, top: t, width: w, height: 0 };
-		jQuery("#" + cfg.targetID + "_AX_" + objID).css(css);
-		jQuery("#" + cfg.targetID + "_AX_" + objID).data("height", h);
+		var css = { left: l, top: t, width: w, height: h };
+		axdom("#" + cfg.targetID + "_AX_" + objID).css(css);
+		axdom("#" + cfg.targetID + "_AX_" + objID).data("height", h);
+
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox").css({width:w, height:h});
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").css({height:(h-2)});
+
+        axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectText").css({"line-height":(h-2)+"px"});
+        axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").css({height:h});
+
 	},
 	bindSelect: function (objID, objSeq) {
 		var cfg = this.config, _this = this;
 		var obj = this.objects[objSeq];
-		
+		var objDom = axdom("#" + cfg.targetID + "_AX_" + objID);
 		if(!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		
 		var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
@@ -204,7 +221,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		//append to anchor
 		jQuery("#" + cfg.targetID + "_AX_" + objID).empty();
 		jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-		jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto", verticalAlign: "middle" });
+		jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto", "vertical-align": "middle" });
 
 		jQuery("#" + cfg.targetID + "_AX_" + objID).show();
 

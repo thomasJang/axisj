@@ -1,13 +1,15 @@
 ﻿var axdomConverter = function(_selector){
-	var _this = bs.Dom(_selector);
-	_this.css = function(css){
+	var dom = this.dom = bs.Dom(_selector);
+	this.css = function(css){
+		//_this.S( 'cssObject', css );  아직 구현 안되었음.
 		for ( k in css ) {
-			_this.S(k, css[k]);
+			dom.S(k, css[k]);
 		}
 	};
-	
-	
-	return _this;
+	this.bind = function(eventName, callBack){
+		dom.S(eventName, callBack);
+	};
+	return this;
 };
 
 axdomConverter.fn = axdomConverter.prototype = {

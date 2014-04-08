@@ -3698,16 +3698,66 @@ axdom.fn.unbindAXResizable = function (config) {
 /* ********************************************** AXResizable ** */
 
 /* ** AXContextMenu ********************************************** */
+/**
+ * AXContextMenuClass 
+ * @class AXContextMenuClass
+ * @extends AXJ
+ * @version v1.22
+ * @author tom@axisj.com
+ * @logs 
+	"2013-03-22 오후 6:08:57",
+	"2013-09-03 오후 7:10:14 메뉴확장 위치 제어 버그 픽스",
+	"2013-12-16 href=javascript 설정했을 때 onbeforeunload 이벤트 충돌문제 해결",
+	"2013-12-26 오후 4:27:00 tom, left, top position ",
+	"2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add",
+	"2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
+ * @description
+ *
+ 	```js
+	AXContextMenu.bind({
+		id:"myContextMenu", 
+		theme:"AXContextMenu", // 선택항목
+		width:"150", // 선택항목
+		checkbox:"checkbox", // [checkbox|radio]
+		sortbox:true,
+		menu:[
+			{label:'선택 1', checked:true, onclick:function(){
+				return false;	
+			}},
+			{label:'선택 2', checked:true, 
+				subMenu:[
+					{label:"하위메뉴1"},
+					{label:"하위메뉴2",
+						subMenu:[
+							{label:"하위메뉴21"},
+							{label:"하위메뉴22"}
+						]
+					},
+					{label:"하위메뉴3"},
+					{label:"하위메뉴3"},
+					{label:"하위메뉴3"}
+				]
+			},
+			{label:'선택 3', checked:true},
+			{label:'선택 4', checked:false, sort:"asc"} // config 에 checkbox 가 있는데. menu에 onclick 가 없으면 체크박스 액션이 작동합니다.		
+		],
+		onchange: function(){ // 체크박스 선택값이 변경 된 경우 호출 됩니다.
+			trace(this.menu);
+			
+			// return true; 메뉴 창이 닫히지 않게 합니다.
+		},
+		onsort: function(){ // 정렬이 변경 된 경우 호출 됩니다.
+			trace(this.sortMenu);
+			
+			// return true; 메뉴 창이 닫히지 않게 합니다.
+		}
+	});
+	AXContextMenu.open({id:'myContextMenu'}, window.event);
+ 	```
+ *
+*/
+
 var AXContextMenuClass = Class.create(AXJ, {
-	version: "AXContextMenuClass v1.21",
-	author: "tom@axisj.com",
-	logs: [
-		"2013-03-22 오후 6:08:57",
-		"2013-09-03 오후 7:10:14 메뉴확장 위치 제어 버그 픽스",
-		"2013-12-16 href=javascript 설정했을 때 onbeforeunload 이벤트 충돌문제 해결",
-		"2013-12-26 오후 4:27:00 tom, left, top position ",
-		"2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add"
-	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.showedItem = {};
@@ -3717,7 +3767,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		this.config.responsiveWidth = AXConfig.mobile.responsiveWidth; /* 모바일 반응 너비 */
 	},
 	init: function () {
-
+		
 	},
 	bindSetConfig: function (objID, configs) {
 		var findIndex = null;
@@ -3753,6 +3803,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 		if (objSeq != null) {
 			this.objects[objSeq] = obj;
 			return;
+		}else{
+			this.objects[objSeq] = obj;
 		}
 		var objID = obj.id;
 		objSeq = this.objects.length;
@@ -3790,9 +3842,20 @@ var AXContextMenuClass = Class.create(AXJ, {
 				var className = (menu.className) ? menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
 				po.push("<a " + href + " class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
-				po.push(menu.label);
-				if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+					var checked = "";
+					if(obj.checkbox){
+						if(menu.checked) checked = " on";
+						po.push("<div class='tool-checkbox"+ checked +"' id=\"" + subMenuID + "_tool_AX_" + depth + "_AX_" + idx + "\"></div>");
+					}
+					
+					po.push("<span class='label'>" + menu.label + "</label>");
+					
+					po.push("<div class='tool-rightGroup'>");
+						if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+					po.push("</div>");
 				po.push("</a>");
+				menu.__axdomId = subMenuID + "_AX_" + depth + "_AX_" + idx;
+				
 				if (menu.subMenu && menu.subMenu.length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu.subMenu, (depth + 1)));
 				if (menu.underLine) po.push("<div class=\"hline\"></div>");
 			}
@@ -3830,7 +3893,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			height: 388,
 			width: 300,
 			head:{
-				title:(myobj.title||AXConfig.AXContextMenu.title),
+				//title:(myobj.title||AXConfig.AXContextMenu.title),
 				close:{
 					onclick:function(){}
 				}
@@ -3843,6 +3906,7 @@ var AXContextMenuClass = Class.create(AXJ, {
     		initMobileModalBind(objID, objSeq, myobj, modalObj);
     	};
     	this.modal.open(null, onLoad);
+    	this.mobileMode = true;
 	},
 	initMobileModal: function(objID, objSeq, myobj, modalObj){
 		var cfg = this.config;
@@ -3855,25 +3919,52 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var filter = this.filter.bind(this);
 		//var getSubMenu = this.getSubMenu.bind(this);
 		
+    	var headPo = [];
+    	/* 현재 선택된 메뉴 선택 하는 기능구현 필요 */
+    	headPo.push('<a ' + href + ' class="AXContextMenuHome">home</a>');
+    	modalObj.modalHead.empty();
+    	modalObj.modalHead.append(headPo.join(''));
+		
+		
 		var styles = [];
 		styles.push("height:339px;");
 		
 		var po = [];
 		po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
-		po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
-		AXUtil.each(obj.menu, function (idx, menu) {
-			if (filter(objSeq, objID, myobj, menu)) {
-				if (menu.upperLine) po.push("<div class=\"hline\"></div>");
-				var className = (menu.className) ? " " + menu.className : "";
-				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-				po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
-				po.push(menu.label);
-				if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
-				po.push("</a>");
-				if (menu.underLine) po.push("<div class=\"hline\"></div>");
-			}
-		});
-		po.push("</div>");
+			po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
+			axf.each(obj.menu, function (idx, menu) {
+				if (filter(objSeq, objID, myobj, menu)) {
+					//if (menu.upperLine) po.push("<div class=\"hline\"></div>");
+					var className = (menu.className) ? " " + menu.className : "";
+					var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+					po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+	
+						var checked = "";
+						if(obj.checkbox){
+							if(menu.checked) checked = " on";
+							po.push("<div class='tool-checkbox"+ checked +"' id=\"" + objID + "_AX_contextMenuToolCheck_AX_0_AX_" + idx + "\"></div>");
+						}
+						
+						po.push("<span class='label'>" + menu.label + "</label>");
+		
+						po.push("<div class='tool-rightGroup'>");
+							if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+							if (obj.sortbox){
+								var sortdirect = "";
+								if(menu.sort){
+									sortdirect = " " + menu.sort.toString().lcase();
+								}
+								po.push("<div class=\"tool-sort"+ sortdirect +"\" id=\"" + objID + "_AX_contextMenuToolSort_AX_0_AX_" + idx + "\"></div>");
+							}
+						po.push("</div>");
+						
+					po.push("</a>");
+					
+					menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
+					//if (menu.underLine) po.push("<div class=\"hline\"></div>");
+				}
+			});
+			po.push("</div>");
 		po.push("</div>");
 		
     	modalObj.modalBody.empty();
@@ -3889,7 +3980,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var closeMobileModal = this.closeMobileModal.bind(this);
 		this.contextMenuItemClickBind = function (event) {
 			contextMenuItemClick(event, objSeq, objID);
-			closeMobileModal();
+			//closeMobileModal();
 		};
 		modalObj.modalBody.find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
 	},
@@ -3900,6 +3991,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 	deskTopOpen: function (myobj, position) {
 		var cfg = this.config;
 		var objSeq = null;
+		this.mobileMode = false;
 		AXUtil.each(this.objects, function (index, O) {
 			if (O.id == myobj.id) {
 				objSeq = index;
@@ -3938,13 +4030,22 @@ var AXContextMenuClass = Class.create(AXJ, {
 				var className = (menu.className) ? " " + menu.className : "";
 				var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
 				po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
-				po.push(menu.label);
-				if (menu.subMenu) {
-					if (menu.subMenu.length > 0) {
-						po.push("<div class=\"contextSubMenuIcon\"></div>");
+					var checked = "";
+					if(obj.checkbox){
+						if(menu.checked) checked = " on";
+						po.push("<div class='tool-checkbox"+ checked +"' id=\"" + objID + "_AX_contextMenuTool_AX_0_AX_" + idx + "\"></div>");
 					}
-				}
+					
+					po.push("<span class='label'>" + menu.label + "</span>");
+					
+					po.push("<div class='tool-rightGroup'>");
+						if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+						if (obj.sortbox)  po.push("<div class=\"tool_sort desc\"></div>");
+					po.push("</div>");
 				po.push("</a>");
+				
+				menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
+				
 				if (menu.subMenu) {
 					if (menu.subMenu.length > 0) {
 						po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu.subMenu, 1));
@@ -4052,9 +4153,15 @@ var AXContextMenuClass = Class.create(AXJ, {
 	},
 	_close: function (objSeq, objID) {
 		var cfg = this.config;
-		axdom("#" + objID).fadeOut("fast", function () {
-			axdom("#" + objID).remove();
-		});
+
+		if(this.mobileMode){
+			this.closeMobileModal();
+		}else{
+			axdom("#" + objID).fadeOut("fast", function () {
+				axdom("#" + objID).remove();
+			});			
+		}
+		
 		axdom(document).unbind("keydown.AXContenxtMenu");
 		axdom(document).unbind("mousedown.AXContenxtMenu");
 
@@ -4181,11 +4288,13 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var eventTarget = event.target;
 		var myTarget = this.getEventTarget({
 			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
+			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem") || axdom(evt).hasClass("tool-checkbox") || axdom(evt).hasClass("tool-sort")) ? true : false; }
 		});
 		// event target search ------------------------
-
+		
+			
 		if (myTarget) {
+
 			var poi = myTarget.id.split(/_AX_/g);
 			var depth = poi[poi.length - 2].number();
 			var hashs = [];
@@ -4198,15 +4307,68 @@ var AXContextMenuClass = Class.create(AXJ, {
 			hashs = hashs.reverse();
 
 			var menu = obj.menu;
-			AXUtil.each(hashs, function (idx, hash) {
+			for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
 				if (idx == 0) menu = menu[hash];
 				else menu = menu.subMenu[hash];
-			});
+			};
+
+			if (axdom(myTarget).hasClass("tool-checkbox")){
+				menu.checked = !menu.checked;
+				axdom("#" + menu.__axdomId).find(".tool-checkbox").toggleClass("on");
+
+				if (obj.onchange) {
+					obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID);
+				}
+				return true;
+			}
+			
+			if(axdom(myTarget).hasClass("tool-sort")){
+				
+				// 다른 메뉴들은 모두 정렬 헤제
+				for (var M, midx= 0, __arr = obj.menu; (midx < __arr.length && (M = __arr[midx])); midx++) {
+					if(menu != M){
+						M.sort = undefined;
+						axdom("#" + M.__axdomId).find(".tool-sort").removeClass("asc").removeClass("desc");
+					}
+				};
+				
+				
+				if(menu.sort == undefined) menu.sort = "";
+				if(menu.sort.toString().lcase() == "asc"){
+					axdom("#" + menu.__axdomId).find(".tool-sort").removeClass("asc").addClass("desc");
+					menu.sort = "desc";
+				}else if(menu.sort.toString().lcase() == "desc"){
+					axdom("#" + menu.__axdomId).find(".tool-sort").removeClass("desc").addClass("asc");
+					menu.sort = "asc";
+				}else{
+					axdom("#" + menu.__axdomId).find(".tool-sort").addClass("desc");
+					menu.sort = "desc";
+				}
+				
+				if (obj.onsort) {
+					if(obj.onsort.call({ menu: obj.menu, sortMenu: menu, sendObj: obj.sendObj }, objID) != true){
+						this._close(objSeq, objID);
+					}
+				}
+				return true;
+			}
 
 			if (menu.onclick) {
-				menu.onclick.call({ menu: menu, sendObj: obj.sendObj }, objID);
+				if(menu.onclick.call({ menu: menu, sendObj: obj.sendObj }, objID) != true){
+					this._close(objSeq, objID);
+				}
+				return true;
+			}else if(obj.onchange){ // 라벨 선택 할 때. 정렬항목도 없는 경우만 체크 모드로 연결
+				menu.checked = !menu.checked;
+				axdom("#" + menu.__axdomId).find(".tool-checkbox").toggleClass("on");
+
+				if (obj.onchange) {
+					if(obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID) != true){
+						this._close(objSeq, objID);
+					}
+				}
+				return true;
 			}
-			this._close(objSeq, objID);
 		}
 	}
 });
@@ -4609,10 +4771,9 @@ var AXMobileModal = Class.create(AXJ, {
 		if (left < 0) left = margin;
 		if (top < 0) top = margin;
 
-		
 		var cssStylesStart = {
-			left: (AXUtil.clientWidth() - (modalWidth*0.8)) / 2,
-			top: (AXUtil.clientHeight() - (modalHeight*0.8)) / 2,
+			left: (axf.clientWidth() - (modalWidth*0.8)) / 2,
+			top: (axf.clientHeight() - (modalHeight*0.8)) / 2,
 			width: (modalWidth*0.8),
 			height: (modalHeight*0.8)
 		};

@@ -16,9 +16,6 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
 
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
 	<style type="text/css">
 	
 	H2, H3{font-family:consolas;}
@@ -45,7 +42,8 @@
 	            		trace(this);
 	            	}
 	            });
-	            
+
+
 	            $("#AXSelect2").bindSelect({
 	            	onChange: function(){
 	            		toast.push(Object.toJSON(this));
@@ -54,7 +52,7 @@
 	            });
 
 	            $("#AXSelect3").bindSelect({
-	                ajaxUrl: "selectData.asp",
+	                ajaxUrl: "selectData.php",
 	                ajaxPars: "",
 	                isspace: false,
 	                isspaceTitle: "전체",
@@ -80,6 +78,7 @@
 	            // bindSelect option 
 
 	            $(".classSelect").bindSelect();
+
 	        },
 	        unbindSelect: function () {
 	            $("#AXSelect1").unbindSelect();
@@ -102,7 +101,7 @@
 	            });
 	            
 	            $("#AXSelect3").bindSelect({
-	                ajaxUrl: "selectData.asp",
+	                ajaxUrl: "selectData.php",
 	                ajaxPars: "",
 	                isspace: false,
 	                isspaceTitle: "전체"
@@ -152,7 +151,7 @@
 			<option value="4">abcdefg 가나다라마바사</option>
 			<option value="5">abcdefg 가나다라마바사</option>
 			<option value="6">abcdefg 가나다라마바사</option>
-		</select>	
+		</select>
 
 		<input type="button" value="valueCheck" class="AXButton" onclick="alert($('#AXSelect1').val())" />
 		
@@ -241,23 +240,22 @@
 
 <script>
 
-
 $("#AXSelect_m0").bindSelect({
-    ajaxUrl: "selectData.asp", ajaxPars: "", ajaxAsync:false,
+    ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
     isspace: true, isspaceTitle: "선택하세요",
 	//setValue:"",
 	onChange: function(){
 		//toast.push(Object.toJSON(this));
 		
 		$("#AXSelect_m1").bindSelect({
-			ajaxUrl: "selectData.asp", ajaxPars: "", ajaxAsync:false,
+			ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
 			isspace: true, isspaceTitle: "선택하세요",
 			setValue:this.optionValue,
 			onChange: function(){
 	    		//toast.push(Object.toJSON(this));
 				
 				$("#AXSelect_m2").bindSelect({
-					ajaxUrl: "selectData.asp", ajaxPars: "", ajaxAsync:false,
+					ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
 					isspace: true, isspaceTitle: "선택하세요",
 					setValue:this.optionValue,
 					onChange: function(){

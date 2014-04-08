@@ -83,6 +83,17 @@
 	
 	$(document.body).ready(function(){
 		setTimeout(fnObj.pageStart, 1);
+		
+		/*
+		setTimeout(function(){
+			$("#hideTr").hide();
+		}, 1000);
+		
+		setTimeout(function(){
+			$("#hideTr").show();
+		}, 3000);
+		*/
+		
 	});
 	</script>
 	<!-- js block -->
@@ -101,10 +112,18 @@
 
 		<h2>AXInput bind Date</h2>
 
-		<input type="text" name="" id="AXInputDate" class="AXInput W100" />
-		<input type="text" name="" id="AXInputDateMiddle" class="AXInput W100" />
-		<input type="text" name="" id="AXInputDateMiddle2" class="AXInput W100" />
-		<input type="text" name="" id="AXInputDateRight" class="AXInput W100" />
+		<table>
+			<tr id="hideTr">
+				<td>
+					<div style="position:relative;">
+						<input type="text" name="" id="AXInputDate" class="AXInput W100" />
+						<input type="text" name="" id="AXInputDateMiddle" class="AXInput W100" />
+						<input type="text" name="" id="AXInputDateMiddle2" class="AXInput W100" />
+						<input type="text" name="" id="AXInputDateRight" class="AXInput W100" />	
+					</div>
+				</td>	
+			</tr>	
+		</table>
 		
 		<div class="Hspace20"></div>
 
@@ -112,9 +131,11 @@
 		<div class="Hspace20"></div>
 
 		<h2>AXInput bind Date (year, month)</h2>
-
-		<input type="text" name="" id="AXInputDate2" class="AXInput W70" />
-		<input type="text" name="" id="AXInputDate3" class="AXInput W50" />
+		
+		<div class="inlineBlock">
+			<input type="text" name="" id="AXInputDate2" class="AXInput W70" />
+			<input type="text" name="" id="AXInputDate3" class="AXInput W50" />
+		</div>
 		
 		<div class="Hspace20"></div>
 		
@@ -123,8 +144,10 @@
 		<div class="Hspace20"></div>
 
 		<h2>AXInput bind DateTime</h2>
-
-		<input type="text" name="" id="AXInputDate4" class="AXInput W120" />
+		
+		<div class="inlineBlock">
+			<input type="text" name="" id="AXInputDate4" class="AXInput W120" />
+		</div>
 		
 		<div class="Hspace20"></div>
 
