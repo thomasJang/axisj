@@ -237,6 +237,7 @@ input::-ms-clear {
   position: relative;
   overflow: hidden;
   /* xscroll */
+
 }
 .AXScroll .scrollTrack {
   z-index: 100;
@@ -248,7 +249,7 @@ input::-ms-clear {
   background: #000;
   -moz-opacity: 0;
   opacity: 0;
-  filter: alpha(opacity=0);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -271,7 +272,7 @@ input::-ms-clear {
   background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=10);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -286,7 +287,7 @@ input::-ms-clear {
 .AXScroll .scrollBar_hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=50);
+  filter: alpha(opacity=20);
 }
 .AXScroll .scrollTarget {
   position: absolute;
@@ -303,7 +304,7 @@ input::-ms-clear {
   background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=10);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -326,7 +327,7 @@ input::-ms-clear {
   background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=10);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -341,7 +342,7 @@ input::-ms-clear {
 .AXScroll .xscrollBar_hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=50);
+  filter: alpha(opacity=20);
 }
 .AXScroll .xscrollTarget {
   position: absolute;
@@ -361,7 +362,7 @@ input::-ms-clear {
   background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=10);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -383,7 +384,7 @@ input::-ms-clear {
   background: #000;
   -moz-opacity: 0.3;
   opacity: 0.3;
-  filter: alpha(opacity=30);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -398,7 +399,7 @@ input::-ms-clear {
 .AXScrollSmall .scrollBar_hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=50);
+  filter: alpha(opacity=20);
 }
 .AXScrollSmall .scrollTarget {
   position: absolute;
@@ -410,12 +411,16 @@ input::-ms-clear {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -435,12 +440,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -458,12 +467,16 @@ input::-ms-clear {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -490,12 +503,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -526,15 +543,21 @@ input::-ms-clear {
   cursor: pointer;
   vertical-align: middle;
   outline: none;
+}
+.AXButton {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -561,12 +584,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -684,15 +711,21 @@ input::-ms-clear {
   cursor: pointer;
   vertical-align: middle;
   outline: none;
+}
+.AXButtonSmall {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -719,12 +752,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -842,15 +879,21 @@ input::-ms-clear {
   cursor: pointer;
   vertical-align: middle;
   outline: none;
+}
+.AXButtonLarge {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -877,12 +920,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -1015,7 +1062,7 @@ input::-ms-clear {
   overflow: hidden;
   -moz-opacity: 1;
   opacity: 1;
-  filter: alpha(opacity=100);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1037,7 +1084,7 @@ input::-ms-clear {
   color: #525252;
   -moz-opacity: 0.9;
   opacity: 0.9;
-  filter: alpha(opacity=90);
+  filter: alpha(opacity=20);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1045,7 +1092,9 @@ input::-ms-clear {
   -moz-border-radius: 4px 5px 5px 5px;
   border-radius: 4px 5px 5px 5px;
   /* Warning */
+
   /* Caution */
+
 }
 .AXNotification .AXNotificationHead {
   font-weight: bold;
@@ -1690,12 +1739,16 @@ input::-ms-clear {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -1708,12 +1761,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -1729,12 +1786,16 @@ input::-ms-clear {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -1758,12 +1819,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -1814,6 +1879,7 @@ input::-ms-clear {
   padding: 0px 10px;
   box-sizing: content-box !important;
   margin: 2px 0px 0px 2px;
+  border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 12px;
@@ -1823,15 +1889,21 @@ input::-ms-clear {
   text-decoration: none;
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
+}
+.AXTabs .AXTabsTray .AXTab {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -1934,6 +2006,7 @@ input::-ms-clear {
   padding: 0px 10px;
   box-sizing: content-box !important;
   margin: 4px 0px 0px 4px;
+  border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 14px;
@@ -1943,15 +2016,21 @@ input::-ms-clear {
   text-decoration: none;
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
+}
+.AXTabsLarge .AXTabsTray .AXTab {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -2054,6 +2133,7 @@ input::-ms-clear {
   padding: 0px 10px;
   box-sizing: content-box !important;
   margin: 2px 0px 0px 2px;
+  border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 11px;
@@ -2063,15 +2143,21 @@ input::-ms-clear {
   text-decoration: none;
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
+}
+.AXTabsSmall .AXTabsTray .AXTab {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -2155,12 +2241,16 @@ input::-ms-clear {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -2185,12 +2275,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -2229,6 +2323,7 @@ input::-ms-clear {
   padding: 10px 0px;
   box-sizing: content-box !important;
   margin: 2px 0px 0px 2px;
+  border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 12px;
@@ -2238,15 +2333,21 @@ input::-ms-clear {
   text-decoration: none;
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
+}
+.AXTabsVertical.leftSide .AXTabsTray .AXTab {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -2271,12 +2372,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -2332,6 +2437,7 @@ input::-ms-clear {
   padding: 10px 0px;
   box-sizing: content-box !important;
   margin: 2px 0px 0px 2px;
+  border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 12px;
@@ -2341,15 +2447,21 @@ input::-ms-clear {
   text-decoration: none;
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
+}
+.AXTabsVertical.rightSide .AXTabsTray .AXTab {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -2374,12 +2486,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -2436,6 +2552,7 @@ input::-ms-clear {
   padding: 10px 0px;
   box-sizing: content-box !important;
   margin: 2px 0px 0px 2px;
+  border: 1px solid #b9babc;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   font-size: 12px;
@@ -2445,15 +2562,21 @@ input::-ms-clear {
   text-decoration: none;
   background: url(img/defaultRegular.png) repeat-x;
   outline: none;
+}
+.AXTabsVertical .AXTabsTray .AXTab {
   background: #e8e8e8;
   background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
+
   background: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
@@ -2478,12 +2601,16 @@ input::-ms-clear {
   background: #d7d7d7;
   background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
+
   background: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   color: #eaeaea;
@@ -2544,9 +2671,11 @@ input::-ms-clear {
   padding: 0px;
   text-align: center;
   /*border-top:1px solid @color-border-calendar-head-top;*/
+
   border-right: 1px solid #eeeeee;
   border-bottom: 1px solid #b9babc;
   /*border-left:1px solid @color-border-calendar-head-left;*/
+
 }
 .AXCalendar table.calendarPage thead td.head_6 {
   border-right: 0px none;
@@ -2578,18 +2707,24 @@ input::-ms-clear {
   padding: 0px;
   text-align: center;
   /*border-top:1px solid @color-border-calendar-body-top;*/
+
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
   /*border-left:1px solid @color-border-calendar-body-left;*/
+
   background: #ececee;
   background: -webkit-linear-gradient(#fbfbfb, #ececee);
   /* For Safari */
+
   background: -o-linear-gradient(#fbfbfb, #ececee);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#fbfbfb, #ececee);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#fbfbfb, #ececee);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fbfbfb, endColorstr=#ececee);
   /*For IE7-8-9*/
 }
@@ -2603,12 +2738,16 @@ input::-ms-clear {
   background: #ead0cb;
   background: -webkit-linear-gradient(#faeeed, #ead0cb);
   /* For Safari */
+
   background: -o-linear-gradient(#faeeed, #ead0cb);
   /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(#faeeed, #ead0cb);
   /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(#faeeed, #ead0cb);
   /* Standard syntax */
+
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#faeeed, endColorstr=#ead0cb);
   /*For IE7-8-9*/
 }
@@ -3359,161 +3498,4 @@ input::-ms-clear {
   border: 1px dotted #000;
   cursor: se-resize;
   background: url(img/resizableHandle.png) no-repeat 100% 100%;
-}
-/* AXMobileModal.less import ---------------- */
-/* ---------------------------- AXMobileModal ------------------------------- */
-.AXMobileModal {
-  z-index: 6000;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-}
-.AXMobileModal .AXMobileModalPanel {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  background: #d7dde3;
-  border-radius: 4px;
-  box-shadow: 0px 0px 3px #000000;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead {
-  position: relative;
-  height: 44px;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle {
-  padding: 0px 10px;
-  line-height: 44px;
-  color: #3b3b3b;
-  font-size: 15px;
-  font-weight: bold;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .prevbutton {
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 44px;
-  height: 44px;
-  background: url(img/AXMobile/prev.png) center center no-repeat;
-  background-size: 50% 50%;
-  text-indent: -9999;
-  overflow: hidden;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .nextbutton {
-  display: block;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 44px;
-  height: 44px;
-  background: url(img/AXMobile/next.png) center center no-repeat;
-  background-size: 50% 50%;
-  text-indent: -9999;
-  overflow: hidden;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .yearbutton {
-  display: block;
-  position: absolute;
-  left: 100px;
-  top: 0px;
-  height: 44px;
-  line-height: 44px;
-  text-decoration: none;
-  color: #3b3b3b;
-  font-size: 15px;
-  font-weight: bold;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .monthbutton {
-  display: block;
-  position: absolute;
-  left: 160px;
-  top: 0px;
-  height: 44px;
-  line-height: 44px;
-  text-decoration: none;
-  color: #3b3b3b;
-  font-size: 15px;
-  font-weight: bold;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXContextMenuHome {
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 44px;
-  height: 44px;
-  background: url(images/mx-mobilemodal-home.png) center center no-repeat;
-  background-size: 50% 50%;
-  line-height: 1000px;
-  overflow: hidden;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModelClose {
-  display: block;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 44px;
-  height: 44px;
-  background: url(img/AXMobile/close.png) center center no-repeat;
-  background-size: 50% 50%;
-  line-height: 1000px;
-  overflow: hidden;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody {
-  /* 모달창 바디 */
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
-  /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
-  background: #fff;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
-  /* 모달창 바디 안에 위치한 달력 컨테이너 */
-  background: #fff;
-  border-top: 1px solid #b9babc;
-  border-bottom: 1px solid #b9babc;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXTimeDisplayBox {
-  height: 144px;
-  background: #fff;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem {
-  display: block;
-  padding: 0px 10px;
-  font-size: 12px;
-  line-height: 43px;
-  color: #3b3b3b;
-  text-decoration: none;
-  border-bottom: 1px solid #c8c8c8;
-  background: #fff;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem:nth-child(odd) {
-  background: #f7f7f7;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem.on {
-  background: #5ea3db;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-checkbox {
-  display: inline-block;
-  vertical-align: middle;
-  width: 43px;
-  height: 43px;
-  background: url('images/mx-item-check.png') no-repeat center center;
-  background-size: 30px 30px;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-checkbox.on {
-  background: url('images/mx-item-checkOn.png') no-repeat center center;
-  background-size: 30px 30px;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .label {
-  display: inline;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-rightGroup {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  height: 43px;
-}
-.AXMobileModal .AXMobileModalPanel .mobileModalFoot .AXDateButtonBox {
-  text-align: center;
-  padding: 7px;
 }

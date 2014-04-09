@@ -105,7 +105,7 @@ var axf = AXUtil = {
 	},
 	browser: (function () {
 		var ua = navigator.userAgent.toLowerCase();
-		var mobile = (ua.search(/mobile/g) != -1) ? true : false;
+		var mobile = (ua.search(/mobile/g) != -1);
 		if (ua.search(/iphone/g) != -1) {
 			return { name: "iphone", version: 0, mobile: true }
 		} else if (ua.search(/ipad/g) != -1) {
@@ -356,7 +356,7 @@ try{
 
 /* *** extend implement block ***************************** */
 var Class = (function () {
-	function subclass() { };
+	function subclass() { }
 	function create() { var parent = null, properties = AX_A(arguments); if (Object.isFunction(properties[0])) parent = properties.shift(); function klass() { this.initialize.apply(this, arguments); } Object.extend(klass, Class.Methods); klass.superclass = parent; klass.subclasses = []; if (parent) { subclass.prototype = parent.prototype; klass.prototype = new subclass; parent.subclasses.push(klass); } for (var i = 0; i < properties.length; i++) klass.addMethods(properties[i]); if (!klass.prototype.initialize) klass.prototype.initialize = Prototype.emptyFunction; klass.prototype.constructor = klass; return klass; }
 	function addMethods(source) { var ancestor = this.superclass && this.superclass.prototype; var properties = Object.keys(source); if (!Object.keys({ toString: true }).length) { if (source.toString != Object.prototype.toString) properties.push("toString"); if (source.valueOf != Object.prototype.valueOf) properties.push("valueOf"); } for (var i = 0, length = properties.length; i < length; i++) { var property = properties[i], value = source[property]; if (ancestor && Object.isFunction(value) && value.argumentNames().first() == "AXJ_super") { var method = value; value = (function (m) { return function () { return ancestor[m].apply(this, arguments); }; })(property).wrap(method); value.valueOf = method.valueOf.bind(method); value.toString = method.toString.bind(method); } this.prototype[property] = value; } return this; }
 	return { create: create, Methods: { addMethods: addMethods } };
@@ -599,7 +599,7 @@ Object.extend(String.prototype, (function () {
 		var _this = this.replace(/\D+/g, "");
 		var myLocalNums = "";
 		var num1 = "", num2 = "";
-		var localNum = "031/032/033/041/042/043/051/052/053/054/055/061/062/063/064/010/011/016/017/019/070/080/060"
+		var localNum = "031/032/033/041/042/043/051/052/053/054/055/061/062/063/064/010/011/016/017/019/070/080/060";
 		if (_this.left(2) == "02") {
 			myLocalNums = "02";
 		} else {
@@ -850,10 +850,10 @@ Object.extend(Date.prototype, (function () {
 	}
 	function getTimeAgo() {
 
-		var rtnStr = ""
+		var rtnStr = "";
 		var nMinute = Math.abs((new Date()).diff(this, "mm"));
 
-		var wknames = []
+		var wknames = [];
 		wknames.push("일", "월", "화", "수", "목", "금", "토");
 
 		if (isNaN(nMinute)) {
@@ -2354,7 +2354,7 @@ var AXScroll = Class.create(AXJ, {
 		var config = this.config;
 
 		var event = (window.event || e);
-		var delta = event.detail ? event.detail * (-10) : event.wheelDelta //check for detail first so Opera uses that instead of wheelDelta
+		var delta = event.detail ? event.detail * (-10) : event.wheelDelta; //check for detail first so Opera uses that instead of wheelDelta
 
 		var Sy = this.scrollScrollID.position().top;
 		var Sh = this.scrollScrollID.outerHeight();
@@ -2931,7 +2931,7 @@ var AXMultiSelect = Class.create(AXJ, {
 	version: "AXMultiSelect v1.8",
 	author: "tom@axisj.com",
 	logs: [
-    	"2013-01-31 오후 5:01:12",
+		"2013-01-31 오후 5:01:12",
 		"2013-11-12 오전 9:19:09 - tom : 버그픽스",
 		"2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
 		"2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
@@ -3471,7 +3471,7 @@ var AXResizable = Class.create(AXJ, {
 	version: "AXResizable v1.0",
 	author: "tom@axisj.com",
 	logs: [
-    	"2013-11-12 오전 10:22:06"
+		"2013-11-12 오전 10:22:06"
 	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -3713,7 +3713,7 @@ axdom.fn.unbindAXResizable = function (config) {
 	"2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  * @description
  *
- 	```js
+	```js
 	AXContextMenu.bind({
 		id:"myContextMenu", 
 		theme:"AXContextMenu", // 선택항목
@@ -3753,7 +3753,7 @@ axdom.fn.unbindAXResizable = function (config) {
 		}
 	});
 	AXContextMenu.open({id:'myContextMenu'}, window.event);
- 	```
+	```
  *
 */
 
@@ -3901,48 +3901,54 @@ var AXContextMenuClass = Class.create(AXJ, {
 			onclose: function(){}
 		});
 		
-    	var initMobileModalBind = this.initMobileModal.bind(this);
-    	var onLoad = function(modalObj){
-    		initMobileModalBind(objID, objSeq, myobj, modalObj);
-    	};
-    	this.modal.open(null, onLoad);
-    	this.mobileMode = true;
+		var initMobileModalBind = this.initMobileModal.bind(this);
+		var onLoad = function(modalObj){
+			initMobileModalBind(objID, objSeq, myobj, modalObj);
+		};
+		this.modal.open(null, onLoad);
+		this.mobileMode = true;
 	},
-	initMobileModal: function(objID, objSeq, myobj, modalObj){
-		var cfg = this.config;
+	initMobileModal: function(objID, objSeq, myobj, modalObj){ // 현재 선택된 모바일 메뉴를 오픈합니다.
+		var cfg = this.config, _this = this;
 		var obj = this.objects[objSeq];
-		
+		this.mobileModalObj = {
+            myobj:myobj,
+            modalObj:modalObj
+        }; // memo mobileModal
 		if (myobj.sendObj) {
 			obj.sendObj = myobj.sendObj;
 		}
 		var href = (obj.href == undefined) ? cfg.href : obj.href;
 		var filter = this.filter.bind(this);
-		//var getSubMenu = this.getSubMenu.bind(this);
 		
-    	var headPo = [];
-    	/* 현재 선택된 메뉴 선택 하는 기능구현 필요 */
-    	headPo.push('<a ' + href + ' class="AXContextMenuHome">home</a>');
-    	modalObj.modalHead.empty();
-    	modalObj.modalHead.append(headPo.join(''));
-		
-		
+		var headPo = [];
+		/* 현재 선택된 메뉴 선택 하는 기능구현 필요 */
+		headPo.push('<a ' + href + ' class="AXContextMenuHome">home</a>');
+        headPo.push('<span id="' + objID + '_AX_mobileMenuPrevBox"></span>');
+		modalObj.modalHead.empty();
+		modalObj.modalHead.append(headPo.join(''));
+
+        modalObj.modalHead.find(".AXContextMenuHome").bind("click", function(){
+            _this.initMobileModal(objID, objSeq, myobj, modalObj);
+        });
+
 		var styles = [];
 		styles.push("height:339px;");
-		
+		var menuList = obj.menu;
 		var po = [];
 		po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
 			po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
-			axf.each(obj.menu, function (idx, menu) {
+			axf.each(menuList, function (idx, menu) {
 				if (filter(objSeq, objID, myobj, menu)) {
 					//if (menu.upperLine) po.push("<div class=\"hline\"></div>");
 					var className = (menu.className) ? " " + menu.className : "";
 					var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
-					po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
+					po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_"+ 0 +"_AX_" + idx + "\">");
 	
 						var checked = "";
 						if(obj.checkbox){
 							if(menu.checked) checked = " on";
-							po.push("<div class='tool-checkbox"+ checked +"' id=\"" + objID + "_AX_contextMenuToolCheck_AX_0_AX_" + idx + "\"></div>");
+							po.push("<div class='tool-checkbox"+ checked +"' id=\"" + objID + "_AX_contextMenuToolCheck_AX_"+ 0 +"_AX_" + idx + "\"></div>");
 						}
 						
 						po.push("<span class='label'>" + menu.label + "</label>");
@@ -3954,7 +3960,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 								if(menu.sort){
 									sortdirect = " " + menu.sort.toString().lcase();
 								}
-								po.push("<div class=\"tool-sort"+ sortdirect +"\" id=\"" + objID + "_AX_contextMenuToolSort_AX_0_AX_" + idx + "\"></div>");
+								po.push("<div class=\"tool-sort"+ sortdirect +"\" id=\"" + objID + "_AX_contextMenuToolSort_AX_"+ 0 +"_AX_" + idx + "\"></div>");
 							}
 						po.push("</div>");
 						
@@ -3967,8 +3973,8 @@ var AXContextMenuClass = Class.create(AXJ, {
 			po.push("</div>");
 		po.push("</div>");
 		
-    	modalObj.modalBody.empty();
-    	modalObj.modalBody.append(po.join(''));
+		modalObj.modalBody.empty();
+		modalObj.modalBody.append(po.join(''));
 		
 		this.myUIScroll = new AXScroll();
 		this.myUIScroll.setConfig({
@@ -3984,7 +3990,115 @@ var AXContextMenuClass = Class.create(AXJ, {
 		};
 		modalObj.modalBody.find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
 	},
-	closeMobileModal: function(){
+
+    mobileModalSubMenu: function (parentID, objSeq, objID, myobj, modalObj, pMenu, depth) {
+        var cfg = this.config, _this = this;
+        var obj = this.objects[objSeq];
+        var theme = obj.theme || cfg.theme;
+        var width = obj.width || cfg.width;
+
+        var filter = this.filter.bind(this);
+        var mobileModalSubMenu = this.mobileModalSubMenu.bind(this);
+        var subMenuID = parentID + "_AX_subMenu";
+
+        var href = (obj.href == undefined) ? cfg.href : obj.href;
+
+        var poi = parentID.split(/_AX_/g);
+        var pdepth = poi[poi.length - 2].number();
+/*
+        if(pdepth == 0) {
+            this.mobileModalObj.previousMenu = "root";
+            this.mobileModalObj.nowMenu = pMenu.__axdomId;
+        }else{
+            this.mobileModalObj.previousMenu = this.mobileModalObj.nowMenu;
+            this.mobileModalObj.nowMenu = pMenu.__axdomId;
+        }
+*/
+        //trace(axdom("#" + objID + "_AX_mobileMenuPrevBox").get(0));
+        axdom("#" + objID + "_AX_mobileMenuPrevBox").html('<a class="AXContextMenuPrev" id="'+objID+'_AX_prev_AX_'+poi.join("_")+'">'+pMenu.label+'</a>');
+
+        axdom("#"+objID+'_AX_prev_AX_'+poi.join("_")).bind("click", function(){
+            if(pdepth == 0) {
+                _this.initMobileModal(objID, objSeq, myobj, modalObj);
+            }else{
+                var poi = pMenu.__axdomId.split(/_AX_/g);
+                var _depth = poi[poi.length - 2].number();
+                var hashs = [];
+
+                var mystrPosition = poi.length - 1;
+                for (var r = 0; r < depth + 1; r++) {
+                    if(!isNaN(poi[mystrPosition])) hashs.push(poi[mystrPosition]);
+                    mystrPosition -= 3;
+                }
+                hashs = hashs.reverse();
+                hashs.pop();
+                var menu = obj.menu;
+                for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
+                    if (idx == 0) menu = menu[hash];
+                    else menu = menu.subMenu[hash];
+                }
+                _this.mobileModalSubMenu(menu.__axdomId,  objSeq, objID,  _this.mobileModalObj.myobj, _this.mobileModalObj.modalObj, menu, (depth-1));
+            }
+        });
+
+        var styles = [];
+        styles.push("height:339px;");
+        var menuList = pMenu.subMenu;
+        var po = [];
+        po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
+        po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
+        axf.each(menuList, function (idx, menu) {
+            if (filter(objSeq, objID, myobj, menu)) {
+                var className = (menu.className) ? " " + menu.className : "";
+                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
+
+                var checked = "";
+                if(obj.checkbox){
+                    if(menu.checked) checked = " on";
+                    po.push("<div class='tool-checkbox"+ checked +"' id=\"" + subMenuID + "_AX_contextMenuToolCheck_AX_" + depth + "_AX_" + idx + "\"></div>");
+                }
+
+                po.push("<span class='label'>" + menu.label + "</label>");
+
+                po.push("<div class='tool-rightGroup'>");
+                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (obj.sortbox){
+                    var sortdirect = "";
+                    if(menu.sort){
+                        sortdirect = " " + menu.sort.toString().lcase();
+                    }
+                    po.push("<div class=\"tool-sort"+ sortdirect +"\" id=\"" + subMenuID + "_AX_contextMenuToolSort_AX_"+ depth +"_AX_" + idx + "\"></div>");
+                }
+                po.push("</div>");
+
+                po.push("</a>");
+
+                menu.__axdomId = subMenuID + "_AX_" + depth + "_AX_" + idx;
+            }
+        });
+        po.push("</div>");
+        po.push("</div>");
+
+        modalObj.modalBody.empty();
+        modalObj.modalBody.append(po.join(''));
+
+        this.myUIScroll = new AXScroll();
+        this.myUIScroll.setConfig({
+            targetID: objID + "_AX_containerBox",
+            scrollID: objID + "_AX_scroll"
+        });
+
+        var contextMenuItemClick = this.contextMenuItemClick.bind(this);
+        var closeMobileModal = this.closeMobileModal.bind(this);
+        this.contextMenuItemClickBind = function (event) {
+            contextMenuItemClick(event, objSeq, objID);
+            //closeMobileModal();
+        };
+        modalObj.modalBody.find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
+    },
+
+    closeMobileModal: function(){
 		var cfg = this.config;
 		this.modal.close();
 	},
@@ -4142,7 +4256,6 @@ var AXContextMenuClass = Class.create(AXJ, {
 			}
 		});
 
-
 		/* closeEvent bind ~~~~~~~~~~~~~~~~~~~ */
 		//click
 		var contextMenuItemClick = this.contextMenuItemClick.bind(this);
@@ -4291,8 +4404,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 			find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem") || axdom(evt).hasClass("tool-checkbox") || axdom(evt).hasClass("tool-sort")) ? true : false; }
 		});
 		// event target search ------------------------
-		
-			
+
 		if (myTarget) {
 
 			var poi = myTarget.id.split(/_AX_/g);
@@ -4310,7 +4422,13 @@ var AXContextMenuClass = Class.create(AXJ, {
 			for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
 				if (idx == 0) menu = menu[hash];
 				else menu = menu.subMenu[hash];
-			};
+			}
+
+			if (menu.subMenu && this.mobileMode){
+                //this.initMobileModal(objID, objSeq, this.mobileModalObj.myobj, this.mobileModalObj.modalObj, (depth+1), menu.subMenu);
+                this.mobileModalSubMenu(myTarget.id,  objSeq, objID,  this.mobileModalObj.myobj, this.mobileModalObj.modalObj, menu, (depth+1));
+                return false;
+            }
 
 			if (axdom(myTarget).hasClass("tool-checkbox")){
 				menu.checked = !menu.checked;
@@ -4322,7 +4440,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 				return true;
 			}
 			
-			if(axdom(myTarget).hasClass("tool-sort")){
+			if (axdom(myTarget).hasClass("tool-sort")){
 				
 				// 다른 메뉴들은 모두 정렬 헤제
 				for (var M, midx= 0, __arr = obj.menu; (midx < __arr.length && (M = __arr[midx])); midx++) {
@@ -4330,7 +4448,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 						M.sort = undefined;
 						axdom("#" + M.__axdomId).find(".tool-sort").removeClass("asc").removeClass("desc");
 					}
-				};
+				}
 				
 				
 				if(menu.sort == undefined) menu.sort = "";
@@ -4358,12 +4476,12 @@ var AXContextMenuClass = Class.create(AXJ, {
 					this._close(objSeq, objID);
 				}
 				return true;
-			}else if(obj.onchange){ // 라벨 선택 할 때. 정렬항목도 없는 경우만 체크 모드로 연결
+			}else if (obj.onchange) { // 라벨 선택 할 때. 정렬항목도 없는 경우만 체크 모드로 연결
 				menu.checked = !menu.checked;
 				axdom("#" + menu.__axdomId).find(".tool-checkbox").toggleClass("on");
 
 				if (obj.onchange) {
-					if(obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID) != true){
+					if (obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID) != true){
 						this._close(objSeq, objID);
 					}
 				}
@@ -5049,19 +5167,19 @@ axdom.fn.longpress = function (fn) {
 };
 */
 axdom.fn.setCaret = function (pos) {
-    var input = this[0];
-    if (input.setSelectionRange) {
-        input.focus();
-        input.setSelectionRange(pos, pos);
-    } else if (input.createTextRange) {
-        var range = input.createTextRange();
-        range.collapse(true);
-        range.moveEnd('character', pos);
-        range.moveStart('character', pos);
-        range.select();
-    } else if(input.selectionStart){
-        input.focus();
-        input.selectionStart = pos;
-        input.selectionEnd = pos;
-    }
+	var input = this[0];
+	if (input.setSelectionRange) {
+		input.focus();
+		input.setSelectionRange(pos, pos);
+	} else if (input.createTextRange) {
+		var range = input.createTextRange();
+		range.collapse(true);
+		range.moveEnd('character', pos);
+		range.moveStart('character', pos);
+		range.select();
+	} else if(input.selectionStart){
+		input.focus();
+		input.selectionStart = pos;
+		input.selectionEnd = pos;
+	}
 };

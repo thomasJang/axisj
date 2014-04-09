@@ -14,12 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
 	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput_desktop.css" />
-	<![endif]-->
+    <link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXMobileModal.css" />
+
 	<style type="text/css">
 
 	</style>
@@ -112,25 +109,34 @@
 					{userType:0, label:"하위메뉴 선택", className:"docline", 
 						onclick:function(){
 							toast.push(Object.toJSON(this));
-						}, 
-						subMenu:[
-							{userType:0, label:"하위메뉴1", onclick:function(){toast.push(Object.toJSON(this));}},
-							{userType:0, label:"하위메뉴2", onclick:function(){toast.push(Object.toJSON(this));}, 
-								subMenu:[
-									{userType:0, label:"하위메뉴21", onclick:function(){toast.push(Object.toJSON(this));}},
-									{userType:0, label:"하위메뉴22", onclick:function(){toast.push(Object.toJSON(this));}}
-								]
-							},
-							{userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
-							{userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
-							{userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}}
-						],
-						upperLine:true,
-						underLine:true
+						}
 					},
 					{userType:1, label:"추가하기", className:"plus", onclick:function(){
-						toast.push(Object.toJSON(this));
-					}},
+						    toast.push(Object.toJSON(this));
+					    },
+                        subMenu:[
+                            {
+                                userType:0, label:"하위메뉴1", onclick:function(){toast.push(Object.toJSON(this));}
+                            },
+                            {
+                                userType:0, label:"하위메뉴2", onclick:function(){toast.push(Object.toJSON(this));}
+                            },
+                            {userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
+                            {userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));},
+                                subMenu:[
+                                    {userType:0, label:"하위메뉴21", onclick:function(){toast.push(Object.toJSON(this));}},
+                                    {userType:0, label:"하위메뉴22", onclick:function(){toast.push(Object.toJSON(this));},
+                                        subMenu:[
+                                            {userType:0, label:"하위메뉴21", onclick:function(){toast.push(Object.toJSON(this));}}
+                                        ]
+                                    }
+                                ]
+                            },
+                            {userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}}
+                        ],
+                        upperLine:true,
+                        underLine:true
+                    },
 					{userType:1, label:"삭제하기", onclick:function(){
 						toast.push(Object.toJSON(this));
 					}}
