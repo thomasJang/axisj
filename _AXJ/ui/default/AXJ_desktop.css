@@ -701,6 +701,93 @@ input::-ms-clear {
 .AXButton.W300 {
   width: 300px;
 }
+.AXButton.W20 {
+  width: 20px;
+}
+.AXButton.W30 {
+  width: 30px;
+}
+.AXButton.W40 {
+  width: 40px;
+}
+.AXButton.W50 {
+  width: 50px;
+}
+.AXButton.W60 {
+  width: 60px;
+}
+.AXButton.W70 {
+  width: 70px;
+}
+.AXButton.W80 {
+  width: 80px;
+}
+.AXButton.W90 {
+  width: 90px;
+}
+.AXButton.W100 {
+  width: 100px;
+}
+.AXButton.W110 {
+  width: 110px;
+}
+.AXButton.W120 {
+  width: 120px;
+}
+.AXButton.W130 {
+  width: 130px;
+}
+.AXButton.W140 {
+  width: 140px;
+}
+.AXButton.W150 {
+  width: 150px;
+}
+.AXButton.W160 {
+  width: 160px;
+}
+.AXButton.W170 {
+  width: 170px;
+}
+.AXButton.W180 {
+  width: 180px;
+}
+.AXButton.W190 {
+  width: 190px;
+}
+.AXButton.W200 {
+  width: 200px;
+}
+.AXButton.W210 {
+  width: 210px;
+}
+.AXButton.W220 {
+  width: 220px;
+}
+.AXButton.W230 {
+  width: 230px;
+}
+.AXButton.W240 {
+  width: 240px;
+}
+.AXButton.W250 {
+  width: 250px;
+}
+.AXButton.W260 {
+  width: 260px;
+}
+.AXButton.W270 {
+  width: 270px;
+}
+.AXButton.W280 {
+  width: 280px;
+}
+.AXButton.W290 {
+  width: 290px;
+}
+.AXButton.W300 {
+  width: 300px;
+}
 .AXButtonSmall {
   position: relative;
   font-size: 11px;
@@ -869,6 +956,93 @@ input::-ms-clear {
 .AXButtonSmall.W300 {
   width: 300px;
 }
+.AXButtonSmall.W20 {
+  width: 20px;
+}
+.AXButtonSmall.W30 {
+  width: 30px;
+}
+.AXButtonSmall.W40 {
+  width: 40px;
+}
+.AXButtonSmall.W50 {
+  width: 50px;
+}
+.AXButtonSmall.W60 {
+  width: 60px;
+}
+.AXButtonSmall.W70 {
+  width: 70px;
+}
+.AXButtonSmall.W80 {
+  width: 80px;
+}
+.AXButtonSmall.W90 {
+  width: 90px;
+}
+.AXButtonSmall.W100 {
+  width: 100px;
+}
+.AXButtonSmall.W110 {
+  width: 110px;
+}
+.AXButtonSmall.W120 {
+  width: 120px;
+}
+.AXButtonSmall.W130 {
+  width: 130px;
+}
+.AXButtonSmall.W140 {
+  width: 140px;
+}
+.AXButtonSmall.W150 {
+  width: 150px;
+}
+.AXButtonSmall.W160 {
+  width: 160px;
+}
+.AXButtonSmall.W170 {
+  width: 170px;
+}
+.AXButtonSmall.W180 {
+  width: 180px;
+}
+.AXButtonSmall.W190 {
+  width: 190px;
+}
+.AXButtonSmall.W200 {
+  width: 200px;
+}
+.AXButtonSmall.W210 {
+  width: 210px;
+}
+.AXButtonSmall.W220 {
+  width: 220px;
+}
+.AXButtonSmall.W230 {
+  width: 230px;
+}
+.AXButtonSmall.W240 {
+  width: 240px;
+}
+.AXButtonSmall.W250 {
+  width: 250px;
+}
+.AXButtonSmall.W260 {
+  width: 260px;
+}
+.AXButtonSmall.W270 {
+  width: 270px;
+}
+.AXButtonSmall.W280 {
+  width: 280px;
+}
+.AXButtonSmall.W290 {
+  width: 290px;
+}
+.AXButtonSmall.W300 {
+  width: 300px;
+}
 .AXButtonLarge {
   position: relative;
   font-size: 12px;
@@ -949,6 +1123,93 @@ input::-ms-clear {
 }
 .AXButtonLarge[disabled]:active {
   box-shadow: none;
+}
+.AXButtonLarge.W20 {
+  width: 20px;
+}
+.AXButtonLarge.W30 {
+  width: 30px;
+}
+.AXButtonLarge.W40 {
+  width: 40px;
+}
+.AXButtonLarge.W50 {
+  width: 50px;
+}
+.AXButtonLarge.W60 {
+  width: 60px;
+}
+.AXButtonLarge.W70 {
+  width: 70px;
+}
+.AXButtonLarge.W80 {
+  width: 80px;
+}
+.AXButtonLarge.W90 {
+  width: 90px;
+}
+.AXButtonLarge.W100 {
+  width: 100px;
+}
+.AXButtonLarge.W110 {
+  width: 110px;
+}
+.AXButtonLarge.W120 {
+  width: 120px;
+}
+.AXButtonLarge.W130 {
+  width: 130px;
+}
+.AXButtonLarge.W140 {
+  width: 140px;
+}
+.AXButtonLarge.W150 {
+  width: 150px;
+}
+.AXButtonLarge.W160 {
+  width: 160px;
+}
+.AXButtonLarge.W170 {
+  width: 170px;
+}
+.AXButtonLarge.W180 {
+  width: 180px;
+}
+.AXButtonLarge.W190 {
+  width: 190px;
+}
+.AXButtonLarge.W200 {
+  width: 200px;
+}
+.AXButtonLarge.W210 {
+  width: 210px;
+}
+.AXButtonLarge.W220 {
+  width: 220px;
+}
+.AXButtonLarge.W230 {
+  width: 230px;
+}
+.AXButtonLarge.W240 {
+  width: 240px;
+}
+.AXButtonLarge.W250 {
+  width: 250px;
+}
+.AXButtonLarge.W260 {
+  width: 260px;
+}
+.AXButtonLarge.W270 {
+  width: 270px;
+}
+.AXButtonLarge.W280 {
+  width: 280px;
+}
+.AXButtonLarge.W290 {
+  width: 290px;
+}
+.AXButtonLarge.W300 {
+  width: 300px;
 }
 .AXButtonLarge.W20 {
   width: 20px;
@@ -1339,6 +1600,93 @@ input::-ms-clear {
 .AXInput.W300 {
   width: 300px;
 }
+.AXInput.W20 {
+  width: 20px;
+}
+.AXInput.W30 {
+  width: 30px;
+}
+.AXInput.W40 {
+  width: 40px;
+}
+.AXInput.W50 {
+  width: 50px;
+}
+.AXInput.W60 {
+  width: 60px;
+}
+.AXInput.W70 {
+  width: 70px;
+}
+.AXInput.W80 {
+  width: 80px;
+}
+.AXInput.W90 {
+  width: 90px;
+}
+.AXInput.W100 {
+  width: 100px;
+}
+.AXInput.W110 {
+  width: 110px;
+}
+.AXInput.W120 {
+  width: 120px;
+}
+.AXInput.W130 {
+  width: 130px;
+}
+.AXInput.W140 {
+  width: 140px;
+}
+.AXInput.W150 {
+  width: 150px;
+}
+.AXInput.W160 {
+  width: 160px;
+}
+.AXInput.W170 {
+  width: 170px;
+}
+.AXInput.W180 {
+  width: 180px;
+}
+.AXInput.W190 {
+  width: 190px;
+}
+.AXInput.W200 {
+  width: 200px;
+}
+.AXInput.W210 {
+  width: 210px;
+}
+.AXInput.W220 {
+  width: 220px;
+}
+.AXInput.W230 {
+  width: 230px;
+}
+.AXInput.W240 {
+  width: 240px;
+}
+.AXInput.W250 {
+  width: 250px;
+}
+.AXInput.W260 {
+  width: 260px;
+}
+.AXInput.W270 {
+  width: 270px;
+}
+.AXInput.W280 {
+  width: 280px;
+}
+.AXInput.W290 {
+  width: 290px;
+}
+.AXInput.W300 {
+  width: 300px;
+}
 .AXInput[readonly] {
   background: #eee;
   color: #676767;
@@ -1373,6 +1721,93 @@ input::-ms-clear {
 }
 .AXInputSmall.Round {
   border-radius: 15px;
+}
+.AXInputSmall.W20 {
+  width: 20px;
+}
+.AXInputSmall.W30 {
+  width: 30px;
+}
+.AXInputSmall.W40 {
+  width: 40px;
+}
+.AXInputSmall.W50 {
+  width: 50px;
+}
+.AXInputSmall.W60 {
+  width: 60px;
+}
+.AXInputSmall.W70 {
+  width: 70px;
+}
+.AXInputSmall.W80 {
+  width: 80px;
+}
+.AXInputSmall.W90 {
+  width: 90px;
+}
+.AXInputSmall.W100 {
+  width: 100px;
+}
+.AXInputSmall.W110 {
+  width: 110px;
+}
+.AXInputSmall.W120 {
+  width: 120px;
+}
+.AXInputSmall.W130 {
+  width: 130px;
+}
+.AXInputSmall.W140 {
+  width: 140px;
+}
+.AXInputSmall.W150 {
+  width: 150px;
+}
+.AXInputSmall.W160 {
+  width: 160px;
+}
+.AXInputSmall.W170 {
+  width: 170px;
+}
+.AXInputSmall.W180 {
+  width: 180px;
+}
+.AXInputSmall.W190 {
+  width: 190px;
+}
+.AXInputSmall.W200 {
+  width: 200px;
+}
+.AXInputSmall.W210 {
+  width: 210px;
+}
+.AXInputSmall.W220 {
+  width: 220px;
+}
+.AXInputSmall.W230 {
+  width: 230px;
+}
+.AXInputSmall.W240 {
+  width: 240px;
+}
+.AXInputSmall.W250 {
+  width: 250px;
+}
+.AXInputSmall.W260 {
+  width: 260px;
+}
+.AXInputSmall.W270 {
+  width: 270px;
+}
+.AXInputSmall.W280 {
+  width: 280px;
+}
+.AXInputSmall.W290 {
+  width: 290px;
+}
+.AXInputSmall.W300 {
+  width: 300px;
 }
 .AXInputSmall.W20 {
   width: 20px;
@@ -1617,6 +2052,93 @@ input::-ms-clear {
 .AXSelect.W300 {
   width: 300px;
 }
+.AXSelect.W20 {
+  width: 20px;
+}
+.AXSelect.W30 {
+  width: 30px;
+}
+.AXSelect.W40 {
+  width: 40px;
+}
+.AXSelect.W50 {
+  width: 50px;
+}
+.AXSelect.W60 {
+  width: 60px;
+}
+.AXSelect.W70 {
+  width: 70px;
+}
+.AXSelect.W80 {
+  width: 80px;
+}
+.AXSelect.W90 {
+  width: 90px;
+}
+.AXSelect.W100 {
+  width: 100px;
+}
+.AXSelect.W110 {
+  width: 110px;
+}
+.AXSelect.W120 {
+  width: 120px;
+}
+.AXSelect.W130 {
+  width: 130px;
+}
+.AXSelect.W140 {
+  width: 140px;
+}
+.AXSelect.W150 {
+  width: 150px;
+}
+.AXSelect.W160 {
+  width: 160px;
+}
+.AXSelect.W170 {
+  width: 170px;
+}
+.AXSelect.W180 {
+  width: 180px;
+}
+.AXSelect.W190 {
+  width: 190px;
+}
+.AXSelect.W200 {
+  width: 200px;
+}
+.AXSelect.W210 {
+  width: 210px;
+}
+.AXSelect.W220 {
+  width: 220px;
+}
+.AXSelect.W230 {
+  width: 230px;
+}
+.AXSelect.W240 {
+  width: 240px;
+}
+.AXSelect.W250 {
+  width: 250px;
+}
+.AXSelect.W260 {
+  width: 260px;
+}
+.AXSelect.W270 {
+  width: 270px;
+}
+.AXSelect.W280 {
+  width: 280px;
+}
+.AXSelect.W290 {
+  width: 290px;
+}
+.AXSelect.W300 {
+  width: 300px;
+}
 .AXSelectSmall {
   border: 1px solid #b6b6b6;
   background: #fff;
@@ -1632,6 +2154,93 @@ input::-ms-clear {
   height: 20px;
   padding: 2px;
   margin: 0px auto;
+}
+.AXSelectSmall.W20 {
+  width: 20px;
+}
+.AXSelectSmall.W30 {
+  width: 30px;
+}
+.AXSelectSmall.W40 {
+  width: 40px;
+}
+.AXSelectSmall.W50 {
+  width: 50px;
+}
+.AXSelectSmall.W60 {
+  width: 60px;
+}
+.AXSelectSmall.W70 {
+  width: 70px;
+}
+.AXSelectSmall.W80 {
+  width: 80px;
+}
+.AXSelectSmall.W90 {
+  width: 90px;
+}
+.AXSelectSmall.W100 {
+  width: 100px;
+}
+.AXSelectSmall.W110 {
+  width: 110px;
+}
+.AXSelectSmall.W120 {
+  width: 120px;
+}
+.AXSelectSmall.W130 {
+  width: 130px;
+}
+.AXSelectSmall.W140 {
+  width: 140px;
+}
+.AXSelectSmall.W150 {
+  width: 150px;
+}
+.AXSelectSmall.W160 {
+  width: 160px;
+}
+.AXSelectSmall.W170 {
+  width: 170px;
+}
+.AXSelectSmall.W180 {
+  width: 180px;
+}
+.AXSelectSmall.W190 {
+  width: 190px;
+}
+.AXSelectSmall.W200 {
+  width: 200px;
+}
+.AXSelectSmall.W210 {
+  width: 210px;
+}
+.AXSelectSmall.W220 {
+  width: 220px;
+}
+.AXSelectSmall.W230 {
+  width: 230px;
+}
+.AXSelectSmall.W240 {
+  width: 240px;
+}
+.AXSelectSmall.W250 {
+  width: 250px;
+}
+.AXSelectSmall.W260 {
+  width: 260px;
+}
+.AXSelectSmall.W270 {
+  width: 270px;
+}
+.AXSelectSmall.W280 {
+  width: 280px;
+}
+.AXSelectSmall.W290 {
+  width: 290px;
+}
+.AXSelectSmall.W300 {
+  width: 300px;
 }
 .AXSelectSmall.W20 {
   width: 20px;
@@ -3498,4 +4107,289 @@ input::-ms-clear {
   border: 1px dotted #000;
   cursor: se-resize;
   background: url(img/resizableHandle.png) no-repeat 100% 100%;
+}
+/* AXISJ Javascript UI Framework */
+/* http://www.axisj.com, license : http://www.axisj.com/license */
+.axj-style-width.W20 {
+  width: 20px;
+}
+.axj-style-width.W30 {
+  width: 30px;
+}
+.axj-style-width.W40 {
+  width: 40px;
+}
+.axj-style-width.W50 {
+  width: 50px;
+}
+.axj-style-width.W60 {
+  width: 60px;
+}
+.axj-style-width.W70 {
+  width: 70px;
+}
+.axj-style-width.W80 {
+  width: 80px;
+}
+.axj-style-width.W90 {
+  width: 90px;
+}
+.axj-style-width.W100 {
+  width: 100px;
+}
+.axj-style-width.W110 {
+  width: 110px;
+}
+.axj-style-width.W120 {
+  width: 120px;
+}
+.axj-style-width.W130 {
+  width: 130px;
+}
+.axj-style-width.W140 {
+  width: 140px;
+}
+.axj-style-width.W150 {
+  width: 150px;
+}
+.axj-style-width.W160 {
+  width: 160px;
+}
+.axj-style-width.W170 {
+  width: 170px;
+}
+.axj-style-width.W180 {
+  width: 180px;
+}
+.axj-style-width.W190 {
+  width: 190px;
+}
+.axj-style-width.W200 {
+  width: 200px;
+}
+.axj-style-width.W210 {
+  width: 210px;
+}
+.axj-style-width.W220 {
+  width: 220px;
+}
+.axj-style-width.W230 {
+  width: 230px;
+}
+.axj-style-width.W240 {
+  width: 240px;
+}
+.axj-style-width.W250 {
+  width: 250px;
+}
+.axj-style-width.W260 {
+  width: 260px;
+}
+.axj-style-width.W270 {
+  width: 270px;
+}
+.axj-style-width.W280 {
+  width: 280px;
+}
+.axj-style-width.W290 {
+  width: 290px;
+}
+.axj-style-width.W300 {
+  width: 300px;
+}
+/* ---------------------------- AXMobileModal ------------------------------- */
+.AXMobileModal {
+  z-index: 6000;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.AXMobileModal .AXMobileModalPanel {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background: #d7dde3;
+  border-radius: 4px;
+  box-shadow: 0px 0px 3px #000000;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead {
+  position: relative;
+  height: 44px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle {
+  padding: 0px 10px;
+  line-height: 44px;
+  color: #3b3b3b;
+  font-size: 15px;
+  font-weight: bold;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .prevbutton {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 44px;
+  height: 44px;
+  background: url(img/AXMobile/prev.png) center center no-repeat;
+  background-size: 50% 50%;
+  text-indent: -9999;
+  overflow: hidden;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .nextbutton {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 44px;
+  height: 44px;
+  background: url(img/AXMobile/next.png) center center no-repeat;
+  background-size: 50% 50%;
+  text-indent: -9999;
+  overflow: hidden;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .yearbutton {
+  display: block;
+  position: absolute;
+  left: 100px;
+  top: 0px;
+  height: 44px;
+  line-height: 44px;
+  text-decoration: none;
+  color: #3b3b3b;
+  font-size: 15px;
+  font-weight: bold;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXDateControlBox .monthbutton {
+  display: block;
+  position: absolute;
+  left: 160px;
+  top: 0px;
+  height: 44px;
+  line-height: 44px;
+  text-decoration: none;
+  color: #3b3b3b;
+  font-size: 15px;
+  font-weight: bold;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXContextMenuHome {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 44px;
+  height: 44px;
+  background: url(img/AXMobile/home.png) center center no-repeat;
+  background-size: 50% 50%;
+  line-height: 1000px;
+  overflow: hidden;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalHead .AXContextMenuPrev {
+  display: block;
+  position: absolute;
+  left: 44px;
+  top: 0px;
+  height: 44px;
+  line-height: 44px;
+  padding-left: 30px;
+  color: #3b3b3b;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  background: url(img/AXMobile/prev.png) 0px center no-repeat;
+  background-size: 22px auto;
+  cursor: pointer;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModelClose {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 44px;
+  height: 44px;
+  background: url(img/AXMobile/close.png) center center no-repeat;
+  background-size: 50% 50%;
+  line-height: 1000px;
+  overflow: hidden;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody {
+  /* 모달창 바디 */
+
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
+  /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
+  background: #fff;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
+  /* 모달창 바디 안에 위치한 달력 컨테이너 */
+  background: #fff;
+  border-top: 1px solid #b9babc;
+  border-bottom: 1px solid #b9babc;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXTimeDisplayBox {
+  height: 144px;
+  background: #fff;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem {
+  position: relative;
+  display: block;
+  padding: 0px 10px;
+  font-size: 12px;
+  line-height: 43px;
+  color: #3b3b3b;
+  text-decoration: none;
+  border-bottom: 1px solid #c8c8c8;
+  background: #fff;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem:nth-child(odd) {
+  background: #f7f7f7;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem.on {
+  background: #5ea3db;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 43px;
+  height: 43px;
+  background: url('images/mx-item-check.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-checkbox.on {
+  background: url('images/mx-item-checkOn.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .label {
+  display: inline;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-rightGroup {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 43px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-rightGroup .contextSubMenuIcon {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  background: url('img/AXMobile/next.png') no-repeat center center;
+  background-size: 15px 15px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-rightGroup .tool-sort {
+  display: inline-block;
+  width: 43px;
+  height: 43px;
+  background: url('images/mx-item-sort.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-rightGroup .tool-sort.asc {
+  background: url('images/mx-item-sortAsc.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem .tool-rightGroup .tool-sort.desc {
+  background: url('images/mx-item-sortDesc.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXMobileModal .AXMobileModalPanel .mobileModalFoot .AXDateButtonBox {
+  text-align: center;
+  padding: 7px;
 }
