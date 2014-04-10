@@ -1139,7 +1139,7 @@ swfobject.addDomLoadEvent(function () {
 
 
 var AXUpload5 = Class.create(AXJ, {
-	version : "AXUpload5 V1.24",
+	version : "AXUpload5 V1.25",
 	author : "tom@axisj.com",
 	logs: [
 		"2013-10-02 오후 2:19:36 - 시작 tom",
@@ -1150,7 +1150,8 @@ var AXUpload5 = Class.create(AXJ, {
 		"2013-12-17 오전 11:24:38 - tom : AXUploadPreview css 적용",
 		"2014-02-11 오후 3:29:51 - tom : deleteFile 개선, 서버 JSON에 error 가 없으면 정상 처리 되도록 변경",
 		"2014-02-23 오후 7:39:11 - tom : this.uploadedList 초기화 버그 픽스",
-		"2014-02-23 오후 8:44:07 - <base> attr 인식 처리 구문 추가"
+		"2014-02-23 오후 8:44:07 - <base> attr 인식 처리 구문 추가",
+        "2014-04-10 - tom 설정에 선언된 파일타입 체크하여 파일 셀렉트와 드랍 방지 처리 구문 추가"
 	],
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -1284,7 +1285,7 @@ var AXUpload5 = Class.create(AXJ, {
 		
 		var onFileSelect = this.onFileSelect.bind(this);
 		var fileSelector = document.getElementById(cfg.targetID+'_AX_files');
-		if(AXUtil.browser.name == "ie" && AXUtil.browser.version < 9){
+		if(axf.browser.name == "ie" && axf.browser.version < 9){
 			
 		}else{
 			fileSelector.addEventListener('change', onFileSelect, false);
@@ -1721,10 +1722,12 @@ var AXUpload5 = Class.create(AXJ, {
 					}
 				}
 				if(hasSizeOverFile) cfg.onError("fileSize", {name:sizeOverFile.name, size:sizeOverFile.size});
-				
+                if(!cfg.file_types) cfg.file_types = ".";
+                var fileTypeRe = new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig");
 				var uploadedCount = this.uploadedList.length;
 				for (var i = 0, f; f = files[i]; i++) {
-					if(f.size <= cfg.uploadMaxFileSize){
+                    //trace(f.type, cfg.file_types);
+					if(f.size <= cfg.uploadMaxFileSize && fileTypeRe.test(f.type)){
 						uploadedCount++;
 						if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
 							
@@ -1787,10 +1790,11 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 		}
 		if(hasSizeOverFile) cfg.onError("fileSize", {name:sizeOverFile.name, size:sizeOverFile.size});
-		
+        if(!cfg.file_types) cfg.file_types = ".";
+        var fileTypeRe = new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig");
 		var uploadedCount = this.uploadedList.length;
 		for (var i = 0, f; f = files[i]; i++) {
-			if(f.size <= cfg.uploadMaxFileSize){
+			if(f.size <= cfg.uploadMaxFileSize && fileTypeRe.test(f.type)){
 				uploadedCount++;
 				if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;

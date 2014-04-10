@@ -4135,6 +4135,7 @@ var AXContextMenuClass = Class.create(AXJ, {
 		var filter = this.filter.bind(this);
 		var getSubMenu = this.getSubMenu.bind(this);
 		var po = [];
+        var showItemCount = 0;
 		po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
 		AXUtil.each(obj.menu, function (idx, menu) {
 			if (filter(objSeq, objID, myobj, menu)) {
@@ -4168,9 +4169,13 @@ var AXContextMenuClass = Class.create(AXJ, {
 				if (menu.underLine) {
 					po.push("<div class=\"hline\"></div>");
 				}
+                showItemCount++;
 			}
 		});
 		po.push("</div>");
+
+        if(showItemCount == 0) return false; // 보여줄 메뉴가 없다면 출력 안함.
+
 		axdom(document.body).append(po.join(''));
 
 		axdom("#" + objID + " .contextMenuItem:first-child").addClass("first");
