@@ -123,7 +123,9 @@ var sampleTreeMenu = new AXTopDownMenu();
             }
             to.push("</h1>");
             to.push("<h2>Theme Developer. <a href='mailto:"+tdata.mail+"'>"+tdata.developer+"</a></h2>");
-
+            to.push("<a href='https://www.facebook.com/axisj' target='_blank' class='facebook'>Facebook</a>");
+            to.push("<a href='https://github.com/axisj-com/axisj' target='_blank' class='github'>Github</a>");
+            to.push("<a href='http://jdoc.axisj.com' target='_blank' class='api'>API</a>");
             to.push("<div class='ax-clear'></div>");
             jQuery(".themeInfo").append(to.join(""));
 
@@ -197,6 +199,7 @@ var sampleTreeMenu = new AXTopDownMenu();
                                 fo.push('</nav>');
                             fo.push('</div>');
                         fo.push('</div>');
+
 
                         fo.push('<div style="position:absolute;top: 5px;right: 2px;">');
 

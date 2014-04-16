@@ -278,6 +278,24 @@ body h3 {
   color: #f1efea;
   text-decoration: underline;
 }
+#AXPage #AXPageHead .ax-layer-2 .ax-unit .themeInfo .facebook {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 11px;
+}
+#AXPage #AXPageHead .ax-layer-2 .ax-unit .themeInfo .github {
+  position: absolute;
+  right: 5px;
+  top: 25px;
+  font-size: 11px;
+}
+#AXPage #AXPageHead .ax-layer-2 .ax-unit .themeInfo .api {
+  position: absolute;
+  right: 5px;
+  top: 45px;
+  font-size: 11px;
+}
 #AXPage #AXPageHead .ax-layer-3 .ax-unit {
   margin: 0px;
 }
