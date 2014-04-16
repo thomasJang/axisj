@@ -2,50 +2,58 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>AXSearch</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXSearch - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSearch.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
-	<style type="text/css">
-	
-	H2, H3{font-family:consolas;}
-	</style>
-	<!-- css block -->
-	
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXSearch.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
-	
-	<script type="text/javascript">
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSearch.css" />
+
+    <style type="text/css">
+
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../../lib/AXSearch.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXSelect.js, AXSearch.js, AXGrid.js, AXTab.js, AXButton.js
+	 * CSS			: AXJ.css, AXInput.css, AXSelect.css, AXSearch.css, AXGrid.css, AXTab.css, AXButton.css
+	 */	
 	var pageID = "AXSearch";
 	var mySearch = new AXSearch();
 	var mySearch2 = new AXSearch();
+
+	
 	var fnObj = {
 		pageStart: function(){
-			AXCode.bind(); // 소스보기
-			
 			//검색도구 설정 01 ---------------------------------------------------------
 			mySearch.setConfig({
 				targetID:"AXSearchTarget",
@@ -174,7 +182,7 @@
 							AXBind:{
 								type:"selector", config:{
 									appendable:true,
-									ajaxUrl:"/samples/AXInput/selectorData.asp", 
+									ajaxUrl:"selectorData.txt",
 									ajaxPars:"",
 									onChange:function(){
 										toast.push(Object.toJSON(this));
@@ -230,43 +238,53 @@
 					]}
 				]
 			});
-			//검색도구 설정 02 ---------------------------------------------------------
+			//검색도구 설정 02 ---------------------------------------------------------			
 
 		},
 		search1: function(){
 			var pars = mySearch.getParam();
 			toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
 			trace(pars);
-		}
+		}	
 	};
-	
-	$(document.body).ready(function(){
-		setTimeout(fnObj.pageStart, 100);
-	});
+	jQuery(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
-	<!-- js block -->
-	
-</head>
-<body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
 
-		<h2>AXSearch</h2>
+	<style type="text/css">
 	
-			<h3>style 1</h3>
+	</style>
+</head>
 	
-			<div id="AXSearchTarget" style="border-top:1px solid #ccc;"></div>
-			
-			<div style="padding:10px;" align="center">
-				<input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search1();" />
-			</div>
-			
-			<div class="Hspace20"></div>
-	
-			<h3>style 2</h3>
-			<div id="AXSearchTarget2" style="border-top:1px solid #ccc;"></div>
-			
-	</div>
+<body>
+
+<div id="AXPage">
+
+	<!-- s.AXPageBody -------------------------------------------------- -->
+	<article id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+			<div class="title"><h1>AXSearch</h1></div>
+
+            <div id="AXSearchTarget" style="border-top:1px solid #ccc;"></div>
+
+            <div class="H10"></div>
+
+            <div align="center">
+                <input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search1();" />
+            </div>
+
+            <div class="H20"></div>
+
+            <h3>Style 2</h3>
+
+            <div id="AXSearchTarget2" style="border-top:1px solid #ccc;"></div>
+
+		</div>
+	</article>
+	<!-- e.AXPageBody -------------------------------------------------- -->
+
+</div>
 
 </body>
-</html>
+</html>		

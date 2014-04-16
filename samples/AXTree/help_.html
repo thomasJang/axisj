@@ -1,0 +1,400 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>AXTree</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
+
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTree.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTree.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+		}
+	};
+
+	$(document.body).ready(function(){
+		fnObj.pageStart();
+	});
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div class="contentContainer">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="setList.html" class="AXTab Blue">setList</a>
+				<a href="ajax.html" class="AXTab Blue">ajax</a>
+				<a href="control.html" class="AXTab Blue">control</a>
+				<a href="control2.html" class="AXTab Blue">control2</a>
+				<a href="treeCheckbox.html" class="AXTab Blue">treeCheckbox</a>
+				<a href="connectionType.html" class="AXTab Blue">connectionType</a>
+				<a href="help.html" class="AXTab Blue on">도움말</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXTree Structure</h2>
+		<div>
+		
+		</div>
+		
+		<h2>setConfig</h2>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				setConfig
+			</div>
+			<div class="methodDesc">
+				<div class="desc">AXTree 초기화 </div>
+				
+				<table cellpadding="3" cellspacing="0" class="setConfig" >
+					<caption>setConfig 속성표</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>targetID</td><td class='tac'>Y</td><td>트리가 삽입될 HTML tag ID</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>theme</td><td class='tac'></td><td>적용될 클래스이름</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>height</td><td class='tac'></td><td>트리 높이</td><td>number | string</td><td><pre>500px | "auto"</pre></td></tr>
+					<tr><td>fitToWidth</td><td class='tac'></td><td>초기 화면 사이즈에 그리드 채우기</td><td>boolean</td><td><pre></pre></td></tr>
+					<tr><td>xscroll</td><td class='tac'></td><td>트리 가로스크롤 여부</td><td>boolean</td><td><pre></pre></td></tr>
+					
+					<tr><td>colGroup</td><td class='tac'>Y</td><td>트리 컬럼정의<br/>
+					1. 그리드 형<br/>
+					 - 표현할 각 키들을 정의<br/>
+					2. 일반형<br/>
+					 - 한 개의 키만 정의하고 해당 오브젝트에서 fromatter에 사용자함수를 연결하여 원하는 내용을 표현합니다.
+					<br/>
+					<br/>
+					트리에 표현할수 있는 iconClass<br/>
+					 - folder, AXfolder, movie, img, zip, file, fileTxt, fileTag</td><td>json object</td><td>
+<pre>1. 그리드 type
+{key:""no"", label:""코드"", width:""60"", align:""left""},
+{key:""type"", label:""유형"", width:""80"", align:""center""},
+{
+ key:""activity"",
+ label:""액티비티"",
+ width:""200"", align:""left"",
+ indent:true,
+ getIconClass: function(){
+  var iconName = ""file"";
+  return iconName;
+ },
+ formatter:function(){ return this.item.activity; }
+}
+,{key:""desc"", label:""설명"", width:""50"", align:""center""}
+,{key:""charger"", label:""담당자"", width:""70"", align:""center""}
+,{key:""admin"", label:""승인자"", width:""60"", align:""center""}
+,{key:""docs"", label:""표준산출물"", width:""150"", align:""left""}
+
+2. 일반
+ formatter:function(){
+  return ""<b>""+this.item.no.setDigit(2) + ""</b> : "" + this.item.activity + "" ("" + this.item.charger + "")"";
+ }
+formatter를 제외한 다른내용은 위와 동일한 방식으로 지정합니다. </pre>
+					</td></tr>
+					<tr><td>colHead</td><td class='tac'></td><td>트리 컬럼헤드 노출정의 </td><td>boolean</td><td><pre>colHead: { display : true }</pre></td></tr>
+					<tr><td>body</td><td class='tac'></td><td>트리 바디 이벤트 정의</td><td>json object</td><td><pre>onclick, oncheck, onexpend는 body 안에 정의됩니다. </pre></td></tr>
+					<tr><td>onclick</td><td class='tac'></td><td>트리 아이템클릭시 사용자 함수연결</td><td>json object</td><td>
+<pre>onclick:function(idx, item){
+ toast.push(Object.toJSON(this.item));
+}</pre>
+					</td></tr>
+					<tr><td>oncheck</td><td class='tac'></td><td>트리 체크박스클릭시 함수연결</td><td>json object</td><td>
+<pre>oncheck:function(){
+ //사용 가능한 변수
+ //this.itemIndex
+ //this.target
+ //this.checked
+ //this.r
+ //this.c
+ //this.list
+ //this.item
+ alert(this.checked);
+}</pre>
+					</td></tr>
+					<tr><td>onexpand</td><td class='tac'></td><td>트리아이템을 ajax 통신으로 받아올때 정의합니다.</td><td>json object</td><td>
+<pre>onexpand: function(){
+ if(this.subTree.length == 0){ //자식개체가 없으므로.. subTree 호출 처리 합니다.
+  var index = this.index, item = this.item;
+  myTree.setLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+  var url = ""loadTree.asp"";
+  var pars = ""no=""+this.item.no;
+  new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
+   if(res.result == AXUtil.ajaxOkCode){
+    trace(res.tree);
+    myTree.appendTree(index, item, res.tree);
+   }else{
+    trace(res);
+   }
+   myTree.endLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+  }, onerr:null});
+ }
+}</pre>
+					</td></tr>
+					<tr><td>contextMenu</td><td class='tac'></td><td>contextMenu 정의</td><td>json object</td><td>
+<pre>contextMenu: {
+ theme:""AXContextMenu"", // 선택항목
+ width:""150"", // 선택항목
+ menu:[
+  {userType:0, label:""위로"", className:""up"", onclick:function(id){
+   myTree.moveUpTree();
+  }},
+  {userType:0, label:""아래로"", className:""down"", onclick:function(id){
+   myTree.moveDownTree();
+  }},
+  {userType:0, label:""이동"", className:""paste"", underLine:true, onclick:function(id){
+   myTree.moveTree();
+  }},
+  {userType:0, label:""추가"", className:""plus"", onclick:fnObj.addTree},
+  {userType:0, label:""자식추가"", className:""plus"", onclick:fnObj.addChildTree},
+  {userType:1, label:""삭제하기"", className:"""", onclick:fnObj.delTree},
+  {userType:1, label:""수정하기"", className:"""", onclick:fnObj.updateTree}
+ ],
+ filter:function(id){
+  return true; //(this.userType == 0);
+ }
+}</pre>
+					</td></tr>
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_colGroup">
+					<caption>colGroup</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>key</td><td class='tac'>Y</td><td>컬럼에 매치될 키값 </td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>label</td><td class='tac'>Y</td><td>컬럼이름</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>width</td><td class='tac'></td><td>컬럼넓이</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+					<tr><td>indent</td><td class='tac'></td><td>트리 아이템들의 인덴트 표현</td><td>boolean</td><td><pre></pre></td></tr>
+					<tr><td>getIconClass</td><td class='tac'></td><td>트리 아이템 아이콘클래스<br/>
+					클래스 종류<br/>
+					 - folder, AXfolder, movie, img, zip, file, fileTxt, fileTag</td><td></td><td>
+<pre>getIconClass: function(){
+ var iconName = ""file"";
+ return iconName;
+}</pre>
+					</td></tr>
+					<tr><td>formatter</td><td class='tac'></td><td>컬럼표현 형식</td><td>string | function</td><td>
+<pre>money : 화폐표현 형식. 3자리마다 콤마표시. Ex) 10,000,000
+dec : AXJ 의 decode함수 호출
+checkbox : checkbox 형태로 변환
+function : 사용자 정의 함수</pre>
+					</td></tr>
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_colGroup">
+					<caption>body</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>onclick</td><td class='tac'></td><td>그리드 컬럼을 정의 </td><td>function</td><td>
+<pre>onclick:function(idx, item){
+ toast.push(Object.toJSON(this.item));
+}</pre>
+					</td></tr>
+					<tr><td>oncheck</td><td class='tac'></td><td>트리 체크박스클릭시 함수연결</td><td>json object</td><td>
+<pre>oncheck:function(){
+ //사용 가능한 변수
+ //this.itemIndex,  //this.target,  //this.checked,  //this.r,  //this.c,  //this.list,  //this.item
+ alert(this.checked);
+}</pre>
+					</td></tr>
+					<tr><td>onexpand</td><td class='tac'></td><td>트리아이템을 ajax 통신으로 받아올때 정의합니다.<br/>
+ - 자식개채가 없을때마다 호출되며 url, pars 로 정의된 파라메터로 ajax통신으로 자식개체를 받아와 트리개체에 자식을 추가합니다.</td><td>json object</td><td>
+<pre>onexpand: function(){
+ if(this.subTree.length == 0){ //자식개체가 없으므로.. subTree 호출 처리 합니다.
+  var index = this.index, item = this.item;
+  myTree.setLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+  var url = ""loadTree.asp"";
+  var pars = ""no=""+this.item.no;
+  new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
+   if(res.result == AXUtil.ajaxOkCode){
+    trace(res.tree);
+    myTree.appendTree(index, item, res.tree);
+   }else{
+    trace(res);
+   }
+   myTree.endLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+  }, onerr:null});
+ }
+}</pre>
+					</td></tr>
+				</table>
+				
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_colGroup">
+					<caption>contextMenu</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>theme</td><td class='tac'></td><td>contextMenu class 지정</td><td>string</td><td><pre>theme:"AXContextMenu"</pre></td></tr>
+					<tr><td>width</td><td class='tac'></td><td>컬럼넓이</td><td>string</td><td><pre>width:"150"</pre></td></tr>
+					<tr><td>menu</td><td class='tac'>Y</td><td>contextMenu item object</td><td>json object</td><td>
+<pre>menu:[
+  {userType:0, label:""위로"", className:""up"", onclick:function(id){
+   myTree.moveUpTree();
+  }},
+  {userType:0, label:""아래로"", className:""down"", onclick:function(id){
+   myTree.moveDownTree();
+  }},
+  {userType:0, label:""이동"", className:""paste"", underLine:true, onclick:function(id){
+   myTree.moveTree();
+  }},
+  {userType:0, label:""추가"", className:""plus"", onclick:fnObj.addTree},
+  {userType:0, label:""자식추가"", className:""plus"", onclick:fnObj.addChildTree},
+  {userType:1, label:""삭제하기"", className:"""", onclick:fnObj.delTree},
+  {userType:1, label:""수정하기"", className:"""", onclick:fnObj.updateTree}
+ ]</pre>
+					</td></tr>
+					<tr><td>userType</td><td class='tac'></td><td></td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>label</td><td class='tac'></td><td>메뉴명</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>className</td><td class='tac'></td><td>적용될 클래스 이름</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>onclick</td><td class='tac'></td><td>메뉴 클릭시 연결될 함수 </td><td>function</td><td><pre></pre></td></tr>
+					<tr><td>filter</td><td class='tac'></td><td>사용자 함수</td><td>function</td><td>
+<pre>filter:function(id){
+  return true; //(this.userType == 0);
+ }</pre>
+ 					</td></tr>
+				</table>
+				
+			</div>
+		</div>
+				
+				
+		<div class="Hspace20"></div>
+		<h2>method</h2>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.setList(Array | JSON Object)
+			</div>
+			<div class="methodDesc">
+				<div class="desc"> </div>
+				<!--
+				<b>setList([{a:1},{a:2}]);</b> //Array <br/>
+				<b>setList({ajaxUrl:"loadGrid.asp", ajaxPars:"param1=1&param2=2", onLoad:function(){} });</b> // AJAX 호출 Object<br/>
+-->
+				<table cellpadding="5" cellspacing="0">
+					<caption>AJAX 호출 Object</caption>
+					<tr>
+						<th>ajaxUrl</th>
+						<td>ajax호출 URL 주소값</td>
+					</tr>
+					<tr>
+						<th>ajaxPars</th>
+						<td>ajax호출 URL 전달할 파라미터</td>
+					</tr>
+					<tr>
+						<th>onLoad</th>
+						<td>
+							ajax 호출이 완료되었을때 이벤트 함수 this 인자로 서버에서 리턴된 JSON Object를 접근할 수있습니다.<br/>
+<pre>
+setList({
+	ajaxUrl:"loadGrid.asp", 
+	ajaxPars:"param1=1&param2=2", 
+	onLoad:function(){
+		alert(this.list);
+		trace(this); // 서버에서 리턴된 오브젝트를 콘솔창에 출력해 줍니다.
+	}
+});</pre>
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.getCheckedList(Number)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					colGroup의 배열순번으로 해당 col의 checked 된 아이템을 반환하여 줍니다.
+					(return Array)
+				</div>
+			</div>
+		</div>
+		
+
+
+	</div>
+
+</body>
+</html>

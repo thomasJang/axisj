@@ -2,86 +2,40 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>AXModelControl</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <title>AXModelControl - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXModelControlGrid.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
-	<style type="text/css">
-	H2{font-family:consolas;}
-	
-	/* AXInputGroup */
-	.AXInputGroup{
-		border:1px solid #b6b6b6;background:#fff;
-		box-shadow:inset 0px 1px 2px #dddddd;
-		border-radius:4px;
-		padding:0px 4px;
-	}
-	.AXInputGroup.inlineBlock{
-		display:inline-block;position:relative;
-		border:1px solid #b6b6b6;background:#fff;
-		box-shadow:inset 0px 1px 2px #dddddd;
-		border-radius:4px;
-		padding:0px 4px;
-	}
-	.AXInputGroup input[type=text]{
-		border:0px none;padding:0px;
-		width:100%;
-		padding:4px 0px;
-		font-size:12px;line-height:15px;height:15px;
-		background:none;
-	}
-	
-	/* AXInputGroupSmall */
-	.AXInputGroupSmall{
-		border:1px solid #b6b6b6;background:#fff;
-		box-shadow:inset 0px 1px 2px #dddddd;
-		border-radius:4px;
-		padding:0px 3px;
-	}
-	.AXInputGroupSmall.inlineBlock{
-		display:inline-block;position:relative;
-		border:1px solid #b6b6b6;background:#fff;
-		box-shadow:inset 0px 1px 2px #dddddd;
-		border-radius:4px;
-		padding:0px 3px;
-	}
-	.AXInputGroupSmall input[type=text]{
-		border:0px none;padding:0px;
-		width:100%;
-		padding:0px 0px;
-		font-size:11px;line-height:12px;height:12px;
-		background:none;
-	}
-	
-	.w70{width:70px;}
-	.w80{width:80px;}
-	.w90{width:90px;}
-	.w20{width:20px;}
-	</style>
-	<!-- css block -->
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXModelControlGrid.css" />
+    <!-- css block -->
 
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXModelControl.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXModelControlGrid.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../../lib/AXModelControl.js"></script>
+    <script type="text/javascript" src="../../lib/AXModelControlGrid.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
 	<script type="text/javascript">
 	var pageID = "AXModelControlGrid";
 	//var myModel = new AXModelControl();
@@ -443,7 +397,6 @@
 			*/
 
 			//-----------------------
-			AXCode.bind(); // 소스보기
 		},
 		add: function(){
 			var item = {
@@ -482,26 +435,35 @@
 		}
 	};
 	$(document.body).ready(function(){
-		fnObj.pageStart.delay(0.01);
+		fnObj.pageStart.delay(0.1);
 	});
 	</script>
 	<!-- js block -->
 
 </head>
 <body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
 
-		<div style="padding:10px;">
-			<button class="AXButton" onclick="fnObj.add();">add</button>
-		</div>
-		
-		<div id="AXModelControlListTarget"></div>
+<div id="AXPage">
 
-		<div style="padding:10px;">
-			<button class="AXButton" onclick="fnObj.output();">데이터추출</button>
-		</div>
-		
-	</div>
+    <!-- s.AXPageBody -------------------------------------------------- -->
+    <article id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div style="padding:10px;">
+                <button class="AXButton" onclick="fnObj.add();">add</button>
+            </div>
+
+            <div id="AXModelControlListTarget"></div>
+
+            <div style="padding:10px;">
+                <button class="AXButton" onclick="fnObj.output();">데이터추출</button>
+            </div>
+
+        </div>
+    </article>
+</div>
+
 </body>
 </html>

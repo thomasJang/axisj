@@ -25,6 +25,4 @@ axdom(document.body).ready(function(){
 	}catch(e){
 		trace(e);
 	}
-	
-	AXCode.bind(); // 소스보기
 });

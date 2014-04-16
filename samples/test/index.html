@@ -12,7 +12,6 @@
 </html>
 <script type="text/javascript">
 /* Array.convertTree(parentKey, childKey[, hashDigit]); */
-/*
 var arr = [
 	{pno:0, no:1, name:"액시스제이"},
 	{pno:1, no:2, name:"장기영"},
@@ -24,23 +23,4 @@ var arr = [
 ];
 var myTree = arr.convertTree("pno", "no");
 trace(myTree);
-*/
-
-var str = "What want <to> <play>? bla bla"
-var str = str.replace(/<[^>]*>/gi, function(match){
-	return "_A@X_" + match + "_A@X_";
-});
-var arr = str.split(/_A@X_/gi);
-
-var returnArray = [];
-for(var a=0;a<arr.length;a++){
-	var myWord = arr[a];
-	if(myWord.substring(0, 1) == "<"){
-		returnArray.push({ type:"input", value:myWord.replace(/[<>]/g, "") });
-	}else{
-		returnArray.push({ type:"string", value:myWord });
-	}
-}
-
-trace( returnArray );
 </script>

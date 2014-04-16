@@ -1,0 +1,193 @@
+@import "preset";
+@import "AXUtils";
+
+// AXSearch ///////////////////////////////////////////////////
+.AXSearch{
+	.dx-axsearch-preset();
+	position:relative;
+	.expandHandle{
+		display:block;
+		border-bottom:@border;
+		background:@bgcolor;
+		text-align:center;
+		color:@color;
+		text-decoration:none;
+		font-size:11px;line-height:20px;height:20px;
+	}	
+	.searchGroup{
+		position:relative;
+		background: @bgcolor-a;
+		min-height:40px;
+		&.gray{
+			background: @bgcolor-b;
+			padding:0px;
+			min-height:25px;
+			.searchItem{
+				&.searchLabel{
+					background: @bgcolor-c;				
+				}
+			}
+		}
+		.searchItem{
+			float:left;
+			line-height:25px;min-height:25px;
+			padding:0px;
+			text-align:center;
+			position:relative;
+			.itemTable{
+				tr{
+					th{
+						color:#616161;
+						border-right:@border-a;
+						min-height:40px;
+					}
+					td{
+						padding:7px 10px 7px 10px;text-align:left;position:relative;
+					}
+				}
+			}
+			&.secondItem{
+				.itemTable{
+					tr{
+						th{border-left:@border-a};						
+					} 
+				}				
+			}
+			&.rightPadding0{
+				.itemTable{
+					tr{
+						td{padding-right:0px;}
+					} 
+				}				
+			}
+			&.leftPadding0{
+				.itemTable{
+					tr{
+						td{padding-left:0px;}
+					} 
+				}				
+			}
+			&.padding0{
+				.itemTable{
+					tr{
+						td{padding:10px 0px}
+					} 
+				}				
+			}
+			&.searchLabel{
+				background: @bgcolor-d;
+				font-weight:bold;
+				font-size:11px;
+				color:@color-a;
+			}
+			&.searchLink{
+				color:@color-b;
+				.searchLinkItem{
+					color:@color-c;
+					text-decoration:none;padding:0px 3px;
+					&.on{
+						color:@color-c;
+						font-weight:bold;
+						text-decoration:underline;
+					}	
+				}
+			}
+		}
+		.groupClear{
+			font-size:1px;line-height:1px;height:1px;
+			background:@color-b;
+			clear:both;
+		}
+	}	
+	 
+}
+
+
+
+// AXSearchTable ///////////////////////////////////////////////////
+.AXSearchTable{
+	.dx-axsearch-preset();
+	border-top:@border-b;border-bottom:0px none;
+	width:100%;table-layout:fixed;
+	font-size:12px;
+	td, th{
+		.tdRel{
+			padding:0px 10px;
+		}	
+	}
+	tbody{
+		td{
+			min-height:36px;height:36px;overflow:visible;
+			border-bottom:@border-b;
+			color:@color-d;
+			background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;			
+		}
+		th{
+			min-height:36px;height:36px;overflow:visible;
+			border-bottom:@border-b;
+			color:@color-a;
+			text-align:center;
+			background:url('images/dx-grid-body-border.png') repeat-y 100% 0px #fff;			
+		}
+		tr{
+			.gray{
+				td, th{
+					background-color:@bgcolor-b;
+				}
+			}
+			.red{
+				td, th{
+					background-color:@bgcolor-e;
+				}				
+			}
+			.green{
+				td, th{
+					background-color:@bgcolor-f;
+				}
+			}
+			.blue{
+				td, th{
+					background-color:@bgcolor-g;
+				}
+			}
+			.yellow{
+				td, th{
+					background-color:@bgcolor-h;
+				}
+			}
+		}
+		td.last, th.last{
+			background:url() repeat-y 100% 0px;	
+		}
+	}
+}
+	
+// AXMultiselectorHelper
+.AXMultiselectorHelper{
+	.dx-axsearch-preset();
+	position:absolute;
+	border:@border-c;
+}
+
+// AXResizable
+.AXResizable{
+	.dx-axsearch-preset();
+	position:relative;
+	.AXResizableHandle{
+		position:absolute;
+		width:18px;height:18px;
+		right:1px;bottom:1px;
+		cursor:se-resize;
+		background:url('images/dx-resizable-handle.png') no-repeat;
+	}
+}
+
+.AXResizableHelper{
+	.dx-axsearch-preset();
+	position:absolute;
+	border:@border-c;
+	cursor:se-resize;
+	background:url('images/dx-resizable-handle.png') no-repeat 100% 100%;
+}		
+
+

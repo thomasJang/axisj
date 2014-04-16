@@ -1,44 +1,55 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>AXProgress</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXProgress - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXProgress.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
-	<style type="text/css">
-	
-	H2, H3{font-family:consolas;}
-	</style>
-	<!-- css block -->
-	
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXProgress.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
-		
-	<script type="text/javascript">
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXProgress.css" />
+    <style type="text/css">
+
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../../lib/AXProgress.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXProgress.js
+	 * CSS			: AXJ.css, AXProgress.css
+	 */	
 	var pageID = "AXProgress";
-	var myProgress = new AXProgress();
-
+	var myProgress = new AXProgress();	
 	var fnObj = {
 		pageStart: function(){
-			AXCode.bind(); // 소스보기
+
 			myProgress.setConfig({
 				theme:"AXlineProgress",
 				totalCount:10, 
@@ -47,6 +58,8 @@
 				title:"AXProgress BAR",
 				duration:299 // 프로세스바의 애니메이션 속도 값 입니다.
 			});
+			
+				
 		},
 		progress: {
 			start: function(){
@@ -139,126 +152,53 @@
 					theme:"AXCircleProgress"
 				});
 			}
-		}
+		}	
 	};
-	
-	$(document.body).ready(function(){
-		setTimeout(fnObj.pageStart, 1);
-	});
+	jQuery(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
-	<!-- js block -->
+
+	<style type="text/css">
 	
+	</style>
 </head>
+	
 <body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
-		
-		<h2>AXProgress</h2>
 
-		<input type="button" value="AXProgress Start" class="AXButton Red" onclick="fnObj.progress.start();" />
-		<input type="button" value="options 지정 방식" class="AXButton Red" onclick="fnObj.progress1.start();" />
-		<input type="button" value="취소버튼 지원형" class="AXButton Blue" onclick="fnObj.progress2.start();" />
-		
-		<input type="button" value="AXProgress Circle" class="AXButton Blue" onclick="fnObj.progress3.start();" />
+<div id="AXPage">
 
-		<div class="Hspace20"></div>
-		<fieldset class="AXscriptSource" style="">
-			<legend>AXProgress</legend>
-			<textarea class="fieldsetBody" style="height:600px;">
-var myProgress = new AXProgress();
+	<!-- s.AXPageBody -------------------------------------------------- -->
+	<article id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXProgress</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>Default</h2>
+							<input type="button" value="AXProgress Start" class="AXButton Red" onclick="fnObj.progress.start();" />
+							<input type="button" value="options 지정 방식" class="AXButton Red" onclick="fnObj.progress1.start();" />
+							<input type="button" value="취소버튼 지원형" class="AXButton Blue" onclick="fnObj.progress2.start();" />
+							<input type="button" value="AXProgress Circle" class="AXButton Blue" onclick="fnObj.progress3.start();" />
 
-var fnObj = {
-	pageStart: function(){
-		AXCode.bind(); // 소스보기
-		myProgress.setConfig({
-			totalCount:100, 
-			width:400, 
-			top:100, 
-			title:"AXProgress BAR",
-			duration:10 // 프로세스바의 애니메이션 속도 값 입니다. (필수 값 아님)
-		});
-	},
-	progress: {
-		start: function(){
-			mask.open();
-			myProgress.start(function(){
-				trace(this);
-				if(this.isEnd){
-					myProgress.close();
-					mask.close();
-					toast.push("progress end");
-				}else{
-					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
-					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
-				}	
-			});
-		}
-	},
-	progress1: {
-		start: function(){
-			mask.open();
-			myProgress.start(function(){
-				//trace(this);
-				if(this.isEnd){
-					myProgress.close();
-					mask.close();
-					toast.push("progress end");
-				}else{
-					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
-					myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
-				}	
-			}, 
-			{
-				totalCount:10,
-				width:500, 
-				top:200, 
-				title:"Set Options Type Progress"
-			});
-		}
-	},
-	progress2: {
-		start: function(){
-			mask.open();
-			myProgress.start(function(){
-				//trace(this);
-				if(this.isEnd){
-					myProgress.close();
-					mask.close();
-					toast.push("progress end");
-				}else{
-					// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
-					myProgress.update();
-				}	
-			}, 
-			{
-				totalCount:50,
-				width:500, 
-				top:200, 
-				title:"취소버튼 확장형",
-				cancel: {
-					confirmMsg:"정말 취소하시겠습니까?",
-					oncancel:function(){
-						//myProgress.restart(); //다시 시작하기
-						myProgress.close();
-						mask.close();
-						toast.push("progress stop");	
-					}
-				}
-			});
-		}
-	}
-};
+						
+						<div class="H30"></div>
+						
+					</div>	
+				</div>
+				
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</article>
+	<!-- e.AXPageBody -------------------------------------------------- -->
 
-$(document.body).ready(function(){
-	setTimeout(fnObj.pageStart, 1);
-});
-			</textarea>
-		</fieldset>
-		
-		<div class="Hspace20"></div>
-		
-
-	</div>
+</div>
 
 </body>
-</html>
+</html>		

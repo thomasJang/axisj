@@ -3,30 +3,39 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>AX for Mobile</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
-	<!-- css block -->
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
+    <!-- css block -->
 
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript">
+        /* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+        AXConfig.mobile.responsiveWidth = 648;
+    </script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
 
 	<script type="text/javascript">		
 	var pageID = "AXBindDate";
@@ -34,21 +43,27 @@
 
 </head>
 <body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
 
-		<label class="AXInputLabel">
-			<span>bindDate</span>
-			<input type="text" name="" id="AXInputDate01" class="AXInput W110" />
-		</label>
+<div id="AXPage">
+    <article id="AXPageBody" class="SampleAXSelect">
 
-		<label class="AXInputLabel">
-			<span>bindDateTime</span>
-			<input type="text" name="" id="AXInputDate02" class="AXInput W160" />
-		</label>
-		
-	</div>
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
 
+            <div class="title"><h1>AXBindDate</h1></div>
+            <label class="AXInputLabel">
+                <span>bindDate</span>
+                <input type="text" name="" id="AXInputDate01" class="AXInput W110" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>bindDateTime</span>
+                <input type="text" name="" id="AXInputDate02" class="AXInput W160" />
+            </label>
+
+        </div>
+   </article>
+</div>
 	
 	<script type="text/javascript">	
 	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
@@ -60,18 +75,18 @@
 			
 			$("#AXInputDate01").bindDate();
 			$("#AXInputDate02").bindDateTime();
-			
-			AXCode.bind(); // 소스보기
-			
+
+            /*
 			trace({
 				a:"123",
 				b: function(){
 				 return "123";	
 				}	
 			});
+			*/
 		}
 	};
-	$(document.body).ready(fnObj.pageStart);
+	$(document.body).ready(fnObj.pageStart.delay(0.1));
 	</script>
 </body>
 </html>

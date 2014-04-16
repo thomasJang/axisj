@@ -20,16 +20,18 @@ var pageTabChange = function(selectedObject, value){
 };
 
 $(document.body).ready(function(){
-	var myPageID = "";
-	try{
-		myPageID = pageID;
-	}catch(e){
-		
-	}
-	$("#demoPageTabTarget").bindTab({
-		value: (myPageID||""), 
-		overflow: "scroll", 
-		options: myTabOption, 
-		onchange: pageTabChange
-	});
+    var myPageID = "";
+    try {
+        myPageID = pageID;
+    } catch (e) {
+
+    }
+    AXTab.setConfig({responseiveMobile:640}); /* mobile 너비 지정 */
+    $("#demoPageTabTarget").bindTab({
+        value: (myPageID || ""),
+        overflow: "scroll",
+        options: myTabOption,
+        onchange: pageTabChange
+    });
+
 });

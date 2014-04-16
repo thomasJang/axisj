@@ -2,50 +2,39 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>AXModelControl</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	<title>AXModelControl - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
-	<style type="text/css">
-	H2{font-family:consolas;}
-	
-	
-	.myTable{
-		border:1px solid #E3E3E3;
-		width:100%;
-		border-collapse:collapse;
-	}
-	.myTable th{
-		background:#eee;
-	}
-	.myTable th,.myTable td{
-		border:1px solid #E3E3E3;
-		padding:5px;
-	}
-	</style>
-	<!-- css block -->
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
+    <!-- css block -->
 
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXModelControl.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXModelControlGrid.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../../lib/AXModelControl.js"></script>
+    <script type="text/javascript" src="../../lib/AXModelControlGrid.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
 	<script type="text/javascript">
 	var pageID = "cursorFocus";
 	var myModel = new AXModelControl();
@@ -104,23 +93,23 @@
 				}
 			});
 
-$("#chain").bindSelect();
-$("#rsvDt").bindDate();
-$("#clientCate").bindSelect();
-$("#payMthd").bindSelect();
-$("#crdCd").bindSelect();
-$("#crdCls").bindSelect();
+            $("#chain").bindSelect();
+            $("#rsvDt").bindDate();
+            $("#clientCate").bindSelect();
+            $("#payMthd").bindSelect();
+            $("#crdCd").bindSelect();
+            $("#crdCls").bindSelect();
 
-$("#clientId_selector").bindSelector({
-	appendable:false,
-	ajaxUrl:"../AXInput/selectorData.asp", 
-	ajaxPars:"",
-	//selectorName:"imselector",
-	onChange:function(){
-		//toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
-		toast.push(Object.toJSON({selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
-	}
-});
+            $("#clientId_selector").bindSelector({
+                appendable:false,
+                ajaxUrl:"../AXInput/selectorData.asp",
+                ajaxPars:"",
+                //selectorName:"imselector",
+                onChange:function(){
+                    //toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                    toast.push(Object.toJSON({selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                }
+            });
 			myModel2.sync();
 			myModel.sync();
 			myModel.focus(); 
@@ -131,8 +120,6 @@ $("#clientId_selector").bindSelector({
 			last: last of item
 			Number: focusItemIndex
 			*/
-			
-			AXCode.bind(); // 소스보기
 		},
 		ok1: function(){
 			var obj = myModel.getData();
@@ -147,9 +134,15 @@ $("#clientId_selector").bindSelector({
 
 </head>
 <body>
+
+<div id="AXPage">
+
+<!-- s.AXPageBody -------------------------------------------------- -->
+<article id="AXPageBody" class="SampleAXSelect">
+
 	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 	<div class="AXdemoPageContent">
-		
+		<div class="H10"></div>
 		<table>
 			<tbody>
 				<tr>
@@ -524,5 +517,7 @@ $("#clientId_selector").bindSelector({
 		</div>
 		
 	</div>
+    </article>
+</div>
 </body>
 </html>

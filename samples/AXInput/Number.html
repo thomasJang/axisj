@@ -1,46 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>AXInput</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
-    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindNumber - AXISJ</title>
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs_desktop.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput_desktop.css" />
-	<![endif]-->
-	<style type="text/css">
-	
-	H2, H3{font-family:consolas;}
-	</style>
-	<!-- css block -->
-	
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
-	
-	<script type="text/javascript">
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <style type="text/css">
+
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js
+	 * CSS			: AXJ.css, AXInput.css
+	 */	
 	var pageID = "Number";
-	// AXConfig.AXInput.errorPrintType = "alert"; 에러출력 방식을 바꿀 수 있습니다. toast, dialog, alert
 	var fnObj = {
 		pageStart: function(){
-			AXCode.bind(); // 소스보기
-			
+
 			$("#AXInputNumber").bindNumber();
 			$("#AXInputNumber2").bindNumber();
 			$("#AXInputNumber3").bindNumber(
@@ -60,59 +64,69 @@
 				onchange : function(){
 					trace(this);
 				}
-			});
-			
+			});			
 		}
 	};
-	
-	$(document.body).ready(function(){
-		setTimeout(fnObj.pageStart, 1);
-	});
+    $(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
-	<!-- js block -->
+
+	<style type="text/css">
 	
+	</style>
 </head>
+	
 <body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
 
+<div id="AXPage">
 
-		<h2>AXInput bind Number</h2>
+	<!-- s.AXPageBody -------------------------------------------------- -->
+	<article id="AXPageBody" class="SampleAXInput">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXInput</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>AXInput</h2>
+						<h3>bind Number</h3>
 
-			<label class="AXInputLabel">
-				<span>normal</span>
-				<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />				
-			</label>
-			<label class="AXInputLabel">
-				<span>range(1~100)</span>
-				<input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
-			</label>
-			<div class="AXInputLabel">
-				<span>range(20~)</span>
-				<input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
-			</div>
-			<div class="AXInputLabel">
-				<span>AXInputSmall</span>
-				<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
-			</div>
-		
-		
-		<div class="Hspace20"></div>
+						<label>Normal</label>
+						<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />				
+						
+						<div class="H10"></div>						
+						<label>Range(1~100)</label>						
+						<input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
 
-		
-		<div class="Hspace20"></div>
+						<div class="H10"></div>
+						<label>Range(20~)</label>
+						<input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
 
-		<h2>AXInput bind Money</h2>
-		<div style="position:relative;">
-			<input type="text" name="inputMoney" id="AXInputMoney" value="" class="AXInput" />
+						<div class="H10"></div>						
+						<label>AXInputSmall</label>						
+						<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
+						
+						<div class="H20"></div>						
+						
+						<h3>bind Money</h3>
+						<label>Normal</label>
+						<input type="text" name="inputMoney" id="AXInputMoney" value="" class="AXInput" />
+						
+						<div class="H30"></div>	
+						
+					</div>	
+				</div>
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<div class="ax-clear"></div>							
+	
 		</div>
+		<div class="H20"></div>		
+	</article>
+	<!-- e.AXPageBody -------------------------------------------------- -->
 
-		<div class="Hspace20"></div>
-
-
-		<div class="Hspace20"></div>
-
-	</div>
+</div>
 
 </body>
-</html>
+</html>		

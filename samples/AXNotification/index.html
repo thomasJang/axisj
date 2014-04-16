@@ -1,41 +1,52 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>AXUINotification</title>
-    
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
-    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXNotification - AXISJ</title>
 
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXButton.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXInput.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
-	<![endif]-->
-	<style type="text/css">
-	H2, H3{font-family:consolas;}
-	</style>
-	<!-- css block -->
-	
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
-	
-	<script type="text/javascript">
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
+    <style type="text/css">
+
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXButton.js
+	 * CSS			: AXJ.css, AXButton.css
+	 */	
 	var pageID = "AXNotification";
 	var fnObj = {
 		pageStart: function(){
-			AXCode.bind(); // 소스보기
+
 		},
 		btnOnConfirm: function(arg){
 			alert(arg);
@@ -43,49 +54,74 @@
 		btnClick: function(arg){
 			alert(arg);
 		}
+	
 	};
-	
-	$(document.body).ready(function(){
-		setTimeout(fnObj.pageStart, 1);
-	});
+	jQuery(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
-	<!-- js block -->
-	
+
 </head>
+	
 <body>
-	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-	<div class="AXdemoPageContent">
-		
-		<h2>AXNotification</h2>
-		
-		<h3>toast</h3>
-		
-		<input type="button" value="Complete" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!');" />
-		<input type="button" value="Complete X2" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !! 1');toast.push('<b>Complete</b> Complete messange send !! 2');" />
-		<input type="button" value="Complete X3" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!1');toast.push('<b>Complete</b> Complete messange send !! 2');toast.push('<b>Complete</b> Complete messange send !! 3.');" />
-		<input type="button" value="Warning" class="AXButton Classic" onclick="toast.push({body:'<b>Warning</b> Warning messange send !!', type:'Warning'});" />
-		<input type="button" value="Caution" class="AXButton Red" onclick="toast.push({body:'<b>Caution</b> Caution messange send !!', type:'Caution'});" />
 
-		<div class="Hspace10"></div>
-		
-		
-		<h3>dialog</h3>
-		
-		<input type="button" value="alert" class="AXButton" onclick="dialog.push('<b>Alert</b> Application Call dialog push');" />
-		<input type="button" value="alert Warning" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning'});" />
-		<input type="button" value="alert Caution" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" />
-		
-		<input type="button" value="choose alert Caution" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', buttons:[
-			{buttonValue:'button1', buttonClass:'Red W100', onClick:fnObj.btnClick, data:'data1'},
-			{buttonValue:'button2', buttonClass:'Blue', onClick:fnObj.btnClick, data:'data2'},
-			{buttonValue:'button3', buttonClass:'Green', onClick:fnObj.btnClick, data:'data3'}
-		]});" />
-		
-		<div class="Hspace10"></div>
-		
+<div id="AXPage">
 
-		
-	</div>
+	<!-- s.AXPageBody -------------------------------------------------- -->
+	<article id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXNotification</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>Toast</h2>
+						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete</button>
+						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !! 1');toast.push('<b>Complete</b> Complete messange send !! 2');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete x2</button>
+						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!1');toast.push('<b>Complete</b> Complete messange send !! 2');toast.push('<b>Complete</b> Complete messange send !! 3.');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete x3</button>	
+						<div class="H10"></div>					
+						<button type="button" class="AXButton Classic" onclick="toast.push({body:'<b>Warning</b> Warning messange send !!', type:'Warning'});" ><i class="fa fa-bell fa-lg"></i> Warning</button>
+						<button type="button" class="AXButton Red" onclick="toast.push({body:'<b>Caution</b> Caution messange send !!', type:'Caution'});" ><i class="fa fa-info-circle fa-lg"></i> Caution</button>
+						
+						<div class="H30"></div>
+						
+					</div>	
+				</div>
+
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<!-- s.axlayer 2 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>Dialog</h2>
+						<button type="button" class="AXButton" onclick="dialog.push('<b>Alert</b> Application Call dialog push');" ><i class="fa fa-microphone fa-lg"></i> Alert</button>
+						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning'});" ><i class="fa fa-microphone fa-lg"></i> Alert Warning</button>
+						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" ><i class="fa fa-microphone fa-lg"></i> Alert Caution</button>
+						
+						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', buttons:[
+							{buttonValue:'button1', buttonClass:'Red W100', onClick:fnObj.btnClick, data:'data1'},
+							{buttonValue:'button2', buttonClass:'Blue', onClick:fnObj.btnClick, data:'data2'},
+							{buttonValue:'button3', buttonClass:'Green', onClick:fnObj.btnClick, data:'data3'}
+						]});" ><i class="fa fa-fire-extinguisher fa-lg"></i>Choose alert Caution</button>
+						
+						<div class="H30"></div>
+						
+					</div>	
+				</div>
+
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 2 -->			
+			
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</article>
+	<!-- e.AXPageBody -------------------------------------------------- -->
+
+</div>
 
 </body>
-</html>
+</html>		

@@ -1,7 +1,6 @@
 ﻿
 var myTabOption = [
 	{optionValue:"AXEditor", optionText:"AXEditor", addClass:"", url:"index.html"},
-	{optionValue:"withAXUpload", optionText:"with AXUpload", addClass:"", url:"upload.html"},
 	{optionValue:"withAXUpload5", optionText:"with AXUpload5", addClass:"", url:"upload5.html"}
 ];
 

@@ -7,7 +7,6 @@ var pageTabChange = function(selectedObject, value){
 };
 
 $(document.body).ready(function(){
-	AXCode.bind(); // 소스보기
 	var myPageID = "";
 	try{
 		myPageID = pageID;

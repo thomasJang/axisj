@@ -2,8 +2,7 @@
 	{optionValue:"AXModelControl", optionText:"AXModelControl", addClass:"", url:"index.html"},
 	{optionValue:"AXModelControl2", optionText:"AXModelControl AXBind", addClass:"", url:"AXBind.html"},
 	{optionValue:"AXModelControlGrid", optionText:"AXModelControlGrid", addClass:"", url:"controlGrid.html"},
-	{optionValue:"cursorFocus", optionText:"cursorFocus", addClass:"", url:"cursorFocus.html"},
-	{optionValue:"cursorFocusGrid", optionText:"cursorFocusGrid", addClass:"", url:"cursorFocusGrid.html"}
+	{optionValue:"cursorFocus", optionText:"cursorFocus", addClass:"", url:"cursorFocus.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

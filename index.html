@@ -3,132 +3,62 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
-    
-    <meta property="og:image" content="samples/_img/axisj_sns.png" /> 
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
-    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-	
 	<title>AXISJ</title>
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="samples/_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="_AXJ/ui/default/AXJ.css" />
-	<style type="text/css">
-		body{padding:10px;font-family:consolas;}
-		a{font-size:14px;padding:5px 10px;display:inline-block;font-family:consolas;text-decoration:none;}
-		a:hover{text-decoration:underline;background:#eee;}
-		.sampleLink{color:#000;}
-		.bookmark{background:url(_AXJ/ui/icon/new.png) no-repeat 100% 0px;}
-		.new{background:url(_AXJ/ui/icon/new.png) no-repeat 100% 0px;}
-		.alpha{color:#666;}
-		ul{margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;}
-		li{margin:0px 0px 0px 0px;display:block;}
-		li.line{
-			list-style:none;
-			display:block;
-			height:20px;
-		}
-	</style>
-	<!-- css block -->
-	
-	<!-- js block -->
-	<script type="text/javascript" src="_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript">
-	var fnObj = {
-		pageStart: function(){
 
-		}
-	};
-	$(document).ready(fnObj.pageStart);
-	</script>
-	<!-- js block -->
-	
+    <link rel="shortcut icon" href="ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="ui/AXJ.png" />
+
+
+    <link rel="stylesheet" type="text/css" href="ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="ui/arongi/AXJ.css">
+    <link rel="stylesheet" type="text/css" href="ui/arongi/AXButton.css">
+
+    <script type="text/javascript" src="jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/AXJ.js"></script>
+    <script type="text/javascript" src="lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="samples/page.js"></script>
+
+    <style type="text/css">
+
+    </style>
 </head>
 <body>
-						
-	<div style="">
-		<p style="padding-left:10px;">Axisj of javascript AXISJ - www.axisj.com</p>
-		<img src="_AXJ/axj_h.png" align="middle" alt="" width="200" />
-	</div>
-	<div class="Hspace20"></div>
-	
-	<ul>
-		<li><a href="http://axu.axisj.com" target="_blank" class="sampleLink">AXU</a></li>
-		<li class="line"></li>
-		<li><a href="samples/AXcore/index.html" target="_top" class="sampleLink">AXcore</a></li>
-		<li><a href="samples/AXButton/index.html" target="_top" class="sampleLink">AXButton</a></li>
-		<li><a href="samples/AXInput/index.html" target="_top" class="sampleLink">AXInput</a></li>
-		<li><a href="samples/AXSelect/index.html" target="_top" class="sampleLink">AXSelect</a></li>
-		<li><a href="samples/AXNotification/index.html" target="_top" class="sampleLink">AXNotification</a></li>
-		<li><a href="samples/AXModal/index.html" target="_top" class="sampleLink">AXModal</a></li>
-		<li><a href="samples/AXprogress/index.html" target="_top" class="sampleLink">AXprogress</a></li>
-		<li><a href="samples/AXScroll/index.html" target="_top" class="sampleLink new">AXScroll</a></li>
-		<li><a href="samples/AXTabs/index.html" target="_top" class="sampleLink">AXTabs</a></li>
-		<li><a href="samples/AXGrid/index.html" target="_top" class="sampleLink">AXGrid</a></li>
-		<li class="line"></li>
-		<li><a href="samples/AXGridRWD/index.html" target="_top" class="sampleLink new">AXGrid(반응형)</a></li>
-		<li class="line"></li>
-		<li><a href="samples/AXTree/index.html" target="_top" class="sampleLink">AXTree</a></li>
-		<li><a href="samples/AXEditor/index.html" target="_top" class="sampleLink">AXEditor</a></li>
-		<li><a href="samples/AXSearch/index.html" target="_top" class="sampleLink">AXSearch</a></li>
-		<li><a href="samples/AXTopDownMenu/index.html" target="_top" class="sampleLink">AXTopDownMenu</a></li>
-		<li><a href="samples/AXUpload5/index.html" target="_top" class="sampleLink">AXUpload5</a></li>
-		<li><a href="samples/AXValidator/index.html" target="_top" class="sampleLink">AXValidator</a></li>
-		<li><a href="samples/AXWaterfall/index.html" target="_top" class="sampleLink">AXWaterfall</a></li>
-		<li><a href="samples/jQueryExtendEasing/index.html" target="_top" class="sampleLink">jQueryExtendEasing</a></li>
-		<li class="line"></li>
-		
-		<li><a href="samples/mobile/index.html" target="_top" class="sampleLink new">for Mobile</a></li>
-		<li><a href="samples/Angularjs/index.html" target="_top" class="sampleLink new">for Angular.js</a></li>
-		<li><a href="samples/AXSlideViewer/index.html" target="_top" class="sampleLink new">AXSlideViewer</a></li>
-		
-		<li class="line"></li>
-		<li><a href="samples/AXAddress/index.html" target="_top" class="sampleLink">AXAddress</a></li>
-		<li><a href="samples/AXExcelConvert/index.html" target="_top" class="sampleLink">AXExcelConvert</a></li>
-		<li><a href="samples/AXTimeTable/index.html" target="_top" class="sampleLink">AXTimeTable</a></li>
-		<li><a href="samples/AXModelControl/index.html" target="_top" class="sampleLink">AXModelControl</a></li>
-		<li><a href="samples/AXUserSelect/index.html" target="_top" class="sampleLink">AXUserSelect</a></li>
-		<li class="line"></li>
-		<li><a href="samples/AXUpload/index.html" target="_top" class="sampleLink">AXUpload</a></li>
-		<!--
-		<li><a href="samples/mobileView/index.html" target="_top" class="sampleLink">mobileView</a></li>
-		-->
-		<li><a href="samples/tableStyleGuide/index.html" target="_top" class="sampleLink">tableStyleGuide</a></li>
-		<li><a href="samples/AXScheduleCalendar/index.html" target="_top" class="sampleLink alpha">AXScheduleCalendar(alpha)</a></li>
-		<li><a href="samples/AXFrameSet/index.html" target="_top" class="sampleLink alpha">AXFrameSet(alpha)</a></li>
-	</ul>	
-	
-	
-	<div style="padding:10px 5px;">2014-03-23 오후 1:37:26</div>
-	
-	<div class="Hspace20"></div>
-	
-	<div id="fb-root"></div>
-	<script>
-		/*
-	  window.fbAsyncInit = function() {
-	    // init the FB JS SDK
-	    FB.init({
-			appId      : '445502418897675',                        // App ID from the app dashboard
-			channelUrl : 'http://www.axisj.com', // Channel file for x-domain comms
-			status     : true,                                 // Check Facebook Login status
-			xfbml      : true                                  // Look for social plugins on the page
-	    });
-	  };
-	
-	  // Load the SDK asynchronously
-	  (function(d, s, id){
-	     var js, fjs = d.getElementsByTagName(s)[0];
-	     if (d.getElementById(id)) {return;}
-	     js = d.createElement(s); js.id = id;
-	     js.src = "//connect.facebook.net/ko_KR/all.js";
-	     fjs.parentNode.insertBefore(js, fjs);
-	   }(document, 'script', 'facebook-jssdk'));
-	   */
-	</script>
-	
-	<div style="padding-left:10px;">
-		<div class="fb-like" data-href="https://www.facebook.com/axisj" data-width="280" data-show-faces="true" data-send="true" data-font="segoe ui"></div>
-	</div>
+
+    <div id="AXPage">
+        <!-- AXPageBody -->
+        <article id="AXPageBody">
+            <div class="ax-wrap">
+                <div class="ax-layer-1" id="ax_layer_1"></div>
+            </div>
+        </article>
+        <!-- AXPageBody -->
+    </div>
+
 </body>
 </html>
+
+<script type="text/javascript" type="text/javascript">
+    isIndex = true;
+
+    jQuery(document).ready(function(){
+    	setTimeout(function(){
+            var po = [];
+            axf.each(sampleTree, function(){
+                po.push('<div class="ax-col-3">');
+                    po.push('<div class="ax-unit secBlock">');
+                        po.push('<h3>', this.label,'</h3>');
+                        po.push('<ul id="comon">');
+                            axf.each(this.cn, function() {
+                                po.push('<li><a href="', this.url,'">', this.label,'</a></li>');
+                            });
+                        po.push('</ul>');
+                    po.push('</div>');
+                po.push('</div>');
+            });
+            po.push('<div class="ax-clear"></div>');
+            $("#ax_layer_1").html(po.join(''));
+    	}, 500);
+    });
+</script>
