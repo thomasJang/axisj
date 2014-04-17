@@ -1,0 +1,31 @@
+{
+    "name": "axisj",
+    "version": "1.0.0",
+    "homepage": "https://github.com/axisj-com/axisj",
+    "authors": [
+        "tom@axisj.com thomasJ and team axisj"
+    ],
+    "description": "OpenSource JavaScript UI library AXISJ axisj of javascript",
+    "main": "index.html",
+    "keywords": [
+        "jquery",
+        "javascript",
+        "ui",
+        "component",
+        "ui",
+        "widget"
+    ],
+    "license": "LGPL2 v2.1(lib) and BSD(ui)",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "jquery",
+        "*.iml",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "jquery": "jquery"
+    }
+}

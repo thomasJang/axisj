@@ -183,6 +183,7 @@ var sampleTreeMenu = new AXTopDownMenu();
         incFooter:function(){
             var fo = [];
 
+
             fo.push('<footer id="AXPageFoot">');
                 fo.push('<div class="ax-wrap">');
                     fo.push('<div class="ax-layer-1">');
@@ -203,9 +204,9 @@ var sampleTreeMenu = new AXTopDownMenu();
 
                         fo.push('<div style="position:absolute;top: 5px;right: 2px;">');
 
-                            fo.push('<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline;">');
+                            fo.push('<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline;margin:0px;padding:0px;">');
                             fo.push('<input type="hidden" name="cmd" value="_s-xclick">');
-                            fo.push('<input type="hidden" name="hosted_button_id" value="LWL68NT4V98AA">');
+                            fo.push('<input type="hidden" name="hosted_button_id" value="TCMG6LS7X2VFE">');
                             fo.push('<button class="AXButtonSmall">Donate</button>');
                             fo.push('</form>');
 
