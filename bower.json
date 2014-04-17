@@ -24,8 +24,5 @@
         "*.iml",
         "test",
         "tests"
-    ],
-    "dependencies": {
-        "jquery": "jquery"
-    }
+    ]
 }
