@@ -15,9 +15,6 @@ http://www.axisj.com : website
 http://facebook.com/axisj : fanpage
 */
 ```
-
-
-<br/>
 <br/>
 <img src="http://www.axisj.com/html/img/axisjui.png" alt="axisjui" />
 <br/>
