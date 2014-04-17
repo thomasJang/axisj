@@ -61,7 +61,7 @@
             });
 
             jQuery("#AXSelect3").bindSelect({
-                ajaxUrl: "selectData.txt",
+                ajaxUrl: "selectData.php",
                 ajaxPars: "",
                 isspace: false,
                 isspaceTitle: "전체",
@@ -89,21 +89,21 @@
 
 
             $("#AXSelect_m0").bindSelect({
-                ajaxUrl: "selectData.txt", ajaxPars: "", ajaxAsync:false,
+                ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                 isspace: true, isspaceTitle: "선택하세요",
                 setValue:"",
                 onChange: function(){
                     //toast.push(Object.toJSON(this));
 
                     $("#AXSelect_m1").bindSelect({
-                        ajaxUrl: "selectData.txt", ajaxPars: "", ajaxAsync:false,
+                        ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                         isspace: true, isspaceTitle: "선택하세요",
                         setValue:this.optionValue,
                         onChange: function(){
                             //toast.push(Object.toJSON(this));
 
                             $("#AXSelect_m2").bindSelect({
-                                ajaxUrl: "selectData.txt", ajaxPars: "", ajaxAsync:false,
+                                ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                                 isspace: true, isspaceTitle: "선택하세요",
                                 setValue:this.optionValue,
                                 onChange: function(){
@@ -145,7 +145,7 @@
             });
             
             jQuery("#AXSelect3").bindSelect({
-                ajaxUrl: "selectData.txt",
+                ajaxUrl: "selectData.php",
                 ajaxPars: "",
                 isspace: false,
                 isspaceTitle: "전체"

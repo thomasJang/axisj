@@ -137,9 +137,11 @@
 						$("#uploadCancelBtn").get(0).disabled = false; // 전송중지 버튼 제어
 					},
 					onDelete: function(){
-						//trace(this);
+						//trace(1, this);
+                        trace(2, "MF_"+this.file.saveName.replace(new RegExp("[\.]"+this.file.type, "i"), "").dec());
 						//trace("onDelete");
-						myEditor.removeIMG("MF_"+this.saveName.replace(this.type, "").dec());
+						myEditor.removeIMG("MF_"+this.file.saveName.replace(new RegExp("[\.]"+this.file.type), "").dec());
+                        //imgObj.id = "MF_"+file.nm.replace(file.ty, "").dec();
 					},
 					onError: function(errorType, extData){
 						if(errorType == "html5Support"){

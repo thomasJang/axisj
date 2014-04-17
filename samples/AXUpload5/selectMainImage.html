@@ -60,7 +60,7 @@
 				myUpload.setConfig({
 					targetID:"AXUpload5",
 					targetButtonClass:"Green",
-					uploadFileName:"files[]",
+					uploadFileName:"fileData",
 					file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
 					dropBoxID:"uploadQueueBox",
 					queueBoxID:"uploadQueueBox", // upload queue targetID
@@ -75,9 +75,9 @@
 					
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
 					uploadMaxFileCount:5, // 업로드될 파일갯수 제한 0 은 무제한
-					uploadUrl:"uploadFile.txt",
+					uploadUrl:"fileUpload.php",
 					uploadPars:{userID:'tom', userName:'액시스'},
-					deleteUrl:"deleteFile.txt",
+					deleteUrl:"fileDelete.php",
 					deletePars:{userID:'tom', userName:'액시스'},
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
@@ -128,21 +128,14 @@
 				// changeConfig
 				
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- s
-				var url = "loadFileList.txt";
+				var url = "fileListLoad.php";
 				var pars = "dummy="+AXUtil.timekey();
 				new AXReq(url, {pars:pars, onsucc:function(res){
-					if(res.result == "ok"){
-						myUpload.setUploadedList(res.ds);
-						
-						//메인이미지 설정
-						$.each(res.ds, function(idx, o){
-							if (o.mainImage == true){
-								fnObj.upload.setMainImage(o.id);
-							}
-						});
-					}else{
-						alert(res.msg.dec());
-					}
+                    if(!res.error){
+                        myUpload.setUploadedList(res);
+                    }else{
+                        alert(res.msg.dec());
+                    }
 				}});
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
 				

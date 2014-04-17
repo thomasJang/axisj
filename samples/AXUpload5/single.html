@@ -63,7 +63,7 @@
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5",
 					targetButtonClass:"Red",
-					uploadFileName:"files[]",
+					uploadFileName:"fileData",
 					//dropBoxID:"dropZoneBox", 
 					//queueBoxID:"uploadQueueBox", // upload queue targetID
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
@@ -78,9 +78,9 @@
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
 					uploadMaxFileCount:0, // 업로드될 파일갯수 제한 0 은 무제한 싱글모드에선 자동으로 1개
 					
-					uploadUrl:"uploadFile.txt",
+					uploadUrl:"fileUpload.php",
 					uploadPars:{userID:'tom', userName:'액시스'},
-					deleteUrl:"deleteFile.txt",
+					deleteUrl:"fileUpload.php",
 					deletePars:{userID:'tom', userName:'액시스'},
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
@@ -118,14 +118,14 @@
 				
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- s
 				
-				var url = "loadFileList.txt";
+				var url = "fileListLoad.php";
 				var pars = "dummy="+AXUtil.timekey();
 				new AXReq(url, {pars:pars, onsucc:function(res){
-					if(res.result == "ok"){
-						myUpload.setUploadedList(res.ds);
-					}else{
-						alert(res.msg.dec());
-					}
+                    if(!res.error){
+                        myUpload.setUploadedList(res);
+                    }else{
+                        alert(res.msg.dec());
+                    }
 				}});
 				
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
@@ -134,7 +134,7 @@
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5_1",
 					targetButtonClass:"Green",
-					uploadFileName:"files[]",
+					uploadFileName:"fileData",
 					//dropBoxID:"dropZoneBox", 
 					//queueBoxID:"uploadQueueBox", // upload queue targetID
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
@@ -149,9 +149,9 @@
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
 					uploadMaxFileCount:0, // 업로드될 파일갯수 제한 0 은 무제한 싱글모드에선 자동으로 1개
 					
-					uploadUrl:"uploadFile.txt",
+					uploadUrl:"fileUpload.php",
 					uploadPars:{userID:'tom', userName:'액시스'},
-					deleteUrl:"deleteFile.txt",
+					deleteUrl:"fileDelete.php",
 					deletePars:{userID:'tom', userName:'액시스'},
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
@@ -191,7 +191,7 @@
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5_2",
 					targetButtonClass:"Red",
-					uploadFileName:"files[]",
+					uploadFileName:"fileData",
 					//dropBoxID:"dropZoneBox", 
 					//queueBoxID:"uploadQueueBox", // upload queue targetID
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
@@ -206,9 +206,9 @@
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
 					uploadMaxFileCount:0, // 업로드될 파일갯수 제한 0 은 무제한 싱글모드에선 자동으로 1개
 					
-					uploadUrl:"uploadFile.txt",
+					uploadUrl:"fileUpload.php",
 					uploadPars:{userID:'tom', userName:'액시스'},
-					deleteUrl:"deleteFile.txt",
+					deleteUrl:"fileDelete.php",
 					deletePars:{userID:'tom', userName:'액시스'},
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)

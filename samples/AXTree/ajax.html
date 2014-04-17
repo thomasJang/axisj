@@ -118,7 +118,7 @@
 						if(this.subTree.length == 0){ //자식개체가 없으므로.. subTree 호출 처리 합니다.
 							var index = this.index, item = this.item;
 							myTree.setLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
-							var url = "loadTree.txt";
+							var url = "loadTree.php";
 							var pars = "no="+this.item.no;
 							new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
 								if(res.result == AXUtil.ajaxOkCode){
@@ -133,7 +133,7 @@
 					}
 				}
 			});
-			myTree.setTree({ajaxUrl:"loadTree.txt", ajaxPars:"param1=1&param2=2"});			
+			myTree.setTree({ajaxUrl:"loadTree.php", ajaxPars:"param1=1&param2=2"});			
 		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
