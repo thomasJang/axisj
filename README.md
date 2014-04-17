@@ -3,7 +3,18 @@ AXISJ
 
 Javascript UI Library <b>AXISJ</b>
 <br/>
-<br/>
+
+```js
+// bower install
+$ bower install axisj
+
+/*
+http://dev.axisj.com : demo
+http://jdoc.axisj.com : api
+http://www.axisj.com : website
+http://facebook.com/axisj : fanpage
+*/
+```
 <br/>
 <img src="http://www.axisj.com/html/img/axisjui.png" alt="axisjui" />
 <br/>
