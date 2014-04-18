@@ -14,6 +14,8 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.css">
+
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
@@ -203,8 +205,9 @@
 			<div class="title"><h1>AXSelect</h1></div>
 
             <h2>AXSelect bind Select</h2>
-            <h3>Default</h3>
+
             <label class="AXInputLabel">
+                <span>Default</span>
                 <select name="" class="AXSelect" id="AXSelect1" tabindex="7">
                     <option value="">-- 선택하세요 --</option>
                     <option value="1">%가나다라마바사</option>
@@ -214,8 +217,9 @@
                     <option value="5">abcdefg 가나다라마바사</option>
                     <option value="6">abcdefg 가나다라마바사</option>
                 </select>
+                <button type="button" class="AXButton" onclick="alert($('#AXSelect1').val())">valueCheck</button>
             </label>
-            <input type="button" value="valueCheck" class="AXButton" onclick="alert($('#AXSelect1').val())" />
+
 
             <h3>small</h3>
             <label class="AXInputLabel">
