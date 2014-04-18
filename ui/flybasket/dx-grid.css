@@ -225,11 +225,11 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.noListTr td {
   vertical-align: middle;
   height: 100px;
-  background: #ffbbcc;
+  background: #ffffff;
   border-bottom: 1px solid #c8c8c8;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.line0 td {
-  background-color: #ffbbcc;
+  background-color: #ffffff;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.line1 td {
   background-color: #f3f3f3;
@@ -253,7 +253,7 @@
   background-color: #f7f7f7;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.hover td {
-  background-color: #ffbbcc;
+  background-color: #d2d9df;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.selected td {
   background-color: #d2d9df;
@@ -387,14 +387,14 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.noListTr td {
   vertical-align: middle;
   height: 100px;
-  background: #ffbbcc;
+  background: #ffffff;
   border-bottom: 1px solid #c8c8c8;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.line0 td {
-  background-color: #eaedef;
+  background-color: #ffffff;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.line1 td {
-  background-color: #f7f8f9;
+  background-color: #f3f3f3;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.red td {
   background-color: #929292;
@@ -414,11 +414,11 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.gray td {
   background-color: #f7f7f7;
 }
-.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.selected td {
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.hover td {
   background-color: #d2d9df;
 }
-.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.hover td {
-  background-color: #d7dde3;
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.selected td {
+  background-color: #d2d9df;
 }
 .AXGrid .AXgridScrollBody .gridBodyDiv .viewIcon {
   float: left;

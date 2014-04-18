@@ -21,6 +21,7 @@ $(document.body).ready(function(){
 		}catch(e){
 			
 		}
+        AXTab.setConfig({responseiveMobile:640}); /* mobile 너비 지정 */
 		$("#demoPageTabTarget").bindTab({
 			value: (myPageID||""), 
 			overflow: "scroll", 

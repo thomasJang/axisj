@@ -1,0 +1,26 @@
+@import "preset";
+@import "AXUtils";
+
+
+// AXInputGroup ///////////////////////////////////////////////////////////////
+.AXInputLabel{
+  position:relative;
+  display:inline-block;
+  vertical-align:top;
+  SPAN{
+    display:block;
+    line-height:24px;font-size:12px;color:@color-a;
+    padding:0px 3px;
+  }
+  &.fullWidth{
+    display:block;
+    padding-right:8px;
+    SPAN{
+      display:block;
+    }
+    input[type=text], input[type=password]{
+      width:100%;
+      box-size:border-box;
+    }
+  }
+}

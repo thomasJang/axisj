@@ -1,17 +1,17 @@
 ﻿AXISJ를 사용하시려는 페이지의 코딩 안에 AXISJ 의 공통적으로 사용되는 CSS 와 JS 파일 을 링크시킵니다. 
 
 <!-- css block -->
-<link rel="stylesheet" type="text/css" href="/_AXJ/ui/default/AXJ.css">
+<link rel="stylesheet" type="text/css" href="/axisj/ui/default/AXJ.css">
 <!-- css block -->
 <!-- js block -->
-<script type="text/javascript" src="/_AXJ/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/_AXJ/lib/AXJ.js"></script>
+<script type="text/javascript" src="/axisj/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/axisj/lib/AXJ.js"></script>
 
 
 그 외에 실제로 사용하실 기능의 CSS 와 JS도 함께 링크시킵니다. 
 다음 예제는 사용자가 AXISJ 의 여러 기능 중 AXProgress 를 사용할 시의 가이드입니다. 
 
-<script type="text/javascript" src="/_AXJ/lib/AXProgress.js"></script>
+<script type="text/javascript" src="/axisj/lib/AXProgress.js"></script>
 
 AXISJ 기능 중 사용할 기능을 자바스크립트 안에 오브젝트로 생성하고 변수를 선언해 줍니다. 
 다음 예제는 AXProgress 기능을 자바스크립트 안에 선언할 때의 가이드 입니다.
