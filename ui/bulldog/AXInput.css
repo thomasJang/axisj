@@ -149,6 +149,7 @@
   position: relative;
   display: inline-block;
   vertical-align: top;
+  box-sizing: border-box;
 }
 .AXInputLabel span {
   line-height: 24px;
@@ -161,7 +162,7 @@
 }
 .AXInputLabel.fullWidth {
   display: block;
-  padding-right: 8px;
+  padding-right: 10px;
 }
 .AXInputLabel.fullWidth span {
   display: block;

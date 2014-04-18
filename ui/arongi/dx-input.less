@@ -115,27 +115,28 @@
 
 // AXInputLabel ///////////////////////////////////////////////////
 .AXInputLabel{
-	position:relative;
-	display:inline-block;
-	vertical-align:top;
-	span{
-		line-height:24px;font-size:12px;color:#717b85;
-		padding:0px 3px;
-		&.bloack{
-			display:block;
-		}
-	}
-	&.fullWidth{
-		display:block;
-		padding-right:8px;
-		span{
-			display:block;			
-		}
-		input[type=text],input[type=password]{
-			width:100%;	
-		}
-	}
-	
+  position:relative;
+  display:inline-block;
+  vertical-align:top;
+  padding:0px 0px 0px 0px;
+  box-sizing: border-box;
+  SPAN{
+    line-height:24px;font-size:12px;color:@color-a;
+    padding:0px 3px;
+    &.block{
+      display:block;
+    }
+  }
+  &.fullWidth{
+    display:block;
+    padding:0px 10px 0px 0px;
+    SPAN{
+      display:block;
+    }
+    input[type=text], input[type=password], .AXInput, select, textarea{
+      width:100%;
+    }
+  }
 }
 
 // AXInputGroup ///////////////////////////////////////////////////

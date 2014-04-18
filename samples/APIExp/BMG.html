@@ -105,7 +105,7 @@
 			po.push('	<colgroup><col width="80" /><col /></colgroup>');
 			po.push('	<tbody>');
 			
-			$.each(json, function(k, v){
+			axf.each(json, function(k, v){
 				if(v != undefined && v != "undefined" && !Object.isFunction(v)){
 					po.push('		<tr>');
 						po.push('		<th class="gray" style="word-break:break-all;">'+ k +'</th>');
