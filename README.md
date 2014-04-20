@@ -9,11 +9,11 @@ Javascript UI Library <b>AXISJ</b>
 $ bower install axisj
 
 /*
-http://dev.axisj.com : demonstration
-http://jdoc.axisj.com : api
-http://www.axisj.com : website
-http://facebook.com/axisj : fanpage
-http://google.com/+axisj : google+
+http://dev.axisj.com : Demonstration
+http://jdoc.axisj.com : Documentation
+http://www.axisj.com : Website
+http://facebook.com/axisj : Fanpage
+http://google.com/+axisj : Google+
 */
 ```
 <br/>
@@ -21,9 +21,9 @@ http://google.com/+axisj : google+
 <br/>
 <br/>
 <br/>
-<a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a> demonstration<br/>
+<a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a> Demonstration<br/>
 <a href="http://jdoc.axisj.com" target="_blank">http://jdoc.axisj.com</a> Documentation<br/>
-<a href="http://www.axisj.com" target="_blank">http://www.axisj.com</a> webSite<br/>
+<a href="http://www.axisj.com" target="_blank">http://www.axisj.com</a> Website<br/>
 <a href="http://facebook.com/axisj" target="_blank">http://facebook.com/axisj</a> FaceBook<br/>
 <a href="http://google.com/+axisj" target="_blank">http://google.com/+axisj</a> Google+<br/>
 <br/>
