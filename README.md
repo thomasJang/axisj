@@ -13,6 +13,7 @@ http://dev.axisj.com : demo
 http://jdoc.axisj.com : api
 http://www.axisj.com : website
 http://facebook.com/axisj : fanpage
+http://google.com/+axisj : google+
 */
 ```
 <br/>
@@ -25,6 +26,7 @@ http://facebook.com/axisj : fanpage
 <a href="http://support.axisj.com" target="_blank">http://support.axisj.com</a> support<br/>
 <a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a> Dev<br/>
 <a href="http://facebook.com/axisj" target="_blank">http://facebook.com/axisj</a> FaceBook<br/>
+<a href="http://google.com/+axisj" target="_blank">http://google.com/+axisj</a> Google+<br/>
 <br/>
 FullStack openSource Javascript UI framework<br/>
 <br/>
