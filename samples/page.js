@@ -231,7 +231,13 @@ var sampleTreeMenu = new AXTopDownMenu();
             $("#disqus_thread").empty();
             $("#disqusTarget").empty();
 
-            disqus_url = document.url;
+
+            var fullUrls = document.location.toString();
+                fullUrls = fullUrls.replace(disqus_url, "").replace("http://axisj", "").split("#");
+
+            var fullUrl = fullUrls[0];
+            if(fullUrl == "" || fullUrl == "/") fullUrl = "/index.html";
+            disqus_url = disqus_url + fullUrl;
 
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript';
