@@ -231,7 +231,7 @@ var sampleTreeMenu = new AXTopDownMenu();
             $("#disqus_thread").empty();
             $("#disqusTarget").empty();
 
-            //disqus_url = document.url;
+            disqus_url = document.url;
 
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript';
