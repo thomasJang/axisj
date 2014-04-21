@@ -491,13 +491,6 @@
   background: url('images/dx-grid-page-bg.png') repeat-x;
   z-index: 3;
 }
-.AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNo {
-  border: 0px none;
-  vertical-align: top;
-  height: 22px;
-  padding: 0px 2px;
-  outline: none;
-}
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumber {
   display: table-cell;
   padding: 3px 0px 0px 5px;
@@ -506,9 +499,20 @@
   font-size: 12px;
   color: #666666;
 }
+.AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNo {
+  border: 0px none;
+  vertical-align: top;
+  height: 20px;
+  padding: 0px 2px;
+  margin: 0px;
+  outline: none;
+}
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXanchorSelect .selectedTextBox {
   box-shadow: inset 0px 1px 1px #e9eced;
   background: #f3f3f3;
+}
+.AXGrid .AXgridPageBody .AXgridPagingUnit .AXanchorSelect .selectedTextBox .selectBoxArrow {
+  padding-top: 2px;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumberCount {
   display: block;

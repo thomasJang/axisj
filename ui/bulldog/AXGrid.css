@@ -548,24 +548,24 @@
   /*For IE7-8-9*/
   z-index: 3;
 }
-.AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNo {
-  border: 0px none;
-  vertical-align: top;
-  height: 22px;
-  padding: 0px 2px;
-  outline: none;
-}
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumber {
   display: table-cell;
-  padding: 4px 0px 0px 5px;
-  height: 26px;
   float: left;
+  padding: 4px 0px 0px 4px;
+  height: 24px;
   font-size: 12px;
   color: #666666;
 }
+.AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNo {
+  border: 0px none;
+  height: 22px;
+  padding: 0px 2px;
+  margin: 0px;
+  outline: none;
+  vertical-align: top;
+}
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXanchorSelect .selectedTextBox {
-  box-shadow: inset 0px 1px 1px #e9eced;
-  background: #ffffff;
+  border: 0px none;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumberCount {
   display: block;
