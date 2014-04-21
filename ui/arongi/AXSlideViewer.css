@@ -1,3 +1,6 @@
+.none {
+  display: none;
+}
 .util-border-radius-none {
   -webkit-border-radius: none;
   -moz-border-radius: none;
@@ -9,7 +12,7 @@
   text-overflow: ellipsis;
 }
 .util-textHidden {
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
 }
 .AXSlideViewer {
@@ -90,7 +93,7 @@
   border: 0px none;
   margin: 0px;
   padding: 0px;
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
   cursor: pointer;
   -webkit-transition: all 0.5s;
@@ -112,7 +115,7 @@
   border: 0px none;
   margin: 0px;
   padding: 0px;
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
   cursor: pointer;
   -moz-opacity: 0;
@@ -137,7 +140,7 @@
   border: 0px none;
   margin: 0px;
   padding: 0px;
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
   cursor: pointer;
   -moz-opacity: 0;
@@ -162,7 +165,7 @@
   border: 0px none;
   margin: 0px;
   padding: 0px;
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
   cursor: pointer;
   -moz-opacity: 0;
@@ -183,7 +186,7 @@
   border: 0px none;
   margin: 0px;
   padding: 0px;
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
   cursor: pointer;
   -moz-opacity: 0;
@@ -294,7 +297,7 @@
   border: 0px none;
   margin: 0px;
   padding: 0px;
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
   cursor: pointer;
 }

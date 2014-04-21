@@ -1,3 +1,7 @@
+.none{
+  display: none;
+}
+
 //Border Radius Simple
 .util-border-radius (@radius: 5px) {
     -webkit-border-radius: @radius;
@@ -91,7 +95,7 @@
 }
 
 .util-textHidden{
-    text-indent: -9999px;overflow:hidden;
+    text-indent: 99999px;overflow:hidden;
 }
 
 .util-text-shadow-black(@y:-1px, @alpha: 0.25){
@@ -101,7 +105,6 @@
 .util-text-shadow-white(@y:-1px, @alpha: 0.25){
 	text-shadow:0px @y rgba(255, 255, 255, @alpha);;
 };
-
 
 .util-hspace(@height: 1px){
 	font-size:1px;line-height:1px;height:@height;

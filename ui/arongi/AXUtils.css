@@ -1,3 +1,6 @@
+.none {
+  display: none;
+}
 .util-border-radius-none {
   -webkit-border-radius: none;
   -moz-border-radius: none;
@@ -9,6 +12,6 @@
   text-overflow: ellipsis;
 }
 .util-textHidden {
-  text-indent: -9999px;
+  text-indent: 99999px;
   overflow: hidden;
 }
