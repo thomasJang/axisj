@@ -1,3 +1,5 @@
+var disqus_shortname = 'axisjcom';
+var disqus_url = 'http://dev.axisj.com';
 var isIndex = false;
 var pageObj;
 var sampleMobileMenu = new AXMobileMenu();
@@ -183,6 +185,13 @@ var sampleTreeMenu = new AXTopDownMenu();
         incFooter:function(){
             var fo = [];
 
+            fo.push('<div class="disqus_target">');
+            fo.push('<div style="padding:20px 20px 50px 20px;background:#fff;">');
+            fo.push('<div id="disqus_thread"></div>');
+            fo.push('</div>');
+            fo.push('</div>');
+
+            fo.push('<div id="disqusTarget"></div>');
 
             fo.push('<footer id="AXPageFoot">');
                 fo.push('<div class="ax-wrap">');
@@ -217,6 +226,19 @@ var sampleTreeMenu = new AXTopDownMenu();
                 fo.push('</div>');
             fo.push('</footer>');
             jQuery("#AXPageBody").after(fo.join(""));
+
+
+            $("#disqus_thread").empty();
+            $("#disqusTarget").empty();
+
+            //disqus_url = document.url;
+
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            AXgetId("disqusTarget").appendChild(dsq);
+
         },
         changeTheme: function(newTheme){
             if(!newTheme || newTheme == "null") return;
