@@ -51,9 +51,9 @@
 				theme : "AXGrid",
 				//viewMode: "grid", // ["grid","icon","mobile"]
 				// 브라우저 사이즈에 따른 changeGridView 설정
-				autoChangeGridView: {
-					mobile:[0,600], grid:[600]
-				},
+                mediaQuery: {
+                    mx:{min:0, max:600}, dx:{min:600}
+                },
 				colGroup : [
 					{key:"no", label:"번호", width:"40", align:"center", formatter:"money"}, 
 					{key:"title", label:"제목", width:"200"},
