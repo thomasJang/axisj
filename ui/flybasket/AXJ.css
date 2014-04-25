@@ -199,13 +199,12 @@
   display: block;
   height: 30px;
   line-height: 30px;
-  padding: 0px 5px 0px 30px;
+  padding: 0px 5px 0px 5px;
   color: #5c382c;
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-image: url('images/dx-context-icon-doc.png');
   background-repeat: no-repeat;
   background-position: 0px center;
 }
@@ -221,53 +220,73 @@
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
+.AXContextMenu .contextMenuItem.doc {
+  background-image: url('images/dx-context-icon-doc.png');
+  padding: 0px 5px 0px 30px;
+}
 .AXContextMenu .contextMenuItem.docline {
   background-image: url('images/dx-context-icon-docline.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.plus {
   background-image: url('images/dx-context-icon-plus.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.minus {
   background-image: url('images/dx-context-icon-minus.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.group {
   background-image: url('images/dx-context-icon-group.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.edit {
   background-image: url('images/dx-context-icon-edit.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.copy {
   background-image: url('images/dx-context-icon-copy.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.cut {
   background-image: url('images/dx-context-icon-cut.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.paste {
   background-image: url('images/dx-context-icon-paste.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.up {
   background-image: url('images/dx-context-icon-up.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.down {
   background-image: url('images/dx-context-icon-down.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.left {
   background-image: url('images/dx-context-icon-left.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.right {
   background-image: url('images/dx-context-icon-right.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.link {
   background-image: url('images/dx-context-icon-link.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.unlink {
   background-image: url('images/dx-context-icon-unlink.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.openall {
   background-image: url('images/dx-context-icon-openall.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem.closeall {
   background-image: url('images/dx-context-icon-cloaseall.png');
+  padding: 0px 5px 0px 30px;
 }
 .AXContextMenu .contextMenuItem .contextSubMenuIcon {
   position: absolute;

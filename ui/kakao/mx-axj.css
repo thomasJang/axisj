@@ -1,0 +1,38 @@
+.util-border-radius-none {
+  -webkit-border-radius: none;
+  -moz-border-radius: none;
+  border-radius: none;
+}
+.util-text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.util-textHidden {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+.AXInputLabel {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+.AXInputLabel SPAN {
+  display: block;
+  line-height: 24px;
+  font-size: 12px;
+  color: #523636;
+  padding: 0px 3px;
+}
+.AXInputLabel.fullWidth {
+  display: block;
+  padding-right: 8px;
+}
+.AXInputLabel.fullWidth SPAN {
+  display: block;
+}
+.AXInputLabel.fullWidth input[type=text],
+.AXInputLabel.fullWidth input[type=password] {
+  width: 100%;
+  box-size: border-box;
+}
