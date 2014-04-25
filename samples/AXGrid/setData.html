@@ -79,13 +79,13 @@
 					}
 				},
                 page:{
-                    paging:true
+                    paging:true,
+                    onchange: function(pageNo){
+                        dialog.push(Object.toJSON(this));
+                        trace(this, pageNo);
+                    }
                 }
 			});
-			
-
-
-
 
             var _obj ={
                 message_type:"",
@@ -123,11 +123,7 @@
                     pageNo: _obj.page_navigation.cur_page,
                     pageSize: 20,
                     pageCount: _obj.page_navigation.page_count,
-                    listCount: _obj.page_navigation.total_count,
-                    onchange: function(pageNo){
-                        dialog.push(Object.toJSON(this));
-                        trace(this, pageNo);
-                    }
+                    listCount: _obj.page_navigation.total_count
                 }
             };
 			myGrid.setData(gridData);
@@ -150,7 +146,7 @@
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 		<div class="AXdemoPageContent">
 
-			<div class="title"><h1>AXGrid 그리드에 데이터를 정의하는 새로운 방법</h1></div>
+			<div class="title"><h1>AXGrid 그리드에 데이터를 정의하는 새로운 방</h1></div>
 
             <div id="AXGridTarget" style="height:400px;"></div>
 
