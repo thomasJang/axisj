@@ -17,7 +17,7 @@ http://google.com/+axisj : Google+
 */
 ```
 <br/>
-<img src="http://old.axisj.com/html/img/axisjui.png" alt="axisjui" />
+<img src="http://www.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
 <br/>
 <br/>
 <br/>
