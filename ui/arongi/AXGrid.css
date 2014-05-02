@@ -109,7 +109,7 @@
   top: 0px;
   width: 5px;
   height: 20px;
-  cursor: w-resize;
+  cursor: col-resize;
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td .colHeadResizer:active {
   background: #ffbbcc;
@@ -210,9 +210,6 @@
   top: 0px;
   width: 9px;
   height: 9px;
-  border-left: 1px solid #dbdbdb;
-  border-right: 1px solid #dbdbdb;
-  background: #f3f3f3;
   display: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScrollHandle {
@@ -221,14 +218,21 @@
   top: 0px;
   width: 9px;
   height: 20px;
-  background: url('images/dx-diagonal-bg.png');
-  border: 1px solid #b6b6b6;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   cursor: pointer;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScrollHandle:hover,
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScrollHandle.hover {
-  background: #929292;
-  border: 1px solid #636363;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=20);
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX {
   position: absolute;
@@ -236,9 +240,6 @@
   bottom: 0px;
   width: 9px;
   height: 9px;
-  border-top: 1px solid #dbdbdb;
-  border-bottom: 1px solid #dbdbdb;
-  background: #f3f3f3;
   display: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX .gridScrollHandle {
@@ -247,14 +248,21 @@
   top: -1px;
   width: 20px;
   height: 9px;
-  background: url('images/dx-diagonal-bg.png');
-  border: 1px solid #b6b6b6;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   cursor: pointer;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX .gridScrollHandle:hover,
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX .gridScrollHandle.hover {
-  background: #929292;
-  border: 1px solid #636363;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=20);
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable {
   width: 100%;
@@ -947,7 +955,7 @@
   border: 0px none;
   -moz-opacity: 0;
   opacity: 0;
-  filter: alpha(opacity=0);
+  filter: alpha(opacity=20);
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup .tool-pageGroup .tool-pageNo span {
   display: block;

@@ -153,9 +153,11 @@
   top: 0px;
   width: 9px;
   height: 9px;
-  border-left: 1px solid #dbdbdb;
-  border-right: 1px solid #dbdbdb;
-  background: #f3f3f3;
+  /*
+				border-left:@border-a;border-right:@border-a;
+				background:#f3f3f3;
+				*/
+
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -164,14 +166,21 @@
   top: 0px;
   width: 9px;
   height: 20px;
-  background: url('images/dx-diagonal-bg.png');
-  border: 1px solid #b6b6b6;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   cursor: pointer;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle:hover,
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle.hover {
-  background: #929292;
-  border: 1px solid #636363;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=20);
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX {
   position: absolute;
@@ -179,9 +188,11 @@
   bottom: 0px;
   width: 9px;
   height: 9px;
-  border-top: 1px solid #dbdbdb;
-  border-bottom: 1px solid #dbdbdb;
-  background: #f3f3f3;
+  /*
+				border-top:@border-a;border-bottom:@border-a;
+				background:@bgcolor-c;
+				*/
+
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -190,14 +201,21 @@
   top: -1px;
   width: 20px;
   height: 9px;
-  background: url('images/dx-diagonal-bg.png');
-  border: 1px solid #b6b6b6;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   cursor: pointer;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle:hover,
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle.hover {
-  background: #929292;
-  border: 1px solid #636363;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=20);
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable {
   width: 100%;
@@ -701,9 +719,11 @@
   top: 0px;
   width: 9px;
   height: 9px;
-  border-left: 1px solid #dbdbdb;
-  border-right: 1px solid #dbdbdb;
-  background: #f3f3f3;
+  /*
+				border-left:@border-a;border-right:@border-a;
+				background:@bgcolor-c;
+				*/
+
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -712,14 +732,21 @@
   top: 0px;
   width: 9px;
   height: 20px;
-  background: url('images/dx-diagonal-bg.png');
-  border: 1px solid #b6b6b6;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   cursor: pointer;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle:hover,
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle.hover {
-  background: #929292;
-  border: 1px solid #636363;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=20);
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX {
   position: absolute;
@@ -727,9 +754,11 @@
   bottom: 0px;
   width: 9px;
   height: 9px;
-  border-top: 1px solid #dbdbdb;
-  border-bottom: 1px solid #dbdbdb;
-  background: #f3f3f3;
+  /*
+				border-top:@border-a;border-bottom:@border-a;
+				background:@bgcolor-c;
+				*/
+
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -738,14 +767,21 @@
   top: -1px;
   width: 20px;
   height: 9px;
-  background: url('images/dx-diagonal-bg.png');
-  border: 1px solid #dbdbdb;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
   cursor: pointer;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle:hover,
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle.hover {
-  background: #929292;
-  border: 1px solid #636363;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=20);
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable {
   width: 100%;
