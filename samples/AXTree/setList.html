@@ -101,6 +101,7 @@
 			myTree.setConfig({
 				targetID : "AXTreeTarget",
 				theme: "AXTree_none",
+                xscroll:true,
 				relation:{
 					parentKey:"pno",
 					childKey:"no"
@@ -109,7 +110,7 @@
 					{
 						key:"nodeName",
 						label:"제목",
-						width:"100%", align:"left",
+						width:"800", align:"left",
 						indent:true,
 						getIconClass: function(){
 							var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);

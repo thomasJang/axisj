@@ -46,7 +46,7 @@
 						 	.colHeadResizer{
 								position:absolute;right:0px;top:0px;
 								width:5px;height:20px;
-								cursor:w-resize;
+								cursor:col-resize;
 							}
 							.colHeadResizer:active{
 								background:@bgcolor-e;
@@ -130,36 +130,37 @@
 			.gridScrollTrackY{
 				position:absolute;right:0px;top:0px;
 				width:9px;height:9px;
-				border-left:@border-b;border-right:@border-b;
-				background:@bgcolor-f;
 				display:none;
 				.gridScrollHandle{
 					position:absolute;left:-1px;top:0px;
 					width:9px;height:20px;
-					background:url('images/dx-diagonal-bg.png');
-					border:@border-a;
-					cursor:pointer;
-				}
-				.gridScrollHandle:hover, .gridScrollHandle.hover
-				{
-					background:@bgcolor-g;border:@border-c;
+                  background: #000;
+                  border:0px none;
+                  .util-opacity(20);
+                  .util-border-radius(5px, 5px, 5px, 5px);
+
+                  cursor:pointer;
+                  &:hover, &.hover{
+                    .util-opacity(50);
+                  }
 				}
 			}
 			.gridScrollTrackX{
 				position:absolute;left:0px;bottom:0px;
 				width:9px;height:9px;
-				border-top:@border-b;border-bottom:@border-b;
-				background:@bgcolor-f;
 				display:none;
 				.gridScrollHandle{
 					position:absolute;left:0px;top:-1px;
 					width:20px;height:9px;
-					background:url('images/dx-diagonal-bg.png');
-					border:@border-a;
-					cursor:pointer;
-				}
-				.gridScrollHandle:hover, .gridScrollHandle.hover{
-					background:@bgcolor-g;border:@border-c;
+                  background: #000;
+                  border:0px none;
+                  .util-opacity(20);
+                  .util-border-radius(5px, 5px, 5px, 5px);
+
+                  cursor:pointer;
+                  &:hover, &.hover{
+                    .util-opacity(50);
+                  }
 				}
 			}
 			.gridBodyTable{

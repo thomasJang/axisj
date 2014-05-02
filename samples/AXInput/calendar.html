@@ -65,7 +65,7 @@
 			$("#AXInputDateMED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateMST", selectType:"m", onChange:function(){toast.push(Object.toJSON(this));}});
 			
 			$("#AXInputDateTimeED").bindTwinDateTime({align:"right", valign:"top", separator:"/", startTargetID:"AXInputDateTimeST", onChange:function(){toast.push(Object.toJSON(this));}});
-			
+
 			$("#AXInputDate_earlier").bindDate({align:"right", valign:"bottom", onChange:{
 					earlierThan:"AXInputDate_later", err:"종료일보다 빠른 날짜를 선택하세요", 
 					onChange:function(){
@@ -73,7 +73,11 @@
 					}
 				}
 			});
-			$("#AXInputDate_later").bindDate({align:"right", valign:"bottom", onChange:{laterThan:"AXInputDate_earlier", err:"시작일보다 느린 날짜를 선택하세요"}});		
+			$("#AXInputDate_later").bindDate({align:"right", valign:"bottom",
+                onChange:{
+                    laterThan:"AXInputDate_earlier", err:"시작일보다 느린 날짜를 선택하세요"
+                }
+            });
 		},
         unbindInput: function () {
             $("#AXInputDate").unbindInput();
