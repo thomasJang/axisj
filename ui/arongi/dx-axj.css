@@ -705,17 +705,18 @@
   text-align: center;
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
-  background: #edecef;
-  background: -webkit-linear-gradient(#fcfcfc, #edecef);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fcfcfc, #edecef);
   /* For Safari */
 
-  background: -o-linear-gradient(#fcfcfc, #edecef);
+  background-image: -o-linear-gradient(#fcfcfc, #edecef);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fcfcfc, #edecef);
+  background-image: -moz-linear-gradient(#fcfcfc, #edecef);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fcfcfc, #edecef);
+  background-image: linear-gradient(#fcfcfc, #edecef);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fcfcfc, endColorstr=#edecef);
@@ -728,17 +729,18 @@
   border-bottom: 0px none;
 }
 .AXCalendar table.calendarPage tbody td.setDate {
-  background: #ebd2cd;
-  background: -webkit-linear-gradient(#faefed, #ebd2cd);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#faefed, #ebd2cd);
   /* For Safari */
 
-  background: -o-linear-gradient(#faefed, #ebd2cd);
+  background-image: -o-linear-gradient(#faefed, #ebd2cd);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#faefed, #ebd2cd);
+  background-image: -moz-linear-gradient(#faefed, #ebd2cd);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#faefed, #ebd2cd);
+  background-image: linear-gradient(#faefed, #ebd2cd);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#faefed, endColorstr=#ebd2cd);
@@ -784,17 +786,18 @@
   text-align: center;
   border-right: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
-  background: #edecef;
-  background: -webkit-linear-gradient(#fcfcfc, #edecef);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fcfcfc, #edecef);
   /* For Safari */
 
-  background: -o-linear-gradient(#fcfcfc, #edecef);
+  background-image: -o-linear-gradient(#fcfcfc, #edecef);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fcfcfc, #edecef);
+  background-image: -moz-linear-gradient(#fcfcfc, #edecef);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fcfcfc, #edecef);
+  background-image: linear-gradient(#fcfcfc, #edecef);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fcfcfc, endColorstr=#edecef);
@@ -1561,17 +1564,18 @@
   box-shadow: 1px 1px 3px #eee;
 }
 .AXGridTable thead td {
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#ffffff, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #e8e8e8);
+  background-image: -o-linear-gradient(#ffffff, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #e8e8e8);
+  background-image: -moz-linear-gradient(#ffffff, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #e8e8e8);
+  background-image: linear-gradient(#ffffff, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
@@ -1626,17 +1630,18 @@
 }
 .AXFormTable tbody th {
   color: #444444;
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#ffffff, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #e8e8e8);
+  background-image: -o-linear-gradient(#ffffff, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #e8e8e8);
+  background-image: -moz-linear-gradient(#ffffff, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #e8e8e8);
+  background-image: linear-gradient(#ffffff, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);

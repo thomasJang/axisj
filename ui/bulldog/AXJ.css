@@ -711,38 +711,42 @@
   line-height: 25px;
   padding: 0px;
   text-align: center;
-  background: #536270;
-  background: -webkit-linear-gradient(#536270, #536270);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#536270, #536270);
   /* For Safari */
 
-  background: -o-linear-gradient(#536270, #536270);
+  background-image: -o-linear-gradient(#536270, #536270);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#536270, #536270);
+  background-image: -moz-linear-gradient(#536270, #536270);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#536270, #536270);
+  background-image: linear-gradient(#536270, #536270);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPage tbody td.setDate {
-  background: #1dbb9a;
-  background: -webkit-linear-gradient(#1dbb9a, #1dbb9a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#1dbb9a, #1dbb9a);
   /* For Safari */
 
-  background: -o-linear-gradient(#1dbb9a, #1dbb9a);
+  background-image: -o-linear-gradient(#1dbb9a, #1dbb9a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#1dbb9a, #1dbb9a);
+  background-image: -moz-linear-gradient(#1dbb9a, #1dbb9a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#1dbb9a, #1dbb9a);
+  background-image: linear-gradient(#1dbb9a, #1dbb9a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1dbb9a, endColorstr=#1dbb9a);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
   display: block;
@@ -781,21 +785,23 @@
   line-height: 43px;
   padding: 0px;
   text-align: center;
-  background: #536270;
-  background: -webkit-linear-gradient(#536270, #536270);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#536270, #536270);
   /* For Safari */
 
-  background: -o-linear-gradient(#536270, #536270);
+  background-image: -o-linear-gradient(#536270, #536270);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#536270, #536270);
+  background-image: -moz-linear-gradient(#536270, #536270);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#536270, #536270);
+  background-image: linear-gradient(#536270, #536270);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_3 {
   padding-bottom: 1px;
@@ -1538,21 +1544,23 @@
   box-shadow: 1px 1px 3px #eee;
 }
 .AXGridTable thead td {
-  background: #d9d9d9;
-  background: -webkit-linear-gradient(#ffffff, #d9d9d9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -o-linear-gradient(#ffffff, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #d9d9d9);
+  background-image: linear-gradient(#ffffff, #d9d9d9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
+
   min-height: 30px;
   line-height: 30px;
   border-bottom: 1px solid #6c7b8a;
@@ -1603,21 +1611,23 @@
 }
 .AXFormTable tbody th {
   color: #565b61;
-  background: #d9d9d9;
-  background: -webkit-linear-gradient(#ffffff, #d9d9d9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -o-linear-gradient(#ffffff, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #d9d9d9);
+  background-image: linear-gradient(#ffffff, #d9d9d9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
+
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,

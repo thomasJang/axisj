@@ -55,17 +55,18 @@
   left: 0px;
   top: 0px;
   width: 100%;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#e2e5e7, #ffffff);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#e2e5e7, #ffffff);
   /* For Safari */
 
-  background: -o-linear-gradient(#e2e5e7, #ffffff);
+  background-image: -o-linear-gradient(#e2e5e7, #ffffff);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#e2e5e7, #ffffff);
+  background-image: -moz-linear-gradient(#e2e5e7, #ffffff);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#e2e5e7, #ffffff);
+  background-image: linear-gradient(#e2e5e7, #ffffff);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
@@ -81,17 +82,18 @@
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable {
   table-layout: fixed;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#e2e5e7, #ffffff);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#e2e5e7, #ffffff);
   /* For Safari */
 
-  background: -o-linear-gradient(#e2e5e7, #ffffff);
+  background-image: -o-linear-gradient(#e2e5e7, #ffffff);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#e2e5e7, #ffffff);
+  background-image: -moz-linear-gradient(#e2e5e7, #ffffff);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#e2e5e7, #ffffff);
+  background-image: linear-gradient(#e2e5e7, #ffffff);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
@@ -521,17 +523,18 @@
 .AXGrid .AXgridPageBody {
   position: relative;
   height: 30px;
-  background: #f3f3f3;
-  background: -webkit-linear-gradient(#ffffff, #f3f3f3);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #f3f3f3);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #f3f3f3);
+  background-image: -o-linear-gradient(#ffffff, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #f3f3f3);
+  background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #f3f3f3);
+  background-image: linear-gradient(#ffffff, #f3f3f3);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
@@ -545,17 +548,18 @@
   left: 0px;
   top: 0px;
   height: 30px;
-  background: #f3f3f3;
-  background: -webkit-linear-gradient(#ffffff, #f3f3f3);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #f3f3f3);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #f3f3f3);
+  background-image: -o-linear-gradient(#ffffff, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #f3f3f3);
+  background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #f3f3f3);
+  background-image: linear-gradient(#ffffff, #f3f3f3);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
@@ -880,17 +884,18 @@
   display: block;
   position: relative;
   height: 43px;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#e2e5e7, #ffffff);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#e2e5e7, #ffffff);
   /* For Safari */
 
-  background: -o-linear-gradient(#e2e5e7, #ffffff);
+  background-image: -o-linear-gradient(#e2e5e7, #ffffff);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#e2e5e7, #ffffff);
+  background-image: -moz-linear-gradient(#e2e5e7, #ffffff);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#e2e5e7, #ffffff);
+  background-image: linear-gradient(#e2e5e7, #ffffff);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);

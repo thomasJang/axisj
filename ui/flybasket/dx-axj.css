@@ -1499,21 +1499,23 @@
   box-shadow: 1px 1px 3px #eee;
 }
 .AXGridTable thead td {
-  background: #f1efea;
-  background: -webkit-linear-gradient(#ffffff, #f1efea);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #f1efea);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #f1efea);
+  background-image: -o-linear-gradient(#ffffff, #f1efea);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #f1efea);
+  background-image: -moz-linear-gradient(#ffffff, #f1efea);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #f1efea);
+  background-image: linear-gradient(#ffffff, #f1efea);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+
   min-height: 30px;
   line-height: 30px;
   border-bottom: 1px solid #99847d;
@@ -1564,21 +1566,23 @@
 }
 .AXFormTable tbody th {
   color: #593629;
-  background: #f1efea;
-  background: -webkit-linear-gradient(#ffffff, #f1efea);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #f1efea);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #f1efea);
+  background-image: -o-linear-gradient(#ffffff, #f1efea);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #f1efea);
+  background-image: -moz-linear-gradient(#ffffff, #f1efea);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #f1efea);
+  background-image: linear-gradient(#ffffff, #f1efea);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,

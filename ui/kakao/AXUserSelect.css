@@ -26,21 +26,23 @@
 }
 .userSelectBox .readyDrag {
   border: 1px solid #000000;
-  background: #fee834;
-  background: -webkit-linear-gradient(#fee834, #fee834);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fee834, #fee834);
   /* For Safari */
 
-  background: -o-linear-gradient(#fee834, #fee834);
+  background-image: -o-linear-gradient(#fee834, #fee834);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fee834, #fee834);
+  background-image: -moz-linear-gradient(#fee834, #fee834);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fee834, #fee834);
+  background-image: linear-gradient(#fee834, #fee834);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fee834, endColorstr=#fee834);
   /*For IE7-8-9*/
+
   color: #523636;
   padding: 3px 5px;
   border-radius: 3px;
@@ -61,21 +63,23 @@
   height: 1px;
   margin: 5px 0px;
   border: 1px solid #000000;
-  background: #fee834;
-  background: -webkit-linear-gradient(#fee834, #fee834);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fee834, #fee834);
   /* For Safari */
 
-  background: -o-linear-gradient(#fee834, #fee834);
+  background-image: -o-linear-gradient(#fee834, #fee834);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fee834, #fee834);
+  background-image: -moz-linear-gradient(#fee834, #fee834);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fee834, #fee834);
+  background-image: linear-gradient(#fee834, #fee834);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fee834, endColorstr=#fee834);
   /*For IE7-8-9*/
+
 }
 .userSelectBox .bedraged {
   border: 2px solid #ff3300 !important;

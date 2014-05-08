@@ -50,11 +50,11 @@
 
 //Linear Gradient
 .util-gradient (@origin: top, @start: #ffffff, @stop: #000000) {
-	background: @stop;
-	background: -webkit-linear-gradient(@start, @stop); /* For Safari */
-	background: -o-linear-gradient(@start, @stop); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(@start, @stop); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(@start, @stop); /* Standard syntax */
+	/*background: @stop;*/
+    background-image: -webkit-linear-gradient(@start, @stop); /* For Safari */
+    background-image: -o-linear-gradient(@start, @stop); /* For Opera 11.1 to 12.0 */
+    background-image: -moz-linear-gradient(@start, @stop); /* For Firefox 3.6 to 15 */
+    background-image: linear-gradient(@start, @stop); /* Standard syntax */
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@start, endColorstr=@stop); /*For IE7-8-9*/ 
 }
 

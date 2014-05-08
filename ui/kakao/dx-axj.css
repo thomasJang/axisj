@@ -694,21 +694,23 @@
   text-align: center;
   border-right: 1px solid #523636;
   border-bottom: 1px solid #523636;
-  background: #523636;
-  background: -webkit-linear-gradient(#523636, #523636);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#523636, #523636);
   /* For Safari */
 
-  background: -o-linear-gradient(#523636, #523636);
+  background-image: -o-linear-gradient(#523636, #523636);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#523636, #523636);
+  background-image: -moz-linear-gradient(#523636, #523636);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#523636, #523636);
+  background-image: linear-gradient(#523636, #523636);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 {
   background: #442a2a;
@@ -721,21 +723,23 @@
   border-bottom: 0px none;
 }
 .AXCalendar table.calendarPage tbody td.setDate {
-  background: #ff5b49;
-  background: -webkit-linear-gradient(#ff5b49, #ff5b49);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ff5b49, #ff5b49);
   /* For Safari */
 
-  background: -o-linear-gradient(#ff5b49, #ff5b49);
+  background-image: -o-linear-gradient(#ff5b49, #ff5b49);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ff5b49, #ff5b49);
+  background-image: -moz-linear-gradient(#ff5b49, #ff5b49);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ff5b49, #ff5b49);
+  background-image: linear-gradient(#ff5b49, #ff5b49);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
   display: block;
@@ -784,21 +788,23 @@
   text-align: center;
   border-right: 1px solid #523636;
   border-bottom: 1px solid #523636;
-  background: #523636;
-  background: -webkit-linear-gradient(#523636, #523636);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#523636, #523636);
   /* For Safari */
 
-  background: -o-linear-gradient(#523636, #523636);
+  background-image: -o-linear-gradient(#523636, #523636);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#523636, #523636);
+  background-image: -moz-linear-gradient(#523636, #523636);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#523636, #523636);
+  background-image: linear-gradient(#523636, #523636);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_2 {
   border-right: 0px none;
@@ -809,21 +815,23 @@
 }
 .AXCalendar table.calendarPageMonth tbody td.setDate {
   color: #523636;
-  background: #ff5b49;
-  background: -webkit-linear-gradient(#ff5b49, #ff5b49);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ff5b49, #ff5b49);
   /* For Safari */
 
-  background: -o-linear-gradient(#ff5b49, #ff5b49);
+  background-image: -o-linear-gradient(#ff5b49, #ff5b49);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ff5b49, #ff5b49);
+  background-image: -moz-linear-gradient(#ff5b49, #ff5b49);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ff5b49, #ff5b49);
+  background-image: linear-gradient(#ff5b49, #ff5b49);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
   /*For IE7-8-9*/
+
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth {
   display: block;
