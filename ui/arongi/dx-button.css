@@ -17,17 +17,18 @@
 }
 .axbutton-style-normal {
   background: #fdfdfd;
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -55,17 +56,18 @@
 }
 .axbutton-style-classic {
   background: #c1cdd5;
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -88,17 +90,18 @@
 .axbutton-style-blue {
   background: #6faee1;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -111,17 +114,18 @@
 .axbutton-style-green {
   background: #98c87b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -134,17 +138,18 @@
 .axbutton-style-red {
   background: #c65a5b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -155,18 +160,20 @@
   -moz-appearance: none;
 }
 .axbutton-style-disabled {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -181,17 +188,18 @@
 }
 .axbutton-event-normal {
   background: #fdfdfd;
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -228,17 +236,18 @@
 }
 .axbutton-event-classic {
   background: #c1cdd5;
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -270,17 +279,18 @@
 .axbutton-event-blue {
   background: #6faee1;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -300,17 +310,18 @@
 .axbutton-event-green {
   background: #98c87b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -330,17 +341,18 @@
 .axbutton-event-red {
   background: #c65a5b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -358,18 +370,20 @@
   box-shadow: none;
 }
 .axbutton-event-disabled {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -402,17 +416,18 @@
 }
 .AXButton {
   background: #fdfdfd;
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -449,17 +464,18 @@
 }
 .AXButton.Classic {
   background: #c1cdd5;
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -491,17 +507,18 @@
 .AXButton.Blue {
   background: #6faee1;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -521,17 +538,18 @@
 .AXButton.Green {
   background: #98c87b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -551,17 +569,18 @@
 .AXButton.Red {
   background: #c65a5b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -579,18 +598,20 @@
   box-shadow: none;
 }
 .AXButton[disabled] {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -623,17 +644,18 @@
 }
 .AXButtonSmall {
   background: #fdfdfd;
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -670,17 +692,18 @@
 }
 .AXButtonSmall.Classic {
   background: #c1cdd5;
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -712,17 +735,18 @@
 .AXButtonSmall.Blue {
   background: #6faee1;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -742,17 +766,18 @@
 .AXButtonSmall.Green {
   background: #98c87b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -772,17 +797,18 @@
 .AXButtonSmall.Red {
   background: #c65a5b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -800,18 +826,20 @@
   box-shadow: none;
 }
 .AXButtonSmall[disabled] {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -844,17 +872,18 @@
 }
 .AXButtonLarge {
   background: #fdfdfd;
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -891,17 +920,18 @@
 }
 .AXButtonLarge.Classic {
   background: #c1cdd5;
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -933,17 +963,18 @@
 .AXButtonLarge.Blue {
   background: #6faee1;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -963,17 +994,18 @@
 .AXButtonLarge.Green {
   background: #98c87b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -993,17 +1025,18 @@
 .AXButtonLarge.Red {
   background: #c65a5b;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -1021,18 +1054,20 @@
   box-shadow: none;
 }
 .AXButtonLarge[disabled] {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
   background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);

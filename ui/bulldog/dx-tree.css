@@ -25,40 +25,44 @@
   left: 0px;
   top: 0px;
   width: 100%;
-  background: #d6dbe0;
-  background: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Safari */
 
-  background: -o-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -o-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -moz-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: linear-gradient(#d6dbe0, #d6dbe0);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d6dbe0, endColorstr=#d6dbe0);
   /*For IE7-8-9*/
+
   border-bottom: 1px solid #ffffff;
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable {
   table-layout: fixed;
-  background: #d6dbe0;
-  background: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Safari */
 
-  background: -o-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -o-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -moz-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: linear-gradient(#d6dbe0, #d6dbe0);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d6dbe0, endColorstr=#d6dbe0);
   /*For IE7-8-9*/
+
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable tbody tr td {
   padding: 0px;
@@ -613,40 +617,44 @@
   left: 0px;
   top: 0px;
   width: 100%;
-  background: #d6dbe0;
-  background: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Safari */
 
-  background: -o-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -o-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -moz-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: linear-gradient(#d6dbe0, #d6dbe0);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d6dbe0, endColorstr=#d6dbe0);
   /*For IE7-8-9*/
+
   border-bottom: 1px solid #ffffff;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeColHead .colHeadTable {
   table-layout: fixed;
-  background: #d6dbe0;
-  background: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Safari */
 
-  background: -o-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -o-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: -moz-linear-gradient(#d6dbe0, #d6dbe0);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d6dbe0, #d6dbe0);
+  background-image: linear-gradient(#d6dbe0, #d6dbe0);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d6dbe0, endColorstr=#d6dbe0);
   /*For IE7-8-9*/
+
 }
 .AXTree_none .AXTreeScrollBody .AXTreeColHead .colHeadTable tbody tr td {
   padding: 0px;

@@ -550,42 +550,46 @@
   color: #6e7a8d;
   text-align: center;
   text-decoration: none;
-  background: #e5e5e5;
-  background: -webkit-linear-gradient(#e5e5e5, #e5e5e5);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#e5e5e5, #e5e5e5);
   /* For Safari */
 
-  background: -o-linear-gradient(#e5e5e5, #e5e5e5);
+  background-image: -o-linear-gradient(#e5e5e5, #e5e5e5);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#e5e5e5, #e5e5e5);
+  background-image: -moz-linear-gradient(#e5e5e5, #e5e5e5);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#e5e5e5, #e5e5e5);
+  background-image: linear-gradient(#e5e5e5, #e5e5e5);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e5e5e5, endColorstr=#e5e5e5);
   /*For IE7-8-9*/
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle:hover,
 .AXanchorSegmentBox .AXanchorSegmentHandle:focus {
-  background: #bbbbbb;
-  background: -webkit-linear-gradient(#bbbbbb, #bbbbbb);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#bbbbbb, #bbbbbb);
   /* For Safari */
 
-  background: -o-linear-gradient(#bbbbbb, #bbbbbb);
+  background-image: -o-linear-gradient(#bbbbbb, #bbbbbb);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#bbbbbb, #bbbbbb);
+  background-image: -moz-linear-gradient(#bbbbbb, #bbbbbb);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#bbbbbb, #bbbbbb);
+  background-image: linear-gradient(#bbbbbb, #bbbbbb);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#bbbbbb, endColorstr=#bbbbbb);
   /*For IE7-8-9*/
+
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.segmentLeft {
   border-top-left-radius: 3px;
@@ -597,21 +601,23 @@
   border-bottom-right-radius: 3px;
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.on {
-  background: #808080;
-  background: -webkit-linear-gradient(#808080, #808080);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#808080, #808080);
   /* For Safari */
 
-  background: -o-linear-gradient(#808080, #808080);
+  background-image: -o-linear-gradient(#808080, #808080);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#808080, #808080);
+  background-image: -moz-linear-gradient(#808080, #808080);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#808080, #808080);
+  background-image: linear-gradient(#808080, #808080);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#808080, endColorstr=#808080);
   /*For IE7-8-9*/
+
   color: #ffffff;
 }
 .AXanchorDateHandle {

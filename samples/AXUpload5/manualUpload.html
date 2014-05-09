@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
-	<title>AXUpload5 - AXISJ</title>
+    <title>AXUpload5 - AXISJ</title>
 
     <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
     <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
@@ -22,6 +22,10 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXUpload5.css" />
+
+    <style type="text/css">
+
+    </style>
     <!-- css block -->
 
     <!-- js block -->
@@ -43,7 +47,7 @@
 	 * Javascript 	: AXJ.js, AXUpload5.js
 	 * CSS			: AXJ.css, AXButton.css, AXUpload5.css
 	 */	
-	var pageID = "AXUpload5";
+	var pageID = "manualUpload";
 	var myUpload = new AXUpload5();
 	
 	var fnObj = {
@@ -57,14 +61,15 @@
 					targetID:"AXUpload5",
 					targetButtonClass:"Green",
 					uploadFileName:"fileData",
+
+                    fileSelectAutoUpload:false,
+
 					file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
 					dropBoxID:"uploadQueueBox",
 					queueBoxID:"uploadQueueBox", // upload queue targetID
-					//queueBoxAppendType:"(prepend || append)",
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
 					flash_url : pageObj.host+"lib/swfupload.swf",
 					flash9_url : pageObj.host+"lib/swfupload_fp9.swf",
-					
 					// --------- e
 					onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
 						//trace(this);
@@ -72,13 +77,11 @@
 					},
 					
 					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
-					uploadMaxFileCount:10, // 업로드될 파일갯수 제한 0 은 무제한
+					uploadMaxFileCount:5, // 업로드될 파일갯수 제한 0 은 무제한
 					uploadUrl:"fileUpload.php",
 					uploadPars:{userID:'tom', userName:'액시스'},
 					deleteUrl:"fileDelete.php",
 					deletePars:{userID:'tom', userName:'액시스'},
-
-					buttonTxt:"파일올리기",
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
 						name:"name",
@@ -89,14 +92,15 @@
 						thumbPath:"thumbUrl" // 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
 					},
 					
-					onbeforeFileSelect: function(){
-						trace(this);
-						return true;
+					formatter: function(f){
+						var po = [];
+						po.push("<div id='"+this.id+"_AXUploadLabel_mainImageFile' class='AXUploadMainImage' >mainImage</div>");
+						
+						return po.join('');						
 					},
 					
 					onUpload: function(){
 						//trace(this);
-						trace(myUpload.uploadedList);
 						//trace("onUpload");
 					},
 					onComplete: function(){
@@ -110,14 +114,14 @@
 						$("#uploadCancelBtn").get(0).disabled = false; // 전송중지 버튼 제어
 					},
 					onDelete: function(){
-						trace(this);
+						//trace(this);
 						//trace("onDelete");
 					},
 					onError: function(errorType, extData){
 						if(errorType == "html5Support"){
 							//dialog.push('The File APIs are not fully supported in this browser.');
 						}else if(errorType == "fileSize"){
-							//trace(extData);
+							trace(extData);
 							alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.\n("+extData.name+" : "+extData.size.byte()+")");
 						}else if(errorType == "fileCount"){
 							alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
@@ -128,13 +132,13 @@
 				
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- s
 				var url = "fileListLoad.php";
-				var pars = "dummy="+axf.timekey();
+				var pars = "dummy="+AXUtil.timekey();
 				new AXReq(url, {pars:pars, onsucc:function(res){
-					if(!res.error){
-						myUpload.setUploadedList(res);
-					}else{
-						alert(res.msg.dec());
-					}
+                    if(!res.error){
+                        myUpload.setUploadedList(res);
+                    }else{
+                        alert(res.msg.dec());
+                    }
 				}});
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
 				
@@ -143,8 +147,21 @@
 				var list = myUpload[method](type);
 				trace(list);
 				toast.push(Object.toJSON(list));
+			},
+			changeOption: function(){
+				
+				// 업로드 갯수 등 업로드 관련 옵션을 동적으로 변경 할 수 있습니다. 
+				myUpload.changeConfig({
+					/*
+					uploadUrl:"uploadFile.asp",
+					uploadPars:{userID:'tom', userName:'액시스'},
+					deleteUrl:"deleteFile.asp",
+					deletePars:{userID:'tom', userName:'액시스'},
+					*/
+					uploadMaxFileCount:10
+				});		
 			}
-		}		
+		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
@@ -162,10 +179,8 @@
 	<div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
         <div class="AXdemoPageContent">
+			<div class="title"><h1>AXUpload5 (Manual Upload)</h1></div>
 
-			<div class="title"><h1>AXUpload5</h1></div>
-
-						
             <div class="AXUpload5" id="AXUpload5"></div>
 
             <div class="H10"></div>
@@ -175,9 +190,10 @@
             <div class="H10"></div>
 
             <div>
+                <input type="button" value="업로드" class="AXButton" onclick="myUpload.uploadQueue(true);" />
+
                 <input type="button" value="전송중지" class="AXButton" id="uploadCancelBtn" disabled="disabled" onclick="myUpload.cancelUpload();" />
-                <input type="button" value="선택삭제" class="AXButton" onclick="myUpload.deleteSelect(null);" />
-                <!--<input type="button" value="모두삭제" class="AXButton" onclick="myUpload.deleteSelect('all', 'withOutServer');" />-->
+                <input type="button" value="선택삭제" class="AXButton" onclick="myUpload.deleteSelect();" />
                 <input type="button" value="모두삭제" class="AXButton" onclick="myUpload.deleteSelect('all');" />
 
                 <input type="button" value="Get Object" class="AXButton" onclick="fnObj.upload.printMethodReturn('getUploadedList','object');" />
@@ -186,6 +202,8 @@
                 <input type="button" value="Get Select Object" class="AXButton" onclick="fnObj.upload.printMethodReturn('getSelectUploadedList','object')" />
                 <input type="button" value="Get Select Param" class="AXButton" onclick="fnObj.upload.printMethodReturn('getSelectUploadedList','param')" />
             </div>
+
+            <div class="H20"></div>
 
 		</div>
 	</div>

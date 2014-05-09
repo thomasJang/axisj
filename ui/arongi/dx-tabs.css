@@ -16,17 +16,18 @@
   overflow: hidden;
 }
 .axtabs-style-normal {
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -39,17 +40,18 @@
   border-radius: 4px 4px 0 0;
 }
 .axtabs-style-classic {
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -62,17 +64,18 @@
   border-radius: 4px 4px 0 0;
 }
 .axtabs-style-blue {
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -85,17 +88,18 @@
   border-radius: 4px 4px 0 0;
 }
 .axtabs-style-green {
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -108,17 +112,18 @@
   border-radius: 4px 4px 0 0;
 }
 .axtabs-style-red {
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -131,17 +136,18 @@
   border-radius: 4px 4px 0 0;
 }
 .axtabs-style-disabled {
-  background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -155,17 +161,18 @@
   border-radius: 4px 4px 0 0;
 }
 .axtabs-event-normal {
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -190,17 +197,18 @@
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-classic {
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -226,17 +234,18 @@
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-blue {
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -262,17 +271,18 @@
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-green {
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -298,17 +308,18 @@
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-red {
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -334,17 +345,18 @@
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-disabled {
-  background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -410,17 +422,18 @@
   outline: none;
 }
 .AXTabs .AXTabsTray .AXTab {
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -448,17 +461,18 @@
   margin-left: 5px;
 }
 .AXTabs .AXTabsTray .AXTab.Classic {
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -484,17 +498,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab.Blue {
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -520,17 +535,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab.Green {
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -556,17 +572,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab.Red {
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -592,17 +609,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab[disabled] {
-  background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -719,17 +737,18 @@
   outline: none;
 }
 .AXTabsLarge .AXTabsTray .AXTab {
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -757,17 +776,18 @@
   margin-left: 5px;
 }
 .AXTabsLarge .AXTabsTray .AXTab.Classic {
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -793,17 +813,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab.Blue {
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -829,17 +850,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab.Green {
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -865,17 +887,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab.Red {
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -901,17 +924,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab[disabled] {
-  background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
@@ -1028,17 +1052,18 @@
   outline: none;
 }
 .AXTabsSmall .AXTabsTray .AXTab {
-  background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
 
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
@@ -1066,17 +1091,18 @@
   margin-left: 5px;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Classic {
-  background: #98a4ae;
-  background: -webkit-linear-gradient(#c1cdd5, #98a4ae);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c1cdd5, #98a4ae);
   /* For Safari */
 
-  background: -o-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -o-linear-gradient(#c1cdd5, #98a4ae);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c1cdd5, #98a4ae);
+  background-image: -moz-linear-gradient(#c1cdd5, #98a4ae);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c1cdd5, #98a4ae);
+  background-image: linear-gradient(#c1cdd5, #98a4ae);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
@@ -1102,17 +1128,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Blue {
-  background: #468ec9;
-  background: -webkit-linear-gradient(#6faee1, #468ec9);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#6faee1, #468ec9);
   /* For Safari */
 
-  background: -o-linear-gradient(#6faee1, #468ec9);
+  background-image: -o-linear-gradient(#6faee1, #468ec9);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#6faee1, #468ec9);
+  background-image: -moz-linear-gradient(#6faee1, #468ec9);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#6faee1, #468ec9);
+  background-image: linear-gradient(#6faee1, #468ec9);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
@@ -1138,17 +1165,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Green {
-  background: #79aa5a;
-  background: -webkit-linear-gradient(#98c87b, #79aa5a);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
 
-  background: -o-linear-gradient(#98c87b, #79aa5a);
+  background-image: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#98c87b, #79aa5a);
+  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#98c87b, #79aa5a);
+  background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
@@ -1174,17 +1202,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Red {
-  background: #a93b3e;
-  background: -webkit-linear-gradient(#c65a5b, #a93b3e);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#c65a5b, #a93b3e);
   /* For Safari */
 
-  background: -o-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -o-linear-gradient(#c65a5b, #a93b3e);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#c65a5b, #a93b3e);
+  background-image: -moz-linear-gradient(#c65a5b, #a93b3e);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#c65a5b, #a93b3e);
+  background-image: linear-gradient(#c65a5b, #a93b3e);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
@@ -1210,17 +1239,18 @@
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab[disabled] {
-  background: #d7d7d7;
-  background: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Safari */
 
-  background: -o-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -o-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: -moz-linear-gradient(#d7d7d7, #d7d7d7);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#d7d7d7, #d7d7d7);
+  background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);

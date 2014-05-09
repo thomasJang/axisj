@@ -808,21 +808,23 @@
   display: block;
   position: relative;
   height: 43px;
-  background: #f3f3f3;
-  background: -webkit-linear-gradient(#ffffff, #f3f3f3);
+  /*background: @stop;*/
+
+  background-image: -webkit-linear-gradient(#ffffff, #f3f3f3);
   /* For Safari */
 
-  background: -o-linear-gradient(#ffffff, #f3f3f3);
+  background-image: -o-linear-gradient(#ffffff, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
 
-  background: -moz-linear-gradient(#ffffff, #f3f3f3);
+  background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
   /* For Firefox 3.6 to 15 */
 
-  background: linear-gradient(#ffffff, #f3f3f3);
+  background-image: linear-gradient(#ffffff, #f3f3f3);
   /* Standard syntax */
 
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
+
   border-bottom: 1px solid #b1b1b1;
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup.top {
