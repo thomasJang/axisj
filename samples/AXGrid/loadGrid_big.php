@@ -2,12 +2,12 @@
 $pageNo = $_POST["pageNo"];
 $browser = $_POST["browser"];
 $version = $_POST["version"];
-$itemCount = 100000;
+$itemCount = 10000;
 
 if($browser == "ie"){
-    $itemCount = 50000;
+    $itemCount = 5000;
     if($version < 9){
-        $itemCount = 10000;
+        $itemCount = 1000;
     }
 }
 ?>
