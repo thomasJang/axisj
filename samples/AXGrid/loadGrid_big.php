@@ -2,7 +2,7 @@
 $pageNo = $_POST["pageNo"];
 $browser = $_POST["browser"];
 $version = $_POST["version"];
-$itemCount = 600000;
+$itemCount = 10000;
 
 if($browser == "ie"){
     $itemCount = 5000;
