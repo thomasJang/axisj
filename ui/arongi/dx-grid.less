@@ -178,6 +178,17 @@
 							box-shadow:inset 0px 0px 2px #000;
 						}
 					}
+                  /* for bigData */
+                    tr.thpadding td{
+                      height:0px;
+                      background:none;
+                      border-bottom:none;
+                    }
+                    tr.tfpadding td{
+                      height:0px;
+                      background:#eee;
+                      border-bottom:none;
+                    }
 					tr.noListTr td{
 						vertical-align:middle;
 						height:100px;
@@ -293,6 +304,7 @@
 								padding:5px 1px 5px 0px;
 							}
 						}
+
 						td.bodyBottomBorder{
 							border-bottom:@border-e;
 						}
@@ -319,6 +331,17 @@
 							background-color:@bgcolor-h;box-shadow:inset 0px 0px 2px #000;
 						}
 					}
+                  /* for bigData */
+                  tr.thpadding td{
+                    height:0px;
+                    background:none;
+                    border-bottom:none;
+                  }
+                  tr.tfpadding td{
+                    height:0px;
+                    background:#eee;
+                    border-bottom:none;
+                  }
 					tr.noListTr td{
 						vertical-align:middle;
 						height:100px;
@@ -501,13 +524,14 @@
 			position:absolute;left:0px;top:0px;
 			width:100%;
 			background:@bgcolor-v;
-			border-bottom:@border-h;
-			box-shadow:1px 1px 3px #ccc;
+			border-top:@border-h;
+            border-bottom:@border-h;
 		}
 		.fixedEditorContent{
 			position:absolute;left:0px;top:0px;
 			background:@bgcolor-v;
-			box-shadow:0px 0px 3px #ccc;
+            border-top:@border-h;
+            border-bottom:@border-h;
 		}
 		.editorButtons{
 			position:absolute;left:10%;top:19px;
@@ -517,9 +541,21 @@
 			border-left:@border-h;
 			border-right:@border-h;
 			border-bottom:@border-h;
-			box-shadow:1px 1px 3px #ccc;
 			border-bottom-left-radius:@radius;
 			border-bottom-right-radius:@radius;
+          &.top{
+            position:absolute;left:10%;
+            padding:5px 5px 2px 5px;
+            background:@bgcolor-v;
+            border-bottom:1px solid @bgcolor-v;
+            border-left:@border-h;
+            border-right:@border-h;
+            border-top:@border-h;
+            border-top-left-radius:@radius;
+            border-top-right-radius:@radius;
+            border-bottom-left-radius:0;
+            border-bottom-right-radius:0;
+          }
 		}
 		.gridBodyTable{
 			width:100%;table-layout:fixed;

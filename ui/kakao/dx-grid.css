@@ -25,7 +25,6 @@
   overflow: hidden;
   background: #ffffff;
   /* 아이콘 보기 모드 */
-
 }
 .AXGrid .AXgridScrollBody div {
   box-sizing: content-box !important;
@@ -36,22 +35,16 @@
   top: 0px;
   width: 100%;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
   border-bottom: 1px solid #cecece;
 }
 .AXGrid .AXgridScrollBody .fixedColHead {
@@ -64,22 +57,16 @@
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable {
   table-layout: fixed;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td {
   padding: 0px;
@@ -215,7 +202,7 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX {
   position: absolute;
@@ -245,11 +232,14 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX .gridScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable {
   width: 100%;
   table-layout: fixed;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody {
+  /* for bigData */
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td {
   padding: 0px;
@@ -261,6 +251,16 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td.selected {
   background-color: #fff6ac;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.thpadding td {
+  height: 0px;
+  background: none;
+  border-bottom: none;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.tfpadding td {
+  height: 0px;
+  background: #eee;
+  border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.noListTr td {
   vertical-align: middle;
@@ -411,6 +411,9 @@
   background-repeat: repeat-y;
   background-position: 100% 0px;
 }
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody {
+  /* for bigData */
+}
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td {
   padding: 0px;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
@@ -421,6 +424,16 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td.selected {
   background-color: #fff6ac;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.thpadding td {
+  height: 0px;
+  background: none;
+  border-bottom: none;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.tfpadding td {
+  height: 0px;
+  background: #eee;
+  border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.noListTr td {
   vertical-align: middle;
@@ -503,22 +516,16 @@
   position: relative;
   height: 30px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
   border-bottom: 1px solid #cecece;
   border-left: 1px solid #cecece;
   border-right: 1px solid #cecece;
@@ -529,22 +536,16 @@
   top: 0px;
   height: 30px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
   z-index: 3;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumber {
@@ -857,29 +858,22 @@
   border: 0px none;
   overflow: visible;
   /* 모바일 뷰 용 목록 스타일 시트 클래스 */
-
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup {
   display: block;
   position: relative;
   height: 43px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
   border-bottom: 1px solid #cecece;
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup.top {
@@ -940,7 +934,7 @@
   border: 0px none;
   -moz-opacity: 0;
   opacity: 0;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=0);
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup .tool-pageGroup .tool-pageNo span {
   display: block;

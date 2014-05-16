@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXGrid(passive) - AXISJ</title>
 
@@ -156,11 +158,13 @@
                                 ajaxPars:"",
                                 onChange:function(){
                                     //trace(this.selectedOption);
-                                    myGrid.setEditorForm({
-                                        key:"writer",
-                                        position:[0,4], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
-                                        value:this.selectedOption.optionText
-                                    });
+                                    if(this.selectedOption){
+                                        myGrid.setEditorForm({
+                                            key:"writer",
+                                            position:[0,4], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
+                                            value:this.selectedOption.optionText
+                                        });
+                                    }
                                 }
                             }
                             }
@@ -274,6 +278,8 @@
                 return;
             }
             /// something do for server
+            trace(checkedList);
+
             myGrid.removeListIndex(checkedList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
         },
         restoreList: function(){

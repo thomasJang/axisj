@@ -84,19 +84,14 @@
   display: block;
   border: 1px solid #b6b6b6;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Safari */
-
   background-image: -o-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#fdfdfd, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);

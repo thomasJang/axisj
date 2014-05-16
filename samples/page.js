@@ -72,6 +72,14 @@ var sampleTreeMenu = new AXTopDownMenu();
                 mail: "jowrney@axisj.com",
                 support: ["DX"]
             }
+            /*
+            cocker: {
+                ver: "0.1 Beta",
+                developer: "Jowrney Kim",
+                mail: "jowrney@axisj.com",
+                support: ["DX"]
+            }
+            */
         },
         goLink: function(url){
             if(!isIndex){
@@ -201,10 +209,9 @@ var sampleTreeMenu = new AXTopDownMenu();
                             fo.push('<div class="ax-unit">');
                                 fo.push('<nav class="navTheme">');
                                     fo.push("<ul>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"arongi\");' class='themeSelector' id='arongi'>Arongi</a></li>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"bulldog\");' class='themeSelector' id='bulldog'>Bulldog</a></li>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"flybasket\");' class='themeSelector' id='flybasket'>Flybasket</a></li>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"kakao\");' class='themeSelector' id='kakao'>Kakao</a></li>");
+                                        axf.each(pageObj.themeData, function(k, v){
+                                            fo.push("<li><a href='javascript:pageObj.changeTheme(\""+ k +"\");' class='themeSelector' id='"+ k +"'>"+ k +"</a></li>");
+                                        });
                                     fo.push("</ul>");
                                     fo.push("<div class='ax-clear'></div>");
                                 fo.push('</nav>');
@@ -229,6 +236,7 @@ var sampleTreeMenu = new AXTopDownMenu();
             jQuery("#AXPageBody").after(fo.join(""));
 
 
+
             $("#disqus_thread").empty();
             $("#disqusTarget").empty();
 
@@ -245,6 +253,7 @@ var sampleTreeMenu = new AXTopDownMenu();
             dsq.async = true;
             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
             AXgetId("disqusTarget").appendChild(dsq);
+
 
         },
         changeTheme: function(newTheme){
