@@ -138,7 +138,7 @@
                 <div>mac chrome : 600,000건 OK</div>
                 <div>mac FF : 600,000건 OK</div>
                 <div>windows IE9 : 100,000건 OK</div>
-                <div>windows IE7,8 : 10,000건 OK</div>
+                <div>windows IE7,8 : 30,000건 OK</div>
                 <div>그러나.. 웹서버에서 작동하는 경우 인터넷 속도가 느려서 제대로 동작하지 않는 경우가 있습니다. WAS스크립트 응답시간도 문제가 될 수 있구요. 위의 건수 테스트는 테스트 데이터의 기준으로 로컬서버환경에서의 수치 입니다.</div>
             </p>
 
@@ -154,18 +154,33 @@ $itemCount = 10000;
 ?>
 <script>
     var list = [
-        <? for ($i = 0;$i<$itemCount; $i++){ ?>
-        <? if($i > 0){ echo ","; } ?>{no:<?=$i*10 + 1?>,title:"AXGrid data line <?=$i*10+1?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+2?>,title:"AXGrid data line <?=$i*10+2?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+3?>,title:"AXGrid data line <?=$i*10+3?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+4?>,title:"AXGrid data line <?=$i*10+4?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+5?>,title:"AXGrid data line <?=$i*10+5?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+6?>,title:"AXGrid data line <?=$i*10+6?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+7?>,title:"AXGrid data line <?=$i*10+7?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+8?>,title:"AXGrid data line <?=$i*10+8?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+9?>,title:"AXGrid data line <?=$i*10+9?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        ,{no:<?=$i*10+10?>,title:"AXGrid data line <?=$i*10+10?>",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}
-        <? } ?>
+    <?
+    if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT']))
+    {
+        for ($i = 0;$i<$itemCount; $i++){
+            if($i > 0){ echo ","; }
+            echo '{no:'.($i*3+1).',title:"AXGrid data line '.($i*3+1).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*3+2).',title:"AXGrid data line '.($i*3+2).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*3+3).',title:"AXGrid data line '.($i*3+3).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+        }
+    }
+    else
+    {
+        for ($i = 0;$i<$itemCount; $i++){
+            if($i > 0){ echo ","; }
+            echo '{no:'.($i*10+1).',title:"AXGrid data line '.($i*10+1).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+2).',title:"AXGrid data line '.($i*10+2).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+3).',title:"AXGrid data line '.($i*10+3).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+4).',title:"AXGrid data line '.($i*10+4).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+5).',title:"AXGrid data line '.($i*10+5).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+6).',title:"AXGrid data line '.($i*10+6).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+7).',title:"AXGrid data line '.($i*10+7).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+8).',title:"AXGrid data line '.($i*10+8).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+9).',title:"AXGrid data line '.($i*10+9).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo ',{no:'.($i*10+10).',title:"AXGrid data line '.($i*10+10).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+        }
+    }
+    ?>
     ];
 
     jQuery(document).ready(setTimeout(function(){
