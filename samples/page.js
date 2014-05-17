@@ -236,26 +236,33 @@ var sampleTreeMenu = new AXTopDownMenu();
             jQuery("#AXPageBody").after(fo.join(""));
 
 
+	        $("#disqus_thread").html('<a href="#axexec" onclick="pageObj.disqus();" style="font-size:13px;font-weight:bold;text-decoration: underline;">Disqus (댓글남기기)</a>');
 
-            $("#disqus_thread").empty();
-            $("#disqusTarget").empty();
+	        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-
-            var fullUrls = document.location.toString();
-                fullUrls = fullUrls.replace(disqus_url, "").replace("http://axisj", "").split("#");
-
-            var fullUrl = fullUrls[0];
-            if(fullUrl == "" || fullUrl == "/") fullUrl = "/index.html";
-            disqus_url = disqus_url + fullUrl;
-
-            var dsq = document.createElement('script');
-            dsq.type = 'text/javascript';
-            dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            AXgetId("disqusTarget").appendChild(dsq);
-
-
+	        ga('create', 'UA-38119279-3', 'axisj.com');
+	        ga('send', 'pageview');
         },
+	    disqus: function(){
+		    $("#disqus_thread").empty();
+		    $("#disqusTarget").empty();
+
+		    var fullUrls = document.location.toString();
+		    fullUrls = fullUrls.replace(disqus_url, "").replace("http://axisj", "").split("#");
+
+		    var fullUrl = fullUrls[0];
+		    if(fullUrl == "" || fullUrl == "/") fullUrl = "/index.html";
+		    disqus_url = disqus_url + fullUrl;
+
+		    var dsq = document.createElement('script');
+		    dsq.type = 'text/javascript';
+		    dsq.async = true;
+		    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		    AXgetId("disqusTarget").appendChild(dsq);
+	    },
         changeTheme: function(newTheme){
             if(!newTheme || newTheme == "null") return;
 
@@ -325,16 +332,3 @@ var sampleTreeMenu = new AXTopDownMenu();
 
 
 })();
-
-
-setTimeout(function(){
-
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	ga('create', 'UA-38119279-3', 'axisj.com');
-	ga('send', 'pageview');
-
-}, 800);

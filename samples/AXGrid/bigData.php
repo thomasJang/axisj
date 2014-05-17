@@ -150,7 +150,7 @@
 </body>
 </html>		
 <?
-$itemCount = 10000;
+$itemCount = 1000;
 ?>
 <script>
     var list = [
