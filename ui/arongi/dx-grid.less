@@ -131,8 +131,8 @@
 
 				display:none;
 				.gridScrollHandle{
-					position:absolute;left:-1px;top:0px;
-					width:9px;height:20px;
+				  position:absolute;left:-1px;top:0px;
+				  width:9px;height:20px;
                   background: #000;
                   border:0px none;
                   .util-opacity(20);
@@ -143,6 +143,13 @@
                     .util-opacity(50);
                   }
 				}
+                .gridScroll-tip{
+                  display:none;font-size:10px;
+                  position:absolute;right:15px;top:0px;
+                  padding: 5px; border: @border;
+                  .util-border-radius(5px, 5px, 5px, 5px);
+                  background: #fff;
+                }
 			}
 			.gridScrollTrackX{
 				position:absolute;left:0px;bottom:0px;

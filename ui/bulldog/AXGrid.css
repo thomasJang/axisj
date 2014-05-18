@@ -205,6 +205,19 @@
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
+.AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScroll-tip {
+  display: none;
+  font-size: 10px;
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  padding: 5px;
+  border: 1px solid #ffffff;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  background: #fff;
+}
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX {
   position: absolute;
   left: 0px;
