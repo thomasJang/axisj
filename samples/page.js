@@ -72,6 +72,14 @@ var sampleTreeMenu = new AXTopDownMenu();
                 mail: "jowrney@axisj.com",
                 support: ["DX"]
             }
+            /*
+            cocker: {
+                ver: "0.1 Beta",
+                developer: "Jowrney Kim",
+                mail: "jowrney@axisj.com",
+                support: ["DX"]
+            }
+            */
         },
         goLink: function(url){
             if(!isIndex){
@@ -126,7 +134,7 @@ var sampleTreeMenu = new AXTopDownMenu();
             }
             to.push("</h1>");
             to.push("<h2>Theme Developer. <a href='mailto:"+tdata.mail+"'>"+tdata.developer+"</a></h2>");
-            to.push("<a href='https://www.facebook.com/axisj' target='_blank' class='facebook'>Facebook</a>");
+            to.push("<a href='http://www.axisj.com' target='_blank' class='facebook'>Website</a>");
             to.push("<a href='https://github.com/axisj-com/axisj' target='_blank' class='github'>Github</a>");
             to.push("<a href='http://jdoc.axisj.com' target='_blank' class='api'>API</a>");
             to.push("<div class='ax-clear'></div>");
@@ -201,10 +209,9 @@ var sampleTreeMenu = new AXTopDownMenu();
                             fo.push('<div class="ax-unit">');
                                 fo.push('<nav class="navTheme">');
                                     fo.push("<ul>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"arongi\");' class='themeSelector' id='arongi'>Arongi</a></li>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"bulldog\");' class='themeSelector' id='bulldog'>Bulldog</a></li>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"flybasket\");' class='themeSelector' id='flybasket'>Flybasket</a></li>");
-                                        fo.push("<li><a href='javascript:pageObj.changeTheme(\"kakao\");' class='themeSelector' id='kakao'>Kakao</a></li>");
+                                        axf.each(pageObj.themeData, function(k, v){
+                                            fo.push("<li><a href='javascript:pageObj.changeTheme(\""+ k +"\");' class='themeSelector' id='"+ k +"'>"+ k +"</a></li>");
+                                        });
                                     fo.push("</ul>");
                                     fo.push("<div class='ax-clear'></div>");
                                 fo.push('</nav>');
@@ -229,24 +236,33 @@ var sampleTreeMenu = new AXTopDownMenu();
             jQuery("#AXPageBody").after(fo.join(""));
 
 
-            $("#disqus_thread").empty();
-            $("#disqusTarget").empty();
+	        $("#disqus_thread").html('<a href="#axexec" onclick="pageObj.disqus();" style="font-size:13px;font-weight:bold;text-decoration: underline;">Disqus (댓글남기기)</a>');
 
+	        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-            var fullUrls = document.location.toString();
-                fullUrls = fullUrls.replace(disqus_url, "").replace("http://axisj", "").split("#");
-
-            var fullUrl = fullUrls[0];
-            if(fullUrl == "" || fullUrl == "/") fullUrl = "/index.html";
-            disqus_url = disqus_url + fullUrl;
-
-            var dsq = document.createElement('script');
-            dsq.type = 'text/javascript';
-            dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            AXgetId("disqusTarget").appendChild(dsq);
-
+	        ga('create', 'UA-38119279-3', 'axisj.com');
+	        ga('send', 'pageview');
         },
+	    disqus: function(){
+		    $("#disqus_thread").empty();
+		    $("#disqusTarget").empty();
+
+		    var fullUrls = document.location.toString();
+		    fullUrls = fullUrls.replace(disqus_url, "").replace("http://axisj", "").split("#");
+
+		    var fullUrl = fullUrls[0];
+		    if(fullUrl == "" || fullUrl == "/") fullUrl = "/index.html";
+		    disqus_url = disqus_url + fullUrl;
+
+		    var dsq = document.createElement('script');
+		    dsq.type = 'text/javascript';
+		    dsq.async = true;
+		    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		    AXgetId("disqusTarget").appendChild(dsq);
+	    },
         changeTheme: function(newTheme){
             if(!newTheme || newTheme == "null") return;
 

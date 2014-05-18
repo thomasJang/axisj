@@ -418,12 +418,6 @@ img {
   background: #c6cdd3;
   font-size: 13px;
 }
-@media (min-width:1152px) {
-  
-}
-@media only screen and (min-width: 1024px) and (max-width: 1151px) {
-  
-}
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   #AXPageBody .ax-wrap {
     width: 100%;

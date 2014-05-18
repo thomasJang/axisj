@@ -12,20 +12,6 @@
   text-indent: -9999px;
   overflow: hidden;
 }
-.util-border-radius-none {
-  -webkit-border-radius: none;
-  -moz-border-radius: none;
-  border-radius: none;
-}
-.util-text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.util-textHidden {
-  text-indent: -9999px;
-  overflow: hidden;
-}
 /** .AXGrid **/
 .AXGrid {
   position: relative;
@@ -38,7 +24,6 @@
   border: 1px solid #b1b1b1;
   overflow: hidden;
   /* 아이콘 보기 모드 */
-
 }
 .AXGrid .AXgridScrollBody div {
   box-sizing: content-box !important;
@@ -197,7 +182,20 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScroll-tip {
+  display: none;
+  font-size: 10px;
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  padding: 5px;
+  border: 1px solid #b1b1b1;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  background: #fff;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX {
   position: absolute;
@@ -230,11 +228,14 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX .gridScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable {
   width: 100%;
   table-layout: fixed;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody {
+  /* for bigData */
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td {
   padding: 0px;
@@ -246,6 +247,16 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td.selected {
   background-color: #d2d9df;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.thpadding td {
+  height: 0px;
+  background: none;
+  border-bottom: none;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.tfpadding td {
+  height: 0px;
+  background: #eee;
+  border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.noListTr td {
   vertical-align: middle;
@@ -398,6 +409,9 @@
   background-repeat: repeat-y;
   background-position: 100% 0px;
 }
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody {
+  /* for bigData */
+}
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td {
   padding: 0px;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
@@ -408,6 +422,16 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td.selected {
   background-color: #d2d9df;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.thpadding td {
+  height: 0px;
+  background: none;
+  border-bottom: none;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.tfpadding td {
+  height: 0px;
+  background: #eee;
+  border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.noListTr td {
   vertical-align: middle;
@@ -816,29 +840,22 @@
   border: 0px none;
   overflow: visible;
   /* 모바일 뷰 용 목록 스타일 시트 클래스 */
-
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup {
   display: block;
   position: relative;
   height: 43px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #f3f3f3);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #f3f3f3);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
-
   border-bottom: 1px solid #b1b1b1;
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup.top {
@@ -899,7 +916,7 @@
   border: 0px none;
   -moz-opacity: 0;
   opacity: 0;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=0);
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup .tool-pageGroup .tool-pageNo span {
   display: block;

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXGrid - AXISJ</title>
 
@@ -70,6 +72,7 @@
 				];
 		},
 		pageStart: function(){
+//            axf.readyMobileConsole();
 
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
@@ -95,7 +98,7 @@
 						if(this.index % 2 == 0){
 							return "green";
 						}else{
-							return "red";
+							return "white";
 						}
 						
 					}
@@ -231,7 +234,7 @@
             <div class="H30"></div>
             <input type="button" value="changeTab" class="AXButton" onclick="fnObj.changeTab();" />
 
-            <div id="grid0" style="display:none;">
+            <div id="grid0">
                 <h2>AXGrid</h2>
                 <div id="AXGridTarget" style="height:300px;"></div>
                 <div style="padding:10px;">
@@ -239,7 +242,7 @@
                 </div>
             </div>
 
-            <div id="grid1">
+            <div id="grid1" style="display:none;">
                 <h2>AXGrid autoHeight</h2>
                 <div id="AXGridTargetAutoHeight" style="min-height:400px;"></div>
                 <div style="padding:10px;">

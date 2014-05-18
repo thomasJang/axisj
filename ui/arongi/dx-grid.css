@@ -28,7 +28,6 @@
   overflow: hidden;
   background: #ffffff;
   /* 아이콘 보기 모드 */
-
 }
 .AXGrid .AXgridScrollBody div {
   box-sizing: content-box !important;
@@ -39,19 +38,14 @@
   top: 0px;
   width: 100%;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#e2e5e7, #ffffff);
   /* For Safari */
-
   background-image: -o-linear-gradient(#e2e5e7, #ffffff);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#e2e5e7, #ffffff);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#e2e5e7, #ffffff);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
@@ -66,19 +60,14 @@
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable {
   table-layout: fixed;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#e2e5e7, #ffffff);
   /* For Safari */
-
   background-image: -o-linear-gradient(#e2e5e7, #ffffff);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#e2e5e7, #ffffff);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#e2e5e7, #ffffff);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
   /*For IE7-8-9*/
 }
@@ -217,7 +206,20 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackY .gridScroll-tip {
+  display: none;
+  font-size: 10px;
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  padding: 5px;
+  border: 1px solid #b1b1b1;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  background: #fff;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX {
   position: absolute;
@@ -247,11 +249,14 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridScrollTrackX .gridScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable {
   width: 100%;
   table-layout: fixed;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody {
+  /* for bigData */
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td {
   padding: 0px;
@@ -263,6 +268,16 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td.selected {
   background-color: #d2d9df;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.thpadding td {
+  height: 0px;
+  background: none;
+  border-bottom: none;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.tfpadding td {
+  height: 0px;
+  background: #eee;
+  border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.noListTr td {
   vertical-align: middle;
@@ -415,6 +430,9 @@
   background-repeat: repeat-y;
   background-position: 100% 0px;
 }
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody {
+  /* for bigData */
+}
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td {
   padding: 0px;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
@@ -425,6 +443,16 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td.selected {
   background-color: #d2d9df;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.thpadding td {
+  height: 0px;
+  background: none;
+  border-bottom: none;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.tfpadding td {
+  height: 0px;
+  background: #eee;
+  border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.noListTr td {
   vertical-align: middle;
@@ -507,19 +535,14 @@
   position: relative;
   height: 30px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #f3f3f3);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #f3f3f3);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
@@ -532,19 +555,14 @@
   top: 0px;
   height: 30px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #f3f3f3);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #f3f3f3);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   z-index: 3;
@@ -670,15 +688,16 @@
   top: 0px;
   width: 100%;
   background: #d8e1e7;
+  border-top: 1px solid #bdccd7;
   border-bottom: 1px solid #bdccd7;
-  box-shadow: 1px 1px 3px #ccc;
 }
 .AXGrid .AXgridEditor .fixedEditorContent {
   position: absolute;
   left: 0px;
   top: 0px;
   background: #d8e1e7;
-  box-shadow: 0px 0px 3px #ccc;
+  border-top: 1px solid #bdccd7;
+  border-bottom: 1px solid #bdccd7;
 }
 .AXGrid .AXgridEditor .editorButtons {
   position: absolute;
@@ -690,9 +709,22 @@
   border-left: 1px solid #bdccd7;
   border-right: 1px solid #bdccd7;
   border-bottom: 1px solid #bdccd7;
-  box-shadow: 1px 1px 3px #ccc;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+.AXGrid .AXgridEditor .editorButtons.top {
+  position: absolute;
+  left: 10%;
+  padding: 5px 5px 2px 5px;
+  background: #d8e1e7;
+  border-bottom: 1px solid #d8e1e7;
+  border-left: 1px solid #bdccd7;
+  border-right: 1px solid #bdccd7;
+  border-top: 1px solid #bdccd7;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .AXGrid .AXgridEditor .gridBodyTable {
   width: 100%;
@@ -706,7 +738,7 @@
   border-bottom: 0px none;
 }
 .AXGrid .AXgridEditor .gridBodyTable tbody tr td.selected {
-  background-color: #d2d9df;
+  background-color: #bdccd7;
   box-shadow: inset 0px 0px 2px #000;
 }
 .AXGrid .AXgridEditor .gridBodyTable tbody tr.noListTr td {
@@ -721,7 +753,7 @@
   background-color: #ffffff;
 }
 .AXGrid .AXgridEditor .gridBodyTable tbody tr.selected td {
-  background-color: #d2d9df;
+  background-color: #bdccd7;
 }
 .AXGrid .AXgridEditor .gridBodyTable tbody tr.hover td {
   background-color: #d7dde3;
@@ -789,7 +821,7 @@
   background-color: #f7f8f9;
 }
 .AXGrid .AXgridEditor .gridFixedBodyTable tbody tr.selected td {
-  background-color: #d2d9df;
+  background-color: #bdccd7;
 }
 .AXGrid .AXgridEditor .gridFixedBodyTable tbody tr.hover td {
   background-color: #d7dde3;
@@ -861,26 +893,20 @@
   border: 0px none;
   overflow: visible;
   /* 모바일 뷰 용 목록 스타일 시트 클래스 */
-
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup {
   display: block;
   position: relative;
   height: 43px;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#e2e5e7, #ffffff);
   /* For Safari */
-
   background-image: -o-linear-gradient(#e2e5e7, #ffffff);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#e2e5e7, #ffffff);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#e2e5e7, #ffffff);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
@@ -943,7 +969,7 @@
   border: 0px none;
   -moz-opacity: 0;
   opacity: 0;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=0);
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup .tool-pageGroup .tool-pageNo span {
   display: block;
