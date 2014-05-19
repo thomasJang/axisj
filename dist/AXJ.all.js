@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.3 - 2014-05-19 
+AXJ - v1.0.4 - 2014-05-19 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
