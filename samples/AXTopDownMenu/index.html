@@ -18,26 +18,15 @@
     <!-- css block -->
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css" />
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css" />
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css" />
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" />
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css" />
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXUpload5.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
-    <style type="text/css">
-
-    </style>
-    <!-- css block -->
-
-    <!-- js block -->
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
+
     <script type="text/javascript" src="../../lib/AXJ.js"></script>
     <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
-    <script type="text/javascript" src="../../lib/AXTab.js"></script>
-    <script type="text/javascript" src="../../lib/AXInput.js"></script>
-    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
-    <script type="text/javascript" src="../../lib/AXUpload5.js"></script>
+    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+
     <script type="text/javascript" src="../page.js"></script>
 	<script type="text/javascript">
 	(function(){
@@ -136,11 +125,13 @@
 					margin:{top:-4, left:0},
 					arrowClassName:"harrow",
 					arrowMargin:{top:13, left:1}
-				}
+				},
+                onComplete: function(){
+                    //myMenu.setHighLightMenu(0);
+                    //myMenu.setHighLightMenu([0,1,3,2]);
+                    myMenu.setHighLightOriginID("ID1245");
+                }
 			});
-			//myMenu.setHighLightMenu(0);
-			//myMenu.setHighLightMenu([0,1,3,2]);
-			myMenu.setHighLightOriginID("ID1245");
 			// script 
 
             /*
@@ -166,7 +157,10 @@
 					margin:{bottom:-4, left:0},
 					arrowClassName:"harrow",
 					arrowMargin:{bottom:13, left:1}
-				}
+				},
+                 onComplete: function(){
+                    myMenuForScript.setHighLightMenu([1,1]);
+                 }
 			});
 			
 			var tree = [
@@ -189,7 +183,7 @@
 				{label:"no Expand Menu", url:"http://www.axisj.com"}
 			];
 			myMenuForScript.setTree(tree);
-			myMenuForScript.setHighLightMenu([1,1]);
+
 			*/
 		}
 	}

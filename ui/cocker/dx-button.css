@@ -16,6 +16,7 @@
   overflow: hidden;
 }
 .axbutton-style-normal {
+  background: #fff;
   color: #858585;
   text-align: center;
   border: none;
@@ -74,6 +75,7 @@
   -moz-appearance: none;
 }
 .axbutton-event-normal {
+  background: #fff;
   color: #858585;
   text-align: center;
   border: none;
@@ -189,6 +191,7 @@
   vertical-align: middle;
 }
 .AXButton {
+  background: #fff;
   color: #858585;
   text-align: center;
   border: none;
@@ -304,6 +307,7 @@
   vertical-align: middle;
 }
 .AXButtonSmall {
+  background: #fff;
   color: #858585;
   text-align: center;
   border: none;
@@ -419,6 +423,7 @@
   vertical-align: middle;
 }
 .AXButtonLarge {
+  background: #fff;
   color: #858585;
   text-align: center;
   border: none;

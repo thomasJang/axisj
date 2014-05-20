@@ -7,7 +7,6 @@ Javascript UI Library <b>AXISJ</b>
 ```js
 // bower install
 $ bower install axisj
-
 /*
 http://dev.axisj.com : Demonstration
 http://jdoc.axisj.com : Documentation
@@ -16,6 +15,12 @@ http://facebook.com/axisj : Fanpage
 http://google.com/+axisj : Google+
 */
 ```
+
+```html
+dist/AXJ.min.js
+ui/[theme]/AXJ.min.css
+```
+
 <br/>
 <img src="http://old.axisj.com/html/img/axisjui.png" alt="axisjui" />
 <br/>
