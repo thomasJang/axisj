@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-20 
+AXJ - v1.0.4 - 2014-05-21 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -1288,7 +1288,7 @@ var AXJ = Class.create({
         if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
         this.windowResizeObserver = setTimeout(function () {
             windowResizeApply();
-        }, 100);
+        }, 1);
     },
     windowResizeApply: function () {
 
@@ -14545,10 +14545,9 @@ var AXInputConverter = Class.create(AXJ, {
     init: function () {
         axdom(window).resize(this.windowResize.bind(this));
     },
-    windowResize: function () {
-        if (this.windowResizeObs) clearTimeout(this.windowResizeObs);
-        this.windowResizeObs = setTimeout(this.alignAllAnchor.bind(this), 10);
-    },
+	windowResizeApply: function(){
+		this.alignAllAnchor();
+	},
     alignAllAnchor: function () {
         var alignAnchor = this.alignAnchor.bind(this);
         axf.each(this.objects, function (index, O) {
@@ -21125,21 +21124,26 @@ var AXProgress = Class.create(AXJ, {
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
- 
+/**
+ * AXSearch
+ * @class AXSearch
+ * @extends AXJ
+ * @version v1.21
+ * @author tom@axisj.com
+ * @logs
+ "2013-06-04 오후 2:00:44 - tom@axisj.com",
+ "2013-07-29 오전 9:35:19 - expandToggle 버그픽스 - tom",
+ "2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom",
+ "2013-11-12 오후 6:13:03 - tom : setItemValue bugFix",
+ "2013-12-27 오후 4:55:15 - tom : Checkbox, radio onchange 버그픽스"
+ *
+ */
 
 var AXSearch = Class.create(AXJ, {
-    version: "AXSearch V1.21",
-    author: "tom@axisj.com",
-	logs: [
-		"2013-06-04 오후 2:00:44 - tom@axisj.com",
-		"2013-07-29 오전 9:35:19 - expandToggle 버그픽스 - tom",
-		"2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom",
-		"2013-11-12 오후 6:13:03 - tom : setItemValue bugFix",
-		"2013-12-27 오후 4:55:15 - tom : Checkbox, radio onchange 버그픽스"
-	],
     initialize: function(AXJ_super) {
         AXJ_super();
         this.config.theme = "AXSearch";
+	    this.config.viewMode = "dx";
     },
     init: function() {
 		var cfg = this.config;
@@ -21147,8 +21151,63 @@ var AXSearch = Class.create(AXJ, {
 			trace("need targetID - setConfig({targetID:''})");
 			return;
 		}
+
+	    if (cfg.mediaQuery) {
+		    var _viewMode = "", clientWidth = axf.clientWidth();
+		    axf.each(cfg.mediaQuery, function (k, v) {
+			    if (Object.isObject(v)) {
+
+				    if(v.min != undefined && v.max != undefined){
+					    if (v.min <= clientWidth && clientWidth <= v.max) {
+						    _viewMode = (k == "dx") ? "dx" : "mx";
+						    return false;
+					    }
+				    }else{
+					    if (v.min <= clientWidth) {
+						    _viewMode = (k == "dx") ? "dx" : "mx";
+						    return false;
+					    }
+				    }
+			    }
+		    });
+		    if (_viewMode != "") {
+			    cfg.viewMode = _viewMode;
+		    }
+	    }
+
+	    this.target = axdom("#"+cfg.targetID);
 		this.setBody();
+	    axdom(window).bind("resize", this.windowResize.bind(this));
     },
+	windowResizeApply: function () {
+		var cfg = this.config;
+
+		if (cfg.mediaQuery) {
+			var _viewMode = "", clientWidth = axf.clientWidth();
+			axf.each(cfg.mediaQuery, function (k, v) {
+				if (Object.isObject(v)) {
+
+					if(v.min != undefined && v.max != undefined){
+						if (v.min <= clientWidth && clientWidth <= v.max) {
+							_viewMode = (k == "dx") ? "dx" : "mx";
+							return false;
+						}
+					}else{
+						if (v.min <= clientWidth) {
+							_viewMode = (k == "dx") ? "dx" : "mx";
+							return false;
+						}
+					}
+				}
+			});
+			if (_viewMode != "") {
+				cfg.viewMode = _viewMode;
+			}
+		}
+		this.target.find("."+cfg.theme).removeClass("dx");
+		this.target.find("."+cfg.theme).removeClass("mx");
+		this.target.find("."+cfg.theme).addClass(cfg.viewMode);
+	},
     getItem: function(gr, itemIndex, item){
     	var cfg = this.config;
     	var po = [];
@@ -21157,159 +21216,170 @@ var AXSearch = Class.create(AXJ, {
     	if(item.addClass) itemAddClass.push(item.addClass);
     	if(item.style) itemAddStyles.push(item.style);
     	if(item.type == "label"){
-    		po.push("<div class=\"searchItem searchLabel ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");	
+
+    		po.push("<div class=\"searchItem searchLabel ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
     		po.push(item.value);
     		po.push("</div>");
+
     	}else if(item.type == "link"){
-    		po.push("<div class=\"searchItem searchLink ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");    		
-    		po.push("<input type=\"hidden\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" value=\"", item.value,"\" />");
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
-			po.push("	<tbody>");
-			po.push("		<tr>");
-			if(item.label){
-				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
-			}
-			po.push("			<td style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
-    		jQuery.each(item.options, function(idx, Opt){
-    			if(idx > 0) po.push(" | ");
-    			var classOn = "";
-    			if(item.value == Opt.optionValue){
-    				classOn = " on";
-    				item.selectedIndex = idx;
-    			}
-    			po.push("<a href=\"#Axexec\" class=\"searchLinkItem", classOn, "\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx, "\" title=\"", (Opt.title||""),"\">", Opt.optionText,"</a>");
-    		});
-    		po.push("			</td>");
-    		po.push("		</tr>");
-    		po.push("	</tbody>");
-    		po.push("</table>");
+
+    		po.push("<div class=\"searchItem searchLink ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
+	            po.push("<input type=\"hidden\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" value=\"", item.value,"\" />");
+			    po.push("<label class=\"itemTable\">");
+		            if(item.label) {
+			            po.push("<span class=\"th\" style=\"min-width:", (item.labelWidth || 100), "px;\">");
+			            po.push(item.label);
+			            po.push("</span>");
+		            }else{
+			            //po.push("<span class=\"th none\">&nbsp;</span>");
+		            }
+				    po.push("<span class=\"td\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
+					    jQuery.each(item.options, function(idx, Opt){
+						    if(idx > 0) po.push(" | ");
+						    var classOn = "";
+						    if(item.value == Opt.optionValue){
+							    classOn = " on";
+							    item.selectedIndex = idx;
+						    }
+						    po.push("<a href=\"#Axexec\" class=\"searchLinkItem", classOn, "\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx, "\" title=\"", (Opt.title||""),"\">", Opt.optionText,"</a>");
+					    });
+				    po.push("</span>");
+			    po.push("</label>");
     		po.push("</div>");
+
     	}else if(item.type == "checkBox"){
-    		po.push("<div class=\"searchItem searchCheckbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");    		
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
-			po.push("	<tbody>");
-			po.push("		<tr>");
-			if(item.label){
-				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
-			}
-			po.push("			<td style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
-			
-			var values = item.value.split(/,/g);
-    		jQuery.each(item.options, function(idx, Opt){
-    			var isCheck = false;
-    			jQuery.each(values, function(){
-    				if(this == Opt.optionValue){
-    					isCheck = true;
-    					return false;
-    				}
-    			});
-    			po.push("<input type=\"checkbox\" class=\"searchCheckboxItem ", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\" title=\"", (Opt.title||""),"\" value=\"", Opt.optionValue,"\" ");
-    			if(isCheck) po.push(" checked=\"checked\" ");
-    			po.push(">");
-    			po.push("<label for=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\">", Opt.optionText," </label>");
-    		});
-    		po.push("			</td>");
-    		po.push("		</tr>");
-    		po.push("	</tbody>");
-    		po.push("</table>");
+
+    		po.push("<div class=\"searchItem searchCheckbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
+			    po.push("<label class=\"itemTable\">");
+			    if(item.label) {
+				    po.push("<span class=\"th\" style=\"min-width:", (item.labelWidth || 100), "px;\">");
+				    po.push(item.label);
+				    po.push("</span>");
+			    }else{
+				    //po.push("<span class=\"th none\">&nbsp;</span>");
+			    }
+			    po.push("<span class=\"td\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
+
+				    var values = item.value.split(/,/g);
+				    jQuery.each(item.options, function(idx, Opt){
+					    var isCheck = false;
+					    jQuery.each(values, function(){
+						    if(this == Opt.optionValue){
+							    isCheck = true;
+							    return false;
+						    }
+					    });
+					    po.push("<input type=\"checkbox\" class=\"searchCheckboxItem ", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\" title=\"", (Opt.title||""),"\" value=\"", Opt.optionValue,"\" ");
+					    if(isCheck) po.push(" checked=\"checked\" ");
+					    po.push(">");
+					    po.push("<label for=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx, "\">", Opt.optionText," </label>");
+				    });
+
+			    po.push("</span>");
+			    po.push("</label>");
     		po.push("</div>");
+
     	}else if(item.type == "radioBox"){
-    		po.push("<div class=\"searchItem searchCheckbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");    		
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
-			po.push("	<tbody>");
-			po.push("		<tr>");
-			if(item.label){
-				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
-			}
-			po.push("			<td style=\"",(item.valueBoxStyle||""),"\">");
-			var values = item.value.split(/,/g);
-    		jQuery.each(item.options, function(idx, Opt){
-    			var isCheck = false;
-    			jQuery.each(values, function(){
-    				if(this == Opt.optionValue){
-    					isCheck = true;
-    					return false;
-    				}
-    			});
-    			po.push("<input type=\"radio\" class=\"searchCheckboxItem ", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\" title=\"", (item.title||""),"\" value=\"", Opt.optionValue,"\" ");
-    			if(isCheck) po.push(" checked=\"checked\" ");
-    			po.push(">");
-    			po.push("<label for=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\">", Opt.optionText," </label>");
-    		});
-    		po.push("			</td>");
-    		po.push("		</tr>");
-    		po.push("	</tbody>");
-    		po.push("</table>");
+
+    		po.push("<div class=\"searchItem searchCheckbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
+			    po.push("<label class=\"itemTable\">");
+			    if(item.label) {
+				    po.push("<span class=\"th\" style=\"min-width:", (item.labelWidth || 100), "px;\">");
+				    po.push(item.label);
+				    po.push("</span>");
+			    }else{
+				    //po.push("<span class=\"th none\">&nbsp;</span>");
+			    }
+			    po.push("<span class=\"td\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
+
+			    var values = item.value.split(/,/g);
+			    jQuery.each(item.options, function(idx, Opt){
+				    var isCheck = false;
+				    jQuery.each(values, function(){
+					    if(this == Opt.optionValue){
+						    isCheck = true;
+						    return false;
+					    }
+				    });
+				    po.push("<input type=\"radio\" class=\"searchCheckboxItem ", itemAddClass.join(" "),"\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\" title=\"", (item.title||""),"\" value=\"", Opt.optionValue,"\" ");
+				    if(isCheck) po.push(" checked=\"checked\" ");
+				    po.push(">");
+				    po.push("<label for=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key,"_AX_", idx,"\">", Opt.optionText," </label>");
+			    });
+
+			    po.push("</span>");
+			    po.push("</label>");
     		po.push("</div>");
+
     	}else if(item.type == "selectBox"){
-    		po.push("<div class=\"searchItem searchSelectbox ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");    		
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
-			po.push("	<tbody>");
-			po.push("		<tr>");
-			if(item.label){
-				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
-			}
-			po.push("			<td style=\"",(item.valueBoxStyle||""),"\">");
-			var selectWidth = (item.width) ? item.width+"px" : "auto";
-			po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem", itemAddClass.join(" "),"\" style=\"width:", selectWidth,";\" >");
-			
-			var values = item.value.split(/,/g);
-    		jQuery.each(item.options, function(idx, Opt){
-    			var isCheck = false;
-    			jQuery.each(values, function(){
-    				if(this == Opt.optionValue){
-    					isCheck = true;
-    					return false;
-    				}
-    			});
-    			
-    			po.push("<option value=\"", Opt.optionValue,"\"");
-    			if(isCheck) po.push(" selected=\"selected\"");
-    			po.push(">", Opt.optionText, "</option>");
-    		});
-    		po.push("	</select>");
-    		po.push("			</td>");
-    		po.push("		</tr>");
-    		po.push("	</tbody>");
-    		po.push("</table>");
+
+    		po.push("<div class=\"searchItem searchSelectbox ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
+			    po.push("<label class=\"itemTable\">");
+			    if(item.label) {
+				    po.push("<span class=\"th\" style=\"min-width:", (item.labelWidth || 100), "px;\">");
+				    po.push(item.label);
+				    po.push("</span>");
+			    }else{
+				    //po.push("<span class=\"th none\">&nbsp;</span>");
+			    }
+			    po.push("<span class=\"td selectBox\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
+				    var selectWidth = (item.width) ? item.width+"px" : "auto";
+				    po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem", itemAddClass.join(" "),"\" style=\"width:", selectWidth,";\" >");
+
+				    var values = item.value.split(/,/g);
+				    jQuery.each(item.options, function(idx, Opt){
+					    var isCheck = false;
+					    jQuery.each(values, function(){
+						    if(this == Opt.optionValue){
+							    isCheck = true;
+							    return false;
+						    }
+					    });
+
+					    po.push("<option value=\"", Opt.optionValue,"\"");
+					    if(isCheck) po.push(" selected=\"selected\"");
+					    po.push(">", Opt.optionText, "</option>");
+				    });
+				    po.push("	</select>");
+			    po.push("</span>");
+			    po.push("</label>");
     		po.push("</div>");
+
     	}else if(item.type == "inputText"){
-    		po.push("<div class=\"searchItem ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
-			po.push("	<tbody>");
-			po.push("		<tr>");
-			if(item.label){
-				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
-			}else{
-				item.labelWidth = 0;
-			}
-			po.push("			<td style=\"",(item.valueBoxStyle||""),"\">");
-			var inputWidth = (item.width||100).number();
-    		po.push("				<input type=\"text\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" placeholder=\""+ (item.placeholder||"") +"\" value=\"", item.value,"\" class=\"AXInput searchInputTextItem", itemAddClass.join(" "),"\" style=\"width:", inputWidth,"px;\" />");
-    		po.push("			</td>");
-    		po.push("		</tr>");
-    		po.push("	</tbody>");
-    		po.push("</table>");
+
+    		po.push("<div class=\"searchItem ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
+			    po.push("<label class=\"itemTable\">");
+			    if(item.label) {
+				    po.push("<span class=\"th\" style=\"min-width:", (item.labelWidth || 100), "px;\">");
+				    po.push(item.label);
+				    po.push("</span>");
+			    }else{
+				    //po.push("<span class=\"th none\">&nbsp;</span>");
+			    }
+			    po.push("<span class=\"td inputText\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
+				    var inputWidth = (item.width||100).number();
+				    po.push("				<input type=\"text\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" placeholder=\""+ (item.placeholder||"") +"\" value=\"", item.value,"\" class=\"AXInput searchInputTextItem", itemAddClass.join(" "),"\" style=\"width:", inputWidth,"px;\" />");
+			    po.push("</span>");
+			    po.push("</label>");
     		po.push("</div>");
+
     	}else if(item.type == "hidden"){
     		po.push("<input type=\"hidden\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" value=\"", item.value,"\" />");
     	}else if(item.type == "button" || item.type == "submit"){
-    		po.push("<div class=\"searchItem ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\" align=\"left\">");	
-			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"itemTable\" align=\"left\">");
-			po.push("	<tbody>");
-			po.push("		<tr>");
-			if(item.label){
-				po.push("			<th style=\"width:",(item.labelWidth||100),"px;\">", item.label,"</th>");
-			}else{
-				item.labelWidth = 0;
-			}
-			po.push("			<td style=\"",(item.valueBoxStyle||""),"\">");
-			var inputWidth = (item.width||100).number();
-    		po.push("				<input type=\""+ item.type +"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" placeholder=\"", (item.placeholder||""),"\" style=\"width:", inputWidth,"px;\" class=\"AXButton searchButtonItem ", itemAddClass.join(" "),"\" value=\"", item.value,"\" />");
-    		po.push("			</td>");
-    		po.push("		</tr>");
-    		po.push("	</tbody>");
-    		po.push("</table>");
+    		po.push("<div class=\"searchItem ", itemAddClass.join(" "),"\" style=\"text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
+			    po.push("<label class=\"itemTable\">");
+			    if(item.label) {
+				    po.push("<span class=\"th\" style=\"min-width:", (item.labelWidth || 100), "px;\">");
+				    po.push(item.label);
+				    po.push("</span>");
+			    }else{
+				    //po.push("<span class=\"th none\">&nbsp;</span>");
+			    }
+			    po.push("<span class=\"td button\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
+				    var inputWidth = (item.width||100).number();
+				    po.push("				<input type=\""+ item.type +"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" placeholder=\"", (item.placeholder||""),"\" style=\"width:", inputWidth,"px;\" class=\"AXButton searchButtonItem ", itemAddClass.join(" "),"\" value=\"", item.value,"\" />");
+			    po.push("</span>");
+			    po.push("</label>");
     		po.push("</div>");
     	}
     	return po.join('');
@@ -21319,39 +21389,41 @@ var AXSearch = Class.create(AXJ, {
     	var getItem = this.getItem.bind(this);
     	var po = [];
     	var AXBinds = [];
-    	po.push("<div class=\"" + cfg.theme + "\">");
-    	po.push("<form name=\"", cfg.targetID+"_AX_form", "\" onsubmit=\"return false;\">");
-    	var gr = 0;
-    	var hasHide = false;
-    	for(;gr<cfg.rows.length;){
-    		var styles = [];
-    		var classs = [];
-    		if(!cfg.rows[gr].display){
-    			styles.push("display:none;");
-    			classs.push("expandGroup");
-    			hasHide = true;
-    		}
-    		if(cfg.rows[gr].addClass) classs.push(cfg.rows[gr].addClass);
-    		po.push("<div class=\"searchGroup ", classs.join(" "),"\" style=\"", styles.join(";"),"\">");
-    		jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
-    			po.push(getItem(gr, itemIndex, item));
-    			if(item.AXBind){
-    				AXBinds.push({display:cfg.rows[gr].display, gr:gr, itemIndex:itemIndex, item:item});
-    			}
-    		});
-    		po.push("	<div class=\"groupClear\"></div>");
-    		po.push("</div>");
-    		gr++;	
-    	}
-    	if(hasHide){
-    		po.push("<a href=\"#axexec\" class=\"expandHandle\" id=\"",cfg.targetID,"_AX_expandHandle\">");
-    		po.push("상세검색");
-    		po.push("</a>");
-    	}
-    	po.push("</form>");
+
+    	po.push("<div class=\"" + cfg.theme + " " + cfg.viewMode + "\">");
+	        po.push("<form name=\"", cfg.targetID+"_AX_form", "\" onsubmit=\"return false;\">");
+		        var gr = 0;
+		        var hasHide = false;
+		        for(;gr<cfg.rows.length;){
+		            var styles = [];
+		            var classs = [];
+		            if(!cfg.rows[gr].display){
+		                styles.push("display:none;");
+		                classs.push("expandGroup");
+		                hasHide = true;
+		            }
+		            if(cfg.rows[gr].addClass) classs.push(cfg.rows[gr].addClass);
+		            po.push("<div class=\"searchGroup ", classs.join(" "),"\" style=\"", styles.join(";"),"\">");
+		            jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
+		                po.push(getItem(gr, itemIndex, item));
+		                if(item.AXBind){
+		                    AXBinds.push({display:cfg.rows[gr].display, gr:gr, itemIndex:itemIndex, item:item});
+		                }
+			            po.push("<div class=\"itemClear\"></div>");
+		            });
+	                po.push("<div class=\"groupClear\"></div>");
+		            po.push("</div>");
+		            gr++;
+		        }
+		        if(hasHide){
+		            po.push("<a href=\"#axexec\" class=\"expandHandle\" id=\"",cfg.targetID,"_AX_expandHandle\">");
+		            po.push("상세검색");
+		            po.push("</a>");
+		        }
+	        po.push("</form>");
     	po.push("</div>");
     	
-    	jQuery("#"+cfg.targetID).html(po.join(''));
+    	this.target.html(po.join(''));
     	
     	if(cfg.onsubmit){
 	    	document[cfg.targetID+"_AX_form"].onsubmit = function(){
@@ -21361,18 +21433,18 @@ var AXSearch = Class.create(AXJ, {
 	    }
     	
     	jQuery("#"+cfg.targetID+"_AX_expandHandle").bind("click", this.expandToggle.bind(this));
-    	jQuery("#"+cfg.targetID).find(".searchLinkItem").bind("click", this.onclickLinkItem.bind(this));
-    	jQuery("#"+cfg.targetID).find(".searchCheckboxItem").bind("click", this.onclickCheckboxItem.bind(this));
-    	jQuery("#"+cfg.targetID).find(".searchSelectboxItem").bind("change", this.onChangeSelect.bind(this));
-    	jQuery("#"+cfg.targetID).find(".searchInputTextItem").bind("change", this.onChangeInput.bind(this));
-    	jQuery("#"+cfg.targetID).find(".searchButtonItem").bind("click", this.onclickButton.bind(this));
+    	this.target.find(".searchLinkItem").bind("click", this.onclickLinkItem.bind(this));
+    	this.target.find(".searchCheckboxItem").bind("click", this.onclickCheckboxItem.bind(this));
+    	this.target.find(".searchSelectboxItem").bind("change", this.onChangeSelect.bind(this));
+    	this.target.find(".searchInputTextItem").bind("change", this.onChangeInput.bind(this));
+    	this.target.find(".searchButtonItem").bind("click", this.onclickButton.bind(this));
 
     	this.AXBinds = AXBinds;
     	
     	var _this = this;
     	setTimeout(function(){
     		_this.AXBindItems();
-    	}, 100);
+    	}, 10);
     },
     AXBindItems: function(){
     	var cfg = this.config;
@@ -21385,7 +21457,10 @@ var AXSearch = Class.create(AXJ, {
 	    		if(item.AXBind.type == "selector"){
 	    			jQuery("#"+itemID).bindSelector(item.AXBind.config);
 	    		}else if(item.AXBind.type == "select"){
-		    			jQuery("#"+itemID).bindSelect(item.AXBind.config);
+				    try{
+					    jQuery("#"+itemID).bindSelect(item.AXBind.config);
+				    }catch(e){
+				    }
 	    		}else if(item.AXBind.type == "date"){
 	    			jQuery("#"+itemID).bindDate(item.AXBind.config);
 	    		}else if(item.AXBind.type == "twinDate"){
@@ -21408,11 +21483,11 @@ var AXSearch = Class.create(AXJ, {
     	var cfg = this.config;
     	if(this.expanded){
     		jQuery("#"+cfg.targetID+"_AX_expandHandle").html("상세검색");
-    		jQuery("#"+cfg.targetID).find(".expandGroup").hide();
+    		this.target.find(".expandGroup").hide();
     		this.expanded = false;
     	}else{
     		jQuery("#"+cfg.targetID+"_AX_expandHandle").html("상세검색창 닫기");
-    		jQuery("#"+cfg.targetID).find(".expandGroup").show();
+    		this.target.find(".expandGroup").show();
     		this.expanded = true;
     		
 	    	jQuery.each(this.AXBinds, function(){
@@ -21653,10 +21728,9 @@ var AXSelectConverter = Class.create(AXJ, {
         this.isMobile = browser.mobile;
         axdom(window).resize(this.windowResize.bind(this));
     },
-    windowResize: function () {
-        if (this.windowResizeObs) clearTimeout(this.windowResizeObs);
-        this.windowResizeObs = setTimeout(this.alignAllAnchor.bind(this), 50);
-    },
+	windowResizeApply: function(){
+		this.alignAllAnchor();
+	},
     alignAllAnchor: function () {
         var alignAnchor = this.alignAnchor.bind(this);
         axf.each(this.objects, function (index, O) {
@@ -24631,7 +24705,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			this.setHighLightMenu(selectedMenus);
 			return selectedMenus;
 		}
-	},
+	}
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */

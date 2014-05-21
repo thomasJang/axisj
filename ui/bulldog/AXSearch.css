@@ -12,20 +12,6 @@
   text-indent: -9999px;
   overflow: hidden;
 }
-.util-border-radius-none {
-  -webkit-border-radius: none;
-  -moz-border-radius: none;
-  border-radius: none;
-}
-.util-text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.util-textHidden {
-  text-indent: -9999px;
-  overflow: hidden;
-}
 .AXSearch {
   position: relative;
 }
@@ -160,26 +146,4 @@
 .AXSearchTable tbody td.last,
 .AXSearchTable tbody th.last {
   background: url() repeat-y 100% 0px;
-}
-.AXMultiselectorHelper {
-  position: absolute;
-  border: 1px dotted #000000;
-}
-.AXResizable {
-  position: relative;
-}
-.AXResizable .AXResizableHandle {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  right: 1px;
-  bottom: 1px;
-  cursor: se-resize;
-  background: url('images/dx-resizable-handle.png') no-repeat;
-}
-.AXResizableHelper {
-  position: absolute;
-  border: 1px dotted #000000;
-  cursor: se-resize;
-  background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
