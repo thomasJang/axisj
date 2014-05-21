@@ -4945,7 +4945,7 @@ var AXMobileModal = Class.create(AXJ, {
         top = (clientHeight - modalHeight) / 2;
 
         if (left < 0) left = margin;
-        if (top < 0) top = margin;
+	    if (top < -5) top = -5;
 
         var cssStylesStart = {
             left: (axf.clientWidth() - (modalWidth*0.8)) / 2,
@@ -5063,7 +5063,7 @@ var AXMobileModal = Class.create(AXJ, {
         top = (clientHeight - modalHeight) / 2;
 
         if (left < 0) left = margin;
-        if (top < 0) top = margin;
+        if (top < -5) top = -5;
 
         cssStyles.left = left;
         cssStyles.top = top;
