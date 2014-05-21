@@ -14476,43 +14476,49 @@ var AXHtmlElement = Class.create(AXJ, {
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
+/**
+ * AXInputConverter
+ * @class AXInputConverter
+ * @extends AXJ
+ * @version v1.48
+ * @author tom@axisj.com
+ * @logs
+ "2012-11-05 오후 1:23:24",
+ "2013-02-21 오후 5:47:22 슬라이드에 터치 이벤트 추가 - root",
+ "2013-06-09 오후 10:31:34 bindNumber - onchange ",
+ "2013-06-10 오후 1:37:41 unbinddate 메서드 추가",
+ "2013-06-13 오후 7:26:49 bindDate - config 에 defaultDate 속성 확장",
+ "2013-06-20 오전 12:49:06 twinbindDate - 아이디 체크 버그 픽스",
+ "2013-08-28 오후 4:16:01 bindMoney - 성능개선",
+ "2013-09-29 오전 12:39:49 bindSlider 연속호출 버그 패치 - tom",
+ "2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom",
+ "2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정",
+ "2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스",
+ "2013-12-16 오후 4:46:14 : tom - bindMoneyCheck",
+ "2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스",
+ "2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가",
+ "2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가",
+ "2014-01-10 오후 5:07:44 : tom - event bind modify, fix",
+ "2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스",
+ "2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결",
+ "2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스",
+ "2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
+ "2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스",
+ "2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거",
+ "2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스",
+ "2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가",
+ "2014-02-25 오후 9:05:04 tom : earlierThan/ laterThan 설정 버그픽스",
+ "2014-03-18 오후 1:58:57 tom : bindSelector 텍스트 변경 안 되었을 때 이벤트 처리 안하기",
+ "2014-03-18 오후 9:44:57 tom : 날짜 입력 시 4자리 입력 후 포커스 아웃 시 당해년도 4자리 자동 포함, 날짜 입력 시 6자리 입력 후 포커스 아웃 시 당해년도 앞 2자리 자동 포함",
+ "2014-04-03 오후 3:49:21 tom : bindDate ie 10 blur 버그 픽스",
+ "2014-04-14 tom : 모바일 너비 지정 방식 변경",
+ "2014-04-21 tom : bindDate 다중 오픈 되었을 때 닫기 버그 픽스",
+ "2014-04-24 오후 7:33:25 tom : bindDate  개체에 리턴입력시  onBlur 연결",
+ "2014-05-21 tom : resize event 상속"
+ *
+ */
 
 var AXInputConverter = Class.create(AXJ, {
-    version: "AXInputConverter v1.47",
-    author: "tom@axisj.com",
-    logs: [
-        "2012-11-05 오후 1:23:24",
-        "2013-02-21 오후 5:47:22 슬라이드에 터치 이벤트 추가 - root",
-        "2013-06-09 오후 10:31:34 bindNumber - onchange ",
-        "2013-06-10 오후 1:37:41 unbinddate 메서드 추가",
-        "2013-06-13 오후 7:26:49 bindDate - config 에 defaultDate 속성 확장",
-        "2013-06-20 오전 12:49:06 twinbindDate - 아이디 체크 버그 픽스",
-        "2013-08-28 오후 4:16:01 bindMoney - 성능개선",
-        "2013-09-29 오전 12:39:49 bindSlider 연속호출 버그 패치 - tom",
-        "2013-11-06 오후 1:13:46 bindMoney min, max, onChange 속성 구현 및 기타 버그 패치 - tom",
-        "2013-11-28 오전 10:51:22 : tom - onsearch 옵션 추가 및 CSS 수정",
-        "2013-12-09 오후 8:06:17 : tom - bindSelectorOptionsClick 버그픽스",
-        "2013-12-16 오후 4:46:14 : tom - bindMoneyCheck",
-        "2013-12-25 오후 3:26:54 : tom - bindTwinDate 기본값 초기화 버그픽스",
-        "2013-12-27 오후 12:09:20 : tom - obj.inProgressReACT 기능 추가",
-        "2014-01-02 오후 12:59:17 : tom - bindSelector AJAX 호출 중지 기능 추가",
-        "2014-01-10 오후 5:07:44 : tom - event bind modify, fix",
-        "2014-01-14 오후 3:43:06 : tom - bindSelector expandBox close 버그픽스",
-        "2014-01-20 오후 4:16:56 : tom - bindDateTime 시간이 선택 해제되는 문제 해결",
-        "2014-02-05 오후 4:32:34 : tom - bindSelector blur 이벤트 값 제거 문제 해결 / bindDate 문자열 자동완성 버그 픽스",
-        "2014-02-06 오후 7:59:54 tom : jQuery 독립 우회 코드 변경",
-        "2014-02-13 오후 5:39:21 tom : bindDate 월 이동 버그 픽스",
-        "2014-02-14 오후 1:29:01 tom : bindSelector enter키 입력 후 blur 제거",
-        "2014-02-17 오후 7:38:59 tom : bindDate 월선택 도구에서 1월 선택 버그 픽스",
-        "2014-02-21 오후 4:52:24 tom : bindMoney 포커스 유지 기능 추가",
-        "2014-02-25 오후 9:05:04 tom : earlierThan/ laterThan 설정 버그픽스",
-        "2014-03-18 오후 1:58:57 tom : bindSelector 텍스트 변경 안 되었을 때 이벤트 처리 안하기",
-        "2014-03-18 오후 9:44:57 tom : 날짜 입력 시 4자리 입력 후 포커스 아웃 시 당해년도 4자리 자동 포함, 날짜 입력 시 6자리 입력 후 포커스 아웃 시 당해년도 앞 2자리 자동 포함",
-        "2014-04-03 오후 3:49:21 tom : bindDate ie 10 blur 버그 픽스",
-        "2014-04-14 tom : 모바일 너비 지정 방식 변경",
-        "2014-04-21 tom : bindDate 다중 오픈 되었을 때 닫기 버그 픽스",
-        "2014-04-24 오후 7:33:25 tom : bindDate  개체에 리턴입력시  onBlur 연결"
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.objects = [];
@@ -21128,14 +21134,15 @@ var AXProgress = Class.create(AXJ, {
  * AXSearch
  * @class AXSearch
  * @extends AXJ
- * @version v1.21
+ * @version v1.22
  * @author tom@axisj.com
  * @logs
  "2013-06-04 오후 2:00:44 - tom@axisj.com",
  "2013-07-29 오전 9:35:19 - expandToggle 버그픽스 - tom",
  "2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom",
  "2013-11-12 오후 6:13:03 - tom : setItemValue bugFix",
- "2013-12-27 오후 4:55:15 - tom : Checkbox, radio onchange 버그픽스"
+ "2013-12-27 오후 4:55:15 - tom : Checkbox, radio onchange 버그픽스",
+ "2014-05-21 - tom : mobile view mode 추가"
  *
  */
 
@@ -21690,7 +21697,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v2.52
+ * @version v2.53
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -21713,6 +21720,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-03-31 오후 4:41:18 - tom : 셀렉트 포커스 된 상태에서 키 입력하면 입력된 값으로 select 처리 하기 (현재 영문만)",
  "2014-04-10 오후 6:09:44 - tom : appendAnchor, alignAnchor 방식 변경 및 크기 버그 픽스 & select element hide 에서 투명으로 변경",
  "2014-04-18 - tom : mobile 브라우저 버그 픽스"
+ "2014-05-21 tom : resize event 상속"
  *
  */
 
