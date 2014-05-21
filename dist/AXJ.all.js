@@ -4956,7 +4956,7 @@ var AXMobileModal = Class.create(AXJ, {
         this.modalPanel.css(cssStylesStart);
 
         cssStyles.left = left;
-        cssStyles.top = top + axf.scrollTop();
+        cssStyles.top = top;
         cssStyles.width = modalWidth;
         cssStyles.height = modalHeight;
         mask.open();
