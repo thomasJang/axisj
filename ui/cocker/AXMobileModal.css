@@ -48,7 +48,7 @@
   top: 0px;
   width: 44px;
   height: 44px;
-  background: url(img/AXMobile/prev.png) center center no-repeat;
+  background: url(images/mx-modal-icon-prev.png) center center no-repeat;
   background-size: 50% 50%;
   text-indent: -9999;
   overflow: hidden;
@@ -60,7 +60,7 @@
   top: 0px;
   width: 44px;
   height: 44px;
-  background: url(img/AXMobile/next.png) center center no-repeat;
+  background: url(images/mx-modal-icon-next.png) center center no-repeat;
   background-size: 50% 50%;
   text-indent: -9999;
   overflow: hidden;
@@ -96,7 +96,7 @@
   top: 0px;
   width: 44px;
   height: 44px;
-  background: url(images/mx-mobilemodal-home.png) center center no-repeat;
+  background: url(images/mx-modal-icon-home.png) center center no-repeat;
   background-size: 50% 50%;
   line-height: 1000px;
   overflow: hidden;
@@ -113,7 +113,7 @@
   font-size: 13px;
   font-weight: bold;
   text-decoration: none;
-  background: url(img/AXMobile/prev.png) 0px center no-repeat;
+  background: url(images/mx-modal-icon-prev.png) 0px center no-repeat;
   background-size: 22px auto;
   cursor: pointer;
 }
@@ -124,14 +124,13 @@
   top: 0px;
   width: 44px;
   height: 44px;
-  background: url(images/mx-mobilemodal-close.png) center center no-repeat;
+  background: url(images/mx-modal-icon-close.png) center center no-repeat;
   background-size: 50% 50%;
   line-height: 1000px;
   overflow: hidden;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody {
   /* 모달창 바디 */
-
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
   /* 모달창 바디 안에 위치한 스크롤 컨테이너 */

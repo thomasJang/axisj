@@ -19146,23 +19146,28 @@ var AXMobileMenu = Class.create(AXJ, {
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
- 
 
+
+/**
+ * AXModal
+ * @class AXModal
+ * @extends AXJ
+ * @version v1.34
+ * @author tom@axisj.com
+ * @logs
+ "2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
+ "2013-04-08 오전 12:15:17 - resize 메소스 추가 및 버그 픽스 : tom ",
+ "2013-06-20 오후 5:21:24 - open 메소드 속성에 width 조건 추가 : tom ",
+ "2013-07-09 오후 4:41:48 - animateDuration 속성 추가  : tom ",
+ "2013-08-21 오후 4:46:51 - openNew 버그 픽스 : tom ",
+ "2013-08-22 오전 10:56:20 - resize 버그 픽스 : tom ",
+ "2013-08-24 - openNew 메소드 기능 확장 : tom ",
+ "2013-10-14 오전 6:54:40 - resize 기능 보강 : tom ",
+ "2013-11-15 오후 4:01:29 - tom : openDiv scroll 버그 패치",
+ "2013-11-18 오후 5:16:02 - tom resize 버그 패치"
+ *
+ */
 var AXModal = Class.create(AXJ, {
-	version: "AXModal V1.34",
-	author: "tom@axisj.com",
-	logs: [
-		"2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
-		"2013-04-08 오전 12:15:17 - resize 메소스 추가 및 버그 픽스 : tom ",
-		"2013-06-20 오후 5:21:24 - open 메소드 속성에 width 조건 추가 : tom ",
-		"2013-07-09 오후 4:41:48 - animateDuration 속성 추가  : tom ",
-		"2013-08-21 오후 4:46:51 - openNew 버그 픽스 : tom ",
-		"2013-08-22 오전 10:56:20 - resize 버그 픽스 : tom ",
-		"2013-08-24 - openNew 메소드 기능 확장 : tom ",
-		"2013-10-14 오전 6:54:40 - resize 기능 보강 : tom ",
-		"2013-11-15 오후 4:01:29 - tom : openDiv scroll 버그 패치",
-		"2013-11-18 오후 5:16:02 - tom resize 버그 패치"
-	],
 	initialize: function (AXJ_super) {
 		AXJ_super();
 		this.config.maskCss = "AXMask";
@@ -19276,8 +19281,8 @@ var AXModal = Class.create(AXJ, {
 			if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
 				bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
 			}
-			jQuery(this).animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
-			jQuery("#" + _winID + "_box").animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			jQuery(this).css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			jQuery("#" + _winID + "_box").css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 			if (cfg.displayLoading) jQuery("#" + loadingID).fadeOut("slow");
 			jQuery("#" + _winID).addClass("loaded");
 
@@ -19389,8 +19394,8 @@ var AXModal = Class.create(AXJ, {
 				}
 			}
 
-			jQuery(this).animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
-			jQuery("#" + _winID + "_box").animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			jQuery(this).css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			jQuery("#" + _winID + "_box").css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 			jQuery("#" + loadingID).fadeOut("slow");
 			jQuery("#" + _winID).addClass("loaded");
 		});
@@ -19606,8 +19611,8 @@ var AXModal = Class.create(AXJ, {
 			if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
 				bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
 			}
-			jQuery("#" + _winID).animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
-			jQuery("#" + _winID + "_box").animate({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			jQuery("#" + _winID).css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			jQuery("#" + _winID + "_box").css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 
 			//trace({ h: jQuery(myIframe.document.body).find("." + cfg.contentDivClass).height() });
 			//trace(bodyHeight);
