@@ -71,15 +71,13 @@ var sampleTreeMenu = new AXTopDownMenu();
                 developer: "Jowrney Kim",
                 mail: "jowrney@axisj.com",
                 support: ["DX"]
-            }
-            /*
+            },
             cocker: {
                 ver: "0.1 Beta",
                 developer: "Jowrney Kim",
                 mail: "jowrney@axisj.com",
                 support: ["DX"]
             }
-            */
         },
         goLink: function(url){
             if(!isIndex){
