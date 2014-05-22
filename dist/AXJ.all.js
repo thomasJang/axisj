@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-21 
+AXJ - v1.0.4 - 2014-05-22 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -9302,41 +9302,37 @@ AXGrid = Class.create(AXJ, {
 		var _list = this.list;
 
 		if (itemIndex == undefined) {
+
 			this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
+				trace(checked);
 				this.checked = checked;
 			});
 
 			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
 				this.checked = checked;
-				var ieid = this.id.split(/_AX_/g);
-				var checkboxColSeq = ieid[ieid.length - 2];
-				var checkboxIndex = ieid[ieid.length - 1];
-				if (cfg.colGroup[checkboxColSeq].oncheck) {
-					var sendObj = {
-						index: checkboxIndex,
-						list: _list,
-						item: _list[checkboxIndex]
-					};
-					cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, this.checked);
-				}
 			});
 
 			this.body.find(".gridCheckBox_body_colSeq" + colSeq).each(function () {
 				if (axdom("#" + this.id).attr("disabled") != "disabled") {
 					this.checked = checked;
-					var ieid = this.id.split(/_AX_/g);
-					var checkboxColSeq = ieid[ieid.length - 2];
-					var checkboxIndex = ieid[ieid.length - 1];
-					if (cfg.colGroup[checkboxColSeq].oncheck) {
-						var sendObj = {
-							index: checkboxIndex,
-							list: _list,
-							item: _list[checkboxIndex]
-						};
-						cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, this.checked);
-					}
 				}
 			});
+
+			for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
+				if(!item.___disabled) item.___disabled = {};
+				if(!item.___checked) item.___checked = {};
+
+				item.___checked[colSeq] = checked;
+			}
+
+			if (cfg.colGroup[colSeq].oncheck) {
+				var sendObj = {
+					index: checkboxIndex,
+					list: _list
+				};
+				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
+			}
+
 		} else {
 
 			this.body.find(".gridBodyTr_" + itemIndex + " .gridCheckBox_body_colSeq" + colSeq).each(function () {
@@ -9345,18 +9341,23 @@ AXGrid = Class.create(AXJ, {
 				} else {
 					this.checked = checked;
 				}
-				var ieid = this.id.split(/_AX_/g);
-				var checkboxColSeq = ieid[ieid.length - 2];
-				var checkboxIndex = ieid[ieid.length - 1];
-				if (cfg.colGroup[checkboxColSeq].oncheck) {
-					var sendObj = {
-						index: checkboxIndex,
-						list: _list,
-						item: _list[checkboxIndex]
-					};
-					cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, this.checked);
-				}
 			});
+			var item = this.list[itemIndex];
+			if(!item.___disabled) item.___disabled = {};
+			if(!item.___checked) item.___checked = {};
+			if (checked == null) {
+				item.___checked[colSeq] = !item.___checked[colSeq];
+			}else{
+				item.___checked[colSeq] = checked;
+			}
+
+			if (cfg.colGroup[colSeq].oncheck) {
+				var sendObj = {
+					index: checkboxIndex,
+					list: _list
+				};
+				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
+			}
 
 		}
 	},
