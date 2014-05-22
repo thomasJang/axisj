@@ -942,31 +942,34 @@
   }
 }
 
+
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper{
+  .dx-axsearch-preset();
   position:absolute;
-  border:1px dotted #000;
+  border:@border-c;
 }
 
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable{
+  .dx-axsearch-preset();
   position:relative;
   .AXResizableHandle{
     position:absolute;
     width:18px;height:18px;
     right:1px;bottom:1px;
     cursor:se-resize;
-    background:url(images/dx-resizer-handle.png) no-repeat;
+    background:url('images/dx-resizable-handle.png') no-repeat;
   }
 }
 
 .AXResizableHelper{
+  .dx-axsearch-preset();
   position:absolute;
-  border:1px dotted #000;
+  border:@border-c;
   cursor:se-resize;
-  background:url(images/dx-resizer-handle.png) no-repeat 100% 100%;
+  background:url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
-
 
 
 /* ----------------------------- table styles ---------------------------------*/

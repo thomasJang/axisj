@@ -71,15 +71,13 @@ var sampleTreeMenu = new AXTopDownMenu();
                 developer: "Jowrney Kim",
                 mail: "jowrney@axisj.com",
                 support: ["DX"]
-            }
-            /*
+            },
             cocker: {
                 ver: "0.1 Beta",
                 developer: "Jowrney Kim",
                 mail: "jowrney@axisj.com",
                 support: ["DX"]
             }
-            */
         },
         goLink: function(url){
             if(!isIndex){
@@ -295,24 +293,15 @@ var sampleTreeMenu = new AXTopDownMenu();
         pageObj.incFooter();
         $("#"+pageObj.theme).addClass("on");
 
-        trace(" _______  __   __  ___   _______      ___        _______  _______  __   __");
-        trace("|   _   ||  |_|  ||   | |       |    |   |      |       ||       ||  |_|  |");
-        trace("|  |_|  ||       ||   | |  _____|    |   |      |   *   ||   _   ||       |");
-        trace("|       ||       ||   | | |_____     |   |      |       ||  | |  ||   *   |");
-        trace("|   *   | |     | |   | |_____  | ___|   | ___  |      _||  |_|  ||       |");
-        trace("|   _   ||   _   ||   |  _____| ||       ||   | |     |_ |       || ||_|| |");
-        trace("|__| |__||__| |__||___| |_______||_______||___| |_______||_______||_|   |_|");
-        trace(" ");
-        trace("---------------------------------------------------------------------------");
         trace(" Fullstack open source javascript UI. framework ");
         trace(" axis of javascript - axisj.com, April 2014 ");
         trace(" tom@axisj.com & jowrney@axisj.com and team axisj ");
         trace(" ");
-        trace("                                                      http://www.axisj.com ");
-        trace("                                                      http://dev.axisj.com ");
-        trace("                                                     http://jdoc.axisj.com ");
-        trace("                                              https://github.com/axisj-com ");
-        trace("===========================================================================");
+        trace(" http://www.axisj.com ");
+        trace(" http://dev.axisj.com ");
+        trace(" http://jdoc.axisj.com ");
+        trace(" https://github.com/axisj-com ");
+        trace(" ");
 
     });
 

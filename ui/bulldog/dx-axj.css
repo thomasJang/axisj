@@ -552,7 +552,7 @@
   color: #525252;
   -moz-opacity: 0.8;
   opacity: 0.8;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=80);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -644,7 +644,7 @@
   overflow: hidden;
   -moz-opacity: 1;
   opacity: 1;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=100);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -698,41 +698,29 @@
   padding: 0px;
   text-align: center;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#536270, #536270);
   /* For Safari */
-
   background-image: -o-linear-gradient(#536270, #536270);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#536270, #536270);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#536270, #536270);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
-
 }
 .AXCalendar table.calendarPage tbody td.setDate {
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#1dbb9a, #1dbb9a);
   /* For Safari */
-
   background-image: -o-linear-gradient(#1dbb9a, #1dbb9a);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#1dbb9a, #1dbb9a);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#1dbb9a, #1dbb9a);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1dbb9a, endColorstr=#1dbb9a);
   /*For IE7-8-9*/
-
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
   display: block;
@@ -772,22 +760,16 @@
   padding: 0px;
   text-align: center;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#536270, #536270);
   /* For Safari */
-
   background-image: -o-linear-gradient(#536270, #536270);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#536270, #536270);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#536270, #536270);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
-
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_3 {
   padding-bottom: 1px;
@@ -931,7 +913,7 @@
   background: #000000;
   -moz-opacity: 0;
   opacity: 0;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=0);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -954,7 +936,7 @@
   background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=10);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -969,7 +951,7 @@
 .AXScroll .scrollBar_hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXScroll .scrollTarget {
   position: absolute;
@@ -986,7 +968,7 @@
   background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=10);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1009,7 +991,7 @@
   background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=10);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1024,7 +1006,7 @@
 .AXScroll .xscrollBar_hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXScroll .xscrollTarget {
   position: absolute;
@@ -1044,7 +1026,7 @@
   background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=10);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1066,7 +1048,7 @@
   background: #000000;
   -moz-opacity: 0.3;
   opacity: 0.3;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=30);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1081,7 +1063,7 @@
 .AXScrollSmall .scrollBar_hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXScrollSmall .scrollTarget {
   position: absolute;
@@ -1107,7 +1089,6 @@
   position: relative;
   height: 44px;
   /* mobileMenu add */
-
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle {
   padding: 0px 10px;
@@ -1234,18 +1215,14 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody {
   /* 모달창 바디 */
-
   /* mobileMenu add */
-
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
   /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
-
   background: #ffffff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
   /* 모달창 바디 안에 위치한 달력 컨테이너 */
-
   background: #ffffff;
   border-top: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
@@ -1403,7 +1380,6 @@
   position: relative;
   background: #536372;
   /* menu container > menu */
-
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuBodyScroll {
   position: absolute;
@@ -1466,7 +1442,6 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalFoot {
   /* mobileMenu add */
-
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalFoot .AXDateButtonBox {
   text-align: center;
@@ -1498,7 +1473,7 @@
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
 }
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable {
@@ -1511,13 +1486,13 @@
   right: 1px;
   bottom: 1px;
   cursor: se-resize;
-  background: url(images/dx-resizer-handle.png) no-repeat;
+  background: url('images/dx-resizable-handle.png') no-repeat;
 }
 .AXResizableHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
   cursor: se-resize;
-  background: url(images/dx-resizer-handle.png) no-repeat 100% 100%;
+  background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
 /* ----------------------------- table styles ---------------------------------*/
 .AXGridTable {
@@ -1531,22 +1506,16 @@
 }
 .AXGridTable thead td {
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #d9d9d9);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
-
   min-height: 30px;
   line-height: 30px;
   border-bottom: 1px solid #6c7b8a;
@@ -1598,22 +1567,16 @@
 .AXFormTable tbody th {
   color: #565b61;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #d9d9d9);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
-
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,

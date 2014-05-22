@@ -127,5 +127,6 @@
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	
-	grunt.registerTask('default', ['concat','uglify','cssmin']);
+	grunt.registerTask('js', ['concat','uglify']);
+	grunt.registerTask('css', ['cssmin']);
 };

@@ -1510,7 +1510,7 @@
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
 }
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable {
@@ -1523,13 +1523,13 @@
   right: 1px;
   bottom: 1px;
   cursor: se-resize;
-  background: url(images/dx-resizer-handle.png) no-repeat;
+  background: url('images/dx-resizable-handle.png') no-repeat;
 }
 .AXResizableHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
   cursor: se-resize;
-  background: url(images/dx-resizer-handle.png) no-repeat 100% 100%;
+  background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
 /* ----------------------------- table styles ---------------------------------*/
 .AXGridTable {
@@ -1682,7 +1682,7 @@
     background: #ebebeb;
     padding: 10px;
     margin: 10px 0px;
-    box-shadow: 0px 0px 5px #b2b2b2;
+    box-shadow: 0px 0px 3px #b2b2b2;
     font-size: 12px;
     color: #525252;
     -moz-opacity: 0.8;

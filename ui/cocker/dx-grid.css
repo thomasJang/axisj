@@ -37,16 +37,16 @@
   left: 0px;
   top: 0px;
   width: 100%;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#e2e5e7, #ffffff);
+  background: #f3f3f3;
+  background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
-  background: -o-linear-gradient(#e2e5e7, #ffffff);
+  background: -o-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#e2e5e7, #ffffff);
+  background: -moz-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#e2e5e7, #ffffff);
+  background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }
@@ -59,16 +59,16 @@
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable {
   table-layout: fixed;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#e2e5e7, #ffffff);
+  background: #f3f3f3;
+  background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
-  background: -o-linear-gradient(#e2e5e7, #ffffff);
+  background: -o-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#e2e5e7, #ffffff);
+  background: -moz-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#e2e5e7, #ffffff);
+  background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td {
@@ -535,15 +535,15 @@
   position: relative;
   height: 30px;
   background: #f3f3f3;
-  background: -webkit-linear-gradient(#ffffff, #f3f3f3);
+  background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
-  background: -o-linear-gradient(#ffffff, #f3f3f3);
+  background: -o-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#ffffff, #f3f3f3);
+  background: -moz-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#ffffff, #f3f3f3);
+  background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
   border-left: 1px solid #b1b1b1;
@@ -555,15 +555,15 @@
   top: 0px;
   height: 30px;
   background: #f3f3f3;
-  background: -webkit-linear-gradient(#ffffff, #f3f3f3);
+  background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
-  background: -o-linear-gradient(#ffffff, #f3f3f3);
+  background: -o-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#ffffff, #f3f3f3);
+  background: -moz-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#ffffff, #f3f3f3);
+  background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   z-index: 3;
 }
@@ -884,16 +884,16 @@
   display: block;
   position: relative;
   height: 43px;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#e2e5e7, #ffffff);
+  background: #f3f3f3;
+  background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
-  background: -o-linear-gradient(#e2e5e7, #ffffff);
+  background: -o-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#e2e5e7, #ffffff);
+  background: -moz-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#e2e5e7, #ffffff);
+  background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e5e7, endColorstr=#ffffff);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }

@@ -32,16 +32,12 @@
   background: #e8e8e8;
   background: -webkit-linear-gradient(#ffffff, #e8e8e8);
   /* For Safari */
-
   background: -o-linear-gradient(#ffffff, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-
   background: -moz-linear-gradient(#ffffff, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-
   background: linear-gradient(#ffffff, #e8e8e8);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #444444;
@@ -67,16 +63,12 @@
   background: #e8e8e8;
   background: -webkit-linear-gradient(#ffffff, #e8e8e8);
   /* For Safari */
-
   background: -o-linear-gradient(#ffffff, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-
   background: -moz-linear-gradient(#ffffff, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-
   background: linear-gradient(#ffffff, #e8e8e8);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
 }

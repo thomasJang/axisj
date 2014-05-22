@@ -1473,7 +1473,7 @@
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
 }
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable {
@@ -1486,13 +1486,13 @@
   right: 1px;
   bottom: 1px;
   cursor: se-resize;
-  background: url(images/dx-resizer-handle.png) no-repeat;
+  background: url('images/dx-resizable-handle.png') no-repeat;
 }
 .AXResizableHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
   cursor: se-resize;
-  background: url(images/dx-resizer-handle.png) no-repeat 100% 100%;
+  background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
 /* ----------------------------- table styles ---------------------------------*/
 .AXGridTable {
