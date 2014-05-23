@@ -30697,7 +30697,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.27
+ * @version v1.28
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -30711,7 +30711,8 @@ swfobject.addDomLoadEvent(function () {
  "2014-02-23 오후 8:44:07 - <base> attr 인식 처리 구문 추가",
  "2014-04-10 - tom : 설정에 선언된 파일타입 체크하여 파일 셀렉트와 드랍 방지 처리 구문 추가",
  "2014-04-10 - tom : fileSelectAutoUpload 옵션 flash 모드에서 작동 하도록 픽스",
- "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스"
+ "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스",
+ "2014-05-23 - tom : file mimeType 이 없는 경우 업로드 지원 구문 추가"
 
  * @description
  *
@@ -31302,8 +31303,7 @@ var AXUpload5 = Class.create(AXJ, {
 				var uploadedCount = this.uploadedList.length;
 				for (var i = 0; i < files.length; i++) {
 					var f = files[i];
-
-					if( f.size <= cfg.uploadMaxFileSize && (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) ){
+					if( f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || f.type == "" ) ){
 						if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
 							var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 							this.queue.push({id:itemID, file:f});
@@ -31368,7 +31368,7 @@ var AXUpload5 = Class.create(AXJ, {
         var fileTypeRe = new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig");
 		var uploadedCount = this.uploadedList.length;
 		for (var i = 0, f; f = files[i]; i++) {
-			if(f.size <= cfg.uploadMaxFileSize && (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) ){
+			if(f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || f.type == "" ) ){
 				uploadedCount++;
 				if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
