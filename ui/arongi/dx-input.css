@@ -328,14 +328,14 @@
   background: url('images/dx-selector-search.png') center center no-repeat;
 }
 .AXanchorSelectorExpandBox {
-  position: absolute;
+  position: absolute !important;
   left: 0px;
   top: 0px;
   border: 1px solid #b9babc;
   border-radius: 4px;
   background: #fff;
   box-shadow: 0px 1px #e9eced;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 .AXanchorSelectorExpandBox .AXanchorSelectorExpandScroll {
   padding: 2px 0px;
