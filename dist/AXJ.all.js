@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-22 
+AXJ - v1.0.4 - 2014-05-23 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -1566,13 +1566,18 @@ mask.setConfig();
 /* ********************************************** AXMask ** */
 
 /* ** AXNotification ********************************************** */
+/**
+ * AXNotification
+ * @class AXNotification
+ * @extends AXJ
+ * @version v1.1
+ * @author tom@axisj.com
+ * @logs
+ "2012-10-30 오후 12:01:10",
+ "2013-01-09 오후 1:46:55 push type bug fix - tom"
+ "2014-05-23 tom : dialog 에서 mask 제어 안하도록 변경"
+ */
 var AXNotification = Class.create(AXJ, {
-    version: "AXNotification v1.0",
-    author: "tom@axisj.com",
-    logs: [
-        "2012-10-30 오후 12:01:10",
-        "2013-01-09 오후 1:46:55 push type bug fix - tom"
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.Observer = null;
@@ -1671,7 +1676,6 @@ var AXNotification = Class.create(AXJ, {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.dialogTray);
             this.dialogTray.prepend(po.join(''));
 
-            mask.open();
             var bodyWidth = (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth;
             var l = bodyWidth / 2 - this.dialogTray.width() / 2;
             this.dialogTray.css({ left: l + "px" });
@@ -1771,7 +1775,6 @@ var AXNotification = Class.create(AXJ, {
         if (axdom("#" + this.config.targetID).html() == "") {
             this.lasBreadSeq = 0;
             if (this.config.type == "dialog") {
-                mask.close();
                 if(breadID) axdom(document.body).unbind("keyup."+breadID);
             }
         }
