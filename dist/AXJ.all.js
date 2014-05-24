@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-23 
+AXJ - v1.0.4 - 2014-05-24 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -14555,7 +14555,15 @@ var AXInputConverter = Class.create(AXJ, {
     init: function () {
         axdom(window).resize(this.windowResize.bind(this));
     },
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 10);
+	},
 	windowResizeApply: function(){
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.alignAllAnchor();
 	},
     alignAllAnchor: function () {
@@ -21847,7 +21855,15 @@ var AXSelectConverter = Class.create(AXJ, {
         this.isMobile = browser.mobile;
         axdom(window).resize(this.windowResize.bind(this));
     },
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 10);
+	},
 	windowResizeApply: function(){
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.alignAllAnchor();
 	},
     alignAllAnchor: function () {
