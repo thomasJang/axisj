@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-22 
+AXJ - v1.0.4 - 2014-05-24 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -1566,13 +1566,18 @@ mask.setConfig();
 /* ********************************************** AXMask ** */
 
 /* ** AXNotification ********************************************** */
+/**
+ * AXNotification
+ * @class AXNotification
+ * @extends AXJ
+ * @version v1.1
+ * @author tom@axisj.com
+ * @logs
+ "2012-10-30 오후 12:01:10",
+ "2013-01-09 오후 1:46:55 push type bug fix - tom"
+ "2014-05-23 tom : dialog 에서 mask 제어 안하도록 변경"
+ */
 var AXNotification = Class.create(AXJ, {
-    version: "AXNotification v1.0",
-    author: "tom@axisj.com",
-    logs: [
-        "2012-10-30 오후 12:01:10",
-        "2013-01-09 오후 1:46:55 push type bug fix - tom"
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.Observer = null;
@@ -1671,7 +1676,6 @@ var AXNotification = Class.create(AXJ, {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.dialogTray);
             this.dialogTray.prepend(po.join(''));
 
-            mask.open();
             var bodyWidth = (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth;
             var l = bodyWidth / 2 - this.dialogTray.width() / 2;
             this.dialogTray.css({ left: l + "px" });
@@ -1771,7 +1775,6 @@ var AXNotification = Class.create(AXJ, {
         if (axdom("#" + this.config.targetID).html() == "") {
             this.lasBreadSeq = 0;
             if (this.config.type == "dialog") {
-                mask.close();
                 if(breadID) axdom(document.body).unbind("keyup."+breadID);
             }
         }
@@ -14552,7 +14555,15 @@ var AXInputConverter = Class.create(AXJ, {
     init: function () {
         axdom(window).resize(this.windowResize.bind(this));
     },
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 10);
+	},
 	windowResizeApply: function(){
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.alignAllAnchor();
 	},
     alignAllAnchor: function () {
@@ -21844,7 +21855,15 @@ var AXSelectConverter = Class.create(AXJ, {
         this.isMobile = browser.mobile;
         axdom(window).resize(this.windowResize.bind(this));
     },
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 10);
+	},
 	windowResizeApply: function(){
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.alignAllAnchor();
 	},
     alignAllAnchor: function () {
@@ -30694,7 +30713,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.27
+ * @version v1.28
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -30708,7 +30727,8 @@ swfobject.addDomLoadEvent(function () {
  "2014-02-23 오후 8:44:07 - <base> attr 인식 처리 구문 추가",
  "2014-04-10 - tom : 설정에 선언된 파일타입 체크하여 파일 셀렉트와 드랍 방지 처리 구문 추가",
  "2014-04-10 - tom : fileSelectAutoUpload 옵션 flash 모드에서 작동 하도록 픽스",
- "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스"
+ "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스",
+ "2014-05-23 - tom : file mimeType 이 없는 경우 업로드 지원 구문 추가"
 
  * @description
  *
@@ -31299,8 +31319,7 @@ var AXUpload5 = Class.create(AXJ, {
 				var uploadedCount = this.uploadedList.length;
 				for (var i = 0; i < files.length; i++) {
 					var f = files[i];
-
-					if( f.size <= cfg.uploadMaxFileSize && (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) ){
+					if( f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || (cfg.file_types == "*/*" && f.type == "") ) ){
 						if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
 							var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 							this.queue.push({id:itemID, file:f});
@@ -31365,7 +31384,7 @@ var AXUpload5 = Class.create(AXJ, {
         var fileTypeRe = new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig");
 		var uploadedCount = this.uploadedList.length;
 		for (var i = 0, f; f = files[i]; i++) {
-			if(f.size <= cfg.uploadMaxFileSize && (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) ){
+			if(f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || (cfg.file_types == "*/*" && f.type == "") ) ){
 				uploadedCount++;
 				if(uploadedCount-1 < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
