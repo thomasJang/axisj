@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-24 
+AXJ - v1.0.4 - 2014-05-25 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -9108,7 +9108,7 @@ AXGrid = Class.create(AXJ, {
 		});
 		/* page event bind */
 
-		axdom(window).bind("resize", this.windowResize.bind(this));
+		axdom(window).bind("resize", this.windowResizeApply.bind(this));
 
 		//this.printList();  printList는 setBody 에서 자동 실행 됨
 	},
@@ -9213,6 +9213,34 @@ AXGrid = Class.create(AXJ, {
 			}
 			if (react) this.contentScrollResize(false);
 		}
+	},
+	resetHeight: function () {
+		var cfg = this.config;
+
+		if (cfg.viewMode != "mobile") {
+			var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
+			if (targetInnerHeight == 0) targetInnerHeight = 400;
+			cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
+
+			if (cfg.height) this.gridBody.css({height: cfg.height});
+			this.redrawGrid("");
+
+			/*
+			var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
+			if (cfg.page.display == false) pageBodyHeight = 0;
+			var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
+			this.scrollBody.css({ height: scrollBodyHeight });
+			*/
+
+			/*
+			var colHeadHeight = this.colHead.outerHeight();
+			if (colHeadHeight == 1) colHeadHeight = 0;
+			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) });
+
+			this.contentScrollResize(false);
+			*/
+		}
+
 	},
 	getColGroup: function (suffix) {
 		var cfg = this.config;
