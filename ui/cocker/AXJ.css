@@ -630,7 +630,7 @@
   position: fixed;
   left: 0px;
   top: 50px;
-  width: 340px;
+  width: 100%;
   z-index: 5001;
 }
 .AXNotificationTrayDialog .AXNotification {
@@ -638,7 +638,7 @@
   border: 1px solid #444444;
   background: #ebebeb;
   padding: 0px;
-  margin: 0px 0px;
+  margin: 0px auto;
   box-shadow: 0px 0px 3px #888;
   font-size: 12px;
   color: #525252;
@@ -1764,7 +1764,7 @@
     position: fixed;
     left: 0px;
     top: 50px;
-    width: 280px;
+    width: 100%;
     z-index: 5001;
   }
   .AXNotificationTrayDialog .AXNotification {
@@ -1772,7 +1772,7 @@
     border: 1px solid #444444;
     background: #ebebeb;
     padding: 0px;
-    margin: 0px 0px;
+    margin: 0px auto;
     box-shadow: 0px 0px 3px #888;
     font-size: 12px;
     color: #525252;

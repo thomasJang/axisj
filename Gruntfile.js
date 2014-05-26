@@ -13,12 +13,13 @@
 			},
 			dist: {
 				src: [
+					'lib/AXConfig.js',
 					'lib/AXJ.js',
 					'lib/AXDOMRange.js',
 					'lib/AXDrag.js',
 					'lib/AXEditor.js',
 					'lib/AXExcelConvert.js',
-					//'lib/AXFrameSet.js',
+					'lib/AXSplit.js',
 					'lib/AXGrid.js',
 					'lib/AXHtmlElement.js',
 					'lib/AXInput.js',
