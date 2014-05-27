@@ -21,8 +21,16 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
+
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
     <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -157,14 +165,14 @@
 					status:{formatter: null}
 				}
 			});
-			
 
-			myGrid.setList({
-				ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
-					//trace(this);
-				}
-			});
-			
+            myGrid.setList({
+                //ajaxUrl:"gridData.json", ajaxPars:"param1=1&param2=2", onLoad:function(){
+                ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+                    //trace(this);
+                }
+            });
+
 			myGrid.setDataSet({price:123000, amount:10});
 		},
 		getCheckedList: function(){

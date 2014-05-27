@@ -37,7 +37,8 @@ var sampleTree = [
         //{menuID:"405", url:"javascript:pageObj.goLink('samples/AXScheduleCalendar/index.html');", label:"AXScheduleCalendar(alpha)"},
         //{menuID:"406", url:"javascript:pageObj.goLink('samples/AXFrameSet/index.html');", label:"AXFrameSet(alpha)"},
         {menuID:"407", url:"javascript:pageObj.goLink('samples/mobile/index.html');", label:"for Mobile"},
-        {menuID:"404", url:"javascript:pageObj.goLink('samples/AXWaterfall/index.html');", label:"AXWaterfall"}
+        {menuID:"404", url:"javascript:pageObj.goLink('samples/AXWaterfall/index.html');", label:"AXWaterfall"},
+	    {menuID:"409", url:"javascript:pageObj.goLink('samples/AXSplit/index.html');", label:"AXSplit"}
         //{menuID:"408", url:"javascript:pageObj.goLink('samples/Angularjs/index.html');", label:"for AngularJS"}
     ]}
 ];

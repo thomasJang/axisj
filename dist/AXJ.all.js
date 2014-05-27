@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-26 
+AXJ - v1.0.4 - 2014-05-27 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -1483,6 +1483,7 @@ var AXReqQue = Class.create({
     onsucc: function (req) {
         if (req != undefined) {
             var myQue = this.que.first();
+
             try {
                 if (myQue.configs.debug) trace("onsucc" + req);
                 if (myQue.configs.responseType == "text/html") {
@@ -10613,6 +10614,8 @@ AXGrid = Class.create(AXJ, {
 			var _method = "post";
 			var _contentType = AXConfig.AXReq.contentType;
 			var _headers = {};
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
 
 			if (obj.method) _method = obj.method;
 			if (obj.contentType) _contentType = obj.contentType;
@@ -10622,8 +10625,10 @@ AXGrid = Class.create(AXJ, {
 			new AXReq(url, {
 				type: _method,
 				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
 				headers: _headers,
-				debug: false,
+				debug: obj.debug,
 				pars: pars,
 				onsucc: function (res) {
 					if (res.result == AXConfig.AXReq.okCode) {
@@ -11642,6 +11647,20 @@ AXGrid = Class.create(AXJ, {
 
 		if (!this.pageActive) this.setStatus(this.list.length);
 		this.redrawDataSet();
+	},
+	fetchList: function(list){
+		var cfg = this.config, VS = this.virtualScroll;
+		this.list = this.list.concat(list);
+
+		this.cachedDom.tfpadding.css({ height: (this.list.length - VS.startIndex - 1) * (VS.itemTrHeight) });
+		if (this.hasFixed) {
+			this.cachedDom.ftfpadding.css({ height: (this.list.length - VS.endIndex - 1) * (VS.itemTrHeight) });
+		}
+
+		if (!cfg.page.paging) {
+			this.setStatus(this.list.length);
+		}
+		this.contentScrollResize(false);
 	},
 	removeList: function (removeList) {
 		var cfg = this.config;
@@ -25152,7 +25171,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.46
+ * @version v1.47
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25176,7 +25195,8 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-02-06 오후 8:43:42 tom : jQuery 독립을 위한 문자열 변경",
  "2014-05-02 tom : colGroup width * 지원",
  "2014-05-12 tom : item nodeName 에 formatter 를 이용하여 <span> 태그를 삽입 했을 때 click 이벤트가 발생하도록 픽스",
- "2014-0525 tom : resetHeight 함수 개선, emptyListMSG 설정 기능 추가"
+ "2014-05 25 tom : resetHeight 함수 개선, emptyListMSG 설정 기능 추가"
+ "2014-05-27 tom : ajax 옵션 추가 확장 지원 "
  *
  * @description
  *
@@ -27044,8 +27064,25 @@ var AXTree = Class.create(AXJ, {
 			];
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
+			var _method = "post";
+			var _contentType = AXConfig.AXReq.contentType;
+			var _headers = {};
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+
+			if (obj.method) _method = obj.method;
+			if (obj.contentType) _contentType = obj.contentType;
+			if (obj.headers) _headers = obj.headers;
+
 			var ajaxGetList = this.ajaxGetList.bind(this);
 			new AXReq(url, {
+				type: _method,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				headers: _headers,
+				debug: obj.debug,
+				pars: pars,
 				debug: false, pars: pars, onsucc: function (res) {
 					if (res.result == AXConfig.AXReq.okCode) {
 						res._sortDisable = sortDisable;
@@ -29116,6 +29153,19 @@ var AXTree = Class.create(AXJ, {
 	},
 	appendSubTree_pushList: function (item) {
 		this.list.push(item);
+	},
+	fetchTree: function(subTree){
+		// TODO : fetchTree 속도 개선을 위해 추가된 아이템만 추가 하도록 함수 변경 필요
+		var cfg = this.config;
+		var reserveKeys = cfg.reserveKeys;
+		var tree = this.tree;
+
+		axf.each(subTree, function () {
+			this[cfg.reserveKeys.subTree] = [];
+			tree.push(this);
+		});
+		var pushedList = this.appendSubTree("0".setDigit(cfg.hashDigit), true, subTree, this.tree);
+		this.printList();
 	},
 	updateTree: function (itemIndex, item, obj) {
 		var cfg = this.config;
