@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-27 
+AXJ - v1.0.4 - 2014-05-29 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -12819,35 +12819,10 @@ AXGrid = Class.create(AXJ, {
 				if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
 				if (this.selectedRow && this.selectedRow.length > 0) {
-
 					var body = this.body;
 					for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
 						body.find(".gridBodyTr_" + item).addClass("selected");
 					}
-
-					var itemIndex = this.selectedRow.last();
-					try {
-						var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-						var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
-
-						var scrollHeight = this.scrollContent.height();
-						var bodyHeight = this.body.height();
-
-						if (trTop.number() + trHeight.number() > bodyHeight) {
-							var scrollTop = bodyHeight - (trTop.number() + VS.itemTrHeight.number());
-							this.scrollContent.css({ top: scrollTop });
-							this.contentScrollContentSync({ top: scrollTop });
-						} else {
-							if (trTop.number() == 0) {
-								var scrollTop = 0;
-								this.scrollContent.css({ top: scrollTop });
-								this.contentScrollContentSync({ top: scrollTop });
-							}
-						}
-					} catch (e) {
-
-					}
-
 				}
 
 				VS.startIndex = newStartIndex;
