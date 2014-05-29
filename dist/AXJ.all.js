@@ -11317,6 +11317,12 @@ AXGrid = Class.create(AXJ, {
 					printListCount: 0,
 					scrollTop: 0
 				};
+				this.cachedDom.thpadding.css({ height: 0 });
+				this.cachedDom.tfpadding.css({ height: 0 });
+				if(this.hasFixed) {
+					this.cachedDom.fthpadding.css({ height: 0 });
+					this.cachedDom.ftfpadding.css({ height: 0 });
+				}
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
 			}

@@ -173,15 +173,19 @@
                 }
             });
 
-			myGrid.setDataSet({price:123000, amount:10});
+			//myGrid.setDataSet({price:123000, amount:10});
 		},
 		getCheckedList: function(){
 			var checkedList = myGrid.getCheckedList(0);// colSeq
 			alert(Object.toJSON(checkedList));
 		},
 		emptyList: function(){
-			myGrid.setList([]);
-			myGrid.setDataSet({price:0, amount:0});
+            myGrid.setList({
+                ajaxUrl:"loadGrid.php", ajaxPars:"empty=true", onLoad:function(){
+                }
+            });
+
+			//myGrid.setDataSet({price:0, amount:0});
 		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
