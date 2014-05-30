@@ -402,6 +402,9 @@
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.tree {
   background: url('images/dx-tree-icons2.png') no-repeat -95px center;
 }
+.AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.userHtml {
+  background: url('images/dx-tree-icons2.png') no-repeat -215px center;
+}
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyTdText {
   position: relative;
   line-height: 20px;

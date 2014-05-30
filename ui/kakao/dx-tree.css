@@ -26,43 +26,31 @@
   top: 0px;
   width: 100%;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
   border-bottom: 1px solid #b1b1b1;
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable {
   table-layout: fixed;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #ededed);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #ededed);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
-
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable tbody tr td {
   padding: 0px;
@@ -206,7 +194,7 @@
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX {
   position: absolute;
@@ -236,7 +224,7 @@
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable {
   width: 100%;
@@ -400,6 +388,9 @@
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.tree {
   background: url('images/dx-tree-icons2.png') no-repeat -95px center;
+}
+.AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.userHtml {
+  background: url('images/dx-tree-icons2.png') no-repeat -215px center;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyTdText {
   position: relative;
@@ -757,7 +748,7 @@
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX {
   position: absolute;
@@ -787,7 +778,7 @@
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable {
   width: 100%;
