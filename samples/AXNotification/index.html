@@ -22,6 +22,12 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <!--
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    -->
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -87,11 +93,12 @@
 						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning'});" ><i class="fa fa-microphone fa-lg"></i> Alert Warning</button>
 						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" ><i class="fa fa-microphone fa-lg"></i> Alert Caution</button>
 						
-						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', buttons:[
-							{buttonValue:'button1', buttonClass:'Red W100', onClick:fnObj.btnClick, data:'data1'},
-							{buttonValue:'button2', buttonClass:'Blue', onClick:fnObj.btnClick, data:'data2'},
-							{buttonValue:'button3', buttonClass:'Green', onClick:fnObj.btnClick, data:'data3'}
-						]});" ><i class="fa fa-fire-extinguisher fa-lg"></i>Choose alert Caution</button>
+						<button type="button" class="AXButton" onclick="dialog.push({
+						    body:'<b>Caution</b> Application Call dialog push', top:0, type:'Caution', buttons:[
+                                {buttonValue:'button1', buttonClass:'Red W100', onClick:fnObj.btnClick, data:'data1'},
+                                {buttonValue:'button2', buttonClass:'Blue', onClick:fnObj.btnClick, data:'data2'},
+                                {buttonValue:'button3', buttonClass:'Green', onClick:fnObj.btnClick, data:'data3'}
+						    ]});" ><i class="fa fa-fire-extinguisher fa-lg"></i>Choose alert Caution</button>
 						
 						<div class="H30"></div>
 						

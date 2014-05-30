@@ -157,7 +157,6 @@
 				border-left:@border-a;border-right:@border-a;
 				background:#f3f3f3;
 				*/
-
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -180,7 +179,7 @@
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX {
   position: absolute;
@@ -192,7 +191,6 @@
 				border-top:@border-a;border-bottom:@border-a;
 				background:@bgcolor-c;
 				*/
-
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -215,7 +213,7 @@
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable {
   width: 100%;
@@ -379,6 +377,9 @@
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.tree {
   background: url('images/dx-tree-icons2.png') no-repeat -95px center;
+}
+.AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.userHtml {
+  background: url('images/dx-tree-icons2.png') no-repeat -215px center;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyTdText {
   position: relative;
@@ -723,7 +724,6 @@
 				border-left:@border-a;border-right:@border-a;
 				background:@bgcolor-c;
 				*/
-
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -746,7 +746,7 @@
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX {
   position: absolute;
@@ -758,7 +758,6 @@
 				border-top:@border-a;border-bottom:@border-a;
 				background:@bgcolor-c;
 				*/
-
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -781,7 +780,7 @@
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle.hover {
   -moz-opacity: 0.5;
   opacity: 0.5;
-  filter: alpha(opacity=20);
+  filter: alpha(opacity=50);
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable {
   width: 100%;

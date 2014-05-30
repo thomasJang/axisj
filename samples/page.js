@@ -37,7 +37,8 @@ var sampleTree = [
         //{menuID:"405", url:"javascript:pageObj.goLink('samples/AXScheduleCalendar/index.html');", label:"AXScheduleCalendar(alpha)"},
         //{menuID:"406", url:"javascript:pageObj.goLink('samples/AXFrameSet/index.html');", label:"AXFrameSet(alpha)"},
         {menuID:"407", url:"javascript:pageObj.goLink('samples/mobile/index.html');", label:"for Mobile"},
-        {menuID:"404", url:"javascript:pageObj.goLink('samples/AXWaterfall/index.html');", label:"AXWaterfall"}
+        {menuID:"404", url:"javascript:pageObj.goLink('samples/AXWaterfall/index.html');", label:"AXWaterfall"},
+	    {menuID:"409", url:"javascript:pageObj.goLink('samples/AXSplit/index.html');", label:"AXSplit"}
         //{menuID:"408", url:"javascript:pageObj.goLink('samples/Angularjs/index.html');", label:"for AngularJS"}
     ]}
 ];
@@ -101,7 +102,7 @@ var sampleTreeMenu = new AXTopDownMenu();
                         ho.push('<div class="ax-col-12">');
                             ho.push('<div class="ax-unit">');
                                 ho.push('<nav class="navMenu ">');
-                                    ho.push('<h3><a href="'+pageObj.host+'index.html"><img src="'+pageObj.host+'ui/AXJ.png" style="width:110px; height:40px;" /></a></h3>');
+                                    ho.push('<h3><a href="'+pageObj.host+'index.html"><img src="'+pageObj.host+'ui/AXJ-logo.png" style="width:110px; height:40px;" /></a></h3>');
                                     ho.push('<div id="sampleMenuBox"></div>');
                                 ho.push('</nav>');
                             ho.push('</div>');

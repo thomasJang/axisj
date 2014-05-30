@@ -365,6 +365,8 @@
   top: 5px;
   width: 20px;
   height: 20px;
+  line-height: 20px;
+  text-align: center;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.folder {
   background: url('images/dx-tree-icons.png') no-repeat -5px center;
@@ -401,6 +403,9 @@
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.tree {
   background: url('images/dx-tree-icons2.png') no-repeat -95px center;
+}
+.AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyNode .bodyNodeIcon.userHtml {
+  background: url('images/dx-tree-icons2.png') no-repeat -215px center;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td .bodyTdText {
   position: relative;
