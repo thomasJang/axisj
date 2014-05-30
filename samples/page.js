@@ -102,7 +102,7 @@ var sampleTreeMenu = new AXTopDownMenu();
                         ho.push('<div class="ax-col-12">');
                             ho.push('<div class="ax-unit">');
                                 ho.push('<nav class="navMenu ">');
-                                    ho.push('<h3><a href="'+pageObj.host+'index.html"><img src="'+pageObj.host+'ui/AXJ.png" style="width:110px; height:40px;" /></a></h3>');
+                                    ho.push('<h3><a href="'+pageObj.host+'index.html"><img src="'+pageObj.host+'ui/AXJ-logo.png" style="width:110px; height:40px;" /></a></h3>');
                                     ho.push('<div id="sampleMenuBox"></div>');
                                 ho.push('</nav>');
                             ho.push('</div>');
