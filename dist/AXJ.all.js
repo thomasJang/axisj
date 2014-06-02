@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-05-30 
+AXJ - v1.0.4 - 2014-06-02 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -904,9 +904,9 @@ Object.extend(Date.prototype, (function () {
             nS = this.getSeconds().setDigit(2);
             nDW = this.getDay();
 
-            var yre = /[^y]*(y{0,4})[^y]*/gi; yre.test(fStr); var regY = RegExp.$1;
-            var mre = /[^m]*(m{2})[^m]*/gi; mre.test(fStr); var regM = RegExp.$1;
-            var dre = /[^d]*(d{1,2})[^d]*/gi; dre.test(fStr); var regD = RegExp.$1;
+            var yre = /[^y]*(y{4})[^y]*/gi; yre.test(fStr); var regY = RegExp.$1;
+            var mre = /[^mm]*(m{2})[^mm]*/gi; mre.test(fStr); var regM = RegExp.$1;
+            var dre = /[^d]*(d{2})[^d]*/gi; dre.test(fStr); var regD = RegExp.$1;
             var hre = /[^h]*(h{2})[^d]*/gi; hre.test(fStr); var regH = RegExp.$1;
             var mire = /[^mi]*(mi)[^mi]*/gi; mire.test(fStr); var regMI = RegExp.$1;
             var sre = /[^s]*(s{2})[^s]*/gi; sre.test(fStr); var regS = RegExp.$1;
@@ -1633,7 +1633,19 @@ var AXMask = Class.create(AXJ, {
                 onblink((blinkIndex + 1) % blinkTrack.length);
             });
         }
-    }
+    },
+	setContent: function(content){
+		var po = [];
+		if(Object.isString(content)){
+			po.push(content);
+		}else{
+			var po = [];
+			po.push("<div style='width: "+content.width+"px;height:"+content.height+"px;position: absolute;left:50%;top:50%;text-align: center;margin-left: -"+ (content.width/2) +"px;margin-top:-"+ (content.height/2) +"px;'>");
+			po.push(content.html);
+			po.push("</div>")
+		}
+		this.mask.html(po.join(''));
+	}
 });
 var mask = new AXMask();
 mask.setConfig();
@@ -10631,7 +10643,7 @@ AXGrid = Class.create(AXJ, {
 				debug: obj.debug,
 				pars: pars,
 				onsucc: function (res) {
-					if (res.result == AXConfig.AXReq.okCode) {
+					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 						res._sortDisable = sortDisable;
 						if (obj.response) {
 							obj.response.call(res);
@@ -15883,7 +15895,7 @@ var AXInputConverter = Class.create(AXJ, {
             var msgAlert = this.msgAlert.bind(this);
             new AXReq(url, {
                 debug: false, pars: pars, onsucc: function (res) {
-                    if (res.result == AXUtil.ajaxOkCode) {
+                    if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
                         obj.config.options = (res.options || []);
                         //obj.config.selectedIndex = null;
@@ -22433,7 +22445,7 @@ var AXSelectConverter = Class.create(AXJ, {
             var async = (obj.config.ajaxAsync == undefined) ? true : obj.config.ajaxAsync;
             new AXReq(url, {
                 debug: false, async: async, pars: pars, onsucc: function (res) {
-                    if (res.result == AXUtil.ajaxOkCode) {
+                    if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
                         //trace(res);
                         var po = [];
@@ -28979,7 +28991,7 @@ var AXTree = Class.create(AXJ, {
 			var ajaxGetTree = this.ajaxGetTree.bind(this);
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
-					if (res.result == AXConfig.AXReq.okCode) {
+					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 						res._sortDisable = sortDisable;
 						if (obj.response) {
 							obj.response.call(res);

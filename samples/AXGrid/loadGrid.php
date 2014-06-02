@@ -3,7 +3,6 @@ $pageNo = $_POST["pageNo"];
 $empty = $_POST["empty"];
 ?>
 {
-	result:"ok",
 	list:[
 <? if ($empty != "true") { ?>
     <? for ($i = 0;$i<100; $i++){ ?>
