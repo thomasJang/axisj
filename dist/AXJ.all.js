@@ -1,5 +1,5 @@
 /*! 
-AXJ - v1.0.4 - 2014-06-02 
+AXJ - v1.0.4 - 2014-06-04 
 */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
 
@@ -6600,16 +6600,21 @@ var AXEditorLang = {
 };
 
 /*
-
 2014-04-17 : tom - insert image & remove image 아이디 문제 해결
-
 */
 
+/**
+ * AXEditor
+ * @class AXEditor
+ * @extends AXJ
+ * @version v1.2
+ * @author tom@axisj.com
+ * @logs
+ * "2014-06-04 tom : method [insertImg] Insert prevent duplicate images
+ *
+ */
+
 var AXEditor = Class.create(AXJ, {
-	version       : "AXEditor V1.1",
-	author        : "SQUALL",
-	createDate    : "2010.11.23",
-	lastModifyDate: "2014.04.17",
 	initialize: function(AXJ_super){
 		AXJ_super();
 		this.moveSens = 0;
@@ -6650,6 +6655,9 @@ var AXEditor = Class.create(AXJ, {
     		config.uploadCallBack = "mmuCall";
     		config.tabExternals = [];
     		config.readyTofocus = true;
+			config.msg = {
+				alreadyInsertImg:"이미 추가된 이미지 입니다."
+			}
 		}
 
 
@@ -6969,11 +6977,15 @@ var AXEditor = Class.create(AXJ, {
 		var ty = file.ty.dec().toLowerCase();
 		var tyReg = /(bmp|jpg|jpeg|gif|png)$/;
  		if (tyReg.test(ty)) {
-			/*본문삽입*/
+		    var imgTagId = "MF_"+file.nm.replace(new RegExp("[\.]"+file.ty, "i"), "").dec();
+		    if(axdom(this.myEDT.document).find("#"+imgTagId).get(0)) {
+			    alert(config.msg.alreadyInsertImg);
+			    return;
+		    }
 			var imgObj = new Image();
 			imgObj.src = file.path.dec()+file.nm.dec();
-			imgObj.id = "MF_"+file.nm.replace(new RegExp("[\.]"+file.ty, "i"), "").dec();
-			
+			imgObj.id = imgTagId;
+
 			var pasteHTML = this.__pasteHTML.bind(this);
 			var canvasWidth = this.canvas.width() - 40;
 			imgObj.onload = function(){
@@ -14799,7 +14811,7 @@ var AXHtmlElement = Class.create(AXJ, {
  * AXInputConverter
  * @class AXInputConverter
  * @extends AXJ
- * @version v1.48
+ * @version v1.49
  * @author tom@axisj.com
  * @logs
  "2012-11-05 오후 1:23:24",
@@ -14834,6 +14846,7 @@ var AXHtmlElement = Class.create(AXJ, {
  "2014-04-21 tom : bindDate 다중 오픈 되었을 때 닫기 버그 픽스",
  "2014-04-24 오후 7:33:25 tom : bindDate  개체에 리턴입력시  onBlur 연결",
  "2014-05-21 tom : resize event 상속"
+ "2014-06-02 tom : change ajax data protocol check result or error key in data"
  *
  */
 
@@ -22131,7 +22144,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v2.53
+ * @version v1.54
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22155,6 +22168,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-04-10 오후 6:09:44 - tom : appendAnchor, alignAnchor 방식 변경 및 크기 버그 픽스 & select element hide 에서 투명으로 변경",
  "2014-04-18 - tom : mobile 브라우저 버그 픽스"
  "2014-05-21 tom : resize event 상속"
+ "2014-06-02 tom : change ajax data protocol check result or error key in data"
  *
  */
 
@@ -25164,7 +25178,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.47
+ * @version v1.48
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25190,6 +25204,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-05-12 tom : item nodeName 에 formatter 를 이용하여 <span> 태그를 삽입 했을 때 click 이벤트가 발생하도록 픽스",
  "2014-05 25 tom : resetHeight 함수 개선, emptyListMSG 설정 기능 추가"
  "2014-05-27 tom : ajax 옵션 추가 확장 지원 "
+ "2014-06-02 tom : change ajax data protocol check result or error key in data"
  *
  * @description
  *
@@ -31061,7 +31076,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.28
+ * @version v1.29
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -31077,6 +31092,7 @@ swfobject.addDomLoadEvent(function () {
  "2014-04-10 - tom : fileSelectAutoUpload 옵션 flash 모드에서 작동 하도록 픽스",
  "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스",
  "2014-05-23 - tom : file mimeType 이 없는 경우 업로드 지원 구문 추가"
+ "2014-06-04 tom : in single upload, reupload bugfix"
 
  * @description
  *
@@ -31617,25 +31633,26 @@ var AXUpload5 = Class.create(AXJ, {
 		return po.join('');
 	},
 	onFileSelect: function(evt){
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 		if(this.supportHtml5){
 			var files = evt.target.files; // FileList object
 			if(cfg.isSingleUpload){
 				
 				var myFile = this.uploadedList.first();
 				if(myFile){
+					this.__tempFiles = files[0];
 					if(!confirm(AXConfig.AXUpload5.deleteConfirm)) return;
 					var uploadFn = function(){
-						var i = 0;
-						var f = files[i];
-						var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
-						this.queue.push({id:itemID, file:f});
+						var itemID = 'AX'+AXUtil.timekey()+'_AX_0';
+						this.queue.push({id:itemID, file:_this.__tempFiles});
 						jQuery("#" + cfg.targetID+'_AX_display').empty();
-						jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, f));
-						
-						this.queueLive = true;
-						if(cfg.onStart) cfg.onStart.call(this.queue, this.queue);
-						this.uploadQueue();
+						jQuery("#" + cfg.targetID+'_AX_display').append(_this.getItemTag(itemID, _this.__tempFiles));
+
+						_this.queueLive = true;
+						if(cfg.onStart) cfg.onStart.call(_this.queue, _this.queue);
+						_this.uploadQueue();
+						itemID = null;
+						_this.__tempFiles = null;
 					};
 					this.deleteFile(myFile, uploadFn.bind(this));
 					return;
@@ -32060,7 +32077,9 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			
 			new AXReq(cfg.deleteUrl, {debug:false, pars:sendPars, onsucc:function(res){
-				if(res.result == AXConfig.AXReq.okCode || res.error === undefined){
+				if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
+
+					if(onEnd) setTimeout(onEnd, 1);
 					if(cfg.isSingleUpload){
 						jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
 					}else{
@@ -32068,11 +32087,15 @@ var AXUpload5 = Class.create(AXJ, {
 							jQuery(this).remove();
 						});
 					}
-					removeUploadedList(file.id);	
+					removeUploadedList(file.id);
 					if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
-					if(onEnd) onEnd();
+
 				}else{
-					jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
+					if(cfg.isSingleUpload){
+						jQuery("#"+file.id+" .AXUploadBtns").hide();
+					}else{
+						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+					}
 				}
 			}});
 
