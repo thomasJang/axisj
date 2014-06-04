@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXUpload5.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -66,7 +67,7 @@
 					
 					uploadUrl:"fileUpload.php",
 					uploadPars:{userID:'tom', userName:'액시스'},
-					deleteUrl:"fileUpload.php",
+					deleteUrl:"fileDelete.php",
 					deletePars:{userID:'tom', userName:'액시스'},
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
@@ -115,7 +116,7 @@
 				}});
 				
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
-				
+				/*
 				myUpload1.setConfig({
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5_1",
@@ -172,7 +173,8 @@
 						}
 					}
 				});
-				
+				*/
+                /*
 				myUpload2.setConfig({
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5_2",
@@ -229,6 +231,7 @@
 						}
 					}
 				});
+				*/
 				
 			},
 			printMethodReturn: function(method, type){

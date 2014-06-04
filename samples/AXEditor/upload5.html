@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXEditor.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -171,8 +172,20 @@
 				fpas.push("attFileName="+f.nm+"&attPath="+f.path+"&attFileType="+f.ty+"&attTitle="+f.ti+"&attFileSize="+f.size+"&attthumb="+f.thumb);
 			});
 			alert(fpas);
-			
-		}		
+		},
+        insertImg: function(file){
+            var sel = myUpload.getSelectUploadedList("object");
+            axf.each(sel,  function(){
+                myEditor.insertIMG({
+                    ti: this.name,
+                    nm: this.saveName,
+                    ty: this.type,
+                    sz: this.fileSize,
+                    path: this.uploadedPath,
+                    thumb: this.thumbUrl
+                });
+            });
+        }
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
@@ -210,6 +223,7 @@
                 <input type="button" value="전송중지" class="AXButton" id="uploadCancelBtn" disabled="disabled" onclick="myUpload.cancelUpload();" />
                 <input type="button" value="선택삭제" class="AXButton" onclick="myUpload.deleteSelect();" />
                 <input type="button" value="모두삭제" class="AXButton" onclick="myUpload.deleteSelect('all');" />
+                <button type="button" class="AXButton" onclick="fnObj.insertImg();">에디터에 이미지 넣기</button>
             </div>
 
             <div class="H20"></div>

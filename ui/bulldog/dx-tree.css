@@ -468,8 +468,6 @@
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.noListTr td {
   vertical-align: middle;
   height: 100px;
-  background: #f7f7f7;
-  border-bottom: 1px solid #ffffff;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.line0 td {
   background-color: #eaedef;
@@ -825,7 +823,6 @@
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.noListTr td {
   vertical-align: middle;
   height: 100px;
-  border-bottom: 1px solid #ffffff;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.AXTreeSplit td {
   vertical-align: middle;

@@ -21,6 +21,8 @@
     <script type="text/javascript" src="dist/AXJ.min.js"></script>
     -->
 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
     <script type="text/javascript" src="lib/AXJ.js"></script>
     <script type="text/javascript" src="lib/AXTopDownMenu.js"></script>
     <script type="text/javascript" src="lib/AXMobileMenu.js"></script>
@@ -64,6 +66,14 @@
             });
             po.push('<div class="ax-clear"></div>');
             $("#ax_layer_1").html(po.join(''));
+
+            /*
+            mask.setContent({
+                width:50, height:50,
+                html:"<i class='fa fa-circle-o-notch fa-spin' style='font-size:50px;'></i>"
+            });
+            mask.open();
+            */
     	}, 500);
     });
 </script>
