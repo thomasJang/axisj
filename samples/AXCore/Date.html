@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -103,9 +104,14 @@
             $("#AXJ_dateDiffTest").bindDate();
             $("#AXJ_datePrintTest").bindDate();
 
-            //var nd = new Date();
-            //trace(nd.print("yyyy.mm.dd(dw)"));
-            //trace("2013-05-05".date().print('yyyy년 mm월 dd일 (dw)'));
+            var nd = new Date();
+            //trace(nd.print("dd"));
+            nd = nd.add(1);
+            trace(nd.print("dd"));
+
+            nd = nd.add(1);
+            trace(nd.print("dd"));
+
         }
     };
     $(document).ready(fnObj.pageStart.delay(0.5));

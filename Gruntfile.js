@@ -3,6 +3,7 @@
   // Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+
 		concat: {
 			options: {
 				stripBanners: true,
@@ -11,9 +12,16 @@
 				'<%= grunt.template.today("yyyy-mm-dd") %> \n*/\n',
 				separator: '\n/* ---------------------------- */\n'
 			},
-			dist: {
+			basic: {
 				src: [
 					'lib/AXConfig.js',
+					'lib/AXUtil.js',
+					'lib/AXCore.js'
+				],
+				dest: 'lib/AXJ.js'
+			},
+			extras: {
+				src: [
 					'lib/AXJ.js',
 					'lib/AXDOMRange.js',
 					'lib/AXDrag.js',
@@ -43,7 +51,7 @@
 					'lib/AXValidator.js',
 					'lib/AXWaterfall.js'
 				],
-				dest: 'dist/<%= pkg.name %>.all.js',
+				dest: 'dist/<%= pkg.name %>.all.js'
 			}
 		},
 		uglify: {
@@ -127,7 +135,8 @@
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	
+
+	grunt.registerTask('js-concat', ['concat']);
 	grunt.registerTask('js', ['concat','uglify']);
 	grunt.registerTask('css', ['cssmin']);
 };
