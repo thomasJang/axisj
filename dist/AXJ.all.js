@@ -812,8 +812,10 @@ Object.extend(Date.prototype, (function () {
 		var interval = interval.toLowerCase();
 		var DyMilli = ((1000 * 60) * 60) * 24;
 		var aDate = new Date(this.getUTCFullYear(), this.getMonth(), this.getDate(), 12);
+
 		if (interval == "d") {
-			aDate.setTime(this.getTime() + (daynum * DyMilli));
+			//trace(aDate.getTime(), (daynum) , (DyMilli));
+			aDate.setTime(aDate.getTime() + (daynum * DyMilli));
 		} else if (interval == "m") {
 			var yy = aDate.getFullYear();
 			var mm = aDate.getMonth();
@@ -825,9 +827,9 @@ Object.extend(Date.prototype, (function () {
 			if (mxdd < dd) dd = mxdd;
 			aDate = new Date(yy, mm, dd, 12);
 		} else if (interval == "y") {
-			aDate.setTime(this.getTime() + ((daynum * 365) * DyMilli));
+			aDate.setTime(aDate.getTime() + ((daynum * 365) * DyMilli));
 		} else {
-
+			aDate.setTime(aDate.getTime() + (daynum * DyMilli));
 		}
 		return aDate;
 	}
@@ -881,37 +883,36 @@ Object.extend(Date.prototype, (function () {
 			nS = this.getSeconds().setDigit(2);
 			nDW = this.getDay();
 
-			var yre = /[^y]*(y{4})[^y]*/gi; yre.test(fStr); var regY = RegExp.$1;
-			var mre = /[^mm]*(m{2})[^mm]*/gi; mre.test(fStr); var regM = RegExp.$1;
-			var dre = /[^d]*(d{2})[^d]*/gi; dre.test(fStr); var regD = RegExp.$1;
-			var hre = /[^h]*(h{2})[^d]*/gi; hre.test(fStr); var regH = RegExp.$1;
-			var mire = /[^mi]*(mi)[^mi]*/gi; mire.test(fStr); var regMI = RegExp.$1;
-			var sre = /[^s]*(s{2})[^s]*/gi; sre.test(fStr); var regS = RegExp.$1;
-			var dwre = /[^d]*(dw)[^w]*/gi; dwre.test(fStr); var regDW = RegExp.$1;
+			var yre = /[^y]*(yyyy)[^y]*/gi; yre.exec(fStr); var regY = RegExp.$1;
+			var mre = /[^m]*(mm)[^m]*/gi; mre.exec(fStr); var regM = RegExp.$1;
+			var dre = /[^d]*(dd)[^d]*/gi; dre.exec(fStr); var regD = RegExp.$1;
+			var hre = /[^h]*(hh)[^h]*/gi; hre.exec(fStr); var regH = RegExp.$1;
+			var mire = /[^m]*(mi)[^i]*/gi; mire.exec(fStr); var regMI = RegExp.$1;
+			var sre = /[^s]*(ss)[^s]*/gi; sre.exec(fStr); var regS = RegExp.$1;
+			var dwre = /[^d]*(dw)[^w]*/gi; dwre.exec(fStr); var regDW = RegExp.$1;
 
-			if (regY) {
+			if (regY === "yyyy") {
 				fStr = fStr.replace(regY, nY.right(regY.length));
 			}
-			if (regM) {
+			if (regM === "mm") {
 				if (regM.length == 1) nM = (this.getMonth() + 1);
 				fStr = fStr.replace(regM, nM);
 			}
-			if (regD) {
+			if (regD === "dd") {
 				if (regD.length == 1) nD = this.getDate();
 				fStr = fStr.replace(regD, nD);
 			}
-			if (regH) {
+			if (regH === "hh") {
 				fStr = fStr.replace(regH, nH);
 			}
-			if (regMI) {
+			if (regMI === "mi") {
 				fStr = fStr.replace(regMI, nMM);
 			}
-			if (regS) {
+			if (regS === "ss") {
 				fStr = fStr.replace(regS, nS);
 			}
-			if (regS) {
+			if (regDW == "dw") {
 				fStr = fStr.replace(regDW, AXConfig.weekDays[nDW].label);
-
 			}
 			return fStr;
 		}
@@ -2806,7 +2807,7 @@ var AXCalendar = Class.create(AXJ, {
             { name: "FRI" },
             { name: "SAT" }
         ];
-        this.config.printFormat = "d";
+        this.config.printFormat = "dd";
         this.config.titleFormat = "yyyy/mm/dd";
         this.config.valueFormat = "yyyy-mm-dd";
     },
@@ -2865,7 +2866,7 @@ var AXCalendar = Class.create(AXJ, {
                 var tdClass = [];
                 if (roopDate.getMonth() != monthStartDate.getMonth()) addClass.push("notThisMonth");
                 if (setDate.diff(roopDate, "D") == 0) tdClass.push("setDate");
-                po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue + "</a></td>");
+                po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue.number() + "</a></td>");
                 k++;
                 roopDate = roopDate.add(1);
             }

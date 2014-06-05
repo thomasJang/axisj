@@ -750,6 +750,14 @@
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate.notThisMonth {
   color: #bfbfc1;
 }
+.AXCalendar table.calendarPage tbody td.bodyCol_1 A.calendarDate.notThisMonth,
+.AXCalendar table.calendarPage tbody td.bodyCol_2 A.calendarDate.notThisMonth,
+.AXCalendar table.calendarPage tbody td.bodyCol_3 A.calendarDate.notThisMonth,
+.AXCalendar table.calendarPage tbody td.bodyCol_4 A.calendarDate.notThisMonth,
+.AXCalendar table.calendarPage tbody td.bodyCol_5 A.calendarDate.notThisMonth,
+.AXCalendar table.calendarPage tbody td.bodyCol_6 A.calendarDate.notThisMonth {
+  color: #bfbfc1;
+}
 .AXCalendar table.calendarPageMonth {
   table-layout: fixed;
   width: 100%;
