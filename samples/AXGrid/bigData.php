@@ -21,6 +21,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -117,6 +118,12 @@
 
 			<div class="title"><h1>AXGrid(bigData)</h1></div>
             <div id="AXGridTarget" style="height:400px;"></div>
+            <div style="padding:10px 0px;">
+                <button class="AXButton" onclick="myGrid.setFocus(0);">setFocus(0)</button>
+                <button class="AXButton" onclick="myGrid.setFocus(100);">setFocus(100)</button>
+                <button class="AXButton" onclick="myGrid.setFocus(200);">setFocus(200)</button>
+                <button class="AXButton" onclick="myGrid.setFocus(600);">setFocus(600)</button>
+            </div>
 
             <p>
                 <div>mac chrome : 600,000건 OK</div>
