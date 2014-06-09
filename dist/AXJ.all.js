@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.5 - 2014-06-05 
+AXJ - v1.0.5 - 2014-06-09 
 */
 /*! 
-AXJ - v1.0.5 - 2014-06-05 
+AXJ - v1.0.5 - 2014-06-09 
 */
 
 if(!window.AXConfig){
@@ -11260,6 +11260,7 @@ AXGrid = Class.create(AXJ, {
 			}
 
 			if(cfg.height != "auto" && this.list.length > 0) {
+
 				//아이템 한줄의 높이는?
 				var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
 				this.scrollContent.css({"padding-bottom":itemTrHeight});
@@ -11295,6 +11296,7 @@ AXGrid = Class.create(AXJ, {
 					printListCount: printListCount,
 					scrollTop: 0
 				};
+
 				this.cachedDom.thpadding.css({ height: 0 });
 				this.cachedDom.tfpadding.css({ height: (this.list.length - printListCount-1) * (itemTrHeight) });
 				if(this.hasFixed) {
@@ -11610,7 +11612,11 @@ AXGrid = Class.create(AXJ, {
 			var itemIndex = this.list.length;
 			this.list.push(pushItem);
 
-			if (itemIndex == 0) {
+			this.printList();
+			if (itemIndex > 0) this.setFocus(itemIndex);
+
+			/*
+			if (itemIndex > 0) {
 				this.printList();
 			} else {
 
@@ -11643,8 +11649,10 @@ AXGrid = Class.create(AXJ, {
 				}
 
 				this.contentScrollResize(false);
+				this.printList();
 				this.setFocus(itemIndex);
 			}
+			*/
 		}
 
 		if (!this.pageActive) this.setStatus(this.list.length);
@@ -12774,7 +12782,7 @@ AXGrid = Class.create(AXJ, {
 			if(newStartIndex < 0) newStartIndex = 0;
 			var newEndIndex = newStartIndex + VS.printListCount;
 
-			//trace(newStartIndex, newEndIndex, VS.printListCount, this.list.length);
+			//trace(VS.startIndex, newStartIndex, newEndIndex, VS.printListCount, this.list.length);
 			if(newEndIndex > this.list.length) {
 				newEndIndex = this.list.length;
 				newStartIndex = newEndIndex - VS.printListCount;
@@ -12820,10 +12828,10 @@ AXGrid = Class.create(AXJ, {
 				this.body.find(".gridBodyTr").bind("click", this.gridBodyClick.bind(this));
 				if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
-				if (this.selectedRow && this.selectedRow.length > 0) {
+				if (this.selectedRow != undefined && this.selectedRow.length > 0) {
 					var body = this.body;
-					for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
-						body.find(".gridBodyTr_" + item).addClass("selected");
+					for(var itemIndex = 0;itemIndex < this.selectedRow.length;itemIndex++){
+						body.find(".gridBodyTr_" + this.selectedRow[itemIndex]).addClass("selected");
 					}
 				}
 
@@ -12866,7 +12874,7 @@ AXGrid = Class.create(AXJ, {
 		}
 	},
 	setFocus: function (itemIndex) {
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 
 		if (cfg.viewMode == "grid") {
 
@@ -12883,29 +12891,70 @@ AXGrid = Class.create(AXJ, {
 				});
 			}
 
-			this.selectedRow.clear();
-			this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-			this.selectedRow.push(itemIndex);
+			//TODO : over view item focus
+			if(this.virtualScroll.startIndex > itemIndex || this.virtualScroll.endIndex < itemIndex){
 
-			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+				this.selectedRow.clear();
+				this.selectedRow.push(itemIndex);
 
-			var scrollHeight = this.scrollContent.height();
-			var bodyHeight = this.body.height();
-			var handleHeight = this.scrollYHandle.outerHeight();
-			var trackHeight = this.scrollTrackY.height();
+				var scrollHeight = this.scrollContent.height();
+				var bodyHeight = this.body.height();
+				var handleHeight = this.scrollYHandle.outerHeight();
+				var trackHeight = this.scrollTrackY.height();
 
-			if (trTop.number() + trHeight.number() > bodyHeight) {
-				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+				//var scrollTop = bodyHeight - scrollHeight;
+				// itemIndex 에 맞는 scrollTop 구하기
+				var scrollTop = this.virtualScroll.itemTrHeight * itemIndex;
+
 				this.scrollContent.css({ top: scrollTop });
-				this.contentScrollContentSync({ top: scrollTop });
-			} else {
-				if (trTop.number() == 0) {
-					var scrollTop = 0;
+				this.contentScrollContentSync({ top: scrollTop }, "manual");
+				this.bigDataSyncApply();
+
+				setTimeout(function(){
+					var trTop = _this.body.find(".gridBodyTr_" + itemIndex).position().top;
+					var trHeight = _this.body.find(".gridBodyTr_" + itemIndex).height();
+
+					if (trTop.number() + trHeight.number() > bodyHeight) {
+						scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+						_this.scrollContent.css({ top: scrollTop });
+						_this.contentScrollContentSync({ top: scrollTop });
+					} else {
+						if (trTop.number() == 0) {
+							scrollTop = 0;
+							_this.scrollContent.css({ top: scrollTop });
+							_this.contentScrollContentSync({ top: scrollTop });
+						}
+					}
+				}, 1);
+
+			}else{
+
+				this.selectedRow.clear();
+				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+				this.selectedRow.push(itemIndex);
+
+				var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
+				var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+
+				var scrollHeight = this.scrollContent.height();
+				var bodyHeight = this.body.height();
+				var handleHeight = this.scrollYHandle.outerHeight();
+				var trackHeight = this.scrollTrackY.height();
+
+
+				if (trTop.number() + trHeight.number() > bodyHeight) {
+					var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 					this.scrollContent.css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
+				} else {
+					if (trTop.number() == 0) {
+						var scrollTop = 0;
+						this.scrollContent.css({ top: scrollTop });
+						this.contentScrollContentSync({ top: scrollTop });
+					}
 				}
 			}
+
 		} else if (cfg.viewMode == "icon") {
 
 		} else if (cfg.viewMode == "mobile") {
@@ -19464,7 +19513,7 @@ var AXMobileMenu = Class.create(AXJ, {
  * AXModal
  * @class AXModal
  * @extends AXJ
- * @version v1.35
+ * @version v1.36
  * @author tom@axisj.com
  * @logs
  "2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -19478,6 +19527,7 @@ var AXMobileMenu = Class.create(AXJ, {
  "2013-11-15 오후 4:01:29 - tom : openDiv scroll 버그 패치",
  "2013-11-18 오후 5:16:02 - tom resize 버그 패치",
  "2014-05-21 - tom : AXModal mediaQuery 속성 추가"
+ "2014-06-09 tom : mediaQuery bugfix"
  *
  */
 var AXModal = Class.create(AXJ, {
@@ -19757,6 +19807,9 @@ var AXModal = Class.create(AXJ, {
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
 	},
+	windowResizeApply: function(){
+		this.onDocResize();
+	},
 	openDiv: function (args) {
 		var cfg = this.config;
 		mask.open();
@@ -19990,6 +20043,7 @@ var AXModal = Class.create(AXJ, {
 
 		if (cfg.mediaQuery) {
 			var _viewMode = "", clientWidth = axf.clientWidth();
+
 			axf.each(cfg.mediaQuery, function (k, v) {
 				if (Object.isObject(v)) {
 

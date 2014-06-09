@@ -21,6 +21,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -117,6 +118,12 @@
 
 			<div class="title"><h1>AXGrid(bigData)</h1></div>
             <div id="AXGridTarget" style="height:400px;"></div>
+            <div style="padding:10px 0px;">
+                <button class="AXButton" onclick="myGrid.setFocus(0);">setFocus(0)</button>
+                <button class="AXButton" onclick="myGrid.setFocus(100);">setFocus(100)</button>
+                <button class="AXButton" onclick="myGrid.setFocus(200);">setFocus(200)</button>
+                <button class="AXButton" onclick="myGrid.setFocus(600);">setFocus(600)</button>
+            </div>
 
             <p>
                 <div>mac chrome : 600,000건 OK</div>
@@ -134,7 +141,7 @@
 </body>
 </html>		
 <?
-$itemCount = 1000;
+$itemCount = 300;
 ?>
 <script>
     var list = [
@@ -143,25 +150,25 @@ $itemCount = 1000;
     {
         for ($i = 0;$i<$itemCount; $i++){
             if($i > 0){ echo ","; }
-            echo '{no:'.($i*3+1).',title:"AXGrid data line '.($i*3+1).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*3+2).',title:"AXGrid data line '.($i*3+2).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*3+3).',title:"AXGrid data line '.($i*3+3).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo '{no:'.($i*3+1).',title:"AXGrid data line '.($i*3+1).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*3+2).',title:"AXGrid data line '.($i*3+2).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*3+3).',title:"AXGrid data line '.($i*3+3).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
         }
     }
     else
     {
         for ($i = 0;$i<$itemCount; $i++){
             if($i > 0){ echo ","; }
-            echo '{no:'.($i*10+1).',title:"AXGrid data line '.($i*10+1).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+2).',title:"AXGrid data line '.($i*10+2).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+3).',title:"AXGrid data line '.($i*10+3).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+4).',title:"AXGrid data line '.($i*10+4).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+5).',title:"AXGrid data line '.($i*10+5).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+6).',title:"AXGrid data line '.($i*10+6).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+7).',title:"AXGrid data line '.($i*10+7).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+8).',title:"AXGrid data line '.($i*10+8).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+9).',title:"AXGrid data line '.($i*10+9).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
-            echo ',{no:'.($i*10+10).',title:"AXGrid data line '.($i*10+10).'",writer:"Thomas",regDate:"2013-01-18",desc:"myGrid.setList",price:123000,amount:10}';
+            echo '{no:'.($i*10+1).',title:"AXGrid data line '.($i*10+1).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+2).',title:"AXGrid data line '.($i*10+2).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+3).',title:"AXGrid data line '.($i*10+3).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+4).',title:"AXGrid data line '.($i*10+4).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+5).',title:"AXGrid data line '.($i*10+5).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+6).',title:"AXGrid data line '.($i*10+6).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+7).',title:"AXGrid data line '.($i*10+7).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+8).',title:"AXGrid data line '.($i*10+8).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+9).',title:"AXGrid data line '.($i*10+9).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
+            echo ',{no:'.($i*10+10).',title:"AXGrid data line '.($i*10+10).'",writer:"Thomas",regDate:"2013-01-18",desc:"..",price:123000,amount:10}';
         }
     }
     ?>
