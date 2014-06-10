@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.5 - 2014-06-09 
+AXJ - v1.0.5 - 2014-06-10 
 */
 /*! 
-AXJ - v1.0.5 - 2014-06-09 
+AXJ - v1.0.5 - 2014-06-10 
 */
 
 if(!window.AXConfig){
@@ -25204,7 +25204,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.48
+ * @version v1.49
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25231,6 +25231,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-05 25 tom : resetHeight 함수 개선, emptyListMSG 설정 기능 추가"
  "2014-05-27 tom : ajax 옵션 추가 확장 지원 "
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
+ "2014-06-10 tom : bugfix method:clearFocus"
  *
  * @description
  *
@@ -28702,7 +28703,22 @@ var AXTree = Class.create(AXJ, {
 		}
 	},
 	clearFocus: function () {
+		var cfg = this.config;
 
+		if (this.selectedCells.length > 0) {
+			axf.each(this.selectedCells, function () {
+				axdom("#" + this).removeClass("selected");
+			});
+			this.selectedCells.clear();
+		}
+		if (this.selectedRow.length > 0) {
+			var body = this.body;
+			axf.each(this.selectedRow, function () {
+				body.find(".gridBodyTr_" + this).removeClass("selected");
+			});
+		}
+
+		this.selectedRow.clear();
 	},
 	setFocus: function (itemIndex) {
 		var cfg = this.config;
