@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.5 - 2014-06-10 
+AXJ - v1.0.5 - 2014-06-11 
 */
 /*! 
-AXJ - v1.0.5 - 2014-06-10 
+AXJ - v1.0.5 - 2014-06-11 
 */
 
 if(!window.AXConfig){
@@ -767,12 +767,23 @@ Object.extend(Number.prototype, (function () {
 	function right(strLen) { return this.toString().substring(this.toString().length - strLen, this.toString().length); }
 	function toMoney() { var txtNumber = '' + this; if (isNaN(txtNumber) || txtNumber == "") { return ""; } else { var rxSplit = new RegExp('([0-9])([0-9][0-9][0-9][,.])'); var arrNumber = txtNumber.split('.'); arrNumber[0] += '.'; do { arrNumber[0] = arrNumber[0].replace(rxSplit, '$1,$2'); } while (rxSplit.test(arrNumber[0])); if (arrNumber.length > 1) { return arrNumber.join(''); } else { return arrNumber[0].split('.')[0]; } } }
 	function toByte() { var n_unit = "KB"; var myByte = this / 1024; if (myByte / 1024 > 1) { n_unit = "MB"; myByte = myByte / 1024; } if (myByte / 1024 > 1) { n_unit = "GB"; myByte = myByte / 1024; } return myByte.round(1) + n_unit; }
-	function toNum() { return Math.round(this * 100000000000000) / 100000000000000; }
+	function toNum() { return Math.round(this * 1000000000000000) / 1000000000000000; }
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
-	function round(digit) { return Math.round((Math.round(this * 100000000000000) / 100000000000000) * Math.pow(10, (digit || 0))) / Math.pow(10, (digit || 0)); }
+	function round(digit) {
+		var _num, pow1 = Math.pow(10, (digit || 0));
+		if( digit ){
+			var _digit = parseInt(digit, 10) + 1, pow2 = Math.pow(10, (_digit || 0));
+			_num = Math.round((Math.round(this * 1000000000000000) / 1000000000000000) * pow2) / pow2;
+			if( _num.toFixed(_digit).right(1) == 5 ) _num += Math.pow(10, -digit);
+			_num = Math.round( _num * pow1 ) / pow1;
+		}else{
+			_num = Math.round((Math.round(this * 1000000000000000) / 1000000000000000) * pow1) / pow1;
+		}
+		return _num;
+	}
 	function ceil() { return Math.ceil(this); }
 	function floor() { return Math.floor(this); }
 	function date() { return new Date(this); }
@@ -25231,7 +25242,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-05 25 tom : resetHeight 함수 개선, emptyListMSG 설정 기능 추가"
  "2014-05-27 tom : ajax 옵션 추가 확장 지원 "
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
- "2014-06-10 tom : bugfix method:clearFocus"
+ "2014-06-10 tom : bugfix, method:clearFocus"
  *
  * @description
  *
