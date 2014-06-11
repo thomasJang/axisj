@@ -25215,7 +25215,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.49
+ * @version v1.50
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25243,6 +25243,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-05-27 tom : ajax 옵션 추가 확장 지원 "
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
  "2014-06-10 tom : bugfix, method:clearFocus"
+ "2014-06-11 tom : bugfix, method:removeTree - remove child node then parent node not update"
  *
  * @description
  *
@@ -27499,7 +27500,6 @@ var AXTree = Class.create(AXJ, {
 							}else{
 								tpo.push("<a class=\"bodyNodeIcon " + iconClass.addClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIcon_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth) + "px;\">"+ iconClass.html +"</a>");
 							}
-
 						}
 
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
@@ -29315,9 +29315,8 @@ var AXTree = Class.create(AXJ, {
 		//부모 ITEM 의 __subTreeLength 속성 변경하기
 		if (pItem) {
 			this.list[pItem.itemIndex].__subTreeLength = __subTreeLength;
-
 			// appendList 구문 생성
-			/* */
+			/*
 			if (__subTreeLength == 0) {
 				var lastR = cfg.body.rows.length - 1;
 				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
@@ -29325,6 +29324,13 @@ var AXTree = Class.create(AXJ, {
 				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
 				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
 			}
+			*/
+
+			// 부모 ITEM 의 update
+			var getItem = this.getItem.bind(this);
+			var npo = "", lastR = cfg.body.rows.length - 1;
+			npo = getItem(pItem.itemIndex, this.list[pItem.itemIndex], "n", "notr");
+			axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + pItem.itemIndex).html( npo );
 		}
 
 		if (this.selectedRow.length > 0) {
@@ -31444,7 +31450,7 @@ var AXUpload5 = Class.create(AXJ, {
 						this.cancelUpload();
 						return;
 					}
-				}				
+				}
 				
 				//trace(file);
 				//{"filestatus":-1, "name":"20130708175735_1.jpg", "type":".jpg", "id":"SWFUpload_0_0", "index":0, "modificationdate":"2013-10-04T08:51:27Z", "uploadtype":0, "post":{}, "size":891324, "creationdate":"2013-10-04T08:52:02Z"} 

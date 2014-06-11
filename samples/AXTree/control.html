@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTree.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -49,7 +50,10 @@
 				theme: "AXTree_none",
 				//height:"auto",
 				xscroll:false,
-				
+                emptyListMSG:"<i class='fa fa-spinner'></i> List of Empty",
+                iconWidth:18,
+                indentRatio:0.75,
+
 				relation:{
 					parentKey:"parentcd",
 					childKey:"nodeID",
@@ -58,22 +62,26 @@
 				},
 				
 				colGroup: [
-					{key:"no", label:"번호", width:"100", align:"center", display:false},
-					{key:"nodenm", label:"제목", width:"100%", align:"left", indent:true,
+					{key:"nodenm", label:"제목", width:"*", align:"left", indent:true,
 						getIconClass: function(){
-							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
-							//var iconNames = "company, folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
-							var iconName = "file";
-							if(this.item.type) iconName = this.item.type;
-							return iconName;
+                            if(this.item.__subTreeLength > 0){
+                                return {
+                                    addClass:"userHtml",
+                                    html:"<i class='fa fa-folder-open'></i>"
+                                };
+                            }else{
+                                return {
+                                    addClass:"userHtml",
+                                    html:"<i class='fa fa-file'></i>"
+                                };
+                            }
 						},
 						formatter:function(){
 							//return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
 							//return this.item.nodeName;
 							return (this.item.nodenm||"").dec();
 						}
-					},
-					{key:"writer", label:"작성자", width:"100", align:"center", display:false}
+					}
 				],
 				body: {
 					onclick:function(idx, item){
