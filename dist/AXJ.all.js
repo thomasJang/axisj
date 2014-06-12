@@ -15730,7 +15730,7 @@ var AXInputConverter = Class.create(AXJ, {
 
         var po = [];
         axf.each(obj.config.options, function (index, O) {
-            if (optionPrintLength != "") {
+            if (!isNaN(optionPrintLength)) {
                 if (index > optionPrintLength - 1) return false;
             }
             var descStr = (O.desc || O.optionDesc || "").dec();
