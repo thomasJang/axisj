@@ -11,7 +11,8 @@ var myTabOption = [
 	{optionValue:"passive", optionText:"passive", addClass:"", url:"passive.html"},
 	{optionValue:"viewMode", optionText:"viewMode", addClass:"", url:"viewMode.html"},
     {optionValue:"setData", optionText:"setData way", addClass:"", url:"setData.html"},
-	{optionValue:"bigData", optionText:"bigData", addClass:"", url:"bigData.php"}
+	{optionValue:"bigData", optionText:"bigData", addClass:"", url:"bigData.php"},
+	{optionValue:"misc", optionText:"misc", addClass:"", url:"misc.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){
