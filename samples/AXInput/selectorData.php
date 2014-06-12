@@ -18,7 +18,7 @@
 		{optionValue:8, optionText:"전주"},
 		{optionValue:9, optionText:"Gwangju"}
 
-<? for ($i = 0;$i<100; $i++){ ?>
+<? for ($i = 0;$i<200; $i++){ ?>
     ,{optionValue:<?=($i + 1)?>, optionText:"text <?=($i + 1)?>"}
 <? } ?>
 

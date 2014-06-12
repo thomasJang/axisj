@@ -1988,7 +1988,7 @@ var AXScroll = Class.create(AXJ, {
         if (cfg.yscroll) {
             var SBheight = CTheight * (CTheight - (cfg.scrollBarMargin*2)) / Cheight;
 	        if(SBheight < 30) SBheight = 30;
-            this.scrollBar.css({ height: Math.ceil(SBheight), top:cfg.scrollBarMargin });
+            this.scrollBar.css({ height: Math.ceil(SBheight) });
 	        /*
             if (SBheight < 30) {
                 this.minHeightSB.TF = true;
@@ -2007,7 +2007,7 @@ var AXScroll = Class.create(AXJ, {
         if (cfg.xscroll) {
             var SBwidth = CTwidth * (CTwidth - (cfg.scrollBarMargin*2)) / Cwidth;
 	        if(SBwidth < 30) SBwidth = 30;
-            this.xscrollBar.css({ width: Math.ceil(SBwidth), left:cfg.scrollBarMargin });
+            this.xscrollBar.css({ width: Math.ceil(SBwidth) });
 	        /*
             if (SBwidth < 30) {
                 this.minWidthSB.TF = true;
@@ -2689,7 +2689,7 @@ var AXScroll = Class.create(AXJ, {
         var config = this.config;
         var Ctop = this.scrollScrollID.position().top;
         var CTheight = this.scrollTargetID.innerHeight();
-        var STh = this.scrollTrack.height() + 8;
+        var STh = this.scrollTrack.height();
         var Ch = this.scrollScrollID.outerHeight();
 
         var SBh = this.scrollBar.height();
@@ -15730,7 +15730,7 @@ var AXInputConverter = Class.create(AXJ, {
 
         var po = [];
         axf.each(obj.config.options, function (index, O) {
-            if (optionPrintLength != "") {
+            if (!isNaN(optionPrintLength)) {
                 if (index > optionPrintLength - 1) return false;
             }
             var descStr = (O.desc || O.optionDesc || "").dec();
