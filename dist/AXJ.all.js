@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.5 - 2014-06-11 
+AXJ - v1.0.5 - 2014-06-13 
 */
 /*! 
-AXJ - v1.0.5 - 2014-06-11 
+AXJ - v1.0.5 - 2014-06-13 
 */
 
 if(!window.AXConfig){
@@ -1865,26 +1865,40 @@ var dialog = new AXNotification();
 dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
 /* ---------------------------------------------- AXNotification -- */
 
-/* -- AXScroll ---------------------------------------------- */
+/**
+ * AXScroll
+ * @class AXScroll
+ * @extends AXJ
+ * @version v1.51
+ * @author tom@axisj.com
+ * @logs
+ "2012-10-10 오전 11:17:34",
+ "2013-01-08 오후 2:33:39 스크롤대상을 스크롤바에서 컨테이너 기준으로 변경 - root",
+ "2013-01-09 오후 1:29:26 mobile 환경에서 클릭버그수정 - tom",
+ "2013-01-11 오후 4:18:21 스크롤바 드래그시 컨테이너 top 계산 수정-root",
+ "2013-01-11 오후 5:18:54 컨테이너와 스크롤타겟의 높이에 따른 스크롤바표시 관련 수정-root",
+ "2013-01-31 오후 3:10:02 스크롤바가 최소일때 휠 및 드래그 계산수정-root ",
+ "2013-02-08 오후 5:48:26 컨테이너가 스크롤타켓보다 길때 휠 함수 중단 처리 - tom",
+ "2013-02-16 오후 4:13:16 unbind 후 다시 bind할때 생기는 이벤트 중첩현상 처리 - tom",
+ "2013-08-01 오후 4:54:17 mobile touch 버그픽스 - tom ",
+ "2013-10-16 오후 6:45:48 mobile 스크롤 속도문제 패치 - tom",
+ "2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가",
+ "2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가",
+ "2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스",
+ "2014-03-31 오후 6:26:34 root - yscroll 이 없어지면 scroll top 을 0으로"
+ "2014-06-13 tom scrollBar 와 content 싱크방식 변경 / 버그픽스"
+ * @description
+ *
+ ```js
+var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+myUIScroll.setConfig({
+	targetID:"UIScrollContainer",
+	scrollID:"UIScrollTarget"
+});
+ ```
+ *
+ */
 var AXScroll = Class.create(AXJ, {
-    version: "AXScroll v1.5",
-    author: "tom@axisj.com",
-    logs: [
-        "2012-10-10 오전 11:17:34",
-        "2013-01-08 오후 2:33:39 스크롤대상을 스크롤바에서 컨테이너 기준으로 변경 - root",
-        "2013-01-09 오후 1:29:26 mobile 환경에서 클릭버그수정 - tom",
-        "2013-01-11 오후 4:18:21 스크롤바 드래그시 컨테이너 top 계산 수정-root",
-        "2013-01-11 오후 5:18:54 컨테이너와 스크롤타겟의 높이에 따른 스크롤바표시 관련 수정-root",
-        "2013-01-31 오후 3:10:02 스크롤바가 최소일때 휠 및 드래그 계산수정-root ",
-        "2013-02-08 오후 5:48:26 컨테이너가 스크롤타켓보다 길때 휠 함수 중단 처리 - tom",
-        "2013-02-16 오후 4:13:16 unbind 후 다시 bind할때 생기는 이벤트 중첩현상 처리 - tom",
-        "2013-08-01 오후 4:54:17 mobile touch 버그픽스 - tom ",
-        "2013-10-16 오후 6:45:48 mobile 스크롤 속도문제 패치 - tom",
-        "2013-11-28 오전 11:23:11 tom - AX scrollTop 메소드 추가",
-        "2013-12-12 오전 10:25:28 tom - moveTo 메소드 추가",
-        "2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스",
-        "2014-03-31 오후 6:26:34 root - yscroll 이 없어지면 scroll top 을 0으로"
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.config.CT_className = "AXScroll";
@@ -1894,6 +1908,7 @@ var AXScroll = Class.create(AXJ, {
         this.Observer = null;
         this.config.yscroll = true;
         this.config.xscroll = false;
+	    this.config.scrollBarMargin = 3;
 
         this.minHeightSB = { TF: false, h: 0 };
         this.minWidthSB = { TF: false, w: 0 };
@@ -1959,10 +1974,10 @@ var AXScroll = Class.create(AXJ, {
         var CTwidth = this.scrollTargetID.innerWidth();
 
         if (cfg.yscroll) {
-            this.scrollTrack.css({ height: CTheight - 4 });
+            this.scrollTrack.css({ height: CTheight - (cfg.scrollBarMargin*2) });
         }
         if (cfg.xscroll) {
-            this.xscrollTrack.css({ width: CTwidth - 4 });
+            this.xscrollTrack.css({ width: CTwidth - (cfg.scrollBarMargin*2) });
         } else {
             this.scrollScrollID.css({ width: CTwidth });
         }
@@ -1970,14 +1985,16 @@ var AXScroll = Class.create(AXJ, {
         var Cheight = this.scrollScrollID.outerHeight();
         var Cwidth = this.scrollScrollID.outerWidth();
 
-
         if (cfg.yscroll) {
-            var SBheight = CTheight * (CTheight - 4) / Cheight;
-            this.scrollBar.css({ height: Math.ceil(SBheight) });
-            if (SBheight < 10) {
+            var SBheight = CTheight * (CTheight - (cfg.scrollBarMargin*2)) / Cheight;
+	        if(SBheight < 30) SBheight = 30;
+            this.scrollBar.css({ height: Math.ceil(SBheight), top:cfg.scrollBarMargin });
+	        /*
+            if (SBheight < 30) {
                 this.minHeightSB.TF = true;
                 this.minHeightSB.h = SBheight;
             }
+            */
             if (CTheight == Cheight || CTheight > Cheight) {
                 this.scrollTrack.hide();
                 this.scrollBar.hide();
@@ -1988,12 +2005,15 @@ var AXScroll = Class.create(AXJ, {
             }
         }
         if (cfg.xscroll) {
-            var SBwidth = CTwidth * (CTwidth - 4) / Cwidth;
-            this.xscrollBar.css({ width: Math.ceil(SBwidth) });
-            if (SBwidth < 10) {
+            var SBwidth = CTwidth * (CTwidth - (cfg.scrollBarMargin*2)) / Cwidth;
+	        if(SBwidth < 30) SBwidth = 30;
+            this.xscrollBar.css({ width: Math.ceil(SBwidth), left:cfg.scrollBarMargin });
+	        /*
+            if (SBwidth < 30) {
                 this.minWidthSB.TF = true;
                 this.minWidthSB.w = SBwidth;
             }
+            */
             if (CTwidth == Cwidth || CTwidth > Cwidth) {
                 this.xscrollTrack.hide();
                 this.xscrollBar.hide();
@@ -2415,9 +2435,9 @@ var AXScroll = Class.create(AXJ, {
             var SBy = pos.y + this.scrollBarAttr.y;
             //trace(SBy +" = "+ pos.y +"+"+ this.scrollBarAttr.y);
 
-            if (SBy < 2) SBy = 2;
+            if (SBy < config.scrollBarMargin) SBy = config.scrollBarMargin;
             if ((SBy + this.scrollBarAttr.h) > this.scrollBarAttr.sth) {
-                SBy = this.scrollBarAttr.sth - this.scrollBarAttr.h + 2;
+                SBy = this.scrollBarAttr.sth - this.scrollBarAttr.h + config.scrollBarMargin;
                 //trace(SBy)
             }
             this.scrollBar.css({ top: SBy });
@@ -2465,9 +2485,9 @@ var AXScroll = Class.create(AXJ, {
             var SBx = pos.x + this.scrollBarAttr.x;
             //trace(SBy +" = "+ pos.y +"+"+ this.scrollBarAttr.y);
 
-            if (SBx < 2) SBx = 2;
+            if (SBx < config.scrollBarMargin) SBx = config.scrollBarMargin;
             if ((SBx + this.scrollBarAttr.w) > this.scrollBarAttr.stw) {
-                SBx = this.scrollBarAttr.stw - this.scrollBarAttr.w + 2;
+                SBx = this.scrollBarAttr.stw - this.scrollBarAttr.w + config.scrollBarMargin;
             }
 
             this.xscrollBar.css({ left: SBx });
@@ -2549,59 +2569,44 @@ var AXScroll = Class.create(AXJ, {
         var config = this.config;
 
         if (xscroll == "xscroll") {
-            var SBx = this.xscrollBar.position().left;
-            var STw = this.STw;
-            var Cw = this.Cw;
 
-            var CTwidth = this.CTwidth;
-            var Cwidth = this.Cwidth;
-            var SBwidth = CTwidth * (CTwidth - 4) / Cwidth;
+	        if (!this.contentScrollXAttr) {
+		        this.contentScrollXAttr = {
+			        bodyWidth: this.scrollTargetID.width(),
+			        scrollWidth: this.scrollScrollID.width(),
+			        scrollTrackXWidth: this.xscrollTrack.width(),
+			        scrollXHandleWidth: this.xscrollBar.width()
+		        };
+	        }else{
+		        // scrollContent height update
+		        this.contentScrollXAttr.scrollWidth = this.scrollScrollID.width();
+		        this.contentScrollXAttr.scrollTrackXWidth = this.xscrollTrack.width();
+		        this.contentScrollXAttr.scrollXHandleWidth = this.xscrollBar.width();
+	        }
 
-            if (SBwidth < 10) { //스크롤 바가 최소값일 때
-                var addLeft, Cleft;
-                if (SBx == 2) SBx = 0;
-                addLeft = ((10 - this.minWidthSB.w) / (STw - 10)) * SBx;
-                addLeft = addLeft == 0 ? addLeft = 0 : addLeft = addLeft - 1;
-                if (STw - 10 > SBx) {
-                    Cleft = (SBx + addLeft) * Cw / STw;
-                } else {
-                    Cleft = Cw - CTwidth;
-                }
-                if ((SBx) == STw) {
-                    Cleft = Cw - CTwidth;
-                }
-            } else {
-                SBx = SBx == 2 ? SBx = 0 : SBx = SBx - 2;
-                var Cleft = SBx * Cw / STw;
-            }
-            this.scrollScrollID.css({ left: -(Cleft.round()) });
+            var SBx = this.xscrollBar.position().left - config.scrollBarMargin;
+	        var L = (this.contentScrollXAttr.scrollWidth * (SBx) / this.contentScrollXAttr.scrollTrackXWidth).round(0);
+            this.scrollScrollID.css({ left: -L });
+
         } else {
-            var SBy = this.scrollBar.position().top;
-            var STh = this.STh;
-            var Ch = this.Ch;
 
-            var CTheight = this.CTheight;
-            var Cheight = this.Cheight;
-            var SBheight = CTheight * (CTheight - 4) / Cheight;
+	        if (!this.contentScrollYAttr) {
+		        this.contentScrollYAttr = {
+			        bodyHeight: this.scrollTargetID.height(),
+			        scrollHeight: this.scrollScrollID.height(),
+			        scrollTrackYHeight: this.scrollTrack.height(),
+			        scrollYHandleHeight: this.scrollBar.height()
+		        };
+	        }else{
+		        // scrollContent height update
+		        this.contentScrollYAttr.scrollHeight = this.scrollScrollID.height();
+		        this.contentScrollYAttr.scrollTrackYHeight = this.scrollTrack.height();
+		        this.contentScrollYAttr.scrollYHandleHeight = this.scrollBar.height();
+	        }
 
-            if (SBheight < 10) { //스크롤 바가 최소값일 때
-                var addTop, Ctop;
-                if (SBy == 2) SBy = 0;
-                addTop = ((10 - this.minHeightSB.h) / (STh - 10)) * SBy;
-                addTop = addTop == 0 ? addTop = 0 : addTop = addTop - 1;
-                if (STh - 10 > SBy) {
-                    Ctop = (SBy + addTop) * Ch / STh;
-                } else {
-                    Ctop = Ch - CTheight;
-                }
-                if ((SBy) == STh) {
-                    Ctop = Ch - CTheight;
-                }
-            } else {
-                SBy = SBy == 2 ? SBy = 0 : SBy = SBy - 2;
-                var Ctop = SBy * Ch / STh;
-            }
-            this.scrollScrollID.css({ top: -(Ctop.round()) });
+            var SBy = this.scrollBar.position().top - config.scrollBarMargin;
+	        var T = (this.contentScrollYAttr.scrollHeight - this.contentScrollYAttr.bodyHeight) * ( (SBy) / (this.contentScrollYAttr.scrollTrackYHeight - this.contentScrollYAttr.scrollYHandleHeight) ).number();
+            this.scrollScrollID.css({ top: -T });
         }
 
     },
@@ -2611,90 +2616,68 @@ var AXScroll = Class.create(AXJ, {
         var config = this.config;
 
         if(direction == "left"){
-            if(position){
-                var Sy = position.left;
-            }else{
-                var Sy = this.scrollScrollID.position().left;
-            }
 
-            var STh = this.xscrollTrack.outerWidth();
-            var Sh = this.scrollScrollID.outerWidth();
-            var SBh = this.xscrollBar.outerWidth();
+	        if (!this.contentScrollXAttr) {
+		        this.contentScrollXAttr = {
+			        bodyWidth: this.scrollTargetID.width(),
+			        scrollWidth: this.scrollScrollID.width(),
+			        scrollTrackXWidth: this.scrollTrackX.width(),
+			        scrollXHandleWidth: this.scrollXHandle.outerWidth()
+		        };
+	        }else{
+		        // scrollContent height update
+		        this.contentScrollXAttr.scrollWidth = this.scrollScrollID.width();
+		        this.contentScrollXAttr.scrollTrackXWidth = this.xscrollTrack.width();
+		        this.contentScrollXAttr.scrollXHandleWidth = this.xscrollBar.outerWidth();
+	        }
 
-            var SBy = (-Sy * STh) / Sh;
-
-            var addTop = 0;
-            if (this.minWidthSB.TF) {
-                addTop = Math.floor(((10 - this.minWidthSB.h) / (STh - 4 - 10)) * SBy);
-                //addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
-            }
-
-            var addY = 0;
-            if (SBy < 2) {
-                addY = (SBy).abs();
-                SBy = 2;
-            } else {
-                addY = 0;
-                SBy = SBy - addTop;
-                if ((SBy + SBh) > STh) {
-                    addY = (SBy + SBh) - STh;
-                    SBy = STh - SBh + 2;
-                }
-            }
-            if(easing){
+	        var Sy = (position) ? position.left : this.scrollScrollID.position().left;
+	        var L = (this.contentScrollXAttr.scrollTrackXWidth - this.contentScrollXAttr.scrollXHandleWidth) * ((Sy) / (this.contentScrollXAttr.scrollWidth - this.contentScrollXAttr.bodyWidth));
+	        L -= config.scrollBarMargin;
+	        if(easing){
                 this.xscrollBar.animate({
-                    left: SBy,
-                    width: Math.ceil(this.scrollTargetID.outerWidth() * (this.scrollTargetID.outerWidth() - 4) / (this.scrollScrollID.outerWidth() + addY))
+                    left: -L
+                    //,width: Math.ceil(this.scrollTargetID.outerWidth() * (this.scrollTargetID.outerWidth() - 4) / (this.scrollScrollID.outerWidth() + addY))
                 }, duration, easing, function () {});
             }else{
                 this.xscrollBar.css({
-                    left: SBy,
-                    width: Math.ceil(this.scrollTargetID.outerWidth() * (this.scrollTargetID.outerWidth() - 4) / (this.scrollScrollID.outerWidth() + addY))
+                    left: -L
+                    //,width: Math.ceil(this.scrollTargetID.outerWidth() * (this.scrollTargetID.outerWidth() - 4) / (this.scrollScrollID.outerWidth() + addY))
                 });
             }
         }else{
+
             if (!config.yscroll) return false;
             //wheel control event is not jquery event !
 
-            if(position){
-                var Sy = position.top;
-            }else{
-                var Sy = this.scrollScrollID.position().top;
-            }
-            var STh = this.scrollTrack.outerHeight();
-            var Sh = this.scrollScrollID.outerHeight();
-            var SBh = this.scrollBar.outerHeight();
+	        if (!this.contentScrollYAttr) {
+		        this.contentScrollYAttr = {
+			        bodyHeight: this.scrollTargetID.height(),
+			        scrollHeight: this.scrollScrollID.height(),
+			        scrollTrackYHeight: this.scrollTrack.height(),
+			        scrollYHandleHeight: this.scrollBar.outerHeight()
+		        };
+	        }else{
+		        // scrollContent height update
+		        this.contentScrollYAttr.scrollHeight = this.scrollScrollID.height();
+		        this.contentScrollYAttr.scrollTrackYHeight = this.scrollTrack.height();
+		        this.contentScrollYAttr.scrollYHandleHeight = this.scrollBar.outerHeight();
+	        }
 
-            var SBy = (-Sy * STh) / Sh;
-
-            var addTop = 0;
-            if (this.minHeightSB.TF) {
-                addTop = Math.floor(((10 - this.minHeightSB.h) / (STh - 4 - 10)) * SBy);
-                //addTop = addTop == 0 ? addTop = 0 : addTop = addTop + 1;
-            }
-
-            var addY = 0;
-            if (SBy < 2) {
-                addY = (SBy).abs();
-                SBy = 2;
-            } else {
-                addY = 0;
-                SBy = SBy - addTop;
-                if ((SBy + SBh) > STh) {
-                    addY = (SBy + SBh) - STh;
-                    SBy = STh - SBh + 2;
-                }
-            }
+	        var Sy = (position) ? position.top : this.scrollScrollID.position().top;
+	        var T = (this.contentScrollYAttr.scrollTrackYHeight - this.contentScrollYAttr.scrollYHandleHeight) * ((Sy) / (this.contentScrollYAttr.scrollHeight - this.contentScrollYAttr.bodyHeight));
+			T -= config.scrollBarMargin;
             if(easing){
                 //trace({ top: SBy }, duration, easing);
+
                 this.scrollBar.animate({
-                    top: SBy,
-                    height: Math.ceil(this.scrollTargetID.outerHeight() * (this.scrollTargetID.outerHeight() - 4) / (this.scrollScrollID.outerHeight() + addY))
+                    top: -T
+                    //,height: Math.ceil(this.scrollTargetID.outerHeight() * (this.scrollTargetID.outerHeight() - 4) / (this.scrollScrollID.outerHeight() + addY))
                 }, duration, easing, function () {});
             }else{
                 this.scrollBar.css({
-                    top: SBy,
-                    height: Math.ceil(this.scrollTargetID.outerHeight() * (this.scrollTargetID.outerHeight() - 4) / (this.scrollScrollID.outerHeight() + addY))
+                    top: -T
+                    //,height: Math.ceil(this.scrollTargetID.outerHeight() * (this.scrollTargetID.outerHeight() - 4) / (this.scrollScrollID.outerHeight() + addY))
                 });
             }
 
@@ -2712,10 +2695,11 @@ var AXScroll = Class.create(AXJ, {
         var SBh = this.scrollBar.height();
 
         //trace({Ctop:Ctop, CTheight:CTheight, Ch:Ch, STh:STh, SBh:SBh, x:(STh*Ctop)/Ch});
-
         var SBtop = -(STh * Ctop) / Ch;
-        if (SBtop < 0) SBtop;
-        if ((SBtop + SBh) > STh) SBtop = STh - SBh;
+	    if (SBtop < config.scrollBarMargin) SBtop = config.scrollBarMargin;
+	    if ((SBtop + SBh) > STh) {
+		    SBtop = STh - SBh + config.scrollBarMargin;
+	    }
         this.scrollBar.css({ top: SBtop });
 
     },
@@ -12393,7 +12377,6 @@ AXGrid = Class.create(AXJ, {
 			}
 
 			var T = (this.contentScrollYAttr.scrollTrackYHeight - this.contentScrollYAttr.scrollYHandleHeight) * ((pos.top) / (this.contentScrollYAttr.scrollHeight - this.contentScrollYAttr.bodyHeight));
-
 			this.scrollYHandle.css({ top: -T });
 			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) this.fixedScrollContent.css({ top: pos.top });
 			if (this.editorOpend) {
@@ -29510,6 +29493,8 @@ var AXTree = Class.create(AXJ, {
 		var reserveKeys = cfg.reserveKeys;
 		var relation = cfg.relation;
 		var moveObj = Option.moveObj, targetObj = Option.targetObj;
+
+		// TODO : MOVE Bug -----
 
 		if (moveObj && targetObj) {
 			//외부 이동 명령 처리
