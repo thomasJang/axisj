@@ -25187,7 +25187,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.50
+ * @version v1.51
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25216,6 +25216,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
  "2014-06-10 tom : bugfix, method:clearFocus"
  "2014-06-11 tom : bugfix, method:removeTree - remove child node then parent node not update"
+ "2014-06-13 tom : bugfix, method:updateTree sync data list & tree"
  *
  * @description
  *
@@ -27196,8 +27197,6 @@ var AXTree = Class.create(AXJ, {
 		var cfg = this.config;
 		var nowSortHeadID = this.nowSortHeadID;
 		var nowSortHeadObj = this.nowSortHeadObj;
-
-
 
 		if (res._sortDisable || !cfg.sort) {
 			this.list = res[AXConfig.AXTree.keyList];
@@ -29229,7 +29228,16 @@ var AXTree = Class.create(AXJ, {
 		var reserveKeys = cfg.reserveKeys;
 		var relation = cfg.relation;
 		AXUtil.overwriteObject(item, obj);
+
+		//item[cfg.reserveKeys.subTree] = this.list[itemIndex][cfg.reserveKeys.subTree];
+		this.list[itemIndex] = item;
 		this.updateList(itemIndex, item);
+
+		for(var idx=0;idx<this.list.length;idx++){
+			this.list[idx][reserveKeys.parentHashKey] = undefined;
+			this.list[idx][reserveKeys.hashKey] = undefined;
+		}
+		this.positioningHashList(this.list);
 	},
 	removeTree: function (itemIndex, item) {
 		var cfg = this.config;
