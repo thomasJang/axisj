@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.5 - 2014-06-13 
+AXJ - v1.0.5 - 2014-06-14 
 */
 /*! 
-AXJ - v1.0.5 - 2014-06-13 
+AXJ - v1.0.5 - 2014-06-14 
 */
 
 if(!window.AXConfig){
@@ -31117,7 +31117,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.29
+ * @version v1.30
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -31134,6 +31134,7 @@ swfobject.addDomLoadEvent(function () {
  "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스",
  "2014-05-23 - tom : file mimeType 이 없는 경우 업로드 지원 구문 추가"
  "2014-06-04 tom : in single upload, reupload bugfix"
+ "2014-06-14 tom : extend config option flash_file_types, flash_file_types_description"
 
  * @description
  *
@@ -31591,8 +31592,8 @@ var AXUpload5 = Class.create(AXJ, {
 			post_params: cfg.uploadPars,
 			file_size_limit : cfg.uploadMaxFileSize,
             fileSelectAutoUpload: cfg.fileSelectAutoUpload,
-			file_types : "*.*",
-			file_types_description : "All Files",
+			file_types : cfg.flash_file_types,
+			file_types_description : cfg.flash_file_types_description,
 			file_upload_limit : 0, //cfg.uploadMaxFileCount,
 			file_queue_limit : 0,
 			debug: false,
