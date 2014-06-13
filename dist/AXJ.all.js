@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.5 - 2014-06-13 
+AXJ - v1.0.5 - 2014-06-14 
 */
 /*! 
-AXJ - v1.0.5 - 2014-06-13 
+AXJ - v1.0.5 - 2014-06-14 
 */
 
 if(!window.AXConfig){
@@ -772,18 +772,7 @@ Object.extend(Number.prototype, (function () {
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
-	function round(digit) {
-		var _num, pow1 = Math.pow(10, (digit || 0));
-		if( digit ){
-			var _digit = parseInt(digit, 10) + 1, pow2 = Math.pow(10, (_digit || 0));
-			_num = Math.round((Math.round(this * 1000000000000000) / 1000000000000000) * pow2) / pow2;
-			if( _num.toFixed(_digit).right(1) == 5 ) _num += Math.pow(10, -_digit);
-			_num = Math.round( _num * pow1 ) / pow1;
-		}else{
-			_num = Math.round((Math.round(this * 1000000000000000) / 1000000000000000) * pow1) / pow1;
-		}
-		return _num;
-	}
+	function round(digit) { return +(Math.round(this + "e+"+digit)  + "e-"+digit); }
 	function ceil() { return Math.ceil(this); }
 	function floor() { return Math.floor(this); }
 	function date() { return new Date(this); }
@@ -25198,7 +25187,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.50
+ * @version v1.51
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25227,6 +25216,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
  "2014-06-10 tom : bugfix, method:clearFocus"
  "2014-06-11 tom : bugfix, method:removeTree - remove child node then parent node not update"
+ "2014-06-13 tom : bugfix, method:updateTree sync data list & tree"
  *
  * @description
  *
@@ -27207,8 +27197,6 @@ var AXTree = Class.create(AXJ, {
 		var cfg = this.config;
 		var nowSortHeadID = this.nowSortHeadID;
 		var nowSortHeadObj = this.nowSortHeadObj;
-
-
 
 		if (res._sortDisable || !cfg.sort) {
 			this.list = res[AXConfig.AXTree.keyList];
@@ -29240,7 +29228,16 @@ var AXTree = Class.create(AXJ, {
 		var reserveKeys = cfg.reserveKeys;
 		var relation = cfg.relation;
 		AXUtil.overwriteObject(item, obj);
+
+		//item[cfg.reserveKeys.subTree] = this.list[itemIndex][cfg.reserveKeys.subTree];
+		this.list[itemIndex] = item;
 		this.updateList(itemIndex, item);
+
+		for(var idx=0;idx<this.list.length;idx++){
+			this.list[idx][reserveKeys.parentHashKey] = undefined;
+			this.list[idx][reserveKeys.hashKey] = undefined;
+		}
+		this.positioningHashList(this.list);
 	},
 	removeTree: function (itemIndex, item) {
 		var cfg = this.config;
@@ -31120,7 +31117,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.29
+ * @version v1.30
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -31137,6 +31134,7 @@ swfobject.addDomLoadEvent(function () {
  "2014-05-15 - tom : 파일선택 갯수 선택오류 버그 픽스 / fileSelectAutoUpload 버그 픽스",
  "2014-05-23 - tom : file mimeType 이 없는 경우 업로드 지원 구문 추가"
  "2014-06-04 tom : in single upload, reupload bugfix"
+ "2014-06-14 tom : extend config option flash_file_types, flash_file_types_description"
 
  * @description
  *
@@ -31594,8 +31592,8 @@ var AXUpload5 = Class.create(AXJ, {
 			post_params: cfg.uploadPars,
 			file_size_limit : cfg.uploadMaxFileSize,
             fileSelectAutoUpload: cfg.fileSelectAutoUpload,
-			file_types : "*.*",
-			file_types_description : "All Files",
+			file_types : cfg.flash_file_types,
+			file_types_description : cfg.flash_file_types_description,
 			file_upload_limit : 0, //cfg.uploadMaxFileCount,
 			file_queue_limit : 0,
 			debug: false,
