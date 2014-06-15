@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-14 
+AXJ - v1.0.6 - 2014-06-15 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-14 
+AXJ - v1.0.6 - 2014-06-15 
 */
 
 if(!window.AXConfig){
@@ -8450,6 +8450,8 @@ AXGrid = Class.create(AXJ, {
 		this.showColLen = showColLen;
 		/* col너비 합계 구하기 ~~~~~~~~~~~~~~ 구해진 너비합은 그리드 head, body 의 너비로 지정됨. */
 
+		if(rewrite && cfg.colHead.rows) cfg._colHead_rows = axf.copyObject(cfg.colHead.rows);
+
 		if (!cfg.colHead) cfg.colHead = {};
 		if (!cfg.body) cfg.body = {};
 		if (!cfg.page) cfg.page = { display: false, paging: false, status: { formatter: null } };
@@ -8477,7 +8479,7 @@ AXGrid = Class.create(AXJ, {
 					}
 					if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
 					if (cfg.colHeadAlign) CH.align = "center";
-					colLen += CH.colspan.number();
+					colLen += (CH.colspan||0).number();
 				}
 				if (colMaxLen < colLen) colMaxLen = colLen;
 			}
@@ -8527,6 +8529,9 @@ AXGrid = Class.create(AXJ, {
 						}).first();
 					}
 					if (myCG != null) {
+						if(CH.sort != myCG.sort){
+							trace(CH, myCG);
+						}
 						if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
 						else AXUtil.overwriteObject(CH, myCG, false);
 					} else {
@@ -8566,6 +8571,7 @@ AXGrid = Class.create(AXJ, {
 			var colHeadRows = [
 				[]
 			];
+
 			for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				var adder = {
 					key: CG.key,
@@ -8578,6 +8584,7 @@ AXGrid = Class.create(AXJ, {
 					tooltip: CG.tooltip,
 					displayLabel: (CG.displayLabel || false)
 				};
+				if(cfg._colHead_rows) adder.sort = cfg._colHead_rows[0][cidx].sort; // redrawGrid 호출된 경우 예외처리
 				colHeadRows[0].push(adder);
 				cfg.colHead._maps[0].push({ r: 0, c: cidx });
 			}
@@ -9827,6 +9834,8 @@ AXGrid = Class.create(AXJ, {
 			this.colHead.show();
 			var getColHeadTd = this.getColHeadTd.bind(this);
 
+			//trace(cfg.colHead.rows);
+
 			if (!this.hasFixed) {  /* 일반 colHead 구현 */
 
 				var tableWidth = this.colWidth;
@@ -10228,6 +10237,7 @@ AXGrid = Class.create(AXJ, {
 			if (myColHead.sort == "desc") nsort = "asc";
 			else nsort = "desc";
 			cfg.colHead.rows[colHeadR][colHeadC].sort = nsort;
+			//trace(colHeadR, colHeadC,  cfg.colHead.rows[colHeadR][colHeadC].sort);
 
 			/*sort 처리하기 */
 			if (nsort == "desc") {
