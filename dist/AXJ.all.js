@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-15 
+AXJ - v1.0.6 - 2014-06-17 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-15 
+AXJ - v1.0.6 - 2014-06-17 
 */
 
 if(!window.AXConfig){
@@ -772,7 +772,9 @@ Object.extend(Number.prototype, (function () {
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
-	function round(digit) { return +(Math.round(this + "e+"+digit)  + "e-"+digit); }
+	function round(digit) {
+		return +(Math.round( ( +(Math.round(this + "e+"+(parseInt(digit, 10)+1))  + "e-"+(parseInt(digit, 10)+1)) )  + "e+"+digit)  + "e-"+digit);
+	}
 	function ceil() { return Math.ceil(this); }
 	function floor() { return Math.floor(this); }
 	function date() { return new Date(this); }
@@ -31127,7 +31129,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.30
+ * @version v1.31
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -31145,6 +31147,7 @@ swfobject.addDomLoadEvent(function () {
  "2014-05-23 - tom : file mimeType 이 없는 경우 업로드 지원 구문 추가"
  "2014-06-04 tom : in single upload, reupload bugfix"
  "2014-06-14 tom : extend config option flash_file_types, flash_file_types_description"
+ "2014-06-17 tom : [bugfix] file_types undefined"
 
  * @description
  *
@@ -31602,8 +31605,8 @@ var AXUpload5 = Class.create(AXJ, {
 			post_params: cfg.uploadPars,
 			file_size_limit : cfg.uploadMaxFileSize,
             fileSelectAutoUpload: cfg.fileSelectAutoUpload,
-			file_types : cfg.flash_file_types,
-			file_types_description : cfg.flash_file_types_description,
+			file_types : cfg.flash_file_types||"*.*",
+			file_types_description : cfg.flash_file_types_description||"all",
 			file_upload_limit : 0, //cfg.uploadMaxFileCount,
 			file_queue_limit : 0,
 			debug: false,
