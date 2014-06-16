@@ -773,7 +773,11 @@ Object.extend(Number.prototype, (function () {
 	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
 	function round(digit) {
-		return +(Math.round( ( +(Math.round(this + "e+"+(parseInt(digit, 10)+1))  + "e-"+(parseInt(digit, 10)+1)) )  + "e+"+digit)  + "e-"+digit);
+		if(typeof digit == "undefined"){
+			return Math.round(this);
+		}else{
+			return +(Math.round( ( +(Math.round(this + "e+"+(parseInt(digit, 10)+1))  + "e-"+(parseInt(digit, 10)+1)) )  + "e+"+digit)  + "e-"+digit);
+		}
 	}
 	function ceil() { return Math.ceil(this); }
 	function floor() { return Math.floor(this); }
@@ -16147,11 +16151,11 @@ var AXInputConverter = Class.create(AXJ, {
         var pixelWidth = obj.config._trackWidth;
         var objVal = (rX * valueWidth) / pixelWidth;
         var snap = obj.config.snap;
-        if (!snap) snap = 1;
+        if (typeof snap == "undefined") snap = 1;
 
         if (snap >= 1) {
-            objVal = (objVal.number() + obj.config.min.number()).round();
-            objVal = (parseInt(objVal / (snap)) * (snap));
+	        objVal = (objVal.number() + obj.config.min.number()).round();
+            objVal = (parseInt(objVal / (snap), 10) * (snap));
         } else {
             objVal = (objVal.number() + obj.config.min.number()).round((snap.toString().length - 2));
             objVal = (parseFloat(objVal / (snap)) * (snap)).round((snap.toString().length - 2));
