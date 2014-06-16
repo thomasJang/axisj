@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -34,7 +35,9 @@
 	var pageID = "Slider";
 	var fnObj = {
 		pageStart: function(){
-			
+
+            trace((1).round(2));
+
 			$("#AXInputSlider").bindSlider({min:0, max:100, snap:10, unit:"%"});
 			$("#AXInputSlider2").bindSlider({min:1000, max:100000, snap:100});
 			$("#AXInputSlider3").bindSlider({min:0, max:1, snap:0.01});
