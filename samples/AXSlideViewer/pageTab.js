@@ -1,5 +1,6 @@
 ﻿var myTabOption = [
-	{optionValue:"AXSlideViewer", optionText:"AXSlideViewer", addClass:"", url:"index.html"}
+	{optionValue:"AXSlideViewer", optionText:"AXSlideViewer", addClass:"", url:"index.html"},
+	{optionValue:"detectTag", optionText:"detectTag", addClass:"", url:"detect.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){
