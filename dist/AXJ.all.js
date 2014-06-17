@@ -9549,22 +9549,22 @@ AXGrid = Class.create(AXJ, {
 		}
 		return colSeq;
 	},
-	/**
-	 * 그리드의 모든 요소를 재 정렬 해 줍니다.
-	 * grid elements align
-	 *
-	 * @name AXGrid.redrawGrid
-	 * @param {String} changeGridView 옵션
-	 * @description
-	 *
-	 '''js
-	 var myGrid = new AXGrid();
-	 ...
-	 myGrid.redrawGrid();
-	 *
-	 */
+/**
+ * 그리드의 모든 요소를 재 정렬 해 줍니다.
+ * grid elements align
+ *
+ * @method AXGrid.redrawGrid
+ * @param changeGridView {string}
+ * @description
+ *
+ ```
+ var myGrid = new AXGrid();
+ ...
+ myGrid.redrawGrid();
+ ```
+ */
 	redrawGrid: function (changeGridView) {
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 		/*
 		 모바일 모드로 요청 하면 뼈대 변경.
 		 */
@@ -9584,8 +9584,6 @@ AXGrid = Class.create(AXJ, {
 		this.defineConfig(true);
 		this.setColHead();
 
-		this.setBody(undefined, true);
-
 		if (cfg.viewMode == "grid") {
 			if (this.list.length > 0) {
 				if (cfg.head) this.printHead();
@@ -9594,6 +9592,8 @@ AXGrid = Class.create(AXJ, {
 		}
 		this.gridTargetSetSize(true);
 		this.contentScrollResize();
+
+		this.setBody(undefined, true);
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
 	},
@@ -11267,6 +11267,7 @@ AXGrid = Class.create(AXJ, {
 				// 추가로 출력할 목록 선정
 				po = [];
 				var printListCount = (this.body.height() / itemTrHeight).ceil();
+
 				if(this.list.length > (printListCount + 10)) printListCount += 10;
 				else printListCount = this.list.length;
 				for (var item, itemIndex = 1, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
@@ -14482,44 +14483,45 @@ AXGrid = Class.create(AXJ, {
 	 * 그리드의 뷰모드를 체인지 합니다.
 	 * change viewMode
 	 *
-	 * @name AXGrid.changeGridView
+	 * @method AXGrid.changeGridView
+	 * @param JSONObject {}
 	 * @description
-	 *
-	 '''js
-	 myGrid.changeGridView({
- 		viewMode:"grid"
- 	});
-	 myGrid.changeGridView({
- 		viewMode:"icon",
-		view: {
-			width:"200", // icon width
-			height:"300", // icon height
-			img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"}, 
-			label:{left:"10", top:"200", width:"180", height:"20"},
-			description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
-			buttons: {
-				left:"5", top:"5", width:"180", height:"20", style:"", 
-				items:[
-					{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
-						fnObj.otherFunction(this);
-					}},
-					{label:"but2", style:"", addClass:"AXButton", onclick:function(){
-						fnObj.otherFunction(this);
-					}}
-				]
-			},
-			format: function(){
-				return {
-					imgsrc : this.item.img,
-					label : this.item.title,
-					description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
-				}
+ ```js
+ myGrid.changeGridView({
+    viewMode:"grid"
+});
+ myGrid.changeGridView({
+    viewMode:"icon",
+	view: {
+		width:"200", // icon width
+		height:"300", // icon height
+		img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"},
+		label:{left:"10", top:"200", width:"180", height:"20"},
+		description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
+		buttons: {
+			left:"5", top:"5", width:"180", height:"20", style:"",
+			items:[
+				{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
+					fnObj.otherFunction(this);
+				}},
+				{label:"but2", style:"", addClass:"AXButton", onclick:function(){
+					fnObj.otherFunction(this);
+				}}
+			]
+		},
+		format: function(){
+			return {
+				imgsrc : this.item.img,
+				label : this.item.title,
+				description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
 			}
 		}
- 	});
-	 myGrid.changeGridView({
- 		viewMode:"mobile"
- 	});
+	}
+});
+ myGrid.changeGridView({
+    viewMode:"mobile"
+});
+```
 	 *
 	 */
 	changeGridView: function (JSObject) {
@@ -14544,8 +14546,8 @@ AXGrid = Class.create(AXJ, {
 	 * 모바일 툴바가 클릭되었을 때 이벤트 함수
 	 * p[en mobile tool
 	 *
-	 * @name AXGrid.openMobileConfig
-	 *
+	 * @method AXGrid.openMobileConfig
+	 * @param event {event}
 	 */
 	openMobileConfig: function (event) {
 		var cfg = this.config, _this = this;
@@ -23607,7 +23609,6 @@ var AXSlideViewer = Class.create(AXJ, {
         if(cfg.onClose) cfg.onClose.call(cfg);
     	this.target.fadeOut(function(){
     		_this.target.remove();
-
     	});
     	this.isOpend = false;
     	axdom(window).unbind("resize.AXSliderViewer");
