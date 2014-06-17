@@ -12,20 +12,6 @@
   text-indent: -9999px;
   overflow: hidden;
 }
-.util-border-radius-none {
-  -webkit-border-radius: none;
-  -moz-border-radius: none;
-  border-radius: none;
-}
-.util-text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.util-textHidden {
-  text-indent: -9999px;
-  overflow: hidden;
-}
 .AXSelect {
   border: 1px solid #e6e6e6;
   background: #ffffff;

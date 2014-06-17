@@ -27,22 +27,16 @@
 .userSelectBox .readyDrag {
   border: 1px solid #6c7b8a;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #d9d9d9);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
-
   color: #565b61;
   padding: 3px 5px;
   border-radius: 3px;
@@ -64,22 +58,16 @@
   margin: 5px 0px;
   border: 1px solid #6c7b8a;
   /*background: @stop;*/
-
   background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
   /* For Safari */
-
   background-image: -o-linear-gradient(#ffffff, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
-
   background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
   /* For Firefox 3.6 to 15 */
-
   background-image: linear-gradient(#ffffff, #d9d9d9);
   /* Standard syntax */
-
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
-
 }
 .userSelectBox .bedraged {
   border: 2px solid #ff3300 !important;
