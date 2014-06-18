@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-17 
+AXJ - v1.0.6 - 2014-06-18 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-17 
+AXJ - v1.0.6 - 2014-06-18 
 */
 
 if(!window.AXConfig){
@@ -33148,7 +33148,7 @@ var AXValidator = Class.create(AXJ, {
                 var pattern = /^[가-힣0-9]+$/;
                 result = pattern.test(ElemValue);
             } else if (ElemValue != "" && validateKey == "engonly") {
-                var pattern = /^[a-zA-Z0-9]+$/;
+                var pattern = /^[a-zA-Z0-9_]+$/;
                 result = pattern.test(ElemValue);
             } else if (ElemValue != "" && validateKey == "residentno") {
                 var pattern = /^(\d{6})-?(\d{5}(\d{1})\d{1})$/;
