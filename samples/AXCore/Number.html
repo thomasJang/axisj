@@ -189,43 +189,17 @@ var floatPart = strNum.substring(0, this.toString().indexOf(".")+digit+1);
     var fnObj = {
         pageStart: function(){
 /*
-            var num = ((2.7 * 2.3 + 4.4 * 2.3 + 4.4 * 2.3) - 4) * 1.1;
-            trace(num);
-            trace(num.round(2));
+            var nums = [
+                ( 14.29*1.05 ),
+                ( ((8.58 + 8.58 + 9.62 + 9.62) - 3.1).round(2) * 1.05 ),
+                ( ((2.7 * 2.3 + 4.4 * 2.3 + 4.4 * 2.3).round(2) - 4) * 1.1 ),
+                ( (48.29-5.2).round(2) * 1.05 ),
+                ( ((2.7 * 2.3 + 4.4 * 2.3 + 4.4 * 2.3).round(2) - 4) * 1.1 )
+            ];
 
-            num = (48.29-5.2) * 1.05;
-            trace(num);
-            trace(num.round(2));
-*/
-
-            /*
-            num = 7.70 - 2.00 * 1.05;
-            trace(num);
-            trace(num.round(2));
-
-            num = 36.80 - 4.10 * 1.05;
-            trace(num);
-            trace(num.round(2));
-
-            num = 27.30 - 3.00 * 1.05;
-            trace(num);
-            trace(num.round(2));
-
-            num = 29.90 - 1.00 * 1.05;
-            trace(num);
-            trace(num.round(2));
-
-            num = 25.30 - 7.00 * 1.05;
-            trace(num);
-            trace(num.round(2));
-
-            num = 35.88 - 4.80 * 1.05;
-            trace(num);
-            trace(num.round(2));
-
-            num = 40.00 - 3.50 * 1.05;
-            trace(num);
-            trace(num.round(2));
+            axf.each(nums,  function(){
+               trace(this.number(), this.round(2))
+            });
 */
         }
     };
