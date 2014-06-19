@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-18 
+AXJ - v1.0.6 - 2014-06-19 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-18 
+AXJ - v1.0.6 - 2014-06-19 
 */
 
 if(!window.AXConfig){
@@ -776,7 +776,7 @@ Object.extend(Number.prototype, (function () {
 		if(typeof digit == "undefined"){
 			return Math.round(this);
 		}else{
-			return +(Math.round( ( +(Math.round(this + "e+"+(parseInt(digit, 10)+1))  + "e-"+(parseInt(digit, 10)+1)) )  + "e+"+digit)  + "e-"+digit);
+			return +(Math.round(this+"e+"+digit)+"e-"+digit);
 		}
 	}
 	function ceil() { return Math.ceil(this); }
