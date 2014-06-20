@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-19 
+AXJ - v1.0.6 - 2014-06-20 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-19 
+AXJ - v1.0.6 - 2014-06-20 
 */
 
 if(!window.AXConfig){
@@ -166,13 +166,11 @@ var axf = AXUtil = {
 		} else if (ua.search(/ipad/g) != -1) {
 			return { name: "ipad", version: 0, mobile: true }
 		} else if (ua.search(/android/g) != -1) {
-			var match = /(android)[ \/]([\w.]+)/.exec(ua) ||
-				[];
+			var match = /(android)[ \/]([\w.]+)/.exec(ua) || [];
 			var browserVersion = (match[2] || "0");
 			return { name: "android", version: browserVersion, mobile: mobile }
 		} else {
 			var browserName = "";
-
 			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
 				/(webkit)[ \/]([\w.]+)/.exec(ua) ||
 				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
@@ -773,11 +771,7 @@ Object.extend(Number.prototype, (function () {
 	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
 	function round(digit) {
-		if(typeof digit == "undefined"){
-			return Math.round(this);
-		}else{
-			return +(Math.round(this+"e+"+digit)+"e-"+digit);
-		}
+		return (typeof digit == "undefined") ? Math.round(this): +(Math.round(this+"e+"+digit)+"e-"+digit);
 	}
 	function ceil() { return Math.ceil(this); }
 	function floor() { return Math.floor(this); }
@@ -10815,15 +10809,11 @@ AXGrid = Class.create(AXJ, {
 				value: value
 			};
 
-			if(this.list[itemIndex].___checked){
-				checked = ((this.list[itemIndex].___checked[CHidx])) ? " checked=\"checked\" " : "  ";
-			}else{
-				if (CH.checked) {
-					if (CH.checked.call(sendObj)) {
-						checked = " checked=\"checked\" ";
-						if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
-						this.list[itemIndex].___checked[CHidx] = true;
-					}
+			if (CH.checked) {
+				if (CH.checked.call(sendObj)) {
+					checked = " checked=\"checked\" ";
+					if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
+					this.list[itemIndex].___checked[CHidx] = true;
 				}
 			}
 
