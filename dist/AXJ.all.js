@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-20 
+AXJ - v1.0.6 - 2014-06-23 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-20 
+AXJ - v1.0.6 - 2014-06-23 
 */
 
 if(!window.AXConfig){
@@ -10815,6 +10815,8 @@ AXGrid = Class.create(AXJ, {
 					if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
 					this.list[itemIndex].___checked[CHidx] = true;
 				}
+			}else if(this.list[itemIndex].___checked){
+				checked = ((this.list[itemIndex].___checked[CHidx])) ? " checked=\"checked\" " : "  ";
 			}
 
 			if (CH.disabled) {
