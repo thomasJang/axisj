@@ -4542,7 +4542,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 else menu = menu[obj.reserveKeys.subMenu][hash];
             }
 
-            if (menu[obj.reserveKeys.subMenu] && this.mobileMode){
+            if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0 && this.mobileMode){
                 //this.initMobileModal(objID, objSeq, this.mobileModalObj.myobj, this.mobileModalObj.modalObj, (depth+1), menu.subMenu);
                 this.mobileModalSubMenu(myTarget.id,  objSeq, objID,  this.mobileModalObj.myobj, this.mobileModalObj.modalObj, menu, (depth+1));
                 return false;
