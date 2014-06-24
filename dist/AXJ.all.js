@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-23 
+AXJ - v1.0.6 - 2014-06-24 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-23 
+AXJ - v1.0.6 - 2014-06-24 
 */
 
 if(!window.AXConfig){
@@ -3812,7 +3812,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.22
+ * @version v1.23
  * @author tom@axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -3821,6 +3821,7 @@ axdom.fn.unbindAXResizable = function (config) {
  "2013-12-26 오후 4:27:00 tom, left, top position ",
  "2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add",
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
+ "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강"
  * @description
  *
  ```js
@@ -3875,6 +3876,9 @@ var AXContextMenuClass = Class.create(AXJ, {
         this.config.theme = "AXContextMenu";
         this.config.width = "140";
         this.config.responsiveMobile = 0; /* 모바일 반응 너비 */
+	    this.config.reserveKeys = {
+		    subMenu: "subMenu"
+	    };
     },
     init: function () {
 
@@ -3961,12 +3965,12 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 po.push("</div>");
                 po.push("</a>");
                 menu.__axdomId = subMenuID + "_AX_" + depth + "_AX_" + idx;
 
-                if (menu.subMenu && menu.subMenu.length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu.subMenu, (depth + 1)));
+                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu[cfg.reserveKeys.subMenu], (depth + 1)));
                 if (menu.underLine) po.push("<div class=\"hline\"></div>");
             }
         });
@@ -4052,7 +4056,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             if (filter(objSeq, objID, myobj, menu)) {
                 //if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[cfg.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_"+ 0 +"_AX_" + idx + "\">");
 
                 var checked = "";
@@ -4064,7 +4068,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
                     var sortdirect = "";
                     if(menu.sort){
@@ -4145,7 +4149,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 var menu = obj.menu;
                 for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
                     if (idx == 0) menu = menu[hash];
-                    else menu = menu.subMenu[hash];
+                    else menu = menu[cfg.reserveKeys.subMenu][hash];
                 }
                 _this.mobileModalSubMenu(menu.__axdomId,  objSeq, objID,  _this.mobileModalObj.myobj, _this.mobileModalObj.modalObj, menu, (depth-1));
             }
@@ -4153,14 +4157,14 @@ var AXContextMenuClass = Class.create(AXJ, {
 
         var styles = [];
         styles.push("height:339px;");
-        var menuList = pMenu.subMenu;
+        var menuList = pMenu[cfg.reserveKeys.subMenu];
         var po = [];
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
         axf.each(menuList, function (idx, menu) {
             if (filter(objSeq, objID, myobj, menu)) {
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[cfg.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
 
                 var checked = "";
@@ -4172,7 +4176,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
                     var sortdirect = "";
                     if(menu.sort){
@@ -4252,7 +4256,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class=\"hline\"></div>");
                 }
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[cfg.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
                 var checked = "";
                 if(obj.checkbox){
@@ -4263,16 +4267,16 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox)  po.push("<div class=\"tool_sort desc\"></div>");
                 po.push("</div>");
                 po.push("</a>");
 
                 menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
 
-                if (menu.subMenu) {
-                    if (menu.subMenu.length > 0) {
-                        po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu.subMenu, 1));
+                if (menu[cfg.reserveKeys.subMenu]) {
+                    if (menu[cfg.reserveKeys.subMenu].length > 0) {
+                        po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu[cfg.reserveKeys.subMenu], 1));
                     }
                 }
                 if (menu.underLine) {
@@ -4531,10 +4535,10 @@ var AXContextMenuClass = Class.create(AXJ, {
             var menu = obj.menu;
             for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
                 if (idx == 0) menu = menu[hash];
-                else menu = menu.subMenu[hash];
+                else menu = menu[cfg.reserveKeys.subMenu][hash];
             }
 
-            if (menu.subMenu && this.mobileMode){
+            if (menu[cfg.reserveKeys.subMenu] && this.mobileMode){
                 //this.initMobileModal(objID, objSeq, this.mobileModalObj.myobj, this.mobileModalObj.modalObj, (depth+1), menu.subMenu);
                 this.mobileModalSubMenu(myTarget.id,  objSeq, objID,  this.mobileModalObj.myobj, this.mobileModalObj.modalObj, menu, (depth+1));
                 return false;
