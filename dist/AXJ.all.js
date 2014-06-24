@@ -3922,6 +3922,10 @@ var AXContextMenuClass = Class.create(AXJ, {
         }
         var objID = obj.id;
         objSeq = this.objects.length;
+
+	    if(!obj.reserveKeys){
+		    obj.reserveKeys = cfg.reserveKeys;
+	    }
         this.objects.push(obj);
     },
     filter: function (objSeq, objID, myobj, menu) {
@@ -3940,6 +3944,7 @@ var AXContextMenuClass = Class.create(AXJ, {
     getSubMenu: function (parentID, objSeq, objID, myobj, subMenu, depth) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
+
         var theme = obj.theme || cfg.theme;
         var width = obj.width || cfg.width;
 
@@ -3954,7 +3959,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             if (filter(objSeq, objID, myobj, menu)) {
                 if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
                 var checked = "";
                 if(obj.checkbox){
@@ -3965,12 +3970,12 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 po.push("</div>");
                 po.push("</a>");
                 menu.__axdomId = subMenuID + "_AX_" + depth + "_AX_" + idx;
 
-                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu[cfg.reserveKeys.subMenu], (depth + 1)));
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu[obj.reserveKeys.subMenu], (depth + 1)));
                 if (menu.underLine) po.push("<div class=\"hline\"></div>");
             }
         });
@@ -4056,7 +4061,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             if (filter(objSeq, objID, myobj, menu)) {
                 //if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu[cfg.reserveKeys.subMenu]) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_"+ 0 +"_AX_" + idx + "\">");
 
                 var checked = "";
@@ -4068,7 +4073,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
                     var sortdirect = "";
                     if(menu.sort){
@@ -4077,7 +4082,6 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class=\"tool-sort"+ sortdirect +"\" id=\"" + objID + "_AX_contextMenuToolSort_AX_"+ 0 +"_AX_" + idx + "\"></div>");
                 }
                 po.push("</div>");
-
                 po.push("</a>");
 
                 menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
@@ -4149,7 +4153,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 var menu = obj.menu;
                 for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
                     if (idx == 0) menu = menu[hash];
-                    else menu = menu[cfg.reserveKeys.subMenu][hash];
+                    else menu = menu[obj.reserveKeys.subMenu][hash];
                 }
                 _this.mobileModalSubMenu(menu.__axdomId,  objSeq, objID,  _this.mobileModalObj.myobj, _this.mobileModalObj.modalObj, menu, (depth-1));
             }
@@ -4157,14 +4161,14 @@ var AXContextMenuClass = Class.create(AXJ, {
 
         var styles = [];
         styles.push("height:339px;");
-        var menuList = pMenu[cfg.reserveKeys.subMenu];
+        var menuList = pMenu[obj.reserveKeys.subMenu];
         var po = [];
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
         axf.each(menuList, function (idx, menu) {
             if (filter(objSeq, objID, myobj, menu)) {
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu[cfg.reserveKeys.subMenu]) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
 
                 var checked = "";
@@ -4176,7 +4180,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
                     var sortdirect = "";
                     if(menu.sort){
@@ -4256,7 +4260,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class=\"hline\"></div>");
                 }
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu[cfg.reserveKeys.subMenu]) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
                 var checked = "";
                 if(obj.checkbox){
@@ -4267,16 +4271,16 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu[cfg.reserveKeys.subMenu] && menu[cfg.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox)  po.push("<div class=\"tool_sort desc\"></div>");
                 po.push("</div>");
                 po.push("</a>");
 
                 menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
 
-                if (menu[cfg.reserveKeys.subMenu]) {
-                    if (menu[cfg.reserveKeys.subMenu].length > 0) {
-                        po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu[cfg.reserveKeys.subMenu], 1));
+                if (menu[obj.reserveKeys.subMenu]) {
+                    if (menu[obj.reserveKeys.subMenu].length > 0) {
+                        po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu[obj.reserveKeys.subMenu], 1));
                     }
                 }
                 if (menu.underLine) {
@@ -4535,10 +4539,10 @@ var AXContextMenuClass = Class.create(AXJ, {
             var menu = obj.menu;
             for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
                 if (idx == 0) menu = menu[hash];
-                else menu = menu[cfg.reserveKeys.subMenu][hash];
+                else menu = menu[obj.reserveKeys.subMenu][hash];
             }
 
-            if (menu[cfg.reserveKeys.subMenu] && this.mobileMode){
+            if (menu[obj.reserveKeys.subMenu] && this.mobileMode){
                 //this.initMobileModal(objID, objSeq, this.mobileModalObj.myobj, this.mobileModalObj.modalObj, (depth+1), menu.subMenu);
                 this.mobileModalSubMenu(myTarget.id,  objSeq, objID,  this.mobileModalObj.myobj, this.mobileModalObj.modalObj, menu, (depth+1));
                 return false;
