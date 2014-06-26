@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-25 
+AXJ - v1.0.6 - 2014-06-26 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-25 
+AXJ - v1.0.6 - 2014-06-26 
 */
 
 if(!window.AXConfig){
@@ -31134,7 +31134,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.31
+ * @version v1.32
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -31153,6 +31153,7 @@ swfobject.addDomLoadEvent(function () {
  "2014-06-04 tom : in single upload, reupload bugfix"
  "2014-06-14 tom : extend config option flash_file_types, flash_file_types_description"
  "2014-06-17 tom : [bugfix] file_types undefined"
+ "2014-06-26 tom : [bugfix] http error exception when delete runs "
 
  * @description
  *
@@ -32136,28 +32137,39 @@ var AXUpload5 = Class.create(AXJ, {
 				jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
 			}
 			
-			new AXReq(cfg.deleteUrl, {debug:false, pars:sendPars, onsucc:function(res){
-				if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
+			new AXReq(cfg.deleteUrl, {
+				debug:false,
+				pars:sendPars,
+				onsucc:function(res){
+					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-					if(onEnd) setTimeout(onEnd, 1);
-					if(cfg.isSingleUpload){
-						jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+						if(onEnd) setTimeout(onEnd, 1);
+						if(cfg.isSingleUpload){
+							jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+						}else{
+							jQuery("#"+file.id).hide(function(){
+								jQuery(this).remove();
+							});
+						}
+						removeUploadedList(file.id);
+						if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
+
 					}else{
-						jQuery("#"+file.id).hide(function(){
-							jQuery(this).remove();
-						});
+						if(cfg.isSingleUpload){
+							jQuery("#"+file.id+" .AXUploadBtns").hide();
+						}else{
+							jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+						}
 					}
-					removeUploadedList(file.id);
-					if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
-
-				}else{
+				},
+				onerr: function(){
 					if(cfg.isSingleUpload){
 						jQuery("#"+file.id+" .AXUploadBtns").hide();
 					}else{
 						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
 					}
 				}
-			}});
+			});
 
 		}else{
 			trace("file undefined");
