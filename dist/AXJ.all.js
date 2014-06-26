@@ -32156,17 +32156,17 @@ var AXUpload5 = Class.create(AXJ, {
 
 					}else{
 						if(cfg.isSingleUpload){
-							jQuery("#"+file.id+" .AXUploadBtns").hide();
+							jQuery("#"+file.id+" .AXUploadBtns").show();
 						}else{
-							jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+							jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
 						}
 					}
 				},
 				onerr: function(){
 					if(cfg.isSingleUpload){
-						jQuery("#"+file.id+" .AXUploadBtns").hide();
+						jQuery("#"+file.id+" .AXUploadBtns").show();
 					}else{
-						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
 					}
 				}
 			});
