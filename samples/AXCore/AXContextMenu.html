@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXCore.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -252,42 +253,237 @@ $(document).ready(fnObj.pageStart);
                 ]
             });
             //다차원 레벨 메뉴
+
             AXContextMenu.bind({
                 id:"myContextMenuTree",
                 theme:"AXContextMenu", // 선택항목
                 width:"150", // 선택항목
+                reserveKeys: {
+                    subMenu: "subTree"
+                },
                 menu:[
-                    {userType:0, label:"트리등록", onclick:function(id){
-                        toast.push(Object.toJSON(this));
-                        toast.push(id);
-                    }},
-                    {userType:0, label:"하위메뉴 선택", className:"docline",
-                        onclick:function(){
-                            toast.push(Object.toJSON(this));
-                        },
-                        subMenu:[
-                            {userType:0, label:"하위메뉴1", onclick:function(){toast.push(Object.toJSON(this));}},
-                            {userType:0, label:"하위메뉴2", onclick:function(){toast.push(Object.toJSON(this));},
-                                subMenu:[
-                                    {userType:0, label:"하위메뉴21", onclick:function(){toast.push(Object.toJSON(this));}},
-                                    {userType:0, label:"하위메뉴22", onclick:function(){toast.push(Object.toJSON(this));}}
+                    {
+                        "parentMenuID":0,
+                        "menuID":1,
+                        "label":"About",
+                        "link":"page://sport.en/overview.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_000",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":1,
+                                "menuID":6,
+                                "label":"Overview",
+                                "link":"page://sport.en/overview.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_000_000",
+                                "__isLastChild":false,
+                                "pHash":"000_000",
+                                "display":true,
+                                "subTree":[
+                                ],
+                                "selected":true
+                            },
+                            {
+                                "parentMenuID":1,
+                                "menuID":7,
+                                "label":"Greeting",
+                                "link":"page://sport.en/greeting.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_000_001",
+                                "__isLastChild":false,
+                                "pHash":"000_000",
+                                "display":true,
+                                "subTree":[
                                 ]
                             },
-                            {userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
-                            {userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
-                            {userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}}
-                        ],
-                        upperLine:true,
-                        underLine:true
+                            {
+                                "parentMenuID":1,
+                                "menuID":8,
+                                "label":"History",
+                                "link":"page://sport.en/history.asp",
+                                "target":"_self",
+                                "open":true,
+                                "pHash":"000_000",
+                                "hash":"000_000_002",
+                                "display":true,
+                                "__isLastChild":false,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":1,
+                                "menuID":9,
+                                "label":"Contacts",
+                                "link":"page://sport.en/contacts.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_000_003",
+                                "__isLastChild":true,
+                                "pHash":"000_000",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }],
+                        "selected":true
                     },
-                    {userType:1, label:"추가하기", className:"plus", onclick:function(){
-                        toast.push(Object.toJSON(this));
-                    }},
-                    {userType:1, label:"삭제하기", onclick:function(){
-                        toast.push(Object.toJSON(this));
-                    }}
-                ]
-            });
+                    {
+                        "parentMenuID":0,
+                        "menuID":2,
+                        "label":"Faculty",
+                        "link":"page://sport.en/professors.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_001",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":2,
+                                "menuID":10,
+                                "label":"Professors",
+                                "link":"page://sport.en/professors.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_001_000",
+                                "__isLastChild":true,
+                                "pHash":"000_001",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":3,
+                        "label":"Curriculum",
+                        "link":"page://sport.en/undergraduate.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_002",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":3,
+                                "menuID":11,
+                                "label":"Undergraduate",
+                                "link":"page://sport.en/undergraduate.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_002_000",
+                                "__isLastChild":false,
+                                "pHash":"000_002",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":3,
+                                "menuID":12,
+                                "label":"Curriculum",
+                                "link":"page://sport.en/curriculum.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_002_001",
+                                "__isLastChild":true,
+                                "pHash":"000_002",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":4,
+                        "label":"Graduate Course",
+                        "link":"page://sport.en/graduate_overview.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_003",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":4,
+                                "menuID":13,
+                                "label":"Overview",
+                                "link":"page://sport.en/graduate_overview.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_003_000",
+                                "__isLastChild":false,
+                                "pHash":"000_003",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":4,
+                                "menuID":14,
+                                "label":"Curriculum",
+                                "link":"page://sport.en/graduate_curriculum.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_003_001",
+                                "__isLastChild":true,
+                                "pHash":"000_003",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":5,
+                        "label":"Current Students",
+                        "link":"page://sport.en/community.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_004",
+                        "__isLastChild":true,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":5,
+                                "menuID":15,
+                                "label":"Community",
+                                "link":"page://sport.en/community.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_004_000",
+                                "__isLastChild":false,
+                                "pHash":"000_004",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":5,
+                                "menuID":16,
+                                "label":"Photo Gallery",
+                                "link":"page://sport.en/gallery.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_004_001",
+                                "__isLastChild":true,
+                                "pHash":"000_004",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    }]
+        });
 
             $("#contextBtn1").bind("click", fnObj.contextMenuOpen);
 

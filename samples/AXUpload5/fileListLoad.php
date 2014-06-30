@@ -34,3 +34,21 @@ echo "]";
 closedir($dh);
 
 ?>
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <META http-equiv=Content-Type content="text/html; charset=utf-8">
+</head>
+<body>
+<p>파일명 : /axcms/admin/API/fileupload/upload.asp<br />
+    Line : 40<br />
+    Error : -2147467259<br />
+    Description : DEXTUpload Professional&nbsp;&nbsp;Cannot write the file E:\axcms.axisj.com\files\thumb\2014-06\AEA0E84FF4004BC58FCAC71D92D60AB1.jpg. Check if you have the right to write to the folder.
+    <br />
+</p>
+</body>
+</html>
