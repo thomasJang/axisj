@@ -272,7 +272,7 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.tfpadding td {
   height: 0px;
-  background: #eee;
+  background: none;
   border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.noListTr td {
@@ -445,7 +445,7 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.tfpadding td {
   height: 0px;
-  background: #eee;
+  background: none;
   border-bottom: none;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.noListTr td {

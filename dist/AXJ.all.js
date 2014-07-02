@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-26 
+AXJ - v1.0.6 - 2014-07-02 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-26 
+AXJ - v1.0.6 - 2014-07-02 
 */
 
 if(!window.AXConfig){
@@ -8342,7 +8342,7 @@ AXGrid = Class.create(AXJ, {
 		this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 10);
 		this.config.passiveMode = AXConfig.AXGrid.passiveMode;
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
-
+		this.config.scrollContentBottomMargin = "10";
 		this.selectedCells = [];
 		this.selectedRow = [];
 
@@ -9262,7 +9262,6 @@ AXGrid = Class.create(AXJ, {
 		/* 테마기본값 지정*/
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px";
 		/* 그리드 높이 지정 */
-
 
 		var theme = this.theme;
 		var gridCss = [];
@@ -10532,6 +10531,7 @@ AXGrid = Class.create(AXJ, {
 		this.scrollYTipSpan = axdom("#" + cfg.targetID + "_AX_scrollY_AX_tip").find("span");
 		this.scrollTrackX = axdom("#" + cfg.targetID + "_AX_scrollTrackX");
 		this.scrollXHandle = axdom("#" + cfg.targetID + "_AX_scrollXHandle");
+		cfg.scrollContentBottomMargin = this.scrollTrackX.outerHeight() + 2;
 
 		if (this.list.length > 0) {
 			var _this = this;
@@ -11299,10 +11299,10 @@ AXGrid = Class.create(AXJ, {
 				};
 
 				this.cachedDom.thpadding.css({ height: 0 });
-				this.cachedDom.tfpadding.css({ height: (this.list.length - printListCount-1) * (itemTrHeight) });
+				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount-1) * (itemTrHeight) });
 				if(this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: 0 });
-					this.cachedDom.ftfpadding.css({ height: (this.list.length - printListCount - 1) * (itemTrHeight) });
+					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
 				}
 
 				// 스크롤 y 포지션 초기화
@@ -11317,10 +11317,10 @@ AXGrid = Class.create(AXJ, {
 					scrollTop: 0
 				};
 				this.cachedDom.thpadding.css({ height: 0 });
-				this.cachedDom.tfpadding.css({ height: 0 });
+				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
 				if(this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: 0 });
-					this.cachedDom.ftfpadding.css({ height: 0 });
+					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
 				}
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
@@ -11663,9 +11663,9 @@ AXGrid = Class.create(AXJ, {
 		var cfg = this.config, VS = this.virtualScroll;
 		this.list = this.list.concat(list);
 
-		this.cachedDom.tfpadding.css({ height: (this.list.length - VS.startIndex - 1) * (VS.itemTrHeight) });
+		this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - VS.startIndex - 1) * (VS.itemTrHeight) });
 		if (this.hasFixed) {
-			this.cachedDom.ftfpadding.css({ height: (this.list.length - VS.endIndex - 1) * (VS.itemTrHeight) });
+			this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - VS.endIndex - 1) * (VS.itemTrHeight) });
 		}
 
 		if (!cfg.page.paging) {
@@ -12817,10 +12817,13 @@ AXGrid = Class.create(AXJ, {
 				}
 
 				this.cachedDom.thpadding.css({ height: (newStartIndex) * VS.itemTrHeight }); // 상단패딩증가
-				this.cachedDom.tfpadding.css({ height: (this.list.length - newEndIndex - 1) * (VS.itemTrHeight) });
+
+				var tfpaddingHeight = cfg.scrollContentBottomMargin.number() + (this.list.length - newEndIndex - 1) * (VS.itemTrHeight);
+				if(tfpaddingHeight < cfg.scrollContentBottomMargin.number()) tfpaddingHeight = cfg.scrollContentBottomMargin.number();
+				this.cachedDom.tfpadding.css({ height: tfpaddingHeight });
 				if (this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: (newStartIndex) * VS.itemTrHeight }); // 상단패딩증가
-					this.cachedDom.ftfpadding.css({ height: (this.list.length - newEndIndex - 1) * (VS.itemTrHeight) });
+					this.cachedDom.ftfpadding.css({ height: tfpaddingHeight });
 				}
 
 				this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOver.bind(this));
@@ -22171,7 +22174,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.54
+ * @version v1.55
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22196,6 +22199,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-04-18 - tom : mobile 브라우저 버그 픽스"
  "2014-05-21 tom : resize event 상속"
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
+ "2014-07-02 tom : bindSelect for Array support setValue attribute"
  *
  */
 
@@ -22537,7 +22541,7 @@ var AXSelectConverter = Class.create(AXJ, {
             for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
                 var optionText = (opts.optionText||"").dec();
                 po.push("<option value=\"" + opts.optionValue + "\"");
-                if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+                if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
                 po.push(">" + optionText + "</option>");
             };
             jQuery("#" + objID).html(po.join(''));
