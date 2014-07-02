@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-30 
+AXJ - v1.0.6 - 2014-07-02 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-30 
+AXJ - v1.0.6 - 2014-07-02 
 */
 
 if(!window.AXConfig){
@@ -22174,7 +22174,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.54
+ * @version v1.55
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22199,6 +22199,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-04-18 - tom : mobile 브라우저 버그 픽스"
  "2014-05-21 tom : resize event 상속"
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
+ "2014-07-02 tom : bindSelect for Array support setValue attribute"
  *
  */
 
@@ -22540,7 +22541,7 @@ var AXSelectConverter = Class.create(AXJ, {
             for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
                 var optionText = (opts.optionText||"").dec();
                 po.push("<option value=\"" + opts.optionValue + "\"");
-                if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+                if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
                 po.push(">" + optionText + "</option>");
             };
             jQuery("#" + objID).html(po.join(''));
