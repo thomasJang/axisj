@@ -11876,7 +11876,7 @@ AXGrid = Class.create(AXJ, {
 			var isoncheck = false, checkedValue;
 
 			// TODO : 체크박스인 셀의 클릭 이벤트 예외처리 필요
-			if (cfg.body.oncheck && eventTarget.tagName.toLowerCase() == "input") {
+			if (eventTarget.tagName.toLowerCase() == "input") {
 				if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
 					isoncheck = true;
 					checkedValue = eventTarget.checked;
@@ -11921,6 +11921,7 @@ AXGrid = Class.create(AXJ, {
 			}
 		});
 		/* event target search ------------------------ */
+
 		if (isoncheck) { /*체크박스 구현 */
 			var targetID = myTarget.id;
 			var itemIndex = targetID.split(/_AX_/g).last();
