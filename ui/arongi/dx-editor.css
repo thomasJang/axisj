@@ -105,6 +105,9 @@
   text-align: center;
   color: #000000;
   text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .AXEditor .editorHead .me___headPanel a:hover {
   color: #0080ff;

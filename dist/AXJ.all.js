@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-06-17 
+AXJ - v1.0.6 - 2014-07-07 
 */
 /*! 
-AXJ - v1.0.6 - 2014-06-17 
+AXJ - v1.0.6 - 2014-07-07 
 */
 
 if(!window.AXConfig){
@@ -166,13 +166,11 @@ var axf = AXUtil = {
 		} else if (ua.search(/ipad/g) != -1) {
 			return { name: "ipad", version: 0, mobile: true }
 		} else if (ua.search(/android/g) != -1) {
-			var match = /(android)[ \/]([\w.]+)/.exec(ua) ||
-				[];
+			var match = /(android)[ \/]([\w.]+)/.exec(ua) || [];
 			var browserVersion = (match[2] || "0");
 			return { name: "android", version: browserVersion, mobile: mobile }
 		} else {
 			var browserName = "";
-
 			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
 				/(webkit)[ \/]([\w.]+)/.exec(ua) ||
 				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
@@ -773,11 +771,7 @@ Object.extend(Number.prototype, (function () {
 	function axtoJSON() { return this; }
 	function abs() { return Math.abs(this); }
 	function round(digit) {
-		if(typeof digit == "undefined"){
-			return Math.round(this);
-		}else{
-			return +(Math.round( ( +(Math.round(this + "e+"+(parseInt(digit, 10)+1))  + "e-"+(parseInt(digit, 10)+1)) )  + "e+"+digit)  + "e-"+digit);
-		}
+		return (typeof digit == "undefined") ? Math.round(this): +(Math.round(this+"e+"+digit)+"e-"+digit);
 	}
 	function ceil() { return Math.ceil(this); }
 	function floor() { return Math.floor(this); }
@@ -3818,7 +3812,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.22
+ * @version v1.23
  * @author tom@axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -3827,6 +3821,7 @@ axdom.fn.unbindAXResizable = function (config) {
  "2013-12-26 오후 4:27:00 tom, left, top position ",
  "2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add",
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
+ "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
  * @description
  *
  ```js
@@ -3881,6 +3876,9 @@ var AXContextMenuClass = Class.create(AXJ, {
         this.config.theme = "AXContextMenu";
         this.config.width = "140";
         this.config.responsiveMobile = 0; /* 모바일 반응 너비 */
+	    this.config.reserveKeys = {
+		    subMenu: "subMenu"
+	    };
     },
     init: function () {
 
@@ -3924,6 +3922,10 @@ var AXContextMenuClass = Class.create(AXJ, {
         }
         var objID = obj.id;
         objSeq = this.objects.length;
+
+	    if(!obj.reserveKeys){
+		    obj.reserveKeys = cfg.reserveKeys;
+	    }
         this.objects.push(obj);
     },
     filter: function (objSeq, objID, myobj, menu) {
@@ -3942,6 +3944,7 @@ var AXContextMenuClass = Class.create(AXJ, {
     getSubMenu: function (parentID, objSeq, objID, myobj, subMenu, depth) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
+
         var theme = obj.theme || cfg.theme;
         var width = obj.width || cfg.width;
 
@@ -3956,7 +3959,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             if (filter(objSeq, objID, myobj, menu)) {
                 if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem " + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
                 var checked = "";
                 if(obj.checkbox){
@@ -3967,12 +3970,12 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 po.push("</div>");
                 po.push("</a>");
                 menu.__axdomId = subMenuID + "_AX_" + depth + "_AX_" + idx;
 
-                if (menu.subMenu && menu.subMenu.length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu.subMenu, (depth + 1)));
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push(getSubMenu(subMenuID + "_AX_" + depth + "_AX_" + idx, objSeq, objID, myobj, menu[obj.reserveKeys.subMenu], (depth + 1)));
                 if (menu.underLine) po.push("<div class=\"hline\"></div>");
             }
         });
@@ -4058,7 +4061,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             if (filter(objSeq, objID, myobj, menu)) {
                 //if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_"+ 0 +"_AX_" + idx + "\">");
 
                 var checked = "";
@@ -4070,7 +4073,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
                     var sortdirect = "";
                     if(menu.sort){
@@ -4079,7 +4082,6 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class=\"tool-sort"+ sortdirect +"\" id=\"" + objID + "_AX_contextMenuToolSort_AX_"+ 0 +"_AX_" + idx + "\"></div>");
                 }
                 po.push("</div>");
-
                 po.push("</a>");
 
                 menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
@@ -4151,7 +4153,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 var menu = obj.menu;
                 for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
                     if (idx == 0) menu = menu[hash];
-                    else menu = menu.subMenu[hash];
+                    else menu = menu[obj.reserveKeys.subMenu][hash];
                 }
                 _this.mobileModalSubMenu(menu.__axdomId,  objSeq, objID,  _this.mobileModalObj.myobj, _this.mobileModalObj.modalObj, menu, (depth-1));
             }
@@ -4159,14 +4161,14 @@ var AXContextMenuClass = Class.create(AXJ, {
 
         var styles = [];
         styles.push("height:339px;");
-        var menuList = pMenu.subMenu;
+        var menuList = pMenu[obj.reserveKeys.subMenu];
         var po = [];
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
         axf.each(menuList, function (idx, menu) {
             if (filter(objSeq, objID, myobj, menu)) {
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
 
                 var checked = "";
@@ -4178,7 +4180,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</label>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
                     var sortdirect = "";
                     if(menu.sort){
@@ -4258,7 +4260,7 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class=\"hline\"></div>");
                 }
                 var className = (menu.className) ? " " + menu.className : "";
-                var hasSubMenu = (menu.subMenu) ? " hasSubMenu" : "";
+                var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + objID + "_AX_contextMenu_AX_0_AX_" + idx + "\">");
                 var checked = "";
                 if(obj.checkbox){
@@ -4269,16 +4271,16 @@ var AXContextMenuClass = Class.create(AXJ, {
                 po.push("<span class='label'>" + menu.label + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
-                if (menu.subMenu && menu.subMenu.length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
+                if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox)  po.push("<div class=\"tool_sort desc\"></div>");
                 po.push("</div>");
                 po.push("</a>");
 
                 menu.__axdomId = objID + "_AX_contextMenu_AX_0_AX_" + idx;
 
-                if (menu.subMenu) {
-                    if (menu.subMenu.length > 0) {
-                        po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu.subMenu, 1));
+                if (menu[obj.reserveKeys.subMenu]) {
+                    if (menu[obj.reserveKeys.subMenu].length > 0) {
+                        po.push(getSubMenu(objID + "_AX_contextMenu_AX_0_AX_" + idx, objSeq, objID, myobj, menu[obj.reserveKeys.subMenu], 1));
                     }
                 }
                 if (menu.underLine) {
@@ -4537,10 +4539,10 @@ var AXContextMenuClass = Class.create(AXJ, {
             var menu = obj.menu;
             for (var hash, idx= 0, __arr = hashs; (idx < __arr.length && (hash = __arr[idx])); idx++) {
                 if (idx == 0) menu = menu[hash];
-                else menu = menu.subMenu[hash];
+                else menu = menu[obj.reserveKeys.subMenu][hash];
             }
 
-            if (menu.subMenu && this.mobileMode){
+            if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0 && this.mobileMode){
                 //this.initMobileModal(objID, objSeq, this.mobileModalObj.myobj, this.mobileModalObj.modalObj, (depth+1), menu.subMenu);
                 this.mobileModalSubMenu(myTarget.id,  objSeq, objID,  this.mobileModalObj.myobj, this.mobileModalObj.modalObj, menu, (depth+1));
                 return false;
@@ -8340,7 +8342,7 @@ AXGrid = Class.create(AXJ, {
 		this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 10);
 		this.config.passiveMode = AXConfig.AXGrid.passiveMode;
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
-
+		this.config.scrollContentBottomMargin = "10";
 		this.selectedCells = [];
 		this.selectedRow = [];
 
@@ -9203,6 +9205,28 @@ AXGrid = Class.create(AXJ, {
 			this.fixedColWidth = fixedColWidth;
 		}
 	},
+	/**
+	 * @method AXGrid.setConig
+	 * @param config {JSObject} grid config
+	 * @description
+	 * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
+	 * ```
+	 {
+		targetID : "AXGridTarget",
+		colHeadAlign: "center", // 헤드의 기본 정렬 값
+		colGroup : [
+			{key:"no", label:"번호", width:"50", align:"right", sort:"asc"}
+		],
+		body: {
+			onclick: function(){},
+			ondblclick: function(){},
+			addClass: function(){},
+			oncheck: function(){},
+			onchangeScroll: function(){}
+		}
+	}
+	 * ```
+	 */
 	init: function () {
 		var cfg = this.config;
 
@@ -9260,7 +9284,6 @@ AXGrid = Class.create(AXJ, {
 		/* 테마기본값 지정*/
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px";
 		/* 그리드 높이 지정 */
-
 
 		var theme = this.theme;
 		var gridCss = [];
@@ -9495,19 +9518,19 @@ AXGrid = Class.create(AXJ, {
 			this.redrawGrid("");
 
 			/*
-			var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
-			if (cfg.page.display == false) pageBodyHeight = 0;
-			var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
-			this.scrollBody.css({ height: scrollBodyHeight });
-			*/
+			 var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
+			 if (cfg.page.display == false) pageBodyHeight = 0;
+			 var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
+			 this.scrollBody.css({ height: scrollBodyHeight });
+			 */
 
 			/*
-			var colHeadHeight = this.colHead.outerHeight();
-			if (colHeadHeight == 1) colHeadHeight = 0;
-			this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) });
+			 var colHeadHeight = this.colHead.outerHeight();
+			 if (colHeadHeight == 1) colHeadHeight = 0;
+			 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) });
 
-			this.contentScrollResize(false);
-			*/
+			 this.contentScrollResize(false);
+			 */
 		}
 
 	},
@@ -9549,20 +9572,20 @@ AXGrid = Class.create(AXJ, {
 		}
 		return colSeq;
 	},
-/**
- * 그리드의 모든 요소를 재 정렬 해 줍니다.
- * grid elements align
- *
- * @method AXGrid.redrawGrid
- * @param changeGridView {string}
- * @description
- *
- ```
- var myGrid = new AXGrid();
- ...
- myGrid.redrawGrid();
- ```
- */
+	/**
+	 * 그리드의 모든 요소를 재 정렬 해 줍니다.
+	 * grid elements align
+	 *
+	 * @method AXGrid.redrawGrid
+	 * @param changeGridView {string}
+	 * @description
+	 *
+	 ```
+	 var myGrid = new AXGrid();
+	 ...
+	 myGrid.redrawGrid();
+	 ```
+	 */
 	redrawGrid: function (changeGridView) {
 		var cfg = this.config, _this = this;
 		/*
@@ -9600,31 +9623,25 @@ AXGrid = Class.create(AXJ, {
 	checkedColSeq: function (colSeq, checked, itemIndex) {
 		var cfg = this.config;
 		var _list = this.list;
-
 		if (itemIndex == undefined) {
-
 			this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
 				trace(checked);
 				this.checked = checked;
 			});
-
 			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
 				this.checked = checked;
 			});
-
 			this.body.find(".gridCheckBox_body_colSeq" + colSeq).each(function () {
 				if (axdom("#" + this.id).attr("disabled") != "disabled") {
 					this.checked = checked;
 				}
 			});
-
 			for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
 				if(!item.___disabled) item.___disabled = {};
 				if(!item.___checked) item.___checked = {};
 
 				item.___checked[colSeq] = checked;
 			}
-
 			if (cfg.colGroup[colSeq].oncheck) {
 				var sendObj = {
 					index: checkboxIndex,
@@ -9632,9 +9649,7 @@ AXGrid = Class.create(AXJ, {
 				};
 				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
 			}
-
 		} else {
-
 			this.body.find(".gridBodyTr_" + itemIndex + " .gridCheckBox_body_colSeq" + colSeq).each(function () {
 				if (checked == null) {
 					this.checked = !this.checked;
@@ -9650,7 +9665,6 @@ AXGrid = Class.create(AXJ, {
 			}else{
 				item.___checked[colSeq] = checked;
 			}
-
 			if (cfg.colGroup[colSeq].oncheck) {
 				var sendObj = {
 					index: checkboxIndex,
@@ -9658,7 +9672,6 @@ AXGrid = Class.create(AXJ, {
 				};
 				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
 			}
-
 		}
 	},
 	getCheckedList: function (colSeq) {
@@ -10458,16 +10471,16 @@ AXGrid = Class.create(AXJ, {
 			po.push("<thead id=\"" + cfg.targetID + "_AX_thead\"></thead>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_hpadding\"><tr class='thpadding'><td colspan=\"" + (this.showColLen.number()+1) + "\"></td></tr></tbody>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_tbody\">");
-				po.push("<tr class=\"noListTr\">");
-					po.push("<td colspan=\"" + (this.showColLen) + "\">");
-						po.push("<div class=\"tdRelBlock\">");
-							po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
-								po.push(cfg.emptyListMSG);
-							po.push("</div>");
-						po.push("</div>");
-					po.push("</td>");
-					po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
-				po.push("</tr>");
+			po.push("<tr class=\"noListTr\">");
+			po.push("<td colspan=\"" + (this.showColLen) + "\">");
+			po.push("<div class=\"tdRelBlock\">");
+			po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
+			po.push(cfg.emptyListMSG);
+			po.push("</div>");
+			po.push("</div>");
+			po.push("</td>");
+			po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
+			po.push("</tr>");
 			po.push("</tbody>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_fpadding\"><tr class='tfpadding'><td colspan=\"" + (this.showColLen.number()+1) + "\"></td></tr></tbody>");
 			po.push("<tfoot id=\"" + cfg.targetID + "_AX_tfoot\"></tfoot>");
@@ -10487,9 +10500,9 @@ AXGrid = Class.create(AXJ, {
 			po.push("<thead id=\"" + cfg.targetID + "_AX_fixedThead\"></thead>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_fhpadding\"><tr class='thpadding'><td colspan=\"" + (this.showFixedColLen) + "\"></td></tr></tbody>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_fixedTbody\">");
-				po.push("<tr class=\"noListTr\">");
-					po.push("<td colspan=\"" + (this.showFixedColLen) + "\"></td>");
-				po.push("</tr>");
+			po.push("<tr class=\"noListTr\">");
+			po.push("<td colspan=\"" + (this.showFixedColLen) + "\"></td>");
+			po.push("</tr>");
 			po.push("</tbody>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_ffpadding\"><tr class='tfpadding'><td colspan=\"" + (this.showFixedColLen) + "\"></td></tr></tbody>");
 			po.push("<tfoot id=\"" + cfg.targetID + "_AX_fixedTfoot\"></tfoot>");
@@ -10500,8 +10513,8 @@ AXGrid = Class.create(AXJ, {
 		if (cfg.viewMode == "grid" || cfg.viewMode == "icon") {
 			//po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackXY\" class=\"gridScrollTrackXY\"></div>");
 			po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackY\" class=\"gridScrollTrackY\">");
-				po.push("<div id=\"" + cfg.targetID + "_AX_scrollYHandle\" class=\"gridScrollHandle\"></div>");
-				po.push("<div id=\"" + cfg.targetID + "_AX_scrollY_AX_tip\" class=\"gridScroll-tip\"><span></span></div>");
+			po.push("<div id=\"" + cfg.targetID + "_AX_scrollYHandle\" class=\"gridScrollHandle\"></div>");
+			po.push("<div id=\"" + cfg.targetID + "_AX_scrollY_AX_tip\" class=\"gridScroll-tip\"><span></span></div>");
 			po.push("</div>");
 			po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackX\" class=\"gridScrollTrackX\"><div id=\"" + cfg.targetID + "_AX_scrollXHandle\" class=\"gridScrollHandle\"></div></div>");
 		}
@@ -10530,6 +10543,7 @@ AXGrid = Class.create(AXJ, {
 		this.scrollYTipSpan = axdom("#" + cfg.targetID + "_AX_scrollY_AX_tip").find("span");
 		this.scrollTrackX = axdom("#" + cfg.targetID + "_AX_scrollTrackX");
 		this.scrollXHandle = axdom("#" + cfg.targetID + "_AX_scrollXHandle");
+		cfg.scrollContentBottomMargin = this.scrollTrackX.outerHeight() + 2;
 
 		if (this.list.length > 0) {
 			var _this = this;
@@ -10815,16 +10829,14 @@ AXGrid = Class.create(AXJ, {
 				value: value
 			};
 
-			if(this.list[itemIndex].___checked){
-				checked = ((this.list[itemIndex].___checked[CHidx])) ? " checked=\"checked\" " : "  ";
-			}else{
-				if (CH.checked) {
-					if (CH.checked.call(sendObj)) {
-						checked = " checked=\"checked\" ";
-						if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
-						this.list[itemIndex].___checked[CHidx] = true;
-					}
+			if (CH.checked) {
+				if (CH.checked.call(sendObj)) {
+					checked = " checked=\"checked\" ";
+					if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
+					this.list[itemIndex].___checked[CHidx] = true;
 				}
+			}else if(this.list[itemIndex].___checked){
+				checked = ((this.list[itemIndex].___checked[CHidx])) ? " checked=\"checked\" " : "  ";
 			}
 
 			if (CH.disabled) {
@@ -11185,8 +11197,7 @@ AXGrid = Class.create(AXJ, {
 		return markerDisplay;
 	},
 	printList: function () {
-
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 		var bodyHasMarker = this.bodyHasMarker;
 		var getItem = this.getItem.bind(this);
 		var getItemMarker = this.getItemMarker.bind(this);
@@ -11223,14 +11234,14 @@ AXGrid = Class.create(AXJ, {
 
 			if (this.list.length == 0) { /* empty tags */
 				po.push("<tr class=\"noListTr\">");
-					po.push("<td colspan=\"" + (this.showColLen) + "\">");
-						po.push("<div class=\"tdRelBlock\">");
-							po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
-								po.push(cfg.emptyListMSG);
-							po.push("</div>");
-						po.push("</div>");
-					po.push("</td>");
-					po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
+				po.push("<td colspan=\"" + (this.showColLen) + "\">");
+				po.push("<div class=\"tdRelBlock\">");
+				po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
+				po.push(cfg.emptyListMSG);
+				po.push("</div>");
+				po.push("</div>");
+				po.push("</td>");
+				po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
 				po.push("</tr>");
 			}
 
@@ -11260,7 +11271,6 @@ AXGrid = Class.create(AXJ, {
 			}
 
 			if(cfg.height != "auto" && this.list.length > 0) {
-
 				//아이템 한줄의 높이는?
 				var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
 				this.scrollContent.css({"padding-bottom":itemTrHeight});
@@ -11277,7 +11287,6 @@ AXGrid = Class.create(AXJ, {
 					}
 				}
 				this.cachedDom.tbody.append(po.join(''));
-
 				if (this.hasFixed) {
 					po = [];
 					for (var item, itemIndex = 1, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
@@ -11299,10 +11308,10 @@ AXGrid = Class.create(AXJ, {
 				};
 
 				this.cachedDom.thpadding.css({ height: 0 });
-				this.cachedDom.tfpadding.css({ height: (this.list.length - printListCount-1) * (itemTrHeight) });
+				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount-1) * (itemTrHeight) });
 				if(this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: 0 });
-					this.cachedDom.ftfpadding.css({ height: (this.list.length - printListCount - 1) * (itemTrHeight) });
+					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
 				}
 
 				// 스크롤 y 포지션 초기화
@@ -11317,10 +11326,10 @@ AXGrid = Class.create(AXJ, {
 					scrollTop: 0
 				};
 				this.cachedDom.thpadding.css({ height: 0 });
-				this.cachedDom.tfpadding.css({ height: 0 });
+				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
 				if(this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: 0 });
-					this.cachedDom.ftfpadding.css({ height: 0 });
+					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
 				}
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
@@ -11332,19 +11341,14 @@ AXGrid = Class.create(AXJ, {
 			if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
 			if (this.selectedRow && this.selectedRow.length > 0) {
-
-				var body = this.body;
 				for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
-					body.find(".gridBodyTr_" + item).addClass("selected");
+					this.body.find(".gridBodyTr_" + item).addClass("selected");
 				}
-
 				var itemIndex = this.selectedRow.last();
 				try {
 					var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-
 					var scrollHeight = this.scrollContent.height();
 					var bodyHeight = this.body.height();
-
 					if (trTop.number() + trHeight.number() > bodyHeight) {
 						var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
 						this.scrollContent.css({ top: scrollTop });
@@ -11359,7 +11363,12 @@ AXGrid = Class.create(AXJ, {
 				} catch (e) {
 
 				}
+			}
 
+			// TODO : printList then body.onchangeScroll
+			if(cfg.body.onchangeScroll){
+				var sendObj = axf.copyObject(this.virtualScroll);
+				cfg.body.onchangeScroll.call(sendObj, sendObj);
 			}
 
 		} else if (cfg.viewMode == "icon") {
@@ -11617,43 +11626,43 @@ AXGrid = Class.create(AXJ, {
 			if (itemIndex > 0) this.setFocus(itemIndex);
 
 			/*
-			if (itemIndex > 0) {
-				this.printList();
-			} else {
+			 if (itemIndex > 0) {
+			 this.printList();
+			 } else {
 
-				var item = this.list[itemIndex];
-				var npo = this.getItem(itemIndex, item, "n");
-				if (this.hasFixed) {
-					var fpo = this.getItem(itemIndex, item, "fix");
-				}
+			 var item = this.list[itemIndex];
+			 var npo = this.getItem(itemIndex, item, "n");
+			 if (this.hasFixed) {
+			 var fpo = this.getItem(itemIndex, item, "fix");
+			 }
 
-				var trlen = axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).length - 1;
-				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).each(function (idx, O) {
-					if (idx == trlen) axdom(this).after(npo);
-				});
-				if (this.hasFixed) {
-					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + (itemIndex - 1)).each(function (idx, O) {
-						if (idx == trlen) axdom(this).after(fpo);
-					});
-				}
+			 var trlen = axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).length - 1;
+			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).each(function (idx, O) {
+			 if (idx == trlen) axdom(this).after(npo);
+			 });
+			 if (this.hasFixed) {
+			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + (itemIndex - 1)).each(function (idx, O) {
+			 if (idx == trlen) axdom(this).after(fpo);
+			 });
+			 }
 
-				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
-				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
-				axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
-				if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
+			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
+			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
+			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
+			 if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
 
-				if (this.hasFixed) {
-					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
-					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
-					axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
-					if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
-				}
+			 if (this.hasFixed) {
+			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
+			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
+			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
+			 if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
+			 }
 
-				this.contentScrollResize(false);
-				this.printList();
-				this.setFocus(itemIndex);
-			}
-			*/
+			 this.contentScrollResize(false);
+			 this.printList();
+			 this.setFocus(itemIndex);
+			 }
+			 */
 		}
 
 		if (!this.pageActive) this.setStatus(this.list.length);
@@ -11663,9 +11672,9 @@ AXGrid = Class.create(AXJ, {
 		var cfg = this.config, VS = this.virtualScroll;
 		this.list = this.list.concat(list);
 
-		this.cachedDom.tfpadding.css({ height: (this.list.length - VS.startIndex - 1) * (VS.itemTrHeight) });
+		this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - VS.startIndex - 1) * (VS.itemTrHeight) });
 		if (this.hasFixed) {
-			this.cachedDom.ftfpadding.css({ height: (this.list.length - VS.endIndex - 1) * (VS.itemTrHeight) });
+			this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - VS.endIndex - 1) * (VS.itemTrHeight) });
 		}
 
 		if (!cfg.page.paging) {
@@ -11787,7 +11796,6 @@ AXGrid = Class.create(AXJ, {
 	},
 	restoreList: function (restoreList) {
 		var cfg = this.config;
-
 		var _list = this.list;
 		var collect = [];
 		axf.each(restoreList, function (ridx, r) {
@@ -11812,7 +11820,6 @@ AXGrid = Class.create(AXJ, {
 			});
 		});
 		this.list = collect;
-
 		this.printList();
 		if (!this.pageActive) this.setStatus(this.list.length);
 		this.redrawDataSet();
@@ -11867,34 +11874,39 @@ AXGrid = Class.create(AXJ, {
 		if (event.target.id != "") {
 			var eid = event.target.id.split(/_AX_/g);
 			var isoncheck = false, checkedValue;
-			if (eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button") {
-				if(eventTarget.tagName.toLowerCase() == "input"){
-					if(eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio"){
-						isoncheck = true;
-						checkedValue = eventTarget.checked;
-					}
-				}
-				if (cfg.body.oncheck) {
+
+			// TODO : 체크박스인 셀의 클릭 이벤트 예외처리 필요
+			if (eventTarget.tagName.toLowerCase() == "input") {
+				if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
 					isoncheck = true;
-				} else if(!isoncheck) {
-					return;
-					/*input 인 경우 제외 */
-				}
-				var ieid = event.target.id.split(/_AX_/g);
-				var checkboxColSeq = ieid[ieid.length - 2];
-				var checkboxIndex = ieid[ieid.length - 1];
-				if (cfg.colGroup[checkboxColSeq].oncheck) {
-					var sendObj = {
-						index: checkboxIndex,
-						list: this.list,
-						item: this.list[checkboxIndex]
-					};
-					try {
-						cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
-					} catch (e) {
-						trace(e);
+					checkedValue = eventTarget.checked;
+
+					var ieid = event.target.id.split(/_AX_/g);
+					var checkboxColSeq = ieid[ieid.length - 2];
+					var checkboxIndex = ieid[ieid.length - 1];
+					if (cfg.colGroup[checkboxColSeq].oncheck) {
+						var sendObj = {
+							index: checkboxIndex,
+							list : this.list,
+							item : this.list[checkboxIndex]
+						};
+						try {
+							cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
+						} catch (e) {
+							trace(e);
+						}
 					}
 				}
+				/*
+				 if ((eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button")) {
+				 if (eventTarget.tagName.toLowerCase() == "input") {
+				 if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
+
+
+				 }
+				 }
+				 }
+				 */
 			}
 		}
 		var myTarget = this.getEventTarget({
@@ -11909,6 +11921,7 @@ AXGrid = Class.create(AXJ, {
 			}
 		});
 		/* event target search ------------------------ */
+
 		if (isoncheck) { /*체크박스 구현 */
 			var targetID = myTarget.id;
 			var itemIndex = targetID.split(/_AX_/g).last();
@@ -12725,33 +12738,33 @@ AXGrid = Class.create(AXJ, {
 	contentScrollTipOver: function(event){
 		// TODO : contentScrollTipOver
 		/*
-		var cfg = this.config;
-		this.scrollYHandle.bind("mousemove");
-		this.scrollYHandle.bind("mouseout");
-		*/
+		 var cfg = this.config;
+		 this.scrollYHandle.bind("mousemove");
+		 this.scrollYHandle.bind("mouseout");
+		 */
 	},
 	contentScrollTipOverMove: function(handleTop){
 		var cfg = this.config;
-/*
-		if (!this.contentScrollYAttr) {
-			this.contentScrollYAttr = {
-				bodyHeight: this.body.height(),
-				scrollHeight: this.scrollContent.outerHeight(),
-				scrollTrackYHeight: this.scrollTrackY.height(),
-				scrollYHandleHeight: this.scrollYHandle.outerHeight()
-			};
-		}else{
-			// scrollContent height update
-			this.contentScrollYAttr.scrollHeight = this.scrollContent.height();
-			this.contentScrollYAttr.scrollTrackYHeight = this.scrollTrackY.height();
-			this.contentScrollYAttr.scrollYHandleHeight = this.scrollYHandle.outerHeight();
-		}
-*/
-			var hTop = handleTop || this.scrollYHandle.position().top;
-			var T = (this.contentScrollYAttr.scrollHeight - this.contentScrollYAttr.bodyHeight) * ( (hTop) / (this.contentScrollYAttr.scrollTrackYHeight - this.contentScrollYAttr.scrollYHandleHeight) ).number();
-			this.scrollYTipSpan.empty();
-			this.scrollYTipSpan.append( ((T.abs() / this.virtualScroll.itemTrHeight)).floor().money() + "/" + this.list.length.money() );
-			this.scrollYTip.css({top:hTop});
+		/*
+		 if (!this.contentScrollYAttr) {
+		 this.contentScrollYAttr = {
+		 bodyHeight: this.body.height(),
+		 scrollHeight: this.scrollContent.outerHeight(),
+		 scrollTrackYHeight: this.scrollTrackY.height(),
+		 scrollYHandleHeight: this.scrollYHandle.outerHeight()
+		 };
+		 }else{
+		 // scrollContent height update
+		 this.contentScrollYAttr.scrollHeight = this.scrollContent.height();
+		 this.contentScrollYAttr.scrollTrackYHeight = this.scrollTrackY.height();
+		 this.contentScrollYAttr.scrollYHandleHeight = this.scrollYHandle.outerHeight();
+		 }
+		 */
+		var hTop = handleTop || this.scrollYHandle.position().top;
+		var T = (this.contentScrollYAttr.scrollHeight - this.contentScrollYAttr.bodyHeight) * ( (hTop) / (this.contentScrollYAttr.scrollTrackYHeight - this.contentScrollYAttr.scrollYHandleHeight) ).number();
+		this.scrollYTipSpan.empty();
+		this.scrollYTipSpan.append( ((T.abs() / this.virtualScroll.itemTrHeight)).floor().money() + "/" + this.list.length.money() );
+		this.scrollYTip.css({top:hTop});
 	},
 	contentScrollTipOverOut: function(event){
 		var cfg = this.config;
@@ -12773,24 +12786,17 @@ AXGrid = Class.create(AXJ, {
 		var getItem = this.getItem.bind(this);
 		var getItemMarker = this.getItemMarker.bind(this);
 		var getMarkerDisplay = this.getMarkerDisplay.bind(this);
-
 		// TODO : bigDataSyncApply
 		var scrollContentScrollTop, VS = this.virtualScroll, po = [], item;
 		if(VS.scrollTop != (scrollContentScrollTop = this.scrollContent.position().top)){
-
 			var newStartIndex = (scrollContentScrollTop.abs() / VS.itemTrHeight).ceil() - 1;
 			if(newStartIndex < 0) newStartIndex = 0;
 			var newEndIndex = newStartIndex + VS.printListCount;
-
-			//trace(VS.startIndex, newStartIndex, newEndIndex, VS.printListCount, this.list.length);
 			if(newEndIndex > this.list.length) {
 				newEndIndex = this.list.length;
 				newStartIndex = newEndIndex - VS.printListCount;
 			}
-			//trace(newStartIndex, newEndIndex);
-
 			if(VS.startIndex != newStartIndex) {
-
 				//그리드 내용 다시 구성
 				po = [];
 				for (var itemIndex = newStartIndex; itemIndex < newEndIndex; itemIndex++) {
@@ -12817,10 +12823,13 @@ AXGrid = Class.create(AXJ, {
 				}
 
 				this.cachedDom.thpadding.css({ height: (newStartIndex) * VS.itemTrHeight }); // 상단패딩증가
-				this.cachedDom.tfpadding.css({ height: (this.list.length - newEndIndex - 1) * (VS.itemTrHeight) });
+
+				var tfpaddingHeight = cfg.scrollContentBottomMargin.number() + (this.list.length - newEndIndex - 1) * (VS.itemTrHeight);
+				if(tfpaddingHeight < cfg.scrollContentBottomMargin.number()) tfpaddingHeight = cfg.scrollContentBottomMargin.number();
+				this.cachedDom.tfpadding.css({ height: tfpaddingHeight });
 				if (this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: (newStartIndex) * VS.itemTrHeight }); // 상단패딩증가
-					this.cachedDom.ftfpadding.css({ height: (this.list.length - newEndIndex - 1) * (VS.itemTrHeight) });
+					this.cachedDom.ftfpadding.css({ height: tfpaddingHeight });
 				}
 
 				this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOver.bind(this));
@@ -12838,6 +12847,12 @@ AXGrid = Class.create(AXJ, {
 				VS.startIndex = newStartIndex;
 				VS.endIndex = newEndIndex;
 				VS.scrollTop = scrollContentScrollTop;
+
+				//TODO : body.onchangeScroll
+				if(cfg.body.onchangeScroll){
+					var sendObj = axf.copyObject(this.virtualScroll);
+					cfg.body.onchangeScroll.call(sendObj, sendObj);
+				}
 			}
 		}
 	},
@@ -14146,7 +14161,7 @@ AXGrid = Class.create(AXJ, {
 		} else {
 			var onPageChange = this.onPageChange.bind(this);
 			axdom("#" + cfg.targetID + "_AX_gridPageNo").bindSelect({
-				onChange: function (arg) {
+				onchange: function (arg) {
 					onPageChange();
 				}
 			});
@@ -14486,11 +14501,11 @@ AXGrid = Class.create(AXJ, {
 	 * @method AXGrid.changeGridView
 	 * @param JSONObject {}
 	 * @description
- ```js
- myGrid.changeGridView({
+	 ```js
+	 myGrid.changeGridView({
     viewMode:"grid"
 });
- myGrid.changeGridView({
+	 myGrid.changeGridView({
     viewMode:"icon",
 	view: {
 		width:"200", // icon width
@@ -14518,10 +14533,10 @@ AXGrid = Class.create(AXJ, {
 		}
 	}
 });
- myGrid.changeGridView({
+	 myGrid.changeGridView({
     viewMode:"mobile"
 });
-```
+	 ```
 	 *
 	 */
 	changeGridView: function (JSObject) {
@@ -22171,7 +22186,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.54
+ * @version v1.55
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22196,6 +22211,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-04-18 - tom : mobile 브라우저 버그 픽스"
  "2014-05-21 tom : resize event 상속"
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
+ "2014-07-02 tom : bindSelect for Array support setValue attribute"
  *
  */
 
@@ -22537,7 +22553,7 @@ var AXSelectConverter = Class.create(AXJ, {
             for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
                 var optionText = (opts.optionText||"").dec();
                 po.push("<option value=\"" + opts.optionValue + "\"");
-                if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+                if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
                 po.push(">" + optionText + "</option>");
             };
             jQuery("#" + objID).html(po.join(''));
@@ -23163,16 +23179,7 @@ jQuery.fn.bindSelectGetAnchorObject = function(){
     return returnObj;
 };
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
-
 var AXSlideViewer = Class.create(AXJ, {
-    version: "AXSlideViewer V1.1",
-    author: "tom@axisj.com",
-	logs: [
-		"2014-03-23 오후 3:33:35 - tom: start",
-		"2014-03-28 오전 8:35:50 - tom: Beta 완성",
-        "2014-04-24 - tom: onClose 추가"
-	],
     initialize: function(AXJ_super) {
         AXJ_super();
 		this.config.theme = "AXSlideViewer";
@@ -23537,13 +23544,15 @@ var AXSlideViewer = Class.create(AXJ, {
 		
 		var mySlide = axdom('#' + cfg.id +'_AX_slide_AX_' + (selectedIndex));
 		var myImg = new Image();
-		myImg.src = item[cfg.reserveKeys.url];
+
 		if(!item._boxModel){
 			myImg.onload = function(){
 				item._boxModel = {originalWidth:this.width, originalHeight:this.height};
 				_this.renderImage( mySlide , item);
 			}
+			myImg.src = item[cfg.reserveKeys.url];
 		}else{
+			myImg.src = item[cfg.reserveKeys.url];
 			_this.renderImage( mySlide, item);
 		}
     },
@@ -25204,7 +25213,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.51
+ * @version v1.52
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25234,6 +25243,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-06-10 tom : bugfix, method:clearFocus"
  "2014-06-11 tom : bugfix, method:removeTree - remove child node then parent node not update"
  "2014-06-13 tom : bugfix, method:updateTree sync data list & tree"
+ "2014-07-04 tom : bugfix, parentKey value is not '0' display error"
  *
  * @description
  *
@@ -25255,7 +25265,7 @@ var AXTree = Class.create(AXJ, {
 
 		this.moveSens = 0;
 
-        this.config.moveSens = 1;
+		this.config.moveSens = 1;
 		this.config.formPaddingRight = "11px";
 		this.config.sort = true;
 		this.config.xscroll = true;
@@ -25268,11 +25278,11 @@ var AXTree = Class.create(AXJ, {
 		this.config.fitToWidthRightMargin = (AXConfig.AXTree.fitToWidthRightMargin || 10);
 		this.config.checkboxRelationFixed = true;
 
-        this.selectedCells = [];
+		this.selectedCells = [];
 		this.selectedRow = [];
 		this.config.hashDigit = 3;
 
-        this.isMobile = AXUtil.browser.mobile;
+		this.isMobile = AXUtil.browser.mobile;
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
@@ -25287,92 +25297,92 @@ var AXTree = Class.create(AXJ, {
 		var hasHiddenCell = false;
 		var showColLen = 0;
 		if (!rewrite) this.fixedColSeq = cfg.fixedColSeq;
-        var bodyWidth = this.body.width();
-        var astricCount = 0;
+		var bodyWidth = this.body.width();
+		var astricCount = 0;
 
-        for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-            if (CG.colSeq == undefined) CG.colSeq = cidx;
-            if (CG.display == undefined) CG.display = true;
-            if (CG.display) {
-                if (!rewrite) {
-                    if (CG.width == "*") {
-                        CG.width = 0;
-                        CG.widthAstric = true;
-                        astricCount++;
-                    }
-                    CG._owidth = CG.width;
-                    /* 최초의 너비값 기억 하기 */
-                } else {
-                    if (CG.widthAstric) {
-                        CG.width = 0;
-                        CG._owidth = CG.width;
-                        astricCount++;
-                    }
-                }
+		for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+			if (CG.colSeq == undefined) CG.colSeq = cidx;
+			if (CG.display == undefined) CG.display = true;
+			if (CG.display) {
+				if (!rewrite) {
+					if (CG.width == "*") {
+						CG.width = 0;
+						CG.widthAstric = true;
+						astricCount++;
+					}
+					CG._owidth = CG.width;
+					/* 최초의 너비값 기억 하기 */
+				} else {
+					if (CG.widthAstric) {
+						CG.width = 0;
+						CG._owidth = CG.width;
+						astricCount++;
+					}
+				}
 
-                colWidth += (CG._owidth || 0).number();
-                showColLen += 1;
-            } else {
-                hasHiddenCell = true;
-            }
-        }
-        if (!cfg.fitToWidth) {
-            /* width * 예외처리 구문 ------------ s */
-            if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
-                var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
-                for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-                    if (CG.display && CG.widthAstric) {
-                        CG._owidth = (remainsWidth / astricCount).ceil();
-                        CG.width = CG._owidth;
-                        colWidth += (CG._owidth || 0).number();
-                    }
-                }
-            } else {
-                for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-                    if (CG.display && CG.widthAstric) {
-                        CG._owidth = 100;
-                        CG.width = 100;
-                        colWidth += (CG._owidth || 0).number();
-                    }
-                }
-            }
-            /* width * 예외처리 구문 ------------ e */
-        } else {
-            for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-                if (CG.display && CG.widthAstric) {
-                    CG.width = 100;
-                    CG._owidth = 100;
-                    colWidth += (CG._owidth || 0).number();
-                }
-            }
-        }
-        this.colWidth = colWidth;
+				colWidth += (CG._owidth || 0).number();
+				showColLen += 1;
+			} else {
+				hasHiddenCell = true;
+			}
+		}
+		if (!cfg.fitToWidth) {
+			/* width * 예외처리 구문 ------------ s */
+			if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
+				var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
+				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+					if (CG.display && CG.widthAstric) {
+						CG._owidth = (remainsWidth / astricCount).ceil();
+						CG.width = CG._owidth;
+						colWidth += (CG._owidth || 0).number();
+					}
+				}
+			} else {
+				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+					if (CG.display && CG.widthAstric) {
+						CG._owidth = 100;
+						CG.width = 100;
+						colWidth += (CG._owidth || 0).number();
+					}
+				}
+			}
+			/* width * 예외처리 구문 ------------ e */
+		} else {
+			for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+				if (CG.display && CG.widthAstric) {
+					CG.width = 100;
+					CG._owidth = 100;
+					colWidth += (CG._owidth || 0).number();
+				}
+			}
+		}
+		this.colWidth = colWidth;
 
-        if (cfg.fitToWidth) { /*너비 자동 맞춤버전의 경우 */
-            if (bodyWidth > this.colWidth) {
-                var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
-                var zoomRatio = bodyWidth / this.colWidth;
-                colWidth = 0;
-                for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-                    CG.width = (CG._owidth * zoomRatio).ceil();
-                    if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
-                    else CG.width = _bodyWidth;
-                    if (CG.display) colWidth += CG.width.number();
-                }
-                this.colWidth = colWidth;
-            } else {
-                colWidth = 0;
-                for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-                    if (CG._owidth == undefined) CG._owidth = (CG.width || 0).number();
-                    CG.width = CG._owidth.number();
-                    if (CG.display) colWidth += CG.width.number();
-                }
-                this.colWidth = colWidth;
-            }
-        }
+		if (cfg.fitToWidth) { /*너비 자동 맞춤버전의 경우 */
+			if (bodyWidth > this.colWidth) {
+				var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
+				var zoomRatio = bodyWidth / this.colWidth;
+				colWidth = 0;
+				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+					CG.width = (CG._owidth * zoomRatio).ceil();
+					if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
+					else CG.width = _bodyWidth;
+					if (CG.display) colWidth += CG.width.number();
+				}
+				this.colWidth = colWidth;
+			} else {
+				colWidth = 0;
+				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+					if (CG._owidth == undefined) CG._owidth = (CG.width || 0).number();
+					CG.width = CG._owidth.number();
+					if (CG.display) colWidth += CG.width.number();
+				}
+				this.colWidth = colWidth;
+			}
+		}
 
-        this.showColLen = showColLen;
-        /* col너비 합계 구하기 ~~~~~~~~~~~~~~ 구해진 너비합은 그리드 head, body 의 너비로 지정됨. */
+		this.showColLen = showColLen;
+		/* col너비 합계 구하기 ~~~~~~~~~~~~~~ 구해진 너비합은 그리드 head, body 의 너비로 지정됨. */
 
 		if (!cfg.colHead) cfg.colHead = { display: false };
 		if (!cfg.body) cfg.body = {};
@@ -26000,7 +26010,7 @@ var AXTree = Class.create(AXJ, {
 	},
 	init: function () {
 		var cfg = this.config;
-		
+
 		if (Object.isUndefined(cfg.targetID)) {
 			trace("need targetID - setConfig({targetID:''})");
 			return;
@@ -26129,44 +26139,44 @@ var AXTree = Class.create(AXJ, {
 		}
 		/* body event bind */
 
-        axdom(window).bind("resize", this.windowResize.bind(this));
+		axdom(window).bind("resize", this.windowResize.bind(this));
 
 	},
-    windowResize: function () {
-        var windowResizeApply = this.windowResizeApply.bind(this);
-        if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
-        this.windowResizeObserver = setTimeout(function () {
-            windowResizeApply();
-        }, 100);
-    },
-    windowResizeApply: function () {
-        var cfg = this.config;
+	windowResize: function () {
+		var windowResizeApply = this.windowResizeApply.bind(this);
+		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
+		this.windowResizeObserver = setTimeout(function () {
+			windowResizeApply();
+		}, 100);
+	},
+	windowResizeApply: function () {
+		var cfg = this.config;
 
-        if (cfg.mediaQuery) {
-            var _viewMode = "", clientWidth = axf.clientWidth();
-            axf.each(cfg.mediaQuery, function (k, v) {
-                if (Object.isObject(v)) {
+		if (cfg.mediaQuery) {
+			var _viewMode = "", clientWidth = axf.clientWidth();
+			axf.each(cfg.mediaQuery, function (k, v) {
+				if (Object.isObject(v)) {
 
-                    if(v.min != undefined && v.max != undefined){
-                        if (v.min <= clientWidth && clientWidth <= v.max) {
-                            _viewMode = (k == "dx") ? "grid" : "mobile";
-                            return false;
-                        }
-                    }else{
-                        if (v.min <= clientWidth) {
-                            _viewMode = (k == "dx") ? "grid" : "mobile";
-                            return false;
-                        }
-                    }
-                }
-            });
-            if (_viewMode != "") {
-                cfg.viewMode = _viewMode;
-            }
-        }
+					if(v.min != undefined && v.max != undefined){
+						if (v.min <= clientWidth && clientWidth <= v.max) {
+							_viewMode = (k == "dx") ? "grid" : "mobile";
+							return false;
+						}
+					}else{
+						if (v.min <= clientWidth) {
+							_viewMode = (k == "dx") ? "grid" : "mobile";
+							return false;
+						}
+					}
+				}
+			});
+			if (_viewMode != "") {
+				cfg.viewMode = _viewMode;
+			}
+		}
 
-        this.redrawGrid();
-    },
+		this.redrawGrid();
+	},
 	treeTargetSetSize: function (react) {
 		var cfg = this.config;
 		//cfg.height
@@ -26210,7 +26220,7 @@ var AXTree = Class.create(AXJ, {
 					}
 				}
 			});
-            po.push("<col />");
+			po.push("<col />");
 			//if (suffix == "CB") po.push("<col />");
 		} else {
 			//fixedCol 존재
@@ -26766,35 +26776,35 @@ var AXTree = Class.create(AXJ, {
 			trace("정렬할 수 없는 컬럼 입니다.");
 		} else {
 			/* -- 현재 기술로는 정렬 지원 어려움
-            if(this.nowSortHeadID){
-            if(this.nowSortHeadID != tdID){
-            axdom("#"+this.nowSortHeadID).removeClass("sortDesc");
-            axdom("#"+this.nowSortHeadID).removeClass("sortAsc");
-            this.nowSortHeadObj.sort = undefined;
-            }
-            }
-            //trace(myColHead);
-            if(cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") axdom("#"+tdID).removeClass("sortDesc");
-            else axdom("#"+tdID).removeClass("sortAsc");
+			 if(this.nowSortHeadID){
+			 if(this.nowSortHeadID != tdID){
+			 axdom("#"+this.nowSortHeadID).removeClass("sortDesc");
+			 axdom("#"+this.nowSortHeadID).removeClass("sortAsc");
+			 this.nowSortHeadObj.sort = undefined;
+			 }
+			 }
+			 //trace(myColHead);
+			 if(cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") axdom("#"+tdID).removeClass("sortDesc");
+			 else axdom("#"+tdID).removeClass("sortAsc");
 
-            var nsort = "";
-            if(myColHead.sort == "desc") nsort = "asc";
-            else nsort = "desc";
-            cfg.colHead.rows[colHeadR][colHeadC].sort = nsort;
+			 var nsort = "";
+			 if(myColHead.sort == "desc") nsort = "asc";
+			 else nsort = "desc";
+			 cfg.colHead.rows[colHeadR][colHeadC].sort = nsort;
 
-            //sort 처리하기
-            if(nsort == "desc"){
-            axdom("#"+tdID).addClass("sortDesc");
-            }else{
-            axdom("#"+tdID).addClass("sortAsc");
-            }
+			 //sort 처리하기
+			 if(nsort == "desc"){
+			 axdom("#"+tdID).addClass("sortDesc");
+			 }else{
+			 axdom("#"+tdID).addClass("sortAsc");
+			 }
 
-            this.list = this.sortList(nsort, myColHead, this.list);
-            this.printList();
+			 this.list = this.sortList(nsort, myColHead, this.list);
+			 this.printList();
 
-            this.nowSortHeadID = tdID;
-            this.nowSortHeadObj = myColHead;
-            */
+			 this.nowSortHeadID = tdID;
+			 this.nowSortHeadObj = myColHead;
+			 */
 		}
 
 		if (cfg.colHead.onclick) { // onclick bind
@@ -27054,7 +27064,7 @@ var AXTree = Class.create(AXJ, {
 		po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
 		po.push("</tr>");
 		axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
-		
+
 		po = [];
 		po.push("<tr class=\"noListTr\">");
 		po.push("<td colspan=\"" + (this.showColLen) + "\">");
@@ -27075,7 +27085,7 @@ var AXTree = Class.create(AXJ, {
 			po.push("<tr class=\"AXTreeSplit\">");
 			po.push("<td colspan=\"" + (this.showColLen) + "\">");
 			po.push("</td>");
-			po.push("</tr>");			
+			po.push("</tr>");
 		}
 		return po.join('');
 	},
@@ -27096,8 +27106,8 @@ var AXTree = Class.create(AXJ, {
 
 			var url = obj.ajaxUrl;
 			var appendPars = [
-				"pageNo=" + this.page.pageNo,
-				"pageSize=" + this.page.pageSize
+					"pageNo=" + this.page.pageNo,
+					"pageSize=" + this.page.pageSize
 			];
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
@@ -27142,12 +27152,12 @@ var AXTree = Class.create(AXJ, {
 				if (obj.length == 0) {
 
 					/*
-						var po = [];
-						po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
-						po.push("목록이 없습니다.");
-						po.push("</div>");
-						axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
-					*/
+					 var po = [];
+					 po.push("<div class=\"bodyNode bodyTdText\" align=\"center\">");
+					 po.push("목록이 없습니다.");
+					 po.push("</div>");
+					 axdom("#" + cfg.targetID + "_AX_tbody").html(po.join(''));
+					 */
 					//return;
 				}
 
@@ -27187,8 +27197,8 @@ var AXTree = Class.create(AXJ, {
 
 			var url = obj.ajaxUrl;
 			var appendPars = [
-				"pageNo=" + this.page.pageNo,
-				"pageSize=" + this.page.pageSize
+					"pageNo=" + this.page.pageNo,
+					"pageSize=" + this.page.pageSize
 			];
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
@@ -27369,7 +27379,7 @@ var AXTree = Class.create(AXJ, {
 		var trStyles = [];
 		var isDisplay = item[reserveKeys.displayKey];
 		if (!isDisplay) trStyles.push("display:none;");
-		
+
 		var _tree = this.tree;
 
 		for (var r = 0; r < cfg.body.rows.length; r++) {
@@ -27429,7 +27439,7 @@ var AXTree = Class.create(AXJ, {
 						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" style=\"" + bodyNodeStyles.join(";") + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\">");
 
 						if (CH.indent) {
-							
+
 							/*CH.align : left*/
 							/*indentWidth : left position;*/
 							if(cfg.showConnectionLine){
@@ -27467,14 +27477,14 @@ var AXTree = Class.create(AXJ, {
 									tpo.push("<span class=\"connectionLine " + connectionLineClass.join(" ") + "\" style=\"" + CH.align + ":"+hpLeft+"px;width:" + hpIndentWidth + "px;\"></span>");
 								}
 								tpo.push("</span>");
-								
+
 								if (item.__subTreeLength == 0){
 									expandNodeClass += " noChild";
 								}
-								
+
 								tpo.push("<a class=\"bodyNodeIndent" + expandNodeClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIndent_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth - 20) + "px;");
 								//if (item.__subTreeLength == 0) tpo.push("display:none;");
-								tpo.push("\"></a>");								
+								tpo.push("\"></a>");
 							}else{
 								tpo.push("<a class=\"bodyNodeIndent" + expandNodeClass + "\" id=\"" + cfg.targetID + "_AX_bodyNodeIndent_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" style=\"" + CH.align + ":" + (indentWidth - 20) + "px;");
 								if (item.__subTreeLength == 0) tpo.push("display:none;");
@@ -27613,7 +27623,7 @@ var AXTree = Class.create(AXJ, {
 		});
 		axdom("#" + cfg.targetID + "_AX_tbody").empty();
 		axdom("#" + cfg.targetID + "_AX_tbody").append(po.join(''));
-		
+
 		if (this.hasFixed) {
 			po = [];
 			axf.each(this.list, function (itemIndex, item) {
@@ -27643,7 +27653,7 @@ var AXTree = Class.create(AXJ, {
 			list_pointer[L.hash] = lidx;
 		});
 		//trace(list_pointer);
-		
+
 		var _list = this.list;
 		axf.each(this.list, function (lidx, L) {
 			if(L.__checked){
@@ -27670,9 +27680,9 @@ var AXTree = Class.create(AXJ, {
 					try{
 						eval("myTree = _tree" + subTreeStr);
 					}catch(e){
-						
+
 					}
-					
+
 					if(myTree != null){
 						myTree.__checked = true;
 						var findHash = "0".setDigit(cfg.hashDigit)+"_"+checkHash.join("_");
@@ -27681,7 +27691,7 @@ var AXTree = Class.create(AXJ, {
 							_list[list_pointer[findHash]].__checked = true;
 						}
 					}
-					
+
 				};
 			}
 		});
@@ -27774,7 +27784,7 @@ var AXTree = Class.create(AXJ, {
 			//clear select
 
 			this.clearFocus();
-			
+
 			if (cfg.body.oncontract) {
 				//itemIndex, item, subTree
 				//dialog.push(Object.toJSON(subTree));
@@ -27822,7 +27832,7 @@ var AXTree = Class.create(AXJ, {
 				});
 			};
 			getAddHashs(myTree.subTree, preFixHash);
-			
+
 			myTree[cfg.reserveKeys.openKey] = true;
 
 			var subTree = [];
@@ -27896,7 +27906,7 @@ var AXTree = Class.create(AXJ, {
 				var gridBodyClickAct = this.gridBodyClickAct.bind(this);
 				this.bodyClickObserver = setTimeout(function () {
 					gridBodyClickAct(event);
-				}, 250);	
+				}, 250);
 			}
 		}else{
 			this.gridBodyClickAct(event);
@@ -27906,7 +27916,7 @@ var AXTree = Class.create(AXJ, {
 		this.bodyClickObserver = null;
 		var cfg = this.config;
 		// event target search -
-        if(event.target.id == "" && event.target.tagName.toLowerCase() != "span") return;
+		if(event.target.id == "" && event.target.tagName.toLowerCase() != "span") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		var isoncheck = false;
@@ -28101,7 +28111,7 @@ var AXTree = Class.create(AXJ, {
 				cfg.body.ondblclick.call(sendObj);
 			}
 		}
-		
+
 		this.stopEvent(event);
 		this.clearRange();
 	},
@@ -28181,10 +28191,10 @@ var AXTree = Class.create(AXJ, {
 			if (!parentIsRootTree) {
 				var childIsAllChecked = true;
 				/*
-				axf.each(ptree[reserveKeys.subTree], function(){
-					if(!this.__checked) childIsAllChecked = false;
-				});
-				*/
+				 axf.each(ptree[reserveKeys.subTree], function(){
+				 if(!this.__checked) childIsAllChecked = false;
+				 });
+				 */
 				if (childIsAllChecked) {
 					var findhash = ptree[reserveKeys.hashKey];
 
@@ -28239,11 +28249,11 @@ var AXTree = Class.create(AXJ, {
 						_body.find("#" + cfg.targetID + "_AX_checkboxItem_AX_" + colSeq + "_AX_" + this).get(0).checked = checked;
 					}
 				});
-	
+
 				// 해시 변수 준비
 				var hashs = phash.split(/_/g);
 				hashs.shift();
-	
+
 				// 자식 트리 개체에 checked 속성을 부여 합니다. -------------- s
 				var stree = this.tree;
 				axf.each(hashs, function (hidx, H) {
@@ -28318,7 +28328,7 @@ var AXTree = Class.create(AXJ, {
 		var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 
 		var bodyWidth = this.body.width();
-        var _colWidth = (this.colWidth.number() + cfg.fitToWidthRightMargin);
+		var _colWidth = (this.colWidth.number() + cfg.fitToWidthRightMargin);
 		var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
 
 		if (cfg.width == "auto") scrollWidth = axdom("#" + cfg.targetID + "_AX_scrollContent").find("table.treeBodyTable").width().number();
@@ -28353,8 +28363,8 @@ var AXTree = Class.create(AXJ, {
 
 			var scrollYHandleHeight = (bodyHeight * scrollTrackYHeight) / scrollHeight;
 			axdom("#" + cfg.targetID + "_AX_scrollYHandle").css({ height: scrollYHandleHeight });
-			
-			
+
+
 
 		} else {
 			//axdom("#" + cfg.targetID + "_AX_scrollTrackXY").hide();
@@ -28742,12 +28752,12 @@ var AXTree = Class.create(AXJ, {
 		if(cfg.height != "auto"){
 			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
-	
+
 			var scrollHeight = axdom("#" + cfg.targetID + "_AX_scrollContent").height();
 			var bodyHeight = this.body.height();
 			var handleHeight = axdom("#" + cfg.targetID + "_AX_scrollYHandle").outerHeight();
 			var trackHeight = axdom("#" + cfg.targetID + "_AX_scrollTrackY").height();
-	
+
 			if (trTop.number() + trHeight.number() > bodyHeight) {
 				var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 				axdom("#" + cfg.targetID + "_AX_scrollContent").css({ top: scrollTop });
@@ -28764,12 +28774,12 @@ var AXTree = Class.create(AXJ, {
 	click: function (itemIndex, open, doNotCallBack) {
 		var cfg = this.config;
 		var reserveKeys = cfg.reserveKeys;
-		
+
 		var item = this.list[itemIndex];
 
 		var hashs = item.hash.split(/_/g);
 		var subTree = this.tree;
-		
+
 		var opendPath = [];
 		axf.each(hashs, function (idx, arg) {
 			if (idx == 1) {
@@ -28781,7 +28791,7 @@ var AXTree = Class.create(AXJ, {
 			}
 		});
 		opendPath.pop();
-		
+
 		if (cfg.body.onclick && !doNotCallBack) {
 			var sendObj = {
 				index: itemIndex,
@@ -28799,7 +28809,7 @@ var AXTree = Class.create(AXJ, {
 				axf.each(opendPath, function(pidx, P){
 					if(L[reserveKeys.hashKey] == P){
 						if(!L[reserveKeys.openKey]){
-							expandList.push(lidx);	
+							expandList.push(lidx);
 						}
 					}
 				});
@@ -28811,15 +28821,15 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		this.setFocus(itemIndex);
-		
+
 		return {focusedID:this.body.find(".gridBodyTr_" + itemIndex).attr("id")};
-		
+
 		/*
-		if (event.preventDefault) event.preventDefault();
-		if (event.stopPropagation) event.stopPropagation();
-		event.cancelBubble = true;
-		return false;
-		*/
+		 if (event.preventDefault) event.preventDefault();
+		 if (event.stopPropagation) event.stopPropagation();
+		 event.cancelBubble = true;
+		 return false;
+		 */
 	},
 	/* body 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ head & foot 영역  */
@@ -29036,12 +29046,12 @@ var AXTree = Class.create(AXJ, {
 
 			var url = obj.ajaxUrl;
 			/*
-            var appendPars = [
-            "pageNo="+this.page.pageNo,
-            "pageSize="+this.page.pageSize
-            ];
-            var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" +  appendPars.join('&') : appendPars.join('&') ;
-            */
+			 var appendPars = [
+			 "pageNo="+this.page.pageNo,
+			 "pageSize="+this.page.pageSize
+			 ];
+			 var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" +  appendPars.join('&') : appendPars.join('&') ;
+			 */
 			var pars = (obj.ajaxPars) ? obj.ajaxPars : "";
 
 			var ajaxGetTree = this.ajaxGetTree.bind(this);
@@ -29111,15 +29121,15 @@ var AXTree = Class.create(AXJ, {
 		if (itemIndex == null || itemIndex == undefined || item == null || item == undefined) {
 
 			var tree = this.tree;
-			
+
 			axf.each(subTree, function () {
 				this[cfg.reserveKeys.subTree] = [];
 				tree.push(this);
 			});
-			
+
 			var pushedList = this.appendSubTree("0".setDigit(cfg.hashDigit), true, subTree, this.tree);
 			this.printList();
-			
+
 		} else { // 부모 하위 개체로 추가할 때에.
 
 			axf.each(subTree, function () {
@@ -29182,7 +29192,7 @@ var AXTree = Class.create(AXJ, {
 			pushItem[reserveKeys.parentHashKey] = parentHash;
 			pushItem[reserveKeys.hashKey] = parentHash + cfg.hashSpliter + (idx + parentSubTreeLength - 1).setDigit(cfg.hashDigit);
 			if (!hasOpenKey) pushItem[reserveKeys.openKey] = true;
-			
+
 			//trace(pushItem[reserveKeys.openKey]);
 
 			if (!hasSubTree) pushItem.__subTreeLength = 0;
@@ -29314,14 +29324,14 @@ var AXTree = Class.create(AXJ, {
 			this.list[pItem.itemIndex].__subTreeLength = __subTreeLength;
 			// appendList 구문 생성
 			/*
-			if (__subTreeLength == 0) {
-				var lastR = cfg.body.rows.length - 1;
-				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
-				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
-				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
-				axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
-			}
-			*/
+			 if (__subTreeLength == 0) {
+			 var lastR = cfg.body.rows.length - 1;
+			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
+			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
+			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
+			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
+			 }
+			 */
 
 			// 부모 ITEM 의 update
 			var getItem = this.getItem.bind(this);
@@ -29749,7 +29759,7 @@ var AXTree = Class.create(AXJ, {
 		axf.each(arr, function (idx, A) {
 			var pushItem = {};
 			var hasOpenKey = false, hasSubTree = false;
-			
+
 			delete A.__subTreeLength;
 			axf.each(A, function (k, v) {
 				if (k == reserveKeys.openKey) {
@@ -29776,7 +29786,7 @@ var AXTree = Class.create(AXJ, {
 			if (pushItem[relation.parentKey] == undefined) {
 				pushItem[relation.parentKey] = parentItem[relation.childKey];
 			}
-			
+
 			if(idx == (arr.length-1)){
 				A.__isLastChild = true;
 				pushItem.__isLastChild = true;
@@ -29846,16 +29856,17 @@ var AXTree = Class.create(AXJ, {
 		// make pointer;
 		var tree = [];
 		var pointer = {};
-		var seq = 0;
+		var seq = 0, _parentCheckKey = 0;
 		for (var idx = 0; idx < List.length; idx++) {
 			var L = List[idx];
+			if(idx == 0) _parentCheckKey =  L[relation.parentKey].number();
 			if (!L.isRoot) {
 				if(L.AXTreeSplit){
-					
+
 				}else{
 					pointer[L[relation.childKey]] = idx;
 					if (L[reserveKeys.openKey] == undefined) L[reserveKeys.openKey] = false;
-					if (L[relation.parentKey].number() == 0) {
+					if (L[relation.parentKey].number() == _parentCheckKey) {
 						L[reserveKeys.subTree] = [];
 						L.__subTreeLength = 0;
 						L[reserveKeys.parentHashKey] = "0".setDigit(cfg.hashDigit);
@@ -29874,7 +29885,7 @@ var AXTree = Class.create(AXJ, {
 		for (var idx = 0; idx < List.length; idx++) {
 			var L = List[idx];
 			if (L[reserveKeys.parentHashKey] == undefined && !L.isRoot) {
-				
+
 				if(L.AXTreeSplit) continue;
 				var pItem = List[pointer[L[relation.parentKey]]];
 				var pHash = pItem[reserveKeys.hashKey];
@@ -29884,18 +29895,18 @@ var AXTree = Class.create(AXJ, {
 					if (idx > 0) pTree = pTree[T.number()].subTree;
 				});
 				L[reserveKeys.subTree] = [];
-				
+
 				var __subTreeLength = pItem.__subTreeLength;
 				var pOpend = pItem[reserveKeys.openKey];
 				L[reserveKeys.parentHashKey] = pHash;
 				L[reserveKeys.hashKey] = pHash + cfg.hashSpliter + __subTreeLength.setDigit(cfg.hashDigit);
 				L[reserveKeys.displayKey] = pOpend;
-				
+
 				pTree.push(AXUtil.copyObject(L));
 				pItem.__subTreeLength++;
 			}
 		}
-		
+
 		if(cfg.showConnectionLine){
 			this.tree = tree;
 			List = this.convertHashListToTree(this.tree);
@@ -29903,10 +29914,10 @@ var AXTree = Class.create(AXJ, {
 		}else{
 			this.tree = tree;
 		}
-		
+
 		//trace(List);
 		//trace(tree);
-		
+
 		return List;
 	},
 	getSelectedList: function () {
@@ -29935,7 +29946,7 @@ var AXTree = Class.create(AXJ, {
 					}
 				});
 			}
-			
+
 			if (parentIndex == null) {
 				return { index: null, item: null };
 			} else {
@@ -29952,7 +29963,7 @@ var AXTree = Class.create(AXJ, {
 			axdom("#" + cfg.targetID + "_AX_treeBody").find(".gridBodyTr_"+lidx+" .treeCheckBox_body").each(function(){
 				this.checked = L.__checked;
 			});
-		});	
+		});
 	},
 	expandAll: function(){
 		var cfg = this.config;
@@ -31134,7 +31145,7 @@ swfobject.addDomLoadEvent(function () {
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.31
+ * @version v1.32
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -31153,6 +31164,7 @@ swfobject.addDomLoadEvent(function () {
  "2014-06-04 tom : in single upload, reupload bugfix"
  "2014-06-14 tom : extend config option flash_file_types, flash_file_types_description"
  "2014-06-17 tom : [bugfix] file_types undefined"
+ "2014-06-26 tom : [bugfix] http error exception when delete runs "
 
  * @description
  *
@@ -32136,28 +32148,39 @@ var AXUpload5 = Class.create(AXJ, {
 				jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
 			}
 			
-			new AXReq(cfg.deleteUrl, {debug:false, pars:sendPars, onsucc:function(res){
-				if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
+			new AXReq(cfg.deleteUrl, {
+				debug:false,
+				pars:sendPars,
+				onsucc:function(res){
+					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-					if(onEnd) setTimeout(onEnd, 1);
-					if(cfg.isSingleUpload){
-						jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+						if(onEnd) setTimeout(onEnd, 1);
+						if(cfg.isSingleUpload){
+							jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+						}else{
+							jQuery("#"+file.id).hide(function(){
+								jQuery(this).remove();
+							});
+						}
+						removeUploadedList(file.id);
+						if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
+
 					}else{
-						jQuery("#"+file.id).hide(function(){
-							jQuery(this).remove();
-						});
+						if(cfg.isSingleUpload){
+							jQuery("#"+file.id+" .AXUploadBtns").show();
+						}else{
+							jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
+						}
 					}
-					removeUploadedList(file.id);
-					if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
-
-				}else{
+				},
+				onerr: function(){
 					if(cfg.isSingleUpload){
-						jQuery("#"+file.id+" .AXUploadBtns").hide();
+						jQuery("#"+file.id+" .AXUploadBtns").show();
 					}else{
-						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
 					}
 				}
-			}});
+			});
 
 		}else{
 			trace("file undefined");
@@ -33148,7 +33171,7 @@ var AXValidator = Class.create(AXJ, {
                 var pattern = /^[가-힣0-9]+$/;
                 result = pattern.test(ElemValue);
             } else if (ElemValue != "" && validateKey == "engonly") {
-                var pattern = /^[a-zA-Z0-9]+$/;
+                var pattern = /^[a-zA-Z0-9_]+$/;
                 result = pattern.test(ElemValue);
             } else if (ElemValue != "" && validateKey == "residentno") {
                 var pattern = /^(\d{6})-?(\d{5}(\d{1})\d{1})$/;
