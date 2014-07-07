@@ -28,7 +28,7 @@
     <!-- js block -->
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
-    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../../dev/AXGrid.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -47,6 +47,7 @@
 
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
+                bodyCellMerge:true,
 				colHeadAlign: "center", // 헤드의 기본 정렬 값
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right", sort:"asc"},
@@ -94,11 +95,12 @@
                     oncheck: function(){
                         //trace(this);
                     },
-                    onchangeVirtualScroll: function(){
+                    onchangeScroll: function(){
                         //trace(this);
                         for(var i=this.startIndex;i<this.endIndex+1;i++){
                             $("#AXdate_"+i).bindDate({align:"right", valign:"top",
-                                onChange:function(){
+                                onchange:function(){
+                                    trace(this.objID);
                                     var myi = this.objID.substr(this.objID.lastIndexOf("_").number()+1);
                                     myGrid.list[myi].regDate = this.value;
                                 }

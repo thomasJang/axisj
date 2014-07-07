@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-05 
+AXJ - v1.0.6 - 2014-07-07 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-05 
+AXJ - v1.0.6 - 2014-07-07 
 */
 
 if(!window.AXConfig){
@@ -9211,20 +9211,20 @@ AXGrid = Class.create(AXJ, {
 	 * @description
 	 * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
 	 * ```
-{
-	targetID : "AXGridTarget",
-	colHeadAlign: "center", // 헤드의 기본 정렬 값
-	colGroup : [
-		{key:"no", label:"번호", width:"50", align:"right", sort:"asc"}
-	],
-	body: {
-		onclick: function(){},
-		ondblclick: function(){},
-		addClass: function(){},
-		oncheck: function(){},
-		onchangeVirtualScroll: function(){}
+	 {
+		targetID : "AXGridTarget",
+		colHeadAlign: "center", // 헤드의 기본 정렬 값
+		colGroup : [
+			{key:"no", label:"번호", width:"50", align:"right", sort:"asc"}
+		],
+		body: {
+			onclick: function(){},
+			ondblclick: function(){},
+			addClass: function(){},
+			oncheck: function(){},
+			onchangeScroll: function(){}
+		}
 	}
-}
 	 * ```
 	 */
 	init: function () {
@@ -9572,20 +9572,20 @@ AXGrid = Class.create(AXJ, {
 		}
 		return colSeq;
 	},
-/**
- * 그리드의 모든 요소를 재 정렬 해 줍니다.
- * grid elements align
- *
- * @method AXGrid.redrawGrid
- * @param changeGridView {string}
- * @description
- *
- ```
- var myGrid = new AXGrid();
- ...
- myGrid.redrawGrid();
- ```
- */
+	/**
+	 * 그리드의 모든 요소를 재 정렬 해 줍니다.
+	 * grid elements align
+	 *
+	 * @method AXGrid.redrawGrid
+	 * @param changeGridView {string}
+	 * @description
+	 *
+	 ```
+	 var myGrid = new AXGrid();
+	 ...
+	 myGrid.redrawGrid();
+	 ```
+	 */
 	redrawGrid: function (changeGridView) {
 		var cfg = this.config, _this = this;
 		/*
@@ -11365,10 +11365,10 @@ AXGrid = Class.create(AXJ, {
 				}
 			}
 
-			// TODO : printList then body.onchangeVirtualScroll
-			if(cfg.body.onchangeVirtualScroll){
+			// TODO : printList then body.onchangeScroll
+			if(cfg.body.onchangeScroll){
 				var sendObj = axf.copyObject(this.virtualScroll);
-				cfg.body.onchangeVirtualScroll.call(sendObj, sendObj);
+				cfg.body.onchangeScroll.call(sendObj, sendObj);
 			}
 
 		} else if (cfg.viewMode == "icon") {
@@ -12847,10 +12847,10 @@ AXGrid = Class.create(AXJ, {
 				VS.endIndex = newEndIndex;
 				VS.scrollTop = scrollContentScrollTop;
 
-				//TODO : body.onchangeVirtualScroll
-				if(cfg.body.onchangeVirtualScroll){
+				//TODO : body.onchangeScroll
+				if(cfg.body.onchangeScroll){
 					var sendObj = axf.copyObject(this.virtualScroll);
-					cfg.body.onchangeVirtualScroll.call(sendObj, sendObj);
+					cfg.body.onchangeScroll.call(sendObj, sendObj);
 				}
 			}
 		}
