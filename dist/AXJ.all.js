@@ -10420,7 +10420,8 @@ AXGrid = Class.create(AXJ, {
 						index: itemIndex,
 						list: list,
 						item: item,
-						page: _this.page
+						page: _this.page,
+						value: item[myColHead.key]
 					};
 					result = myColHead.formatter.call(sendObj, itemIndex, item);
 					/*result 값이 money 형식인지 체크 합니다. */
