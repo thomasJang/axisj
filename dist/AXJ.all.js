@@ -9625,7 +9625,6 @@ AXGrid = Class.create(AXJ, {
 		var _list = this.list;
 		if (itemIndex == undefined) {
 			this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
-				trace(checked);
 				this.checked = checked;
 			});
 			axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
@@ -9639,15 +9638,23 @@ AXGrid = Class.create(AXJ, {
 			for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
 				if(!item.___disabled) item.___disabled = {};
 				if(!item.___checked) item.___checked = {};
-
 				item.___checked[colSeq] = checked;
 			}
 			if (cfg.colGroup[colSeq].oncheck) {
 				var sendObj = {
-					index: checkboxIndex,
+					index: colSeq,
 					list: _list
 				};
 				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
+			}
+			if(cfg.body.oncheck) {
+				var sendObj = {
+					checked: checked,
+					r: 0,
+					c: colSeq,
+					list: _list
+				};
+				cfg.body.oncheck.call(sendObj, null, null);
 			}
 		} else {
 			this.body.find(".gridBodyTr_" + itemIndex + " .gridCheckBox_body_colSeq" + colSeq).each(function () {
@@ -9667,10 +9674,20 @@ AXGrid = Class.create(AXJ, {
 			}
 			if (cfg.colGroup[colSeq].oncheck) {
 				var sendObj = {
-					index: checkboxIndex,
+					index: colSeq,
 					list: _list
 				};
 				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
+			}
+			if(cfg.body.oncheck) {
+				var sendObj = {
+					r: 0,
+					c: colSeq,
+					index: itemIndex,
+					item: item,
+					list: _list
+				};
+				cfg.body.oncheck.call(sendObj, itemIndex, item);
 			}
 		}
 	},
@@ -10420,7 +10437,8 @@ AXGrid = Class.create(AXJ, {
 						index: itemIndex,
 						list: list,
 						item: item,
-						page: _this.page
+						page: _this.page,
+						value: item[myColHead.key]
 					};
 					result = myColHead.formatter.call(sendObj, itemIndex, item);
 					/*result 값이 money 형식인지 체크 합니다. */
