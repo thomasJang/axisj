@@ -10269,7 +10269,6 @@ myGrid.redrawGrid();
 					this.nowSortHeadObj.sort = undefined;
 				}
 			}
-			/*trace(myColHead); */
 			if (cfg.colHead.rows[colHeadR][colHeadC].sort == "desc") axdom("#" + tdID).removeClass("sortDesc");
 			else axdom("#" + tdID).removeClass("sortAsc");
 
@@ -10278,8 +10277,7 @@ myGrid.redrawGrid();
 			else nsort = "desc";
 			cfg.colHead.rows[colHeadR][colHeadC].sort = nsort;
 			//trace(colHeadR, colHeadC,  cfg.colHead.rows[colHeadR][colHeadC].sort);
-
-			/*sort 처리하기 */
+			//sort 처리하기
 			if (nsort == "desc") {
 				axdom("#" + tdID).addClass("sortDesc");
 			} else {
@@ -10315,14 +10313,13 @@ myGrid.redrawGrid();
 		if (this.editorOpend) {
 			toast.push("Editor 활성화 상태에서는 기능을 사용할 수 없습니다.");
 			return;
-			/* 에디터가 오픈된 상태이면 비활성화 */
+			//에디터가 오픈된 상태이면 비활성화
 		}
 
 		var lastIdx = eid.length - 1;
 		var colHeadR = eid[lastIdx - 1];
 		var colHeadC = eid[lastIdx];
 		var myColHead = cfg.colHead.rows[colHeadR][colHeadC];
-		/*toast.push("클릭된 colGroup seq : " + myColHead.colSeq); */
 
 		axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
 
@@ -10364,7 +10361,7 @@ myGrid.redrawGrid();
 			return;
 		}
 
-		/* event target search - */
+		// event target search
 		if (event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
@@ -10374,14 +10371,12 @@ myGrid.redrawGrid();
 				return (axdom(evt).hasClass("AXGridColGroupListBoxItem") || axdom(evt).hasClass("colHeadTool")) ? true : false;
 			}
 		});
-		/* event target search ------------------------ */
 
 		if (myTarget) {
 			if (axdom(myTarget).hasClass("colHeadTool")) return;
-			/*colHeadTool ready */
+			//colHeadTool ready
 			var targetID = myTarget.id;
 			var colSeq = targetID.split(/_AX_/g).last();
-			/*trace(cfg.colGroup[colSeq]); */
 			if (cfg.colGroup[colSeq].display) {
 				cfg.colGroup[colSeq].display = false;
 				axdom("#" + targetID).removeClass("on");
@@ -10389,7 +10384,7 @@ myGrid.redrawGrid();
 				cfg.colGroup[colSeq].display = true;
 				axdom("#" + targetID).addClass("on");
 			}
-			/*redraw grid */
+			//redraw grid
 			this.redrawGrid("");
 
 		} else {
@@ -12310,9 +12305,7 @@ myGrid.setData(gridData);
 					var scrollBodyHeight = _this.scrollContent.height();
 					//var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
 					_this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
-					/*colhead + body height */
 					_this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
-					/* body Height */
 				}
 			} else {
 				_this.show_scrollTrackX = false;
@@ -12322,11 +12315,10 @@ myGrid.setData(gridData);
 				if (cfg.height == "auto") {
 					var colHeadHeight = _this.colHead.outerHeight();
 					var scrollBodyHeight = _this.scrollContent.height();
-
-					_this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
-					/*colhead + body height */
-					_this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
-					/* body Height */
+					_this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
+					//colhead + body height
+					_this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
+					//body Height
 				}
 			}
 		}, 10);
