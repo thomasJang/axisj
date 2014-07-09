@@ -32658,24 +32658,7 @@ var AXUserSelect = Class.create(AXJ, {
     }
 });
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
-
-
 var AXValidator = Class.create(AXJ, {
-    version: "AXValidator V1.4",
-    author: "tom@axisj.com, hwshin@collabra.com",
-    logs: [
-        "2013-07-18 오전 12:05:00",
-        "2013-07-18 오후 12:31:04 - tom",
-        "2013-07-19 오후 19:37:04 - shin : message[validateKey], errElement 추가",
-        "2013-07-24 오후 19:24:00 - shin : displayFormatter 추가 keyup event phone '-' add",
-        "2013-10-15 오후 13:10:00 - shin : del 기능 추가",
-        "2013-11-06 오후 12:41:17 - tom : 버그패치",
-        "2013-11-08 오전 11:08:17 - shin : messageConvert 예외 처리",
-        "2013-11-08 오전 11:41:18 - tom : onBlur 버그패치, earlierThan, laterThan 키 추가",
-        "2014-04-04 오전 10:33:08 - tom : validate(filterOption:JSObject) 옵션 추가",
-        "2014-04-30 오후 1:30:11 - tom : validate date bug fix "
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.Observer = null;
@@ -32736,10 +32719,57 @@ var AXValidator = Class.create(AXJ, {
 
             }
         });
+	    // checkbox, radio 수집
+	    var checkedItems = {};
+	    jQuery(this.form).find("input[type=checkbox], input[type=radio]").each(function(eidx, Elem){
+
+		    var config = {};
+		    var isValidate = false;
+		    jQuery.each(checkClass, function (k, v) {
+			    if (Elem.id) {
+				    if (jQuery("#" + Elem.id).hasClass(cfg.clazz + k)) {
+					    config[k] = v;
+					    isValidate = true;
+				    }
+			    } else if (Elem.name) {
+				    if ($(document[cfg.targetFormName][Elem.name]).hasClass(cfg.clazz + k)) {
+					    config[k] = v;
+					    isValidate = true;
+				    }
+			    }
+		    });
+
+		    if (isValidate) {
+			    if(checkedItems[this.name]){
+				    checkedItems[this.name].push({index:0, type:this.type, value:this.value, id:this.id,  checked:this.checked});
+			    }else{
+				    checkedItems[this.name] = [{index:0, type:this.type, value:this.value, id:this.id,  checked:this.checked, config:config}];
+			    }
+		    }
+	    });
+
+	    axf.each(checkedItems, function(k, v){
+		    var item = {
+			    "id":"",
+			    "name":k,
+			    "type":v[0].type,
+			    "label":"",
+			    "multi":true,
+			    "config":v[0].config
+		    };
+		    /*
+		    for(var aa=0;aa<v.length;aa++){
+			    if(item.id == ""){
+				    item.id = v[aa].id;
+			    }else{
+				    item.id += "," + v[aa].id;
+			    }
+		    }
+		    */
+		    _elements.push(item);
+	    });
 
         this.elements = _elements;
-
-        //trace(this.elements);
     },
     del: function (delObj) {
         var cfg = this.config;
@@ -33009,7 +33039,7 @@ var AXValidator = Class.create(AXJ, {
         var returnObject = null;
         for (var Elem, eidx= 0, __arr = this.elements; (eidx < __arr.length && (Elem = __arr[eidx])); eidx++) {
             var targetElem;
-            if (Elem.id) {
+            if (Elem.id && !Elem.multi) {
                 targetElem = jQuery("#" + Elem.id);
             } else if (Elem.name) {
                 targetElem = $(document[cfg.targetFormName][Elem.name]);
@@ -33043,7 +33073,18 @@ var AXValidator = Class.create(AXJ, {
             }
 
             if (targetElem && isCheck) {
-                var val = targetElem.val();
+	            var val = "";
+	            if(Elem.type == "radio" || Elem.type == "checkbox"){
+		            targetElem.each(function(){
+			            if(this.checked){
+				            if(val == "") val = this.value;
+				            else val += "," + this.value;
+			            }
+		            });
+	            }else{
+		            val = targetElem.val();
+	            }
+
                 var _end = false;
                 jQuery.each(Elem.config, function (k, v) {
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
@@ -33358,7 +33399,7 @@ var AXValidator = Class.create(AXJ, {
         }
         var errObj = this.errElements.last();
         var errElement = errObj.element;
-        return jQuery("#" + errElement.id).length > 0 ? jQuery("#" + errElement.id) : $(document[cfg.targetFormName][errElement.name]);
+        return jQuery("#" + errElement.id).length > 0 ? jQuery("#" + errElement.id) : jQuery(document[cfg.targetFormName][errElement.name]);
     },
     getElement: function (elementObj) {
         var cfg = this.config;

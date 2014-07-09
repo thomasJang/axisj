@@ -60,9 +60,10 @@
                 $("#my-select").html("<option></option>");
 
 				myValidator.setConfig({
-					targetFormName : "myForm",
+					targetFormName : "myForm"
 				});
 
+                /*
 				myValidator.add({
 				    id: "userID",
 				    label: "아이디",
@@ -148,11 +149,11 @@
 								    var value = num.replace(pattern, dataFormat);
 								    $("#" + _this.element.id).val(value);                
 								} else if (k == "isdate") {
-									/*
-								    dateObj.setDate(_this.value);
-								    var value = dateObj.getDate();
-								    $("#" + _this.element.id).val(value);
-								    */
+
+								    //dateObj.setDate(_this.value);
+								    //var value = dateObj.getDate();
+								    //$("#" + _this.element.id).val(value);
+
 								}
 								else if (k == "money") {
 								    var value = _this.value.number().money();
@@ -170,7 +171,7 @@
 				
 					}
 				});    
-				
+				*/
 			},
 			saveForm: function(){
 				var validateResult = myValidator.validate();
@@ -203,6 +204,7 @@
                             <col />
                         </colgroup>
                         <tbody>
+                        <!--
                             <tr>
                                 <th>
                                     <div class="tdRel">realtime</div>
@@ -351,6 +353,58 @@
                                         <select name="my-select" id="my-select">
                                             <option value="123">123</option>
                                         </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            -->
+                            <tr>
+                                <th>
+                                    <div class="tdRel">checkbox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" id="iamcheckbox01" value="01" class="av-required" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="03" class="av-required" />
+                                            03
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">radiobox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="radio" name="iamradio" value="01" class="av-required" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+
                                     </div>
                                 </td>
                             </tr>
