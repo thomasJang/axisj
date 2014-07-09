@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-08 
+AXJ - v1.0.6 - 2014-07-09 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-08 
+AXJ - v1.0.6 - 2014-07-09 
 */
 
 if(!window.AXConfig){
@@ -22196,7 +22196,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.55
+ * @version v1.56
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22222,6 +22222,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-05-21 tom : resize event 상속"
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
  "2014-07-02 tom : bindSelect for Array support setValue attribute"
+ "2014-07-09 tom : bindSelect for AJAX then serialObject not working"
  *
  */
 
@@ -22505,7 +22506,8 @@ var AXSelectConverter = Class.create(AXJ, {
             var pars = obj.config.ajaxPars;
             obj.selectedIndex = null;
 
-            jQuery("#" + objID).empty();
+            //jQuery("#" + objID).empty(); serialObject 검색안됨
+	        jQuery("#" + objID).html("<option></option>");
 
             obj.inProgress = true; //진행중 상태 변경
 
@@ -23014,16 +23016,24 @@ var AXSelectConverter = Class.create(AXJ, {
             var cfg = this.config;
 
             if (this.isMobile) {
-                AXgetId(objID).disabled = disabled;
+                //AXgetId(objID).disabled = disabled;
             } else {
-                AXgetId(objID).disabled = disabled;
+                //AXgetId(objID).disabled = disabled;
+
+	            jQuery("#"+ cfg.targetID + "_AX_" + objID).find(".AXanchorSelect").removeClass("disabled");
+	            jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", disabled);
+
+	            /*
                 if(AXgetId(objID).disabled){
                     jQuery("#"+ cfg.targetID + "_AX_" + objID).find(".AXanchorSelect").addClass("disabled");
-                    jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", AXgetId(objID).disabled);
+                    //jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", AXgetId(objID).disabled);
+	                jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", disabled);
                 }else{
                     jQuery("#"+ cfg.targetID + "_AX_" + objID).find(".AXanchorSelect").removeClass("disabled");
-                    jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", AXgetId(objID).disabled);
+                    //jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", AXgetId(objID).disabled);
+	                jQuery("#"+ cfg.targetID + "_AX_" + objID).data("disabled", disabled);
                 }
+                */
 
             }
         }
@@ -32699,6 +32709,7 @@ var AXValidator = Class.create(AXJ, {
         var allElements = this.form.serializeObject();
         var _elements = this.elements;
         var checkClass = this.validateCheckClass;
+
         jQuery.each(allElements, function (eidx, Elem) {
             try {
                 var config = {};
