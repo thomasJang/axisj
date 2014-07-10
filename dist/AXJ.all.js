@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-09 
+AXJ - v1.0.6 - 2014-07-10 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-09 
+AXJ - v1.0.6 - 2014-07-10 
 */
 
 if(!window.AXConfig){
@@ -10734,7 +10734,8 @@ myGrid.redrawGrid();
 
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
-					if (res.result == AXConfig.AXReq.okCode) {
+					//if (res.result == AXConfig.AXReq.okCode) {
+					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 						res._sortDisable = sortDisable;
 						if (obj.response) {
 							obj.response.call(res);
@@ -13894,7 +13895,8 @@ myGrid.setData(gridData);
 
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
-					if (res.result == AXConfig.AXReq.okCode) {
+					//if (res.result == AXConfig.AXReq.okCode) {
+					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 						saveEditorRequest(res);
 					} else {
 						toast.push({ body: res.msg.dec(), type: "Caution" });
@@ -19055,17 +19057,7 @@ axdom.fn.setValueInput = function (value) {
 };
 
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
- 
-
 var AXMobileMenu = Class.create(AXJ, {
-    version: "AXMobileMenu V0.4",
-    author: "tom@axisj.com",
-	logs: [
-		"2013-12-13 오전 10:53:43",
-		"2014-02-26 오전 11:42:23 tom : 각종 버그 픽스",
-		"2014-02-26 오후 4:35:05 tom : hasSubMenu 분리"
-	],
     initialize: function(AXJ_super) {
 		AXJ_super();
 		
@@ -19088,7 +19080,13 @@ var AXMobileMenu = Class.create(AXJ, {
 		
 		/* 이벤트 대소문자 확장 */
 		if(!cfg.onclick) cfg.onclick = cfg.onClick;
-		
+
+
+	    if(cfg.menuBoxID){
+		    // 메뉴데이터 태그로 부터 가져오기
+		    cfg.menu = this.collectMenuItem(cfg.menuBoxID);
+	    }
+
 		//var close = this.close.bind(this);
 		this.modal = new AXMobileModal();
 		this.modal.setConfig({
@@ -19299,6 +19297,9 @@ var AXMobileMenu = Class.create(AXJ, {
     setHighLightMenu: function(menuID){
     	this.setHighLight(menuID);
     },
+	setHighLightOriginID: function(){
+
+	},
     onclickModalBody: function(event){
     	var cfg = this.config;
 		var eid = event.target.id.split(/_AX_/g);
@@ -19381,6 +19382,77 @@ var AXMobileMenu = Class.create(AXJ, {
     setTree: function(tree){
     	this.config.menu = tree;
     },
+	collectMenuItem: function(targetID){
+		var cfg = this.config;
+		var menuBox = axdom("#"+targetID)
+		var tree = [];
+
+		//{menuID:"1", label:"menu 1", ac:"Dashboard", url:"http://www.axisj.com"}
+		var initChilds = function(EL, cid, _tree){
+			var childDiv = jQuery(EL).children("."+cfg.childsMenu.className).get(0);
+			if(childDiv) {
+				var childDivID = cid.replace("PMA", "PMC");
+				if(!childDiv.id) childDiv.id = childDivID;
+				else childDivID = childDiv.id;
+				jQuery("#"+childDivID+">ul>li").each(function(ci, EL) {
+					var citem = {}, c_domEL = axdom(EL);
+					if(c_domEL.children("A").get(0).id) citem._id = c_domEL.children("A").get(0).id;
+					else c_domEL.children("A").get(0).id = (citem._id = cid + "_" + ci);
+					citem[cfg.reserveKeys.primaryKey] = cid + "_" + ci;
+					citem[cfg.reserveKeys.labelKey] = c_domEL.children("A").text();
+					citem[cfg.reserveKeys.urlKey] = c_domEL.children("A").attr("href");
+					citem[cfg.reserveKeys.targetKey] = c_domEL.children("A").attr("target") || "_self";
+					citem[cfg.reserveKeys.addClassKey] = c_domEL.children("A").attr("class") || "";
+					citem[cfg.reserveKeys.subMenuKey] = [];
+					_tree[cfg.reserveKeys.subMenuKey].push(citem);
+
+					//trace(pi,  ci);
+					initChilds(EL, citem[cfg.reserveKeys.primaryKey], _tree[cfg.reserveKeys.subMenuKey][ci]);
+				});
+			}
+		};
+
+		menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL){
+			if(!EL.id) EL.id = cfg.menuBoxID + "_PM_" + pi;
+			var item = {}, domEL = axdom(EL);
+			if(domEL.children("A").get(0).id) item._id = domEL.children("A").get(0).id;
+			else domEL.children("A").get(0).id = (item._id = cfg.menuBoxID + "_PMA_" + pi);
+			item._child_id = item._id.replace("PMA", "PMC");
+			item[cfg.reserveKeys.primaryKey] = targetID + "_PM_" + pi;
+			item[cfg.reserveKeys.labelKey] = domEL.children("A").text();
+			item[cfg.reserveKeys.urlKey] = domEL.children("A").attr("href");
+			item[cfg.reserveKeys.targetKey] = domEL.children("A").attr("target") || "_self";
+			item[cfg.reserveKeys.addClassKey] = domEL.children("A").attr("class") || "";
+			item[cfg.reserveKeys.subMenuKey] = [];
+			tree.push(item);
+
+
+			var child = domEL.children("."+cfg.childMenu.className).get(0);
+			if(child){
+				if(!child.id) child.id = item._child_id;
+
+				jQuery("#"+item._child_id+">ul>li").each(function(ci, EL) {
+					var citem = {}, c_domEL = axdom(EL);
+					if(c_domEL.children("A").get(0).id) citem._id = c_domEL.children("A").get(0).id;
+					else c_domEL.children("A").get(0).id = (citem._id = item._child_id.replace("PMC", "PMA") + "_" + ci);
+					citem[cfg.reserveKeys.primaryKey] = item._child_id.replace("PMC", "PMA") + "_" + ci;
+					citem[cfg.reserveKeys.labelKey] = c_domEL.children("A").text();
+					citem[cfg.reserveKeys.urlKey] = c_domEL.children("A").attr("href");
+					citem[cfg.reserveKeys.targetKey] = c_domEL.children("A").attr("target") || "_self";
+					citem[cfg.reserveKeys.addClassKey] = c_domEL.children("A").attr("class") || "";
+					citem[cfg.reserveKeys.subMenuKey] = [];
+					tree[pi][cfg.reserveKeys.subMenuKey].push(citem);
+
+					//trace(pi,  ci);
+					initChilds(EL, citem[cfg.reserveKeys.primaryKey], tree[pi][cfg.reserveKeys.subMenuKey][ci]);
+				});
+			}else{
+
+			}
+		});
+
+		return tree;
+	},
     /* 메뉴 터치 이동관련 함수 - s */
 	touchstart: function (e) {
 		var cfg = this.config;
@@ -24718,7 +24790,6 @@ var AXTopDownMenu = Class.create(AXJ, {
 		var cfg = this.config;
 		
 		if(cfg.menuBoxID){
-
 			this.menuBox = axdom("#"+cfg.menuBoxID);
 
 			//서브 메뉴를 숨김 처리 합니다.
@@ -24728,16 +24799,15 @@ var AXTopDownMenu = Class.create(AXJ, {
 			this.initParents();
 			this.initChild();
 			if(cfg.onComplete) cfg.onComplete.call(this);
-
 		}else if(cfg.targetID){
 
 		}
-
 		axdom(window).bind("resize", this.windowResize.bind(this));
 	},
 	windowResizeApply: function(){
 		var cfg = this.config, menuBoxWidth = 0;
 		axf.each(this.tree, function(){
+			this.width = axdom("#" + this.id).outerWidth();
 			this.height = axdom("#" + this.id).outerHeight();
 			menuBoxWidth += axdom("#" + this.id).parent().outerWidth().number() + 2;
 		});
@@ -32724,26 +32794,22 @@ var AXValidator = Class.create(AXJ, {
 	    jQuery(this.form).find("input[type=checkbox], input[type=radio]").each(function(eidx, Elem){
 
 		    var config = {};
-		    var isValidate = false;
+		    var isValidate = false, label = "";
 		    jQuery.each(checkClass, function (k, v) {
-			    if (Elem.id) {
-				    if (jQuery("#" + Elem.id).hasClass(cfg.clazz + k)) {
-					    config[k] = v;
-					    isValidate = true;
-				    }
-			    } else if (Elem.name) {
+				if (Elem.name) {
 				    if ($(document[cfg.targetFormName][Elem.name]).hasClass(cfg.clazz + k)) {
 					    config[k] = v;
 					    isValidate = true;
+					    if(label == "") label = (Elem.title || Elem.placeholder || "");
 				    }
 			    }
 		    });
 
 		    if (isValidate) {
 			    if(checkedItems[this.name]){
-				    checkedItems[this.name].push({index:0, type:this.type, value:this.value, id:this.id,  checked:this.checked});
+				    checkedItems[this.name].push({index:0, type:this.type, value:this.value, id:this.id, checked:this.checked, label:label});
 			    }else{
-				    checkedItems[this.name] = [{index:0, type:this.type, value:this.value, id:this.id,  checked:this.checked, config:config}];
+				    checkedItems[this.name] = [{index:0, type:this.type, value:this.value, id:this.id,  checked:this.checked, config:config, label:label}];
 			    }
 		    }
 	    });
@@ -32753,7 +32819,7 @@ var AXValidator = Class.create(AXJ, {
 			    "id":"",
 			    "name":k,
 			    "type":v[0].type,
-			    "label":"",
+			    "label":v[0].label,
 			    "multi":true,
 			    "config":v[0].config
 		    };

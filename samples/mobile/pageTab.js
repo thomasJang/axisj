@@ -5,7 +5,8 @@
 	{optionValue:"AXMobileTab", optionText:"AXMobileTab", addClass:"", url:"mobileTab.html"},
 	{optionValue:"mobileInput", optionText:"mobile input", addClass:"", url:"input.html"},
 	{optionValue:"AXBindDate", optionText:"AXBindDate", addClass:"", url:"bindDate.html"},
-	{optionValue:"bindMisc", optionText:"AXBind Misc.", addClass:"", url:"bindMisc.html"}
+	{optionValue:"bindMisc", optionText:"AXBind Misc.", addClass:"", url:"bindMisc.html"},
+	{optionValue:"siteMenu", optionText:"siteMenu", addClass:"", url:"siteMenu.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){
