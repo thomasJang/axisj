@@ -19315,8 +19315,38 @@ var AXMobileMenu = Class.create(AXJ, {
     setHighLightMenu: function(menuID){
     	this.setHighLight(menuID);
     },
-	setHighLightOriginID: function(){
+	setHighLightOriginID: function(menuID){
+		var cfg = this.config;
 
+		var menu = cfg.menu;
+		var pois = "";
+
+		var treeFn = function(subTree, parentPoi){
+			axf.each(subTree, function(idx, M){
+				if(M._id == menuID){
+					pois = parentPoi + "_" + idx;
+					return false;
+				}else{
+					if(M[cfg.reserveKeys.subMenuKey] && M[cfg.reserveKeys.subMenuKey].length > 0) treeFn(M[cfg.reserveKeys.subMenuKey], parentPoi + "_" + idx);
+				}
+			});
+		};
+
+		axf.each(menu, function(idx, M){
+			if(M._id == menuID){
+				pois = idx + "";
+				return false;
+			}else{
+				if(M[cfg.reserveKeys.subMenuKey] && M[cfg.reserveKeys.subMenuKey].length > 0) treeFn(M[cfg.reserveKeys.subMenuKey], idx);
+			}
+		});
+
+		var poi;
+
+		//trace(pois);
+
+		if(pois != "") poi = pois.split(/_/g);
+		this.selectedPoi = poi;
 	},
     onclickModalBody: function(event){
     	var cfg = this.config;
@@ -19412,10 +19442,17 @@ var AXMobileMenu = Class.create(AXJ, {
 				var childDivID = cid.replace("PMA", "PMC");
 				if(!childDiv.id) childDiv.id = childDivID;
 				else childDivID = childDiv.id;
+
 				jQuery("#"+childDivID+">ul>li").each(function(ci, EL) {
 					var citem = {}, c_domEL = axdom(EL);
-					if(c_domEL.children("A").get(0).id) citem._id = c_domEL.children("A").get(0).id;
-					else c_domEL.children("A").get(0).id = (citem._id = cid + "_" + ci);
+					if(c_domEL.children("A").attr("data-axmenuid")){
+						citem._id = c_domEL.children("A").attr("data-axmenuid");
+					}else if(c_domEL.children("A").get(0).id) {
+						citem._id = c_domEL.children("A").get(0).id;
+					}else {
+						c_domEL.children("A").get(0).id = (citem._id = cid + "_" + ci);
+					}
+
 					citem[cfg.reserveKeys.primaryKey] = cid + "_" + ci;
 					citem[cfg.reserveKeys.labelKey] = c_domEL.children("A").text();
 					citem[cfg.reserveKeys.urlKey] = c_domEL.children("A").attr("href");
@@ -19432,10 +19469,22 @@ var AXMobileMenu = Class.create(AXJ, {
 
 		menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL){
 			if(!EL.id) EL.id = cfg.menuBoxID + "_PM_" + pi;
-			var item = {}, domEL = axdom(EL);
-			if(domEL.children("A").get(0).id) item._id = domEL.children("A").get(0).id;
-			else domEL.children("A").get(0).id = (item._id = cfg.menuBoxID + "_PMA_" + pi);
-			item._child_id = item._id.replace("PMA", "PMC");
+			var item = {}, domEL = axdom(EL), nid = "";
+			if(domEL.children("A").attr("data-axmenuid")){
+				item._id = domEL.children("A").attr("data-axmenuid");
+			}else if(domEL.children("A").get(0).id) {
+				item._id = domEL.children("A").get(0).id;
+			}else {
+				domEL.children("A").get(0).id = (item._id = cfg.menuBoxID + "_PMA_" + pi);
+			}
+
+			if(domEL.children("A").get(0).id) {
+				nid = domEL.children("A").get(0).id;
+			}else {
+				nid = cfg.menuBoxID + "_PMA_" + pi;
+			}
+
+			item._child_id = nid.replace("PMA", "PMC");
 			item[cfg.reserveKeys.primaryKey] = targetID + "_PM_" + pi;
 			item[cfg.reserveKeys.labelKey] = domEL.children("A").text();
 			item[cfg.reserveKeys.urlKey] = domEL.children("A").attr("href");
@@ -19444,15 +19493,20 @@ var AXMobileMenu = Class.create(AXJ, {
 			item[cfg.reserveKeys.subMenuKey] = [];
 			tree.push(item);
 
-
 			var child = domEL.children("."+cfg.childMenu.className).get(0);
 			if(child){
 				if(!child.id) child.id = item._child_id;
-
 				jQuery("#"+item._child_id+">ul>li").each(function(ci, EL) {
 					var citem = {}, c_domEL = axdom(EL);
-					if(c_domEL.children("A").get(0).id) citem._id = c_domEL.children("A").get(0).id;
-					else c_domEL.children("A").get(0).id = (citem._id = item._child_id.replace("PMC", "PMA") + "_" + ci);
+
+					if(c_domEL.children("A").attr("data-axmenuid")){
+						citem._id = c_domEL.children("A").attr("data-axmenuid");
+					}else if(c_domEL.children("A").get(0).id) {
+						citem._id = c_domEL.children("A").get(0).id;
+					}else {
+						c_domEL.children("A").get(0).id = (citem._id = item._child_id.replace("PMC", "PMA") + "_" + ci);
+					}
+
 					citem[cfg.reserveKeys.primaryKey] = item._child_id.replace("PMC", "PMA") + "_" + ci;
 					citem[cfg.reserveKeys.labelKey] = c_domEL.children("A").text();
 					citem[cfg.reserveKeys.urlKey] = c_domEL.children("A").attr("href");
@@ -19569,7 +19623,7 @@ var AXMobileMenu = Class.create(AXJ, {
 		}, 10);
 	},
 	moveBlock: function(moveX){
-		trace(this.mobileMenuBodyScroll.width());
+		//trace(this.mobileMenuBodyScroll.width());
 		var cfg = this.config;
 		var newLeft = (this.touchStartXY.sLeft + (moveX * 1));
 		if(newLeft > this.menuPageWidth*0.5){
@@ -24898,8 +24952,13 @@ var AXTopDownMenu = Class.create(AXJ, {
 		this.menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL){
 			EL.id = cfg.menuBoxID + "_PM_" + pi;
 			var _id = "";
-			if(jQuery(EL).children("A").get(0).id) _id = jQuery(EL).children("A").get(0).id;
-			jQuery(EL).children("A").get(0).id = cfg.menuBoxID + "_PMA_" + pi;
+
+			var ELA = jQuery(EL).children("A");
+
+			if(ELA.get(0).id) _id = jQuery(EL).children("A").get(0).id;
+			ELA.get(0).id = cfg.menuBoxID + "_PMA_" + pi;
+			ELA.attr("data-axmenuid", _id);
+
 			parents.push({
 				_id:_id,
 				id:EL.id,
@@ -25050,6 +25109,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			var _id = "";
 			if(linkA.get(0).id) _id = linkA.get(0).id;
 			linkA.get(0).id = cid.replace("PMC", "PMA") + "_" + pi;
+			linkA.attr("data-axmenuid", _id);
 			linkA.bind("mouseover", onoverChild);
 			if(cfg.childOutClose){
 				linkA.bind("mouseout", onoutChild);
