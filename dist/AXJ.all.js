@@ -10843,7 +10843,7 @@ myGrid.setData(gridData);
 				value: value
 			};
 
-			if (CH.checked) {
+			if (Object.isFunction(CH.checked)) {
 				if (CH.checked.call(sendObj)) {
 					checked = " checked=\"checked\" ";
 					if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
