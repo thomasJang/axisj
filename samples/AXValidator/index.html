@@ -22,6 +22,7 @@
 
         <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
         <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+        <script type="text/javascript" src="../../lib/AXValidator.js"></script>
         <script type="text/javascript" src="../page.js"></script>
         <script type="text/javascript" src="pageTab.js"></script>
         <!-- js block -->
@@ -53,9 +54,13 @@
                     laterThan:"regdate", err:"시작일보다 느린 날짜를 선택하세요"
                 }
             });
-*/				
+*/
+
+                //$("#my-select").bindSelect();
+                $("#my-select").html("<option></option>");
+
 				myValidator.setConfig({
-					targetFormName : "myForm",
+					targetFormName : "myForm"
 				});
 
 				myValidator.add({
@@ -143,11 +148,11 @@
 								    var value = num.replace(pattern, dataFormat);
 								    $("#" + _this.element.id).val(value);                
 								} else if (k == "isdate") {
-									/*
-								    dateObj.setDate(_this.value);
-								    var value = dateObj.getDate();
-								    $("#" + _this.element.id).val(value);
-								    */
+
+								    //dateObj.setDate(_this.value);
+								    //var value = dateObj.getDate();
+								    //$("#" + _this.element.id).val(value);
+
 								}
 								else if (k == "money") {
 								    var value = _this.value.number().money();
@@ -165,7 +170,7 @@
 				
 					}
 				});    
-				
+
 			},
 			saveForm: function(){
 				var validateResult = myValidator.validate();
@@ -334,6 +339,70 @@
                                             <span>종료일</span>
                                             <input type="text" name="enddate" id="enddate" class="AXInput W100"  tabindex="5" />
                                         </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">select</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <select name="my-select" id="my-select">
+                                            <option value="123">123</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    <div class="tdRel">checkbox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" id="iamcheckbox01" value="01" class="av-required" title="내이름" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="03" class="av-required" />
+                                            03
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">radiobox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="radio" name="iamradio" value="01" class="av-required" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+
                                     </div>
                                 </td>
                             </tr>
