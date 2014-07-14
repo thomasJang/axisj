@@ -1858,7 +1858,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  * AXScroll
  * @class AXScroll
  * @extends AXJ
- * @version v1.51
+ * @version v1.52
  * @author tom@axisj.com
  * @logs
  "2012-10-10 오전 11:17:34",
@@ -1876,6 +1876,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  "2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스",
  "2014-03-31 오후 6:26:34 root - yscroll 이 없어지면 scroll top 을 0으로"
  "2014-06-13 tom scrollBar 와 content 싱크방식 변경 / 버그픽스"
+ "2014-07-14 tom issue#221, issue#222 fix"
  * @description
  *
  ```js
@@ -2319,6 +2320,7 @@ var AXScroll = Class.create(AXJ, {
         //return true;
     },
     moveEndBlock: function(){
+	    var cfg = this.config;
         /* 관성발동여부 체크 */
         if(!this.touchStartXY) return;
         var sTime = this.touchStartXY.sTime;
@@ -2610,8 +2612,8 @@ var AXScroll = Class.create(AXJ, {
 		        this.contentScrollXAttr = {
 			        bodyWidth: this.scrollTargetID.width(),
 			        scrollWidth: this.scrollScrollID.width(),
-			        scrollTrackXWidth: this.scrollTrackX.width(),
-			        scrollXHandleWidth: this.scrollXHandle.outerWidth()
+			        scrollTrackXWidth: this.xscrollTrack.width(),
+			        scrollXHandleWidth: this.scrollBar.outerWidth()
 		        };
 	        }else{
 		        // scrollContent height update
