@@ -56,17 +56,13 @@
                 emptyListMSG:"<i class='fa fa-spinner'></i> List of Empty",
                 iconWidth:18,
                 indentRatio:0.75,
-                relation: {
-                    parentKey: "pno",
-                    childKey: "no"
-                },
-                reserveKeys:{
-                    parentHashKey:"pHash", // 부모 트리 포지션
-                    hashKey:"hash", // 트리 포지션
-                    openKey:"open", // 확장여부
-                    subTree:"cn", // 자식개체키
-                    displayKey:"display" // 표시여부
-                },
+
+				relation:{
+					parentKey:"parentcd",
+					childKey:"nodeID",
+					parentName:"parentnm",
+					childName:"nodenm"
+				},
 				
 				colGroup: [
 					{key:"nodenm", label:"제목", width:"*", align:"left", indent:true,
@@ -86,7 +82,7 @@
 						formatter:function(){
 							//return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
 							//return this.item.nodeName;
-							return (this.item.label||"").dec();
+							return (this.item.nodenm||"").dec();
 						}
 					}
 				],
@@ -165,25 +161,6 @@
 			});
 
 			var Tree = [
-
-
-                {_id:"m01", label:"대시보드", url:"index.aspx"},
-                {_id:"m02", label:"컨텐츠페이지", url:"#ax", open:true, cn:[
-                    {_id:"m0201", label:"서브페이지", url:"#ax"},
-                    {_id:"m0202", label:"서브페이지 두번째", url:"#ax", open:true, cn:[
-                        {_id:"m020201", label:"서브페이지 1-0", url:"/WorkPlace/Template/UI/Content.aspx"},
-                        {_id:"m020202", label:"서브페이지 1-1", url:"/WorkPlace/Template/UI/Content.aspx"},
-                        {_id:"m020203", label:"서브페이지 1-2", url:"/WorkPlace/Template/UI/Content.aspx"}
-                    ]},
-                    {_id:"m0203", label:"서브페이지 세번째", url:"/WorkPlace/Template/UI/Content.aspx"}
-                ]},
-                {_id:"m03", label:"레이아웃", url:"/WorkPlace/Template/UI/Content.aspx"},
-                {_id:"m04", label:"페이지", url:"/WorkPlace/Template/UI/Content.aspx"},
-                {_id:"m05", label:"사이트맵", url:"/WorkPlace/Template/UI/Content.aspx"},
-                {_id:"m06", label:"모듈", url:"/WorkPlace/Template/UI/Content.aspx"},
-                {_id:"m07", label:"접속통계", url:"/WorkPlace/Template/UI/Content.aspx"}
-
-                    /*
 				{nodeID:"1","nodenm":"ETRI",open:true, nodeType:"company","parentcd":"","parentnm":"","sortnum":1,"ckd":0,"treeno":"l001", subTree:[
 						{nodeID:"2","nodenm":"%ec%9e%84%ec%8b%9c%ec%9a%a9%eb%b6%80%ec%84%9c",open:true, nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":1,"ckd":0,"treeno":"l001_001"},
 						{nodeID:"20130618001","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
@@ -203,7 +180,6 @@
 						
 					]
 				}
-				*/
 			];
 			myTree.setTree(Tree);
 
