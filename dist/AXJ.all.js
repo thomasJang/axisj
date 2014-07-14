@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-11 
+AXJ - v1.0.6 - 2014-07-14 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-11 
+AXJ - v1.0.6 - 2014-07-14 
 */
 
 if(!window.AXConfig){
@@ -1858,7 +1858,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  * AXScroll
  * @class AXScroll
  * @extends AXJ
- * @version v1.51
+ * @version v1.52
  * @author tom@axisj.com
  * @logs
  "2012-10-10 오전 11:17:34",
@@ -1876,6 +1876,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  "2014-01-06 오후 12:55:20 tom - 관성 작용중 touchStart stop 버그픽스",
  "2014-03-31 오후 6:26:34 root - yscroll 이 없어지면 scroll top 을 0으로"
  "2014-06-13 tom scrollBar 와 content 싱크방식 변경 / 버그픽스"
+ "2014-07-14 tom issue#221, issue#222 fix"
  * @description
  *
  ```js
@@ -2319,6 +2320,7 @@ var AXScroll = Class.create(AXJ, {
         //return true;
     },
     moveEndBlock: function(){
+	    var cfg = this.config;
         /* 관성발동여부 체크 */
         if(!this.touchStartXY) return;
         var sTime = this.touchStartXY.sTime;
@@ -2610,8 +2612,8 @@ var AXScroll = Class.create(AXJ, {
 		        this.contentScrollXAttr = {
 			        bodyWidth: this.scrollTargetID.width(),
 			        scrollWidth: this.scrollScrollID.width(),
-			        scrollTrackXWidth: this.scrollTrackX.width(),
-			        scrollXHandleWidth: this.scrollXHandle.outerWidth()
+			        scrollTrackXWidth: this.xscrollTrack.width(),
+			        scrollXHandleWidth: this.scrollBar.outerWidth()
 		        };
 	        }else{
 		        // scrollContent height update
@@ -8342,6 +8344,8 @@ var AXGrid = Class.create(AXJ, {
 		this.config.passiveMode = AXConfig.AXGrid.passiveMode;
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
 		this.config.scrollContentBottomMargin = "10";
+		//TODO mergeCells 기능구현
+		this.config.mergeCells = false; // cells merge option
 		this.selectedCells = [];
 		this.selectedRow = [];
 
@@ -10614,6 +10618,37 @@ myGrid.redrawGrid();
 			axdom("#" + cfg.targetID + "_AX_gridBodyDiv").append(po.join(''));
 		}
 	},
+/**
+ * @method AXGrid.setList
+ * @param obj {JSObject}
+ * @param sortDisable
+ * @param rewrite
+ * @param exts
+ * @returns null
+ * @description 그리드에 데이터를 선언하거나 AJAX url 속성을 정의합니다.
+ * @example
+```
+ // Array
+ myGrid.setList({Array});
+
+ // AJAX url 속성
+ myGrid.setList({
+	//method :
+	//contentType :
+	//responseType :
+	//dataType :
+	//headers :
+	//debug :
+	//ajaxUrl :
+	//ajaxPars :
+	//onLoad :
+	//onError :
+    ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+
+    }
+});
+```
+ */
 	setList: function (obj, sortDisable, rewrite, exts) {
 		var cfg = this.config;
 		var nowSortHeadID = this.nowSortHeadID;
@@ -10632,8 +10667,8 @@ myGrid.redrawGrid();
 
 			var url = obj.ajaxUrl;
 			var appendPars = [
-					"pageNo=" + ((exts == "paging") ? this.page.pageNo : 1),
-					"pageSize=" + this.page.pageSize
+				"pageNo=" + ((exts == "paging") ? this.page.pageNo : 1),
+				"pageSize=" + this.page.pageSize
 			];
 
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
@@ -11301,12 +11336,13 @@ myGrid.setData(gridData);
 
 				if(this.list.length > (printListCount + 10)) printListCount += 10;
 				else printListCount = this.list.length;
-				for (var item, itemIndex = 1, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
+				for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
 					po.push(getItem(itemIndex, item, "n"));
 					if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 						po.push(getItemMarker(itemIndex, item, "n"));
 					}
 				}
+				this.cachedDom.tbody.empty();
 				this.cachedDom.tbody.append(po.join(''));
 				if (this.hasFixed) {
 					po = [];
@@ -12935,7 +12971,6 @@ myGrid.setData(gridData);
 				});
 			}
 
-			//TODO : over view item focus
 			if(this.virtualScroll.startIndex > itemIndex || this.virtualScroll.endIndex < itemIndex){
 
 				this.selectedRow.clear();
@@ -13471,7 +13506,6 @@ myGrid.setData(gridData);
 		return tpo.join('');
 	},
 	setEditor: function (item, itemIndex, insertIndex) {
-		// TODO : 에디터 출력위치 결정
 		var cfg = this.config, _this = this, itemTrHeight;
 
 		if (!this.hasEditor) {
@@ -25381,7 +25415,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.52
+ * @version v1.53
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25412,6 +25446,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-06-11 tom : bugfix, method:removeTree - remove child node then parent node not update"
  "2014-06-13 tom : bugfix, method:updateTree sync data list & tree"
  "2014-07-04 tom : bugfix, parentKey value is not '0' display error"
+ "2010-07-14 tom : bugfix, reserveKeys.subTree not match code"
  *
  * @description
  *
@@ -27939,7 +27974,7 @@ var AXTree = Class.create(AXJ, {
 				} else if (hidx == 1) {
 					myTree = myTree[HH.number()];
 				} else {
-					myTree = myTree.subTree[HH.number()];
+					myTree = myTree[cfg.reserveKeys.subTree][HH.number()];
 				}
 			});
 			myTree[cfg.reserveKeys.openKey] = false;
@@ -27987,7 +28022,7 @@ var AXTree = Class.create(AXJ, {
 				} else if (hidx == 1) {
 					myTree = myTree[HH.number()];
 				} else {
-					myTree = myTree.subTree[HH.number()];
+					myTree = myTree[cfg.reserveKeys.subTree][HH.number()];
 				}
 			});
 
@@ -27996,10 +28031,10 @@ var AXTree = Class.create(AXJ, {
 			var getAddHashs = function (_tree, pfHash) {
 				addHashs.push(pfHash);
 				axf.each(_tree, function (treeIndex, nTree) {
-					if (nTree.subTree.length > 0 && nTree[cfg.reserveKeys.openKey]) getAddHashs(nTree.subTree, pfHash + "_" + treeIndex.setDigit(cfg.hashDigit));
+					if (nTree[cfg.reserveKeys.subTree].length > 0 && nTree[cfg.reserveKeys.openKey]) getAddHashs(nTree[cfg.reserveKeys.subTree], pfHash + "_" + treeIndex.setDigit(cfg.hashDigit));
 				});
 			};
-			getAddHashs(myTree.subTree, preFixHash);
+			getAddHashs(myTree[cfg.reserveKeys.subTree], preFixHash);
 
 			myTree[cfg.reserveKeys.openKey] = true;
 
@@ -28205,7 +28240,7 @@ var AXTree = Class.create(AXJ, {
 									if (idx == 1) {
 										subTree = subTree[this.number()];
 									} else if (idx > 1) {
-										subTree = subTree.subTree[this.number()];
+										subTree = subTree[cfg.reserveKeys.subTree][this.number()];
 									}
 								});
 
@@ -28329,9 +28364,9 @@ var AXTree = Class.create(AXJ, {
 				}
 			});
 			var subTreeChecked = function (T, checked) {
-				axf.each(T.subTree, function () {
+				axf.each(T[cfg.reserveKeys.subTree], function () {
 					this.__checked = checked;
-					if (this.subTree) subTreeChecked(this, checked);
+					if (this[cfg.reserveKeys.subTree]) subTreeChecked(this, checked);
 				});
 			};
 			stree.__checked = checked;
@@ -28432,9 +28467,9 @@ var AXTree = Class.create(AXJ, {
 					}
 				});
 				var subTreeChecked = function (T, checked) {
-					axf.each(T.subTree, function () {
+					axf.each(T[cfg.reserveKeys.subTree], function () {
 						this.__checked = checked;
-						if (this.subTree) subTreeChecked(this, checked);
+						if (this[cfg.reserveKeys.subTree]) subTreeChecked(this, checked);
 					});
 				};
 				stree.__checked = checked;
@@ -28954,7 +28989,7 @@ var AXTree = Class.create(AXJ, {
 				subTree = subTree[this.number()];
 				opendPath.push(subTree[reserveKeys.hashKey]);
 			} else if (idx > 1) {
-				subTree = subTree.subTree[this.number()];
+				subTree = subTree[cfg.reserveKeys.subTree][this.number()];
 				opendPath.push(subTree[reserveKeys.hashKey]);
 			}
 		});
@@ -29313,7 +29348,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			});
 
-			//tree.subTree = 
+			//tree[cfg.reserveKeys.subTree] =
 			tree[reserveKeys.openKey] = true;
 			axf.each(subTree, function () {
 				tree[reserveKeys.subTree].push(this);
@@ -29447,7 +29482,7 @@ var AXTree = Class.create(AXJ, {
 		for (var idx = 1; idx < hashs.length; idx++) {
 			var H = hashs[idx];
 			if (idx == 1) tree = tree[H.number()];
-			else tree = tree.subTree[H.number()];
+			else tree = tree[cfg.reserveKeys.subTree][H.number()];
 			if (idx == hashs.length - 2) {
 				//부모 트리인 경우	
 				ptree = tree;
@@ -29459,16 +29494,16 @@ var AXTree = Class.create(AXJ, {
 		var applyDel = function (subTree) {
 			for (var ti = 0; ti < subTree.length; ti++) {
 				subTree[ti]._isDel = true;
-				if (subTree[ti].subTree) {
-					applyDel(subTree[ti].subTree);
+				if (subTree[ti][cfg.reserveKeys.subTree]) {
+					applyDel(subTree[ti][cfg.reserveKeys.subTree]);
 				}
 			}
 		};
-		applyDel(tree.subTree);
+		applyDel(tree[cfg.reserveKeys.subTree]);
 
 		var __subTreeLength = 0;
-		if (ptree.subTree) {
-			axf.each(ptree.subTree, function () {
+		if (ptree[cfg.reserveKeys.subTree]) {
+			axf.each(ptree[cfg.reserveKeys.subTree], function () {
 				if (!this._isDel) __subTreeLength++;
 			});
 		}
@@ -29543,7 +29578,7 @@ var AXTree = Class.create(AXJ, {
 				myTree = myTree[hashs[hidx].number()];
 				parentHashs.push(hashs[hidx]);
 			} else {
-				myTree = myTree.subTree[hashs[hidx].number()];
+				myTree = myTree[cfg.reserveKeys.subTree][hashs[hidx].number()];
 				parentHashs.push(hashs[hidx]);
 			}
 			nowChildIndex = hashs[hidx + 1].number();
@@ -29568,9 +29603,9 @@ var AXTree = Class.create(AXJ, {
 					myTree[nowChildIndex - 1] = tempObj;
 				} else {
 					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (nowChildIndex - 1).setDigit(cfg.hashDigit);
-					var tempObj = AXUtil.copyObject(myTree.subTree[nowChildIndex]);
-					myTree.subTree[nowChildIndex] = AXUtil.copyObject(myTree.subTree[nowChildIndex - 1]);
-					myTree.subTree[nowChildIndex - 1] = tempObj;
+					var tempObj = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex]);
+					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]);
+					myTree[cfg.reserveKeys.subTree][nowChildIndex - 1] = tempObj;
 				}
 			} catch (e) {
 				trace(e);
@@ -29620,7 +29655,7 @@ var AXTree = Class.create(AXJ, {
 				myTree = myTree[hashs[hidx].number()];
 				parentHashs.push(hashs[hidx]);
 			} else {
-				myTree = myTree.subTree[hashs[hidx].number()];
+				myTree = myTree[cfg.reserveKeys.subTree][hashs[hidx].number()];
 				parentHashs.push(hashs[hidx]);
 			}
 			nowChildIndex = hashs[hidx + 1].number();
@@ -29635,7 +29670,7 @@ var AXTree = Class.create(AXJ, {
 			nowChildIndex = hashs.last().number();
 			subTreeLength = myTree.length;
 		} else {
-			subTreeLength = myTree.subTree.length;
+			subTreeLength = myTree[cfg.reserveKeys.subTree].length;
 		}
 
 		if (nowChildIndex > subTreeLength - 2) {
@@ -29651,9 +29686,9 @@ var AXTree = Class.create(AXJ, {
 					myTree[nowChildIndex.number() + 1] = tempObj;
 				} else {
 					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (nowChildIndex.number() + 1).setDigit(cfg.hashDigit);
-					var tempObj = AXUtil.copyObject(myTree.subTree[nowChildIndex]);
-					myTree.subTree[nowChildIndex] = AXUtil.copyObject(myTree.subTree[nowChildIndex.number() + 1]);
-					myTree.subTree[nowChildIndex.number() + 1] = tempObj;
+					var tempObj = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex]);
+					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex.number() + 1]);
+					myTree[cfg.reserveKeys.subTree][nowChildIndex.number() + 1] = tempObj;
 				}
 			} catch (e) {
 				trace(e);
@@ -29770,7 +29805,7 @@ var AXTree = Class.create(AXJ, {
 			if (hidx == 1) {
 				move_Tree_parent = move_Tree_parent[move_hashs[hidx].number()];
 			} else {
-				move_Tree_parent = move_Tree_parent.subTree[move_hashs[hidx].number()];
+				move_Tree_parent = move_Tree_parent[cfg.reserveKeys.subTree][move_hashs[hidx].number()];
 			}
 		}
 		var copyObject = {};
@@ -29781,7 +29816,7 @@ var AXTree = Class.create(AXJ, {
 		if (move_hashs.length == 2) { // root level
 			move_Tree_parent_subTree = this.tree;
 		} else {
-			move_Tree_parent_subTree = move_Tree_parent.subTree;
+			move_Tree_parent_subTree = move_Tree_parent[cfg.reserveKeys.subTree];
 		}
 
 		axf.each(move_Tree_parent_subTree, function (subTreeIndex, ST) {
@@ -29806,10 +29841,10 @@ var AXTree = Class.create(AXJ, {
 			if (hidx == 1) {
 				target_Tree_parent = target_Tree_parent[target_hashs[hidx].number()];
 			} else {
-				target_Tree_parent = target_Tree_parent.subTree[target_hashs[hidx].number()];
+				target_Tree_parent = target_Tree_parent[cfg.reserveKeys.subTree][target_hashs[hidx].number()];
 			}
 		}
-		newSelectedHashs.push((target_Tree_parent.subTree.length).setDigit(cfg.hashDigit));
+		newSelectedHashs.push((target_Tree_parent[cfg.reserveKeys.subTree].length).setDigit(cfg.hashDigit));
 
 		copyObject[relation.parentKey] = target_Tree_parent[relation.childKey];
 		try {
@@ -29818,7 +29853,7 @@ var AXTree = Class.create(AXJ, {
 
 		}
 
-		target_Tree_parent.subTree.push(copyObject);
+		target_Tree_parent[cfg.reserveKeys.subTree].push(copyObject);
 
 		var newSelectedHash = newSelectedHashs.join("_");
 
@@ -29837,7 +29872,7 @@ var AXTree = Class.create(AXJ, {
 		if (move_hashs.length == 2) { // root level
 			this.tree = new_subTree;
 		} else {
-			move_Tree_parent.subTree = new_subTree;
+			move_Tree_parent[cfg.reserveKeys.subTree] = new_subTree;
 		}
 
 		this.selectedCells.clear();
@@ -29998,7 +30033,7 @@ var AXTree = Class.create(AXJ, {
 				}
 			});
 			pushItem[reserveKeys.hashKey] = item[reserveKeys.hashKey];
-			pushItem.subTree = [];
+			pushItem[cfg.reserveKeys.subTree] = [];
 			if (hashs.length == 2) {
 				hashTree.push(pushItem);
 			} else if (hashs.length > 2) {
@@ -30006,7 +30041,7 @@ var AXTree = Class.create(AXJ, {
 					return this.item[reserveKeys.hashKey] == pHash;
 				});
 				if (pItem) {
-					pItem.subTree.push(pushItem);
+					pItem[cfg.reserveKeys.subTree].push(pushItem);
 				}
 			}
 		}
@@ -30060,7 +30095,7 @@ var AXTree = Class.create(AXJ, {
 				var pHashs = pHash.split(/_/g);
 				var pTree = tree;
 				axf.each(pHashs, function (idx, T) {
-					if (idx > 0) pTree = pTree[T.number()].subTree;
+					if (idx > 0) pTree = pTree[T.number()][cfg.reserveKeys.subTree];
 				});
 				L[reserveKeys.subTree] = [];
 
