@@ -14912,7 +14912,7 @@ var AXHtmlElement = Class.create(AXJ, {
  * AXInputConverter
  * @class AXInputConverter
  * @extends AXJ
- * @version v1.49
+ * @version v1.50
  * @author tom@axisj.com
  * @logs
  "2012-11-05 오후 1:23:24",
@@ -14948,6 +14948,7 @@ var AXHtmlElement = Class.create(AXJ, {
  "2014-04-24 오후 7:33:25 tom : bindDate  개체에 리턴입력시  onBlur 연결",
  "2014-05-21 tom : resize event 상속"
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
+ "2014-07-14 tom : direct align when window resize "
  *
  */
 
@@ -14982,9 +14983,10 @@ var AXInputConverter = Class.create(AXJ, {
         this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
     },
     init: function () {
-        axdom(window).resize(this.windowResize.bind(this));
+        axdom(window).resize(this.alignAllAnchor.bind(this));
     },
 	windowResize: function () {
+		// 사용안함
 		var windowResizeApply = this.windowResizeApply.bind(this);
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.windowResizeObserver = setTimeout(function () {
@@ -14992,14 +14994,14 @@ var AXInputConverter = Class.create(AXJ, {
 		}, 10);
 	},
 	windowResizeApply: function(){
+		// 사용안함
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.alignAllAnchor();
 	},
     alignAllAnchor: function () {
-        var alignAnchor = this.alignAnchor.bind(this);
-        axf.each(this.objects, function (index, O) {
-            alignAnchor(O.id, index);
-        });
+	    for(var i=0;i<this.objects.length;i++){
+		    this.alignAnchor(this.objects[i].id, i);
+	    }
     },
     msgAlert: function (msg) {
         var errorPrintType = "toast";
@@ -22374,7 +22376,7 @@ var AXSearch = Class.create(AXJ, {
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.56
+ * @version v1.57
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22401,6 +22403,7 @@ var AXSearch = Class.create(AXJ, {
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
  "2014-07-02 tom : bindSelect for Array support setValue attribute"
  "2014-07-09 tom : bindSelect for AJAX then serialObject not working"
+ "2014-07-14 tom : direct align when window resize and add method 'bindSelectAddOptions', 'bindSelectRemoveOptions'"
  *
  */
 
@@ -22414,9 +22417,11 @@ var AXSelectConverter = Class.create(AXJ, {
     init: function () {
         var browser = AXUtil.browser;
         this.isMobile = browser.mobile;
-        axdom(window).resize(this.windowResize.bind(this));
+        //axdom(window).resize(this.windowResize.bind(this));
+	    axdom(window).resize(this.alignAllAnchor.bind(this));
     },
 	windowResize: function () {
+		// 사용안함
 		var windowResizeApply = this.windowResizeApply.bind(this);
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.windowResizeObserver = setTimeout(function () {
@@ -22424,14 +22429,14 @@ var AXSelectConverter = Class.create(AXJ, {
 		}, 10);
 	},
 	windowResizeApply: function(){
+		// 사용안함
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.alignAllAnchor();
 	},
     alignAllAnchor: function () {
-        var alignAnchor = this.alignAnchor.bind(this);
-        axf.each(this.objects, function (index, O) {
-            alignAnchor(O.id, index);
-        });
+	    for(var i=0;i<this.objects.length;i++){
+		    this.alignAnchor(this.objects[i].id, i);
+	    }
     },
     bindSetConfig: function (objID, configs) {
         var findIndex = null;
@@ -22466,7 +22471,6 @@ var AXSelectConverter = Class.create(AXJ, {
                 }
             }
         }
-
         //this.objects = collect;
 
         if (removeAnchorId) {
@@ -22514,14 +22518,15 @@ var AXSelectConverter = Class.create(AXJ, {
             this.objects[objSeq].config = obj;
         }
 
-        this.appendAnchor(objID);
+        this.appendAnchor(objID, objSeq);
         this.bindSelect(objID, objSeq);
         this.windowResize();
 
     },
-    appendAnchor: function (objID) {
-        var cfg = this.config;
-        /*trace("appendAnchor");*/
+    appendAnchor: function (objID, objSeq) {
+        var cfg = this.config, _this = this;
+	    var obj = this.objects[objSeq];
+
         if (AXgetId(cfg.targetID + "_AX_" + objID)) {
             jQuery("#" + cfg.targetID + "_AX_" + objID).remove();
         }
@@ -22534,15 +22539,6 @@ var AXSelectConverter = Class.create(AXJ, {
         var iobjPosition = iobj.position();
         var l = iobjPosition.left, t = iobjPosition.top, w = 0, h = 0;
 
-/*
-        var borderW = iobj.css("border-left-width").number();
-        var borderT = iobj.css("border-top-width").number();
-        var borderB = iobj.css("border-bottom-width").number();
-        var marginW = iobj.css("margin-left").number();
-        var marginH = iobj.css("margin-top").number();
-*/
-        //l = l + marginW;
-        //t = t;
         w = iobj.outerWidth();
         h = iobj.outerHeight();
 
@@ -22550,12 +22546,15 @@ var AXSelectConverter = Class.create(AXJ, {
         objDom.css(css);
         objDom.data("height", h);
 
+	    obj.iobj = iobj;
+	    obj.objDom = objDom;
+	    // TODO : obj에 iobj, objDom 연결
     },
-    alignAnchor: function (objID){
-        var cfg = this.config;
-        //trace(objID);
-        var iobj = axdom("#" + objID);
-        //iobj.show();
+    alignAnchor: function (objID, objSeq){
+	    var cfg = this.config, _this = this;
+	    var obj = this.objects[objSeq];
+
+        var iobj = obj.iobj;
         var iobjPosition = iobj.position();
         var l = iobjPosition.left, t = iobjPosition.top, w = 0, h = 0;
 
@@ -22571,33 +22570,31 @@ var AXSelectConverter = Class.create(AXJ, {
         h = iobj.outerHeight();
 
         var css = { left: l, top: t, width: w, height: h };
-        axdom("#" + cfg.targetID + "_AX_" + objID).css(css);
-        axdom("#" + cfg.targetID + "_AX_" + objID).data("height", h);
+	    obj.objDom.css(css);
+	    obj.objDom.data("height", h);
 
-        axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox").css({width:w, height:h});
-        axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").css({height:(h-(borderT+borderB))+"px"});
+	    obj.objDom.find("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox").css({width:w, height:h});
+	    obj.objDom.find("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").css({height:(h-(borderT+borderB))+"px"});
 
-        axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectText").css({"line-height":(h-(borderT+borderB))+"px"});
-        axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").css({height:h});
-
-        //iobj.hide();
-
+	    obj.objDom.find("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectText").css({"line-height":(h-(borderT+borderB))+"px"});
+	    obj.objDom.find("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").css({height:h});
     },
     bindSelect: function (objID, objSeq) {
         var cfg = this.config, _this = this;
         var obj = this.objects[objSeq];
-        var iobj = axdom("#" + objID);
-        var objDom = axdom("#" + cfg.targetID + "_AX_" + objID);
+
+	    var iobj = obj.iobj;
+        var objDom = obj.objDom;
         if(!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
-        var w = jQuery("#" + cfg.targetID + "_AX_" + objID).width();
-        var h = jQuery("#" + cfg.targetID + "_AX_" + objID).data("height");
+        var w = objDom.width();
+        var h = objDom.data("height");
         var borderT = iobj.css("border-top-width").number();
         var borderB = iobj.css("border-bottom-width").number();
         //trace(obj.config);
 
-        var fontSize = jQuery("#" + objID).css("font-size").number();
-        var tabIndex = jQuery("#" + objID).attr("tabindex");
+        var fontSize = iobj.css("font-size").number();
+        var tabIndex = iobj.attr("tabindex");
 
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox\" class=\"" + cfg.anchorSelectClassName + "\" style=\"width:" + w + "px;height:" + h + "px;\">");
@@ -22610,15 +22607,12 @@ var AXSelectConverter = Class.create(AXJ, {
         po.push("</div>");
 
         //append to anchor
-        jQuery("#" + cfg.targetID + "_AX_" + objID).empty();
-        jQuery("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-        //jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto", "vertical-align": "middle" });
-        //jQuery("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto", "vertical-align": "middle" });
+	    objDom.empty();
+	    objDom.append(po.join(''));
+	    objDom.show();
 
-        jQuery("#" + cfg.targetID + "_AX_" + objID).show();
+	    var objDom_selectTextBox = objDom.find("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox");
 
-
-        //alert(AXgetId(objID).options.selectedIndex);
         obj.selectedIndex = AXgetId(objID).options.selectedIndex;
         var options = [];
         for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
@@ -22629,33 +22623,33 @@ var AXSelectConverter = Class.create(AXJ, {
         if (this.isMobile) {
 
             // mobile 브라우저인 경우
-            jQuery("#" + objID).css({opacity:0});
+            iobj.css({opacity:0});
             var bindSelectChange = this.bindSelectChange.bind(this);
             obj.objOnChange = function () {
                 bindSelectChange(objID, objSeq);
-            }
-            //jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBox").append(jQuery("#" + objID)); // 사용안함.
+            };
 
-            jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("click.AXSelect", function (event) {
+	        objDom_selectTextBox.bind("click.AXSelect", function (event) {
                 jQuery("#" + objID).click();
             });
 
-            jQuery("#" + objID).addClass("rootSelectBox");
-            jQuery("#" + objID).bind("change.AXSelect", obj.objOnChange);
+	        iobj.addClass("rootSelectBox");
+	        iobj.bind("change.AXSelect", obj.objOnChange);
 
         } else {
             //AXUtil.alert(obj.options);
 
             // PC 브라우저인 경우
-            jQuery("#" + objID).css({opacity:0});
+	        iobj.css({opacity:0});
             var bindSelectExpand = this.bindSelectExpand.bind(this);
             var bindSelectClose = this.bindSelectClose.bind(this);
-            jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("click.AXSelect", function (event) {
+
+	        objDom_selectTextBox.bind("click.AXSelect", function (event) {
                 jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
                 bindSelectExpand(objID, objSeq, true, event);
             });
 
-            jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").bind("keydown.AXSelect", function (event) {
+	        objDom_selectTextBox.bind("keydown.AXSelect", function (event) {
                 if(event.keyCode == AXUtil.Event.KEY_SPACE) bindSelectExpand(objID, objSeq, true, event);
                 if(event.keyCode == AXUtil.Event.KEY_TAB || event.keyCode == AXUtil.Event.KEY_RETURN) return;
                 //trace(String.fromCharCode(event.keyCode));
@@ -22685,7 +22679,7 @@ var AXSelectConverter = Class.create(AXJ, {
             obj.selectedIndex = null;
 
             //jQuery("#" + objID).empty(); serialObject 검색안됨
-	        jQuery("#" + objID).html("<option></option>");
+	        iobj.html("<option></option>");
 
             obj.inProgress = true; //진행중 상태 변경
 
@@ -22746,7 +22740,7 @@ var AXSelectConverter = Class.create(AXJ, {
                 if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
                 po.push(">" + optionText + "</option>");
             };
-            jQuery("#" + objID).html(po.join(''));
+	        iobj.html(po.join(''));
 
             var options = [];
             for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
@@ -22953,7 +22947,7 @@ var AXSelectConverter = Class.create(AXJ, {
         var po = [];
         for (var O, index = 0; (index < obj.options.length && (O = obj.options[index])); index++) {
             po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\">" + O.optionText.dec() + "</a>");
-        };
+        }
         jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
 
         var expandScrollHeight = jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").height();
@@ -22963,11 +22957,11 @@ var AXSelectConverter = Class.create(AXJ, {
         var bindSelectOptionsClick = this.bindSelectOptionsClick.bind(this);
         obj.documentclickEvent = function (event) {
             bindSelectOptionsClick(objID, objSeq, event);
-        }
+        };
         var bindSelectKeyup = this.bindSelectKeyup.bind(this);
         obj.documentKeyup = function (event) {
             bindSelectKeyup(objID, objSeq, event);
-        }
+        };
         jQuery(document).bind("click.AXSelect", obj.documentclickEvent);
         jQuery(document).bind("keydown.AXSelect", obj.documentKeyup);
 
@@ -23223,7 +23217,7 @@ var AXSelectConverter = Class.create(AXJ, {
                 findIndex = index;
                 break;
             }
-        };
+        }
         if(findIndex != null){
             this.bindSelectChange(objID, findIndex);
         }
@@ -23288,7 +23282,134 @@ var AXSelectConverter = Class.create(AXJ, {
                 return { optionValue: null, optionText: null };
             }
         }
-    }
+    },
+
+/**
+ * @method AXSelectConverter.bindSelectAddOptions
+ * @param objID {String} element select id
+ * @param options {Array} 추가하려는 옵션 배열
+ * @returns null
+ * @description 설명
+ * @example
+```
+mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스제이"}]);
+```
+ */
+	bindSelectAddOptions: function(objID, options){
+		var cfg = this.config, _this = this;
+		var objSeq = null;
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
+			if (O.id == objID && O.isDel != true) {
+				objSeq = index;
+				break;
+			}
+		}
+		if(objSeq == null) {
+			trace("not found element id");
+			return;
+		}
+		var obj = this.objects[objSeq];
+		var iobj = obj.iobj;
+
+		if(!Object.isArray(options)){
+			trace("options 야규먼트가 없습니다.");
+			return;
+		}
+
+		var newOptions = obj.options;
+		for(var i = 0; i < options.length; i++){
+			var hasValue = false;
+			for(var oi = 0; oi < obj.options.length; oi++) {
+				if( obj.options[oi].optionValue == options[i].optionValue ){
+					hasValue = true;
+				}
+			}
+			if(!hasValue){
+				newOptions.push({optionText:options[i].optionText.enc(), optionValue:options[i].optionValue});
+			}
+		}
+		obj.options = newOptions;
+
+		iobj.css({opacity:100});
+		//trace(obj.options);
+		var po = [];
+		for (var opts, oidx = 0; (oidx < obj.options.length && (opts = obj.options[oidx])); oidx++) {
+			var optionText = (opts.optionText||"").dec();
+			po.push("<option value=\"" + opts.optionValue + "\"");
+			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+			po.push(">" + optionText + "</option>");
+		};
+		iobj.empty();
+		iobj.append(po.join(''));
+
+		this.alignAnchor(objID, objSeq);
+
+		return obj.options;
+	},
+
+/**
+ * @method AXSelectConverter.bindSelectRemoveOptions
+ * @param objID {String} element select id
+ * @param options {Array} 추가하려는 옵션 배열
+ * @returns null
+ * @description 설명
+ * @example
+ ```
+ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시스제이"}]);
+ ```
+ */
+	bindSelectRemoveOptions: function(objID, options){
+		var cfg = this.config, _this = this;
+		var objSeq = null;
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
+			if (O.id == objID && O.isDel != true) {
+				objSeq = index;
+				break;
+			}
+		}
+		if(objSeq == null) {
+			trace("not found element id");
+			return;
+		}
+		var obj = this.objects[objSeq];
+		var iobj = obj.iobj;
+
+		if(!Object.isArray(options)){
+			trace("options 야규먼트가 없습니다.");
+			return;
+		}
+
+		var newOptions = [];
+
+		for(var oi = 0; oi < obj.options.length; oi++) {
+			var hasValue = false;
+			for(var i = 0; i < options.length; i++) {
+				if( obj.options[oi].optionValue == options[i].optionValue ){
+					hasValue = true;
+				}
+			}
+			if(!hasValue){
+				newOptions.push({optionText:obj.options[oi].optionText, optionValue:obj.options[oi].optionValue});
+			}
+		}
+		obj.options = newOptions;
+
+		//trace(obj.options);
+		iobj.css({opacity:100});
+		var po = [];
+		for (var opts, oidx = 0; (oidx < obj.options.length && (opts = obj.options[oidx])); oidx++) {
+			var optionText = (opts.optionText||"").dec();
+			po.push("<option value=\"" + opts.optionValue + "\"");
+			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+			po.push(">" + optionText + "</option>");
+		}
+		iobj.empty();
+		iobj.append(po.join(''));
+
+		this.alignAnchor(objID, objSeq);
+
+		return obj.options;
+	}
 });
 
 var AXSelect = new AXSelectConverter();
@@ -23375,6 +23496,46 @@ jQuery.fn.bindSelectGetAnchorObject = function(){
         return this;
     });
     return returnObj;
+};
+
+/**
+ * @method jQuery.fn.bindSelectAddOptions
+ * @param options {Array} 추가하려는 옵션 배열
+ * @returns null
+ * @description 설명
+ * @example
+```
+$("#mySelect").bindSelectAddOptions([
+	{optionValue:"1", optionText:"액시스제이"}
+]);
+```
+ */
+jQuery.fn.bindSelectAddOptions = function (options) {
+	var returnObj;
+	jQuery.each(this, function () {
+		returnObj = AXSelect.bindSelectAddOptions(this.id, options);
+		return this;
+	});
+	return returnObj;
+};
+
+/**
+ * @method jQuery.fn.bindSelectRemoveOptions
+ * @param options {Array} 추가하려는 옵션 배열
+ * @returns null
+ * @description 설명
+ * @example
+```
+
+```
+ */
+jQuery.fn.bindSelectRemoveOptions = function (options) {
+	var returnObj;
+	jQuery.each(this, function () {
+		returnObj = AXSelect.bindSelectRemoveOptions(this.id, options);
+		return this;
+	});
+	return returnObj;
 };
 /* ---------------------------- */
 var AXSlideViewer = Class.create(AXJ, {

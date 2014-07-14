@@ -23,6 +23,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -208,6 +209,20 @@
                 </select>
                 <button type="button" class="AXButton" onclick="alert($('#AXSelect1').val())">valueCheck</button>
             </label>
+
+            <div>
+                <p>
+                    <input type="button" value="아이템추가" class="AXButtonSmall"
+                           onclick="$('#AXSelect1').bindSelectAddOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+                    bindSelectAddOptions({Array});
+                </p>
+                <p>
+                    <input type="button" value="아이템제거" class="AXButtonSmall"
+                           onclick="$('#AXSelect1').bindSelectRemoveOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+                    bindSelectRemoveOptions({Array});
+                </p>
+
+            </div>
 
 
             <h3>small</h3>
