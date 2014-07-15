@@ -218,7 +218,7 @@ var sampleTreeMenu = new AXTopDownMenu();
                         fo.push('</div>');
 
 
-                        fo.push('<div style="position:absolute;top: 5px;right: 2px;">');
+                        fo.push('<div style="position:absolute;top: -30px;right: 7px;">');
 
                             fo.push('<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline;margin:0px;padding:0px;">');
                             fo.push('<input type="hidden" name="cmd" value="_s-xclick">');
