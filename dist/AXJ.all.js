@@ -10967,6 +10967,9 @@ myGrid.setData(gridData);
 		var cfg = this.config;
 		var tpo = [];
 		var evenClassName = "line" + (itemIndex % 2);
+		if(cfg.mergerCells){
+			evenClassName = "line1"; // 줄무늬 기능 사용 안함.
+		}
 		var getFormatterValue = this.getFormatterValue.bind(this);
 		var getTooltipValue = this.getTooltipValue.bind(this);
 		var hasFixed = this.hasFixed;
