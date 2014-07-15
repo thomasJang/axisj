@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-14 
+AXJ - v1.0.6 - 2014-07-15 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-14 
+AXJ - v1.0.6 - 2014-07-15 
 */
 
 if(!window.AXConfig){
@@ -765,7 +765,7 @@ Object.extend(Number.prototype, (function () {
 	function right(strLen) { return this.toString().substring(this.toString().length - strLen, this.toString().length); }
 	function toMoney() { var txtNumber = '' + this; if (isNaN(txtNumber) || txtNumber == "") { return ""; } else { var rxSplit = new RegExp('([0-9])([0-9][0-9][0-9][,.])'); var arrNumber = txtNumber.split('.'); arrNumber[0] += '.'; do { arrNumber[0] = arrNumber[0].replace(rxSplit, '$1,$2'); } while (rxSplit.test(arrNumber[0])); if (arrNumber.length > 1) { return arrNumber.join(''); } else { return arrNumber[0].split('.')[0]; } } }
 	function toByte() { var n_unit = "KB"; var myByte = this / 1024; if (myByte / 1024 > 1) { n_unit = "MB"; myByte = myByte / 1024; } if (myByte / 1024 > 1) { n_unit = "GB"; myByte = myByte / 1024; } return myByte.round(1) + n_unit; }
-	function toNum() { return Math.round(this * 1000000000000000) / 1000000000000000; }
+	function toNum() { return Math.round( this * 100000000000000 ) / 100000000000000; }
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
@@ -9219,6 +9219,7 @@ var AXGrid = Class.create(AXJ, {
 {
 	targetID : "AXGridTarget",
 	colHeadAlign: "center", // 헤드의 기본 정렬 값
+	mergeCells:true, // 셀 머지여부 (중복된 값의 여부에 따라)
 	colGroup : [
 		{key:"no", label:"번호", width:"50", align:"right", sort:"asc"}
 	],
@@ -10994,30 +10995,23 @@ myGrid.setData(gridData);
 					var printOk = false;
 					if (isfix == "n") printOk = true;
 					if (isfix == "fix" && colCount < (cfg.fixedColSeq + 1)) printOk = true;
-
 					if (printOk) {
-
 						colCount += CH.colspan;
-
-						/*radio, check exception */
+						//radio, check exception
 						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
 						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
 						var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
 						var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
 						var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
-						/*trace({r:r, CHidx:CHidx, fixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
 
 						var bodyNodeClass = "";
 						if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
 						else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
 
 						var tooltipValue = "";
-						if (CH.tooltip) {
-							tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
-						}
+						if (CH.tooltip) tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
 
 						tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "body_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						/*tpo.push("<div class=\"tdRelBlock\">");*/
 						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" title=\"" + tooltipValue + "\" title=\"" + tooltipValue + "\">");
 						if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
 							if (CH.formatter) {
@@ -11029,14 +11023,15 @@ myGrid.setData(gridData);
 							tpo.push("&nbsp;");
 						}
 						tpo.push("</div>");
-						/*tpo.push("</div>");*/
 						tpo.push("</td>");
 					}
 				}
 			}
 
 			if (r == 0 && isfix == "n") {
-				tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_null_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.rows.length + "\"><div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlock_AX_" + itemIndex + "\">&nbsp;</div></td>");
+				tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_null_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.rows.length + "\">" +
+					"<div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlock_AX_" + itemIndex + "\">&nbsp;</div>" +
+					"</td>");
 			}
 			if (hasTrValue) tpo.push("</tr>");
 		}
@@ -11261,15 +11256,14 @@ myGrid.setData(gridData);
 
 		if (this.editorOpend) this.cancelEditor();
 
-		/* icon view */
 		var getIconItem = this.getIconItem.bind(this);
-		/* --------------------------- icon view */
-		/* mobile view */
+		// --------------------------- icon view
+
 		var getMobileItem = this.getMobileItem.bind(this);
-		/* --------------------------- icon view */
+		// --------------------------- mobile view
 
 		var po = [];
-		/* view mode 가 grid 인경우만 유효 */
+		// view mode 가 grid 인경우만 유효
 		if (cfg.viewMode == "grid") {
 			if(cfg.height == "auto"){
 				for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
@@ -11288,7 +11282,7 @@ myGrid.setData(gridData);
 				}
 			}
 
-			if (this.list.length == 0) { /* empty tags */
+			if (this.list.length == 0) { // empty list
 				po.push("<tr class=\"noListTr\">");
 				po.push("<td colspan=\"" + (this.showColLen) + "\">");
 				po.push("<div class=\"tdRelBlock\">");
@@ -11303,6 +11297,7 @@ myGrid.setData(gridData);
 
 			this.cachedDom.tbody.empty();
 			this.cachedDom.tbody.append(po.join(''));
+
 
 			if (this.hasFixed) {
 				po = [];
@@ -11327,14 +11322,15 @@ myGrid.setData(gridData);
 			}
 
 			if(cfg.height != "auto" && this.list.length > 0) {
+
 				//아이템 한줄의 높이는?
 				var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
-				this.scrollContent.css({"padding-bottom":itemTrHeight});
+				this.scrollContent.css({"padding-bottom": itemTrHeight});
 				// 추가로 출력할 목록 선정
 				po = [];
 				var printListCount = (this.body.height() / itemTrHeight).ceil();
 
-				if(this.list.length > (printListCount + 10)) printListCount += 10;
+				if (this.list.length > (printListCount + 10)) printListCount += 10;
 				else printListCount = this.list.length;
 				for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
 					po.push(getItem(itemIndex, item, "n"));
@@ -11344,29 +11340,37 @@ myGrid.setData(gridData);
 				}
 				this.cachedDom.tbody.empty();
 				this.cachedDom.tbody.append(po.join(''));
+				// TODO : 출력된 테이블에 mergeCells 호출
+				if (cfg.mergeCells) {
+					this.mergeCells(this.cachedDom.tbody);
+				}
+
 				if (this.hasFixed) {
 					po = [];
-					for (var item, itemIndex = 1, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
+					for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
 						po.push(getItem(itemIndex, item, "fix"));
 						if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
 							po.push(getItemMarker(itemIndex, item, "fix"));
 						}
 					}
 					this.cachedDom.fixed_tbody.append(po.join(''));
+					if (cfg.mergeCells) {
+						this.mergeCells(this.cachedDom.fixed_tbody);
+					}
 				}
 
 				// TODO : init virtualScroll & control height thpadding
 				this.virtualScroll = {
-					startIndex : 0,
-					endIndex : printListCount-1,
-					itemTrHeight: itemTrHeight,
+					startIndex    : 0,
+					endIndex      : printListCount - 1,
+					itemTrHeight  : itemTrHeight,
 					printListCount: printListCount,
-					scrollTop: 0
+					scrollTop     : 0
 				};
 
 				this.cachedDom.thpadding.css({ height: 0 });
-				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount-1) * (itemTrHeight) });
-				if(this.hasFixed) {
+				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
+				if (this.hasFixed) {
 					this.cachedDom.fthpadding.css({ height: 0 });
 					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
 				}
@@ -11374,7 +11378,35 @@ myGrid.setData(gridData);
 				// 스크롤 y 포지션 초기화
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
+
+			}else if(cfg.height == "auto" && this.list.length > 0) {
+
+				this.virtualScroll = {
+					startIndex : 0,
+					endIndex : 0,
+					itemTrHeight: 0,
+					printListCount: 0,
+					scrollTop: 0
+				};
+				this.cachedDom.thpadding.css({ height: 0 });
+				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+				if(this.hasFixed) {
+					this.cachedDom.fthpadding.css({ height: 0 });
+					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+				}
+
+				if (cfg.mergeCells) {
+					this.mergeCells(this.cachedDom.tbody);
+					if (this.hasFixed) {
+						this.mergeCells(this.cachedDom.fixed_tbody);
+					}
+				}
+
+				this.scrollContent.css({ top: 0 });
+				this.contentScrollContentSync({ top: 0 });
+
 			}else{
+
 				this.virtualScroll = {
 					startIndex : 0,
 					endIndex : 0,
@@ -11390,6 +11422,7 @@ myGrid.setData(gridData);
 				}
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
+
 			}
 
 			this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOver.bind(this));
@@ -11594,7 +11627,7 @@ myGrid.setData(gridData);
 		}
 
 		this.selectedCells.clear();
-		/* selectedCells clear */
+		// selectedCells clear
 		this.contentScrollResize();
 
 		this.contentScrollXAttr = null;
@@ -12873,6 +12906,10 @@ myGrid.setData(gridData);
 				}
 				this.cachedDom.tbody.empty();
 				this.cachedDom.tbody.append(po.join(''));
+				// 셀머지
+				if (cfg.mergeCells) {
+					this.mergeCells(this.cachedDom.tbody);
+				}
 
 				if (this.hasFixed) {
 					po = [];
@@ -12885,6 +12922,10 @@ myGrid.setData(gridData);
 					}
 					this.cachedDom.fixed_tbody.empty();
 					this.cachedDom.fixed_tbody.append(po.join(''));
+					//셀머지
+					if (cfg.mergeCells) {
+						this.mergeCells(this.cachedDom.fixed_tbody);
+					}
 				}
 
 				this.cachedDom.thpadding.css({ height: (newStartIndex) * VS.itemTrHeight }); // 상단패딩증가
@@ -13106,9 +13147,64 @@ myGrid.setData(gridData);
 		event.cancelBubble = true;
 		return false;
 	},
-	/* body 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ head & foot 영역  */
+	mergeCells: function(tgDom){
+		// 중복된 셀 머지 함수
+		// 1 셀정보 수집
+		var rows = [];
+		tgDom.find("tr").each(function(tri, tr){
+			var row = [];
+			axdom(tr).find("td").each(function(tdi, td){
+				var item = {
+					tdom    : axdom(td),
+					rowspan : 1
+				};
+				item.html   = item.tdom.find("div.bodyNode").html();
+				item.tri    = tri;
+				item.tdi    = tdi;
+				row.push(item);
+			});
+			rows.push(row);
+		});
+
+		var _val = {};
+		for(var tri = 0;tri < rows.length;tri++){
+			for(var tdi = 0;tdi < rows[tri].length-1;tdi++) {
+				if( _val["td_"+tdi] ) {
+					if( _val["td_" + tdi].html == rows[tri][tdi].html ) {
+						rows[ _val["td_" + tdi].tri ][tdi].rowspan++;
+						rows[tri][tdi].rowspan = 0;
+					}else {
+						_val["td_" + tdi] = {
+							tri    : tri,
+							tdi    : tdi,
+							rowspan: 1,
+							html   : rows[tri][tdi].html
+						};
+					}
+				}else {
+					_val["td_" + tdi] = {
+						tri    : tri,
+						tdi    : tdi,
+						rowspan: 1,
+						html   : rows[tri][tdi].html
+					};
+				}
+			}
+		}
+		_val = null;
+
+		for(var tri = 0;tri < rows.length;tri++) {
+			for(var tdi = 0;tdi < rows[tri].length-1;tdi++) {
+				if(rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
+				else rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+			}
+		}
+		rows = null;
+	},
+	// body 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ head & foot 영역
 	getDataSetFormatterValue: function (formatter, dataSet, value, key, CH) {
 		var cfg = this.config;
 		var result;
