@@ -11345,7 +11345,7 @@ myGrid.setData(gridData);
 				this.cachedDom.tbody.append(po.join(''));
 				// TODO : 출력된 테이블에 mergeCells 호출
 				if (cfg.mergeCells) {
-					this.mergeCells(this.cachedDom.tbody);
+					this.mergeCells(this.cachedDom.tbody, "n");
 				}
 
 				if (this.hasFixed) {
@@ -11356,9 +11356,10 @@ myGrid.setData(gridData);
 							po.push(getItemMarker(itemIndex, item, "fix"));
 						}
 					}
+					this.cachedDom.fixed_tbody.empty();
 					this.cachedDom.fixed_tbody.append(po.join(''));
 					if (cfg.mergeCells) {
-						this.mergeCells(this.cachedDom.fixed_tbody);
+						this.mergeCells(this.cachedDom.fixed_tbody, "f");
 					}
 				}
 
@@ -11399,9 +11400,9 @@ myGrid.setData(gridData);
 				}
 
 				if (cfg.mergeCells) {
-					this.mergeCells(this.cachedDom.tbody);
+					this.mergeCells(this.cachedDom.tbody, "n");
 					if (this.hasFixed) {
-						this.mergeCells(this.cachedDom.fixed_tbody);
+						this.mergeCells(this.cachedDom.fixed_tbody, "f");
 					}
 				}
 
@@ -12911,7 +12912,7 @@ myGrid.setData(gridData);
 				this.cachedDom.tbody.append(po.join(''));
 				// 셀머지
 				if (cfg.mergeCells) {
-					this.mergeCells(this.cachedDom.tbody);
+					this.mergeCells(this.cachedDom.tbody, "n");
 				}
 
 				if (this.hasFixed) {
@@ -12927,7 +12928,7 @@ myGrid.setData(gridData);
 					this.cachedDom.fixed_tbody.append(po.join(''));
 					//셀머지
 					if (cfg.mergeCells) {
-						this.mergeCells(this.cachedDom.fixed_tbody);
+						this.mergeCells(this.cachedDom.fixed_tbody, "f");
 					}
 				}
 
@@ -13151,7 +13152,7 @@ myGrid.setData(gridData);
 		return false;
 	},
 
-	mergeCells: function(tgDom){
+	mergeCells: function(tgDom, typ){
 		var cfg = this.config;
 		// 중복된 셀 머지 함수
 		// 1 셀정보 수집
@@ -13163,10 +13164,12 @@ myGrid.setData(gridData);
 					tdom    : axdom(td),
 					rowspan : 1
 				};
-				item.html   = item.tdom.find("div.bodyNode").html();
-				item.tri    = tri;
-				item.tdi    = tdi;
-				row.push(item);
+				if(!item.tdom.hasClass("bodyNullTd")){
+					item.html   = item.tdom.find("div.bodyNode").html();
+					item.tri    = tri;
+					item.tdi    = tdi;
+					row.push(item);
+				}
 			});
 			rows.push(row);
 		});
@@ -13202,7 +13205,7 @@ myGrid.setData(gridData);
 			}
 		}else{
 			for(var tri = 0;tri < rows.length;tri++){
-				for(var tdi = 0;tdi < rows[tri].length-1;tdi++) {
+				for(var tdi = 0;tdi < rows[tri].length;tdi++) {
 					if( _val["td_"+tdi] ) {
 						if( _val["td_" + tdi].html == rows[tri][tdi].html ) {
 							rows[ _val["td_" + tdi].tri ][tdi].rowspan++;
@@ -13229,7 +13232,7 @@ myGrid.setData(gridData);
 		_val = null;
 
 		for(var tri = 0;tri < rows.length;tri++) {
-			for(var tdi = 0;tdi < rows[tri].length-1;tdi++) {
+			for(var tdi = 0;tdi < rows[tri].length;tdi++) {
 				if(rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
 				else rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
 			}

@@ -42,6 +42,7 @@
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
 				theme : "AXGrid",
+                //mergeCells: true,
 				//fixedColSeq:3,
 				colGroup : [
 					{key:"no", label:"번호", width:"70", align:"right", formatter:"money"},
