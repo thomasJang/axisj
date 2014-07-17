@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-15 
+AXJ - v1.0.6 - 2014-07-17 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-15 
+AXJ - v1.0.6 - 2014-07-17 
 */
 
 if(!window.AXConfig){
@@ -10967,9 +10967,11 @@ myGrid.setData(gridData);
 		var cfg = this.config;
 		var tpo = [];
 		var evenClassName = "line" + (itemIndex % 2);
+		/*
 		if(cfg.mergeCells){
 			evenClassName = "line1"; // 줄무늬 기능 사용 안함.
 		}
+		*/
 		var getFormatterValue = this.getFormatterValue.bind(this);
 		var getTooltipValue = this.getTooltipValue.bind(this);
 		var hasFixed = this.hasFixed;
@@ -13151,7 +13153,7 @@ myGrid.setData(gridData);
 		event.cancelBubble = true;
 		return false;
 	},
-
+	// TODO : mergeCells
 	mergeCells: function(tgDom, typ){
 		var cfg = this.config;
 		// 중복된 셀 머지 함수
@@ -13719,7 +13721,7 @@ myGrid.setData(gridData);
 
 			var trTop = -editorTop;
 
-			if (trTop.abs() + this.body.height() > this.scrollContent.height()) {
+			if (trTop.abs() + this.body.height() > this.scrollContent.height() && (this.scrollContent.height() > this.body.height())) {
 				trTop = this.body.height() - this.scrollContent.height();
 				// 에디터 위로 들기
 				this.editorButtonPosition = "top";
