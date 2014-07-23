@@ -112,6 +112,22 @@
 	}
 }
 
+// AXInputChecked ///////////////////////////////////////////////////
+.AXbindChecked{
+	position:relative;display:inline-block;
+	height:26px;line-height:26px;
+	padding:1px 0 0 30px;margin:0 0px 0 0;
+	font-weight:normal;vertical-align:top;white-space:nowrap;cursor:pointer;
+	overflow:hidden;
+	background:url('images/dx-checkbox.png') no-repeat left 0px;
+	vertical-align: middle;
+	&.checked{
+		background-position:left -26px;
+	}
+	input[type="checkbox"]{
+		position:absolute;left:-56px;
+	}
+}
 
 // AXInputLabel ///////////////////////////////////////////////////
 .AXInputLabel{

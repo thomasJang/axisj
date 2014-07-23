@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXUserSelect</title>
@@ -22,9 +22,9 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXUserSelect.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
-
 
 	<script type="text/javascript">	
 	var pageID = "AXUserSelect";
@@ -49,6 +49,15 @@
 			    desc:"AXISJ"
 		    });
 		    myUserBox.push(ds);
+        },
+        remove: function(){
+            myUserBox.del( myUserBox.getSelect() );
+        },
+        selectedList: function(){
+            dialog.push( Object.toJSON(myUserBox.getSelectDS()) );
+        },
+        printList: function(){
+            dialog.push( Object.toJSON(myUserBox.getDS()) );
         }
 	};
 	$(document.body).ready(function(){
@@ -76,6 +85,9 @@
 		
 		<div style="padding:5px;">
 			<button class="AXButton" onclick="fnObj.add();">추가</button>
+            <button class="AXButton" onclick="fnObj.remove();">삭제</button>
+            <button class="AXButton" onclick="fnObj.selectedList();">선택목록</button>
+            <button class="AXButton" onclick="fnObj.printList();">목록확인</button>
 		</div>
 
 	</div>

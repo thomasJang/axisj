@@ -73,5 +73,6 @@
   border: 2px solid #ff3300 !important;
 }
 .userSelectBox .beSelected {
-  border: #523636;
+  border: 1px solid #565b61;
+  background: #fff;
 }
