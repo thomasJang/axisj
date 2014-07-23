@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXSearch - AXISJ</title>
@@ -21,15 +21,8 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
-    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
-
-    <script type="text/javascript" src="../../lib/AXJ.js"></script>
-    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
-    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
     <script type="text/javascript" src="../../lib/AXSearch.js"></script>
-    <script type="text/javascript" src="../../lib/AXInput.js"></script>
-    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
-    <script type="text/javascript" src="../../lib/AXTab.js"></script>
 
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
@@ -103,7 +96,12 @@
 					]},
 					{display:true, addClass:"", style:"", list:[
 						{label:"선택입력", labelWidth:"100", type:"selectBox", width:"", key:"selectbox", addClass:"", valueBoxStyle:"", value:"close",
-							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							options:[
+                                {optionValue:"all", optionText:"전체 보기"},
+                                {optionValue:'5001', optionText:'강서 사무소'},
+                                {optionValue:"open", optionText:"공개"},
+                                {optionValue:"close", optionText:"비공개"}
+                            ],
 							AXBind:{
 								type:"select", config:{
 									onChange:function(){
@@ -117,15 +115,18 @@
 							onChange: function(changedValue){
 								//아래 2개의 값을 사용 하실 수 있습니다.
 								dialog.push(Object.toJSON(this));
-								dialog.push(changedValue);						
+								dialog.push(changedValue);
 							}
 						},
 						{label:"입력2", labelWidth:"60", type:"inputText", width:"250", key:"inputText2", addClass:"secondItem", valueBoxStyle:"", value:"입력2", title:"타이틀정보",
 							onChange: function(){}
 						},
-						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"기능1",
+						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"읽기전용",
 							onclick: function(){
-								//alert(mySearch.getItemId("checkbox"));
+								//mySearch.getItemId("inputText2");
+                                axdom("#" + mySearch.getItemId("inputText2")).attr("readonly", "readonly");
+
+                                /*
 								mySearch.setItemValue("checkbox", ["all","open"]);
 								mySearch.setItemValue("radiobox");
 								mySearch.setItemValue("inputText2");
@@ -134,11 +135,15 @@
 								var myID = mySearch.getItemId("selectbox");
 								$("#"+myID).append("<option value='1'>222222</option>");
 								$("#"+myID).bindSelect();
+								*/
 							}
 						},
-						{label:"", labelWidth:"", type:"submit", width:"80", key:"button", addClass:"Classic", valueBoxStyle:"padding-left:0px;", value:"기능2",
+						{label:"", labelWidth:"", type:"submit", width:"80", key:"button", addClass:"Classic", valueBoxStyle:"padding-left:0px;", value:"읽기전용해제",
 							onclick: function(){
-								AXUtil.alert(this);
+								//trace(this);
+
+                                axdom("#" + mySearch.getItemId("inputText2")).removeAttr("readonly");
+
 							}
 						}
 					]},

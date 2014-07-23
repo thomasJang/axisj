@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.6 - 2014-07-17 
+AXJ - v1.0.7 - 2014-07-23 
 */
 /*! 
-AXJ - v1.0.6 - 2014-07-17 
+AXJ - v1.0.7 - 2014-07-23 
 */
 
 if(!window.AXConfig){
@@ -15094,7 +15094,8 @@ var AXInputConverter = Class.create(AXJ, {
         this.inputTypes = [
             { type: "search" }, { type: "number" }, { type: "money" }, { type: "slider" }, { type: "twinSlider" },
             { type: "selector" }, { type: "switch" }, { type: "segment" },
-            { type: "date" }, { type: "dateTime" }, { type: "twinDate" }, { type: "twinDateTime" }
+            { type: "date" }, { type: "dateTime" }, { type: "twinDate" }, { type: "twinDateTime" },
+	        { type: "checked" }
         ];
         this.config.anchorClassName = "AXanchor";
         this.config.anchorPlaceHolderClassName = "AXanchorPlaceHolder";
@@ -15198,7 +15199,10 @@ var AXInputConverter = Class.create(AXJ, {
             this.objects[objSeq].config = obj;
         }
 
-        this.appendAnchor(objID, objSeq, obj.bindType);
+        if (obj.bindType != "checked") {
+	        this.appendAnchor(objID, objSeq, obj.bindType);
+        }
+	    // bind checked 는 anchor연결 안함.
 
         if (obj.bindType == "placeHolder") {
             this.bindPlaceHolder(objID, objSeq);
@@ -15224,6 +15228,8 @@ var AXInputConverter = Class.create(AXJ, {
             this.bindTwinDate(objID, objSeq);
         } else if (obj.bindType == "twinDateTime") {
             this.bindTwinDate(objID, objSeq, "time");
+        } else if (obj.bindType == "checked") {
+	        this.bindChecked(objID, objSeq);
         }
     },
     unbind: function (obj) {
@@ -15368,6 +15374,8 @@ var AXInputConverter = Class.create(AXJ, {
 
         } else if (obj.bindType == "twinDateTime") {
 
+        } else if (obj.bindType == "checked") {
+
         }
     },
     bindSetValue: function (objID, value) {
@@ -15408,7 +15416,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
     },
-    /* onlyHolder ~~~~~~~~~~~~~~~ */
+    // onlyHolder ~~~~~~~~~~~~~~~
     bindPlaceHolder: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
@@ -15449,9 +15457,9 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID).hide();
         }
     },
-    /* onlyHolder ~~~~~~~~~~~~~~~ */
+    // onlyHolder ~~~~~~~~~~~~~~
 
-    /* search ~~~~~~~~~~~~~~~ */
+    // search
     bindSearch: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
@@ -15497,13 +15505,14 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").hide();
         }
     },
-    /* number ~~~~~~~~~~~~~~~ */
+
+    // number
     bindNumber: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
 
-        obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
-        obj.bindTarget = axdom("#" + objID);
+	    if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+	    if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
         var h = obj.bindAnchorTarget.data("height");
         //trace(objID+"//"+h);
@@ -15615,7 +15624,8 @@ var AXInputConverter = Class.create(AXJ, {
             obj.config.onchange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
         }
     },
-    /* money ~~~~~~~~~~~~~~~ */
+
+    // money
     bindMoney: function (objID, objSeq) {
         var obj = this.objects[objSeq];
         obj.bindTarget.css({ "text-align": "right" });
@@ -15717,13 +15727,13 @@ var AXInputConverter = Class.create(AXJ, {
         }
     },
 
-    /* selector ~~~~~~~~~~~~~~~ */
+    // selector
     bindSelector: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
 
-        //obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
-        //obj.bindTarget = axdom("#" + objID);
+	    if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+	    if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
         obj.bindTarget.data("val", obj.bindTarget.val());
 
@@ -16265,13 +16275,14 @@ var AXInputConverter = Class.create(AXJ, {
         obj.config.selectedObject = null;
         obj.config.isChangedSelect = true;
     },
-    /* slider ~~~~~~~~~~~~~~~ */
+
+    // slider
     bindSlider: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
 
-        obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
-        obj.bindTarget = axdom("#" + objID);
+	    if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+	    if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox").remove();
 
@@ -16438,7 +16449,6 @@ var AXInputConverter = Class.create(AXJ, {
 
         axdom("#" + objID).val(objVal);
     },
-
     sliderTouchStart: function (objID, objSeq) {
         //alert(objID+"_"+ objSeq);
         var cfg = this.config;
@@ -16522,8 +16532,7 @@ var AXInputConverter = Class.create(AXJ, {
         obj.config.isMoving = false;
     },
 
-
-    /* twinSlider ~~~~~~~~~~~~~~~ */
+    // twinSlider
     bindTwinSliderGetVals: function (objValString, separator) {
         var objVals = objValString.split(separator);
         var objVal = { min: 0, max: 0 };
@@ -16537,9 +16546,13 @@ var AXInputConverter = Class.create(AXJ, {
     bindTwinSlider: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        var w = axdom("#" + cfg.targetID + "_AX_" + objID).width();
-        var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
-        var objValString = axdom("#" + objID).val();
+
+	    if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+	    if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+
+        var w = obj.bindAnchorTarget.width();
+        var h = obj.bindAnchorTarget.data("height");
+        var objValString = obj.bindTarget.val();
         var separator = obj.config.separator || "~";
         var objVal = this.bindTwinSliderGetVals(objValString, separator);
         obj.vals = objVal;
@@ -16565,18 +16578,18 @@ var AXInputConverter = Class.create(AXJ, {
         po.push("</div>");
 
         //append to anchor
-        axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-        axdom("#" + cfg.targetID + "_AX_" + objID).css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto" });
+	    obj.bindAnchorTarget.append(po.join(''));
+        obj.bindAnchorTarget.css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto" });
         //, background:"#eee"
-        axdom("#" + cfg.targetID + "_AX_" + objID).show();
-        axdom("#" + objID).hide();
+        obj.bindAnchorTarget.show();
+	    obj.bindTarget.hide();
 
-        var maxTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
-        var minTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
-        axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").css({ width: minTitleWidth + "px" });
-        axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").css({ width: maxTitleWidth + "px" });
+        var maxTitleWidth = obj.bindAnchorTarget.find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
+        var minTitleWidth = obj.bindAnchorTarget.find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
+        obj.bindAnchorTarget.find(".AXanchorSliderMinTitle").css({ width: minTitleWidth + "px" });
+        obj.bindAnchorTarget.find(".AXanchorSliderMaxTitle").css({ width: maxTitleWidth + "px" });
         var sliderBarWidth = w - minTitleWidth - maxTitleWidth;
-        axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderBar").css({ width: sliderBarWidth + "px", left: minTitleWidth + "px", top: h / 2 + 2 });
+        obj.bindAnchorTarget.find(".AXanchorSliderBar").css({ width: sliderBarWidth + "px", left: minTitleWidth + "px", top: h / 2 + 2 });
         //------------------------------------
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({ width: maxTitleWidth });
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({ width: maxTitleWidth });
@@ -16745,8 +16758,7 @@ var AXInputConverter = Class.create(AXJ, {
 
         axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
     },
-
-    //add touch event
+        // -- add touch event
     twinSliderTouchStart: function (objID, objSeq, handleName) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
@@ -16854,13 +16866,13 @@ var AXInputConverter = Class.create(AXJ, {
         obj.config.isMoving = false;
     },
 
-    /* switch ~~~~~~~~~~~~~~~ */
+    // switch
     bindSwitch: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
 
-        obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
-        obj.bindTarget = axdom("#" + objID);
+        if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+        if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
         var w = obj.bindAnchorTarget.width();
         var h = obj.bindAnchorTarget.data("height");
@@ -16973,13 +16985,14 @@ var AXInputConverter = Class.create(AXJ, {
     bindSwitch_touchEnd: function () {
 
     },
-    /* segment ~~~~~~~~~~~~~~~ */
+
+    // segment
     bindSegment: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
 
-        obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
-        obj.bindTarget = axdom("#" + objID);
+        if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+        if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
         var w = obj.bindAnchorTarget.width();
         var h = obj.bindAnchorTarget.data("height");
@@ -17107,22 +17120,27 @@ var AXInputConverter = Class.create(AXJ, {
         }
 
     },
-    /* date ~~~~~~~~~~~~~~~~~ */
+
+    // date
     bindDate: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
+
+	    if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+	    if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+
+        var h = obj.bindAnchorTarget.data("height");
         var po = [];
         po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
-        axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-        axdom("#" + cfg.targetID + "_AX_" + objID).show();
+        obj.bindAnchorTarget.append(po.join(''));
+        obj.bindAnchorTarget.show();
 
         var bindDateExpand = this.bindDateExpand.bind(this);
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").unbind("click.AXInput").bind("click.AXInput", function (event) {
             bindDateExpand(objID, objSeq, true, event);
         });
-        axdom("#" + objID).unbind("focus.AXInput").bind("focus.AXInput", function (event) {
-            axdom("#" + objID).select();
+	    obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
+		    obj.bindTarget.select();
             /* 포거스 되었을 때 달력 도구 오픈 처리 방식 변경 2013-07-10 오전 11:09:40
              if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
              bindDateExpand(objID, objSeq, false, event);
@@ -17131,7 +17149,7 @@ var AXInputConverter = Class.create(AXJ, {
         });
 
         var separator = (obj.config.separator) ? obj.config.separator : "-";
-        axdom("#" + objID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
+	    obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
             if(event.keyCode == axf.Event.KEY_RETURN){
                 //bindDateInputBlur(objID, objSeq, event);
                 this.blur();
@@ -17172,7 +17190,7 @@ var AXInputConverter = Class.create(AXJ, {
         });
 
         var bindDateInputBlur = this.bindDateInputBlur.bind(this);
-        axdom("#" + objID).unbind("blur.AXInput").bind("blur.AXInput", function (event) {
+	    obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
             bindDateInputBlur(objID, objSeq, event);
         });
     },
@@ -17392,7 +17410,7 @@ var AXInputConverter = Class.create(AXJ, {
         axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
 
     },
-    /* bindDate for mobile --------- s */
+        // -- bindDate for mobile
     bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
@@ -17683,7 +17701,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
     },
-    /* bindDate for mobile --------- e */
+        // -- bindDate for mobile
     bindDateExpandClose: function (objID, objSeq, event) {
         var obj = this.objects[objSeq];
         var cfg = this.config;
@@ -18178,22 +18196,28 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + objID).val(printDate);
         }
     },
-    /* twinDate ~~~~~~~~~~~~~~~~~ */
+
+    // twinDate
     bindTwinDate: function (objID, objSeq, option) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
+
+	    if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+	    if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+	    obj.bindTargetStart = axdom("#" + obj.config.startTargetID);
+
+        var h = obj.bindAnchorTarget.data("height");
         var po = [];
         po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
-        axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
-        axdom("#" + cfg.targetID + "_AX_" + objID).show();
+        obj.bindAnchorTarget.append(po.join(''));
+        obj.bindAnchorTarget.show();
 
         var bindDateExpand = this.bindTwinDateExpand.bind(this);
 
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").unbind("click.AXInput").bind("click.AXInput", function (event) {
             bindDateExpand(objID, objSeq, true, event);
         });
-        axdom("#" + objID).unbind("click.AXInput").bind("focus.AXInput", function (event) {
+	    obj.bindTarget.unbind("click.AXInput").bind("focus.AXInput", function (event) {
             axdom("#" + objID).select();
             /*
              if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
@@ -18201,8 +18225,8 @@ var AXInputConverter = Class.create(AXJ, {
              }
              */
         });
-        axdom("#" + obj.config.startTargetID).unbind("focus.AXInput").bind("focus.AXInput", function (event) {
-            axdom("#" + obj.config.startTargetID).select();
+	    obj.bindTargetStart.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
+		    obj.bindTargetStart.select();
             /*
              if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
              bindDateExpand(objID, objSeq, false, event);
@@ -18254,15 +18278,15 @@ var AXInputConverter = Class.create(AXJ, {
         });
 
         var bindTwinDateInputBlur = this.bindTwinDateInputBlur.bind(this);
-        axdom("#" + objID).unbind("blur.AXInput").bind("blur.AXInput", function (event) {
+	    obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
             bindTwinDateInputBlur(objID, objSeq, event, 2);
         });
         axdom("#" + obj.config.startTargetID).unbind("blur.AXInput").bind("blur.AXInput", function (event) {
             bindTwinDateInputBlur(objID, objSeq, event, 1);
         });
 
-        var objVal1 = axdom("#" + obj.config.startTargetID).val();
-        var objVal2 = axdom("#" + objID).val();
+        var objVal1 = obj.bindTargetStart.val();
+        var objVal2 = obj.bindTarget.val();
         var myDate1 = objVal1.date(separator);
         var myDate2 = objVal2.date(separator);
         obj.nDate1 = myDate1;
@@ -19082,7 +19106,33 @@ var AXInputConverter = Class.create(AXJ, {
          */
         event.stopPropagation(); // disableevent
         return;
-    }
+    },
+
+	// checked
+	bindChecked: function (objID, objSeq){
+		var cfg = this.config;
+		var obj = this.objects[objSeq];
+
+		//if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		var tagName = obj.bindTarget.get(0).tagName.ucase();
+
+		if(tagName == "LABEL"){
+
+		}else if(tagName == "INPUT"){
+
+		}else{
+
+		}
+
+		/*
+		$(".AXCheckbox").find("input").bind("click", function(){
+			if(this.checked)this.checked = true;else this.checked = false;
+			if($(this).parent().hasClass("checked")) $(this).parent().removeClass("checked");else $(this).parent().addClass("checked");
+		});
+		*/
+
+	}
 });
 
 var AXInput = new AXInputConverter();
@@ -19229,6 +19279,15 @@ axdom.fn.bindPlaceHolder = function (config) {
         AXInput.bind(config);
         return this;
     });
+};
+
+axdom.fn.bindChecked = function (config) {
+	axf.each(this, function () {
+		config = config || {}; config.id = this.id;
+		config.bindType = "checked";
+		AXInput.bind(config);
+		return this;
+	});
 };
 
 axdom.fn.setConfigInput = function (config) {
@@ -22029,7 +22088,7 @@ var AXSearch = Class.create(AXJ, {
 		this.target.find("."+cfg.theme).removeClass("mx");
 		this.target.find("."+cfg.theme).addClass(cfg.viewMode);
 	},
-    getItem: function(gr, itemIndex, item){
+    getItemHtml: function(gr, itemIndex, item){
     	var cfg = this.config;
     	var po = [];
     	var itemAddClass = [];
@@ -22207,7 +22266,7 @@ var AXSearch = Class.create(AXJ, {
     },
     setBody: function(){
     	var cfg = this.config;
-    	var getItem = this.getItem.bind(this);
+    	var getItemHtml = this.getItemHtml.bind(this);
     	var po = [];
     	var AXBinds = [];
 
@@ -22226,7 +22285,7 @@ var AXSearch = Class.create(AXJ, {
 		            if(cfg.rows[gr].addClass) classs.push(cfg.rows[gr].addClass);
 		            po.push("<div class=\"searchGroup ", classs.join(" "),"\" style=\"", styles.join(";"),"\">");
 		            jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
-		                po.push(getItem(gr, itemIndex, item));
+		                po.push(getItemHtml(gr, itemIndex, item));
 		                if(item.AXBind){
 		                    AXBinds.push({display:cfg.rows[gr].display, gr:gr, itemIndex:itemIndex, item:item});
 		                }
@@ -22448,6 +22507,17 @@ var AXSearch = Class.create(AXJ, {
     	var frm = document[cfg.targetID+"_AX_form"];
     	return jQuery(frm).serialize();
     },
+/**
+ * @method AXSearch.getItemId
+ * @param key {String} item key name
+ * @returns null
+ * @description AXSearch내 엘리먼트 id를 반환합니다.
+ * @example
+```
+mySearch.getItemId("type");
+// element id;
+```
+ */
     getItemId: function(key, value){
     	var cfg = this.config;
     	var gr = 0;
@@ -24481,9 +24551,9 @@ var AXTabClass = Class.create(AXJ, {
     	var obj = this.objects[objSeq];
 
 		var po = [];
+	    var subOptions = [];
 		po.push("<div class=\"" + obj.config.theme + "\" id=\"" + objID + "_AX_tabContainer\">");
-			
-			po.push("	<div class=\"AXTabsTray\" id=\"" + objID + "_AX_tabTray\">");
+			po.push("<div class=\"AXTabsTray\" id=\"" + objID + "_AX_tabTray\">");
 				if(obj.config.overflow != "visible"){
 				po.push("	<div class=\"trayScroll\" id=\"" + objID + "_AX_tabScroll\">");
 				}
@@ -24493,7 +24563,8 @@ var AXTabClass = Class.create(AXJ, {
 					po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
 					if(O.optionValue == obj.config.value){
 						selectedIndex = oidx;
-						po.push(" on");	
+						po.push(" on");
+						if(O.options) subOptions = O.options;
 					}
 					po.push("\">");
 					po.push(O.optionText.dec() + "</a>");
@@ -24501,7 +24572,6 @@ var AXTabClass = Class.create(AXJ, {
 						po.push("<span class='AXTabSplit'></span>");
 					//}
 				});
-				
 				obj.config.selectedIndex = selectedIndex;			
 				po.push("	<div class=\"clear\"></div>");
 			if(obj.config.overflow != "visible"){
@@ -24510,7 +24580,12 @@ var AXTabClass = Class.create(AXJ, {
 			po.push("	<div class=\"rightArrowHandleBox\" style=\"display:none;\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_Right\">arrow</a></div>");
 			po.push("	<div class=\"rightArrowMoreBox\" style=\"display:none;\"><a href=\"javascript:;\" class=\"tabArrow\" id=\"" + objID + "_AX_Arrow_AX_More\">arrow</a></div>");
 			}
-		po.push("	</div>");
+			po.push("</div>");
+
+	        if(subOptions.length > 0){
+				// subOptions :
+
+	        }
 		po.push("</div>");
 		
 		obj.jQueryObjID = jQuery("#"+objID);
@@ -24613,7 +24688,7 @@ var AXTabClass = Class.create(AXJ, {
 
                 obj.tabTray.unbind("dragstart.AXMobileTouch").bind("dragstart.AXMobileTouch", _this.cancelEvent.bind(_this));
                 /* touch event */
-            }, 100);
+            }, 50);
 	    }
     },
     bindTabClick: function(objID, objSeq, event){
@@ -32948,15 +33023,7 @@ var AXUpload5 = Class.create(AXJ, {
 
 // jquery extend
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
- 
-
 var AXUserSelect = Class.create(AXJ, {
-    version: "AXUserSelect V1.0",
-	author: "tom@axisj.com",
-	logs: [
-		"2013-08-21 오후 11:47:11 - modsAX 변환"
-	],
     initialize: function(AXJ_super) {
         AXJ_super();
         this.config.className = "";
@@ -32970,7 +33037,6 @@ var AXUserSelect = Class.create(AXJ, {
             alert("컨테이너 아이디가 지정되지 않아 modsTab 초기화에 실패 하였습니다.");
             return;
         }
-
         this.CT = jQuery("#" + config.containerID);
 
         var po = [];
@@ -33005,6 +33071,22 @@ var AXUserSelect = Class.create(AXJ, {
         this.myDrag.active();
 
     },
+/**
+ * @method AXUserSelect.push
+ * @param ds {Array} 추가할 아이템 배열
+ * @returns null
+ * @description UserSelect 개체에 아이템을 추가합니다.
+ * @example
+```
+var ds = [];
+ds.push({
+	id:AXUtil.timekey(),
+    nm:AXUtil.timekey(),
+    desc:"AXISJ"
+});
+myUserBox.push(ds);
+```
+ */
     push: function(ds) {
         var config = this.config;
         var myds = this.ds;
@@ -33134,7 +33216,21 @@ var AXUserSelect = Class.create(AXJ, {
             myDS.push({id:id, nm:nm, desc:desc});
         });
         return myDS;
-    }
+    },
+	getSelectDS: function() {
+		var config = this.config;
+		var myDS = [];
+		var sls = this.myDrag.mselector.getSelects();
+		if(sls.length > 0){
+			for(var i=0;i<sls.length;i++){
+				var id = sls[i].id.split(/\_/g).last();
+				var nm = jQuery("#" + config.containerID + "userSelectItemNM_" + id).val();
+				var desc = jQuery("#" + config.containerID + "userSelectItemDESC_" + id).val();
+				myDS.push({id:id, nm:nm, desc:desc});
+			}
+		}
+		return myDS;
+	}
 });
 /* ---------------------------- */
 var AXValidator = Class.create(AXJ, {

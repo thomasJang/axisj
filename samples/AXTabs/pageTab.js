@@ -1,6 +1,7 @@
 ﻿var myTabOption = [
 	{optionValue:"Default", optionText:"Default", addClass:"", url:"index.html"},
-	{optionValue:"scriptTab", optionText:"Script Tab", addClass:"", url:"scriptTab.html"}	
+	{optionValue:"scriptTab", optionText:"Script Tab", addClass:"", url:"scriptTab.html"},
+	{optionValue:"script2Depth", optionText:"Script 2Depth", addClass:"", url:"script2DepthTab.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

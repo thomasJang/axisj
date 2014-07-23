@@ -217,7 +217,7 @@
 				targetID:"modalContent",
 				width:300,
 				top:100
-			});	
+			});
 			document.treeWriteForm.nodeName.focus();
 		},
 		addChildTree: function(){
@@ -246,12 +246,10 @@
 		},
 		updateTree: function(){
 			var obj = myTree.getSelectedList();
-
 			if(obj.error){
 				alert("개체를 선택해 주세요");
 				return;
 			}
-			
 			document.treeWriteForm.reset();
 			document.treeWriteForm.writeMode.value = "modify";
 			myModal.openDiv({
