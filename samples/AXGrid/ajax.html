@@ -179,7 +179,10 @@
             });
 
 			//myGrid.setDataSet({price:0, amount:0});
-		}
+		},
+        reloadList: function(){
+            myGrid.reloadList();
+        }
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
 	</script>
@@ -204,6 +207,7 @@
             <div>
                 <input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
                 <input type="button"	value="emptyList" class="AXButton Blue" onclick="fnObj.emptyList();" />
+                <input type="button"	value="reloadList" class="AXButton Blue" onclick="fnObj.reloadList();" />
             </div>
 
 		</div>

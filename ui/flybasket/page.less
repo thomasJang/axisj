@@ -14,7 +14,11 @@ html, body	{
 	margin:0; padding:0; 
 	height:100%;
     font-size:12px;line-height: 1.6em;
-	color:@color; background: @bgcolor; 
+	color:@color; background: @bgcolor;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+	text-stroke: 0.6px;
+	font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 	a 		{color:@link; text-decoration: none;}	 	
 	a:hover {color:@link-hover;}
 	a:active{color:@link-active;}	
