@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-07-25 
+AXJ - v1.0.7 - 2014-07-31 
 */
 /*! 
-AXJ - v1.0.7 - 2014-07-25 
+AXJ - v1.0.7 - 2014-07-31 
 */
 
 if(!window.AXConfig){
@@ -605,7 +605,7 @@ Object.extend(String.prototype, (function () {
 	}
 	function parseF() { return parseFloat(this); }
 	function strip() { return this.replace(/^\s+/, '').replace(/\s+$/, ''); }
-	function stripTags() { return this.replace(/<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi, ''); } //"
+	function stripTags() { return this.replace(/<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi, ''); }
 	function stripScript() {
 		//스크립트 제거
 		var cStr;
@@ -643,7 +643,22 @@ Object.extend(String.prototype, (function () {
 	function blank() { return /^\s*$/.test(this); }
 	function isJSON() { var str = this; if (str.isBlank()) return false; str = this.replace(/\\./g, '@').replace(/"[^"\\\n\r]*"/g, ''); return (/^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/).test(str); } //"
 	function unfilterJSON(filter) { return this.replace(filter || AXUtil.JSONFilter, '$1'); }
-	function evalJSON(sanitize) { var json = this.unfilterJSON(); try { if (!sanitize || json.isJSON()) return eval("(" + json + ")"); else return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error. fail to convert Object\n" + this }; } catch (e) { return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error.\n" + this, body: this }; } }
+	function evalJSON(sanitize) {
+		var json = this.unfilterJSON();
+		try {
+			var _evl = eval;
+			if (!sanitize || json.isJSON()) return _evl("(" + json + ")");
+			else return { error: "syntaxerr", result: "syntaxerr", msg: "JSON syntax error. fail to convert Object\n" + this };
+			_evl = null;
+		} catch (e) {
+			return {
+				error: e,
+				result: "syntaxerr",
+				msg: e,
+				body: this
+			};
+		}
+	}
 	function queryToObject(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v); } else { returnObj[k] = v; } i++; } return returnObj; }
 	function queryToObjectDec(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v.dec()); } else { returnObj[k] = v.dec(); } i++; } return returnObj; }
 	function crlf(replaceTarget, replacer) { return this.replace((replaceTarget || /\n/g), (replacer || "<br/>")); }
@@ -10899,7 +10914,7 @@ myGrid.setData(gridData);
 
 			result = "<label class=\"gridCheckboxLabel\"><input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + disabled + " /></label>";
 		} else {
-			try {
+			if(Object.isFunction(formatter)){
 				var sendObj = {
 					index: itemIndex,
 					list: this.list,
@@ -10909,7 +10924,7 @@ myGrid.setData(gridData);
 					value: value
 				};
 				result = formatter.call(sendObj, itemIndex, item);
-			} catch (e) {
+			} else {
 				result = value;
 				trace(e);
 			}
@@ -10947,7 +10962,7 @@ myGrid.setData(gridData);
 			}
 			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + " />";
 		} else {
-			try {
+			if(Object.isFunction(formatter)){
 				var sendObj = {
 					index: itemIndex,
 					list: this.list,
@@ -10957,7 +10972,8 @@ myGrid.setData(gridData);
 					value: value
 				};
 				result = formatter.call(sendObj, itemIndex, item);
-			} catch (e) {
+			} else {
+				result = value;
 				trace(e);
 			}
 		}
