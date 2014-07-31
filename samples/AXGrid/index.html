@@ -61,7 +61,7 @@
                         },
                         {key:"writer", label:"작성자", width:"100"},
                         {key:"regDate", label:"작성일", width:"100"},
-                        {key:"price", label:"가격", width:"100", align:"right", formatter:"money2"},
+                        {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
                         {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
                         {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
                             return (this.item.price.number() * this.item.amount.number()).money();
