@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-07-31 
+AXJ - v1.0.7 - 2014-08-01 
 */
 /*! 
-AXJ - v1.0.7 - 2014-07-31 
+AXJ - v1.0.7 - 2014-08-01 
 */
 
 if(!window.AXConfig){
@@ -10926,7 +10926,6 @@ myGrid.setData(gridData);
 				result = formatter.call(sendObj, itemIndex, item);
 			} else {
 				result = value;
-				trace(e);
 			}
 		}
 		return result;
@@ -10974,7 +10973,6 @@ myGrid.setData(gridData);
 				result = formatter.call(sendObj, itemIndex, item);
 			} else {
 				result = value;
-				trace(e);
 			}
 		}
 		return result;
@@ -11297,9 +11295,11 @@ myGrid.setData(gridData);
 				if (this.list.length > 0) {
 					var firstItem = this.list[0];
 					po.push(getItem(0, firstItem, "n"));
+					/* firstItem 예외처
 					if (bodyHasMarker && getMarkerDisplay(0, firstItem)) {
 						po.push(getItemMarker(0, firstItem, "n"));
 					}
+					*/
 				}
 			}
 
@@ -25318,7 +25318,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			jQuery.each(subTree, function(pi, T){
 				po.push("<li>");
 				var addClass = (T.cn && T.cn.length > 0 ) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
-				po.push("<a href=\"" + T.url + "\""+addClass+" id=\""+ (T._id||"") +"\">"+ T.label + "</a>");
+				po.push("<a href=\"" + (T.url||cfg.href) + "\""+addClass+" id=\""+ (T._id||"") +"\">"+ (T.label||"").dec() + "</a>");
 				if(T.cn && T.cn.length > 0 ){
 					po.push("<div class=\""+cfg.childsMenu.className+"\">");
 					po.push("	<ul>");
@@ -25339,7 +25339,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			po.push("<li>");
 			po.push("	<div class=\"" + cfg.parentMenu.className + " " + addClass.join(" ") + "\">");
 				var addClass = (T.cn) ? " class = \"" + cfg.childMenu.hasChildClassName + "\"" : "";
-				po.push("<a href=\"" + T.url + "\""+addClass+" id=\""+ (T._id||"") +"\">"+ T.label + "</a>");
+				po.push("<a href=\"" + (T.url||cfg.href) + "\""+addClass+" id=\""+ (T._id||"") +"\">"+ (T.label||"").dec() + "</a>");
 				if(T.cn){
 					po.push("<div class=\""+cfg.childMenu.className+"\">");
 					po.push("	<ul>");
@@ -25395,6 +25395,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		//trace(this.menuBox.find("." + cfg.parentMenu.className + ">a"));
 		this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseover", this.onoverParent.bind(this));
 		this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("focus", this.onoverParent.bind(this));
+		this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("click", this.onclickParent.bind(this));
 		
 		if(cfg.childOutClose){
 			var onoutChild = this.onoutChild.bind(this);
@@ -25497,6 +25498,13 @@ var AXTopDownMenu = Class.create(AXJ, {
 	    );
 
 		this.poi = poi;
+	},
+	onclickParent: function(event){
+		var cfg = this.config;
+		var poi = event.target.id.split(/\_/g).last();
+
+		trace(this.tree[poi]);
+
 	},
 	initChild: function(){
 		var cfg = this.config;
