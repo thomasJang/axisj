@@ -47,6 +47,7 @@
 
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
+                //fixedColSeq:2,
 				colHeadAlign: "center", // 헤드의 기본 정렬 값
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right", sort:"asc"},
@@ -131,8 +132,8 @@
 			myGrid.setList(list);
 			trace(myGrid.getSortParam());
 
+            myGrid.setFocus(10);
 
-            $(".AXdate").bindDate({align:"right", valign:"top", onChange:function(){}}); //달력
 		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
