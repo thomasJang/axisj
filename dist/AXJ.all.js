@@ -8364,8 +8364,7 @@ var AXGrid = Class.create(AXJ, {
 		this.selectedCells = [];
 		this.selectedRow = [];
 
-		var browser = AXUtil.browser;
-		this.isMobile = browser.mobile;
+		this.isMobile = AXUtil.browser.mobile;
 		this.cachedDom = {};
 		this.virtualScroll = {
 			startIndex : 0,
@@ -8605,7 +8604,7 @@ var AXGrid = Class.create(AXJ, {
 					label: CG.label,
 					align: (cfg.colHeadAlign || CG.align || "left"),
 					rowspan: 1, colspan: 1,
-					valign: "bottom", isLastCell: true, display: CG.display, formatter: CG.formatter, checked: CG.checked, disabled: CG.disabled,
+					valign: "bottom", isLastCell: true, display: CG.display, formatter: CG.formatter, formatterLabel:CG.formatterLabel, checked: CG.checked, disabled: CG.disabled,
 					sort: CG.sort,
 					tooltip: CG.tooltip,
 					displayLabel: (CG.displayLabel || false)
@@ -8722,7 +8721,7 @@ var AXGrid = Class.create(AXJ, {
 			for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				var adder = {
 					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: "middle", isLastCell: true,
-					display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter,
+					display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter, formatterLabel:CG.formatterLabel,
 					tooltip: CG.tooltip
 				};
 				bodyRows[0].push(adder);
@@ -9857,7 +9856,10 @@ myGrid.redrawGrid();
 					toolUse = false;
 					if (arg.formatter == "checkbox") {
 						colHeadTdText = " colHeadTdCheck";
-						arg.tdHtml = "<input type=\"checkbox\" name=\"checkAll\" class=\"gridCheckBox gridCheckBox_colHead_colSeq" + arg.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkAll_AX_" + arg.r + "_AX_" + arg.CHidx + "\" />";
+						arg.tdHtml = "<label>" +
+						"<input type=\"checkbox\" name=\"checkAll\" class=\"gridCheckBox gridCheckBox_colHead_colSeq" + arg.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkAll_AX_" + arg.r + "_AX_" + arg.CHidx + "\" />" +
+							(arg.formatterLabel || "") +
+						"</label>";
 					}
 				}
 			}
@@ -9917,7 +9919,7 @@ myGrid.redrawGrid();
 
 							po.push(getColHeadTd({
 								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, sort: CH.sort, tdHtml: tdHtml,
 								ghost: false, displayLabel: CH.displayLabel
 							}));
 						}
@@ -9982,7 +9984,7 @@ myGrid.redrawGrid();
 
 							fpo.push(getColHeadTd({
 								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, sort: CH.sort, tdHtml: tdHtml,
 								ghost: false
 							}));
 						}
@@ -10912,8 +10914,9 @@ myGrid.setData(gridData);
 					this.list[itemIndex].___disabled[CHidx] = true;
 				}
 			}
-
-			result = "<label class=\"gridCheckboxLabel\"><input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " /></label>";
+			result = "<label class=\"gridCheckboxLabel\">" +
+				"<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " />" +
+				"</label>";
 		} else {
 			if(Object.isFunction(formatter)){
 				var sendObj = {
@@ -25838,7 +25841,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.53
+ * @version v1.54
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -25870,6 +25873,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-06-13 tom : bugfix, method:updateTree sync data list & tree"
  "2014-07-04 tom : bugfix, parentKey value is not '0' display error"
  "2010-07-14 tom : bugfix, reserveKeys.subTree not match code"
+ "2014-08-04 tom : 'modify add' relationFixedSync arguments define"
  *
  * @description
  *
@@ -30582,14 +30586,30 @@ var AXTree = Class.create(AXJ, {
 			return { index: null, item: null };
 		}
 	},
-	relationFixedSync: function(){
+
+/**
+ * @method AXGrid.relationFixedSync
+ * @param options {JSObject} 설명
+ * @returns changed item of list {Array}
+ * @description 자식 항목에 체크된 경우 부모 값을 체크된 상태로 변경 해주는 메서드 입니다.
+ * @example
+```
+myGrid.relationFixedSync();
+myGrid.relationFixedSync({expandItem:true}); // 체크된 아이템을 확장상태로 변경합니다.
+```
+ */
+	relationFixedSync: function(options){
 		var cfg = this.config;
-		var _body = this.body;
+		var _body = this.body, _this = this;
+		var returnObject = [];
 		axf.each(this.list, function(lidx, L){
 			axdom("#" + cfg.targetID + "_AX_treeBody").find(".gridBodyTr_"+lidx+" .treeCheckBox_body").each(function(){
+				if(L.__checked && options && options.expandItem) _this.expandToggleList(lidx, L);
 				this.checked = L.__checked;
+				returnObject.push(this);
 			});
 		});
+		return returnObject;
 	},
 	expandAll: function(){
 		var cfg = this.config;

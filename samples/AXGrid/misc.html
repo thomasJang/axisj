@@ -51,7 +51,7 @@
 				colHeadAlign: "center", // 헤드의 기본 정렬 값
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right", sort:"asc"},
-                    {key:"no", label:"no", width:"40", align:"center", formatter:"checkbox", sort:false, checked:function(){
+                    {key:"no", label:"no", width:"80", align:"center", formatter:"checkbox", formatterLabel:"전체선택", sort:false, checked:function(){
                         return this.item.no % 2 == 0;
                     }},
                     {key:"no2", label:"no2", width:"40", align:"center", formatter:"checkbox", sort:false, checked:function(){
