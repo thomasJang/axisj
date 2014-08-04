@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-01 
+AXJ - v1.0.7 - 2014-08-04 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-01 
+AXJ - v1.0.7 - 2014-08-04 
 */
 
 if(!window.AXConfig){
@@ -11817,7 +11817,6 @@ myGrid.setData(gridData);
 	},
 	removeList: function (removeList) {
 		var cfg = this.config;
-
 		if (cfg.passiveMode) {
 
 			var _list = this.list;
@@ -11834,10 +11833,16 @@ myGrid.setData(gridData);
 						}
 					});
 					if (isDel) {
-						if (l._CUD != "C") {
-							l._CUD = "D";
-							collect.push(l);
+						if (cfg.passiveRemoveHide) {
+							l._isDel = true;
+						}else{
+							if (l._CUD != "C") {
+								l._CUD = "D";
+							}else{
+								l._isDel = true;
+							}
 						}
+						collect.push(l);
 					} else {
 						collect.push(l);
 					}
@@ -11859,6 +11864,7 @@ myGrid.setData(gridData);
 				});
 				if (isPush) collect.push(l);
 			});
+
 			this.list = collect;
 		}
 
@@ -25527,8 +25533,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		var cfg = this.config;
 		var poi = event.target.id.split(/\_/g).last();
 
-		trace(this.tree[poi]);
-
+		//trace(this.tree[poi]);
 	},
 	initChild: function(){
 		var cfg = this.config;
