@@ -11364,6 +11364,11 @@ myGrid.setData(gridData);
 
 				this.cachedDom.fixed_tbody.empty();
 				this.cachedDom.fixed_tbody.append(po.join(''));
+				if (this.list.length == 0) {
+					this.fixedScrollContent.hide();
+				}else{
+					this.fixedScrollContent.show();
+				}
 			}
 
 			if(cfg.height != "auto" && this.list.length > 0) {
@@ -13697,6 +13702,7 @@ myGrid.setData(gridData);
 			return;
 		}
 		this.unbindAXbind();
+		this.editorButtonPosition = "bottom";
 
 		var dataSet = {};
 		if (item) {
@@ -13770,6 +13776,8 @@ myGrid.setData(gridData);
 
 			var trTop = -editorTop;
 
+
+
 			if (trTop.abs() + this.body.height() > this.scrollContent.height() && (this.scrollContent.height() > this.body.height())) {
 				trTop = this.body.height() - this.scrollContent.height();
 				// 에디터 위로 들기
@@ -13831,7 +13839,7 @@ myGrid.setData(gridData);
 			this.editorOpend = true;
 			this.editorOpenTop = editorTop;
 			this.editorItemIndex = null;
-
+			this.editorButtonPosition = "bottom";
 			if (this.body.height() < this.scrollContent.height()) {
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
@@ -14258,7 +14266,7 @@ myGrid.setData(gridData);
 		}
 	},
 	appendList: function (item, insertIndex) {
-		this.setEditor(item, null, insertIndex);
+		this.setEditor(item, undefined, insertIndex);
 	},
 	/* editor 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	setMobileTool: function () {
