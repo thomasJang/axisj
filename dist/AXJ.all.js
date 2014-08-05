@@ -6592,6 +6592,7 @@ var AXEditorLang = {
  * @author tom@axisj.com
  * @logs
  * "2014-06-04 tom : method [insertImg] Insert prevent duplicate images
+ * "2014-08-05 tom : add event onresize"
  *
  */
 
@@ -7037,6 +7038,9 @@ var AXEditor = Class.create(AXJ, {
 			this.canvas.css({height:this.config.height+"px"});
 			if(this.contentMode == "html"){
 				this.htmlArea.css({height:this.canvas.height()+"px"});
+			}
+			if(Object.isFunction(this.config.onresize)){
+				this.config.onresize.call({canvas:this.canvas, height:this.canvas.height()});
 			}
 		},
 	/* initFoot sub functions */
@@ -15104,7 +15108,7 @@ var AXHtmlElement = Class.create(AXJ, {
  * AXInputConverter
  * @class AXInputConverter
  * @extends AXJ
- * @version v1.51
+ * @version v1.52
  * @author tom@axisj.com
  * @logs
  "2012-11-05 오후 1:23:24",
@@ -15142,6 +15146,7 @@ var AXHtmlElement = Class.create(AXJ, {
  "2014-06-02 tom : change ajax data protocol check result or error key in data"
  "2014-07-14 tom : direct align when window resize "
  "2014-07-25 tom : support chaining 'method bind..'"
+ "2014-08-05 improve : change action when onblur bindDate"
  *
  */
 
@@ -17965,10 +17970,14 @@ var AXInputConverter = Class.create(AXJ, {
 						var yy = "20" + va.substr(0, 2);
 						var mm = va.substr(2, 2).number() - 1;
 						var dd = va.substr(4, 2).number();
-					} else {
-						var yy = nDate.getFullYear(); //va.left(4).number();
+					} else if (va.length > 2) {
+						var yy = nDate.getFullYear();
 						var mm = va.substr(0, 2).number() - 1;
 						var dd = va.substr(2, 2).number();
+					} else {
+						var yy = nDate.getFullYear(); //va.left(4).number();
+						var mm = nDate.getMonth();
+						var dd = va.substr(0, 2).number();
 					}
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
@@ -19057,19 +19066,25 @@ var AXInputConverter = Class.create(AXJ, {
 
 				} else {
 					var needAlert = false;
+
 					if (va.length > 7) {
 						var yy = va.left(4).number();
 						var mm = va.substr(4, 2).number() - 1;
 						var dd = va.substr(6, 2).number();
-					} else if (va.length > 5) {
-						var yy = va.left(4).number();
-						var mm = va.substr(4, 2).number() - 1;
-						var dd = 1;
+					} else if (va.length > 4) {
+						var yy = "20" + va.substr(0, 2);
+						var mm = va.substr(2, 2).number() - 1;
+						var dd = va.substr(4, 2).number();
+					} else if (va.length > 2) {
+						var yy = nDate.getFullYear();
+						var mm = va.substr(0, 2).number() - 1;
+						var dd = va.substr(2, 2).number();
 					} else {
-						var yy = va.left(4).number();
+						var yy = nDate.getFullYear(); //va.left(4).number();
 						var mm = nDate.getMonth();
-						var dd = nDate.getDate();
+						var dd = va.substr(0, 2).number();
 					}
+
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
