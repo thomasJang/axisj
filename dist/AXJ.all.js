@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-04 
+AXJ - v1.0.7 - 2014-08-05 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-04 
+AXJ - v1.0.7 - 2014-08-05 
 */
 
 if(!window.AXConfig){
@@ -19971,7 +19971,7 @@ var AXMobileMenu = Class.create(AXJ, {
  * AXModal
  * @class AXModal
  * @extends AXJ
- * @version v1.36
+ * @version v1.37
  * @author tom@axisj.com
  * @logs
  "2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -19986,6 +19986,7 @@ var AXMobileMenu = Class.create(AXJ, {
  "2013-11-18 오후 5:16:02 - tom resize 버그 패치",
  "2014-05-21 - tom : AXModal mediaQuery 속성 추가"
  "2014-06-09 tom : mediaQuery bugfix"
+ "2014-08-04 tom : fix resize error"
  *
  */
 var AXModal = Class.create(AXJ, {
@@ -20473,16 +20474,19 @@ var AXModal = Class.create(AXJ, {
 		var cfg = this.config;
 		var _winID = this.winID;
 		setTimeout(function () {
-			var myIframe = window[_winID];
-			var bodyHeight = jQuery(myIframe.document).innerHeight();
-			if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
-				bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
-			}
-			jQuery("#" + _winID).css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
-			jQuery("#" + _winID + "_box").css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
 
-			//trace({ h: jQuery(myIframe.document.body).find("." + cfg.contentDivClass).height() });
-			//trace(bodyHeight);
+			try {
+				var myIframe = window[_winID];
+				var bodyHeight = jQuery(myIframe.document).innerHeight();
+				if (jQuery(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
+					bodyHeight = jQuery(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
+				}
+				jQuery("#" + _winID).css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+				jQuery("#" + _winID + "_box").css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+			}catch(e){
+
+			}
+
 			try {
 				parent.fcObj.contentResetHeight();
 			} catch (e) {
