@@ -22947,6 +22947,8 @@ var AXSelectConverter = Class.create(AXJ, {
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
+							res.selectedIndex = obj.selectedIndex;
+							res.selectedObject = {optionValue:selectedOption.value, optionText:selectedOption.text}
 							obj.config.onLoad.call(res);
 						}
 
@@ -22989,7 +22991,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			 */
 
 			if (obj.config.onLoad) {
-				obj.config.onLoad.call(obj.config);
+				var selectedOption = this.getSelectedOption(objID, objSeq);
+				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
 		} else {
 			this.bindSelectChange(objID, objSeq);
@@ -23005,7 +23008,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			 */
 
 			if (obj.config.onLoad) {
-				obj.config.onLoad.call(obj.config);
+				var selectedOption = this.getSelectedOption(objID, objSeq);
+				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
 		}
 	},
@@ -23038,10 +23042,10 @@ var AXSelectConverter = Class.create(AXJ, {
 			try{
 				if(obj.selectedIndex != AXgetId(objID).options.selectedIndex) obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 			}catch(e){
-
 			}
 			return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
 		}else{
+			obj.selectedIndex = 0;
 			return AXgetId(objID).options[0];
 		}
 	},

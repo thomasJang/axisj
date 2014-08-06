@@ -54,7 +54,10 @@
             	maxHeight: 100,
             	onChange: function(){
             		trace(this);
-            	}
+            	},
+                onLoad: function(){
+                    trace(this);
+                }
             });
 
             jQuery("#AXSelect2").bindSelect({
