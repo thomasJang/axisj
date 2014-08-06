@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-06 
+AXJ - v1.0.7 - 2014-08-07 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-06 
+AXJ - v1.0.7 - 2014-08-07 
 */
 
 if(!window.AXConfig){
@@ -776,6 +776,7 @@ Object.extend(String.prototype, (function () {
 })());
 
 Object.extend(Number.prototype, (function () {
+
 	function left(strLen) { return this.toString().substr(0, strLen); }
 	function right(strLen) { return this.toString().substring(this.toString().length - strLen, this.toString().length); }
 	function toMoney() { var txtNumber = '' + this; if (isNaN(txtNumber) || txtNumber == "") { return ""; } else { var rxSplit = new RegExp('([0-9])([0-9][0-9][0-9][,.])'); var arrNumber = txtNumber.split('.'); arrNumber[0] += '.'; do { arrNumber[0] = arrNumber[0].replace(rxSplit, '$1,$2'); } while (rxSplit.test(arrNumber[0])); if (arrNumber.length > 1) { return arrNumber.join(''); } else { return arrNumber[0].split('.')[0]; } } }
@@ -15110,7 +15111,7 @@ var AXInputConverter = Class.create(AXJ, {
 			{ type: "search" }, { type: "number" }, { type: "money" }, { type: "slider" }, { type: "twinSlider" },
 			{ type: "selector" }, { type: "switch" }, { type: "segment" },
 			{ type: "date" }, { type: "dateTime" }, { type: "twinDate" }, { type: "twinDateTime" },
-			{ type: "checked" }
+			{ type: "checked" }, { type: "pattern" }
 		];
 		this.config.anchorClassName = "AXanchor";
 		this.config.anchorPlaceHolderClassName = "AXanchorPlaceHolder";
@@ -15245,6 +15246,8 @@ var AXInputConverter = Class.create(AXJ, {
 			this.bindTwinDate(objID, objSeq, "time");
 		} else if (obj.bindType == "checked") {
 			this.bindChecked(objID, objSeq);
+		} else if (obj.bindType == "pattern") {
+			this.bindPattern(objID, objSeq);
 		}
 	},
 	unbind: function (obj) {
@@ -15648,8 +15651,15 @@ var AXInputConverter = Class.create(AXJ, {
 		var val = obj.bindTarget.val().trim();
 		if (val != "") val = obj.bindTarget.val().number().money()
 		obj.bindTarget.val(val);
-		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 
+		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
+			if ( (event.ctrlKey || event.metaKey) ){
+				obj.bindTarget.data("ctrlKey", "T");
+			}else{
+				obj.bindTarget.data("ctrlKey", "F");
+			}
+		});
+		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			var elem = obj.bindTarget.get(0);
 			var elemFocusPosition;
 			if ('selectionStart' in elem) {
@@ -15673,14 +15683,13 @@ var AXInputConverter = Class.create(AXJ, {
 			var event = window.event || e;
 			// ignore tab & shift key 스킵 & ctrl
 			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
-			if (event.ctrlKey && event.keyCode == 65) return;
+			if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
 			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 				bindMoneyCheck(objID, objSeq, "keyup");
 			} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
 				bindMoneyCheck(objID, objSeq, "keyup");
 			}
 		});
-
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindMoneyCheck(objID, objSeq, "change");
 		});
@@ -15706,29 +15715,34 @@ var AXInputConverter = Class.create(AXJ, {
 			if ((nval) > maxval) {
 				obj.bindTarget.val(maxval.money());
 				try {
-					this.msgAlert("설정된 최대값{" + maxval.number().money() + "} 을 넘어서는 입력입니다.");
+					if(eventType == "change") this.msgAlert("설정된 최대값{" + maxval.number().money() + "} 을 넘어서는 입력입니다.");
 				} catch (e) { }
 			} else {
-				if (minval != undefined && minval != null && eventType == "change") {
+				if (minval != undefined && minval != null) {
 					if ((nval) < minval) {
 						obj.bindTarget.val(minval.money());
 						try {
-							this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
+							if(eventType == "change") this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 						} catch (e) { }
 					} else {
 						obj.bindTarget.val(nval.money());
 					}
+				}else{
+					obj.bindTarget.val(nval.money());
 				}
 			}
 		} else {
-			if (minval != undefined && minval != null && eventType == "change") {
+			if (minval != undefined && minval != null) {
 				if ((nval) < minval) {
 					obj.bindTarget.val(minval.money());
 					try {
-						this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
+						if(eventType == "change") this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 					} catch (e) { }
+				} else {
+					obj.bindTarget.val(nval.money());
 				}
 			} else {
+				trace(1);
 				obj.bindTarget.val(nval.money());
 			}
 		}
@@ -15746,6 +15760,8 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelector: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+
+		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
 		if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
 		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
@@ -15946,7 +15962,7 @@ var AXInputConverter = Class.create(AXJ, {
 					axdom("#" + objID).val(myVal);
 				}
 
-				if (obj.config.onChange || obj.config.onchange) {
+				if (obj.config.onChange) {
 					var sendObj = {
 						targetID: objID,
 						options: obj.config.options,
@@ -16207,8 +16223,6 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.config.focusedIndex = null;
 			if (obj.config.onChange) {
 				obj.config.onChange(null);
-			} else if (obj.config.onchange) {
-				obj.config.onchange(null);
 			}
 		}
 	},
@@ -19157,6 +19171,105 @@ var AXInputConverter = Class.create(AXJ, {
 		 });
 		 */
 
+	},
+
+	// pattern
+	bindPattern: function(objID, objSeq){
+		var obj = this.objects[objSeq];
+
+		var bindPatternCheck = this.bindPatternCheck.bind(this);
+		var val = obj.bindTarget.val().trim();
+
+		// 패턴 적용 값 구하기 함수를 통해 얻어진 val을 input value로 재 설정 합니다.
+		if (val != "") {
+			val = this.bindPatternGetValue(objID, objSeq, obj.bindTarget.val());
+		}
+		// 패턴 구문에 따라 달라져야 하는 부분 ------------------------------
+
+		obj.bindTarget.val(val);
+
+		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
+			if ( (event.ctrlKey || event.metaKey) ){
+				obj.bindTarget.data("ctrlKey", "T");
+			}else{
+				obj.bindTarget.data("ctrlKey", "F");
+			}
+		});
+
+		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
+			var elem = obj.bindTarget.get(0);
+			var elemFocusPosition;
+			if ('selectionStart' in elem) {
+				// Standard-compliant browsers
+				elemFocusPosition = elem.selectionStart;
+			} else if (document.selection) {
+				// IE
+				//elem.focus();
+				var sel = document.selection.createRange();
+				var selLen = document.selection.createRange().text.length;
+				sel.moveStart('character', -elem.value.length);
+				elemFocusPosition = sel.text.length - selLen;
+			}
+
+			// 계산된 포커스 위치
+			obj.bindTarget.data("focusPosition", elemFocusPosition);
+			obj.bindTarget.data("prevLen", elem.value.length);
+
+			var event = window.event || e;
+			// ignore tab & shift key 스킵 & ctrl
+
+			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
+			if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
+			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
+				bindPatternCheck(objID, objSeq, "keyup");
+			} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
+				bindPatternCheck(objID, objSeq, "keyup");
+			}
+		});
+		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
+			bindPatternCheck(objID, objSeq, "change");
+		});
+	},
+	bindPatternCheck: function(objID, objSeq){
+		var obj = this.objects[objSeq];
+		var val, nval;
+
+		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
+
+		val = obj.bindTarget.val();
+		nval = this.bindPatternGetValue(objID, objSeq, val);
+		// 패턴 적용
+		obj.bindTarget.val(nval);
+
+		if( !axf.isEmpty( obj.bindTarget.data("focusPosition") ) ){
+			obj.bindTarget.setCaret(
+				obj.bindTarget.data("focusPosition").number() + ( obj.bindTarget.val().length - obj.bindTarget.data("prevLen") )
+			);
+		}
+
+		if (obj.config.onChange) {
+			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: nval });
+		}
+	},
+	bindPatternGetValue: function(objID, objSeq, val){
+		var obj = this.objects[objSeq];
+		var regExpPattern;
+		if(obj.config.pattern == "money") {
+			return val.money();
+		}else if(obj.config.pattern == "bizno"){
+			val = val.replace(/\-/g, "");
+			regExpPattern = /([0-9]{3})\-?([0-9]{1,2})?\-?([0-9]{1,5})?.*/;
+			return val.replace(regExpPattern, function(a, b){
+				var nval = [arguments[1]];
+				if(arguments[2]) nval.push(arguments[2]);
+				if(arguments[3]) nval.push(arguments[3]);
+				return nval.join("-");
+			});
+		}else if(Object.isFunction(obj.config.pattern)){
+			return obj.config.pattern.call({val:val, objID: objID, config:obj.config}, val);
+		}else{
+			return val;
+		}
 	}
 });
 
@@ -19208,6 +19321,7 @@ axdom.fn.bindSelector = function (config) {
 	});
 	return this;
 };
+
 axdom.fn.bindSelectorBlur = function (config) {
 	axf.each(this, function () {
 		AXInput.bindSelectorBlur(this.id);
@@ -19329,6 +19443,35 @@ axdom.fn.setValueInput = function (value) {
 	return this;
 };
 
+
+/**
+ * @method jQueryFns.bindPattern
+ * @param config {JSObject} bindConfig
+ * @returns jQuery
+ * @description
+ * @example
+```
+$("#id").bindPattern({
+	pattern:"money|bizno|{function}"
+});
+
+//sample
+$("#ax-bind-pattern-custom-target").bindPattern({
+    pattern: function(val){
+        //trace(this); //전달된 this를 확인 할 수 있습니다.
+        return val.ucase();
+    }
+});
+```
+ */
+axdom.fn.bindPattern = function(config){
+	axf.each(this, function () {
+		config = config || {}; config.id = this.id;
+		config.bindType = "pattern";
+		AXInput.bind(config);
+	});
+	return this;
+};
 /* ---------------------------- */
 var AXMobileMenu = Class.create(AXJ, {
     initialize: function(AXJ_super) {
@@ -21535,6 +21678,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 	AXbindOnchange: function(lidx, fidx, AXBindThis){
 		var cfg = this.config;
+		if(!cfg.body.form[fidx].AXBind.onchange) cfg.body.form[fidx].AXBind.onchange = cfg.body.form[fidx].AXBind.onChange;
 		if(cfg.body.form[fidx].AXBind.onchange){
 
 			var sendObj = {

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindNumber - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js
+	 * CSS			: AXJ.css, AXInput.css
+	 */	
+	var pageID = "Pattern";
+	var fnObj = {
+		pageStart: function(){
+
+            $("#ax-bind-pattern-money-target").bindPattern({
+                pattern:"money"
+            });
+
+            $("#ax-bind-pattern-bizno-target").bindPattern({
+                pattern:"bizno"
+            });
+
+            $("#ax-bind-pattern-custom-target").bindPattern({
+                pattern: function(val){
+                    //trace(this); //전달된 this를 확인 할 수 있습니다.
+                    return val.ucase();
+                }
+            });
+
+		}
+	};
+    $(document).ready(fnObj.pageStart.delay(0.1));
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+<div id="AXPage">
+    <div id="AXPageBody">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="ax-wrap AXdemoPageContent">
+
+            <div class="title"><h1>AXInput</h1></div>
+
+            <h3>bind Pattern</h3>
+
+            <label class="AXInputLabel">
+                <span>통화</span>
+                <input type="text" class="AXInput" id="ax-bind-pattern-money-target" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>사업자번호</span>
+                <input type="text" class="AXInput" id="ax-bind-pattern-bizno-target" />
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <span>사용자정의 패턴(영문대문자입력)</span>
+                <input type="text" class="AXInput" id="ax-bind-pattern-custom-target" />
+            </label>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>		

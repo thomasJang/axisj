@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -49,8 +50,8 @@
 			$("#AXInputNumber4").bindNumber({min:20});
 
 			$("#AXInputMoney").bindMoney({
-				min:10, 
-				max:9000000,
+				min:0,
+				max:900000000,
 				onchange : function(){
 					trace(this);
 				}
