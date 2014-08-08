@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-07 
+AXJ - v1.0.7 - 2014-08-08 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-07 
+AXJ - v1.0.7 - 2014-08-08 
 */
 
 if(!window.AXConfig){
@@ -123,6 +123,14 @@ if(!window.AXConfig){
 		 */
 		mobile: {
 			responsiveWidth: 0
+		},
+		/**
+		 * AXEditor default config
+		 * @memberof AXConfig
+		 */
+		AXEditor: {
+			editor_frameSrc : "/_AXJ/lib/AXEditor.html",
+			iconDirectory : "/ui/icons/"
 		}
 	};
 }
@@ -779,7 +787,23 @@ Object.extend(Number.prototype, (function () {
 
 	function left(strLen) { return this.toString().substr(0, strLen); }
 	function right(strLen) { return this.toString().substring(this.toString().length - strLen, this.toString().length); }
-	function toMoney() { var txtNumber = '' + this; if (isNaN(txtNumber) || txtNumber == "") { return ""; } else { var rxSplit = new RegExp('([0-9])([0-9][0-9][0-9][,.])'); var arrNumber = txtNumber.split('.'); arrNumber[0] += '.'; do { arrNumber[0] = arrNumber[0].replace(rxSplit, '$1,$2'); } while (rxSplit.test(arrNumber[0])); if (arrNumber.length > 1) { return arrNumber.join(''); } else { return arrNumber[0].split('.')[0]; } } }
+	function toMoney() {
+		var txtNumber = '' + this;
+		if (isNaN(txtNumber) || txtNumber == "") { return ""; }
+		else {
+			var rxSplit = new RegExp('([0-9])([0-9][0-9][0-9][,.])');
+			var arrNumber = txtNumber.split('.');
+			arrNumber[0] += '.';
+			do {
+				arrNumber[0] = arrNumber[0].replace(rxSplit, '$1,$2');
+			} while (rxSplit.test(arrNumber[0]));
+			if (arrNumber.length > 1) {
+				return arrNumber.join('');
+			} else {
+				return arrNumber[0].split('.')[0];
+			}
+		}
+	}
 	function toByte() { var n_unit = "KB"; var myByte = this / 1024; if (myByte / 1024 > 1) { n_unit = "MB"; myByte = myByte / 1024; } if (myByte / 1024 > 1) { n_unit = "GB"; myByte = myByte / 1024; } return myByte.round(1) + n_unit; }
 	function toNum() { return Math.round( this * 100000000000000 ) / 100000000000000; }
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
@@ -4415,8 +4439,10 @@ var AXContextMenuClass = Class.create(AXJ, {
         axdom(document).unbind("mousedown.AXContenxtMenu");
 
         axdom(document).find("iframe").each(function () {
-            axdom(window[this.name].document).unbind("mousedown.AXContenxtMenu");
-            axdom(window[this.name].document).unbind("keydown.AXContenxtMenu");
+	        if(window[this.name]){
+		        axdom(window[this.name].document).unbind("mousedown.AXContenxtMenu");
+		        axdom(window[this.name].document).unbind("keydown.AXContenxtMenu");
+	        }
         });
 
         this.showedItem = {}; // 초기화
@@ -5224,6 +5250,7 @@ axdom.fn.scrollToDiv = function (margin, boxDim, leftScroll) {
 };
 
 // jQuery misc plugin
+// 2014-08-08 tom : select option 이 없으면 엘리먼트를 찾지 않는 버그 픽스
 var __r20 = /%20/g,
     __rbracket = /\[\]$/,
     __rCRLF = /\r?\n/g,
@@ -5234,8 +5261,8 @@ axdom.fn.extend({
     serializeObject: function () {
 
         var myArray = this.map(function () {
-            return this.elements ? axdom.makeArray(this.elements) : this;
-        })
+	            return this.elements ? axdom.makeArray(this.elements) : this;
+	        })
             .filter(function () {
                 return this.name && !this.disabled &&
                     (this.checked || __rselectTextarea.test(this.nodeName) ||
@@ -5243,8 +5270,12 @@ axdom.fn.extend({
             })
             .map(function (i, elem) {
                 var val = axdom(this).val();
-                //(elem.title || elem.placeholder || "")  //ie에서는 placeholder를 인식하지못함
                 var label = (axdom(elem).attr("title") || axdom(elem).attr("placeholder") || "");
+
+		        if(val == null){
+			        if(this.nodeName.lcase() == "select") val = "";
+		        }
+
                 return val == null ?
                     null :
                     axdom.isArray(val) ?
@@ -6589,11 +6620,12 @@ var AXEditorLang = {
  * AXEditor
  * @class AXEditor
  * @extends AXJ
- * @version v1.2
+ * @version v1.3
  * @author tom@axisj.com
  * @logs
  * "2014-06-04 tom : method [insertImg] Insert prevent duplicate images
  * "2014-08-05 tom : add event onresize"
+ * "2014-08-08 tom : AXConfig.AXEditor 설정 추가"
  *
  */
 
@@ -6620,7 +6652,7 @@ var AXEditor = Class.create(AXJ, {
 			config.tabLayoutUsed = false;
 			config.tabOptionUsed = false;
 			config.tabExternalUsed = false;
-			config.frameSrc = "/_AXJ/lib/AXEditor.html";
+			config.frameSrc = (AXConfig.AXEditor.editor_frameSrc||"/_AXJ/lib/AXEditor.html");
 			config.editorFontSize = "12px";
 			config.editorFontFamily = "Malgun Gothic";
 			config.colors = ["ffffff","faedd4","fff3b4","ffffbe","ffeaea","ffeaf8","e6ecfe","d6f3f9","e0f0e9","eaf4cf","e8e8e8","e7c991","f3d756","ffe409","f9b4cb","dfb7ee","b1c4fc","96ddf3","b1dab7","b8d63d","c2c2c2","d18e0a","ec9c2c","ff8b16","f3709b","af65dd","7293fa","49b5d5","6abb9a","5fb636","8e8e8e","9d6c08","c84205","e31600","c8056a","801fbf","3058d2","0686a8","318561","2b8400","474747","654505","8c3c04","840000","8c044b","57048c","193da9","004c5f","105738","174600","000000","463003","612a03","5b0000","610334","320251"];
@@ -6648,13 +6680,13 @@ var AXEditor = Class.create(AXJ, {
             {
                 categoryNM:"Grimi",
                 copyRights:"<a href='http://jowrney.com/xe/grimi/' target='_blank'>Copyright © Jowrney.com. All rights reserved.</a>",
-                imageFolder:"/ui/icons/grimi/",
+                imageFolder: (AXConfig.AXEditor.iconDirectory || "/ui/icons/") + "grimi/",
                 icons:["grimi_big_smile16.png","grimi_cry16.png","grimi_doze16.png","grimi_happy16.png","grimi_love16.png","grimi_smile16.png","grimi_so_what16.png","grimi_vomit16.png"]
             },
             {
                 categoryNM:"Fugue Icons",
                 copyRights:"<a href='http://p.yusukekamiyamane.com/' target='_blank'>Copyright © Yusuke Kamiyamane. All rights reserved.</a>",
-                imageFolder:"/ui/icons/",
+                imageFolder: (AXConfig.AXEditor.iconDirectory || "/ui/icons/"),
                 icons:["address-book.png","alarm-clock.png","arrow-000-medium.png","arrow-045-medium.png","arrow-045.png","arrow-090-medium.png","arrow-090.png",
                     "arrow-135-medium.png","arrow-135.png","arrow-180-medium.png","arrow-180.png","arrow-225-medium.png","arrow-225.png","arrow-270-medium.png","arrow-270.png",
                     "arrow-315-medium.png","arrow-315.png","arrow.png","asterisk.png","auction-hammer.png","balance.png","balloon-ellipsis.png","balloon-quotation.png","balloon.png",
@@ -15434,6 +15466,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 	},
+
 	// onlyHolder ~~~~~~~~~~~~~~~
 	bindPlaceHolder: function (objID, objSeq) {
 		var cfg = this.config;
@@ -19173,6 +19206,19 @@ var AXInputConverter = Class.create(AXJ, {
 
 	},
 
+
+
+	// TODO : pattern명 정의
+	/*
+	숫자
+	money
+	날짜
+	date
+	사업자번호
+	bizno
+	카드번호
+	cardno
+	*/
 	// pattern
 	bindPattern: function(objID, objSeq){
 		var obj = this.objects[objSeq];
@@ -19194,8 +19240,8 @@ var AXInputConverter = Class.create(AXJ, {
 			}else{
 				obj.bindTarget.data("ctrlKey", "F");
 			}
+			//trace(obj.bindTarget.val());
 		});
-
 		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			var elem = obj.bindTarget.get(0);
 			var elemFocusPosition;
@@ -19210,6 +19256,7 @@ var AXInputConverter = Class.create(AXJ, {
 				sel.moveStart('character', -elem.value.length);
 				elemFocusPosition = sel.text.length - selLen;
 			}
+			//trace(obj.bindTarget.val());
 
 			// 계산된 포커스 위치
 			obj.bindTarget.data("focusPosition", elemFocusPosition);
@@ -19229,47 +19276,92 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindPatternCheck(objID, objSeq, "change");
 		});
+		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
+			bindPatternCheck(objID, objSeq, "blur");
+		});
 	},
-	bindPatternCheck: function(objID, objSeq){
+	bindPatternCheck: function(objID, objSeq, eventType){
 		var obj = this.objects[objSeq];
 		var val, nval;
-
+		// callback 함수 대소문자 지원
+		if (!obj.config.onBlur) obj.config.onBlur = obj.config.onBlur;
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
-		val = obj.bindTarget.val();
-		nval = this.bindPatternGetValue(objID, objSeq, val);
-		// 패턴 적용
-		obj.bindTarget.val(nval);
+		if(eventType == "blur"){
 
-		if( !axf.isEmpty( obj.bindTarget.data("focusPosition") ) ){
-			obj.bindTarget.setCaret(
-				obj.bindTarget.data("focusPosition").number() + ( obj.bindTarget.val().length - obj.bindTarget.data("prevLen") )
-			);
-		}
+			val = obj.bindTarget.val();
+			nval = this.bindPatternGetValue(objID, objSeq, val, eventType);
+			// 패턴 적용
+			obj.bindTarget.val(nval);
 
-		if (obj.config.onChange) {
-			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: nval });
+			if (Object.isFunction(obj.config.onBlur)) {
+				obj.config.onBlur.call({ objID: objID, objSeq: objSeq, value: nval });
+			}
+
+		}else{
+
+			val = obj.bindTarget.val();
+			nval = this.bindPatternGetValue(objID, objSeq, val, eventType);
+			// 패턴 적용
+			obj.bindTarget.val(nval);
+
+			if( !axf.isEmpty( obj.bindTarget.data("focusPosition") ) ){
+				obj.bindTarget.setCaret(
+						obj.bindTarget.data("focusPosition").number() + ( obj.bindTarget.val().length - obj.bindTarget.data("prevLen") )
+				);
+			}
+			if (Object.isFunction(obj.config.onChange)) {
+				obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: nval });
+			}
+
 		}
 	},
-	bindPatternGetValue: function(objID, objSeq, val){
+	bindPatternGetValue: function(objID, objSeq, val, eventType){
 		var obj = this.objects[objSeq];
-		var regExpPattern;
-		if(obj.config.pattern == "money") {
-			return val.money();
+		var regExpPattern, returnValue = "";
+		if(obj.config.pattern == "moneyint") { // 소주점 포함안함
+			val = val.replace(/,/g, "");
+			if(val == ""){
+				returnValue = "";
+			}else{
+				returnValue = Math.ceil(val).money();
+			}
+		}else if(obj.config.pattern == "money"){ // 소수점 포함
+			val = val.replace(/,/g, "");
+			regExpPattern = new RegExp('([0-9])([0-9][0-9][0-9][,.])');
+			var arrNumber = val.split('.');
+			arrNumber[0] += '.';
+
+			do {
+				arrNumber[0] = arrNumber[0].replace(regExpPattern, '$1,$2');
+			} while (regExpPattern.test(arrNumber[0]));
+			if (arrNumber.length > 1) {
+				returnValue = arrNumber.join('');
+			} else {
+				returnValue = arrNumber[0].split('.')[0];
+			}
+			if(eventType == "blur"){
+				if(returnValue.right(1) == ".") returnValue = returnValue.replace(/\./g, "");
+			}
 		}else if(obj.config.pattern == "bizno"){
 			val = val.replace(/\-/g, "");
 			regExpPattern = /([0-9]{3})\-?([0-9]{1,2})?\-?([0-9]{1,5})?.*/;
-			return val.replace(regExpPattern, function(a, b){
+			returnValue = val.replace(regExpPattern, function(a, b){
 				var nval = [arguments[1]];
 				if(arguments[2]) nval.push(arguments[2]);
 				if(arguments[3]) nval.push(arguments[3]);
 				return nval.join("-");
 			});
 		}else if(Object.isFunction(obj.config.pattern)){
-			return obj.config.pattern.call({val:val, objID: objID, config:obj.config}, val);
+			returnValue = obj.config.pattern.call({val:val, objID: objID, config:obj.config}, val);
 		}else{
-			return val;
+			returnValue = val;
 		}
+
+		return returnValue;
+	},
+	bindPatternGetText: function(objID, objSeq){
+		return "11";
 	}
 });
 
@@ -19469,6 +19561,14 @@ axdom.fn.bindPattern = function(config){
 		config = config || {}; config.id = this.id;
 		config.bindType = "pattern";
 		AXInput.bind(config);
+	});
+	return this;
+};
+
+axdom.fn.bindPatternGetText = function(config){
+	var returnVals = [];
+	axf.each(this, function () {
+		AXInput.bindPatternGetText(this.id);
 	});
 	return this;
 };
@@ -22747,7 +22847,7 @@ mySearch.getItemId("type");
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.59
+ * @version v1.59.1
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22777,6 +22877,7 @@ mySearch.getItemId("type");
  "2014-07-14 tom : direct align when window resize and add method 'bindSelectAddOptions', 'bindSelectRemoveOptions'"
  "2014-07-25 tom : support chaining 'method bind..'"
  "2014-08-06 tom : active onLoad event when script mode "
+ "2014-08-08 tom : select option value 최적화, option change 하면 원본 onchange 이벤트 trigger"
  *
  */
 
@@ -23105,6 +23206,8 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		} else if (obj.config.options) {
 
+			iobj.html("<option></option>");
+
 			var po = [];
 			if (obj.config.isspace) {
 				po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
@@ -23126,13 +23229,12 @@ var AXSelectConverter = Class.create(AXJ, {
 			obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 
 			this.bindSelectChange(objID, objSeq);
-			/*
-			 if (obj.config.onChange) {
-			 obj.config.focusedIndex = obj.selectedIndex;
-			 obj.config.selectedObject = obj.options[obj.selectedIndex];
-			 obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+
+			 if (obj.config.onChange && obj.config.alwaysOnChange) {
+				 obj.config.focusedIndex = obj.selectedIndex;
+				 obj.config.selectedObject = obj.options[obj.selectedIndex];
+				 obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
 			 }
-			 */
 
 			if (obj.config.onLoad) {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
@@ -23141,15 +23243,13 @@ var AXSelectConverter = Class.create(AXJ, {
 		} else {
 			this.bindSelectChange(objID, objSeq);
 
-			/*
-			 if (obj.config.onChange) {
-			 var selectedOption = this.getSelectedOption(objID, objSeq);
-			 if (selectedOption) {
-			 var sendObj = {optionValue:selectedOption.value, optionText:selectedOption.text};
-			 obj.config.onChange.call(sendObj, sendObj);
+			 if (obj.config.onChange && obj.config.alwaysOnChange) {
+				 var selectedOption = this.getSelectedOption(objID, objSeq);
+				 if (selectedOption) {
+					 var sendObj = {optionValue:selectedOption.value, optionText:selectedOption.text};
+					 obj.config.onChange.call(sendObj, sendObj);
+				 }
 			 }
-			 }
-			 */
 
 			if (obj.config.onLoad) {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
@@ -23199,6 +23299,10 @@ var AXSelectConverter = Class.create(AXJ, {
 		var selectedOption = this.getSelectedOption(objID, objSeq);
 		if (selectedOption) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectText").html(selectedOption.text);
+		}
+		if(obj){
+			if(!obj.iobj) obj.iobj = jQuery("#" + objID);
+			obj.iobj.trigger( "change" ); // change 이벤트 발생
 		}
 	},
 	bindSelectExpand: function (objID, objSeq, isToggle, event) {

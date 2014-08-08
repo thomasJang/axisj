@@ -37,11 +37,22 @@
 		pageStart: function(){
 
             $("#ax-bind-pattern-money-target").bindPattern({
-                pattern:"money"
+                pattern: "money"
+            });
+            $("#ax-bind-pattern-moneyint-target").bindPattern({
+                pattern: "moneyint"
             });
 
+            /*
+            $("#ax-bind-pattern-money-target").bindSelector();
+
+            $("#ax-bind-pattern-money-target").val();
+
+            $("#ax-bind-pattern-money-target").bindPatternGetText();
+            */
+
             $("#ax-bind-pattern-bizno-target").bindPattern({
-                pattern:"bizno"
+                pattern: "bizno"
             });
 
             $("#ax-bind-pattern-custom-target").bindPattern({
@@ -72,10 +83,16 @@
             <h3>bind Pattern</h3>
 
             <label class="AXInputLabel">
-                <span>통화</span>
+                <span>통화(소수점 포함)</span>
                 <input type="text" class="AXInput" id="ax-bind-pattern-money-target" />
             </label>
 
+            <label class="AXInputLabel">
+                <span>통화(수수점 포함 안함)</span>
+                <input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" />
+            </label>
+
+            <div class="H20"></div>
             <label class="AXInputLabel">
                 <span>사업자번호</span>
                 <input type="text" class="AXInput" id="ax-bind-pattern-bizno-target" />
