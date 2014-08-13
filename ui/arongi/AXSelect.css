@@ -120,7 +120,7 @@
 .AXanchorSelect .selectedTextBox:active {
   box-shadow: none;
 }
-.AXanchorSelect.disabled .selectedTextBox {
+.AXanchorSelect.disable .selectedTextBox {
   display: block;
   border: 1px solid #b6b6b6;
   background: url('images/dx-default-regular.png') repeat-x;
