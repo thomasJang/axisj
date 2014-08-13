@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title>AXValidator</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 		<meta name="description" content="Description" />
@@ -22,6 +22,7 @@
 
         <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
         <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+        <script type="text/javascript" src="../../lib/AXCore.js"></script>
         <script type="text/javascript" src="../../lib/AXValidator.js"></script>
         <script type="text/javascript" src="../page.js"></script>
         <script type="text/javascript" src="pageTab.js"></script>
@@ -38,7 +39,7 @@
 		var fnObj = {
 			pageStart: function(){
 				
-/*
+
             $("#regdate").bindDate({
                 align:"left", valign:"top", separator:"-", selectType:"d", 
                 onChange:{
@@ -54,14 +55,21 @@
                     laterThan:"regdate", err:"시작일보다 느린 날짜를 선택하세요"
                 }
             });
-*/
 
                 //$("#my-select").bindSelect();
-                $("#my-select").html("<option></option>");
+                //$("#my-select").html("<option></option>");
+
+/*
+                setTimeout(function(){
+                    $("#my-select").html("<option value=''>선택</option>");
+                }, 200);
+*/
 
 				myValidator.setConfig({
 					targetFormName : "myForm"
 				});
+
+                /*
 
 				myValidator.add({
 				    id: "userID",
@@ -170,7 +178,7 @@
 				
 					}
 				});    
-
+*/
 			},
 			saveForm: function(){
 				var validateResult = myValidator.validate();
@@ -203,6 +211,7 @@
                             <col />
                         </colgroup>
                         <tbody>
+
                             <tr>
                                 <th>
                                     <div class="tdRel">realtime</div>
@@ -342,14 +351,15 @@
                                     </div>
                                 </td>
                             </tr>
+
                             <tr>
                                 <th>
                                     <div class="tdRel">select</div>
                                 </th>
                                 <td class="last">
                                     <div class="tdRel">
-                                        <select name="my-select" id="my-select">
-                                            <option value="123">123</option>
+                                        <select name="my-select" id="my-select" class="av-required" title="내 셀렉트">
+                                            <option value="1">1</option>
                                         </select>
                                     </div>
                                 </td>

@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -34,12 +35,20 @@
 	var fnObj = {
 		pageStart: function(){
 
+            jQuery("#AXSelect1").bindSelect({
+
+            });
+
+
+            /*
 			jQuery("#AXSelect1").bindSelect({
+
 				maxHeight: 150,
 				onChange: function(){
 				
 				}
 			});
+			*/
 		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
@@ -66,15 +75,17 @@
 						<h3>Default</h3>
 
 						<select name="" class="AXSelect" id="AXSelect1">
+
 							<option value="">-- 선택하세요 --</option>
 							<option value="1">ABCDE #1</option>
-							<option value="2" selected="selected">ABCDE #2</option>
+							<option value="2">ABCDE #2</option>
 							<option value="3">ABCDE #3</option>
 							<option value="4">ABCDE #4</option>
 							<option value="5">ABCDE #5</option>
 							<option value="6">ABCDE #6</option>
 							<option value="7">ABCDE #7</option>
 							<option value="8">ABCDE #8</option>
+
 						</select>
 						
 						<div class="H10"></div>
@@ -82,6 +93,8 @@
 						<input type="button" value="bindSelectSetValue(1)" class="AXButton" onclick="jQuery('#AXSelect1').bindSelectSetValue('1');" />
 						<input type="button" value="bindSelectSetValue(2)" class="AXButton" onclick="jQuery('#AXSelect1').bindSelectSetValue('2');" />
 						<input type="button" value="bindSelectSetValue()" class="AXButton" onclick="jQuery('#AXSelect1').bindSelectSetValue('');" />
+
+                        <button class="AXButton" onclick="jQuery('#AXSelect1').bindSelectDisabled();">bindSelectDisabled</button>
 						
 						<div class="H30"></div>
 						

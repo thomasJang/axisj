@@ -47,39 +47,12 @@
 					{no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0", pno:1},
 				{no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", pno:0},
 					{no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0", pno:2},
-					{no:22, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-					{no:23, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
 					{no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
 						{no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0", pno:24},
 							{no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
 							{no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-							{no:2413, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-							{no:2414, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-							{no:2415, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-							{no:2416, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-							{no:2417, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
 					{no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-					{no:26, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
-					{no:27, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
-					{no:28, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-					{no:29, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
-					{no:30, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
-					{no:31, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-					{no:32, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
-					{no:33, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
-					{no:34, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-					{no:35, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
-					{no:36, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
-					{no:25, nodeName:"LEVEL 2-1-5", writer:"tom", type:"0", pno:2},
-				{no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:4, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:5, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:6, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:7, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:8, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:9, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:10, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-				{no:11, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0}
+				{no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0}
 			];
 			myTree.setList(List);
 		},
@@ -144,6 +117,14 @@
                 <div style="padding:10px;">
                     <input type="button" value="400px" class="AXButton" onclick="$('#AXTreeTarget').css({height:400});myTree.resetHeight();" />
                     <input type="button" value="600px" class="AXButton" onclick="$('#AXTreeTarget').css({height:600});myTree.resetHeight();" />
+
+                    <button type="button" class="AXButton" onclick="myTree.expandAll();">expandAll</button>
+                    <button type="button" class="AXButton" onclick="myTree.expandAll(1);">expandAll(1)</button>
+                    <button type="button" class="AXButton" onclick="myTree.expandAll(2);">expandAll(2)</button>
+                    <button type="button" class="AXButton" onclick="myTree.expandAll(3);">expandAll(3)</button>
+                    <button type="button" class="AXButton" onclick="myTree.expandAll(0);">expandAll(0)</button>
+                    <button type="button" value="expandAll" class="AXButton" onclick="myTree.collapseAll();">collapseAll</button>
+
                 </div>
 
             </div>

@@ -9,6 +9,10 @@ body {
   line-height: 1.6em;
   color: #5c382c;
   background: #ffffff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+  text-stroke: 0.6px;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
 }
 html a,
 body a {

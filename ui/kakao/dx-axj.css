@@ -961,8 +961,8 @@
 }
 .AXModalBox .windowbox .closeBtn {
   position: absolute;
-  right: -19px;
-  top: -19px;
+  right: 0px;
+  top: 0px;
   display: block;
   width: 38px;
   height: 38px;
