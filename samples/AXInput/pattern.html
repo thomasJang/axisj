@@ -67,8 +67,8 @@
             <h3>bind Pattern</h3>
 
             <label class="AXInputLabel">
-                <div>통화(소수점 포함)</div>
-                <input type="text" class="AXInput" id="ax-bind-pattern-money-target" value="wkdl12344.123" />
+                <div>통화(소수점 포함, allow_minus:true, max_round:3, max_length:10)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-money-target" value="-abc123,.45-67891234" />
                 <button class="AXButton"
                         onclick="trace($('#ax-bind-pattern-money-target').bindPatternGetText());"
                         >getText</button>
@@ -83,8 +83,8 @@
             <div class="H20"></div>
 
             <label class="AXInputLabel">
-                <div>통화(소수점 포함 안함)</div>
-                <input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="wkdl12344.123" />
+                <div>통화(소수점 포함 안함, maxLength: 7)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="123.45678908" />
                 <button class="AXButton"
                         onclick="trace($('#ax-bind-pattern-moneyint-target').bindPatternGetText());"
                         >getText</button>
@@ -93,6 +93,40 @@
                         >getDisplayText</button>
                 <button class="AXButton"
                         onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-moneyint-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+
+            <label class="AXInputLabel">
+                <div>숫자(소수점 포함, allow_minus: true,
+                    max_length: 10,
+                    max_round: 5)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-number-target" value="123.123456789" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-number-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-number-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-number-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+
+            <label class="AXInputLabel">
+                <div>숫자(소수점 포함 안함, maxLength: 7)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-numberint-target" value="123.4234234324" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-numberint-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-numberint-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-numberint-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
                         >setText</button>
             </label>
 
@@ -236,13 +270,24 @@
 
             $("#ax-bind-pattern-money-target").bindPattern({
                 pattern: "money",
-                allow_minus: "",
-                max_length: 5,
-                max_round: 2
+                allow_minus: true,
+                max_length: 10,
+                max_round: 3
             });
             $("#ax-bind-pattern-moneyint-target").bindPattern({
                 pattern: "moneyint",
-                maxLength: 7
+                max_length: 7
+            });
+
+            $("#ax-bind-pattern-number-target").bindPattern({
+                pattern: "number",
+                allow_minus: true,
+                max_length: 10,
+                max_round: 5
+            });
+            $("#ax-bind-pattern-numberint-target").bindPattern({
+                pattern: "numberint",
+                max_length: 7
             });
 
             $("#ax-bind-pattern-date-target").bindPattern({pattern: "date"});

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-16 
+AXJ - v1.0.7 - 2014-08-18 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-16 
+AXJ - v1.0.7 - 2014-08-18 
 */
 
 if(!window.AXConfig){
@@ -255,7 +255,11 @@ var axf = AXUtil = {
 		return (document.documentElement && document.documentElement.scrollLeft) ||
 			document.body.scrollLeft;
 	},
-	Event: { KEY_BACKSPACE: 8, KEY_TAB: 9, KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46, KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {} },
+	Event: {
+		KEY_BACKSPACE: 8,
+		KEY_TAB: 9,
+		KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46,
+		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {} },
 	console: function (obj) {
 		var po = "";
 		if (arguments.length > 1) {
@@ -8448,6 +8452,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 
+				if(typeof CG._owidth == "undefined") CG._owidth = CG.width;
 				colWidth += (CG._owidth || 0).number();
 				showColLen += 1;
 			} else {
@@ -9660,7 +9665,6 @@ myGrid.redrawGrid();
 				this.pageBody.data("display", "hide");
 			}
 		}
-
 		this.defineConfig(true);
 		this.setColHead();
 
@@ -11981,11 +11985,12 @@ myGrid.setData(gridData);
 	},
 	restoreList: function (restoreList) {
 		var cfg = this.config;
-		var _list = this.list;
 		var collect = [];
-		axf.each(restoreList, function (ridx, r) {
-			axf.each(_list, function (lidx, l) {
-				var isDel = false;
+
+		for(var lidx = 0;lidx < this.list.length;lidx++){
+			var isDel = false, l = this.list[lidx];
+			for(var ridx = 0; ridx < restoreList.length; ridx++) {
+				var r = restoreList[ridx];
 				axf.each(r, function (k, v) {
 					if (l[k] == v) {
 						isDel = true;
@@ -11994,16 +11999,43 @@ myGrid.setData(gridData);
 						return false;
 					}
 				});
-				if (isDel) {
-					if (l._CUD == "D") {
-						l._CUD = "";
-					}
-					collect.push(l);
-				} else {
-					collect.push(l);
+				if(isDel) break;
+			}
+			if (isDel) {
+				if (l._CUD == "D") {
+					l._CUD = "";
 				}
+				collect.push(l);
+			} else {
+				collect.push(l);
+			}
+		}
+		/*
+		axf.each(_list, function (lidx, l) {
+			var isDel = false;
+
+			axf.each(restoreList, function (ridx, r) {
+				axf.each(r, function (k, v) {
+					if (l[k] == v) {
+						isDel = true;
+					} else {
+						isDel = false;
+						return false;
+					}
+				});
 			});
+
+			if (isDel) {
+				if (l._CUD == "D") {
+					l._CUD = "";
+				}
+				//collect.push(l);
+			} else {
+				collect.push(l);
+			}
 		});
+		*/
+
 		this.list = collect;
 		this.printList();
 		if (!this.pageActive) this.setStatus(this.list.length);
@@ -12505,7 +12537,7 @@ myGrid.setData(gridData);
 					//body Height
 				}
 			}
-		}, 10);
+		}, 100);
 	},
 	contentScrollScrollSync: function (pos) {
 		var cfg = this.config;
@@ -21114,6 +21146,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 	initialize: function(AXJ_super) {
 		AXJ_super();
 		this.config.theme = "AXModelControlGrid";
+		this.removedList = [];
 	},
 	init: function() {
 		var cfg = this.config;
@@ -21315,9 +21348,16 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.colHead.empty();
 		this.colHead.append(po.join(''));
 	},
-	setList: function(list){
+	setList: function(list, setType){
 		var cfg = this.config;
-		this.list = list;
+		if (typeof setType == "undefined") {
+			this.list = list;
+			this.removedList = []; // 그리드가 초기화 되어 삭제된 리스트도 초기화 됩니다.
+		} else {
+			this.list = list;
+			//this.removedList = []; // 그리드가 초기화 되어 삭제된 리스트도 초기화 됩니다.
+		}
+
 		this.printList();
 		//this.scrollBody.css({height:this.scrollBody.outerHeight()+13});
 
@@ -21325,6 +21365,9 @@ var AXModelControlGrid = Class.create(AXJ, {
 	},
 	appendList: function(item){
 		var cfg = this.config;
+
+		item._CUD = "C";
+
 		this.list.push(item);
 
 		var lidx = this.list.length-1;
@@ -21643,6 +21686,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var cfg = this.config;
 		var getItem = this.getItem.bind(this);
 
+		item._CUD = "U";
+
 		this.list[lidx] = AXUtil.overwriteObject(this.list[lidx], item, true);
 		if(!onlyDataChane) this.printItem(lidx, this.list[lidx], "update", event);
 		else{
@@ -21674,22 +21719,36 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.printFootItem();
 	},
 	removeItem: function(collectIdx){
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 
+		this.list = this.getList();
 		var newList = [];
+
 		axf.each(this.list, function(lidx, L){
 			if(Object.isArray(collectIdx)){
 				var isOk = true;
 				axf.each(collectIdx, function(){
 					if(this == lidx) isOk = false;
 				});
-				if(isOk) newList.push(L);
+				if (isOk) {
+					newList.push(L);
+				}
+				else {
+					if (L._CUD != "C" && L._CUD != "D")
+						_this.removedList.push(L);
+				}
 			}else{
-				if(collectIdx != lidx) newList.push(L);
+				if (collectIdx != lidx) {
+					newList.push(L);
+				}
+				else {
+					if (L._CUD != "C" && L._CUD != "D")
+						_this.removedList.push(L);
+				}
 			}
 		});
 
-		this.setList(newList);
+		this.setList(newList, "update");
 	},
 	getValue: function(name){
 		var cfg = this.config;
@@ -21759,6 +21818,9 @@ var AXModelControlGrid = Class.create(AXJ, {
 		 trace(trIndex);
 		 });
 		 */
+	},
+	getRemovedList: function () {
+		return this.removedList;
 	}
 });
 
