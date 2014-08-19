@@ -9668,17 +9668,17 @@ myGrid.redrawGrid();
 		this.defineConfig(true);
 		this.setColHead();
 
+		this.gridTargetSetSize(true);
+		this.contentScrollResize();
+
+		this.setBody(undefined, true);
+
 		if (cfg.viewMode == "grid") {
 			if (this.list.length > 0) {
 				if (cfg.head) this.printHead();
 				if (cfg.foot) this.printFoot();
 			}
 		}
-		this.gridTargetSetSize(true);
-		this.contentScrollResize();
-
-		this.setBody(undefined, true);
-
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
 	},
 	checkedColSeq: function (colSeq, checked, itemIndex) {
@@ -11080,7 +11080,7 @@ myGrid.setData(gridData);
 						var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
 						var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
 						var styles = " style=\"vertical-align:" + CH.valign + ";\"";
-						if(trHeight) styles = " style=\"vertical-align:" + CH.valign + ";height:"+trHeight+"px;\"";
+						if(trHeight && CH.rowspan < 2 && CH.colspan < 2) styles = " style=\"vertical-align:" + CH.valign + ";height:"+trHeight+"px;\"";
 
 						var bodyNodeClass = "";
 						if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
