@@ -60,6 +60,7 @@
                 }
             });
 
+
             jQuery("#AXSelect2").bindSelect({
             	onChange: function(){
             		toast.push(Object.toJSON(this));
@@ -121,16 +122,13 @@
                 }
             });
 
-// AJAX 로딩중에 #AXSelect_m1, m2 가 나중에 보일수 있는데 그 현상을 없애고 싶다면
+            // AJAX 로딩중에 #AXSelect_m1, m2 가 나중에 보일수 있는데 그 현상을 없애고 싶다면
+            //$("#AXSelect_m1").bindSelect();
+            //$("#AXSelect_m2").bindSelect();
 
-/*
-            $("#AXSelect_m1").bindSelect();
-            $("#AXSelect_m2").bindSelect();
-
-            $("#AXSelect_m0").bindSelectSetValue("3");
-            $("#AXSelect_m1").bindSelectSetValue("4");
-            $("#AXSelect_m2").bindSelectSetValue("5");
-*/
+            //$("#AXSelect_m0").bindSelectSetValue("3");
+            //$("#AXSelect_m1").bindSelectSetValue("4");
+            //$("#AXSelect_m2").bindSelectSetValue("5");
 
 		},
         unbindSelect: function () {
