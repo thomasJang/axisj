@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-18 
+AXJ - v1.0.7 - 2014-08-19 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-18 
+AXJ - v1.0.7 - 2014-08-19 
 */
 
 if(!window.AXConfig){
@@ -22714,7 +22714,7 @@ mySearch.getItemId("type");
  * AXSelectConverter
  * @class AXSelectConverter
  * @extends AXJ
- * @version v1.59.2
+ * @version v1.60
  * @author tom@axisj.com
  * @logs
  "2012-12-19 오후 12:00:43",
@@ -22746,6 +22746,7 @@ mySearch.getItemId("type");
  "2014-08-06 tom : active onLoad event when script mode "
  "2014-08-08 tom : select option value 최적화, option change 하면 원본 onchange 이벤트 trigger"
  "2014-08-08 tom : bindSelectSetValue bug fix"
+ "2014-08-19 tom : mobile에서 onnchange 버그 픽스"
  *
  */
 
@@ -22970,6 +22971,14 @@ var AXSelectConverter = Class.create(AXJ, {
 			var bindSelectChange = this.bindSelectChange.bind(this);
 			obj.objOnChange = function () {
 				bindSelectChange(objID, objSeq);
+
+				if (obj.config.onChange) {
+					obj.selectedIndex = AXgetId(objID).options.selectedIndex;
+					AXgetId(objID).options[obj.selectedIndex].selected = true;
+					obj.config.selectedObject = obj.options[obj.selectedIndex];
+					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+				}
+
 			};
 
 			objDom_selectTextBox.bind("click.AXSelect", function (event) {
@@ -23112,6 +23121,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			this.bindSelectChange(objID, objSeq);
 
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
+				alert(1);
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				if (selectedOption) {
 					var sendObj = {optionValue:selectedOption.value, optionText:selectedOption.text};
@@ -23150,7 +23160,8 @@ var AXSelectConverter = Class.create(AXJ, {
 	getSelectedOption: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		if(AXgetId(objID).options.selectedIndex > -1){
+
+		if(AXgetId(objID) && AXgetId(objID).options.selectedIndex > -1){
 			try{
 				if(obj.selectedIndex != AXgetId(objID).options.selectedIndex) obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 			}catch(e){
@@ -23160,6 +23171,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			obj.selectedIndex = 0;
 			return AXgetId(objID).options[0];
 		}
+
 	},
 	bindSelectChange: function (objID, objSeq) {
 		var cfg = this.config;
@@ -23168,7 +23180,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		if (selectedOption) {
 			jQuery("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectText").html(selectedOption.text);
 		}
-		if(obj){
+		if(obj && !this.isMobile){
 			if(!obj.iobj) obj.iobj = jQuery("#" + objID);
 			obj.iobj.trigger( "change" ); // change 이벤트 발생
 		}
@@ -23780,6 +23792,7 @@ jQuery.fn.bindSelect = function (config) {
 	jQuery.each(this, function () {
 		if (config == undefined) config = {};
 		config.id = this.id;
+		trace(config.id);
 		AXSelect.bind(config);
 	});
 	return this;
