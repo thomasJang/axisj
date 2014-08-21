@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-19 
+AXJ - v1.0.7 - 2014-08-21 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-19 
+AXJ - v1.0.7 - 2014-08-21 
 */
 
 if(!window.AXConfig){
@@ -1304,6 +1304,7 @@ var AXJ = Class.create({
         if (configs) AXUtil.each(configs, function (k, v) { _self.config[k] = v; });
         if(_self.config.target) if(_self.config.target.id === undefined || _self.config.target.id == "") axdom(_self.config.target).attr("id", _self.config.target.id = _self.config.targetID = "AXJUnique_"+axf.getUniqueId());
         this.init();
+	    return this;
     },
     changeConfig: function (configs) {
         var _self = this;
@@ -1577,6 +1578,20 @@ var AXReq = Class.create({
 /* ---------------------------------------------- AXReq -- */
 
 /* -- AXMask ---------------------------------------------- */
+/**
+ * AXMask
+ * @class AXMask
+ * @version v1.1
+ * @author tom@axisj.com
+ * @logs
+ * 2012-09-28 오후 2:58:32 - 시작
+ * append 메소드 추가
+ * @description
+ * ```js
+ mask.open();
+ ```
+ *
+ */
 var AXMask = Class.create(AXJ, {
     version: "AXMask v1.0",
     author: "tom@axisj.com",
@@ -1608,6 +1623,18 @@ var AXMask = Class.create(AXJ, {
             }
         }
     },
+	append: function (targetID, configs) {
+		var target = axdom("#"+targetID);
+		target.append(this.mask);
+		var bodyHeight = target.outerHeight();
+
+		if(configs){
+			if(!configs.onclick) configs.onclick = configs.onClick;
+			if(configs.onclick){
+				this.mask.bind("click.AXMask", configs.onclick);
+			}
+		}
+	},
     close: function (delay) {
         if (!delay) {
             this.mask.unbind("click.AXMask");
@@ -1664,6 +1691,14 @@ var AXMask = Class.create(AXJ, {
 });
 var mask = new AXMask();
 mask.setConfig();
+
+axdom.fn.mask = function (configs) {
+	axf.each(this, function () {
+		mask.append(this.id, configs);
+	});
+	return this;
+};
+
 /* ---------------------------------------------- AXMask -- */
 
 /* -- AXNotification ---------------------------------------------- */
@@ -1903,7 +1938,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  * AXScroll
  * @class AXScroll
  * @extends AXJ
- * @version v1.52
+ * @version v1.53
  * @author tom@axisj.com
  * @logs
  "2012-10-10 오전 11:17:34",
@@ -1922,6 +1957,7 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  "2014-03-31 오후 6:26:34 root - yscroll 이 없어지면 scroll top 을 0으로"
  "2014-06-13 tom scrollBar 와 content 싱크방식 변경 / 버그픽스"
  "2014-07-14 tom issue#221, issue#222 fix"
+ "2014-08-20 tom focusElement 버그픽스"
  * @description
  *
  ```js
@@ -2743,9 +2779,10 @@ var AXScroll = Class.create(AXJ, {
         var config = this.config;
         if (AXgetId(id)) {
             //trace(axdom("#"+id).position());
-            var pos = axdom("#" + id).position();
+	        var ppos = this.scrollScrollID.offset();
+            var pos = axdom("#" + id).offset();
 
-            var myNewTop = pos.top;
+            var myNewTop = pos.top - ppos.top;
             var CTheight = this.scrollTargetID.innerHeight();
             var Cheight = this.scrollScrollID.outerHeight();
             if ((Cheight - myNewTop) < CTheight) {
@@ -10501,6 +10538,7 @@ myGrid.redrawGrid();
 						list: list,
 						item: item,
 						page: _this.page,
+						key: myColHead.key,
 						value: item[myColHead.key]
 					};
 					result = myColHead.formatter.call(sendObj, itemIndex, item);
@@ -14295,41 +14333,40 @@ myGrid.setData(gridData);
 		this.unbindAXbind();
 	},
 	unbindAXbind: function () {
-		var cfg = this.config;
-		/* form item bind AX */
-
 		try {
-			for (var r = 0; r < cfg.editor.rows.length; r++) {
-				axf.each(cfg.editor.rows[r], function (CHidx, CH) {
-					if (CH.display && CH.colspan > 0) {
+			if (cfg.editor && cfg.editor.rows) {
+				for (var r = 0; r < cfg.editor.rows.length; r++) {
+					axf.each(cfg.editor.rows[r], function (CHidx, CH) {
+						if (CH.display && CH.colspan > 0) {
 
-						if (CH.AXBind) {
-							var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
-							/*trace(formID); */
-							if (CH.AXBind.type == "number" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "money" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "twinSlider" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "date" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "twinDate" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "dateTime" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "switch" && CH.form.type == "text") {
-								axdom("#" + formID).unbindInput();
-							} else if (CH.AXBind.type == "select" && CH.form.type == "select") {
-								axdom("#" + formID).unbindSelect();
+							if (CH.AXBind) {
+								var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
+								/*trace(formID); */
+								if (CH.AXBind.type == "number" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "money" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "twinSlider" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "date" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "twinDate" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "dateTime" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "switch" && CH.form.type == "text") {
+									axdom("#" + formID).unbindInput();
+								} else if (CH.AXBind.type == "select" && CH.form.type == "select") {
+									axdom("#" + formID).unbindSelect();
+								}
 							}
 						}
-					}
-				});
+					});
+				}
 			}
 		} catch (e) {
 			trace(e);
@@ -15957,6 +15994,10 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 		var css = {};
 		css.top = offset.top + anchorHeight;
+		if (obj.config.direction == "bottom") {
+			css.top -= expandBox.outerHeight();
+		}
+
 		css.left = offset.left;
 		expandBox.css(css);
 
@@ -15976,6 +16017,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			this.bindSelectorSetOptions(objID, objSeq);
 			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
+
 		}
 
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
@@ -16058,6 +16100,8 @@ var AXInputConverter = Class.create(AXJ, {
 		var optionPrintLength = obj.config.optionPrintLength || 100;
 		if (!obj.config.options) return;
 
+		var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+		var jqueryTargetObjID = axdom("#" + cfg.targetID + "_AX_" + objID);
 		var po = [];
 		axf.each(obj.config.options, function (index, O) {
 			if (!isNaN(optionPrintLength)) {
@@ -16077,7 +16121,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var expandScrollHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").outerHeight();
 		if (expandScrollHeight > maxHeight) expandScrollHeight = maxHeight;
-		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").css({ height: expandScrollHeight + "px" });
+		expandBox.css({ height: expandScrollHeight + "px" });
 
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
@@ -16105,6 +16149,17 @@ var AXInputConverter = Class.create(AXJ, {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
 			obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option"); //focus
 			obj.config.focusedIndex = obj.config.selectedIndex;
+		}
+
+		if (obj.config.direction == "bottom") {
+			var offset = (obj.config.positionFixed) ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
+			if (obj.config.position) {
+				offset = jqueryTargetObjID.offset();
+				if (obj.config.position.top != undefined) {
+					offset.top = obj.config.position.top;
+				}
+			}
+			expandBox.css({top:offset.top - expandBox.outerHeight() });
 		}
 
 	},
