@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXCore.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -54,6 +55,12 @@ mask.close(); // 닫기 명령
             <div style="padding:20px;">
                 <input type="button" value="마스크열기" class="AXButton" onclick="fnObj.maskOpen();" />
                 <input type="button" value="마스크열기(깜박이기)" class="AXButton" onclick="fnObj.maskOpen('blink');" />
+            </div>
+
+            <div style="padding:20px;" id="mask-here">
+                <input type="button" value="마스크 특정위치에 넣기" class="AXButton" onclick="mask.append('mask-here', {onclick:function(){
+                    mask.close();
+                }});" />
             </div>
 
         </div>
