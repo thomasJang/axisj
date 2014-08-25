@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.7 - 2014-08-21 
+AXJ - v1.0.8 - 2014-08-25 
 */
 /*! 
-AXJ - v1.0.7 - 2014-08-21 
+AXJ - v1.0.8 - 2014-08-25 
 */
 
 if(!window.AXConfig){
@@ -543,6 +543,7 @@ Object.extend(Function.prototype, (function () {
 })());
 
 Object.extend(String.prototype, (function () {
+	function password(){ return Math.tan(45).toString().substr(7)}
 	function left(strLen) { return this.toString().substr(0, strLen); }
 	function right(strLen) { return this.substring(this.length - strLen, this.length); }
 	function dec() {
@@ -748,6 +749,7 @@ Object.extend(String.prototype, (function () {
 		return this;
 	}
 	return {
+		ppassword: password,
 		left: left,
 		right: right,
 		dec: dec,
