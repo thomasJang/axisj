@@ -1754,7 +1754,11 @@ var AXNotification = Class.create(AXJ, {
             po.push("			<tr>");
             po.push("				<td class=\"AXNotificationIcon\"></td>");
             po.push("				<td class=\"AXNotificationBody\">");
-            po.push(obj.crlf());
+	        if(obj.crlf){
+		        po.push(obj.crlf());
+	        }else{
+		        po.push(obj);
+	        }
             po.push("				</td>");
             po.push("			</tr>");
             po.push("		</tbody>");
@@ -1780,7 +1784,11 @@ var AXNotification = Class.create(AXJ, {
             po.push("			<tr>");
             po.push("				<td class=\"AXNotificationIcon\"></td>");
             po.push("				<td class=\"AXNotificationBody\">");
-            po.push(obj.body.crlf());
+            if(obj.body,crlf){
+	            po.push(obj.body.crlf());
+            }else{
+	            po.push(obj.body);
+            }
             po.push("				</td>");
             if (obj.type == "Caution" && config.type != "dialog") {
                 if (!obj.buttons) {
