@@ -1708,7 +1708,7 @@ axdom.fn.mask = function (configs) {
  * AXNotification
  * @class AXNotification
  * @extends AXJ
- * @version v1.3
+ * @version v1.4
  * @author tom@axisj.com
  * @logs
  "2012-10-30 오후 12:01:10",
@@ -1716,6 +1716,7 @@ axdom.fn.mask = function (configs) {
  "2014-05-23 tom : dialog 에서 mask 제어 안하도록 변경"
  "2014-05-26 tom : dialog 에서 top 속성 설정 추가"
  "2014-08-16 tom : dialog body에서 \n -> <br/> auto replace "
+ "2014-08-25 tom : dialog body에서 \n -> <br/> auto replace 예외처리 "
  */
 var AXNotification = Class.create(AXJ, {
     initialize: function (AXJ_super) {
@@ -1754,7 +1755,11 @@ var AXNotification = Class.create(AXJ, {
             po.push("			<tr>");
             po.push("				<td class=\"AXNotificationIcon\"></td>");
             po.push("				<td class=\"AXNotificationBody\">");
-            po.push(obj.crlf());
+	        if(Object.isString(obj)){
+		        po.push(obj.crlf());
+	        }else{
+		        po.push(obj);
+	        }
             po.push("				</td>");
             po.push("			</tr>");
             po.push("		</tbody>");
@@ -1780,7 +1785,11 @@ var AXNotification = Class.create(AXJ, {
             po.push("			<tr>");
             po.push("				<td class=\"AXNotificationIcon\"></td>");
             po.push("				<td class=\"AXNotificationBody\">");
-            po.push(obj.body.crlf());
+            if(Object.isString(obj.body)){
+	            po.push(obj.body.crlf());
+            }else{
+	            po.push(obj.body);
+            }
             po.push("				</td>");
             if (obj.type == "Caution" && config.type != "dialog") {
                 if (!obj.buttons) {
