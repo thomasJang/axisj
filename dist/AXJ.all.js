@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-08-26 
+AXJ - v1.0.8 - 2014-08-27 
 */
 /*! 
-AXJ - v1.0.8 - 2014-08-26 
+AXJ - v1.0.8 - 2014-08-27 
 */
 
 if(!window.AXConfig){
@@ -14543,19 +14543,22 @@ myGrid.setData(gridData);
 	},
 	goPageMove: function (pageAdd) {
 		var cfg = this.config;
-		var pgCount = this.page.pageCount.number();
-		var pageNo = this.page.pageNo.number();
 
-		if (pageNo + pageAdd < 1) pageNo = 1;
-		else if (pageNo + pageAdd > pgCount) pageNo = pgCount;
-		else pageNo += pageAdd;
+		if(Object.isNumber(this.page.pageCount)) {
+			var pgCount = this.page.pageCount.number();
+			var pageNo = this.page.pageNo.number();
 
-		if (cfg.viewMode == "mobile") {
-			axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").val(pageNo);
-			axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").val(pageNo);
-			this.onPageChange();
-		} else {
-			axdom("#" + cfg.targetID + "_AX_gridPageNo").setValueSelect(pageNo);
+			if (pageNo + pageAdd < 1) pageNo = 1;
+			else if (pageNo + pageAdd > pgCount) pageNo = pgCount;
+			else pageNo += pageAdd;
+
+			if (cfg.viewMode == "mobile") {
+				axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").val(pageNo);
+				axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").val(pageNo);
+				this.onPageChange();
+			} else {
+				axdom("#" + cfg.targetID + "_AX_gridPageNo").setValueSelect(pageNo);
+			}
 		}
 		/*this.page.pageNo = pageNo; */
 		/*this.onPageChange(); bindSelectSetValue 시 자동 호출되는 구조 */
@@ -23858,7 +23861,6 @@ jQuery.fn.bindSelect = function (config) {
 	jQuery.each(this, function () {
 		if (config == undefined) config = {};
 		config.id = this.id;
-		trace(config.id);
 		AXSelect.bind(config);
 	});
 	return this;
