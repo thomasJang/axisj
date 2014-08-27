@@ -40597,6 +40597,7 @@ var AXValidator = Class.create(AXJ, {
 
                 var _end = false;
                 jQuery.each(Elem.config, function (k, v) {
+	                //trace(val, k,  v);
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
                         returnObject = raiseError(Elem, val, k, v);
                         _end = true;
@@ -40717,6 +40718,11 @@ var AXValidator = Class.create(AXJ, {
         var lenMargin = 1; // 최소 최대 비교시 하나 커야 함.
         if (realtime == "realtime") lenMargin = 0; // realtime 실행 시는 마진 없음.
         try {
+
+	        if (ElemValue != "" && validateKey == "residentno") {
+
+	        }
+
             /* for element */
             if (validateKey == "required") {
                 result = (ElemValue.trim() != "");
@@ -40746,32 +40752,75 @@ var AXValidator = Class.create(AXJ, {
                 var pattern = /^[a-zA-Z0-9_]+$/;
                 result = pattern.test(ElemValue);
             } else if (ElemValue != "" && validateKey == "residentno") {
-                var pattern = /^(\d{6})-?(\d{5}(\d{1})\d{1})$/;
-                var num = ElemValue;
-                if (!pattern.test(num)) return "invalid";
-                num = RegExp.$1 + RegExp.$2;
-                if (RegExp.$3 == 7 || RegExp.$3 == 8 || RegExp.$4 == 9)
-                    if ((num[7] * 10 + num[8]) % 2) return "residentno";
 
-                var sum = 0;
-                var last = num.charCodeAt(12) - 0x30;
-                var bases = "234567892345";
-                for (var i = 0; i < 12; i++) {
-                    if (isNaN(num.substring(i, i + 1))) return "residentno";
-                    sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
-                };
-                var mod = sum % 11;
-                if (RegExp.$3 == 7 || RegExp.$3 == 8 || RegExp.$4 == 9)
-                    result = (11 - mod + 2) % 10 == last ? true : false;
-                else
-                    result = (11 - mod) % 10 == last ? true : false;
 
+	            var pattern = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-?[1-4][0-9]{6}$/;
+	            var num = ElemValue;
+
+	            trace(pattern.test(num), "test");
+
+	            if (!pattern.test(num)){
+		            result = false;
+	            }
+
+	            function checkJumin(p_juminno) {
+		            try {
+			            // 파라미터로 전달받은 p_juminno가 공백이거나, 13자리를 넘어가거나, 숫자가 아닐경우 false 리턴
+			            if(p_juminno == '' || p_juminno.length != 13 || typeof(Number(p_juminno)) != 'number') {
+				            return false;
+			            }
+
+			            isKorean = true;
+			            // 주민번호 뒷자리 첫번째 수가 4보다 크거나, 9보다 작으면 외국인
+			            if(Number(p_juminno.charAt(6)) > 4 && Number(p_juminno.charAt(6)) < 9) {
+				            isKorean = false;
+			            }
+
+			            // 아래부터는 검증 로직임.
+			            var check = 0;
+			            for(var i=0; i<12; i++) {
+				            if(isKorean) {
+					            check = check + ((i % 8 + 2) * Number(p_juminno.charAt(i)));
+				            } else {
+					            check = check + ((9 - i % 8) * Number(p_juminno.charAt(i)));
+				            }
+			            }
+			            if(isKorean) {
+				            check = 11 - (check % 11);
+				            check = check % 10;
+			            } else {
+				            var remainder = check % 11;
+				            if(remainder == 0) {
+					            check = 1;
+				            } else if(remainder==10) {
+					            check = 0;
+				            } else {
+					            check = remainder;
+				            }
+				            var check2 = check + 2;
+				            if(check2 > 9) {
+					            check = check2 - 10;
+				            } else {
+					            check = check2;
+				            }
+			            }
+			            if(check == Number(p_juminno.charAt(12))) {
+				            return true;
+			            } else {
+				            return false;
+			            }
+		            } catch(e) {
+			            alert(e.description);
+		            }
+	            }
+
+	            result = checkJumin(num.replace(/\D/g, ""));
             } else if (ElemValue != "" && validateKey == "foreignerno") {
                 var pattern = /^(\d{6})-?(\d{5}[7-9]\d{1})$/;
                 var num = ElemValue;
-                if (!pattern.test(num)) return "foreignerno";
+                if (!pattern.test(num)) result = false;
                 num = RegExp.$1 + RegExp.$2;
-                if ((num[7] * 10 + num[8]) % 2) return "foreignerno";
+                //if ((num[7] * 10 + num[8]) % 2) return "foreignerno";
 
                 var sum = 0;
                 var last = num.charCodeAt(12) - 0x30;
