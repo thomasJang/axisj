@@ -38,7 +38,8 @@ var sampleTree = [
         //{menuID:"406", url:"javascript:pageObj.goLink('samples/AXFrameSet/index.html');", label:"AXFrameSet(alpha)"},
         {menuID:"407", url:"javascript:pageObj.goLink('samples/mobile/index.html');", label:"for Mobile"},
         {menuID:"404", url:"javascript:pageObj.goLink('samples/AXWaterfall/index.html');", label:"AXWaterfall"},
-	    {menuID:"409", url:"javascript:pageObj.goLink('samples/AXSplit/index.html');", label:"AXSplit"}
+	    {menuID:"409", url:"javascript:pageObj.goLink('samples/AXSplit/index.html');", label:"AXSplit"},
+	    {menuID:"410", url:"javascript:pageObj.goLink('samples/AXDivSlider/index.html');", label:"AXDivSlider"}
         //{menuID:"408", url:"javascript:pageObj.goLink('samples/Angularjs/index.html');", label:"for AngularJS"}
     ]}
 ];
