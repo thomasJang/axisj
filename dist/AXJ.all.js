@@ -8449,6 +8449,7 @@ var AXGrid = Class.create(AXJ, {
 		this.config.passiveMode = AXConfig.AXGrid.passiveMode;
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
 		this.config.scrollContentBottomMargin = "10";
+
 		//TODO mergeCells 기능구현
 		this.config.mergeCells = false; // cells merge option
 		this.selectedCells = [];
@@ -8505,6 +8506,10 @@ var AXGrid = Class.create(AXJ, {
 				showColLen += 1;
 			} else {
 				hasHiddenCell = true;
+				if (!rewrite) {
+					CG._owidth = CG.width;
+					/* 최초의 너비값 기억 하기 */
+				}
 			}
 		}
 
@@ -8542,22 +8547,28 @@ var AXGrid = Class.create(AXJ, {
 
 		if (cfg.fitToWidth) { /*너비 자동 맞춤버전의 경우 */
 			if (bodyWidth > this.colWidth) {
+
 				var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
 				var zoomRatio = bodyWidth / this.colWidth;
 				colWidth = 0;
 				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-					CG.width = (CG._owidth * zoomRatio).ceil();
-					if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
-					else CG.width = _bodyWidth;
-					if (CG.display) colWidth += CG.width.number();
+					if (CG.display) {
+						CG.width = (CG._owidth * zoomRatio).ceil();
+						if (_bodyWidth > CG.width) _bodyWidth -= CG.width;
+						else CG.width = _bodyWidth;
+						colWidth += CG.width.number();
+					}
 				}
 				this.colWidth = colWidth;
 			} else {
+
 				colWidth = 0;
 				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-					if (CG._owidth == undefined) CG._owidth = (CG.width || 0).number();
-					CG.width = CG._owidth.number();
-					if (CG.display) colWidth += CG.width.number();
+					if (CG.display) {
+						if (CG._owidth == undefined) CG._owidth = (CG.width || 0).number();
+						CG.width = CG._owidth.number();
+						colWidth += CG.width.number();
+					}
 				}
 				this.colWidth = colWidth;
 			}

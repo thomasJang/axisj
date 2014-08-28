@@ -48,6 +48,7 @@
 			myGrid.setConfig({
 				targetID : "AXGridTarget",
                 //fixedColSeq:2,
+                fitToWidth: true,
 				colHeadAlign: "center", // 헤드의 기본 정렬 값
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right", sort:"asc"},
@@ -57,10 +58,10 @@
                     {key:"no2", label:"no2", width:"40", align:"center", formatter:"checkbox", sort:false, checked:function(){
                         return this.item.no2 % 2 == 0;
                     }},
-					{key:"title", label:"제목", width:"*", formatter: function(){
+					{key:"title", label:"제목", width:"200", formatter: function(){
 						return this.item.no + "." + this.item.title + "/" + this.key;
 					}},
-					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"writer", label:"작성자", width:"100", align:"center", display:false},
 					{key:"regDate", label:"작성일", width:"130", align:"center", formatter:function(){
                         return '<input type="text" name="" id="AXdate_'+this.index+'" class="AXInput W100 AXdate" value="'+ this.value +'" />';
                     }},
@@ -69,7 +70,7 @@
 					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
 						return (this.item.price.number() * this.item.amount.number()).money();
 					}},
-					{key:"desc", label:"비고", width:"*"}
+					{key:"desc", label:"비고", width:"200"}
 				],
 				body : {
 					onclick: function(){
