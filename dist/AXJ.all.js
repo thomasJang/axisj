@@ -14377,6 +14377,7 @@ myGrid.setData(gridData);
 		this.unbindAXbind();
 	},
 	unbindAXbind: function () {
+		var cfg = this.config;
 		try {
 			if (cfg.editor && cfg.editor.rows) {
 				for (var r = 0; r < cfg.editor.rows.length; r++) {
