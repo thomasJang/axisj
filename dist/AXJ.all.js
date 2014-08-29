@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-08-28 
+AXJ - v1.0.8 - 2014-08-29 
 */
 /*! 
-AXJ - v1.0.8 - 2014-08-28 
+AXJ - v1.0.8 - 2014-08-29 
 */
 
 if(!window.AXConfig){
@@ -10879,6 +10879,16 @@ myGrid.redrawGrid();
 					"pageSize=" + this.page.pageSize
 			];
 			var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
+			var _method = "post";
+			var _contentType = AXConfig.AXReq.contentType;
+			var _headers = {};
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+
+			if (obj.method) _method = obj.method;
+			if (obj.contentType) _contentType = obj.contentType;
+			if (obj.headers) _headers = obj.headers;
+
 
 			var scrollTop = function () {
 				this.scrollTop(0);
@@ -10893,7 +10903,14 @@ myGrid.redrawGrid();
 			var userResponse = userResponseSetPaging.bind(this);
 
 			new AXReq(url, {
-				debug: false, pars: pars, onsucc: function (res) {
+				type: _method,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				headers: _headers,
+				debug: obj.debug,
+				pars: pars,
+				onsucc: function (res) {
 					//if (res.result == AXConfig.AXReq.okCode) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 						res._sortDisable = sortDisable;
