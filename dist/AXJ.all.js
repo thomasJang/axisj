@@ -26078,7 +26078,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.55
+ * @version v1.56
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -26112,6 +26112,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2010-07-14 tom : bugfix, reserveKeys.subTree not match code"
  "2014-08-04 tom : 'modify add' relationFixedSync arguments define"
  "2014-08-13 tom : window.resize 이벤트시 selectedRow 유지, expandAll 메소드 뎁스 아규먼트 추가"
+ "2014-09-01 tom : tree key event로 커서 이동 밑 트리 열기 닫기 지원"
  *
  * @description
  *
@@ -26926,6 +26927,7 @@ var AXTree = Class.create(AXJ, {
 
 		// tree 뼈대 그리기 -----------------------------------------------------------------------------------------------------
 		var ol = [];
+		ol.push("<a id=\"" + cfg.targetID + "_AX_tree_focus\" href=\"#axtree\" ></a>")
 		ol.push("<div class=\"" + theme + "\" id=\"" + cfg.targetID + "_AX_tree\" style=\"" + treeCss.join('') + "\">");
 		ol.push("	<div class=\"AXTreeScrollBody\" id=\"" + cfg.targetID + "_AX_treeScrollBody\" style=\"z-index:2;\">");
 		ol.push("		<div class=\"AXTreeColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_treeColHead\" onselectstart=\"return false;\"></div>");
@@ -26991,24 +26993,24 @@ var AXTree = Class.create(AXJ, {
 			}
 		}
 
-		axdom("#" + cfg.targetID).bind("keydown", this.onKeydown.bind(this));
+		axdom("#" + cfg.targetID).bind("click", function(event){
+			axdom("#" + cfg.targetID + "_AX_tree_focus").focus();
+		});
+		axdom("#" + cfg.targetID + "_AX_tree_focus").bind("keyup.axtree", this.onKeydown.bind(this));
+
+		//TODO : 포커스인 상태인지 파악이 필요..
 
 		if (cfg.contextMenu) {
-
 			AXContextMenu.bind({
 				id: cfg.targetID + "ContextMenu",
 				theme: cfg.contextMenu.theme, // 선택항목
 				width: cfg.contextMenu.width, // 선택항목
 				menu: cfg.contextMenu.menu
 			});
-
 			axdom("#" + cfg.targetID).bind("contextmenu", this.onContextmenu.bind(this));
-
 		}
 		/* body event bind */
-
 		axdom(window).bind("resize", this.windowResize.bind(this));
-
 	},
 	windowResize: function () {
 		var windowResizeApply = this.windowResizeApply.bind(this);
@@ -27136,11 +27138,9 @@ var AXTree = Class.create(AXJ, {
 		this.colHead.find(".treeCheckBox_colHead_colSeq" + colSeq).each(function () {
 			this.checked = checked;
 		});
-
 		axdom("#" + cfg.targetID + "_AX_fixedColHead").find(".treeCheckBox_colHead_colSeq" + colSeq).each(function () {
 			this.checked = checked;
 		});
-
 		this.body.find(".treeCheckBox_body_colSeq" + colSeq).each(function () {
 			this.checked = checked;
 		});
@@ -27160,6 +27160,33 @@ var AXTree = Class.create(AXJ, {
 	onKeydown: function (event) {
 		if (event.keyCode == 67 && event.ctrlKey) {
 			//this.copyData();
+		}
+		//TODO 키보드 컨트롤 시작
+
+		if(this.selectedRow.length > 0) {
+			var rIndex = this.selectedRow.first().number();
+			if (event.keyCode == axf.Event.KEY_UP) {
+				rIndex -= 1;
+				while ( this.list[rIndex] && this.list[rIndex].AXTreeSplit ) {
+					rIndex -= 1;
+				}
+				this.setFocus( rIndex );
+			}
+			else if (event.keyCode == axf.Event.KEY_DOWN) {
+				rIndex += 1;
+				while ( this.list[rIndex] && this.list[rIndex].AXTreeSplit ) {
+					rIndex += 1;
+				}
+				this.setFocus( rIndex );
+			}
+			else if (event.keyCode == axf.Event.KEY_LEFT) {
+				this.expandToggleList(rIndex, this.list[rIndex]);
+				this.setFocus( rIndex );
+			}
+			else if (event.keyCode == axf.Event.KEY_RIGHT) {
+				this.expandToggleList(rIndex, this.list[rIndex]);
+				this.setFocus( rIndex );
+			}
 		}
 	},
 	onBodyKeydown: function (event) {
@@ -36269,6 +36296,11 @@ var AXTree = Class.create(AXJ, {
 	setFocus: function (itemIndex) {
 		var cfg = this.config;
 
+		if(itemIndex < 0 || itemIndex > this.list.length-1){
+			return false;
+		}
+		if(!this.body.find(".gridBodyTr_" + itemIndex).get(0)) return;
+
 		if (this.selectedCells.length > 0) {
 			axf.each(this.selectedCells, function () {
 				axdom("#" + this).removeClass("selected");
@@ -36283,10 +36315,14 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		this.selectedRow.clear();
+
+
+
 		this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 		this.selectedRow.push(itemIndex);
 
 		if(cfg.height != "auto"){
+
 			var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
 			var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
 
