@@ -27165,7 +27165,10 @@ var AXTree = Class.create(AXJ, {
 
 		if(this.selectedRow.length > 0) {
 			var rIndex = this.selectedRow.first().number();
-			if (event.keyCode == axf.Event.KEY_UP) {
+			if (event.keyCode == axf.Event.KEY_RETURN) {
+				this.click( rIndex );
+			}
+			else if (event.keyCode == axf.Event.KEY_UP) {
 				rIndex -= 1;
 				while ( this.list[rIndex] && this.list[rIndex].AXTreeSplit ) {
 					rIndex -= 1;
