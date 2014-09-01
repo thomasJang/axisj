@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-08-29 
+AXJ - v1.0.8 - 2014-09-01 
 */
 /*! 
-AXJ - v1.0.8 - 2014-08-29 
+AXJ - v1.0.8 - 2014-09-01 
 */
 
 if(!window.AXConfig){
@@ -8484,6 +8484,7 @@ var AXGrid = Class.create(AXJ, {
 		var showColLen = 0;
 		if (!rewrite) this.fixedColSeq = cfg.fixedColSeq;
 		var bodyWidth = this.body.width();
+		if(bodyWidth == 0) bodyWidth = this.target.innerWidth();
 		var astricCount = 0;
 
 		for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
@@ -8520,6 +8521,11 @@ var AXGrid = Class.create(AXJ, {
 
 		if (!cfg.fitToWidth) {
 			/* width * 예외처리 구문 ------------ s */
+
+			trace(
+				bodyWidth, cfg.fitToWidthRightMargin, (colWidth + 100 * astricCount)
+			);
+
 			if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
 				var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
 				for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
@@ -9355,7 +9361,7 @@ var AXGrid = Class.create(AXJ, {
 ```
  */
 	init: function () {
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 
 		if (Object.isUndefined(cfg.targetID)) {
 			trace("need targetID - setConfig({targetID:''})");
@@ -9454,6 +9460,7 @@ var AXGrid = Class.create(AXJ, {
 		this.pagingUnit = axdom("#" + cfg.targetID + "_AX_gridPagingUnit");
 		this.status = axdom("#" + cfg.targetID + "_AX_gridStatus");
 		//this.scroller = axdom("#" + cfg.targetID + "_AX_gridScroller");
+
 
 		/* define part --------------------------------- */
 		this.defineConfig();
@@ -10628,8 +10635,9 @@ myGrid.redrawGrid();
 			po.push("<td class=\"bodyNullTd\"><div class=\"tdRelBlock\">&nbsp;</div></td>");
 			po.push("</tr>");
 			po.push("</tbody>");
+			po.push("<tbody id=\"" + cfg.targetID + "_AX_tfoot\"></tbody>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_fpadding\"><tr class='tfpadding'><td colspan=\"" + (this.showColLen.number()+1) + "\"></td></tr></tbody>");
-			po.push("<tfoot id=\"" + cfg.targetID + "_AX_tfoot\"></tfoot>");
+
 			po.push("</table>");
 		} else if (cfg.viewMode == "icon") {
 			po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
@@ -10650,8 +10658,9 @@ myGrid.redrawGrid();
 			po.push("<td colspan=\"" + (this.showFixedColLen) + "\"></td>");
 			po.push("</tr>");
 			po.push("</tbody>");
+
+			po.push("<tbody id=\"" + cfg.targetID + "_AX_fixedTfoot\"></tbody>");
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_ffpadding\"><tr class='tfpadding'><td colspan=\"" + (this.showFixedColLen) + "\"></td></tr></tbody>");
-			po.push("<tfoot id=\"" + cfg.targetID + "_AX_fixedTfoot\"></tfoot>");
 			po.push("</table>");
 			po.push("</div>");
 		}
@@ -11563,12 +11572,23 @@ myGrid.setData(gridData);
 					printListCount: 0,
 					scrollTop: 0
 				};
-				this.cachedDom.thpadding.css({ height: 0 });
-				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
-				if(this.hasFixed) {
-					this.cachedDom.fthpadding.css({ height: 0 });
-					this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+
+				if(!cfg.foot){
+					this.cachedDom.thpadding.css({ height: 0 });
+					this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+					if(this.hasFixed) {
+						this.cachedDom.fthpadding.css({ height: 0 });
+						this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+					}
+				}else{
+					this.cachedDom.thpadding.css({ height: 0 });
+					this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+					if(this.hasFixed) {
+						this.cachedDom.fthpadding.css({ height: 0 });
+						this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() });
+					}
 				}
+
 
 				if (cfg.mergeCells) {
 					this.mergeCells(this.cachedDom.tbody, "n");

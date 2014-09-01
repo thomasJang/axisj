@@ -166,7 +166,6 @@
   -webkit-border-radius: 2px 5px 5px 5px;
   -moz-border-radius: 2px 5px 5px 5px;
   border-radius: 2px 5px 5px 5px;
-  background: url('images/dx-editor-btn-bg.gif') repeat-x;
   margin: 0px 0px 0px 5px;
   font-size: 11px;
 }
@@ -422,7 +421,6 @@
   -webkit-border-radius: 3px 3px 0px 0px;
   -moz-border-radius: 3px 3px 0px 0px;
   border-radius: 3px 3px 0px 0px;
-  background: url('images/dx-editor-btn-bg.gif') repeat-x;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
