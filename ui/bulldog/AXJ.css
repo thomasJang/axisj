@@ -620,6 +620,7 @@
   width: 100%;
   border: 0px none !important;
   background: #ebebeb;
+  table-layout: fixed;
 }
 .AXNotification .AXNotificationTable td,
 .AXNotification .AXNotificationTable th {

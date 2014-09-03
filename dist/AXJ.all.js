@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-01 
+AXJ - v1.0.8 - 2014-09-02 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-01 
+AXJ - v1.0.8 - 2014-09-02 
 */
 
 if(!window.AXConfig){
@@ -15435,17 +15435,24 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 
+		var objID = obj.id;
+		var obj = this.objects[removeIdx];
+		if(obj) {
+			if (obj.documentclickEvent) axdom(document).unbind("click.AXInput", obj.documentclickEvent);
+			var objDom = axdom("#" + objID);
+			objDom.unbind("keydown.AXInput");
+			objDom.unbind("keydown.AXInputCheck");
+			objDom.unbind("change.AXInput");
+			objDom.unbind("focus.AXInput");
+			objDom.unbind("blur.AXInput");
+		}
+
+
 		if (removeAnchorId) {
 			this.objects[removeIdx].isDel = true;
 			axdom("#" + obj.id).removeAttr("data-axbind");
 			axdom("#" + removeAnchorId).remove();
-			var objID = obj.id;
-			var obj = this.objects[removeIdx];
-			if (obj.documentclickEvent) axdom(document).unbind("click.AXInput", obj.documentclickEvent);
-			axdom("#" + objID).unbind("keydown.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInputCheck");
 
-			axdom("#" + objID).unbind("change.AXInput");
 
 			if (obj.bindSliderMouseMove) axdom(document.body).unbind("mousemove.AXInput", obj.bindSliderMouseMove);
 			if (obj.bindSliderMouseUp) axdom(document.body).unbind("mouseup.AXInput", obj.bindSliderMouseUp);
@@ -15712,9 +15719,9 @@ var AXInputConverter = Class.create(AXJ, {
 		var handleWidth = h - 2;
 		if (handleWidth > 20) handleWidth = 20;
 
-		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"" + cfg.anchorNumberContainerClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + (h - 2) + "px;\">");
-		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + UPh + "px;\">increase</a>");
-		po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + handleWidth + "px;height:" + DNh + "px;\">decrease</a>");
+		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"" + cfg.anchorNumberContainerClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + (h - 2) + "px;\" onselectstart=\"return false;\">");
+		po.push("	<a id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + UPh + "px;\">increase</a>");
+		po.push("	<a id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + handleWidth + "px;height:" + DNh + "px;\">decrease</a>");
 		po.push("</div>");
 		obj.bindAnchorTarget.append(po.join(''));
 		obj.bindAnchorTarget.show();
