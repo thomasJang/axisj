@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-02 
+AXJ - v1.0.8 - 2014-09-03 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-02 
+AXJ - v1.0.8 - 2014-09-03 
 */
 
 if(!window.AXConfig){
@@ -8521,10 +8521,6 @@ var AXGrid = Class.create(AXJ, {
 
 		if (!cfg.fitToWidth) {
 			/* width * 예외처리 구문 ------------ s */
-
-			trace(
-				bodyWidth, cfg.fitToWidthRightMargin, (colWidth + 100 * astricCount)
-			);
 
 			if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
 				var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
@@ -23241,7 +23237,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
 				obj.config.focusedIndex = obj.selectedIndex;
 				obj.config.selectedObject = obj.options[obj.selectedIndex];
-				obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+				obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject, "isPostBack");
 			}
 
 			if (obj.config.onLoad) {
@@ -23252,11 +23248,10 @@ var AXSelectConverter = Class.create(AXJ, {
 			this.bindSelectChange(objID, objSeq);
 
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
-				alert(1);
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				if (selectedOption) {
 					var sendObj = {optionValue:selectedOption.value, optionText:selectedOption.text};
-					obj.config.onChange.call(sendObj, sendObj);
+					obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 				}
 			}
 
