@@ -378,10 +378,15 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td,
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td {
   padding: 0px;
-  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
+  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #ffffec;
   vertical-align: bottom;
   border-bottom: 1px solid #c8c8c8;
   background-color: #ffffec;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td,
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td,
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td {
+  background-color: #FFFFEC;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td .bodyNode,
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td .bodyNode,
@@ -435,7 +440,7 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td {
   padding: 0px;
-  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
+  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #ffffec;
   vertical-align: bottom;
   border-bottom: 1px solid #c8c8c8;
   cursor: pointer;

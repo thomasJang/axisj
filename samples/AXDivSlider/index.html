@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXDivSlider - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXDivSlider.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+    .on{color: #ff3300;}
+	</style>
+	<!-- css block -->
+
+	<script type="text/javascript">
+	var pageID = "AXDivSlider";
+
+	var fnObj = {
+		pageStart: function(){
+
+            var mySlider = new AXDivSlider();
+            mySlider.setConfig({
+                effect:"fade", // fade|slideup|slide
+
+                autoSlide:true,
+
+                slideSpeed: 300,
+                autoSlideDelayTime: 3000,
+
+                selectedClassName:"on",
+                targetID:"fade-block",
+                targetClassName:"fade-block-item",
+                handleTargetID:"fade-handles",
+                handleClassName:"fade-handle-item"
+            });
+
+            var mySlider2 = new AXDivSlider();
+            mySlider2.setConfig({
+                effect:"slideup", // fade|slideup|slide
+
+                autoSlide:false,
+                autoSlideDelayTime: 3000,
+
+                slideSpeed: 300,
+
+                selectedClassName:"on",
+                targetID:"slideup-block",
+                targetClassName:"slideup-block-item",
+                handleTargetID:"slideup-handles",
+                handleClassName:"slideup-handle-item"
+            });
+
+            var mySlider3 = new AXDivSlider();
+            mySlider3.setConfig({
+                effect:"slide", // fade|slideup|slide
+
+                autoSlide:true,
+                autoSlideDelayTime: 3000,
+
+                slideSpeed: 300,
+                touchMove: true,
+
+                moveLeftHandleID:"slide-handle-left",
+                moveRightHandleID:"slide-handle-right",
+
+                selectedClassName:"on",
+                targetID:"slide-block",
+                targetClassName:"slide-block-item",
+                handleTargetID:"slide-handles",
+                handleClassName:"slide-handle-item"
+            });
+			
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="ax-wrap AXdemoPageContent">
+            <div class="H20"></div>
+
+
+            <h3>fade</h3>
+
+            <ul class="category" id="fade-handles">
+                <li><a href="#" class="fade-handle-item on">공연</a></li>
+                <li><a href="#" class="fade-handle-item">미술</a></li>
+                <li><a href="#" class="fade-handle-item">디자인</a></li>
+                <li><a href="#" class="fade-handle-item">음악</a></li>
+                <li><a href="#" class="fade-handle-item">전통</a></li>
+            </ul>
+
+            <div class="block" id="fade-block">
+                <div class="item fade-block-item">
+                    무용개론/ 발레1/ 부전공무용1(발레)/ 부전공무용1(한무)/ 부전공무용1(현대)/ 서양무용음악/ 한국무용1/ 현대무용1 /무용음악훈련1/ 발레2/ 부전공무용2(발레)/ 부전공무용2(한무) /부전공무용2(현대)/ 한국무용2/ 현대무용2
+                </div>
+                <div class="item fade-block-item">
+                    무용연출/ 발레3/ 부전공무용3(발레)/ 부전공무용3(한무)/ 부전공무용3(현대)/ 인체의 이해/ 종족무용학1/ 한국무용3/ 현대무용3/ 무용의상/ 발레4/ 부전공무용4(발레)/ 부전공무용4(한무)/ 부전공무용4(현대)/ 한국무용4/ 현대무용4
+                </div>
+                <div class="item fade-block-item">
+                    무용창작론/ 발레5/ 발레창작워크샵1/ 수영/ 재즈1/ 한국무용5/ 한국무용창작워크샵1/ 현대무용5/ 현대무용창작워크샵1/구기/ 도수체조/ 무용음악훈련2/ 발레6/ 발레창작워크샵2/ 재즈2/ 체육원리/ 한국무용6/ 한국무용즉흥/ 한국무용창작워크샵2/ 현대무용6/ 현대무용창작워크샵2
+                </div>
+                <div class="item fade-block-item">
+                    논문지도법/ 레파토리/ 바레7/ 발레바리에이션/ 발레안무/ 한국무용7/ 한국무용안무/ 현대무용7/ 현대무용즉흥/ 현대무용안무/발레8/ 발레창작현장실습/ 신체요법/ 작품분석/ 학교보건/ 한국무용8/ 한국무용창작현장실습/ 현대무용8/ 현대무용창작실습
+                </div>
+                <div class="item fade-block-item">
+                    논문지도법/ 레파토리/ 바레7/ 발레바리에이션/ 발레안무/ 한국무용7/ 한국무용안무/ 현대무용7/ 현대무용즉흥/ 현대무용안무/발레8/ 발레창작현장실습/ 신체요법/ 작품분석/ 학교보건/ 한국무용8/ 한국무용창작현장실습/ 현대무용8/ 현대무용창작실습
+                </div>
+            </div>
+
+            <h3>slideUp</h3>
+
+            <ul class="category" id="slideup-handles">
+                <li><a href="#" class="slideup-handle-item on">공연</a></li>
+                <li><a href="#" class="slideup-handle-item">미술</a></li>
+                <li><a href="#" class="slideup-handle-item">디자인</a></li>
+                <li><a href="#" class="slideup-handle-item">음악</a></li>
+                <li><a href="#" class="slideup-handle-item">전통</a></li>
+            </ul>
+
+            <div class="block" id="slideup-block">
+                <div class="item slideup-block-item">
+                    무용개론/ 발레1/ 부전공무용1(발레)/ 부전공무용1(한무)/ 부전공무용1(현대)/ 서양무용음악/ 한국무용1/ 현대무용1 /무용음악훈련1/ 발레2/ 부전공무용2(발레)/ 부전공무용2(한무) /부전공무용2(현대)/ 한국무용2/ 현대무용2
+                </div>
+                <div class="item slideup-block-item">
+                    무용연출/ 발레3/ 부전공무용3(발레)/ 부전공무용3(한무)/ 부전공무용3(현대)/ 인체의 이해/ 종족무용학1/ 한국무용3/ 현대무용3/ 무용의상/ 발레4/ 부전공무용4(발레)/ 부전공무용4(한무)/ 부전공무용4(현대)/ 한국무용4/ 현대무용4
+                </div>
+                <div class="item slideup-block-item">
+                    무용창작론/ 발레5/ 발레창작워크샵1/ 수영/ 재즈1/ 한국무용5/ 한국무용창작워크샵1/ 현대무용5/ 현대무용창작워크샵1/구기/ 도수체조/ 무용음악훈련2/ 발레6/ 발레창작워크샵2/ 재즈2/ 체육원리/ 한국무용6/ 한국무용즉흥/ 한국무용창작워크샵2/ 현대무용6/ 현대무용창작워크샵2
+                </div>
+                <div class="item slideup-block-item">
+                    논문지도법/ 레파토리/ 바레7/ 발레바리에이션/ 발레안무/ 한국무용7/ 한국무용안무/ 현대무용7/ 현대무용즉흥/ 현대무용안무/발레8/ 발레창작현장실습/ 신체요법/ 작품분석/ 학교보건/ 한국무용8/ 한국무용창작현장실습/ 현대무용8/ 현대무용창작실습
+                </div>
+                <div class="item slideup-block-item">
+                    논문지도법/ 레파토리/ 바레7/ 발레바리에이션/ 발레안무/ 한국무용7/ 한국무용안무/ 현대무용7/ 현대무용즉흥/ 현대무용안무/발레8/ 발레창작현장실습/ 신체요법/ 작품분석/ 학교보건/ 한국무용8/ 한국무용창작현장실습/ 현대무용8/ 현대무용창작실습
+                </div>
+            </div>
+
+            <h3>slide</h3>
+            <div id="slide-handles" style="display:2none;"> <!-- 핸들은 사용 하지 않으면 display:none -->
+                <a href="#" class="slide-handle-item on">1</a>
+                <a href="#" class="slide-handle-item">2</a>
+                <a href="#" class="slide-handle-item">3</a>
+                <a href="#" class="slide-handle-item">4</a>
+                <a href="#" class="slide-handle-item">5</a>
+                <a href="#" class="slide-handle-item">6</a>
+            </div>
+            <div id="slide-block" style="position: relative;width:266px;height: 378px;"> <!-- 높이만 지정하고 너비는 자동 상황에 맞게 구현 되도록 -->
+
+                <div class="item slide-block-item"
+                     style="background: url(images/slider_item1.png) no-repeat center center;background-size: cover;height: 378px;">
+                </div>
+                <div class="item slide-block-item"
+                     style="background: url(images/slider_item2.png) no-repeat center center;background-size: cover;height: 378px;">
+                </div>
+                <div class="item slide-block-item"
+                     style="background: url(images/slider_item3.png) no-repeat center center;background-size: cover;height: 378px;">
+                </div>
+                <div class="item slide-block-item"
+                     style="background: url(images/slider_item1.png) no-repeat center center;background-size: cover;height: 378px;">
+                </div>
+                <div class="item slide-block-item"
+                     style="background: url(images/slider_item2.png) no-repeat center center;background-size: cover;height: 378px;">
+                </div>
+                <div class="item slide-block-item"
+                     style="background: url(images/slider_item3.png) no-repeat center center;background-size: cover;height: 378px;">
+                </div>
+
+                <!-- 마지막에 있어야 z-index 문제를 피할 수 있어요 -->
+                <a href="#axexec" id="slide-handle-left"
+                   style="display:block;width: 24px;height: 40px;position:absolute;left:10px;top:10px;background: url(images/slider_handle_left.png) no-repeat"></a>
+                <a href="#axexec" id="slide-handle-right"
+                   style="display:block;width: 24px;height: 40px;position:absolute;right:10px;top:10px;background: url(images/slider_handle_right.png) no-repeat"></a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

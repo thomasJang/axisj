@@ -16,7 +16,6 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
@@ -111,18 +110,18 @@
 			var writeMode = document.treeWriteForm.writeMode.value;
 			if(writeMode == "child"){
 				var obj = myTree.getSelectedList();
-				myTree.appendTree(obj.index, obj.item, [{no:AXUtil.timekey(), nodeName:frm.nodeName.value, writer:'mondo', type:"file", pno:obj.item.no}]);
+				myTree.appendTree(obj.index, obj.item, [{no:AXUtil.timekey(), nodeName:frm.nodeName.value, writer:'mondo', type:"file", pno:obj.item.no, _CUD:"C"}]);
 			}else if(writeMode == "append"){
 				var obj = myTree.getSelectedListParent(); // 선택 아이템의 부모 아이템 가져오기
 				var pno = 0;
 				if(obj.item){
 					pno = obj.item.no;
 				}
-				myTree.appendTree(obj.index, obj.item, [{no:AXUtil.timekey(), nodeName:frm.nodeName.value, writer:'mondo', type:"file", pno:pno}]);
+				myTree.appendTree(obj.index, obj.item, [{no:AXUtil.timekey(), nodeName:frm.nodeName.value, writer:'mondo', type:"file", pno:pno, _CUD:"C"}]);
 			}else if(writeMode == "modify"){
 				try{
 					var obj = myTree.getSelectedList();
-					myTree.updateTree(obj.index, obj.item, {nodeName:frm.nodeName.value});
+					myTree.updateTree(obj.index, obj.item, {nodeName:frm.nodeName.value, _CUD:"U"});
 				}catch(e){
 					alert(e.print());
 				}
