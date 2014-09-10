@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-06 
+AXJ - v1.0.8 - 2014-09-10 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-06 
+AXJ - v1.0.8 - 2014-09-10 
 */
 
 if(!window.AXConfig){
@@ -15583,6 +15583,49 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 	},
+	bindInputDisabled: function(objID, _disabled){
+		var findIndex = null;
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
+			if (O.id == objID && O.isDel != true) {
+				findIndex = index;
+				break;
+			}
+		};
+
+		if (findIndex == null) {
+			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
+			return;
+		} else {
+			var obj = this.objects[findIndex];
+			var cfg = this.config;
+
+			if(typeof _disabled == "boolean"){
+				axf.getId(objID).disabled = _disabled;
+			}else{
+				axf.getId(objID).disabled = !AXgetId(objID).disabled;
+			}
+
+			obj.bindAnchorTarget.data("disabled", axf.getId(objID).disabled);
+			if(axf.getId(objID).disabled){
+				obj.bindAnchorTarget.addClass("disable");
+				obj.bindAnchorTarget.attr("disable", "disable");
+
+				obj.bindAnchorTarget.find("a").bind("mousedown.AXInputDisabled", function(e){
+					//alert("block");
+					var event = window.event || e;
+					if (event.preventDefault) event.preventDefault();
+					if (event.stopPropagation) event.stopPropagation();
+					event.cancelBubble = true;
+					return false;
+				});
+			}else{
+				obj.bindAnchorTarget.removeClass("disable");
+				obj.bindAnchorTarget.removeAttr("disable");
+
+				obj.bindAnchorTarget.find("a").unbind("mousedown.AXInputDisabled");
+			}
+		}
+	},
 	appendAnchor: function (objID, objSeq, bindType) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
@@ -15866,6 +15909,9 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindNumberAdd: function (objID, adder, objSeq) {
 		var obj = this.objects[objSeq];
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
 		var nval = axdom("#" + objID).val().number();
@@ -15885,6 +15931,9 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindNumberCheck: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
 		var nval;
@@ -15985,6 +16034,9 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
+			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+				return false;
+			}
 			bindMoneyCheck(objID, objSeq, "change");
 		});
 	},
@@ -15993,7 +16045,9 @@ var AXInputConverter = Class.create(AXJ, {
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
 		var nval;
-
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 
 		if (obj.bindTarget.val() == "") {
@@ -16088,6 +16142,9 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
+			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+				return false;
+			}
 			try {
 				this.select();
 			} catch (e) {
@@ -16097,6 +16154,9 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 		obj.bindTarget.unbind("keydown.AXInputCheck").bind("keydown.AXInputCheck", function(event){
+			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+				return false;
+			}
 			if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 				bindSelectorExpand(objID, objSeq, false, event);
 			}
@@ -16105,6 +16165,9 @@ var AXInputConverter = Class.create(AXJ, {
 		if (obj.config.finder) {
 			if (obj.config.finder.onclick) {
 				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").unbind("click.AXInput").bind("click.AXInput", function (event) {
+					if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+						return false;
+					}
 					obj.config.finder.onclick.call({
 						targetID: objID,
 						value: axdom("#" + objID).val()
@@ -16125,7 +16188,9 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		obj.bindTarget.data("val", obj.bindTarget.val().enc());
 
 		//alert(obj.bindTarget.data("val").end());
@@ -16230,9 +16295,12 @@ var AXInputConverter = Class.create(AXJ, {
 		if (objSeq != null) this.bindSelectorClose(objID, objSeq);
 	},
 	bindSelectorClose: function (objID, objSeq, event) {
-		var obj = this.objects[objSeq];
-
 		var cfg = this.config;
+		var obj = this.objects[objSeq];
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
+
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
@@ -16692,7 +16760,9 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSliderMouseDown: function (objID, objSeq) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		if (!obj.config.isMoving) {
 			var bindSliderMouseMove = this.bindSliderMouseMove.bind(this);
 			obj.bindSliderMouseMove = function (event) {
@@ -16766,10 +16836,8 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.config.isMoving = false;
 	},
 	bindSliderSetValue: function (objID, objSeq, value) {
-
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
 
 		if (value != undefined) {
 			var objVal = value;
@@ -16794,7 +16862,9 @@ var AXInputConverter = Class.create(AXJ, {
 		//alert(objID+"_"+ objSeq);
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		if (!obj.config.isMoving) {
 			var bindSliderTouchMove = this.sliderTouchMove.bind(this);
 			obj.bindSliderTouchMove = function (event) {
@@ -16970,7 +17040,9 @@ var AXInputConverter = Class.create(AXJ, {
 	bindTwinSliderMouseDown: function (objID, objSeq, handleName) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 		if (!obj.config.isMoving) {
 			var bindTwinSliderMouseMove = this.bindTwinSliderMouseMove.bind(this);
 			obj.bindTwinSliderMouseMove = function (event) {
@@ -17103,6 +17175,9 @@ var AXInputConverter = Class.create(AXJ, {
 	twinSliderTouchStart: function (objID, objSeq, handleName) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 
 		if (!obj.config.isMoving) {
 			var bindTwinSliderTouchMove = this.twinSliderTouchMove.bind(this);
@@ -17259,6 +17334,11 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSwitchClick: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
+
 		if (obj.switchValue == "on") {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
 			obj.switchValue = "off";
@@ -17388,6 +17468,11 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSegmentClick: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
+
 		var segmentOptions = obj.config.options;
 
 		if (event.target.id == "") return;
@@ -17537,7 +17622,10 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
-		//alert(cfg.responsiveMobile);
+
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 
 		for (var OO, oidx = 0, __arr = this.objects; (oidx < __arr.length && (OO = __arr[oidx])); oidx++) {
 			if(OO.expandBox_axdom){
@@ -17755,6 +17843,10 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 
 		axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
 
@@ -18648,6 +18740,10 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 
 		var obj = this.objects[objSeq];
+
+		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
+			return false;
+		}
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
 
@@ -19652,6 +19748,13 @@ axdom.fn.setConfigInput = function (config) {
 axdom.fn.setValueInput = function (value) {
 	axf.each(this, function () {
 		AXInput.bindSetValue(this.id, value);
+	});
+	return this;
+};
+
+jQuery.fn.bindInputDisabled = function (Disabled) {
+	axf.each(this, function () {
+		AXInput.bindInputDisabled(this.id, Disabled);
 	});
 	return this;
 };
