@@ -1,0 +1,62 @@
+<!doctype html>
+
+<title>CodeMirror: Mode Runner Demo</title>
+<meta charset="utf-8"/>
+
+<script src="/axisj/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="lib/codemirror.css">
+<link rel="stylesheet" href="theme/ambiance.css">
+<script src="lib/codemirror.js"></script>
+<script src="addon/runmode/runmode.js"></script>
+<script src="mode/xml/xml.js"></script>
+<script src="mode/javascript/javascript.js"></script>
+<script src="mode/css/css.js"></script>
+<script src="mode/htmlmixed/htmlmixed.js"></script>
+
+<textarea name="ax-code" class="ax-code">
+<script>
+    var myTarget = this.getEventTarget({
+        evt : event.target,
+        until:function(evt, evtIDs){
+            // 선택 조건
+            // event bubble 탐색 종료 시점 정의 함수 argument 로 받은 eventTarget 과 evtIDs 객체로 부터 다양한 조건으로 설정가능
+            // return true; 하면 버블 탐색 종료 됨.
+            // return ( axdom(evt.parentNode).hasClass("CTclassName") );
+            return (evt.parentNode.tagName == "body");
+        },
+        find:function(evt, evtIDs){
+            // return true; 하면 버블탐색 종료 후 현재 eventTarget 리턴
+            //return ( axdom(evt).hasClass("colHeadTd") );
+            return ( evt.id == objID || (evtIDs[0] == cfg.targetID && evtIDs[1] == objID) );
+        }
+    });
+
+    if(myTarget){
+        //something
+    }
+</script>
+</textarea>
+
+<script type="text/javascript">
+    var codeObj = {
+        editor:[],
+        pageStart:function(){
+            jQuery(".ax-code").each(function(index){
+                jQuery(this).attr("id","ax-code-"+index);
+                codeObj.editor[index] = CodeMirror.fromTextArea(
+                    document.getElementById("ax-code-"+index),
+                    {
+                        mode:"text/html",
+                        theme:"ambiance",
+                        tabMode:"indent",
+                        lineNumbers: true,
+                        matchBrackets: true
+                    }
+                );
+            });
+        }
+    };
+    codeObj.pageStart();
+
+</script>
