@@ -447,6 +447,17 @@ img {
     right: 10px;
   }
 }
+/* { add Css -------------------------------------------------------------------- */
+.cx-page-content {
+  padding: 0px 10px 50px 10px;
+}
+.CodeMirror {
+  height: auto;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
 /* { oldCode Css -------------------------------------------------------------------- */
 .AXdemoPageTabTarget {
   padding: 5px 0px 0px 0px;
