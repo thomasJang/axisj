@@ -22,7 +22,7 @@ ui/[theme]/AXJ.min.css
 ```
 
 <br/>
-<img src="http://www.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
+<img src="http://old2014.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
 <br/>
 <br/>
 <br/>
