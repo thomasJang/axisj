@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -48,7 +49,7 @@
 				}
 			});
 			
-			$("#AXInputDateED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateED").bindTwinDate({handleLeft:25, align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){toast.push(Object.toJSON(this));}});
 			
 			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){toast.push(Object.toJSON(this));}});
 			
