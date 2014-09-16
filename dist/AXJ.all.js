@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-15 
+AXJ - v1.0.8 - 2014-09-16 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-15 
+AXJ - v1.0.8 - 2014-09-16 
 */
 
 if(!window.AXConfig){
@@ -5551,6 +5551,53 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 
 
+/**
+ * @method jQuery.fn.bindTooltip
+ * @param configs {JSObject} 툴팁설정
+ * @returns jQueryObject
+ * @description 툴팁을 바인드 하는 대상의 '아이디+"_AX_tooltip"'를 아이디로 하는 엘리먼트를 대상이 마우스 오버 이벤트 발생 할때 툴팁으로 표시 합니다.
+ * @example
+```js
+
+ <div style="position:relative;">
+	 <button class="AXButton" onclick="" id="tooltip4"><div class="black_help">Bottom</div></button>
+	 <div id="tooltip4_AX_tooltip" class="AXTooltipContent">
+		 AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드,
+		 AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스,
+		 AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다.
+	 </div>
+
+	 <button class="AXButton" onclick="" id="tooltip5"><div class="black_help">Top</div></button>
+	 <div id="tooltip5_AX_tooltip" class="AXTooltipContent">
+		 AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드,
+		 AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스,
+		 AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다.
+	 </div>
+
+	 <button class="AXButton" onclick="" id="tooltip6"><div class="black_help">Auto</div></button>
+	 <div id="tooltip6_AX_tooltip" class="AXTooltipContent">
+		 AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드,
+		 AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스,
+		 AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다.
+	 </div>
+ </div>
+ <script>
+	// configs:{
+	//	theme: (config.theme || "AXPopOverTooltip"), // (optional)
+	//	width: (config.width || ""), // (optional)
+	//	direction: (config.direction || "top"), // (optional)
+	// }
+
+	// class 가 tooltipbind인 모든 엘리먼트에 툴팁설정
+	$(".tooltipbind").bindTooltip({width:300});
+
+	//AXPopOverTooltip (bindTooltip) 방향설정 방식
+	$("#tooltip4").bindTooltip({direction:"bottom", width:300}); //{direction:"[auto|top|bottom]"}
+	$("#tooltip5").bindTooltip({direction:"top", width:300}); //{direction:"[auto|top|bottom]"}
+	$("#tooltip6").bindTooltip({direction:"auto", width:300}); //{direction:"[auto|top|bottom]"}
+ </script>
+```
+ */
 axdom.fn.bindTooltip = function (config) {
     if (config == undefined) config = {};
     AXUtil.each(this, function () {
@@ -5580,13 +5627,27 @@ axdom.fn.bindTooltip = function (config) {
 /* ---------------------------------------------- AXContextMenu -- */
 
 /* -- AXMobileModal ---------------------------------------------- */
+/**
+ * @class AXMobileModal
+ * @extends AXJ
+ * @version v1.0
+ * @author tom@axisj.com, axisj.com
+ * @logs
+ "2013-12-11 오후 5:48:28"
+ "2014-04-14 : tom - modalOpen위치 scrollTop 적용"
+ * @example
+```js
+ var myMobileModal = new AXMobileModal();
+ // default config
+ myMobileModal.config.theme = "AXMobileModal";
+ myMobileModal.config.width = "auto";
+ myMobileModal.config.height = "auto";
+ myMobileModal.config.margin = "10px";
+ myMobileModal.config.align = "center";
+ myMobileModal.config.valign = "center";
+```
+ */
 var AXMobileModal = Class.create(AXJ, {
-    version: "AXMobileModal v1.0",
-    author: "tom@axisj.com",
-    logs: [
-        "2013-12-11 오후 5:48:28",
-        "2014-04-14 : tom - modalOpen위치 scrollTop 적용"
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.config.theme = "AXMobileModal";
@@ -5596,6 +5657,29 @@ var AXMobileModal = Class.create(AXJ, {
         this.config.align = "center";
         this.config.valign = "center";
     },
+/**
+ * @method AXMobileModal.setConfig
+ * @param configs {JSObject}
+ * @description 모바일모달 개체 초기화
+ * @example
+```js
+myMobileModal.setConfig({
+	//theme, margin, align, valign
+	width:300,
+	height:300,
+	head:{
+		close:{
+			onclick:function(){
+
+			}
+		}
+	},
+	onclose: function(){
+		trace("close bind");
+	}
+});
+```
+ */
     init: function () {
         var cfg = this.config;
 
@@ -5603,6 +5687,27 @@ var AXMobileModal = Class.create(AXJ, {
             cfg.head = {};
         }
     },
+/**
+ * @method AXMobileModal.open
+ * @returns modalObject {JSObject} 열린 모달의 오브젝트
+ * @description 모바일 모달창을 열고 열린 모달의 엘리먼트 정보를 리턴합니다.
+ * @example
+```js
+var obj = myMobileModal.open();
+// 다음의 정보를 리턴합니다.
+// obj: {
+//    jQueryModal: 모달,
+//    modalPanel: 모달의 패널,
+//    modalHead: 모달패널의 헤드,
+//    modalBody: 모달패널의 바디,
+//    modalFoot: 모달패널의 풋
+// }
+
+obj.modalHead.html("자유Head 설정테스트");
+obj.modalBody.html("<div style='height:250px;background:#fff;text-align: center;line-height:30px;'>자유body 테스트</div>");
+//obj.modalFoot.html("자유footer 테스트");
+```
+ */
     open: function (configs, onLoad) {
         var cfg = this.config;
         if (!configs) configs = {};
@@ -5736,6 +5841,16 @@ var AXMobileModal = Class.create(AXJ, {
             this.close();
         }
     },
+
+/**
+ * @method AXMobileModal.close
+ * @returns AXMobileModal
+ * @description 모바일모달창을 닫습니다.
+ * @example
+```js
+ myMobileModal.close();
+```
+ */
     close: function () {
         var cfg = this.config;
         mask.close();
@@ -5767,6 +5882,8 @@ var AXMobileModal = Class.create(AXJ, {
          */
         this.opened = false;
         axdom(window).unbind("resize.AXMobileModal");
+
+		return this;
     },
     remove: function () {
         var cfg = this.config;
@@ -11053,7 +11170,7 @@ myGrid.redrawGrid();
 			}
 
 			this.list = this.sortList(nsort, myColHead, this.list);
-			this.printList();
+			this.printList({sort:true});
 
 			this.nowSortHeadID = tdID;
 			this.nowSortHeadObj = myColHead;
@@ -12054,7 +12171,7 @@ myGrid.setData(gridData);
 		}
 		return markerDisplay;
 	},
-	printList: function () {
+	printList: function (args) {
 		var cfg = this.config, _this = this;
 		var bodyHasMarker = this.bodyHasMarker;
 		var getItem = this.getItem.bind(this);
@@ -12289,7 +12406,8 @@ myGrid.setData(gridData);
 				cfg.body.onchangeScroll.call(sendObj, sendObj);
 			}
 
-		} else if (cfg.viewMode == "icon") {
+		} else
+		if (cfg.viewMode == "icon") {
 
 			var viewIconObj = cfg.view;
 
@@ -12377,7 +12495,9 @@ myGrid.setData(gridData);
 				iconButtonClickBind(event);
 			});
 
-		} else if (cfg.viewMode == "mobile") {
+		}
+		else
+		if (cfg.viewMode == "mobile") {
 
 			var mobileView = cfg.view;
 			if (mobileView == undefined) {
@@ -12456,7 +12576,16 @@ myGrid.setData(gridData);
 
 		this.selectedCells.clear();
 		// selectedCells clear
-		this.contentScrollResize();
+
+		if(typeof args == "undefined"){
+			this.contentScrollResize();
+		}
+		else
+		if(typeof args != "undefined" && args.sort)
+		{
+			this.contentScrollResize(false);
+		}
+
 
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
@@ -15230,7 +15359,7 @@ myGrid.setData(gridData);
 	goPageMove: function (pageAdd) {
 		var cfg = this.config;
 
-		if(Object.isNumber(this.page.pageCount)) {
+		if(this.page.pageCount.number() > 0) {
 			var pgCount = this.page.pageCount.number();
 			var pageNo = this.page.pageNo.number();
 
@@ -18084,8 +18213,13 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindAnchorTarget.show();
 
 		var bindDateExpand = this.bindDateExpand.bind(this);
+		var bindDateExpandClose = this.bindDateExpandClose.bind(this);
 		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").unbind("click.AXInput").bind("click.AXInput", function (event) {
-			bindDateExpand(objID, objSeq, true, event);
+			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
+				bindDateExpandClose(objID, objSeq, event);
+			}else{
+				bindDateExpand(objID, objSeq, true, event);
+			}
 		});
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
 			obj.bindTarget.select();
@@ -18144,6 +18278,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
+		var obj = this.objects[objSeq];
 
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
@@ -19167,14 +19302,22 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var h = obj.bindAnchorTarget.data("height");
 		var po = [];
-		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
+		var handleLeft = 0;
+		if(obj.config) handleLeft = (obj.config.handleLeft||0).number();
+
+		po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:"+ (0-handleLeft) +"px;top:0px;width:" + h + "px;height:" + h + "px;\">handle</a>");
 		obj.bindAnchorTarget.append(po.join(''));
 		obj.bindAnchorTarget.show();
 
 		var bindDateExpand = this.bindTwinDateExpand.bind(this);
+		var bindTwinDateExpandClose = this.bindTwinDateExpandClose.bind(this);
 
 		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").unbind("click.AXInput").bind("click.AXInput", function (event) {
-			bindDateExpand(objID, objSeq, true, event);
+			if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
+				bindTwinDateExpandClose(objID, objSeq, event);
+			}else{
+				bindDateExpand(objID, objSeq, true, event);
+			}
 		});
 		obj.bindTarget.unbind("click.AXInput").bind("focus.AXInput", function (event) {
 			axdom("#" + objID).select();
