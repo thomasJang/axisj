@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-16 
+AXJ - v1.0.8 - 2014-09-17 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-16 
+AXJ - v1.0.8 - 2014-09-17 
 */
 
 if(!window.AXConfig){
@@ -12586,7 +12586,6 @@ myGrid.setData(gridData);
 			this.contentScrollResize(false);
 		}
 
-
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
 	},
@@ -21032,7 +21031,7 @@ var AXMobileMenu = Class.create(AXJ, {
  * AXModal
  * @class AXModal
  * @extends AXJ
- * @version v1.37
+ * @version v1.38
  * @author tom@axisj.com
  * @logs
  "2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -21048,6 +21047,7 @@ var AXMobileMenu = Class.create(AXJ, {
  "2014-05-21 - tom : AXModal mediaQuery 속성 추가"
  "2014-06-09 tom : mediaQuery bugfix"
  "2014-08-04 tom : fix resize error"
+ "2014-09-17 tom : 'add Config' scrollLock"
  *
  */
 var AXModal = Class.create(AXJ, {
@@ -21064,6 +21064,7 @@ var AXModal = Class.create(AXJ, {
 		this.config.displayLoading = true;
 		this.config.viewMode = "dx";
 		this.config.opendModalID = "";
+		this.config.scrollLock = false;
 	},
 	init: function () {
 		var cfg = this.config;
@@ -21215,6 +21216,10 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'hidden'});
+		}
 	},
 	openI: function (http) {
 		var cfg = this.config;
@@ -21326,6 +21331,10 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'hidden'});
+		}
 	},
 	windowResizeApply: function(){
 		this.onDocResize();
@@ -21433,6 +21442,10 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'hidden'});
+		}
 	},
 	openNew: function (http) {
 		this.winID = "mdw" + AXUtil.timekey();
@@ -21476,6 +21489,7 @@ var AXModal = Class.create(AXJ, {
 		}
 	},
 	close: function (event, modalID) {
+		var cfg = this.config;
 		if (this.openWindow) {
 			this.openWindow.close();
 		}
@@ -21495,7 +21509,6 @@ var AXModal = Class.create(AXJ, {
 			if (window[this.winID]) {
 				window[this.winID].location.href = "about:blank";
 				var windowID = this.config.windowID;
-
 
 				setTimeout(function () {
 					jQuery("#" + windowID).remove();
@@ -21517,6 +21530,10 @@ var AXModal = Class.create(AXJ, {
 				}
 			);
 		}
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'auto'});
+		}
 	},
 	remove: function (event) {
 		var windowID = this.config.windowID;
@@ -21524,6 +21541,7 @@ var AXModal = Class.create(AXJ, {
 			jQuery("#" + windowID).remove();
 		}, 1);
 		mask.close();
+		jQuery(document.body).css({'overflow':'auto'});
 		this._windowOpend = false;
 		/*
         try {
