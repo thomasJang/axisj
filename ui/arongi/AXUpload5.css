@@ -291,13 +291,13 @@
 .AXUpload5QueueBox_list .AXUploadItem {
   box-sizing: content-box !important;
   position: relative;
-  float: left;
-  padding: 0px 0px 0px 50px;
-  margin: 9px 0px 0px 9px;
-  width: 100px;
-  height: 50px;
+  float: none;
+  padding: 0px 5px 0px 50px;
+  margin: 5px;
+  width: auto;
+  height: auto;
   color: #525252;
-  overflow: hidden;
+  overflow: auto;
   z-index: 100;
 }
 .AXUpload5QueueBox_list .AXUploadItem.readyselect {
@@ -318,6 +318,7 @@
   background: url('images/dx-upload5-remove-icon-white.png') no-repeat center center;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadIcon {
+  display: none;
   position: absolute;
   left: 0px;
   top: 0px;
@@ -334,19 +335,26 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: block;
+  float: left;
   font-size: 12px;
-  line-height: 1.3em;
-  padding-top: 0px;
-  padding-left: 20px;
   text-align: left;
+  height: 24px;
+  line-height: 24px;
+  padding: 0px;
+  padding-right: 5px;
+  color: #888;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadTit {
-  padding-top: 3px;
+  display: block;
+  float: left;
   font-size: 12px;
-  line-height: 1.3em;
   word-break: break-all;
-  height: 32px;
   overflow: hidden;
+  height: 24px;
+  line-height: 24px;
+  padding: 0px;
+  height: auto;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadSize {
   font-size: 11px;
@@ -377,8 +385,8 @@
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadBtns {
   position: absolute;
-  left: 45px;
-  top: -4px;
+  left: 0px;
+  top: 0px;
   line-height: 1em;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadBtns .AXUploadBtnsA {
@@ -392,15 +400,15 @@
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadLabel {
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 24px;
+  top: 4px;
   line-height: 1em;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadLabel .AXUploadMainImage {
   display: none;
   width: 16px;
   height: 16px;
-  background: url('images/dx-upload5-main-image-icon.png') no-repeat #ffffff;
+  background: url('images/dx-upload5-main-image-icon.png') no-repeat #ffffff center center;
   text-indent: -1000px;
   overflow: hidden;
   float: left;
@@ -410,7 +418,7 @@
   display: block;
   width: 16px;
   height: 16px;
-  background: url('images/dx-upload5-download-icon.png') no-repeat #ffffff;
+  background: url('images/dx-upload5-download-icon.png') no-repeat #ffffff center center;
   text-indent: -1000px;
   overflow: hidden;
   line-height: 50000px;

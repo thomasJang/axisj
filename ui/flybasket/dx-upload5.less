@@ -173,8 +173,8 @@
 	}
 	.AXUploadItem{
 		box-sizing:content-box !important;
-		position:relative;float:left;padding:0px 0px 0px 50px;margin:9px 0px 0px 9px;width:100px;
-		height:50px;color:@color-a;overflow:hidden;z-index:100;
+		position:relative;float:none;padding:0px 5px 0px 50px;margin:5px;width:auto;
+		height:auto;color:@color-a;overflow:auto;z-index:100;
 		&.readyselect{cursor:pointer;}
 		&.beSelected{
 			background:@bgcolor-d;color:@color-b;
@@ -194,6 +194,7 @@
 		}
 
 		.AXUploadIcon{
+			display: none;
 			position: absolute; left: 0px; top: 0px;
 			background-color:@bgcolor-e;
 			width: 50px;height: 50px;
@@ -202,11 +203,21 @@
 		}
 		.AXUploadType{
 			.util-text-ellipsis();
-			font-size:12px;line-height:1.3em;padding-top:0px;padding-left:20px;text-align:left;
+			display: block;
+			float: left;
+			font-size:12px;text-align:left;
+			height: 24px;line-height: 24px;
+			padding:0px;
+			padding-right: 5px;
+			color: #888;
 		}
 		.AXUploadTit{
-			padding-top:3px;
-			font-size:12px;line-height:1.3em;word-break:break-all;height:32px;overflow:hidden;
+			display: block;
+			float: left;
+			font-size:12px;word-break:break-all;overflow:hidden;
+			height: 24px;line-height: 24px;
+			padding:0px;
+			height: auto;
 		}
 		.AXUploadSize{
 			font-size:11px;
@@ -221,20 +232,20 @@
 			}
 		}
 		.AXUploadBtns{
-			position:absolute;left:45px;top:-4px;line-height:1em;
+			position: absolute;left:0px;top:0px;line-height:1em;
 			.AXUploadBtnsA{
 				display:block;width:24px;height:24px;background:url('images/dx-upload5-remove-icon-black.png') no-repeat center center;
 				text-indent:-1000px;overflow:hidden;line-height:50000px;
 			}
 		}
 		.AXUploadLabel{
-			position:absolute;left:0px;top:0px;line-height:1em;
+			position: absolute;left:24px;top:4px;line-height:1em;
 			.AXUploadMainImage{
-				display:none;width:16px;height:16px;background:url('images/dx-upload5-main-image-icon.png') no-repeat #fff;
+				display:none;width:16px;height:16px;background:url('images/dx-upload5-main-image-icon.png') no-repeat #fff center center;
 				text-indent:-1000px;overflow:hidden;float:left;line-height:50000px;
 			}
 			.AXUploadDownload{
-				display:block;width:16px;height:16px;background:url('images/dx-upload5-download-icon.png') no-repeat #fff;
+				display:block;width:16px;height:16px;background:url('images/dx-upload5-download-icon.png') no-repeat #fff center center;
 				text-indent:-1000px;overflow:hidden;line-height:50000px;
 				&:hover{
 					background-color:@bgcolor;
