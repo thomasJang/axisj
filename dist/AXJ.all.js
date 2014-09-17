@@ -34894,8 +34894,13 @@ var AXValidator = Class.create(AXJ, {
             if (Elem.id && !Elem.multi) {
                 targetElem = jQuery("#" + Elem.id);
             } else if (Elem.name) {
-                targetElem = $(document[cfg.targetFormName][Elem.name]);
+                targetElem = jQuery( document[cfg.targetFormName][Elem.name] );
             }
+
+	        if(Elem.name == "bizno") {
+		        //alert(Elem.name);
+		        //alert(document[cfg.targetFormName][Elem.name]);
+	        }
 
             var isCheck = true;
             if(filterOption){
@@ -34938,8 +34943,9 @@ var AXValidator = Class.create(AXJ, {
 	            }
 
                 var _end = false;
+
                 jQuery.each(Elem.config, function (k, v) {
-	                //trace(val, k,  v);
+	                trace(Elem, val, k, v, "");
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
                         returnObject = raiseError(Elem, val, k, v);
                         _end = true;
@@ -35155,38 +35161,53 @@ var AXValidator = Class.create(AXJ, {
 			            alert(e.description);
 		            }
 	            }
-
-	            result = checkJumin(num.replace(/\D/g, ""));
+	            if(result != false) {
+		            result = checkJumin(num.replace(/\D/g, ""));
+	            }
             } else if (ElemValue != "" && validateKey == "foreignerno") {
                 var pattern = /^(\d{6})-?(\d{5}[7-9]\d{1})$/;
                 var num = ElemValue;
-                if (!pattern.test(num)) result = false;
-                num = RegExp.$1 + RegExp.$2;
-                //if ((num[7] * 10 + num[8]) % 2) return "foreignerno";
 
-                var sum = 0;
-                var last = num.charCodeAt(12) - 0x30;
-                var bases = "234567892345";
-                for (var i = 0; i < 12; i++) {
-                    if (isNaN(num.substring(i, i + 1))) return "foreignerno";
-                    sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
-                };
-                var mod = sum % 11;
-                result = (11 - mod + 2) % 10 == last ? true : false;
+	            if (!pattern.test(num)){
+		            result = false;
+	            }
+
+	            if(result != false) {
+		            num = RegExp.$1 + RegExp.$2;
+		            //if ((num[7] * 10 + num[8]) % 2) return "foreignerno";
+
+		            var sum = 0;
+		            var last = num.charCodeAt(12) - 0x30;
+		            var bases = "234567892345";
+		            for (var i = 0; i < 12; i++) {
+			            if (isNaN(num.substring(i, i + 1))) return "foreignerno";
+			            sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
+		            }
+		            var mod = sum % 11;
+		            result = ((11 - mod + 2) % 10 == last);
+	            }
 
             } else if (ElemValue != "" && validateKey == "bizno") {
                 var pattern = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
                 var num = ElemValue;
-                if (!pattern.test(num)) return "bizno";
+
+	            if (!pattern.test(num)){
+		            result = false;
+	            }
+
                 num = RegExp.$1 + RegExp.$2 + RegExp.$3;
-                var cVal = 0;
-                for (var i = 0; i < 8; i++) {
-                    var cKeyNum = parseInt(((_tmp = i % 3) == 0) ? 1 : (_tmp == 1) ? 3 : 7);
-                    cVal += (parseFloat(num.substring(i, i + 1)) * cKeyNum) % 10;
-                };
-                var li_temp = parseFloat(num.substring(i, i + 1)) * 5 + "0";
-                cVal += parseFloat(li_temp.substring(0, 1)) + parseFloat(li_temp.substring(1, 2));
-                result = parseInt(num.substring(9, 10)) == 10 - (cVal % 10) % 10 ? true : false;
+
+	            if(result != false) {
+		            var cVal = 0;
+		            for (var i = 0; i < 8; i++) {
+			            var cKeyNum = parseInt(((_tmp = i % 3) == 0) ? 1 : (_tmp == 1) ? 3 : 7);
+			            cVal += (parseFloat(num.substring(i, i + 1)) * cKeyNum) % 10;
+		            }
+		            ;
+		            var li_temp = parseFloat(num.substring(i, i + 1)) * 5 + "0";
+		            cVal += parseFloat(li_temp.substring(0, 1)) + parseFloat(li_temp.substring(1, 2));
+		            result = (parseInt(num.substring(9, 10)) == 10 - (cVal % 10) % 10);
+	            }
 
             } else if (ElemValue != "" && validateKey == "phone") {
                 if (realtime == "realtime") {
