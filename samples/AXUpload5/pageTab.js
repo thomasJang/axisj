@@ -4,7 +4,8 @@ var myTabOption = [
 	{optionValue:"AXUpload5_option", optionText:"AXUpload5(options)", addClass:"", url:"options.html"},
 	{optionValue:"singleUpload", optionText:"singleUpload", addClass:"", url:"single.html"},
 	{optionValue:"selectMainImage", optionText:"selectMainImage", addClass:"", url:"selectMainImage.html"},
-    {optionValue:"manualUpload", optionText:"manual Upload", addClass:"", url:"manualUpload.html"}
+    {optionValue:"manualUpload", optionText:"manual Upload", addClass:"", url:"manualUpload.html"},
+	{optionValue:"listType", optionText:"listType", addClass:"", url:"listType.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

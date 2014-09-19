@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-16 
+AXJ - v1.0.8 - 2014-09-19 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-16 
+AXJ - v1.0.8 - 2014-09-19 
 */
 
 if(!window.AXConfig){
@@ -1760,11 +1760,12 @@ var AXReq = Class.create({
 /* -- AXMask ---------------------------------------------- */
 /**
  * @class AXMask
- * @version v1.1
+ * @version v1.2
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * append 메소드 추가
+ * 2014-09-17 hyunjun19 : 지정한 대상의 영역만 masking 하도록 style 추가
  * @description 웹페이지 전체에 사용자 입력을 막기위한 마스크를 추가하는데 사용
  * ```js
  mask.open();
@@ -1798,8 +1799,8 @@ var AXMask = Class.create(AXJ, {
     },
 	append: function (targetID, configs) {
 		var target = axdom("#"+targetID);
-		target.append(this.mask);
-		var bodyHeight = target.outerHeight();
+		if (target.css("position") == "static") { target.css("position", "relative") }
+		target.append(this.mask.css({ 'position': 'absolute', 'top': 0, 'left': 0 }));
 
 		if(configs){
 			if(!configs.onclick) configs.onclick = configs.onClick;
@@ -4316,9 +4317,7 @@ var AXContextMenuClass = Class.create(AXJ, {
         });
         if (objSeq != null) {
             this.objects[objSeq] = obj;
-            return;
-        }else{
-            this.objects[objSeq] = obj;
+            return this;
         }
         var objID = obj.id;
         objSeq = this.objects.length;
@@ -12313,7 +12312,10 @@ myGrid.setData(gridData);
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
 
-			}else if(cfg.height == "auto" && this.list.length > 0) {
+			}
+			else
+			if(cfg.height == "auto" && this.list.length > 0)
+			{
 
 				this.virtualScroll = {
 					startIndex : 0,
@@ -12586,7 +12588,6 @@ myGrid.setData(gridData);
 			this.contentScrollResize(false);
 		}
 
-
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
 	},
@@ -12661,55 +12662,14 @@ myGrid.setData(gridData);
 			}
 
 			this.printList();
+			//this.bigDataSyncApply();
 			this.contentScrollResize(false);
 			this.setFocus(itemIndex);
 
 		} else {
-
-			var itemIndex = this.list.length;
 			this.list.push(pushItem);
-
-			this.printList();
-			if (itemIndex > 0) this.setFocus(itemIndex);
-
-			/*
-			 if (itemIndex > 0) {
-			 this.printList();
-			 } else {
-
-			 var item = this.list[itemIndex];
-			 var npo = this.getItem(itemIndex, item, "n");
-			 if (this.hasFixed) {
-			 var fpo = this.getItem(itemIndex, item, "fix");
-			 }
-
-			 var trlen = axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).length - 1;
-			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + (itemIndex.number() - 1)).each(function (idx, O) {
-			 if (idx == trlen) axdom(this).after(npo);
-			 });
-			 if (this.hasFixed) {
-			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + (itemIndex - 1)).each(function (idx, O) {
-			 if (idx == trlen) axdom(this).after(fpo);
-			 });
-			 }
-
-			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
-			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
-			 axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
-			 if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
-
-			 if (this.hasFixed) {
-			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseover", this.gridBodyOver.bind(this));
-			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("mouseout", this.gridBodyOut.bind(this));
-			 axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("click", this.gridBodyClick.bind(this));
-			 if (this.needBindDBLClick()) axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).bind("dblclick", this.gridBodyDBLClick.bind(this));
-			 }
-
-			 this.contentScrollResize(false);
-			 this.printList();
-			 this.setFocus(itemIndex);
-			 }
-			 */
+			this.bigDataSyncApply();
+			this.contentScrollResize(false);
 		}
 
 		if (!this.pageActive) this.setStatus(this.list.length);
@@ -14003,7 +13963,38 @@ myGrid.setData(gridData);
 				});
 			}
 
-			if(this.virtualScroll.startIndex > itemIndex || this.virtualScroll.endIndex < itemIndex){
+			//trace(this.virtualScroll.startIndex, this.virtualScroll.endIndex, itemIndex);
+
+			if(this.virtualScroll.startIndex <= itemIndex && this.virtualScroll.endIndex > itemIndex){
+
+				this.selectedRow.clear();
+				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+				this.selectedRow.push(itemIndex);
+
+				var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
+				var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+
+				var scrollHeight = this.scrollContent.height();
+				var bodyHeight = this.body.height();
+				var handleHeight = this.scrollYHandle.outerHeight();
+				var trackHeight = this.scrollTrackY.height();
+
+
+				if (trTop.number() + trHeight.number() > bodyHeight) {
+					var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+					this.scrollContent.css({ top: scrollTop });
+					this.contentScrollContentSync({ top: scrollTop });
+				} else {
+					if (trTop.number() == 0) {
+						var scrollTop = 0;
+						this.scrollContent.css({ top: scrollTop });
+						this.contentScrollContentSync({ top: scrollTop });
+					}
+				}
+
+			}
+			else
+			{
 
 				this.selectedRow.clear();
 				this.selectedRow.push(itemIndex);
@@ -14038,34 +14029,8 @@ myGrid.setData(gridData);
 							}
 						}
 					}
-				}, 1);
+				}, 10);
 
-			}else{
-
-				this.selectedRow.clear();
-				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-				this.selectedRow.push(itemIndex);
-
-				var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-				var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
-
-				var scrollHeight = this.scrollContent.height();
-				var bodyHeight = this.body.height();
-				var handleHeight = this.scrollYHandle.outerHeight();
-				var trackHeight = this.scrollTrackY.height();
-
-
-				if (trTop.number() + trHeight.number() > bodyHeight) {
-					var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-					this.scrollContent.css({ top: scrollTop });
-					this.contentScrollContentSync({ top: scrollTop });
-				} else {
-					if (trTop.number() == 0) {
-						var scrollTop = 0;
-						this.scrollContent.css({ top: scrollTop });
-						this.contentScrollContentSync({ top: scrollTop });
-					}
-				}
 			}
 
 		} else if (cfg.viewMode == "icon") {
@@ -21032,7 +20997,7 @@ var AXMobileMenu = Class.create(AXJ, {
  * AXModal
  * @class AXModal
  * @extends AXJ
- * @version v1.37
+ * @version v1.38
  * @author tom@axisj.com
  * @logs
  "2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -21048,6 +21013,7 @@ var AXMobileMenu = Class.create(AXJ, {
  "2014-05-21 - tom : AXModal mediaQuery 속성 추가"
  "2014-06-09 tom : mediaQuery bugfix"
  "2014-08-04 tom : fix resize error"
+ "2014-09-17 tom : 'add Config' scrollLock"
  *
  */
 var AXModal = Class.create(AXJ, {
@@ -21064,6 +21030,7 @@ var AXModal = Class.create(AXJ, {
 		this.config.displayLoading = true;
 		this.config.viewMode = "dx";
 		this.config.opendModalID = "";
+		this.config.scrollLock = false;
 	},
 	init: function () {
 		var cfg = this.config;
@@ -21215,6 +21182,10 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'hidden'});
+		}
 	},
 	openI: function (http) {
 		var cfg = this.config;
@@ -21326,6 +21297,10 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'hidden'});
+		}
 	},
 	windowResizeApply: function(){
 		this.onDocResize();
@@ -21433,6 +21408,10 @@ var AXModal = Class.create(AXJ, {
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'hidden'});
+		}
 	},
 	openNew: function (http) {
 		this.winID = "mdw" + AXUtil.timekey();
@@ -21476,6 +21455,7 @@ var AXModal = Class.create(AXJ, {
 		}
 	},
 	close: function (event, modalID) {
+		var cfg = this.config;
 		if (this.openWindow) {
 			this.openWindow.close();
 		}
@@ -21495,7 +21475,6 @@ var AXModal = Class.create(AXJ, {
 			if (window[this.winID]) {
 				window[this.winID].location.href = "about:blank";
 				var windowID = this.config.windowID;
-
 
 				setTimeout(function () {
 					jQuery("#" + windowID).remove();
@@ -21517,6 +21496,10 @@ var AXModal = Class.create(AXJ, {
 				}
 			);
 		}
+
+		if (cfg.scrollLock == true) {
+			jQuery(document.body).css({'overflow':'auto'});
+		}
 	},
 	remove: function (event) {
 		var windowID = this.config.windowID;
@@ -21524,6 +21507,7 @@ var AXModal = Class.create(AXJ, {
 			jQuery("#" + windowID).remove();
 		}, 1);
 		mask.close();
+		jQuery(document.body).css({'overflow':'auto'});
 		this._windowOpend = false;
 		/*
         try {
@@ -23169,6 +23153,7 @@ var AXProgress = Class.create(AXJ, {
 var AXSearch = Class.create(AXJ, {
     initialize: function(AXJ_super) {
         AXJ_super();
+	    this.formbindMethod = "script";
         this.config.theme = "AXSearch";
 	    this.config.viewMode = "dx";
     },
@@ -23203,8 +23188,25 @@ var AXSearch = Class.create(AXJ, {
 	    }
 
 	    this.target = axdom("#"+cfg.targetID);
-		this.setBody();
-	    axdom(window).bind("resize", this.windowResize.bind(this));
+
+	    // 스크립트 바인드 방식
+	    if(cfg.rows)
+	    {
+		    this.formbindMethod = "script";
+		    this.setBody();
+		    axdom(window).bind("resize", this.windowResize.bind(this));
+	    }
+
+	    // tagBind 방식
+	    else
+	    if(this.target.get(0).tagName.lcase() == "form")
+	    {
+		    this.formbindMethod = "tag";
+		    this.target.bind("submit", function(event){
+				cfg.onsubmit();
+			    return false;
+		    });
+	    }
     },
 	windowResizeApply: function () {
 		var cfg = this.config;
@@ -23651,7 +23653,7 @@ var AXSearch = Class.create(AXJ, {
     },
     getParam: function(){
     	var cfg = this.config;
-    	var frm = document[cfg.targetID+"_AX_form"];
+    	var frm = (this.formbindMethod == "script") ? document[cfg.targetID+"_AX_form"] : this.target;
     	return jQuery(frm).serialize();
     },
 /**
@@ -34875,8 +34877,13 @@ var AXValidator = Class.create(AXJ, {
             if (Elem.id && !Elem.multi) {
                 targetElem = jQuery("#" + Elem.id);
             } else if (Elem.name) {
-                targetElem = $(document[cfg.targetFormName][Elem.name]);
+                targetElem = jQuery( document[cfg.targetFormName][Elem.name] );
             }
+
+	        if(Elem.name == "bizno") {
+		        //alert(Elem.name);
+		        //alert(document[cfg.targetFormName][Elem.name]);
+	        }
 
             var isCheck = true;
             if(filterOption){
@@ -34919,8 +34926,9 @@ var AXValidator = Class.create(AXJ, {
 	            }
 
                 var _end = false;
+
                 jQuery.each(Elem.config, function (k, v) {
-	                //trace(val, k,  v);
+	                trace(Elem, val, k, v, "");
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
                         returnObject = raiseError(Elem, val, k, v);
                         _end = true;
@@ -35136,38 +35144,53 @@ var AXValidator = Class.create(AXJ, {
 			            alert(e.description);
 		            }
 	            }
-
-	            result = checkJumin(num.replace(/\D/g, ""));
+	            if(result != false) {
+		            result = checkJumin(num.replace(/\D/g, ""));
+	            }
             } else if (ElemValue != "" && validateKey == "foreignerno") {
                 var pattern = /^(\d{6})-?(\d{5}[7-9]\d{1})$/;
                 var num = ElemValue;
-                if (!pattern.test(num)) result = false;
-                num = RegExp.$1 + RegExp.$2;
-                //if ((num[7] * 10 + num[8]) % 2) return "foreignerno";
 
-                var sum = 0;
-                var last = num.charCodeAt(12) - 0x30;
-                var bases = "234567892345";
-                for (var i = 0; i < 12; i++) {
-                    if (isNaN(num.substring(i, i + 1))) return "foreignerno";
-                    sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
-                };
-                var mod = sum % 11;
-                result = (11 - mod + 2) % 10 == last ? true : false;
+	            if (!pattern.test(num)){
+		            result = false;
+	            }
+
+	            if(result != false) {
+		            num = RegExp.$1 + RegExp.$2;
+		            //if ((num[7] * 10 + num[8]) % 2) return "foreignerno";
+
+		            var sum = 0;
+		            var last = num.charCodeAt(12) - 0x30;
+		            var bases = "234567892345";
+		            for (var i = 0; i < 12; i++) {
+			            if (isNaN(num.substring(i, i + 1))) return "foreignerno";
+			            sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
+		            }
+		            var mod = sum % 11;
+		            result = ((11 - mod + 2) % 10 == last);
+	            }
 
             } else if (ElemValue != "" && validateKey == "bizno") {
                 var pattern = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
                 var num = ElemValue;
-                if (!pattern.test(num)) return "bizno";
+
+	            if (!pattern.test(num)){
+		            result = false;
+	            }
+
                 num = RegExp.$1 + RegExp.$2 + RegExp.$3;
-                var cVal = 0;
-                for (var i = 0; i < 8; i++) {
-                    var cKeyNum = parseInt(((_tmp = i % 3) == 0) ? 1 : (_tmp == 1) ? 3 : 7);
-                    cVal += (parseFloat(num.substring(i, i + 1)) * cKeyNum) % 10;
-                };
-                var li_temp = parseFloat(num.substring(i, i + 1)) * 5 + "0";
-                cVal += parseFloat(li_temp.substring(0, 1)) + parseFloat(li_temp.substring(1, 2));
-                result = parseInt(num.substring(9, 10)) == 10 - (cVal % 10) % 10 ? true : false;
+
+	            if(result != false) {
+		            var cVal = 0;
+		            for (var i = 0; i < 8; i++) {
+			            var cKeyNum = parseInt(((_tmp = i % 3) == 0) ? 1 : (_tmp == 1) ? 3 : 7);
+			            cVal += (parseFloat(num.substring(i, i + 1)) * cKeyNum) % 10;
+		            }
+		            ;
+		            var li_temp = parseFloat(num.substring(i, i + 1)) * 5 + "0";
+		            cVal += parseFloat(li_temp.substring(0, 1)) + parseFloat(li_temp.substring(1, 2));
+		            result = (parseInt(num.substring(9, 10)) == 10 - (cVal % 10) % 10);
+	            }
 
             } else if (ElemValue != "" && validateKey == "phone") {
                 if (realtime == "realtime") {
