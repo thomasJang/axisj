@@ -12919,39 +12919,29 @@ myGrid.setData(gridData);
 
 			// TODO : 체크박스인 셀의 클릭 이벤트 예외처리 필요
 			if (eventTarget.tagName.toLowerCase() == "input") {
-				if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
+				if(!eventTarget.disabled) {
+					if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
 
-					isoncheck = true;
-					checkedValue = eventTarget.checked;
+						isoncheck = true;
+						checkedValue = eventTarget.checked;
 
-					var ieid = event.target.id.split(/_AX_/g);
-					var checkboxColSeq = ieid[ieid.length - 2];
-					var checkboxIndex = ieid[ieid.length - 1];
-					if (cfg.colGroup[checkboxColSeq].oncheck) {
-						var sendObj = {
-							index: checkboxIndex,
-							list : this.list,
-							item : this.list[checkboxIndex]
-						};
-						try {
-							cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
-						} catch (e) {
-							trace(e);
+						var ieid = event.target.id.split(/_AX_/g);
+						var checkboxColSeq = ieid[ieid.length - 2];
+						var checkboxIndex = ieid[ieid.length - 1];
+						if (cfg.colGroup[checkboxColSeq].oncheck) {
+							var sendObj = {
+								index: checkboxIndex,
+								list : this.list,
+								item : this.list[checkboxIndex]
+							};
+							try {
+								cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
+							} catch (e) {
+								trace(e);
+							}
 						}
 					}
-
-
 				}
-				/*
-				 if ((eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button")) {
-				 if (eventTarget.tagName.toLowerCase() == "input") {
-				 if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
-
-
-				 }
-				 }
-				 }
-				 */
 			}
 		}
 
@@ -17078,7 +17068,7 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 	},
 	bindSelectorKeyup: function (objID, objSeq, event) {
-		var obj = this.objects[objSeq];
+		var obj = this.objects[objSeq], _this = this;
 		var cfg = this.config;
 
 		if (obj.inProgress) {
@@ -17114,20 +17104,27 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			this.bindSelectorSelect(objID, objSeq, focusIndex);
 		} else if (event.keyCode == AXUtil.Event.KEY_RETURN) {
-			if (obj.config.focusedIndex == null) {
-				/*axdom("#" + objID).blur();*/
-				this.bindSelectorClose(objID, objSeq, event); // 닫기
-				return;
-			} else {
-				//trace(obj.config.focusedIndex);
-				obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
-				obj.config.selectedIndex = obj.config.focusedIndex;
-				obj.config.isChangedSelect = true;
-				axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
-				/*axdom("#" + objID).blur();*/
-				this.bindSelectorClose(objID, objSeq, event); // 닫기
-				return;
-			}
+				// TODO : 선택이 다 안되었는데 실행 하면 오류..
+				if(obj.inProgress){
+					setTimeout(function(){
+						_this.bindSelectorKeyup(objID, objSeq, event);
+					}, 100);
+				}else{
+					if (obj.config.focusedIndex == null) {
+						/*axdom("#" + objID).blur();*/
+						_this.bindSelectorClose(objID, objSeq, event); // 닫기
+						return;
+					} else {
+						//trace(obj.config.focusedIndex);
+						obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
+						obj.config.selectedIndex = obj.config.focusedIndex;
+						obj.config.isChangedSelect = true;
+						axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+						/*axdom("#" + objID).blur();*/
+						_this.bindSelectorClose(objID, objSeq, event); // 닫기
+						return;
+					}
+				}
 		} else {
 			//1. 반복입력 제어 하기
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
@@ -34928,7 +34925,6 @@ var AXValidator = Class.create(AXJ, {
                 var _end = false;
 
                 jQuery.each(Elem.config, function (k, v) {
-	                trace(Elem, val, k, v, "");
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
                         returnObject = raiseError(Elem, val, k, v);
                         _end = true;
@@ -35173,7 +35169,9 @@ var AXValidator = Class.create(AXJ, {
             } else if (ElemValue != "" && validateKey == "bizno") {
                 var pattern = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
                 var num = ElemValue;
-
+	            if(num.replace(/\D/g, "").length != 10){
+		            result = false;
+	            }
 	            if (!pattern.test(num)){
 		            result = false;
 	            }
