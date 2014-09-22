@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-19 
+AXJ - v1.0.8 - 2014-09-22 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-19 
+AXJ - v1.0.8 - 2014-09-22 
 */
 
 if(!window.AXConfig){
@@ -1388,6 +1388,10 @@ var getUrlInfo = axf.getUrlInfo;
  * @class AXJ
  */
 var AXJ = Class.create({
+/**
+ * @member AXJ.config
+ * @description UI클래스 설정 변수
+ */
     initialize: function () {
         this.config = {
             debugMode: false,
@@ -1408,16 +1412,18 @@ var AXJ = Class.create({
         else if (mtype == "dialog")
             dialog.push(msg);
     },
-	/**
-	 * @method AXJ.setConfig
-	 * @param configs {JSObject} 속성오브젝트
-	 * @returns AXJ
-	 * @description UI 클래스의 속성을 정의 또는 재정의 하고 클래스내부에 init 메소드를 호출합니다.
-	 * @example
-	myClass.setConfig({
-		a:1, b:2, c:function(){}
-	});
-	 */
+/**
+ * @method AXJ.setConfig
+ * @param configs {JSObject} 속성오브젝트
+ * @returns AXJ
+ * @description UI 클래스의 속성을 정의 또는 재정의 하고 클래스내부에 init 메소드를 호출합니다.
+ * @example
+ ```js
+myClass.setConfig({
+	a:1, b:2, c:function(){}
+});
+ ```
+ */
     setConfig: function (configs) {
 		// overwrite this.config
 		if (configs) {for ( k in configs ) {if (configs.hasOwnProperty(k)) this.config[k] = configs[k];}}
@@ -1426,46 +1432,50 @@ var AXJ = Class.create({
         this.init();
 	    return this;
     },
-	/**
-	 * @method AXJ.changeConfig
-	 * @param configs {JSObject} 속성오브젝트
-	 * @returns AXJ
-	 * @description UI 클래스의 속성을 변경 합니다.
-	 * @example
-	myClass.changeConfig({
-		a:1
-	});
-	 */
+/**
+ * @method AXJ.changeConfig
+ * @param configs {JSObject} 속성오브젝트
+ * @returns AXJ
+ * @description UI 클래스의 속성을 변경 합니다.
+ * @example
+ ```js
+myClass.changeConfig({
+	a:1
+});
+ ```
+ */
     changeConfig: function (configs) {
 	    if (configs) {for ( k in configs ) {if (configs.hasOwnProperty(k)) this.config[k] = configs[k];}}
 	    return this;
     },
-	/**
-	 * @method AXJ.getEventTarget
-	 * @param args {JSObject} 설명
-	 * @returns null
-	 * @description 설명
-	 * @example
-	var myTarget = this.getEventTarget({
-	    evt : event.target,
-		until:function(evt, evtIDs){
-			// 선택 조건
-			// event bubble 탐색 종료 시점 정의 함수 argument 로 받은 eventTarget 과 evtIDs 객체로 부터 다양한 조건으로 설정가능
-			// return true; 하면 버블 탐색 종료 됨.
-			// return ( axdom(evt.parentNode).hasClass("CTclassName") );
-			return (evt.parentNode.tagName == "body");
-		},
-		find:function(evt, evtIDs){
-			// return true; 하면 버블탐색 종료 후 현재 eventTarget 리턴
-			//return ( axdom(evt).hasClass("colHeadTd") );
-			return ( evt.id == objID || (evtIDs[0] == cfg.targetID && evtIDs[1] == objID) );
-		}
-	});
-
-	if(myTarget){
-		//something
+/**
+ * @method AXJ.getEventTarget
+ * @param args {JSObject} 설명
+ * @returns null
+ * @description 설명
+ * @example
+ ```js
+var myTarget = this.getEventTarget({
+    evt : event.target,
+	until:function(evt, evtIDs){
+		// 선택 조건
+		// event bubble 탐색 종료 시점 정의 함수 argument 로 받은 eventTarget 과 evtIDs 객체로 부터 다양한 조건으로 설정가능
+		// return true; 하면 버블 탐색 종료 됨.
+		// return ( axdom(evt.parentNode).hasClass("CTclassName") );
+		return (evt.parentNode.tagName == "body");
+	},
+	find:function(evt, evtIDs){
+		// return true; 하면 버블탐색 종료 후 현재 eventTarget 리턴
+		//return ( axdom(evt).hasClass("colHeadTd") );
+		return ( evt.id == objID || (evtIDs[0] == cfg.targetID && evtIDs[1] == objID) );
 	}
-	*/
+});
+
+if(myTarget){
+	//something
+}
+ ```
+*/
     getEventTarget: function (args) {
         var eventTarget = args.evt;
         var eid = (eventTarget && eventTarget.id && eventTarget.id != "") ? eventTarget.id.split(/_AX_/g) : [];
@@ -1487,6 +1497,12 @@ var AXJ = Class.create({
         }
         return eventTarget;
     },
+/**
+ * @method AXJ.getMousePositon
+ * @param event {eventObject}
+ * @returns css {jsObject} pageX, pageY
+ * @description 스크롤된 페이지에서 이벤트의 마우스 x,y 페이지포지션을 구해줍니다.
+ */
     getMousePositon: function (event) {
         var eventDoc, doc, body;
         eventDoc = document;
@@ -1499,37 +1515,33 @@ var AXJ = Class.create({
         css.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
         return css;
     },
-    _GID: function (ids) {
-        var myid = [];
-        for (var a = 0; a < ids.length; a++) {
-            myid.push(ids[a]);
-        }
-        return myid.join("_");
-    },
-    _GPT: function (myid, idx) {
-        var ids = myid.split(/_/g);
-        if (idx == undefined) {
-            return ids.last();
-        } else {
-            return ids[idx];
-        }
-    },
-	/**
-	 * @method AXJ.stopEvent
-	 * @param event {eventObject} 이벤트
-	 * @description 이벤트 버블링을 중지 합니다.
-	 * @example
-	var _this = this;
-	axdom("#" + elementID).on("mousedown", function(event){
-		this.stopEvent();
-	});
-	 */
+/**
+ * @method AXJ.stopEvent
+ * @param event {eventObject} 이벤트
+ * @description 이벤트 버블링을 중지 합니다.
+ * @example
+```js
+var _this = this;
+axdom("#" + elementID).on("mousedown", function(event){
+	_this.stopEvent();
+});
+ ```
+ */
     stopEvent: function (event) {
         if (event.preventDefault) event.preventDefault();
         if (event.stopPropagation) event.stopPropagation();
         event.cancelBubble = true;
         return false;
     },
+/**
+ * @method AXJ.clearRange
+ * @returns AXJ
+ * @description 현재 페이지의 모든 사용자 선택을 취소 합니다.
+ * @example
+```js
+this.clearRange();
+```
+ */
     clearRange: function () {
         if (window.getSelection) {
             if (window.getSelection().empty) {  // Chrome
@@ -1540,7 +1552,20 @@ var AXJ = Class.create({
         } else if (document.selection) {  // IE?
             document.selection.empty();
         }
+		return this;
     },
+/**
+ * @method AXJ.windowResize
+ * @description windowResizeApply메소드 호출을 연속으로 수행되지 않도록 하는 보호장치
+ * @example
+```js
+ var _this = this;
+ $(window).resize(function(){
+   _this.windowResize();
+ });
+ // 결과적으로 windowResizeApply가 호출됩니다.
+```
+ */
     windowResize: function () {
         var windowResizeApply = this.windowResizeApply.bind(this);
         if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
@@ -1565,38 +1590,39 @@ var AXJ = Class.create({
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * 2014-04-10 - tom : onbeforesend 옵션 추가 return false 하면 호출 제어됨.
- * @description
- var url = "AXReqData.txt";
- var pars = "";
- new AXReq(url, {
-    debug:false,
-    pars:pars,
-    onbeforesend: function(){
-        alert("제어");
-        return true;
-    },
-    onsucc:function(res){
-        AXUtil.alert(res);
-    },
-    onerr:function(res){
-        alert("onFail:" + req.responseText);
-    }
- });
  */
 var AXReqQue = Class.create({
+/**
+ * AJAX호출 큐
+ * @member {Array} AXReqQue.que
+ */
+/**
+ * AJAX호출 진행상태
+ * @member {Boolean} AXReqQue.busy
+ */
     initialize: function () {
         this.que = [];
         this.busy = false;
     },
+/**
+ * @method AXReqQue.add
+ * @param obj {JSObject} ajax config
+ * @returns AXReqQue
+ * @description que.push
+ */
     add: function (obj) {
         this.que.push(obj);
-
         try {
             this.start();
         } catch (e) {
-            //AXUtil.alert(e);	
+
         }
+		return this;
     },
+/**
+ * @method AXReqQue.start
+ * @description que에 담긴 AJAX호출을 처리합니다.
+ */
     start: function () {
         if (this.que.length == 0) return;
         if (this.busy) return;
@@ -1613,7 +1639,7 @@ var AXReqQue = Class.create({
             contentType: AXConfig.AXReq.contentType,
             debug: false
         };
-        AXUtil.each(myQue.configs, function (k, v) { // update to {this.config}
+        axf.each(myQue.configs, function (k, v) { // update to {this.config}
             if (k == "pars") {
 
             }
@@ -1640,7 +1666,7 @@ var AXReqQue = Class.create({
         if (config.debug) trace({ url: myQue.url, pars: myQue.configs.pars });
 
         var ajaxOption = {};
-        AXUtil.each(config, function (k, v) { // update to {this.config}
+        axf.each(config, function (k, v) { // update to {this.config}
             ajaxOption[k] = v;
         });
         ajaxOption.url = myQue.url;
@@ -1715,12 +1741,26 @@ var AXReqQue = Class.create({
             mask.close();
         } catch (e) { }
     },
+/**
+ * @method AXReqQue.abort
+ * @returns {AXReqQue} AXReqQue
+ * @description 설명
+ * @example
+```js
+ // AXCore.js파일 에서 미리선언된 AXReqQue의 인스턴스 myAXreqQue를 이용하여 abort 명령을 내릴수 있습니다.
+ myAXreqQue.abort();
+ // 또는
+ AXReqAbort();
+ // 현재 진행중인 AJAX호출을 취소시켜줍니다.
+```
+ */
     abort: function(){
         try{
             this.que[0]._jQueryAjax.abort();
         }catch(e){
 
         }
+		return this;
     }
 });
 var myAXreqQue = new AXReqQue();
@@ -2196,11 +2236,13 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  "2014-08-20 tom focusElement 버그픽스"
  "2014-08-28 tom setSBPosition 예외사항 exeception"
  * @example
+```js
 var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
 myUIScroll.setConfig({
 	targetID:"UIScrollContainer",
 	scrollID:"UIScrollTarget"
 });
+ ```
  *
  */
 var AXScroll = Class.create(AXJ, {
@@ -3149,13 +3191,39 @@ myUIScroll.setConfig({
 /* ---------------------------------------------- AXScroll -- */
 
 /* -- AXCalendar ---------------------------------------------- */
+/**
+ * @class AXCalendar
+ * @extends AXJ
+ * @version v1.1
+ * @author tom@axisj.com
+ * @logs
+ * "2012-12-05 오후 11:54:27"
+ * "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
+ *
+ */
 var AXCalendar = Class.create(AXJ, {
-    version: "AXCalendar v1.1",
-    author: "tom@axisj.com",
-    logs: [
-        "2012-12-05 오후 11:54:27",
-        "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
-    ],
+/**
+ * AXCalendar 기본속성
+ * @member {Object} AXCalendar.config
+ * @example
+ ```js
+ {
+	 CT_className : {String},
+	 weeks : {
+	    { name: "SUN" },
+	    { name: "MON" },
+	    { name: "TUE" },
+	    { name: "WED" },
+	    { name: "THU" },
+	    { name: "FRI" },
+	    { name: "SAT" }
+	 },
+	 printFormat : "dd",
+	 titleFormat : "yyyy/mm/dd",
+	 valueFormat : "yyyy-mm-dd"
+ }
+ ```
+ */
     initialize: function (AXJ_super) {
         AXJ_super();
         this.config.CT_className = "AXCalendar";
@@ -7441,6 +7509,21 @@ var AXEditorLang = {
  */
 
 var AXEditor = Class.create(AXJ, {
+	_GID: function (ids) {
+		var myid = [];
+		for (var a = 0; a < ids.length; a++) {
+			myid.push(ids[a]);
+		}
+		return myid.join("_");
+	},
+	_GPT: function (myid, idx) {
+		var ids = myid.split(/_/g);
+		if (idx == undefined) {
+			return ids.last();
+		} else {
+			return ids[idx];
+		}
+	},
 	initialize: function(AXJ_super){
 		AXJ_super();
 		this.moveSens = 0;
@@ -20217,6 +20300,14 @@ axdom.fn.unbindInput = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends bindSearch
+ * @param config { JSObject }
+ * @returns jQuery object
+ * @description search AXInput IE9 이하에서도 placeholder를 지원한다.
+ * @example
+axdom('.AXInputSearch').bindSearch();
+**/
 axdom.fn.bindSearch = function (config) {
 	axf.each(this, function () {
 		if (config == undefined) config = {};
@@ -20227,6 +20318,24 @@ axdom.fn.bindSearch = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends bindNumber
+ * @param config { JSObject }
+ * @returns jQuery object
+ * @description 
+ * @example
+$("#AXInputNumber1").bindNumber();
+$("#AXInputNumber2").bindNumber(
+	{
+		min:1, 
+		max:100, 
+		onChange : function(){
+			trace(this);
+		}
+	}
+);
+$("#AXInputNumber3").bindNumber({min:20});
+**/
 axdom.fn.bindNumber = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -22361,6 +22470,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 		this.list.push(item);
 
+		//trace(this.list);
+
 		var lidx = this.list.length-1;
 		this.printItem(lidx, this.list[lidx]);
 		this.printFootItem();
@@ -22370,6 +22481,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 	getItem: function(arg, update){
 		var cfg = this.config;
 		var po = [];
+
+
 		if(update == undefined) po.push("<td class=\"bodyTd\">");
 		po.push("	<div class=\"tdRelBlock\" style=\"text-align:" + (arg.align||"left") + ";\">");
 
@@ -22406,7 +22519,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.body.empty();
 		this.body.append(po.join(''));
 
-		jQuery.each(this.list, function(lidx, L){
+		jQuery.each(this.list, function (lidx, L) {
 			printItem(lidx, L);
 		});
 
@@ -22418,57 +22531,63 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var AXbindOnchange = this.AXbindOnchange.bind(this);
 		var _body = this.body.find("tbody");
 
+		if (!L) return;
+
 		var tr = [];
 		if(update == undefined) tr.push("<tr class='modelControlTR' id='" + cfg.targetID + "_tbodyTR_" + lidx + "'>");
 
 		jQuery.each(cfg.body.form, function (fidx, form) {
-			tr.push(getItem({
-				rowIndex:lidx, colIndex:fidx,
-				align:form.align,
-				html:form.html, data:form.data
-			}));
+			if (form) {
+				tr.push(getItem({
+					rowIndex: lidx, colIndex: fidx,
+					align: (form.align || "left"),
+					html: form.html, data: form.data
+				}));
+			}
 		});
 		if(update == undefined) tr.push("</tr>");
 		if(update == undefined){
-			_body.append(tr.join());
+			_body.append(tr.join(''));
 		}else{
 			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).html(tr.join(''));
 		}
 
 		var oncursorKeyup = this.oncursorKeyup.bind(this);
 
-		jQuery.each(cfg.body.form, function(fidx, form) {
-			if(form.AXBind){
-				var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
-				var myConfig = AXUtil.copyObject(form.AXBind.config);
-				jQuery.each(myConfig, function(k, v){
-					if(Object.isString(v)) myConfig[k] = v.replace(/@rowIndex/g, lidx);
-				});
+		jQuery.each(cfg.body.form, function (fidx, form) {
+			if (form) {
+				if (form.AXBind) {
+					var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
+					var myConfig = AXUtil.copyObject(form.AXBind.config);
+					jQuery.each(myConfig, function (k, v) {
+						if (Object.isString(v)) myConfig[k] = v.replace(/@rowIndex/g, lidx);
+					});
 
-				myConfig.onchange = function(){
-					AXbindOnchange(lidx, fidx, this);
-				};
+					myConfig.onchange = function () {
+						AXbindOnchange(lidx, fidx, this);
+					};
 
-				if(form.AXBind.type == "TwinDate"){
-					jQuery("#"+bindID).bindTwinDate(myConfig);
-				}else if(form.AXBind.type == "Date"){
-					jQuery("#"+bindID).bindDate(myConfig);
-				}else if(form.AXBind.type == "Select"){
-					jQuery("#"+bindID).unbindSelect();
-					jQuery("#"+bindID).bindSelect(myConfig);
-					if(cfg.cursorFocus){
-						jQuery("#"+bindID).bindSelectGetAnchorObject().bind("keydown.AXModelControlGrid", function(event){
-							setTimeout(function(){
-								oncursorKeyup(jQuery("#"+bindID), event, lidx);
-							}, 10);
-						});
+					if (form.AXBind.type == "TwinDate") {
+						jQuery("#" + bindID).bindTwinDate(myConfig);
+					} else if (form.AXBind.type == "Date") {
+						jQuery("#" + bindID).bindDate(myConfig);
+					} else if (form.AXBind.type == "Select") {
+						jQuery("#" + bindID).unbindSelect();
+						jQuery("#" + bindID).bindSelect(myConfig);
+						if (cfg.cursorFocus) {
+							jQuery("#" + bindID).bindSelectGetAnchorObject().bind("keydown.AXModelControlGrid", function (event) {
+								setTimeout(function () {
+									oncursorKeyup(jQuery("#" + bindID), event, lidx);
+								}, 10);
+							});
+						}
+					} else if (form.AXBind.type == "Selector") {
+						jQuery("#" + bindID).bindSelector(myConfig);
+					} else if (form.AXBind.type == "Money") {
+						jQuery("#" + bindID).bindMoney(myConfig);
+					} else if (form.AXBind.type == "Number") {
+						jQuery("#" + bindID).bindNumber(myConfig);
 					}
-				}else if(form.AXBind.type == "Selector"){
-					jQuery("#"+bindID).bindSelector(myConfig);
-				}else if(form.AXBind.type == "Money"){
-					jQuery("#"+bindID).bindMoney(myConfig);
-				}else if(form.AXBind.type == "Number"){
-					jQuery("#"+bindID).bindNumber(myConfig);
 				}
 			}
 		});
@@ -26963,7 +27082,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.56
+ * @version v1.56.1
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -26998,6 +27117,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-08-04 tom : 'modify add' relationFixedSync arguments define"
  "2014-08-13 tom : window.resize 이벤트시 selectedRow 유지, expandAll 메소드 뎁스 아규먼트 추가"
  "2014-09-01 tom : tree key event로 커서 이동 밑 트리 열기 닫기 지원"
+ "2014-09-22 tom : positioningHashList 버그 픽스"
  *
  * @description
  *
@@ -31682,8 +31802,9 @@ var AXTree = Class.create(AXJ, {
 			if (L[reserveKeys.parentHashKey] == undefined && !L.isRoot) {
 
 				if(L.AXTreeSplit) continue;
+
 				var pItem = List[pointer[L[relation.parentKey]]];
-				var pHash = pItem[reserveKeys.hashKey];
+				var pHash = pItem[reserveKeys.hashKey] || "";
 				var pHashs = pHash.split(/_/g);
 				var pTree = tree;
 				axf.each(pHashs, function (idx, T) {
