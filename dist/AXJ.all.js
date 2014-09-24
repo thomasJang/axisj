@@ -1,14 +1,14 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-23 
+AXJ - v1.0.8 - 2014-09-24 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-23 
+AXJ - v1.0.8 - 2014-09-24 
 */
 
 if(!window.AXConfig){
 /**
- * @namespace AXConfig
- * @description AXISJ UI 등에 기본값으로 사용되는 설정 변수
+ * AXISJ UI 등에 기본값으로 사용되는 설정 변수
+ * @namespace {Object} AXConfig
  * @example
  ```json
  AXconfig.weekDays = [{label:""},..];
@@ -1414,8 +1414,8 @@ var AXJ = Class.create({
     },
 /**
  * @method AXJ.setConfig
- * @param configs {JSObject} 속성오브젝트
- * @returns AXJ
+ * @param {Object} configs - 속성오브젝트
+ * @returns {AXJ}
  * @description UI 클래스의 속성을 정의 또는 재정의 하고 클래스내부에 init 메소드를 호출합니다.
  * @example
  ```js
@@ -1434,8 +1434,8 @@ myClass.setConfig({
     },
 /**
  * @method AXJ.changeConfig
- * @param configs {JSObject} 속성오브젝트
- * @returns AXJ
+ * @param {Object} configs - 속성오브젝트
+ * @returns {AXJ}
  * @description UI 클래스의 속성을 변경 합니다.
  * @example
  ```js
@@ -1450,8 +1450,8 @@ myClass.changeConfig({
     },
 /**
  * @method AXJ.getEventTarget
- * @param args {JSObject} 설명
- * @returns null
+ * @param {Object} args - 설명
+ * @returns {Null}
  * @description 설명
  * @example
  ```js
@@ -1499,8 +1499,8 @@ if(myTarget){
     },
 /**
  * @method AXJ.getMousePositon
- * @param event {eventObject}
- * @returns css {jsObject} pageX, pageY
+ * @param {eventObject} event
+ * @returns {Object} css - pageX, pageY
  * @description 스크롤된 페이지에서 이벤트의 마우스 x,y 페이지포지션을 구해줍니다.
  */
     getMousePositon: function (event) {
@@ -1517,7 +1517,7 @@ if(myTarget){
     },
 /**
  * @method AXJ.stopEvent
- * @param event {eventObject} 이벤트
+ * @param {eventObject} event - 이벤트
  * @description 이벤트 버블링을 중지 합니다.
  * @example
 ```js
@@ -1535,7 +1535,7 @@ axdom("#" + elementID).on("mousedown", function(event){
     },
 /**
  * @method AXJ.clearRange
- * @returns AXJ
+ * @returns {AXJ}
  * @description 현재 페이지의 모든 사용자 선택을 취소 합니다.
  * @example
 ```js
@@ -1579,7 +1579,7 @@ this.clearRange();
 });
 
 /**
- * @namespace jQueryExtends
+ * @namespace {jQueryObject} jQueryExtends
  */
 
 // -- AXReq ----------------------------------------------
@@ -1606,8 +1606,8 @@ var AXReqQue = Class.create({
     },
 /**
  * @method AXReqQue.add
- * @param obj {JSObject} ajax config
- * @returns AXReqQue
+ * @param {Object} obj - ajax config
+ * @returns {AXReqQue}
  * @description que.push
  */
     add: function (obj) {
@@ -1770,8 +1770,8 @@ var AXReqAbort = function(){
 
 /**
  * @class AXReq
- * @param url {String} 비동기 호출 URL
- * @param config {JSObject} 비동기 호출 설정
+ * @param {String} url - 비동기 호출 URL
+ * @param {Object} config - 비동기 호출 설정
  * @description AJAX 호출구문을 AXReqQue 에 add 하여 비동기 호출합니다.
  * @example
 ```
@@ -1784,7 +1784,7 @@ new AXReq(url, {
 	responseType: [AJAX response type] optional,
 	dataType: [Ajax data type] optional,
 	headers: [AJAX headers] optional,
-	pars: [parameter|JSObject],
+	pars: [parameter|Object],
 	onsucc: [Function],
 	onerr: [Function] optional
 });
@@ -1908,8 +1908,8 @@ mask.setConfig();
 
 /**
  * @method AXMask.open
- * @param config {JSObject} 설명
- * @returns null
+ * @param {Object} config - 설명
+ * @returns {Null}
  * @description 설명
  * @example
 ```
@@ -1920,10 +1920,11 @@ mask.setConfig();
 ```
  */
 
+
 /**
  * @method jQueryExtends.mask
- * @param config {JSObject} 설명
- * @returns jQueryObject
+ * @param {Object} config - 설명
+ * @returns {jQueryObject}
  * @description mask 삽입위치를 엘리먼트 다음의 위치로 합니다.
  * @example
  ```
@@ -2181,7 +2182,7 @@ var AXNotification = Class.create(AXJ, {
 
 /**
  * @method AXNotification.push
- * @param content {JSObject|String} 대상물 문자열 혹은 오브젝트로 구성
+ * @param {Object|String} content - 대상물 문자열 혹은 오브젝트로 구성
  * @description notification은 dialog, toast 2가지 형태가 존재하고 각각 push 메소드를 이용하여 출력한다.
  * @example
 ```
@@ -2262,7 +2263,7 @@ var AXScroll = Class.create(AXJ, {
     },
 /**
  * @method AXScroll.setConfig
- * @param configs {JSObject} 스크롤 속성 오브젝트
+ * @param {Object} configs - 스크롤 속성 오브젝트
  * @description 스크롤 대상과 스크롤 컨테이너를 지정하여 스크롤UI를 구현합니다.
  * @example
 myUIScroll.setConfig({
@@ -2290,7 +2291,7 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.updateScroll
- * @returns AXScroll
+ * @returns {AXScroll}
  * @description 스크롤 처리 대상의 사이즈를 재정의 합니다. 스크롤 대상의 크기가 변경되었을 때 호출
  * @example
  myUIScroll.updateScroll();
@@ -3079,8 +3080,8 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.focusElement
- * @param id {String} 포커스 할 대상 엘리먼트 아이디
- * @returns AXScroll
+ * @param {String} id - 포커스 할 대상 엘리먼트 아이디
+ * @returns {AXScroll}
  * @description 스크롤 오브젝트 안에 엘리먼트를 포커스 합니다.
  * @example
  myUIScroll.focusElement("resizer01");
@@ -3106,8 +3107,8 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.scrollTop
- * @param top {Number} scrollTop position
- * @returns AXScroll
+ * @param {Number} top - scrollTop position
+ * @returns {AXScroll}
  * @description 스크롤 포지션을 원하는 포지션으로 이동합니다.
  * @example
  myUIScroll.scrollTop(0);
@@ -3126,9 +3127,9 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.moveTo
- * @param x {Number} scrollTop position (optional)
- * @param y {Number} scrollLeft position (optional)
- * @returns AXScroll
+ * @param {Number} x - scrollTop position (optional)
+ * @param {Number} y - scrollLeft position (optional)
+ * @returns {AXScroll}
  * @description 스크롤위치를 이동시킵니다.
  * @example
  myUIScroll.moveTo();
@@ -3155,7 +3156,7 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.unbind
- * @returns AXScroll
+ * @returns {AXScroll}
  * @description 스크롤을 UI를 제거합니다.
  * @example
  myUIScroll.unbind();
@@ -4284,7 +4285,7 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.setConfig
- * @param configs {JSObject}
+ * @param {Object} configs
  * @description 선언된 클래스를 사용하기 위해 속성을 정의합니다.
  * @example
 ```js
@@ -4297,8 +4298,8 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.bindSetConfig
- * @param objID {String} object ID
- * @param configs {JSObject} contentMenu config
+ * @param {String} objID - object ID
+ * @param {Object} configs - contentMenu config
  * @description contextmenu 오브젝트에 속성을 변경합니다.
  * @example
 ```js
@@ -4325,8 +4326,8 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.bind
- * @param obj {JSObject} 컨텍스트메뉴 속성
- * @returns AXContextMenuClass
+ * @param {Object} obj - 컨텍스트메뉴 속성
+ * @returns {AXContextMenuClass}
  * @description 컨텍스트메뉴를 선언하여 컨텍스트메뉴를 사용준비합니다. bind한 컨텍스트메뉴는 id로 open 할 수 있습니다.
  * @example
 ```js
@@ -4452,9 +4453,9 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXContextMenuClass
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXContextMenuClass}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
 ```js
@@ -4895,8 +4896,8 @@ AXContextMenu.open({
     },
 /**
  * @method AXContextMenuClass.close
- * @param obj {JSObject}
- * @returns AXContextMenuClass
+ * @param {Object} obj
+ * @returns {AXContextMenuClass}
  * @description 열린 컨텍스트메뉴 개체를 닫습니다.
  * @example
 ```js
@@ -5120,8 +5121,8 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.bindSetConfig
- * @param objID {String} object ID
- * @param configs {JSObject} contentMenu config
+ * @param {String} objID - object ID
+ * @param {Object} configs - contentMenu config
  * @description contextmenu 오브젝트에 속성을 변경합니다.
  * @example
  ```js
@@ -5130,8 +5131,8 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.bind
- * @param obj {JSObject} 컨텍스트메뉴 속성
- * @returns AXContextMenu
+ * @param {Object} obj - 컨텍스트메뉴 속성
+ * @returns {AXContextMenu}
  * @description 컨텍스트메뉴를 선언하여 컨텍스트를 메뉴를 사용준비합니다. bind한 컨텍스트 메뉴는 id로 open 할 수 있습니다.
  * @example
  ```js
@@ -5177,9 +5178,9 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXContextMenu
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXContextMenu}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
  ```js
@@ -5194,8 +5195,8 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.close
- * @param obj {JSObject}
- * @returns AXContextMenu
+ * @param {Object} obj
+ * @returns {AXContextMenu}
  * @description 열린 컨텍스트메뉴 개체를 닫습니다.
  * @example
  ```js
@@ -5221,7 +5222,7 @@ AXContextMenu.setConfig({});
 var AXPopOverClass = Class.create(AXContextMenuClass, {
 /**
  * @method AXPopOverClass.bind
- * @param obj {JSObject} 팝오버메뉴 속성
+ * @param {Object} obj 팝오버메뉴 속성
  * @returns AXPopOverClass
  * @description 팝오버메뉴를 선언하여 팝오버 메뉴를 사용준비합니다. bind한 팝오버메뉴는 id로 open 할 수 있습니다.
  * @example
@@ -5258,9 +5259,9 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 /**
  * @method AXPopOverClass.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXPopOverClass
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXPopOverClass}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
  ```js
@@ -5276,8 +5277,8 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 /**
  * @method AXPopOverClass.close
- * @param obj {JSObject}
- * @returns AXPopOverClass
+ * @param {Object} obj
+ * @returns {AXPopOverClass}
  * @description 열린 팝오버메뉴 개체를 닫습니다.
  * @example
  ```js
@@ -5543,8 +5544,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.bindSetConfig
- * @param objID {String} object ID
- * @param configs {JSObject} contentMenu config
+ * @param {String} objID - object ID
+ * @param {Object} configs contentMenu config
  * @description contextmenu 오브젝트에 속성을 변경합니다.
  * @example
  ```js
@@ -5553,8 +5554,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.bind
- * @param obj {JSObject} 컨텍스트메뉴 속성
- * @returns AXPopOver
+ * @param {Object} obj - 컨텍스트메뉴 속성
+ * @returns {AXPopOver}
  * @description 컨텍스트메뉴를 선언하여 컨텍스트를 메뉴를 사용준비합니다. bind한 컨텍스트 메뉴는 id로 open 할 수 있습니다.
  * @example
  ```js
@@ -5589,9 +5590,9 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXPopOver
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXPopOver}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
  ```js
@@ -5606,8 +5607,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.close
- * @param obj {JSObject}
- * @returns AXPopOver
+ * @param {Object} obj
+ * @returns {AXPopOver}
  * @description 열린 팝오버 개체를 닫습니다.
  * @example
  ```js
@@ -5620,8 +5621,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
 
 /**
  * @method jQueryExtends.bindTooltip
- * @param configs {JSObject} 툴팁설정
- * @returns jQueryObject
+ * @param {Object} configs - 툴팁설정
+ * @returns {jQueryObject}
  * @description 툴팁을 바인드 하는 대상의 '아이디+"_AX_tooltip"'를 아이디로 하는 엘리먼트를 대상이 마우스 오버 이벤트 발생 할때 툴팁으로 표시 합니다.
  * @example
 ```js
@@ -5726,7 +5727,7 @@ var AXMobileModal = Class.create(AXJ, {
     },
 /**
  * @method AXMobileModal.setConfig
- * @param configs {JSObject}
+ * @param {Object} configs
  * @description 모바일모달 개체 초기화
  * @example
 ```js
@@ -5756,7 +5757,7 @@ myMobileModal.setConfig({
     },
 /**
  * @method AXMobileModal.open
- * @returns modalObject {JSObject} 열린 모달의 오브젝트
+ * @returns {Object} modalObject - 열린 모달의 오브젝트
  * @description 모바일 모달창을 열고 열린 모달의 엘리먼트 정보를 리턴합니다.
  * @example
 ```js
@@ -5911,7 +5912,7 @@ obj.modalBody.html("<div style='height:250px;background:#fff;text-align: center;
 
 /**
  * @method AXMobileModal.close
- * @returns AXMobileModal
+ * @returns {AXMobileModal}
  * @description 모바일모달창을 닫습니다.
  * @example
 ```js
@@ -6049,56 +6050,62 @@ var __r20 = /%20/g,
     __rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
     __rselectTextarea = /^(?:select|textarea)/i;
 
-axdom.fn.extend({
-    serializeObject: function () {
-
-        var myArray = this.map(function () {
-	            return this.elements ? axdom.makeArray(this.elements) : this;
-	        })
-            .filter(function () {
-                return this.name && !this.disabled &&
-                    (this.checked || __rselectTextarea.test(this.nodeName) ||
-                        __rinput.test(this.type));
-            })
-            .map(function (i, elem) {
-                var val = axdom(this).val();
-                var label = (axdom(elem).attr("title") || axdom(elem).attr("placeholder") || "");
-
-		        if(val == null){
-			        if(this.nodeName.lcase() == "select") val = "";
-		        }
-
-                return val == null ?
-                    null :
-                    axdom.isArray(val) ?
-                        axdom.map(val, function (val, i) {
-                            return { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
-                        }) :
-                    { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
-
-            }).get();
-        return myArray;
-    }
-});
-
-axdom(document.body).ready(function () {
-    axdom("input[type=text]").bind("mousedown", function () { this.focus(); });
-    axdom("textarea").bind("mousedown", function () { this.focus(); });
-});
-
-
-
 // jquery event extend for mobile
 var rkeyEvent = /^key/;
 var rmouseEvent = /^(?:mouse|contextmenu)|click/;
 axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
-    axdom.fn[name] = function (data, fn) {
-        if (fn == null) { fn = data; data = null; }
-        return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
-    };
-    if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
-    if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
+	axdom.fn[name] = function (data, fn) {
+		if (fn == null) { fn = data; data = null; }
+		return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
+	};
+	if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
+	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
 });
+
+
+
+/**
+ * 설명
+ * @member {type} AXJ.name
+ */
+/**
+ * @method jQueryExtends.serializeObject
+ * @returns {Array}
+ * @description 엘리먼트 안에 폼아이템 요소들을 수집합니다. <en>Collect 'form item' inside target element</en>
+ * @example
+ ```js
+ var myItems = $("#mytarget").serializeObject();
+ ```
+ */
+axdom.fn.serializeObject = function () {
+    var myArray = this.map(function () {
+            return this.elements ? axdom.makeArray(this.elements) : this;
+        })
+        .filter(function () {
+            return this.name && !this.disabled &&
+                (this.checked || __rselectTextarea.test(this.nodeName) ||
+                    __rinput.test(this.type));
+        })
+        .map(function (i, elem) {
+            var val = axdom(this).val();
+            var label = (axdom(elem).attr("title") || axdom(elem).attr("placeholder") || "");
+
+	        if(val == null){
+		        if(this.nodeName.lcase() == "select") val = "";
+	        }
+
+            return val == null ?
+                null :
+                axdom.isArray(val) ?
+                    axdom.map(val, function (val, i) {
+                        return { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
+                    }) :
+                { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
+
+        }).get();
+    return myArray;
+};
+
 
 /**
  * @method jQueryExtends.endFocus
@@ -6131,7 +6138,7 @@ axdom.fn.endFocus = function () {
 
 /**
  * @method jQueryExtends.setCaret
- * @param pos {Number} 포커스 포지션 넘버
+ * @param {Number} pos - 포커스 포지션 넘버
  * @returns {jQueryObject}
  * @description input 엘리먼트 특정위치에 커서를 위치시켜 줍니다.
  * @example
@@ -6160,8 +6167,8 @@ axdom.fn.setCaret = function (pos) {
 
 /**
  * @method jQueryExtends.onwheel
- * @param handler {String} 이벤트 키 네임
- * @param callBackFn {Function} 이벤트 콜백 함수
+ * @param {String} handler - 이벤트 키 네임
+ * @param {Function} callBackFn - 이벤트 콜백 함수
  * @returns {jQueryObject}
  * @description 엘리먼트에 휠이벤트를 바인드 합니다. (단 엘리먼트에 id속성이 없는 경우 제대로 작동하지 않을 수 있습니다.)
  * @example
@@ -6187,7 +6194,7 @@ axdom.fn.onwheel = function(handler, callBackFn){
 
 /**
  * @method jQueryExtends.offwheel
- * @param handler {String} 이벤트 키 네임
+ * @param {String} handler - 이벤트 키 네임
  * @returns {jQueryObject}
  * @description 엘리먼트에 휠이벤트를 언바인드 합니다. (단 엘리먼트에 id속성이 없는 경우 제대로 작동하지 않을 수 있습니다.)
  * @example
@@ -6205,6 +6212,14 @@ axdom.fn.offwheel = function(handler){
 	});
 	return this;
 };
+
+/*
+input type=text, textarea가 일부 브라우저에서 포커스 되지 않는 현상해결 해주는 구문
+ */
+axdom(document.body).ready(function () {
+	axdom("input[type=text]").bind("mousedown", function () { this.focus(); });
+	axdom("textarea").bind("mousedown", function () { this.focus(); });
+});
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
  
@@ -12696,10 +12711,30 @@ myGrid.setData(gridData);
 		}
 		this.redrawDataSet();
 	},
+/**
+ * @method AXGrid.pushList
+ * @param {Object|Array} pushItem
+ * @param {Number} [insertIndex] - 삽입위치 인덱스 <en>Index of Insert Position</en>
+ * @returns {AXGrid}
+ * @description 그리드에 데이터를 삽입합니다. <en>push to Grid.list</en>
+ * @example
+```js
+ myGrid.pushList([item Array]);
+ myGrid.pushList([item Array], 1);
+ myGrid.pushList([item]);
+```
+ */
 	pushList: function (pushItem, insertIndex) {
 		var cfg = this.config;
 
 		this.cancelEditor();
+		var pushData = [];
+		// 오브젝트 또는 Array를 처리 할 수 있도록 변경
+		if (Object.isArray(pushItem)) {
+			pushData = pushItem;
+		} else {
+			pushData = [pushItem];
+		}
 
 		pushItem._CUD = "C";
 		if (insertIndex != null && insertIndex != undefined) {
@@ -12708,18 +12743,22 @@ myGrid.setData(gridData);
 			var newList = [];
 			for (var L, listIndex = 0, __arr = this.list; (listIndex < __arr.length && (L = __arr[listIndex])); listIndex++) {
 				if (listIndex == itemIndex) {
-					newList.push(pushItem);
+					for (var li = 0; li < pushData.length; li++) {
+						newList.push(pushData[li]);
+					}
 				}
 				newList.push(L);
 			}
 			;
 			this.list = newList;
-			var item = this.list[itemIndex];
 
-			var npo = this.getItem(itemIndex, item, "n");
-			if (this.hasFixed) {
-				var fpo = this.getItem(itemIndex, item, "fix");
-			}
+			/*
+			 var item = this.list[itemIndex];
+			 var npo = this.getItem(itemIndex, item, "n");
+			 if (this.hasFixed) {
+			 var fpo = this.getItem(itemIndex, item, "fix");
+			 }
+			 */
 
 			this.printList();
 			//this.bigDataSyncApply();
@@ -12727,13 +12766,19 @@ myGrid.setData(gridData);
 			this.setFocus(itemIndex);
 
 		} else {
-			this.list.push(pushItem);
+
+			for (var li = 0; li < pushData.length; li++) {
+				this.list.push(pushData[li]);
+			}
+			//this.list.push(pushItem);
 			this.bigDataSyncApply();
 			this.contentScrollResize(false);
 		}
 
 		if (!this.pageActive) this.setStatus(this.list.length);
 		this.redrawDataSet();
+
+		return this;
 	},
 	fetchList: function(list){
 		var cfg = this.config, VS = this.virtualScroll;
