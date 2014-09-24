@@ -60,8 +60,8 @@
                         }
                         },
                         {key:"writer", label:"작성자", width:"100"},
-                        {key:"regDate", label:"작성일", width:"100"},
-                        {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+                        {key:"regDate", label:"작성일", width:"100", valign:"top"},
+                        {key:"price", label:"가격", width:"100", align:"right", valign:"top", formatter:"money"},
                         {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
                         {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
                             return (this.item.price.number() * this.item.amount.number()).money();
@@ -97,7 +97,7 @@
                 var list = [
                     {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 1 사용법 list json 직접 지정 법", price:123000, amount:10}, // item
                     {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 2 사용법 list json 직접 지정 법", price:12300, amount:7},
-                    {no:3, title:"AXGrid 두번째 줄 입니다.", writer:"한기영", regDate:"2013-01-19", desc:"myGrid.setList 의 2 사용법 list json 직접 지정 법", price:12000, amount:5},
+                    {no:3, title:"AXGrid 두번째 줄 입니다.", writer:"한기영", regDate:"2013-01-19", desc:"myGrid.setList 의 2 사용법 list json 직접 지정 법", price:12300, amount:5},
                     {no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-19", desc:"myGrid.setList 의 3 사용법 list json 직접 지정 법", price:13000, amount:4},
                     {no:5, title:"AXGrid 첫번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-19", desc:"myGrid.setList 의 4 사용법 list json 직접 지정 법", price:3000, amount:3},
                     {no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-20", desc:"myGrid.setList 의 5 사용법 list json 직접 지정 법", price:123000, amount:2},
