@@ -1,14 +1,14 @@
 /*! 
-AXJ - v1.0.8 - 2014-09-19 
+AXJ - v1.0.9 - 2014-09-24 
 */
 /*! 
-AXJ - v1.0.8 - 2014-09-19 
+AXJ - v1.0.9 - 2014-09-24 
 */
 
 if(!window.AXConfig){
 /**
- * @namespace AXConfig
- * @description AXISJ UI 등에 기본값으로 사용되는 설정 변수
+ * AXISJ UI 등에 기본값으로 사용되는 설정 변수
+ * @namespace {Object} AXConfig
  * @example
  ```json
  AXconfig.weekDays = [{label:""},..];
@@ -686,9 +686,8 @@ Object.extend(String.prototype, (function () {
 				return (defaultDate || new Date());
 			}
 		} else if (this.length == 8) {
-			var separator = (separator || "-");
 			var va = this.replace(/\D/g, "");
-			return (va.substr(0, 4) + separator + (va.substr(4, 2).number()-1) + separator + va.substr(6, 2)).date();
+			return new Date(va.substr(0, 4), (va.substr(4, 2).number()-1), va.substr(6, 2).number(), 12);
 		} else if (this.length < 10) {
 			return (defaultDate || new Date());
 		} else if (this.length > 15) {
@@ -1388,6 +1387,10 @@ var getUrlInfo = axf.getUrlInfo;
  * @class AXJ
  */
 var AXJ = Class.create({
+/**
+ * @member AXJ.config
+ * @description UI클래스 설정 변수
+ */
     initialize: function () {
         this.config = {
             debugMode: false,
@@ -1408,16 +1411,18 @@ var AXJ = Class.create({
         else if (mtype == "dialog")
             dialog.push(msg);
     },
-	/**
-	 * @method AXJ.setConfig
-	 * @param configs {JSObject} 속성오브젝트
-	 * @returns AXJ
-	 * @description UI 클래스의 속성을 정의 또는 재정의 하고 클래스내부에 init 메소드를 호출합니다.
-	 * @example
-	myClass.setConfig({
-		a:1, b:2, c:function(){}
-	});
-	 */
+/**
+ * @method AXJ.setConfig
+ * @param {Object} configs - 속성오브젝트
+ * @returns {AXJ}
+ * @description UI 클래스의 속성을 정의 또는 재정의 하고 클래스내부에 init 메소드를 호출합니다.
+ * @example
+ ```js
+myClass.setConfig({
+	a:1, b:2, c:function(){}
+});
+ ```
+ */
     setConfig: function (configs) {
 		// overwrite this.config
 		if (configs) {for ( k in configs ) {if (configs.hasOwnProperty(k)) this.config[k] = configs[k];}}
@@ -1426,46 +1431,50 @@ var AXJ = Class.create({
         this.init();
 	    return this;
     },
-	/**
-	 * @method AXJ.changeConfig
-	 * @param configs {JSObject} 속성오브젝트
-	 * @returns AXJ
-	 * @description UI 클래스의 속성을 변경 합니다.
-	 * @example
-	myClass.changeConfig({
-		a:1
-	});
-	 */
+/**
+ * @method AXJ.changeConfig
+ * @param {Object} configs - 속성오브젝트
+ * @returns {AXJ}
+ * @description UI 클래스의 속성을 변경 합니다.
+ * @example
+ ```js
+myClass.changeConfig({
+	a:1
+});
+ ```
+ */
     changeConfig: function (configs) {
 	    if (configs) {for ( k in configs ) {if (configs.hasOwnProperty(k)) this.config[k] = configs[k];}}
 	    return this;
     },
-	/**
-	 * @method AXJ.getEventTarget
-	 * @param args {JSObject} 설명
-	 * @returns null
-	 * @description 설명
-	 * @example
-	var myTarget = this.getEventTarget({
-	    evt : event.target,
-		until:function(evt, evtIDs){
-			// 선택 조건
-			// event bubble 탐색 종료 시점 정의 함수 argument 로 받은 eventTarget 과 evtIDs 객체로 부터 다양한 조건으로 설정가능
-			// return true; 하면 버블 탐색 종료 됨.
-			// return ( axdom(evt.parentNode).hasClass("CTclassName") );
-			return (evt.parentNode.tagName == "body");
-		},
-		find:function(evt, evtIDs){
-			// return true; 하면 버블탐색 종료 후 현재 eventTarget 리턴
-			//return ( axdom(evt).hasClass("colHeadTd") );
-			return ( evt.id == objID || (evtIDs[0] == cfg.targetID && evtIDs[1] == objID) );
-		}
-	});
-
-	if(myTarget){
-		//something
+/**
+ * @method AXJ.getEventTarget
+ * @param {Object} args - 설명
+ * @returns {Null}
+ * @description 설명
+ * @example
+ ```js
+var myTarget = this.getEventTarget({
+    evt : event.target,
+	until:function(evt, evtIDs){
+		// 선택 조건
+		// event bubble 탐색 종료 시점 정의 함수 argument 로 받은 eventTarget 과 evtIDs 객체로 부터 다양한 조건으로 설정가능
+		// return true; 하면 버블 탐색 종료 됨.
+		// return ( axdom(evt.parentNode).hasClass("CTclassName") );
+		return (evt.parentNode.tagName == "body");
+	},
+	find:function(evt, evtIDs){
+		// return true; 하면 버블탐색 종료 후 현재 eventTarget 리턴
+		//return ( axdom(evt).hasClass("colHeadTd") );
+		return ( evt.id == objID || (evtIDs[0] == cfg.targetID && evtIDs[1] == objID) );
 	}
-	*/
+});
+
+if(myTarget){
+	//something
+}
+ ```
+*/
     getEventTarget: function (args) {
         var eventTarget = args.evt;
         var eid = (eventTarget && eventTarget.id && eventTarget.id != "") ? eventTarget.id.split(/_AX_/g) : [];
@@ -1487,6 +1496,12 @@ var AXJ = Class.create({
         }
         return eventTarget;
     },
+/**
+ * @method AXJ.getMousePositon
+ * @param {eventObject} event
+ * @returns {Object} css - pageX, pageY
+ * @description 스크롤된 페이지에서 이벤트의 마우스 x,y 페이지포지션을 구해줍니다.
+ */
     getMousePositon: function (event) {
         var eventDoc, doc, body;
         eventDoc = document;
@@ -1499,37 +1514,33 @@ var AXJ = Class.create({
         css.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
         return css;
     },
-    _GID: function (ids) {
-        var myid = [];
-        for (var a = 0; a < ids.length; a++) {
-            myid.push(ids[a]);
-        }
-        return myid.join("_");
-    },
-    _GPT: function (myid, idx) {
-        var ids = myid.split(/_/g);
-        if (idx == undefined) {
-            return ids.last();
-        } else {
-            return ids[idx];
-        }
-    },
-	/**
-	 * @method AXJ.stopEvent
-	 * @param event {eventObject} 이벤트
-	 * @description 이벤트 버블링을 중지 합니다.
-	 * @example
-	var _this = this;
-	axdom("#" + elementID).on("mousedown", function(event){
-		this.stopEvent();
-	});
-	 */
+/**
+ * @method AXJ.stopEvent
+ * @param {eventObject} event - 이벤트
+ * @description 이벤트 버블링을 중지 합니다.
+ * @example
+```js
+var _this = this;
+axdom("#" + elementID).on("mousedown", function(event){
+	_this.stopEvent();
+});
+ ```
+ */
     stopEvent: function (event) {
         if (event.preventDefault) event.preventDefault();
         if (event.stopPropagation) event.stopPropagation();
         event.cancelBubble = true;
         return false;
     },
+/**
+ * @method AXJ.clearRange
+ * @returns {AXJ}
+ * @description 현재 페이지의 모든 사용자 선택을 취소 합니다.
+ * @example
+```js
+this.clearRange();
+```
+ */
     clearRange: function () {
         if (window.getSelection) {
             if (window.getSelection().empty) {  // Chrome
@@ -1540,7 +1551,20 @@ var AXJ = Class.create({
         } else if (document.selection) {  // IE?
             document.selection.empty();
         }
+		return this;
     },
+/**
+ * @method AXJ.windowResize
+ * @description windowResizeApply메소드 호출을 연속으로 수행되지 않도록 하는 보호장치
+ * @example
+```js
+ var _this = this;
+ $(window).resize(function(){
+   _this.windowResize();
+ });
+ // 결과적으로 windowResizeApply가 호출됩니다.
+```
+ */
     windowResize: function () {
         var windowResizeApply = this.windowResizeApply.bind(this);
         if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
@@ -1554,7 +1578,7 @@ var AXJ = Class.create({
 });
 
 /**
- * @namespace jQuery.fn
+ * @namespace {jQueryObject} jQueryExtends
  */
 
 // -- AXReq ----------------------------------------------
@@ -1565,38 +1589,39 @@ var AXJ = Class.create({
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * 2014-04-10 - tom : onbeforesend 옵션 추가 return false 하면 호출 제어됨.
- * @description
- var url = "AXReqData.txt";
- var pars = "";
- new AXReq(url, {
-    debug:false,
-    pars:pars,
-    onbeforesend: function(){
-        alert("제어");
-        return true;
-    },
-    onsucc:function(res){
-        AXUtil.alert(res);
-    },
-    onerr:function(res){
-        alert("onFail:" + req.responseText);
-    }
- });
  */
 var AXReqQue = Class.create({
+/**
+ * AJAX호출 큐
+ * @member {Array} AXReqQue.que
+ */
+/**
+ * AJAX호출 진행상태
+ * @member {Boolean} AXReqQue.busy
+ */
     initialize: function () {
         this.que = [];
         this.busy = false;
     },
+/**
+ * @method AXReqQue.add
+ * @param {Object} obj - ajax config
+ * @returns {AXReqQue}
+ * @description que.push
+ */
     add: function (obj) {
         this.que.push(obj);
-
         try {
             this.start();
         } catch (e) {
-            //AXUtil.alert(e);	
+
         }
+		return this;
     },
+/**
+ * @method AXReqQue.start
+ * @description que에 담긴 AJAX호출을 처리합니다.
+ */
     start: function () {
         if (this.que.length == 0) return;
         if (this.busy) return;
@@ -1613,7 +1638,7 @@ var AXReqQue = Class.create({
             contentType: AXConfig.AXReq.contentType,
             debug: false
         };
-        AXUtil.each(myQue.configs, function (k, v) { // update to {this.config}
+        axf.each(myQue.configs, function (k, v) { // update to {this.config}
             if (k == "pars") {
 
             }
@@ -1640,7 +1665,7 @@ var AXReqQue = Class.create({
         if (config.debug) trace({ url: myQue.url, pars: myQue.configs.pars });
 
         var ajaxOption = {};
-        AXUtil.each(config, function (k, v) { // update to {this.config}
+        axf.each(config, function (k, v) { // update to {this.config}
             ajaxOption[k] = v;
         });
         ajaxOption.url = myQue.url;
@@ -1715,12 +1740,26 @@ var AXReqQue = Class.create({
             mask.close();
         } catch (e) { }
     },
+/**
+ * @method AXReqQue.abort
+ * @returns {AXReqQue} AXReqQue
+ * @description 설명
+ * @example
+```js
+ // AXCore.js파일 에서 미리선언된 AXReqQue의 인스턴스 myAXreqQue를 이용하여 abort 명령을 내릴수 있습니다.
+ myAXreqQue.abort();
+ // 또는
+ AXReqAbort();
+ // 현재 진행중인 AJAX호출을 취소시켜줍니다.
+```
+ */
     abort: function(){
         try{
             this.que[0]._jQueryAjax.abort();
         }catch(e){
 
         }
+		return this;
     }
 });
 var myAXreqQue = new AXReqQue();
@@ -1730,8 +1769,8 @@ var AXReqAbort = function(){
 
 /**
  * @class AXReq
- * @param url {String} 비동기 호출 URL
- * @param config {JSObject} 비동기 호출 설정
+ * @param {String} url - 비동기 호출 URL
+ * @param {Object} config - 비동기 호출 설정
  * @description AJAX 호출구문을 AXReqQue 에 add 하여 비동기 호출합니다.
  * @example
 ```
@@ -1744,7 +1783,7 @@ new AXReq(url, {
 	responseType: [AJAX response type] optional,
 	dataType: [Ajax data type] optional,
 	headers: [AJAX headers] optional,
-	pars: [parameter|JSObject],
+	pars: [parameter|Object],
 	onsucc: [Function],
 	onerr: [Function] optional
 });
@@ -1868,8 +1907,8 @@ mask.setConfig();
 
 /**
  * @method AXMask.open
- * @param config {JSObject} 설명
- * @returns null
+ * @param {Object} config - 설명
+ * @returns {Null}
  * @description 설명
  * @example
 ```
@@ -1880,10 +1919,11 @@ mask.setConfig();
 ```
  */
 
+
 /**
- * @method jQuery.fn.mask
- * @param config {JSObject} 설명
- * @returns jQueryObject
+ * @method jQueryExtends.mask
+ * @param {Object} config - 설명
+ * @returns {jQueryObject}
  * @description mask 삽입위치를 엘리먼트 다음의 위치로 합니다.
  * @example
  ```
@@ -2141,7 +2181,7 @@ var AXNotification = Class.create(AXJ, {
 
 /**
  * @method AXNotification.push
- * @param content {JSObject|String} 대상물 문자열 혹은 오브젝트로 구성
+ * @param {Object|String} content - 대상물 문자열 혹은 오브젝트로 구성
  * @description notification은 dialog, toast 2가지 형태가 존재하고 각각 push 메소드를 이용하여 출력한다.
  * @example
 ```
@@ -2196,11 +2236,13 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  "2014-08-20 tom focusElement 버그픽스"
  "2014-08-28 tom setSBPosition 예외사항 exeception"
  * @example
+```js
 var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
 myUIScroll.setConfig({
 	targetID:"UIScrollContainer",
 	scrollID:"UIScrollTarget"
 });
+ ```
  *
  */
 var AXScroll = Class.create(AXJ, {
@@ -2220,7 +2262,7 @@ var AXScroll = Class.create(AXJ, {
     },
 /**
  * @method AXScroll.setConfig
- * @param configs {JSObject} 스크롤 속성 오브젝트
+ * @param {Object} configs - 스크롤 속성 오브젝트
  * @description 스크롤 대상과 스크롤 컨테이너를 지정하여 스크롤UI를 구현합니다.
  * @example
 myUIScroll.setConfig({
@@ -2248,7 +2290,7 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.updateScroll
- * @returns AXScroll
+ * @returns {AXScroll}
  * @description 스크롤 처리 대상의 사이즈를 재정의 합니다. 스크롤 대상의 크기가 변경되었을 때 호출
  * @example
  myUIScroll.updateScroll();
@@ -2701,7 +2743,7 @@ myUIScroll.setConfig({
             var eTop = this.scrollScrollID.position().top;
             var dTop = eTop - this.touchStartXY.sTop;
             var velocityTop = Math.ceil((dTop/dTime)/1); // 속력= 거리/시간
-            var endTop = Math.ceil(eTop + velocityTop); //스크롤할때 목적지		
+            var endTop = Math.ceil(eTop + velocityTop); //스크롤할때 목적지
             if(endTop > 0) endTop = 0;
             else if(endTop < - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight)){
                 endTop = - (this.touchStartXY.scrollHeight - this.touchStartXY.targetHeight);
@@ -3037,8 +3079,8 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.focusElement
- * @param id {String} 포커스 할 대상 엘리먼트 아이디
- * @returns AXScroll
+ * @param {String} id - 포커스 할 대상 엘리먼트 아이디
+ * @returns {AXScroll}
  * @description 스크롤 오브젝트 안에 엘리먼트를 포커스 합니다.
  * @example
  myUIScroll.focusElement("resizer01");
@@ -3064,8 +3106,8 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.scrollTop
- * @param top {Number} scrollTop position
- * @returns AXScroll
+ * @param {Number} top - scrollTop position
+ * @returns {AXScroll}
  * @description 스크롤 포지션을 원하는 포지션으로 이동합니다.
  * @example
  myUIScroll.scrollTop(0);
@@ -3084,9 +3126,9 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.moveTo
- * @param x {Number} scrollTop position (optional)
- * @param y {Number} scrollLeft position (optional)
- * @returns AXScroll
+ * @param {Number} x - scrollTop position (optional)
+ * @param {Number} y - scrollLeft position (optional)
+ * @returns {AXScroll}
  * @description 스크롤위치를 이동시킵니다.
  * @example
  myUIScroll.moveTo();
@@ -3113,7 +3155,7 @@ myUIScroll.setConfig({
     },
 /**
  * @method AXScroll.unbind
- * @returns AXScroll
+ * @returns {AXScroll}
  * @description 스크롤을 UI를 제거합니다.
  * @example
  myUIScroll.unbind();
@@ -3149,13 +3191,39 @@ myUIScroll.setConfig({
 /* ---------------------------------------------- AXScroll -- */
 
 /* -- AXCalendar ---------------------------------------------- */
+/**
+ * @class AXCalendar
+ * @extends AXJ
+ * @version v1.1
+ * @author tom@axisj.com
+ * @logs
+ * "2012-12-05 오후 11:54:27"
+ * "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
+ *
+ */
 var AXCalendar = Class.create(AXJ, {
-    version: "AXCalendar v1.1",
-    author: "tom@axisj.com",
-    logs: [
-        "2012-12-05 오후 11:54:27",
-        "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
-    ],
+/**
+ * AXCalendar 기본속성
+ * @member {Object} AXCalendar.config
+ * @example
+ ```js
+ {
+	 CT_className : {String},
+	 weeks : {
+	    { name: "SUN" },
+	    { name: "MON" },
+	    { name: "TUE" },
+	    { name: "WED" },
+	    { name: "THU" },
+	    { name: "FRI" },
+	    { name: "SAT" }
+	 },
+	 printFormat : "dd",
+	 titleFormat : "yyyy/mm/dd",
+	 valueFormat : "yyyy-mm-dd"
+ }
+ ```
+ */
     initialize: function (AXJ_super) {
         AXJ_super();
         this.config.CT_className = "AXCalendar";
@@ -3445,7 +3513,7 @@ var AXMultiSelect = Class.create(AXJ, {
 
         /*
          if(AXUtil.browser.mobile){
-         this._selectStage.css({"overflow":"visible", "min-height":this._selectStage.innerHeight(), "height":"auto"});	
+         this._selectStage.css({"overflow":"visible", "min-height":this._selectStage.innerHeight(), "height":"auto"});
          }
          */
 
@@ -4216,7 +4284,7 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.setConfig
- * @param configs {JSObject}
+ * @param {Object} configs
  * @description 선언된 클래스를 사용하기 위해 속성을 정의합니다.
  * @example
 ```js
@@ -4229,8 +4297,8 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.bindSetConfig
- * @param objID {String} object ID
- * @param configs {JSObject} contentMenu config
+ * @param {String} objID - object ID
+ * @param {Object} configs - contentMenu config
  * @description contextmenu 오브젝트에 속성을 변경합니다.
  * @example
 ```js
@@ -4257,8 +4325,8 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.bind
- * @param obj {JSObject} 컨텍스트메뉴 속성
- * @returns AXContextMenuClass
+ * @param {Object} obj - 컨텍스트메뉴 속성
+ * @returns {AXContextMenuClass}
  * @description 컨텍스트메뉴를 선언하여 컨텍스트메뉴를 사용준비합니다. bind한 컨텍스트메뉴는 id로 open 할 수 있습니다.
  * @example
 ```js
@@ -4384,9 +4452,9 @@ var AXContextMenuClass = Class.create(AXJ, {
     },
 /**
  * @method AXContextMenuClass.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXContextMenuClass
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXContextMenuClass}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
 ```js
@@ -4738,7 +4806,7 @@ AXContextMenu.open({
         if (clienWidth > pBox.width) pBox.width = clienWidth;
         if (clientHeight > pBox.height) pBox.height = clientHeight;
         var _box = { width: axdom("#" + objID).outerWidth(), height: axdom("#" + objID).outerHeight() };
-        // -- 부모박스 정보와 박스 정보		
+        // -- 부모박스 정보와 박스 정보
 
         if ((_box.height.number() + css.top.number()) > pBox.height) {
             css.top -= ((_box.height.number() + css.top.number()) - pBox.height) + 25;
@@ -4827,8 +4895,8 @@ AXContextMenu.open({
     },
 /**
  * @method AXContextMenuClass.close
- * @param obj {JSObject}
- * @returns AXContextMenuClass
+ * @param {Object} obj
+ * @returns {AXContextMenuClass}
  * @description 열린 컨텍스트메뉴 개체를 닫습니다.
  * @example
 ```js
@@ -4877,7 +4945,7 @@ AXContextMenu.close({
             evt: eventTarget, evtIDs: eid,
             find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
         });
-        // event target search ------------------------    	
+        // event target search ------------------------
         if (myTarget) {
             var poi = myTarget.id.split(/_AX_/g);
             var depth = poi[poi.length - 2];
@@ -4894,7 +4962,7 @@ AXContextMenu.close({
                 if (clienWidth > pBox.width) pBox.width = clienWidth;
                 if (clientHeight > pBox.height) pBox.height = clientHeight;
                 var _box = { width: axdom("#" + myTarget.id + "_AX_subMenu").outerWidth(), height: axdom("#" + myTarget.id + "_AX_subMenu").outerHeight() };
-                // -- 부모박스 정보와 박스 정보		
+                // -- 부모박스 정보와 박스 정보
 
                 var subMenuTop = axdom("#" + myTarget.id).position().top;
 
@@ -5052,8 +5120,8 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.bindSetConfig
- * @param objID {String} object ID
- * @param configs {JSObject} contentMenu config
+ * @param {String} objID - object ID
+ * @param {Object} configs - contentMenu config
  * @description contextmenu 오브젝트에 속성을 변경합니다.
  * @example
  ```js
@@ -5062,8 +5130,8 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.bind
- * @param obj {JSObject} 컨텍스트메뉴 속성
- * @returns AXContextMenu
+ * @param {Object} obj - 컨텍스트메뉴 속성
+ * @returns {AXContextMenu}
  * @description 컨텍스트메뉴를 선언하여 컨텍스트를 메뉴를 사용준비합니다. bind한 컨텍스트 메뉴는 id로 open 할 수 있습니다.
  * @example
  ```js
@@ -5109,9 +5177,9 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXContextMenu
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXContextMenu}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
  ```js
@@ -5126,8 +5194,8 @@ AXContextMenu.setConfig({});
  */
 /**
  * @method AXContextMenu.close
- * @param obj {JSObject}
- * @returns AXContextMenu
+ * @param {Object} obj
+ * @returns {AXContextMenu}
  * @description 열린 컨텍스트메뉴 개체를 닫습니다.
  * @example
  ```js
@@ -5153,7 +5221,7 @@ AXContextMenu.setConfig({});
 var AXPopOverClass = Class.create(AXContextMenuClass, {
 /**
  * @method AXPopOverClass.bind
- * @param obj {JSObject} 팝오버메뉴 속성
+ * @param {Object} obj 팝오버메뉴 속성
  * @returns AXPopOverClass
  * @description 팝오버메뉴를 선언하여 팝오버 메뉴를 사용준비합니다. bind한 팝오버메뉴는 id로 open 할 수 있습니다.
  * @example
@@ -5190,9 +5258,9 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 /**
  * @method AXPopOverClass.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXPopOverClass
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXPopOverClass}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
  ```js
@@ -5208,8 +5276,8 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
 
 /**
  * @method AXPopOverClass.close
- * @param obj {JSObject}
- * @returns AXPopOverClass
+ * @param {Object} obj
+ * @returns {AXPopOverClass}
  * @description 열린 팝오버메뉴 개체를 닫습니다.
  * @example
  ```js
@@ -5377,7 +5445,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
         if (clienWidth > pBox.width) pBox.width = clienWidth;
         if (clientHeight > pBox.height) pBox.height = clientHeight;
         var _box = { width: axdom("#" + objID).outerWidth(), height: axdom("#" + objID).outerHeight() };
-        // -- 부모박스 정보와 박스 정보		
+        // -- 부모박스 정보와 박스 정보
         var openTB = "";
         if (direction == "top") {
             openTB = "top";
@@ -5429,7 +5497,7 @@ var AXPopOverClass = Class.create(AXContextMenuClass, {
             evt: eventTarget, evtIDs: eid,
             find: function (evt, evtIDs) { return (axdom(evt).hasClass("contextMenuItem")) ? true : false; }
         });
-        // event target search ------------------------    	
+        // event target search ------------------------
         if (myTarget) {
             var poi = myTarget.id.split(/_AX_/g);
             var depth = poi[poi.length - 2];
@@ -5475,8 +5543,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.bindSetConfig
- * @param objID {String} object ID
- * @param configs {JSObject} contentMenu config
+ * @param {String} objID - object ID
+ * @param {Object} configs contentMenu config
  * @description contextmenu 오브젝트에 속성을 변경합니다.
  * @example
  ```js
@@ -5485,8 +5553,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.bind
- * @param obj {JSObject} 컨텍스트메뉴 속성
- * @returns AXPopOver
+ * @param {Object} obj - 컨텍스트메뉴 속성
+ * @returns {AXPopOver}
  * @description 컨텍스트메뉴를 선언하여 컨텍스트를 메뉴를 사용준비합니다. bind한 컨텍스트 메뉴는 id로 open 할 수 있습니다.
  * @example
  ```js
@@ -5521,9 +5589,9 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.open
- * @param myobj {JSObject}
- * @param position {event|JSObject} 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
- * @returns AXPopOver
+ * @param {Object} myobj
+ * @param {Event|Object} position - 이벤트 객체를 전달하거나 {left:[Number], top:[Number]} 를 전달합니다.
+ * @returns {AXPopOver}
  * @description bind된 컨텍스트메뉴 개체를 오픈합니다. (이벤트속성에 정해진 마우스 포지션또는 사용자가 정한 left, top 포지션에)
  * @example
  ```js
@@ -5538,8 +5606,8 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
  */
 /**
  * @method AXPopOver.close
- * @param obj {JSObject}
- * @returns AXPopOver
+ * @param {Object} obj
+ * @returns {AXPopOver}
  * @description 열린 팝오버 개체를 닫습니다.
  * @example
  ```js
@@ -5551,9 +5619,9 @@ AXPopOver.setConfig({ theme: "AXPopOver" });
 
 
 /**
- * @method jQuery.fn.bindTooltip
- * @param configs {JSObject} 툴팁설정
- * @returns jQueryObject
+ * @method jQueryExtends.bindTooltip
+ * @param {Object} configs - 툴팁설정
+ * @returns {jQueryObject}
  * @description 툴팁을 바인드 하는 대상의 '아이디+"_AX_tooltip"'를 아이디로 하는 엘리먼트를 대상이 마우스 오버 이벤트 발생 할때 툴팁으로 표시 합니다.
  * @example
 ```js
@@ -5658,7 +5726,7 @@ var AXMobileModal = Class.create(AXJ, {
     },
 /**
  * @method AXMobileModal.setConfig
- * @param configs {JSObject}
+ * @param {Object} configs
  * @description 모바일모달 개체 초기화
  * @example
 ```js
@@ -5688,7 +5756,7 @@ myMobileModal.setConfig({
     },
 /**
  * @method AXMobileModal.open
- * @returns modalObject {JSObject} 열린 모달의 오브젝트
+ * @returns {Object} modalObject - 열린 모달의 오브젝트
  * @description 모바일 모달창을 열고 열린 모달의 엘리먼트 정보를 리턴합니다.
  * @example
 ```js
@@ -5843,7 +5911,7 @@ obj.modalBody.html("<div style='height:250px;background:#fff;text-align: center;
 
 /**
  * @method AXMobileModal.close
- * @returns AXMobileModal
+ * @returns {AXMobileModal}
  * @description 모바일모달창을 닫습니다.
  * @example
 ```js
@@ -5973,40 +6041,6 @@ axdom.extend(true, {
 });
 /* ---------------------------------------------- jQuery easing plugin -- */
 
-/* -- jQuery misc plugin ----------------------------------------------*/
-axdom.fn.scrollToDiv = function (margin, boxDim, leftScroll) {
-    var pElement = this.offsetParent();
-    var pBox = { width: pElement.width(), height: pElement.height() };
-    if (boxDim) {
-        if (boxDim.width > 0) pBox.width = boxDim.width;
-        if (boxDim.height > 0) pBox.height = boxDim.height;
-    }
-    var pos = this.position();
-    if (!pos) return;
-    if (margin) var m = { left: margin.left || 0, top: margin.top || 0, right: margin.right || 0, bottom: margin.bottom || 0 };
-    else var m = { left: 0, top: 0, right: 0, bottom: 0 };
-    var ePos = { left: pos.left + this.outerWidth(), top: pos.top + this.outerHeight() };
-    var pEbox = { width: pBox.width - m.right, height: pBox.height - m.bottom }
-    var pES = { left: pElement.scrollLeft(), top: pElement.scrollTop() }
-
-    if (ePos.top > pEbox.height) {
-        pElement.scrollTop(ePos.top - pEbox.height + pES.top + 1);
-    } else if ((ePos.top - this.outerHeight() - m.top) < 0) {
-        pElement.scrollTop(pES.top + (ePos.top - this.outerHeight() - m.top));
-    } else {
-        if (pElement[0].tagName == "BODY")
-            window.scroll(0, pES.top + (ePos.top - m.top));
-    }
-    if (leftScroll) {
-        if (ePos.left > pEbox.width) {
-            pElement.scrollLeft(ePos.left - pEbox.width + pES.left + 1);
-        } else if ((ePos.left - this.outerWidth() - m.left) < 0) {
-            pElement.scrollLeft(pES.left + (ePos.left - this.outerWidth() - m.left));
-        }
-    }
-    return this;
-};
-
 // jQuery misc plugin
 // 2014-08-08 tom : select option 이 없으면 엘리먼트를 찾지 않는 버그 픽스
 var __r20 = /%20/g,
@@ -6015,82 +6049,99 @@ var __r20 = /%20/g,
     __rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
     __rselectTextarea = /^(?:select|textarea)/i;
 
-axdom.fn.extend({
-    serializeObject: function () {
-
-        var myArray = this.map(function () {
-	            return this.elements ? axdom.makeArray(this.elements) : this;
-	        })
-            .filter(function () {
-                return this.name && !this.disabled &&
-                    (this.checked || __rselectTextarea.test(this.nodeName) ||
-                        __rinput.test(this.type));
-            })
-            .map(function (i, elem) {
-                var val = axdom(this).val();
-                var label = (axdom(elem).attr("title") || axdom(elem).attr("placeholder") || "");
-
-		        if(val == null){
-			        if(this.nodeName.lcase() == "select") val = "";
-		        }
-
-                return val == null ?
-                    null :
-                    axdom.isArray(val) ?
-                        axdom.map(val, function (val, i) {
-                            return { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
-                        }) :
-                    { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
-
-            }).get();
-        return myArray;
-    }
-});
-
-axdom(document.body).ready(function () {
-    axdom("input[type=text]").bind("mousedown", function () { this.focus(); });
-    axdom("textarea").bind("mousedown", function () { this.focus(); });
-});
-
-axdom.fn.endFocus = function () {
-    var elem = this;
-    var elemLen = elem.val().length;
-    if (elemLen == 0) {
-        elem.focus();
-        return;
-    }
-    // For IE Only
-    if (document.selection) {
-        // Set focus
-        elem.focus();
-        elem.val(elem.val());
-    }
-    else if (document.selection == undefined || elem.selectionStart || elem.selectionStart == '0') {
-        // Firefox/Chrome
-        elem.focus().val(elem.val());
-    } // if
-};
-
 // jquery event extend for mobile
 var rkeyEvent = /^key/;
 var rmouseEvent = /^(?:mouse|contextmenu)|click/;
 axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
-    axdom.fn[name] = function (data, fn) {
-        if (fn == null) { fn = data; data = null; }
-        return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
-    };
-    if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
-    if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
+	axdom.fn[name] = function (data, fn) {
+		if (fn == null) { fn = data; data = null; }
+		return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
+	};
+	if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
+	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
 });
 
 
+
 /**
- * @method jQuery.fn.setCaret
- * @param pos {Number} 포커스 포지션 넘버
- * @returns jQueryObject
+ * 설명
+ * @member {type} AXJ.name
+ */
+/**
+ * @method jQueryExtends.serializeObject
+ * @returns {Array}
+ * @description 엘리먼트 안에 폼아이템 요소들을 수집합니다. <en>Collect 'form item' inside target element</en>
+ * @example
+ ```js
+ var myItems = $("#mytarget").serializeObject();
+ ```
+ */
+axdom.fn.serializeObject = function () {
+    var myArray = this.map(function () {
+            return this.elements ? axdom.makeArray(this.elements) : this;
+        })
+        .filter(function () {
+            return this.name && !this.disabled &&
+                (this.checked || __rselectTextarea.test(this.nodeName) ||
+                    __rinput.test(this.type));
+        })
+        .map(function (i, elem) {
+            var val = axdom(this).val();
+            var label = (axdom(elem).attr("title") || axdom(elem).attr("placeholder") || "");
+
+	        if(val == null){
+		        if(this.nodeName.lcase() == "select") val = "";
+	        }
+
+            return val == null ?
+                null :
+                axdom.isArray(val) ?
+                    axdom.map(val, function (val, i) {
+                        return { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
+                    }) :
+                { id: elem.id, name: elem.name, type: elem.type, value: val.replace(__rCRLF, "\r\n"), label: label };
+
+        }).get();
+    return myArray;
+};
+
+
+/**
+ * @method jQueryExtends.endFocus
+ * @returns {jQueryObject}
+ * @description input 엘리먼트 맨끝에 포커스되도록 합니다.
+ * @example
+ ```js
+ $("#mytarget").endFocus();
+ ```
+ */
+axdom.fn.endFocus = function () {
+	var elem = this;
+	var elemLen = elem.val().length;
+	if (elemLen == 0) {
+		elem.focus();
+		return;
+	}
+	// For IE Only
+	if (document.selection) {
+		// Set focus
+		elem.focus();
+		elem.val(elem.val());
+	}
+	else if (document.selection == undefined || elem.selectionStart || elem.selectionStart == '0') {
+		// Firefox/Chrome
+		elem.focus().val(elem.val());
+	} // if
+	return this;
+};
+
+/**
+ * @method jQueryExtends.setCaret
+ * @param {Number} pos - 포커스 포지션 넘버
+ * @returns {jQueryObject}
  * @description input 엘리먼트 특정위치에 커서를 위치시켜 줍니다.
  * @example
- ```
+ ```js
  $("#mytarget").setCaret(2);
  ```
  */
@@ -6114,10 +6165,10 @@ axdom.fn.setCaret = function (pos) {
 };
 
 /**
- * @method jQuery.fn.onwheel
- * @param handler {String} 이벤트 키 네임
- * @param callBackFn {Function} 이벤트 콜백 함수
- * @returns jQueryObject
+ * @method jQueryExtends.onwheel
+ * @param {String} handler - 이벤트 키 네임
+ * @param {Function} callBackFn - 이벤트 콜백 함수
+ * @returns {jQueryObject}
  * @description 엘리먼트에 휠이벤트를 바인드 합니다. (단 엘리먼트에 id속성이 없는 경우 제대로 작동하지 않을 수 있습니다.)
  * @example
  ```
@@ -6141,9 +6192,9 @@ axdom.fn.onwheel = function(handler, callBackFn){
 };
 
 /**
- * @method jQuery.fn.offwheel
- * @param handler {String} 이벤트 키 네임
- * @returns jQueryObject
+ * @method jQueryExtends.offwheel
+ * @param {String} handler - 이벤트 키 네임
+ * @returns {jQueryObject}
  * @description 엘리먼트에 휠이벤트를 언바인드 합니다. (단 엘리먼트에 id속성이 없는 경우 제대로 작동하지 않을 수 있습니다.)
  * @example
  ```
@@ -6160,6 +6211,14 @@ axdom.fn.offwheel = function(handler){
 	});
 	return this;
 };
+
+/*
+input type=text, textarea가 일부 브라우저에서 포커스 되지 않는 현상해결 해주는 구문
+ */
+axdom(document.body).ready(function () {
+	axdom("input[type=text]").bind("mousedown", function () { this.focus(); });
+	axdom("textarea").bind("mousedown", function () { this.focus(); });
+});
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
  
@@ -7441,6 +7500,21 @@ var AXEditorLang = {
  */
 
 var AXEditor = Class.create(AXJ, {
+	_GID: function (ids) {
+		var myid = [];
+		for (var a = 0; a < ids.length; a++) {
+			myid.push(ids[a]);
+		}
+		return myid.join("_");
+	},
+	_GPT: function (myid, idx) {
+		var ids = myid.split(/_/g);
+		if (idx == undefined) {
+			return ids.last();
+		} else {
+			return ids[idx];
+		}
+	},
 	initialize: function(AXJ_super){
 		AXJ_super();
 		this.moveSens = 0;
@@ -12636,10 +12710,30 @@ myGrid.setData(gridData);
 		}
 		this.redrawDataSet();
 	},
+/**
+ * @method AXGrid.pushList
+ * @param {Object|Array} pushItem
+ * @param {Number} [insertIndex] - 삽입위치 인덱스 <en>Index of Insert Position</en>
+ * @returns {AXGrid}
+ * @description 그리드에 데이터를 삽입합니다. <en>push to Grid.list</en>
+ * @example
+```js
+ myGrid.pushList([item Array]);
+ myGrid.pushList([item Array], 1);
+ myGrid.pushList([item]);
+```
+ */
 	pushList: function (pushItem, insertIndex) {
 		var cfg = this.config;
 
 		this.cancelEditor();
+		var pushData = [];
+		// 오브젝트 또는 Array를 처리 할 수 있도록 변경
+		if (Object.isArray(pushItem)) {
+			pushData = pushItem;
+		} else {
+			pushData = [pushItem];
+		}
 
 		pushItem._CUD = "C";
 		if (insertIndex != null && insertIndex != undefined) {
@@ -12648,18 +12742,22 @@ myGrid.setData(gridData);
 			var newList = [];
 			for (var L, listIndex = 0, __arr = this.list; (listIndex < __arr.length && (L = __arr[listIndex])); listIndex++) {
 				if (listIndex == itemIndex) {
-					newList.push(pushItem);
+					for (var li = 0; li < pushData.length; li++) {
+						newList.push(pushData[li]);
+					}
 				}
 				newList.push(L);
 			}
 			;
 			this.list = newList;
-			var item = this.list[itemIndex];
 
-			var npo = this.getItem(itemIndex, item, "n");
-			if (this.hasFixed) {
-				var fpo = this.getItem(itemIndex, item, "fix");
-			}
+			/*
+			 var item = this.list[itemIndex];
+			 var npo = this.getItem(itemIndex, item, "n");
+			 if (this.hasFixed) {
+			 var fpo = this.getItem(itemIndex, item, "fix");
+			 }
+			 */
 
 			this.printList();
 			//this.bigDataSyncApply();
@@ -12667,13 +12765,19 @@ myGrid.setData(gridData);
 			this.setFocus(itemIndex);
 
 		} else {
-			this.list.push(pushItem);
+
+			for (var li = 0; li < pushData.length; li++) {
+				this.list.push(pushData[li]);
+			}
+			//this.list.push(pushItem);
 			this.bigDataSyncApply();
 			this.contentScrollResize(false);
 		}
 
 		if (!this.pageActive) this.setStatus(this.list.length);
 		this.redrawDataSet();
+
+		return this;
 	},
 	fetchList: function(list){
 		var cfg = this.config, VS = this.virtualScroll;
@@ -12919,39 +13023,29 @@ myGrid.setData(gridData);
 
 			// TODO : 체크박스인 셀의 클릭 이벤트 예외처리 필요
 			if (eventTarget.tagName.toLowerCase() == "input") {
-				if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
+				if(!eventTarget.disabled) {
+					if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
 
-					isoncheck = true;
-					checkedValue = eventTarget.checked;
+						isoncheck = true;
+						checkedValue = eventTarget.checked;
 
-					var ieid = event.target.id.split(/_AX_/g);
-					var checkboxColSeq = ieid[ieid.length - 2];
-					var checkboxIndex = ieid[ieid.length - 1];
-					if (cfg.colGroup[checkboxColSeq].oncheck) {
-						var sendObj = {
-							index: checkboxIndex,
-							list : this.list,
-							item : this.list[checkboxIndex]
-						};
-						try {
-							cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
-						} catch (e) {
-							trace(e);
+						var ieid = event.target.id.split(/_AX_/g);
+						var checkboxColSeq = ieid[ieid.length - 2];
+						var checkboxIndex = ieid[ieid.length - 1];
+						if (cfg.colGroup[checkboxColSeq].oncheck) {
+							var sendObj = {
+								index: checkboxIndex,
+								list : this.list,
+								item : this.list[checkboxIndex]
+							};
+							try {
+								cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
+							} catch (e) {
+								trace(e);
+							}
 						}
 					}
-
-
 				}
-				/*
-				 if ((eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button")) {
-				 if (eventTarget.tagName.toLowerCase() == "input") {
-				 if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
-
-
-				 }
-				 }
-				 }
-				 */
 			}
 		}
 
@@ -16813,7 +16907,6 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (this.opendExpandBox) {
 			this.bindSelectorClose(this.opendExpandBox.objID, this.opendExpandBox.objSeq, event); // 셀럭터 외의 영역이 므로 닫기
-			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		}
 
 		var jqueryTargetObjID = axdom("#" + cfg.targetID + "_AX_" + objID);
@@ -16913,6 +17006,9 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorClose: function (objID, objSeq, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+
+		if(obj.inProgress) AXReqAbort(); // AJAX 호출 중지 하기
+
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
 		}
@@ -17062,7 +17158,6 @@ var AXInputConverter = Class.create(AXJ, {
 		var isSelectorClick = (myTarget) ? true : false;
 		if (!isSelectorClick) {
 			this.bindSelectorClose(objID, objSeq, event); // 셀럭터 외의 영역이 므로 닫기
-			AXReqAbort(); /* AJAX 호출 중지 하기 */
 		} else {
 			eid = myTarget.id.split(/_AX_/g);
 
@@ -17078,8 +17173,10 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 	},
 	bindSelectorKeyup: function (objID, objSeq, event) {
-		var obj = this.objects[objSeq];
+		var obj = this.objects[objSeq], _this = this;
 		var cfg = this.config;
+
+
 
 		if (obj.inProgress) {
 			obj.inProgressReACT = true;
@@ -17114,10 +17211,10 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			this.bindSelectorSelect(objID, objSeq, focusIndex);
 		} else if (event.keyCode == AXUtil.Event.KEY_RETURN) {
+
 			if (obj.config.focusedIndex == null) {
 				/*axdom("#" + objID).blur();*/
-				this.bindSelectorClose(objID, objSeq, event); // 닫기
-				return;
+				_this.bindSelectorClose(objID, objSeq, event); // 닫기
 			} else {
 				//trace(obj.config.focusedIndex);
 				obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
@@ -17125,9 +17222,9 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.isChangedSelect = true;
 				axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
 				/*axdom("#" + objID).blur();*/
-				this.bindSelectorClose(objID, objSeq, event); // 닫기
-				return;
+				_this.bindSelectorClose(objID, objSeq, event); // 닫기
 			}
+
 		} else {
 			//1. 반복입력 제어 하기
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
@@ -20215,6 +20312,16 @@ var AXInputConverter = Class.create(AXJ, {
 var AXInput = new AXInputConverter();
 AXInput.setConfig({ targetID: "inputBasic" });
 
+/**
+ * @method jQueryExtends.unbindInput
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 바인딩된 컨트롤을 제거합니다.
+ * @example
+```js
+	axdom("#AXInputNumber").unbindInput();
+```
+**/
 axdom.fn.unbindInput = function (config) {
 	axf.each(this, function () {
 		if (config == undefined) config = {};
@@ -20224,6 +20331,16 @@ axdom.fn.unbindInput = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindSearch
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에  검색 컨트롤을 바인딩 합니다. IE9 이하에서도 placeholder를 지원합니다.
+ * @example
+```js
+	axdom(".AXInputSearch").bindSearch();
+```
+**/
 axdom.fn.bindSearch = function (config) {
 	axf.each(this, function () {
 		if (config == undefined) config = {};
@@ -20234,6 +20351,23 @@ axdom.fn.bindSearch = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindNumber
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 숫자 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		min: 1,   // {Number} [min=Number.MIN_VALUE] - 최소값 (optional)
+		max: 100, // {Number} [max=Number.MAX_VALUE] - 최대값 (optional)
+		onchange: function(){ // {Function} - 값이 변경되었을 때 이벤트 콜백함수 (optional)
+			trace(this);
+		}
+	};
+	axdom("#AXInputNumber").bindNumber(config);
+```
+**/
 axdom.fn.bindNumber = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20243,6 +20377,20 @@ axdom.fn.bindNumber = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindMoney
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 통화단위가 입력 되도록 합니다.
+ * @example
+```js
+	var config = {
+		min: 1,  // {Number} [min=Number.MIN_VALUE] - 최소값 (optional)
+		max: 100 // {Number} [max=Number.MAX_VALUE] - 최대값 (optional)
+	};
+	axdom("#AXInputMoney").bindMoney(config);
+```
+**/
 axdom.fn.bindMoney = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20252,6 +20400,46 @@ axdom.fn.bindMoney = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindSelector
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 selector 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		appendable   : ( true || false ),                      // {Boolean}  - options 에 정해진 값 외의 입력 가능 여부 true 이면 입력이 가능합니다. (optional)
+		options      : [{optionValue:"1", optionText:"AXISJ"}] // {Array}    - [{optionValue:"값", optionText:"라벨"}]
+		ajaxUrl      : "./data.json",                          // {String}   - AJAX 데이터 호출 URL (optional)
+		ajaxPars     : "param1=val1&param2=val2",              // {String}   - AJAX 데이터 호출 URL 파라미터 (optional)
+		positionFixed: ( true || false ),                      // {Boolean}  - expandBox position CSS 를 fixed 할지 여부. selector 가 fixed 된 엘리먼트 위에 위치하는 경우 사용하세요 (optional)
+		onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
+			trace(this);
+		},
+		finder: {
+			onclick: function() { // {Function} - 파인더 버튼 클릭 이벤트 콜백함수 (optional)
+				trace(this);
+			}
+		}
+	};
+	
+	// 서버에서 리턴하는 JSON 구문 예시
+	// 아래 형식을 만족 시켜야 합니다.
+	// desc 또는 optionDesc 값을 지정하면 option 라벨 뒤에 부가설명글로 표시됩니다.
+	{
+		result:"ok",
+		options:[
+			{optionValue:1, optionText:"Seoul", desc:"부가설명글"},
+			{optionValue:2, optionText:"대구"},
+			{optionValue:3, optionText:"대전", optionDesc:"부가설명글"},
+			{optionValue:8, optionText:"전주"},
+			{optionValue:9, optionText:"Gwangju"}
+		]
+	}
+	
+	axdom("#AXInputSelector").bindSelector(config);
+```
+**/
 axdom.fn.bindSelector = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20261,6 +20449,16 @@ axdom.fn.bindSelector = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindSelectorBlur
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description 옵션 목록이 열려있으면 닫습니다.
+ * @example
+```js
+	axdom("#AXInputSelector").bindSelectorBlur();
+```
+**/
 axdom.fn.bindSelectorBlur = function (config) {
 	axf.each(this, function () {
 		AXInput.bindSelectorBlur(this.id);
@@ -20268,6 +20466,25 @@ axdom.fn.bindSelectorBlur = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindSlider
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 slider 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		min: 0,    // {Number} [min=Number.MIN_VALUE] - 최소값 (optional)
+		max: 100,  // {Number} [min=Number.MAX_VALUE] - 최대값 (optional)
+		snap: 100, // {Number} [snap=1] -
+		unit: "%", // {String} [unit=""] - 값 뒤에 붙여 표현하는 단위 (optional)
+		onchange: function() { // {Function} - 값 변경 이벤트 콜백함수 (optional)
+			trace(this);
+		}
+	};
+	axdom("#AXInputSlider").bindSlider(config);
+```
+**/
 axdom.fn.bindSlider = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20277,6 +20494,26 @@ axdom.fn.bindSlider = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindTwinSlider
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 번위 선택이 가능한 slider 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		min: 0,         // {Number} [min=Number.MIN_VALUE] - 최소값 (optional)
+		max: 100,       // {Number} [max=Number.MAX_VALUE] - 최대값 (optional)
+		separator: "~", // {String} [separator="~"] -두개의 값 사이를 구분 지을 문자열
+		snap: 100,      // {Number} [snap=1] -
+		unit: "%",      // {String} [unit=""] 값 뒤에 붙여 표현하는 단위 (optional)
+		onchange: function() { // {Function} - 값 변경 이벤트 콜백함수 (optional)
+			trace(this);
+		}
+	};
+	axdom("#AXInputTwinSlider").bindTwinSlider(config);
+```
+**/
 axdom.fn.bindTwinSlider = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20286,6 +20523,23 @@ axdom.fn.bindTwinSlider = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindSwitch
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 스위치 컨트롤을 적용합니다.
+ * @example
+```js
+	var config = {
+		off: "AM", // {String} switch off value
+		on : "PM", // {String} switch on vlaue
+		onChange:function(){
+			trace(this);
+		}
+	};
+	axdom("#AXInputSwitch").bindSwitch(config);
+```
+**/
 axdom.fn.bindSwitch = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20295,6 +20549,28 @@ axdom.fn.bindSwitch = function (config) {
 	});
 };
 
+/**
+ * @method jQueryExtends.bindSegment
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 segment 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		theme:"AXSegmentTest", // {String} CSS 클래스
+		options : [            // {String} {optionValue:"옵션의값", optionText:"옵션라벨", addClass:"옵션아이템에 추가될 CSS 클래스"}
+			{optionValue:0, optionText:"왼쪽", addClass:"type1"},
+			{optionValue:1, optionText:"가운데", addClass:"type2"},
+			{optionValue:2, optionText:"오른쪽", addClass:"type3"}
+		],
+		onChange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+			//this.targetID, this.options, this.selectedIndex, this.selectedOption
+			trace(this);
+		}
+	};
+	axdom("#AXInputSegment").bindSegment(config);
+```
+**/
 axdom.fn.bindSegment = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20304,6 +20580,27 @@ axdom.fn.bindSegment = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindDate
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 날짜 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		align            :"right", // {String} ("left"|"center"|"right") 달력에서 input text 의 위치
+		valign           :"top",   // {String} ("top"|"middle"|"bottom") 달력에서 input text 의 위치
+		separator        : "-",    // {String} 날짜형식 표시 구분 문자열
+		selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
+		defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
+		defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+		onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+			trace(this);
+		}
+	};
+	axdom("#AXInputDate").bindDate(config);
+```
+**/
 axdom.fn.bindDate = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20313,6 +20610,16 @@ axdom.fn.bindDate = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.unbindDate
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 바인딩된 날짜 컨트롤을 제거합니다.
+ * @example
+```js
+	axdom("#AXInputDate").unbindDate();
+```
+**/
 axdom.fn.unbindDate = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20321,6 +20628,27 @@ axdom.fn.unbindDate = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindDateTime
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 날짜와 시간 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		align            : "right",// {String} ("left"|"center"|"right") 달력에서 input text 의 위치
+		valign           : "top",  // {String} ("top"|"middle"|"bottom") 달력에서 input text 의 위치
+		separator        : "-",    // {String} 날짜형식 표시 구분 문자열
+		selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
+		defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
+		defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+		onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+			trace(this);
+		}
+	};
+	axdom("#AXInputDate").bindDateTime(config);
+```
+**/
 axdom.fn.bindDateTime = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20331,6 +20659,28 @@ axdom.fn.bindDateTime = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindTwinDate
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 날짜(start ~ end) 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		startTargetID    : "AXInputDateST", // {String}시작일 input text 아이디
+		align            : "right",// {String} ("left"|"center"|"right") 달력에서 input text 의 위치
+		valign           : "top",  // {String} ("top"|"middle"|"bottom") 달력에서 input text 의 위치
+		separator        : "-",    // {String} 날짜형식 표시 구분 문자열
+		selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
+		defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
+		defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+		onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+			trace(this);
+		}
+	};
+	axdom("#AXInputDateED").bindTwinDate(config);
+```
+**/
 axdom.fn.bindTwinDate = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20340,6 +20690,28 @@ axdom.fn.bindTwinDate = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindTwinDateTime
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 날짜와 시간(start ~ end) 컨트롤을 바인딩 합니다.
+ * @example
+```js
+	var config = {
+		startTargetID    : "AXInputDateST", // {String}시작일 input text 아이디
+		align            : "right",// {String} ("left"|"center"|"right") 달력에서 input text 의 위치
+		valign           : "top",  // {String} ("top"|"middle"|"bottom") 달력에서 input text 의 위치
+		separator        : "-",    // {String} 날짜형식 표시 구분 문자열
+		selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
+		defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
+		defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+		onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+			trace(this);
+		}
+	};
+	axdom("#AXInputDateED").bindTwinDateTime(config);
+```
+**/
 axdom.fn.bindTwinDateTime = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20350,6 +20722,16 @@ axdom.fn.bindTwinDateTime = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindPlaceHolder
+ * @param configs {JSObject}
+ * @returns {jQueryObject}
+ * @description IE9 이하에서도 input text 엘리먼트에 placeholder를 지원합니다. placeholder를 지원하는 브라우저에서는 브라우저의 native code가 사용됩니다.
+ * @example
+```js
+	axdom(".AXInputPlaceholder").bindPlaceHolder();
+```
+**/
 axdom.fn.bindPlaceHolder = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20359,6 +20741,16 @@ axdom.fn.bindPlaceHolder = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindChecked
+ * @param configs {Object} 할당할 값
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 체크 컨트롤을 바인딩 합니다.(구현중)
+ * @example
+```js
+	axdom(".AXInputChecked").bindChecked();
+```
+**/
 axdom.fn.bindChecked = function (config) {
 	axf.each(this, function () {
 		config = config || {}; config.id = this.id;
@@ -20368,6 +20760,16 @@ axdom.fn.bindChecked = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.setConfigInput
+ * @param configs {Object} 할당할 값
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 config를 할당합니다.
+ * @example
+```js
+	axdom(".AXInput").setConfigInput( 100 );
+```
+**/
 axdom.fn.setConfigInput = function (config) {
 	axf.each(this, function () {
 		AXInput.bindSetConfig(this.id, config);
@@ -20375,6 +20777,16 @@ axdom.fn.setConfigInput = function (config) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.setValueInput
+ * @param configs {Object} 할당할 값
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 바인딩된 컨트롤에 값을 할당합니다.(아직 search, number, money, date, twinDate 컨트롤은 구현되지 않았습니다.)
+ * @example
+```js
+	axdom(".AXInput").setValueInput( 100 );
+```
+**/
 axdom.fn.setValueInput = function (value) {
 	axf.each(this, function () {
 		AXInput.bindSetValue(this.id, value);
@@ -20382,6 +20794,16 @@ axdom.fn.setValueInput = function (value) {
 	return this;
 };
 
+/**
+ * @method jQueryExtends.bindInputDisabled
+ * @param configs {Boolean} [Disabled=true] - 컨트롤을 disabled | enabled 합니다.
+ * @returns {jQueryObject}
+ * @description input text 엘리먼트에 바인딩된 컨트롤을 비활성화 하거나 활성화 합니다.
+ * @example
+```js
+	axdom(".AXInput").bindInputDisabled( true | false );
+```
+**/
 jQuery.fn.bindInputDisabled = function (Disabled) {
 	axf.each(this, function () {
 		AXInput.bindInputDisabled(this.id, Disabled);
@@ -22368,6 +22790,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 		this.list.push(item);
 
+		//trace(this.list);
+
 		var lidx = this.list.length-1;
 		this.printItem(lidx, this.list[lidx]);
 		this.printFootItem();
@@ -22377,6 +22801,8 @@ var AXModelControlGrid = Class.create(AXJ, {
 	getItem: function(arg, update){
 		var cfg = this.config;
 		var po = [];
+
+
 		if(update == undefined) po.push("<td class=\"bodyTd\">");
 		po.push("	<div class=\"tdRelBlock\" style=\"text-align:" + (arg.align||"left") + ";\">");
 
@@ -22413,7 +22839,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.body.empty();
 		this.body.append(po.join(''));
 
-		jQuery.each(this.list, function(lidx, L){
+		jQuery.each(this.list, function (lidx, L) {
 			printItem(lidx, L);
 		});
 
@@ -22425,57 +22851,63 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var AXbindOnchange = this.AXbindOnchange.bind(this);
 		var _body = this.body.find("tbody");
 
+		if (!L) return;
+
 		var tr = [];
 		if(update == undefined) tr.push("<tr class='modelControlTR' id='" + cfg.targetID + "_tbodyTR_" + lidx + "'>");
 
 		jQuery.each(cfg.body.form, function (fidx, form) {
-			tr.push(getItem({
-				rowIndex:lidx, colIndex:fidx,
-				align:form.align,
-				html:form.html, data:form.data
-			}));
+			if (form) {
+				tr.push(getItem({
+					rowIndex: lidx, colIndex: fidx,
+					align: (form.align || "left"),
+					html: form.html, data: form.data
+				}));
+			}
 		});
 		if(update == undefined) tr.push("</tr>");
 		if(update == undefined){
-			_body.append(tr.join());
+			_body.append(tr.join(''));
 		}else{
 			_body.find("#" + cfg.targetID + "_tbodyTR_" + lidx).html(tr.join(''));
 		}
 
 		var oncursorKeyup = this.oncursorKeyup.bind(this);
 
-		jQuery.each(cfg.body.form, function(fidx, form) {
-			if(form.AXBind){
-				var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
-				var myConfig = AXUtil.copyObject(form.AXBind.config);
-				jQuery.each(myConfig, function(k, v){
-					if(Object.isString(v)) myConfig[k] = v.replace(/@rowIndex/g, lidx);
-				});
+		jQuery.each(cfg.body.form, function (fidx, form) {
+			if (form) {
+				if (form.AXBind) {
+					var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
+					var myConfig = AXUtil.copyObject(form.AXBind.config);
+					jQuery.each(myConfig, function (k, v) {
+						if (Object.isString(v)) myConfig[k] = v.replace(/@rowIndex/g, lidx);
+					});
 
-				myConfig.onchange = function(){
-					AXbindOnchange(lidx, fidx, this);
-				};
+					myConfig.onchange = function () {
+						AXbindOnchange(lidx, fidx, this);
+					};
 
-				if(form.AXBind.type == "TwinDate"){
-					jQuery("#"+bindID).bindTwinDate(myConfig);
-				}else if(form.AXBind.type == "Date"){
-					jQuery("#"+bindID).bindDate(myConfig);
-				}else if(form.AXBind.type == "Select"){
-					jQuery("#"+bindID).unbindSelect();
-					jQuery("#"+bindID).bindSelect(myConfig);
-					if(cfg.cursorFocus){
-						jQuery("#"+bindID).bindSelectGetAnchorObject().bind("keydown.AXModelControlGrid", function(event){
-							setTimeout(function(){
-								oncursorKeyup(jQuery("#"+bindID), event, lidx);
-							}, 10);
-						});
+					if (form.AXBind.type == "TwinDate") {
+						jQuery("#" + bindID).bindTwinDate(myConfig);
+					} else if (form.AXBind.type == "Date") {
+						jQuery("#" + bindID).bindDate(myConfig);
+					} else if (form.AXBind.type == "Select") {
+						jQuery("#" + bindID).unbindSelect();
+						jQuery("#" + bindID).bindSelect(myConfig);
+						if (cfg.cursorFocus) {
+							jQuery("#" + bindID).bindSelectGetAnchorObject().bind("keydown.AXModelControlGrid", function (event) {
+								setTimeout(function () {
+									oncursorKeyup(jQuery("#" + bindID), event, lidx);
+								}, 10);
+							});
+						}
+					} else if (form.AXBind.type == "Selector") {
+						jQuery("#" + bindID).bindSelector(myConfig);
+					} else if (form.AXBind.type == "Money") {
+						jQuery("#" + bindID).bindMoney(myConfig);
+					} else if (form.AXBind.type == "Number") {
+						jQuery("#" + bindID).bindNumber(myConfig);
 					}
-				}else if(form.AXBind.type == "Selector"){
-					jQuery("#"+bindID).bindSelector(myConfig);
-				}else if(form.AXBind.type == "Money"){
-					jQuery("#"+bindID).bindMoney(myConfig);
-				}else if(form.AXBind.type == "Number"){
-					jQuery("#"+bindID).bindNumber(myConfig);
 				}
 			}
 		});
@@ -26970,7 +27402,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.56
+ * @version v1.56.1
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -27005,6 +27437,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-08-04 tom : 'modify add' relationFixedSync arguments define"
  "2014-08-13 tom : window.resize 이벤트시 selectedRow 유지, expandAll 메소드 뎁스 아규먼트 추가"
  "2014-09-01 tom : tree key event로 커서 이동 밑 트리 열기 닫기 지원"
+ "2014-09-22 tom : positioningHashList 버그 픽스"
  *
  * @description
  *
@@ -31689,8 +32122,9 @@ var AXTree = Class.create(AXJ, {
 			if (L[reserveKeys.parentHashKey] == undefined && !L.isRoot) {
 
 				if(L.AXTreeSplit) continue;
+
 				var pItem = List[pointer[L[relation.parentKey]]];
-				var pHash = pItem[reserveKeys.hashKey];
+				var pHash = pItem[reserveKeys.hashKey] || "";
 				var pHashs = pHash.split(/_/g);
 				var pTree = tree;
 				axf.each(pHashs, function (idx, T) {
@@ -34928,7 +35362,6 @@ var AXValidator = Class.create(AXJ, {
                 var _end = false;
 
                 jQuery.each(Elem.config, function (k, v) {
-	                trace(Elem, val, k, v, "");
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
                         returnObject = raiseError(Elem, val, k, v);
                         _end = true;
@@ -35173,7 +35606,9 @@ var AXValidator = Class.create(AXJ, {
             } else if (ElemValue != "" && validateKey == "bizno") {
                 var pattern = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
                 var num = ElemValue;
-
+	            if(num.replace(/\D/g, "").length != 10){
+		            result = false;
+	            }
 	            if (!pattern.test(num)){
 		            result = false;
 	            }

@@ -70,10 +70,10 @@
                 optionPrintLength:"all",
 				onChange:function(){
 					toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                    trace({selectedIndex:this.selectedIndex, selectedOption:this.selectedOption});
 				}
 			});
-			
-			
+
 			MyMultiSelector.setConfig({
 				targetID:"multiSelector",
 				optionGroup:[
