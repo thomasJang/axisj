@@ -686,9 +686,8 @@ Object.extend(String.prototype, (function () {
 				return (defaultDate || new Date());
 			}
 		} else if (this.length == 8) {
-			var separator = (separator || "-");
 			var va = this.replace(/\D/g, "");
-			return (va.substr(0, 4) + separator + (va.substr(4, 2).number()-1) + separator + va.substr(6, 2)).date();
+			return new Date(va.substr(0, 4), (va.substr(4, 2).number()-1), va.substr(6, 2).number(), 12);
 		} else if (this.length < 10) {
 			return (defaultDate || new Date());
 		} else if (this.length > 15) {
