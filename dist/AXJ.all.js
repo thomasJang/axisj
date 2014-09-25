@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-09-24 
+AXJ - v1.0.9 - 2014-09-25 
 */
 /*! 
-AXJ - v1.0.9 - 2014-09-24 
+AXJ - v1.0.9 - 2014-09-25 
 */
 
 if(!window.AXConfig){
@@ -2008,7 +2008,7 @@ var AXNotification = Class.create(AXJ, {
 
             if (config.type == "dialog") {
                 po.push("	<div class=\"AXNotificationButtons\">");
-                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red W40\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
+                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
                 po.push("	</div>");
             }
 
@@ -2035,7 +2035,7 @@ var AXNotification = Class.create(AXJ, {
             if (obj.type == "Caution" && config.type != "dialog") {
                 if (!obj.buttons) {
                     po.push("				<td class=\"AXNotificationButton\" align=\"right\">");
-                    po.push("				<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red W40\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
+                    po.push("				<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
                     po.push("				</td>");
                 }
             }
@@ -2050,7 +2050,7 @@ var AXNotification = Class.create(AXJ, {
                 po.push("	</div>");
             } else if (config.type == "dialog") {
                 po.push("	<div class=\"AXNotificationButtons\">");
-                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red W40\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
+                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
                 po.push("	</div>");
             }
             po.push("</div>");
