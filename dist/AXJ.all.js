@@ -4543,8 +4543,13 @@ AXContextMenu.open({
         var po = [];
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
+
+	    if(typeof obj.reserveKeys == "undefined"){
+		    obj.reserveKeys = cfg.reserveKeys;
+	    }
+
         axf.each(menuList, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
                 //if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? " " + menu.className : "";
                 var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
