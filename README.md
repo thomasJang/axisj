@@ -21,7 +21,7 @@ dist/AXJ.min.js
 ui/[theme]/AXJ.min.css
 ```
 
-and you can use AXU
+and you can use with 'AXU'
 <a href="http://axu.axisj.com" target="_blank">http://axu.axisj.com</a> AXU<br/>
 
 <br/>
