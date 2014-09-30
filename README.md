@@ -22,10 +22,10 @@ ui/[theme]/AXJ.min.css
 ```
 
 and you can use with 'AXU'
-<a href="http://axu.axisj.com" target="_blank">http://axu.axisj.com</a> AXU<br/>
+<a href="http://axu.axisj.com" target="_blank">http://axu.axisj.com</a><br/>
 
 <br/>
-<img src="http://www.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
+<img src="http://old2014.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
 <br/>
 <br/>
 <br/>
