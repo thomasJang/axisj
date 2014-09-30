@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-09-24 
+AXJ - v1.0.9 - 2014-09-25 
 */
 /*! 
-AXJ - v1.0.9 - 2014-09-24 
+AXJ - v1.0.9 - 2014-09-25 
 */
 
 if(!window.AXConfig){
@@ -2008,7 +2008,7 @@ var AXNotification = Class.create(AXJ, {
 
             if (config.type == "dialog") {
                 po.push("	<div class=\"AXNotificationButtons\">");
-                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red W40\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
+                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
                 po.push("	</div>");
             }
 
@@ -2035,7 +2035,7 @@ var AXNotification = Class.create(AXJ, {
             if (obj.type == "Caution" && config.type != "dialog") {
                 if (!obj.buttons) {
                     po.push("				<td class=\"AXNotificationButton\" align=\"right\">");
-                    po.push("				<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red W40\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
+                    po.push("				<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
                     po.push("				</td>");
                 }
             }
@@ -2050,7 +2050,7 @@ var AXNotification = Class.create(AXJ, {
                 po.push("	</div>");
             } else if (config.type == "dialog") {
                 po.push("	<div class=\"AXNotificationButtons\">");
-                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red W40\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
+                po.push("	<input type=\"button\" value=\"" + config.confirmStr + "\" class=\"AXButton Red\"  id=\"bread_AX_" + breadID + "_AX_confirm\" />");
                 po.push("	</div>");
             }
             po.push("</div>");
@@ -4543,8 +4543,13 @@ AXContextMenu.open({
         var po = [];
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
+
+	    if(typeof obj.reserveKeys == "undefined"){
+		    obj.reserveKeys = cfg.reserveKeys;
+	    }
+
         axf.each(menuList, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
                 //if (menu.upperLine) po.push("<div class=\"hline\"></div>");
                 var className = (menu.className) ? " " + menu.className : "";
                 var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
@@ -9656,7 +9661,7 @@ var AXGrid = Class.create(AXJ, {
 			];
 			for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
 				var adder = {
-					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: "middle", isLastCell: true,
+					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: (CG.valign || "middle"), isLastCell: true,
 					display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter, formatterLabel:CG.formatterLabel,
 					tooltip: CG.tooltip
 				};
@@ -11994,6 +11999,7 @@ myGrid.setData(gridData);
 						var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
 						var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
 						var styles = " style=\"vertical-align:" + CH.valign + ";\"";
+
 						if(trHeight && CH.rowspan < 2 && CH.colspan < 2) styles = " style=\"vertical-align:" + CH.valign + ";height:"+trHeight+"px;\"";
 
 						var bodyNodeClass = "";
@@ -14225,13 +14231,15 @@ myGrid.setData(gridData);
 		var _val = {};
 		if(Object.isArray(cfg.mergeCells)){
 			for(var tri = 0;tri < rows.length;tri++){
+				var isMerge = true;
 				for(var mci = 0;mci < cfg.mergeCells.length;mci++){
 					var tdi;
-					if( rows[tri][ (tdi = cfg.mergeCells[mci]) ]){
+					if( rows[tri][ (tdi = cfg.mergeCells[mci]) ] ){
 						if( _val["td_"+tdi] ) {
-							if( _val["td_" + tdi].html == rows[tri][tdi].html ) {
+							if( _val["td_" + tdi].html == rows[tri][tdi].html && isMerge ) {
 								rows[ _val["td_" + tdi].tri ][tdi].rowspan++;
 								rows[tri][tdi].rowspan = 0;
+								isMerge = true;
 							}else {
 								_val["td_" + tdi] = {
 									tri    : tri,
@@ -14239,6 +14247,7 @@ myGrid.setData(gridData);
 									rowspan: 1,
 									html   : rows[tri][tdi].html
 								};
+								isMerge = false;
 							}
 						}else {
 							_val["td_" + tdi] = {
@@ -14247,6 +14256,7 @@ myGrid.setData(gridData);
 								rowspan: 1,
 								html   : rows[tri][tdi].html
 							};
+							isMerge = false;
 						}
 					}
 				}

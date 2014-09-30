@@ -1,7 +1,7 @@
 AXISJ
 =====
 
-Javascript UI Library <b>AXISJ</b>
+Javascript UI Framework <b>AXISJ</b>
 <br/>
 
 ```js
@@ -20,6 +20,9 @@ http://google.com/+axisj : Google+
 dist/AXJ.min.js
 ui/[theme]/AXJ.min.css
 ```
+
+and you can use with 'AXU'
+<a href="http://axu.axisj.com" target="_blank">http://axu.axisj.com</a><br/>
 
 <br/>
 <img src="http://old2014.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
