@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-09-25 
+AXJ - v1.0.9 - 2014-09-30 
 */
 /*! 
-AXJ - v1.0.9 - 2014-09-25 
+AXJ - v1.0.9 - 2014-09-30 
 */
 
 if(!window.AXConfig){
@@ -10580,6 +10580,22 @@ myGrid.redrawGrid();
 		}
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
 	},
+/**
+ * colgroup내 해당 index의 checked 속성을 변경해 줍니다.
+ * 해당 index의 아이템이 checkbox로 지정되어 있어야 합니다.
+ * @method AXGrid.checkedColSeq
+ * @param {Number} colSeq - 대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+ * @param {Boolean} checked - true면 check , false면 uncheck
+ * @param {Number} itemIndex - 대상 열(미 지정시 전체)
+ * @returns {AXGrid}
+ * @example
+```
+var myGrid = new AXGrid();
+...
+myGrid.checkedColSeq(0, true); // 모든 체크박스 속성을 checked로
+myGrid.checkedColSeq(0, true,0); // 첫번째 열의 체크박스속성을 checked로
+```
+*/	
 	checkedColSeq: function (colSeq, checked, itemIndex) {
 		var cfg = this.config, sendObj;
 		var _list = this.list;
@@ -10654,6 +10670,7 @@ myGrid.redrawGrid();
 				cfg.body.oncheck.call(sendObj, itemIndex, item);
 			}
 		}
+		return this;
 	},
 	getCheckedList: function (colSeq) {
 		var cfg = this.config;
@@ -15899,6 +15916,7 @@ myGrid.setData(gridData);
 		AXContextMenu.open({id: cfg.targetID + "myContextMenu"}, event);
 	}
 });
+
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
  
