@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-02 
+AXJ - v1.0.9 - 2014-10-04 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-02 
+AXJ - v1.0.9 - 2014-10-04 
 */
 
 if(!window.AXConfig){
@@ -3596,28 +3596,64 @@ var AXCalendar = Class.create(AXJ, {
 /* ---------------------------------------------- AXCalendar -- */
 
 /* -- AXMultiSelect ---------------------------------------------- */
+/**
+ * @class AXMultiSelect
+ * @classdesc 박스안에 아이템들중에 약속된 Class를 가진 아이템에 대해 다중선택를 할 수 있도록 지원합니다.
+ * @extends AXJ
+ * @version v1.8
+ * @author tom@axisj.com
+ * @logs
+ "2013-01-31 오후 5:01:12",
+ "2013-11-12 오전 9:19:09 - tom : 버그픽스",
+ "2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
+ "2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
+ * @example
+ ```js
+ var multiSelector = new AXMultiSelect();
+ multiSelector.setConfig({
+	selectStage       : "selectStageBox", // 컨테이너 타겟 아이디
+	selectClassName   : "readyselect", // 셀렉트 대상
+	beselectClassName : "beSelected", // 셀렉트 되었을 때.
+	selectingClassName: "AX_selecting" // 셀렉트중일 때
+ });
+ ```
+ */
 var AXMultiSelect = Class.create(AXJ, {
-    version: "AXMultiSelect v1.8",
-    author: "tom@axisj.com",
-    logs: [
-        "2013-01-31 오후 5:01:12",
-        "2013-11-12 오전 9:19:09 - tom : 버그픽스",
-        "2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
-        "2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
-    ],
-
     initialize: function (AXJ_super) {
         AXJ_super();
+
+/**
+ * 선택된 아이템 <en>Array of selected Item.</en>
+ * @member {Array} AXMultiSelect.selects
+ */
+
         this.selects = [];
+	    this.moveSens = 0;
+	    this.touchMode;
+
         this.config.selectClassName = "readySelect";
         this.config.beselectClassName = "beSelected";
         this.config.selectingClassName = "AX_selecting";
-        this.config.unselectingClassName = "AX_unselecting";
-        this.moveSens = 0;
         this.config.moveSens = 5;
-        this.touchMode;
         this.config.useHelper = true;
     },
+/**
+ * @method AXMultiSelect.setConfig
+ * @param {Object} config
+ * @description 멀티셀렉트
+ * @example
+```js
+ var config = {
+	selectStage: {String} - Element ID of select item container,
+	selectClassName: {String} [readySelect] - CSS Class Name of select item,
+	beselectClassName: {String} [beSelected] - CSS Class Name of selected item,
+	selectingClassName: {String} [AX_selecting] - CSS Class Name of selecting item,
+	moveSens: {Number} [5] - mouse position move of detect select,
+	useHelper: {Boolean} [true] - use mouse select box
+ }
+ multiSelector.setConfig(config);
+```
+ */
     init: function () {
 
         var mouseClick = this.onmouseClick.bind(this);
@@ -3698,6 +3734,16 @@ var AXMultiSelect = Class.create(AXJ, {
     },
     /* ------------------------------------------------------------------------------------------------------------------ */
     /* class method ~~~~~~ */
+/**
+ * @method AXMultiSelect.collect
+ * @returns {AXMultiSelect}
+ * @description 컨테이너안에 셀렉트 아이템을 재정의 합니다.
+ * @example
+```js
+ multiSelector.collect();
+ // 컨테이너안에 아이템의 변화가 생긴 경우 호출합니다.
+```
+ */
     collect: function () {
         var cfg = this.config;
         this._selectTargets = axdom("#" + cfg.selectStage + " ." + cfg.selectClassName);
@@ -3717,6 +3763,7 @@ var AXMultiSelect = Class.create(AXJ, {
                 selecting: jQuerythis.hasClass(cfg.selectingClassName)
             });
         });
+	    return this;
     },
     clearSelects: function () {
         var cfg = this.config;
@@ -4106,6 +4153,15 @@ var AXMultiSelect = Class.create(AXJ, {
             });
         }
     },
+/**
+ * @method AXMultiSelect.getSelects
+ * @returns {Array} selects
+ * @description 셀렉트된 아이템 엘리먼트 배열을 반환합니다. Return Array of selected item element
+ * @example
+```js
+ multiSelector.getSelects();
+```
+ */
     getSelects: function () {
         var cfg = this.config;
         var selects = [];
@@ -4136,23 +4192,62 @@ var AXMultiSelect = Class.create(AXJ, {
 /* ---------------------------------------------- AXMultiSelect -- */
 
 /* -- AXResizable ---------------------------------------------- */
+/**
+ * 아이템을 주어진 조건에 맞게 리사이즈 할 수 있는 클래스
+ * @class AXResizable
+ * @classdesc
+ * @extends AXJ
+ * @version v0.9
+ * @author tom@axisj.com
+ * @logs
+ "2013-11-12 오전 10:22:06"
+ */
 var AXResizable = Class.create(AXJ, {
-    version: "AXResizable v1.0",
-    author: "tom@axisj.com",
-    logs: [
-        "2013-11-12 오전 10:22:06"
-    ],
     initialize: function (AXJ_super) {
         AXJ_super();
         this.moveSens = 0;
+	    this.objects = [];
+
         this.config.moveSens = 2;
-        this.objects = [];
         this.config.bindResiableContainer = "AXResizable";
         this.config.bindResiableHandle = "AXResizableHandle";
     },
+/**
+ * @method AXResizable.setConfig
+ * @param {Object} config
+ * @description targetID를 지정합니다. 인스턴스간에 구분을 할 수 있게 해줍니다.
+ * @example
+```js
+ var AXResizableBinder = new AXResizable();
+ AXResizableBinder.setConfig({ targetID: "defaultResiable" });
+```
+ */
     init: function () {
         this.helper = axdom("<div class='AXResizableHelper'></div>");
     },
+/**
+ * @method AXResizable.bind
+ * @param {Object} obj
+ * @returns {AXResizable}
+ * @example
+```js
+ var config = {
+    id: {String} - Element ID,
+    minWidth: {Number} [0],
+    minHeight: {Number} [0],
+	maxWidth: {Number} [0],
+	maxHeight: {Number} [0],
+	animate: {easing:"bounceOut", duration:500},
+	aspectRatio: {Number} - 2/1,
+	snap: {Number} - 10,
+	onChange: function(){
+		// this.id, this.element, this.jQueryElement, this.config
+		toast.push(this.id);
+	}
+ };
+ myResizer.bind(config);
+```
+ */
     bind: function (obj) {
         var cfg = this.config;
         if (!obj.id) {
@@ -4185,7 +4280,18 @@ var AXResizable = Class.create(AXJ, {
             this.objects[objSeq].config = obj;
         }
         this.bindResizer(objID, objSeq);
+		return this;
     },
+/**
+ * @method AXResizable.unbind
+ * @param {Object} obj
+ * @returns {AXResizable}
+ * @description 바인드 해제 합니다.
+ * @example
+```js
+ myResizer.unbind({id:"ElementID"});
+```
+ */
     unbind: function (obj) {
         var cfg = this.config;
         var removeIdx;
@@ -4201,6 +4307,7 @@ var AXResizable = Class.create(AXJ, {
             this.objects[removeIdx].isDel = true;
             /* unbind 구문 */
         }
+		return this;
     },
     bindResizer: function (objID, objSeq) {
         var _this = this;
@@ -4348,14 +4455,60 @@ var AXResizable = Class.create(AXJ, {
 var AXResizableBinder = new AXResizable();
 AXResizableBinder.setConfig({ targetID: "defaultResiable" });
 
+/**
+ * @method jQueryExtends.bindAXResizable
+ * @param {Object} config
+ * @returns {jQueryObject}
+ * @description box 엘리먼트 크기를 조정할 수 있게 해줍니다.
+ * @example
+ ```js
+ $("#mytarget").bindAXResizable({
+	minWidth:50, minHeight:50,
+	maxWidth:200, maxHeight:200,
+	animate: {easing:"bounceOut", duration:500},
+	aspectRatio: 2/1,
+	snap:10,
+	onChange: function(){
+		toast.push(this.id);
+	}
+ });
+
+ // 옵션 스펙
+ var config = {
+    minWidth: {Number} [0],
+    minHeight: {Number} [0],
+	maxWidth: {Number} [0],
+	maxHeight: {Number} [0],
+	animate: {easing:"bounceOut", duration:500},
+	aspectRatio: {Number} - 2/1,
+	snap: {Number} - 10,
+	onChange: function(){
+		// this.id, this.element, this.jQueryElement, this.config
+		toast.push(this.id);
+	}
+ };
+
+ ```
+ */
 axdom.fn.bindAXResizable = function (config) {
     AXUtil.each(this, function () {
         config = config || {}; config.id = this.id;
         AXResizableBinder.bind(config);
         return this;
     });
+	return this;
 };
 
+/**
+ * @method jQueryExtends.unbindAXResizable
+ * @param {Object} [config]
+ * @returns {jQueryObject}
+ * @description box 엘리먼트 크기를 조정자를 제거합니다.
+ * @example
+ ```js
+ $("#mytarget").unbindAXResizable();
+ ```
+ */
 axdom.fn.unbindAXResizable = function (config) {
     AXUtil.each(this, function () {
         if (config == undefined) config = {};
@@ -4363,6 +4516,7 @@ axdom.fn.unbindAXResizable = function (config) {
         AXResizableBinder.unbind(config);
         return this;
     });
+	return this;
 };
 /* ---------------------------------------------- AXResizable -- */
 
@@ -10615,6 +10769,18 @@ var gridConfig = {
 		}
 
 	},
+    /**
+     * @method AXGrid.getColGroup
+     * @param suffix {String} - "CH" ColHead, "CB" ColBody, "EB" EditorBody, "FE" FixedEditorBody,"FB" FixedColBody,"FC" FixedColHead
+     * @description ColGroup을 구성 합니다.   
+     * @returns {HTMLElement} ColGroup html 
+     * @example
+     ```
+     var myGrid = new AXGrid();
+     ...
+     myGrid.getColGroup("CB");
+     ```
+     */
 	getColGroup: function (suffix) {
 		var cfg = this.config;
 		var fixedColSeq = this.fixedColSeq;
@@ -10641,6 +10807,19 @@ var gridConfig = {
 		po.push("</colgroup>");
 		return po.join('');
 	},
+    /**
+     * @method AXGrid.getColSeqToHead
+     * @param r {Number} - Row
+	 * @param c {Number} - Column
+     * @description 대상의 colHead 내부 seq 가져옵니다.   
+     * @returns {Number} colSeq 
+     * @example
+     ```
+     var myGrid = new AXGrid();
+     ...
+     var colSeq = myGrid.getColSeqToHead(colHeadR, colHeadC);
+     ```
+     */
 	getColSeqToHead: function (r, c) {
 		/*trace("getColSeqToHead:"+r+","+c); */
 		var cfg = this.config;
@@ -10791,6 +10970,18 @@ var gridConfig = {
 		}
 		return this;
 	},
+    /**
+     * @method AXGrid.getCheckedList
+     * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+     * @description  Grid list 내의 checked 된 아이템을 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
+     * @returns {Array} JSObject - 그리드 리스트의 체크된 인덱스 아이템
+     * @example
+     ```
+     var myGrid = new AXGrid();
+     ...
+     myGrid.getCheckedList(0);
+     ```
+     */
 	getCheckedList: function (colSeq) {
 		var cfg = this.config;
 		var collect = [];
@@ -10806,6 +10997,18 @@ var gridConfig = {
 
 		return collect;
 	},
+    /**
+     * @method AXGrid.getCheckedListWithIndex
+     * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+     * @description  Grid list 내의 checked 된 아이템,index를 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
+     * @returns {Array} [{index:Number, item:JSObject}] -그리드 리스트의 체크된 인덱스 , 아이템
+     * @example
+     ```
+     var myGrid = new AXGrid();
+     ...
+     myGrid.getCheckedListWithIndex(0);
+     ```
+     */
 	getCheckedListWithIndex: function (colSeq) {
 		var cfg = this.config;
 		var collect = [];
@@ -11803,11 +12006,12 @@ var gridConfig = {
 						if(obj.onError) obj.onError.call(res);
 						else AXUtil.alert(res);
 					}
-					_this.pageActive = false;
 				}
 			});
 
-		} else {
+		}
+		else
+		{
 
 			if (axdom.isArray(obj)) {
 				if (sortDisable || !cfg.sort) {
@@ -11828,7 +12032,6 @@ var gridConfig = {
 					this.pagingUnit.hide();
 					this.pageActive = false;
 				}
-
 			}
 		}
 	},
@@ -12917,7 +13120,7 @@ var gridConfig = {
 			this.contentScrollResize(false);
 		}
 
-		if (!this.pageActive) this.setStatus(this.list.length);
+		this.setStatus(this.list.length);
 		this.redrawDataSet();
 
 		return this;
@@ -12990,7 +13193,7 @@ var gridConfig = {
 		}
 
 		this.printList();
-		if (!this.pageActive) this.setStatus(this.list.length);
+		this.setStatus(this.list.length);
 		this.redrawDataSet();
 	},
 	removeListIndex: function (removeList) {
@@ -13051,7 +13254,7 @@ var gridConfig = {
 		this.selectedRow.clear();
 
 		this.printList();
-		if (!this.pageActive) this.setStatus(this.list.length);
+		this.setStatus(this.list.length);
 		this.redrawDataSet();
 	},
 	restoreList: function (restoreList) {
@@ -13109,7 +13312,7 @@ var gridConfig = {
 
 		this.list = collect;
 		this.printList();
-		if (!this.pageActive) this.setStatus(this.list.length);
+		this.setStatus(this.list.length);
 		this.redrawDataSet();
 	},
 	gridBodyOver: function (event) {
@@ -15608,6 +15811,7 @@ var gridConfig = {
 
 			/*스크롤 위치 변경 */
 			if (cfg.viewMode != "mobile") {
+
 				var scrollTop = 0;
 				this.scrollContent.css({ top: scrollTop });
 				this.contentScrollContentSync({ top: scrollTop });
@@ -28361,15 +28565,6 @@ var AXTree = Class.create(AXJ, {
 
 
 	},
-	/**
-	 * @method AXTree.init
-	 
-	 * @description 클래스를 초기화 합니다. 초기화 한 오브젝트를 변수에 담아 제어할 수 있습니다.
-	 * @example
-	```
-	var myTree = new AXTree();
-	```
-	 */
 	init: function () {
 		var cfg = this.config;
 
@@ -28505,63 +28700,63 @@ var AXTree = Class.create(AXJ, {
 		/* body event bind */
 		axdom(window).bind("resize", this.windowResize.bind(this));
 	},
-    /**
-     * @method AXTree.setConig
-     * @param {Object} config  - gridConfig
-     * @description
-     * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
-     * @example
-     ```
-     var myTree = new AXTree();
-     myTree.setConfig({
-        targetID : "AXTreeTarget",  //{String} - HTML 엘리먼트 타겟아이디
-        theme: "AXTree_none",   //[String] - ("AXTree","AXTree_none") CSS Class 이름
-        relation:{  //무보자식 키 정의
-            parentKey:"pno",    //부모아이디 키
-            childKey:"no"   //자식아이디 키
-        },
-        colGroup: [ //트리 헤드정의
-            {
-                key:"nodeName", //{String} - 컬럼에 매치될 item 의 키
-                label:"제목", //{String} - 컬럼에 표시할 라벨
-                width:"100%",   //[Number["px", "%"] = "auto"] - "100%", "500px", "auto"지정하면 트리의 너비만큼 단일 컬럼의 너비가 자동 맞춤 처리됩니다.
-                align:"left",   //[String = "left"[left, center, right]] - 정렬방식 지정
-                indent:true,    //[Boolean = true]
-                getIconClass: function(){   // [Function] - indent 속성 정의된 대상에 아이콘을 지정할 수 있습니다.
-                    var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
-                    var iconName = "";
-                    if(this.item.type) iconName = iconNames[this.item.type];
-                    return iconName;
-                },
-                formatter:function(){   // [Function] - 컬럼값의 표현형식 각각 화폐표현식, urlDecode, input.Checkbox, input.radioBox, 사용자 정의 함수
-                    return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
-                }
-            }
-        ],
-        body: {
-            onclick:function(idx, item){ //[Function] 바디 클릭 이벤트 콜백함수
-                toast.push(Object.toJSON(item));
+/**
+ * @method AXTree.setConig
+ * @param {Object} config - gridConfig
+ * @description
+ * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
+ * @example
+ ```js
+ var myTree = new AXTree();
+ myTree.setConfig({
+    targetID : "AXTreeTarget",  //{String} - HTML 엘리먼트 타겟아이디
+    theme: "AXTree_none",   //[String] - ("AXTree","AXTree_none") CSS Class 이름
+    relation:{  //무보자식 키 정의
+        parentKey:"pno",    //부모아이디 키
+        childKey:"no"   //자식아이디 키
+    },
+    colGroup: [ //트리 헤드정의
+        {
+            key:"nodeName", //{String} - 컬럼에 매치될 item 의 키
+            label:"제목", //{String} - 컬럼에 표시할 라벨
+            width:"100%",   //[Number["px", "%"] = "auto"] - "100%", "500px", "auto"지정하면 트리의 너비만큼 단일 컬럼의 너비가 자동 맞춤 처리됩니다.
+            align:"left",   //[String = "left"[left, center, right]] - 정렬방식 지정
+            indent:true,    //[Boolean = true]
+            getIconClass: function(){   // [Function] - indent 속성 정의된 대상에 아이콘을 지정할 수 있습니다.
+                var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+                var iconName = "";
+                if(this.item.type) iconName = iconNames[this.item.type];
+                return iconName;
             },
-            ondblclick:function(idx, item){ //[Function] 바디 더블클릭 이벤트 콜백함수
-                toast.push(Object.toJSON(item));
-            },
-            oncheck:function(idx, item){ //[Function] 트리 체크박스클릭시 함수연결
-                toast.push(Object.toJSON(item));
-            },
-            onexpand:function(idx, item){ //[Function] 트리 아이템 확장 이벤트 콜백함수
-                toast.push(Object.toJSON(item));
-            },
-            oncontract:function(idx, item){ //[Function] 트리 아이템 축소 이벤트 콜백함수
-                toast.push(Object.toJSON(item));
-            },
-            addClass:function(idx, item){ //[Function] 트리 아이템에 사용자 CSS 클래스를 추가할 수 있는 사용자 함수 추가하려는 클래스명을 return 으로 반환하십시요
-                toast.push(Object.toJSON(item));
+            formatter:function(){   // [Function] - 컬럼값의 표현형식 각각 화폐표현식, urlDecode, input.Checkbox, input.radioBox, 사용자 정의 함수
+                return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
             }
         }
-     });
+    ],
+    body: {
+        onclick:function(idx, item){ //[Function] 바디 클릭 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        ondblclick:function(idx, item){ //[Function] 바디 더블클릭 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        oncheck:function(idx, item){ //[Function] 트리 체크박스클릭시 함수연결
+            toast.push(Object.toJSON(item));
+        },
+        onexpand:function(idx, item){ //[Function] 트리 아이템 확장 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        oncontract:function(idx, item){ //[Function] 트리 아이템 축소 이벤트 콜백함수
+            toast.push(Object.toJSON(item));
+        },
+        addClass:function(idx, item){ //[Function] 트리 아이템에 사용자 CSS 클래스를 추가할 수 있는 사용자 함수 추가하려는 클래스명을 return 으로 반환하십시요
+            toast.push(Object.toJSON(item));
+        }
+    }
+ });
 
-     ```
-     */
+ ```
+ */
 	windowResize: function () {
 		var windowResizeApply = this.windowResizeApply.bind(this);
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
@@ -28701,9 +28896,9 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * colGroup의 배열순번으로 해당 col의 checked 된 아이템을 반환하여 줍니다.
 	 * @example
-	 ```
+```
      var myArray = myTree.getCheckedList(0);
-	 ```
+```
 	 */
     getCheckedList: function (colSeq) {
 		var cfg = this.config;
@@ -29554,33 +29749,33 @@ var AXTree = Class.create(AXJ, {
      * @description
      * 트리에 데이터를 전달합니다. 비동기 방식의 경우 직접데이터를 전달하지 않고 데이터의 전달자 정보를 정의하여 처리합니다.
      * @example
-     ```
-        //Array - list Array setConfig 에서 정의한 relation 의 부모, 자식키 값을 이용하여 list형 데이터를 tree형 데이터로 변환하여 트리를 구성합니다.
-        var List = [
-            {no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", pno:0},
-                {no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0", pno:1},
-            {no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", pno:0},
-                {no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0", pno:2},
-                {no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
-                    {no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0", pno:24},
-                        {no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-                        {no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-                {no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-                {no:26, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
-            {no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-            {no:11, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0}
-        ];
-        myTree.setList(List);
+```
+//Array - list Array setConfig 에서 정의한 relation 의 부모, 자식키 값을 이용하여 list형 데이터를 tree형 데이터로 변환하여 트리를 구성합니다.
+var List = [
+    {no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", pno:0},
+        {no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0", pno:1},
+    {no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", pno:0},
+        {no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0", pno:2},
+        {no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
+            {no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0", pno:24},
+                {no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
+                {no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
+        {no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
+        {no:26, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
+    {no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
+    {no:11, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0}
+];
+myTree.setList(List);
 
-        var AJAXconfigs = {
-            ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
-            ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
-            onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
-                ...
-            }
-        };
-        myTree.setList(AJAXconfigs);
-     ```
+var AJAXconfigs = {
+    ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
+    ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
+    onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
+        ...
+    }
+};
+myTree.setList(AJAXconfigs);
+```
      */
     setList: function (obj, positioning) {
 		var cfg = this.config;
@@ -30232,11 +30427,11 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * 아이템의 확장/축소 상태를 토글처리 합니다.
 	 * @example
-	 ```
-     var iwantItemIndex = 10;
-     var myitem = myTree.list[iwantItemIndex];
-	 myTree.expandToggleList(iwantItemIndex, myitem);
-     ```
+```
+ var iwantItemIndex = 10;
+ var myitem = myTree.list[iwantItemIndex];
+ myTree.expandToggleList(iwantItemIndex, myitem);
+```
 	 */
     expandToggleList: function (itemIndex, item, r, c) {
 		var cfg = this.config;
@@ -31224,9 +31419,9 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * 선택된 상태를 해제합니다.
 	 * @example
-	 ```
-     myTree.clearFocus();
-	 ```
+```
+myTree.clearFocus();
+```
 	 */
     clearFocus: function () {
 		var cfg = this.config;
@@ -31247,16 +31442,16 @@ var AXTree = Class.create(AXJ, {
 		this.selectedRow.clear();
 	},
 
-    /**
-	 * @method AXTree.setFocus
-	 * @param {Number} itemIndex
-	 * @description
-	 * index 위치로 트리바디의 포커스를 이동하고 선택된 상태로 변경합니다.
-	 * @example
-	 ```
-     myTree.setFocus(3);
-	 ```
-	 */
+/**
+ * @method AXTree.setFocus
+ * @param {Number} itemIndex
+ * @description
+ * index 위치로 트리바디의 포커스를 이동하고 선택된 상태로 변경합니다.
+ * @example
+```js
+ myTree.setFocus(3);
+```
+ */
     setFocus: function (itemIndex) {
 		var cfg = this.config;
 
@@ -31315,18 +31510,18 @@ var AXTree = Class.create(AXJ, {
      * @description
      * 아이템인덱스의 아이템 선택, 확장, 클릭이벤트 발생 처리를 합니다.
      * @example
-     ```
-     var findIndex = null;
-     $.each(List, function(jindex, J){
-        if(this.id == "findid"){
-            findIndex = jindex;
-            return false;
-        }
-     });
-     if(findIndex != null){
-        var focusItem = myTree.click(findIndex, "open", true); // 아이템 확장처리만 원함.
-     }
-     ```
+```
+ var findIndex = null;
+ $.each(List, function(jindex, J){
+    if(this.id == "findid"){
+        findIndex = jindex;
+        return false;
+    }
+ });
+ if(findIndex != null){
+    var focusItem = myTree.click(findIndex, "open", true); // 아이템 확장처리만 원함.
+ }
+```
      */
 	click: function (itemIndex, open, doNotCallBack) {
 		var cfg = this.config;
@@ -31596,30 +31791,30 @@ var AXTree = Class.create(AXJ, {
      * @description
      * 트리에 데이터를 전달합니다. 비동기 방식의 경우 직접데이터를 전달하지 않고 데이터의 전달자 정보를 정의하여 처리합니다.
      * @example
-     ```
-     //Array - JSObject(tree형)
-     var Tree = [
-         {no:"1", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[
-             {no:"1.1", type:"phase", activity:"기획 및 설계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
-                 {no:"1.1.1", type:"process", activity:"기획단계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
-                     {no:"1.1.1.1", type:"activity", activity:"요구사항정의", desc:"M", charger:"최인석/PM", admin:"홍길동", docs:"[필수]요구사항정의서", open:false, subTree:[]},
-                     {no:"1.1.1.2", type:"activity", activity:"업무분할", desc:"M", charger:"한승욱/기획", admin:"", docs:"[권고]요구사항정의서", open:false, subTree:[]}
-                 ]}
+```
+ //Array - JSObject(tree형)
+ var Tree = [
+     {no:"1", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[
+         {no:"1.1", type:"phase", activity:"기획 및 설계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
+             {no:"1.1.1", type:"process", activity:"기획단계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
+                 {no:"1.1.1.1", type:"activity", activity:"요구사항정의", desc:"M", charger:"최인석/PM", admin:"홍길동", docs:"[필수]요구사항정의서", open:false, subTree:[]},
+                 {no:"1.1.1.2", type:"activity", activity:"업무분할", desc:"M", charger:"한승욱/기획", admin:"", docs:"[권고]요구사항정의서", open:false, subTree:[]}
              ]}
-         ]},
-         {no:"9", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[]}
-     ];
-     myTree.setTree(Tree);
+         ]}
+     ]},
+     {no:"9", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[]}
+ ];
+ myTree.setTree(Tree);
 
-     var AJAXconfigs = {
-            ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
-            ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
-            onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
-                ...
-            }
-        };
-     myTree.setTree(AJAXconfigs);
-     ```
+ var AJAXconfigs = {
+        ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
+        ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
+        onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
+            ...
+        }
+    };
+ myTree.setTree(AJAXconfigs);
+```
      */
 	setTree: function (obj, sortDisable) {
 		var cfg = this.config;
@@ -31708,15 +31903,15 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * 원하는 아이템 하위에 아이템을 추가합니다.
 	 * @example
-	 ```
-     // 선택아이템의 자식 추가하기
-     var obj = myTree.getSelectedList();
-     myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:obj.item.nodeID}]);
+```
+ // 선택아이템의 자식 추가하기
+ var obj = myTree.getSelectedList();
+ myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:obj.item.nodeID}]);
 
-     // 선택아이템의 형제 추가하기
-     var obj = myTree.getSelectedListParent();
-     myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:(obj.item.nodeID|0)}]);
-	 ```
+ // 선택아이템의 형제 추가하기
+ var obj = myTree.getSelectedListParent();
+ myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:(obj.item.nodeID|0)}]);
+```
 	 */
 
     appendTree: function (itemIndex, item, subTree) {
@@ -31865,11 +32060,11 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * 원하는 아이템의 데이터를 수정합니다.
 	 * @example
-	 ```
-     var obj = myTree.getSelectedList();
-     myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
-     // 수정하려는 아이템의 일부 키만 전달 해도 수정이 가능합니다.
-	 ```
+```
+ var obj = myTree.getSelectedList();
+ myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
+ // 수정하려는 아이템의 일부 키만 전달 해도 수정이 가능합니다.
+```
 	 */
     updateTree: function (itemIndex, item, obj) {
 		var cfg = this.config;
@@ -31894,14 +32089,14 @@ var AXTree = Class.create(AXJ, {
      * @description
      * 원하는 아이템의 데이터를 수정합니다.
      * @example
-     ```
-     var obj = myTree.getSelectedList();
-     if(obj.error){
-         alert("개체를 선택해 주세요");
-         return;
-     }
-     myTree.removeTree(obj.index, obj.item);
-     ```
+```
+ var obj = myTree.getSelectedList();
+ if(obj.error){
+     alert("개체를 선택해 주세요");
+     return;
+ }
+ myTree.removeTree(obj.index, obj.item);
+```
      */
 	removeTree: function (itemIndex, item) {
 		var cfg = this.config;
@@ -32155,36 +32350,36 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * 원하는 아이템의 위치를 수정합니다.
 	 * @example
-	 ```
-     myTree.moveTree({
-        startMove: function(){      //moveTree가 발동 되었을 때 발생되는 콜백함수
-            myTree.addClassItem({
-                className:"disable",
-                addClass:function(){
-                    return (this.nodeID == "N");
-                }
-            });
-        },
-        validate:function(){        //moveTree가 활성화 된 상태에서 사용자의 선택을 검증하는 콜백함수
-            //this.moveObj
-            //this.targetObj
-            if(this.targetObj.nodeID == "N"){
-                alert("이동할 수 없는 대상을 선택하셨습니다.");
-                return false;
-            }else{
-                return true;
+```
+ myTree.moveTree({
+    startMove: function(){      //moveTree가 발동 되었을 때 발생되는 콜백함수
+        myTree.addClassItem({
+            className:"disable",
+            addClass:function(){
+                return (this.nodeID == "N");
             }
-        },
-        endMove: function(){        //moveTree가 완료 되었을때 발생되는 콜백함수
-            myTree.removeClassItem({
-                className:"disable",
-                removeClass:function(){
-                    return (this.nodeID == "N");
-                }
-            });
+        });
+    },
+    validate:function(){        //moveTree가 활성화 된 상태에서 사용자의 선택을 검증하는 콜백함수
+        //this.moveObj
+        //this.targetObj
+        if(this.targetObj.nodeID == "N"){
+            alert("이동할 수 없는 대상을 선택하셨습니다.");
+            return false;
+        }else{
+            return true;
         }
-     });
-	 ```
+    },
+    endMove: function(){        //moveTree가 완료 되었을때 발생되는 콜백함수
+        myTree.removeClassItem({
+            className:"disable",
+            removeClass:function(){
+                return (this.nodeID == "N");
+            }
+        });
+    }
+ });
+```
 	 */
     moveTree: function (Option) {
 		var cfg = this.config;
@@ -32604,10 +32799,10 @@ var AXTree = Class.create(AXJ, {
      * (Number) index of Array 선택한 아이템들의 첫번째
      *
      * @example
-     ```
-     var SL = AXTree.getSelectedList();
-     trace(SL);
-     ```
+```
+ var SL = AXTree.getSelectedList();
+ trace(SL);
+```
      */
 	getSelectedList: function () {
 		if (this.selectedRow != undefined && this.selectedRow != null && this.selectedRow.length > 0) {
@@ -32622,10 +32817,10 @@ var AXTree = Class.create(AXJ, {
      * @description
      * 현재 선택된 아이템의 부모 아이템을 반환합니다.
      * @example
-     ```
-     AXTvar SL = ree.getSelectedListParent();
-     trace(SL)
-     ```
+```
+ AXTvar SL = ree.getSelectedListParent();
+ trace(SL)
+```
      */
 	getSelectedListParent: function () {
 		var cfg = this.config;
@@ -32663,10 +32858,10 @@ var AXTree = Class.create(AXJ, {
      * @returns changed item of list {Array}
      * @description 자식 항목에 체크된 경우 부모 값을 체크된 상태로 변경 해주는 메서드 입니다.
      * @example
-    ```
-     myTree.relationFixedSync();
-     myTree.relationFixedSync({expandItem:true}); // 체크된 아이템을 확장상태로 변경합니다.
-    ```
+```
+ myTree.relationFixedSync();
+ myTree.relationFixedSync({expandItem:true}); // 체크된 아이템을 확장상태로 변경합니다.
+```
      */
 	relationFixedSync: function(options){
 		var cfg = this.config;
@@ -32687,10 +32882,10 @@ var AXTree = Class.create(AXJ, {
      * @param {(String|Null|Number)} [depth="all"} - 확장할 뎁스, 값을 주지 않거나 "all" 을 주면 전체 확장이됩니다.
      * @description 트리의 노드를 확장시켜 줍니다.
      * @example
-    ```
-     myTree.expandAll(); //모두확장
-     myTree.expandAll(1); //1 뎁스까지만 확장
-    ```
+```
+ myTree.expandAll(); //모두확장
+ myTree.expandAll(1); //1 뎁스까지만 확장
+```
      */
 	expandAll: function(depth){
 		var cfg = this.config;
@@ -32716,9 +32911,9 @@ var AXTree = Class.create(AXJ, {
      * @description
      * 트리의 모든 아이템을 축소상태로 변경합니다.
      * @example
-     ```
-     myTree.collapseAll();
-     ```
+```
+myTree.collapseAll();
+```
      */
 	collapseAll: function(){
 		var cfg = this.config;
