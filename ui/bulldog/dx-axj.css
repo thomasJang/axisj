@@ -1543,17 +1543,18 @@
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
 }
-.AXGridTable thead td {
+.AXGridTable thead td,
+.AXGridTable thead th {
   /*background: @stop;*/
-  background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -webkit-linear-gradient(#d9d9d9, #d9d9d9);
   /* For Safari */
-  background-image: -o-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -o-linear-gradient(#d9d9d9, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
-  background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -moz-linear-gradient(#d9d9d9, #d9d9d9);
   /* For Firefox 3.6 to 15 */
-  background-image: linear-gradient(#ffffff, #d9d9d9);
+  background-image: linear-gradient(#d9d9d9, #d9d9d9);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
   min-height: 30px;
   line-height: 30px;
@@ -1561,12 +1562,14 @@
   border-right: 1px solid #6c7b8a;
   color: #5e5e5e;
 }
-.AXGridTable thead td .tdRel {
+.AXGridTable thead td .tdRel,
+.AXGridTable thead th .tdRel {
   padding: 0px 10px;
   text-align: center;
   color: #5e5e5e;
 }
-.AXGridTable tbody td {
+.AXGridTable tbody td,
+.AXGridTable tbody th {
   min-height: 36px;
   line-height: 30px;
   border-bottom: 1px solid #6c7b8a;
@@ -1574,7 +1577,8 @@
   color: #5e5e5e;
   text-align: center;
 }
-.AXGridTable tbody td .tdRel {
+.AXGridTable tbody td .tdRel,
+.AXGridTable tbody th .tdRel {
   position: relative;
 }
 /* view Style table */
@@ -1606,15 +1610,15 @@
 .AXFormTable tbody th {
   color: #565b61;
   /*background: @stop;*/
-  background-image: -webkit-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -webkit-linear-gradient(#d9d9d9, #d9d9d9);
   /* For Safari */
-  background-image: -o-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -o-linear-gradient(#d9d9d9, #d9d9d9);
   /* For Opera 11.1 to 12.0 */
-  background-image: -moz-linear-gradient(#ffffff, #d9d9d9);
+  background-image: -moz-linear-gradient(#d9d9d9, #d9d9d9);
   /* For Firefox 3.6 to 15 */
-  background-image: linear-gradient(#ffffff, #d9d9d9);
+  background-image: linear-gradient(#d9d9d9, #d9d9d9);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#d9d9d9);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
   box-sizing: border-box;
 }

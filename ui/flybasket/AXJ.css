@@ -1530,7 +1530,8 @@
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
 }
-.AXGridTable thead td {
+.AXGridTable thead td,
+.AXGridTable thead th {
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#ffffff, #f1efea);
   /* For Safari */
@@ -1548,12 +1549,14 @@
   border-right: 1px solid #99847d;
   color: #5c382c;
 }
-.AXGridTable thead td .tdRel {
+.AXGridTable thead td .tdRel,
+.AXGridTable thead th .tdRel {
   padding: 0px 10px;
   text-align: center;
   color: #5c382c;
 }
-.AXGridTable tbody td {
+.AXGridTable tbody td,
+.AXGridTable tbody th {
   min-height: 36px;
   line-height: 30px;
   border-bottom: 1px solid #99847d;
@@ -1561,7 +1564,8 @@
   color: #5c382c;
   text-align: center;
 }
-.AXGridTable tbody td .tdRel {
+.AXGridTable tbody td .tdRel,
+.AXGridTable tbody th .tdRel {
   position: relative;
 }
 /* view Style table */

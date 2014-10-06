@@ -1576,7 +1576,8 @@
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
 }
-.AXGridTable thead td {
+.AXGridTable thead td,
+.AXGridTable thead th {
   background: #fee834;
   min-height: 30px;
   line-height: 30px;
@@ -1584,12 +1585,14 @@
   border-right: 1px solid #000000;
   color: #523636;
 }
-.AXGridTable thead td .tdRel {
+.AXGridTable thead td .tdRel,
+.AXGridTable thead th .tdRel {
   padding: 0px 10px;
   text-align: center;
   color: #523636;
 }
-.AXGridTable tbody td {
+.AXGridTable tbody td,
+.AXGridTable tbody th {
   min-height: 36px;
   line-height: 30px;
   border-bottom: 1px solid #000000;
@@ -1597,7 +1600,8 @@
   color: #523636;
   text-align: center;
 }
-.AXGridTable tbody td .tdRel {
+.AXGridTable tbody td .tdRel,
+.AXGridTable tbody th .tdRel {
   position: relative;
 }
 /* view Style table */
