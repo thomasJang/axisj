@@ -1530,6 +1530,18 @@
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
 }
+.AXGridTable td,
+.AXGridTable th {
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.AXGridTable td .tdRel,
+.AXGridTable th .tdRel,
+.AXGridTable td .AXInputLabel,
+.AXGridTable th .AXInputLabel {
+  position: relative;
+}
 .AXGridTable thead td,
 .AXGridTable thead th {
   /*background: @stop;*/
@@ -1543,30 +1555,50 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
-  min-height: 30px;
-  line-height: 30px;
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
-  color: #5c382c;
-}
-.AXGridTable thead td .tdRel,
-.AXGridTable thead th .tdRel {
-  padding: 0px 10px;
-  text-align: center;
   color: #5c382c;
 }
 .AXGridTable tbody td,
 .AXGridTable tbody th {
-  min-height: 36px;
-  line-height: 30px;
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
   color: #5c382c;
-  text-align: center;
 }
-.AXGridTable tbody td .tdRel,
-.AXGridTable tbody th .tdRel {
-  position: relative;
+.AXGridTable tr.gray th,
+.AXGridTable tr.gray td {
+  background-color: #F5F5F5;
+}
+.AXGridTable tr.red th,
+.AXGridTable tr.red td {
+  background-color: #FFE8E8;
+}
+.AXGridTable tr.green th,
+.AXGridTable tr.green td {
+  background-color: #F7FDEA;
+}
+.AXGridTable tr.blue th,
+.AXGridTable tr.blue td {
+  background-color: #EAF5FD;
+}
+.AXGridTable tr.yellow th,
+.AXGridTable tr.yellow td {
+  background-color: #FEFEE9;
+}
+.AXGridTable tr td.gray {
+  background-color: #F5F5F5;
+}
+.AXGridTable tr td.red {
+  background-color: #FFE8E8;
+}
+.AXGridTable tr td.green {
+  background-color: #F7FDEA;
+}
+.AXGridTable tr td.blue {
+  background-color: #EAF5FD;
+}
+.AXGridTable tr td.yellow {
+  background-color: #FEFEE9;
 }
 /* view Style table */
 .AXFormTable {

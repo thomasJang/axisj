@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-04 
+AXJ - v1.0.9 - 2014-10-06 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-04 
+AXJ - v1.0.9 - 2014-10-06 
 */
 
 if(!window.AXConfig){
@@ -1584,11 +1584,12 @@ this.clearRange();
 // -- AXReq ----------------------------------------------
 /**
  * @class AXReqQue
- * @version v1.1
+ * @version v1.2
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * 2014-04-10 - tom : onbeforesend 옵션 추가 return false 하면 호출 제어됨.
+ * 2014-10-06 - tom : dataSendMethod bug fix.
  */
 var AXReqQue = Class.create({
 /**
@@ -1650,8 +1651,8 @@ var AXReqQue = Class.create({
         var onerr = this.onerror.bind(this);
         var ontimeout = this.ontimeout.bind(this);
         var onsucc = this.onsucc.bind(this);
-
-        if (AXConfig.AXReq.dataSendMethod != "json") {
+		var dataSendMethod = (myQue.configs.dataSendMethod || AXConfig.AXReq.dataSendMethod || "");
+        if (dataSendMethod != "json") {
 
         } else {
             if (typeof myQue.configs.pars == "object") {
@@ -1670,7 +1671,7 @@ var AXReqQue = Class.create({
         });
         ajaxOption.url = myQue.url;
 
-        if (AXConfig.AXReq.dataSendMethod == "json") ajaxOption["data"] = "{queryString:\"" + myQue.configs.pars + "\"}";
+        if (dataSendMethod == "json") ajaxOption["data"] = "{queryString:\"" + myQue.configs.pars + "\"}";
         else ajaxOption["data"] = myQue.configs.pars;
 
         ajaxOption.success = onsucc;
@@ -21779,8 +21780,8 @@ var AXMobileMenu = Class.create(AXJ, {
 
 
 /**
- * AXModal
  * @class AXModal
+ * @classdesc 모달창을 생성하고 제어 합니다. 모달창은 window, iframe, div 세 가지로 생성할 수 있습니다.
  * @extends AXJ
  * @version v1.38
  * @author tom@axisj.com
@@ -21800,6 +21801,23 @@ var AXMobileMenu = Class.create(AXJ, {
  "2014-08-04 tom : fix resize error"
  "2014-09-17 tom : 'add Config' scrollLock"
  *
+```js
+var myModal = new AXModal();
+var modalConfig = {
+	animateDuration: {Number} [300],
+	contentDivClass: {String} ["bodyHeightDiv"] - iframe 모달의 창이 오픈된 경우 iframe 의 높이를 정확히 제어하기 위해 컨텐츠 전체를 감싸는 대상에 지정한 className 값,
+	defaultTop: {Number} [10] - 모달창 포지션 top,
+	displayLoading: {Boolean} [true] - 모달이 오픈될 때 로딩 표시 여부,
+	maskCss: "AXMask" - 배경 mask div의 css,
+	opendModalID: {String} - 모달 ID,
+	padding: {(String|Number)} ["0"] - 모달 padding 값,
+	viewMode: {String} ["dx"],
+	width: {(String|Number)} - 모달의 기본 너비,
+	windowBoxCss: {String} ["AXModalBox"] - 모달을 감싸는 제일 바깥쪽 div의 css,
+	windowID: {String} ["AXModal" + timekey] - 모달 식별 아이디
+};
+myModal.setConfig(modalConfig);
+```
  */
 var AXModal = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
@@ -21844,6 +21862,16 @@ var AXModal = Class.create(AXJ, {
 		}
 
 	},
+/**
+ * @method AXModal.setWidth
+ * @param {(String|Number)} - 모달의 기본 너비 pixel({Number}) or percent({String})
+ * @description 모달의 기본 너비 속성을 변경하고 창이 열려있는 상태이면 동적으로 창의 크기도 변경합니다. (단, openDIV 로 모달이 오픈된 경우는 해당사항 없음)
+ * @example
+```js
+myModal.setWidth(800);
+myModal.setWidth("80%");
+```
+ */
 	setWidth: function (width) {
 		var cfg = this.config;
 		if (width) {
@@ -21860,6 +21888,23 @@ var AXModal = Class.create(AXJ, {
 		if (maskLeft < 0) maskLeft = 0;
 		jQuery("#" + cfg.windowID).css({ left: maskLeft });
 	},
+/**
+ * @method AXModal.open
+ * @param {Object} - configs
+ * @description iframe 을 내장하는 모달 창을 오픈합니다.
+ * @example
+```js
+var configs = {
+	url: {String} - 모달창의 URL,
+	pars: {(Object|Array)} - 모달창 URL 에 전달 될 파라미터,
+	method: {String} ["post"] -파라미터 전달방식,
+	top: {Number} [scrollTop + 100] - 모달창 포지션 top,
+	width: {(String|Number)} - 모달창 너비,
+	closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부
+}
+myModal.open(configs);
+```
+ */
 	open: function (http) {
 		var cfg = this.config;
 
@@ -21972,6 +22017,10 @@ var AXModal = Class.create(AXJ, {
 			jQuery(document.body).css({'overflow':'hidden'});
 		}
 	},
+/**
+ * @deprecated AXModal.openI
+ * @see AXModal.open
+ */
 	openI: function (http) {
 		var cfg = this.config;
 
@@ -22090,6 +22139,22 @@ var AXModal = Class.create(AXJ, {
 	windowResizeApply: function(){
 		this.onDocResize();
 	},
+/**
+ * @method AXModal.openDiv
+ * @param {Object} - configs
+ * @description div 모달 창을 오픈합니다.
+ * @example
+```js
+var configs = {
+	modalID: {String} - 모달창의 식별자,
+	targetID: {String} - 모달창 타켓 엘리먼트 아이디,
+	top: {Number} [scrollTop + 100] - 모달창 포지션 top,
+	width: {(String|Number)} - 모달창 너비,
+	closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부
+}
+myModal.openDiv(configs);
+```
+ */
 	openDiv: function (args) {
 		var cfg = this.config;
 		mask.open();
@@ -22198,6 +22263,21 @@ var AXModal = Class.create(AXJ, {
 			jQuery(document.body).css({'overflow':'hidden'});
 		}
 	},
+/**
+ * @method AXModal.openNew
+ * @param {Object} - configs
+ * @description 새로운 창으로 모달 창을 오픈 합니다.
+ * @example
+```js
+var configs = {
+	url: {String} - 새창 오픈 URL,
+	pars: {(Object|Array)} - 새창 오픈 URL 전달 파라미터,
+	name: {String} ["mdw" + timekey]- 새창이름,
+	options: {String} - 새창 오픈 옵션 window.open 속성과 동일합니다.
+}
+myModal.openNew(configs);
+```
+ */
 	openNew: function (http) {
 		this.winID = "mdw" + AXUtil.timekey();
 		this.frmID = "frm" + AXUtil.timekey();
@@ -22239,6 +22319,16 @@ var AXModal = Class.create(AXJ, {
 			this.close(event, modalID);
 		}
 	},
+/**
+ * @method AXModal.close
+ * @param {String} - modalID
+ * @description 오픈된 모달 창을 닫습니다.
+ * @example
+```js
+myModal.close("modalDiv01");
+parent.myModal.close(); // iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+```
+ */
 	close: function (event, modalID) {
 		var cfg = this.config;
 		if (this.openWindow) {
@@ -22286,6 +22376,15 @@ var AXModal = Class.create(AXJ, {
 			jQuery(document.body).css({'overflow':'auto'});
 		}
 	},
+/**
+ * @method AXModal.remove
+ * @description 오픈된 모달 창을 제거합니다.
+ * @example
+```js
+myModal.remove();
+parent.myModal.remove(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+```
+ */
 	remove: function (event) {
 		var windowID = this.config.windowID;
 		setTimeout(function () {
@@ -22300,6 +22399,15 @@ var AXModal = Class.create(AXJ, {
         } catch (e) { }
         */
 	},
+/**
+ * @method AXModal.resize
+ * @description 열려진 iframe modal 의 높이를 iframe 창의 높이 만큼 리사이즈 합니다. contentDivClass 가 정의된 경우 contentDivClass 높이값으로 resize 합니다.
+ * @example
+```js
+myModal.resize();
+parent.myModal.resize(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+```
+ */
 	resize: function (event) {
 		var cfg = this.config;
 		var _winID = this.winID;
@@ -35135,7 +35243,7 @@ var AXUpload5 = Class.create(AXJ, {
 			deleteQueue = null;
 		}else{
 			if(!this.multiSelector) return;
-			var selectObj = this.multiSelector.getSelects();	
+			var selectObj = this.multiSelector.getSelects();
 			if (selectObj.length > 0){
 				var deleteQueue = [];
 				jQuery.each(selectObj, function(){
