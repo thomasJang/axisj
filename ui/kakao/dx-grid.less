@@ -551,9 +551,22 @@
 			border-left:@border-h;
 			border-right:@border-h;
 			border-bottom:@border-h;
-			box-shadow:1px 1px 3px #ccc;
+			//box-shadow:1px 1px 3px #ccc;
 			border-bottom-left-radius:@radius;
 			border-bottom-right-radius:@radius;
+			&.top{
+				position:absolute;left:10%;
+				padding:5px 5px 2px 5px;
+				background:@bgcolor-v;
+				border-bottom:1px solid @bgcolor-v;
+				border-left:@border-h;
+				border-right:@border-h;
+				border-top:@border-h;
+				border-top-left-radius:@radius;
+				border-top-right-radius:@radius;
+				border-bottom-left-radius:0;
+				border-bottom-right-radius:0;
+			}
 		}
 		.gridBodyTable{
 			width:100%;table-layout:fixed;
@@ -626,9 +639,11 @@
 						background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;
 						vertical-align:top;
 						border-bottom:0px none;
+						background-color:#FFFFEC;
 					}	
 					td.fixedLine{
 						background:url('images/dx-grid-fixed-body-border.png') repeat-y 100% 0px;
+						background-color:#FFFFEC;
 					}
 					td.selected{
 						background-color:#D2D9DF;box-shadow:inset 0px 0px 2px #000;

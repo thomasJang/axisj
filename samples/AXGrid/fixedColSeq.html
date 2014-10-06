@@ -45,7 +45,7 @@
 				fixedColSeq:3,
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right"}, 
-					{key:"title", label:"제목", width:"*"},
+					{key:"title", label:"제목", width:"150"},
 					{key:"writer", label:"작성자", width:"100", align:"center"},
 					{key:"regDate", label:"작성일", width:"100", align:"center"},
 					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
@@ -53,7 +53,7 @@
 					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
 						return (this.item.price.number() * this.item.amount.number()).money();
 					}},
-					{key:"desc", label:"비고", width:"*"}
+					{key:"desc", label:"비고", width:"500"}
 				],
 				
 				colHead : {

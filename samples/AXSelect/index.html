@@ -199,7 +199,7 @@
             <h2>AXSelect bind Select</h2>
 
             <label class="AXInputLabel">
-                <span>Default</span>
+                <span>Default (#AXSelect1)</span>
                 <select name="" class="AXSelect" id="AXSelect1" tabindex="7">
                     <option value="">-- 선택하세요 --</option>
                     <option value="1">%가나다라마바사</option>
@@ -229,6 +229,7 @@
 
             <h3>small</h3>
             <label class="AXInputLabel">
+                <span>(#AXSelect2)</span>
                 <select name="" class="AXSelectSmall" id="AXSelect2">
                     <option value="0">0 가나다라마바사 가나다라마바사</option>
                     <option value="1">1 abcdefg 가나다라마바사</option>
@@ -243,12 +244,13 @@
 
             <h3>AJAX 호출방식</h3>
             <label class="AXInputLabel">
+                <span>(#AXSelect3)</span>
                 <select name="" class="AXSelect" id="AXSelect3" style="width:100px;" tabindex="5"></select>
             </label>
 
             <div class="H20"></div>
 
-            <h3>option script 지정방식</h3>
+            <h3>option script 지정방식 (#AXSelect4)</h3>
             <select name="" class="AXSelect" id="AXSelect4" style="width:100px;" tabindex="4"></select>
 
             <div class="H20"></div>
@@ -260,10 +262,10 @@
 
             <div class="H20"></div>
 
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '99');" />
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect2', '99');" />
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect3', '9');" />
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect4', '5');" />
+            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '3');" />
+            <input type="button" value="AXSelect2 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect2', '9');" />
+            <input type="button" value="AXSelect3 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect3', '9');" />
+            <input type="button" value="AXSelect4 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect4', '1');" />
 
             <div class="h20"></div>
 
@@ -278,6 +280,7 @@
                 <select name="" class="AXSelect" id="AXSelect_m2" style="width:200px;" tabindex="3"></select>
             </label>
 
+            <!--
             <div class="H20"></div>
 
             <label class="AXInputLabel">
@@ -298,6 +301,8 @@
                     <option value="6">abcdefg 가나다라마바사</option>
                 </select>
             </label>
+
+            -->
 
 		</div>
 	</div>

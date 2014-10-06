@@ -236,21 +236,6 @@
                         >setText</button>
             </label>
 
-            <div class="H20"></div>
-            <label class="AXInputLabel">
-                <div>사용자정의 패턴(영문대문자입력)</div>
-                <input type="text" class="AXInput" id="ax-bind-pattern-custom-target" />
-                <button class="AXButton"
-                        onclick="trace($('#ax-bind-pattern-custom-target').bindPatternGetText());"
-                        >getText</button>
-                <button class="AXButton"
-                        onclick="trace($('#ax-bind-pattern-custom-target').bindPatternGetDisplayText());"
-                        >getDisplayText</button>
-                <button class="AXButton"
-                        onclick="alert('988,000.12'); $('#ax-bind-pattern-custom-target').bindPatternSetText('988,000.12');"
-                        >setText</button>
-            </label>
-
         </div>
     </div>
 </div>
@@ -305,17 +290,6 @@
             });
             $("#ax-bind-pattern-phone-target").bindPattern({
                 pattern: "phone"
-            });
-
-
-            $("#ax-bind-pattern-custom-target").bindPattern({
-                pattern: function(val){
-                    //trace(this); //전달된 this를 확인 할 수 있습니다.
-                    return val.ucase();
-                },
-                depattern: function(val){
-                    return val.lcase();
-                }
             });
 
         }

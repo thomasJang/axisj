@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXModal - AXISJ</title>
@@ -80,7 +80,7 @@
 		newOpen: function(){
 			myModal.openNew({
 				url:"modal.php",
-				pars:"",
+                pars:"a=1&b=2&c=3".queryToObject(),
 				name:"mymodal_new",
 				options: "width=600,height=400,resizable=yes"
 			});
@@ -109,22 +109,22 @@
 						<h2>Default</h2>
 						<input type="button" value="창열기" class="AXButton" onclick="fnObj.modalOpen();" />
 						
-						<input type="button" value="DIV열기" class="AXButton" onclick="fnObj.modalOpenDiv();" />
-						<input type="button" value="DIV열기" class="AXButton" onclick="fnObj.modalOpenDiv2();" />
+						<input type="button" value="DIV열기 (1)" class="AXButton" onclick="fnObj.modalOpenDiv();" />
+						<input type="button" value="DIV열기 (2)" class="AXButton" onclick="fnObj.modalOpenDiv2();" />
 						
 						<input type="button" value="새창열기" class="AXButton" onclick="fnObj.newOpen();" />
 				
 						<div style="display:none;">
 							<div id="modalContent" style="padding:20px;">
-								111<br/>
-								222	
+                                modalOpenDiv()<br/>
+								#modalContent > open
 								<br/>
 								<br/>
 								<input type="button" value="창닫기" class="AXButton" onclick="myModal.close('modalDiv01');" />
 							</div>
 							<div id="modalContent2" style="padding:20px;">
-								999999999<br/>
-								8888888
+                                modalOpenDiv2()<br/>
+                                #modalContent2 > open
 								<br/>
 								<br/>
 								<input type="button" value="창닫기" class="AXButton" onclick="myModal.close('modalDiv02');" />

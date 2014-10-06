@@ -282,7 +282,7 @@
 				thead, tfoot{
 					tr td{
 						padding:0px;
-						background:url('images/dx-grid-body-border.png') repeat-y 100% 0px #FFFFEC;
+						background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;
 						vertical-align:bottom;
 						border-bottom:@border-d;
 						background-color:@bgcolor-r;
@@ -291,7 +291,7 @@
 				thead, tbody, tfoot{
 					tr{
 						td{
-							background-color:#FFFFEC;
+							//background-color:#FFFFEC;
 							.bodyNode{
 								position:relative;
 								padding:0px;
@@ -330,7 +330,7 @@
 					tr{
 						td{
 							padding:0px;
-							background:url('images/dx-grid-body-border.png') repeat-y 100% 0px #FFFFEC;
+							background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;
 							vertical-align:bottom;
 							border-bottom:@border-d;
 							cursor:pointer;
@@ -548,9 +548,22 @@
 			border-left:@border-h;
 			border-right:@border-h;
 			border-bottom:@border-h;
-			box-shadow:1px 1px 3px #ccc;
+			//box-shadow:1px 1px 3px #ccc;
 			border-bottom-left-radius:@radius;
 			border-bottom-right-radius:@radius;
+			&.top{
+				position:absolute;left:10%;
+				padding:5px 5px 2px 5px;
+				background:@bgcolor-v;
+				border-bottom:1px solid @bgcolor-v;
+				border-left:@border-h;
+				border-right:@border-h;
+				border-top:@border-h;
+				border-top-left-radius:@radius;
+				border-top-right-radius:@radius;
+				border-bottom-left-radius:0;
+				border-bottom-right-radius:0;
+			}
 		}
 		.gridBodyTable{
 			width:100%;table-layout:fixed;
