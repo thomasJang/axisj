@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-06 
+AXJ - v1.0.9 - 2014-10-08 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-06 
+AXJ - v1.0.9 - 2014-10-08 
 */
 
 if(!window.AXConfig){
@@ -14449,7 +14449,9 @@ var gridConfig = {
 					//var scrollTop = bodyHeight - scrollHeight;
 					// itemIndex 에 맞는 scrollTop 구하기
 					var scrollTop = this.virtualScroll.itemTrHeight * itemIndex;
-
+					if (bodyHeight >= scrollHeight) {
+						scrollTop = 0;
+					}
 					this.scrollContent.css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop }, "manual");
 
