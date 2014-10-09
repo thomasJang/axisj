@@ -378,15 +378,10 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td,
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td {
   padding: 0px;
-  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #ffffec;
+  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
   vertical-align: bottom;
   border-bottom: 1px solid #c8c8c8;
   background-color: #ffffec;
-}
-.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td,
-.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td,
-.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td {
-  background-color: #FFFFEC;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td .bodyNode,
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td .bodyNode,
@@ -440,7 +435,7 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td {
   padding: 0px;
-  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #ffffec;
+  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
   vertical-align: bottom;
   border-bottom: 1px solid #c8c8c8;
   cursor: pointer;
@@ -713,9 +708,22 @@
   border-left: 1px solid #bdccd7;
   border-right: 1px solid #bdccd7;
   border-bottom: 1px solid #bdccd7;
-  box-shadow: 1px 1px 3px #ccc;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+.AXGrid .AXgridEditor .editorButtons.top {
+  position: absolute;
+  left: 10%;
+  padding: 5px 5px 2px 5px;
+  background: #d8e1e7;
+  border-bottom: 1px solid #d8e1e7;
+  border-left: 1px solid #bdccd7;
+  border-right: 1px solid #bdccd7;
+  border-top: 1px solid #bdccd7;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .AXGrid .AXgridEditor .gridBodyTable {
   width: 100%;

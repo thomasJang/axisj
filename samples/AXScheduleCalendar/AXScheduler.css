@@ -1,0 +1,522 @@
+/* mobile device width */
+/*!
+ * AXISJ Javascript Library
+ * http://www.axisj.com
+ * 
+ * Copyright axisj
+ * http://axisj.com/license
+ */
+@charset "utf-8";
+.AXScheduler {
+  position: relative;
+  height: 100%;
+}
+.AXScheduler .calendarBody {
+  padding: 44px 0px 0px 0px;
+  min-height: 400px;
+}
+.AXScheduler .scheduleControls {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 7px 0px;
+  width: 100%;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  background: #fbfbfb;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.AXScheduler .scheduleControls .datePanel {
+  display: block;
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  line-height: 24px;
+  font-size: 15px;
+  font-weight: bold;
+}
+.AXScheduler .scheduleControls .dateMovePanel {
+  display: block;
+  float: left;
+  margin-left: 10px;
+}
+.AXScheduler .scheduleControls .viewWeekEndPanel {
+  position: absolute;
+  right: 310px;
+  top: 7px;
+  line-height: 24px;
+}
+.AXScheduler .scheduleControls .scheduleModePanel {
+  position: absolute;
+  right: 190px;
+  top: 7px;
+}
+.AXScheduler .scheduleControls .calendarViewPanel {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+}
+.AXScheduler .scheduleControls #calendarMode {
+  border: 0px none;
+  width: 100px;
+  height: 24px;
+  padding: 0px;
+  margin: 0px;
+}
+.AXScheduler .scheduleControls #calendarView {
+  border: 0px none;
+  width: 160px;
+  height: 24px;
+  padding: 0px;
+  margin: 0px;
+}
+.AXScheduleTools {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 220px;
+  height: 100%;
+  padding: 10px;
+  background: #e8e8e8;
+}
+.AXScheduleTools .wrap {
+  margin-bottom: 10px;
+}
+.AXScheduleTools .miniCalendarBody {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.AXScheduleTools .calendarLabelBox {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0px 0px 3px #888;
+  height: 200px;
+}
+.AXScheduleTools .commonCalendarLabelBox {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0px 0px 3px #888;
+  height: 200px;
+}
+#plan_regist_btn {
+  width: 100%;
+  height: 28px;
+}
+.AXScheduleCalendar {
+  position: relative;
+}
+.AXScheduleCalendar table.scheduleTable {
+  table-layout: fixed;
+  width: 100%;
+}
+.AXScheduleCalendar table.scheduleTable thead td {
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0px;
+  text-align: left;
+  text-indent: 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.AXScheduleCalendar table.scheduleTable tbody td {
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  border-right: 1px solid #d8d8d8;
+  border-top: 1px solid #d8d8d8;
+  background: #fff;
+  text-indent: 5px;
+  vertical-align: top;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.bodyCol_0 {
+  border-left: 1px solid #d8d8d8;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.bodyRow_5 {
+  border-bottom: 1px solid #d8d8d8;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.setDate {
+  box-shadow: inset 0px 0px 4px #3d84bc;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.toDay {
+  text-decoration: underline;
+  background: #FFF7F7;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.bodyCol_5 A.calendarDate {
+  color: #A5C4E2;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.bodyCol_6 A.calendarDate {
+  color: #c78b82;
+}
+.AXScheduleCalendar table.scheduleTable tbody td A.calendarDate {
+  position: relative;
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  text-decoration: none;
+  color: #6d6e71;
+  font-size: 12px;
+  font-family: Arial;
+  font-weight: bold;
+}
+.AXScheduleCalendar table.scheduleTable tbody td A.calendarDate .label {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  color: #3286bd;
+}
+.AXScheduleCalendar table.scheduleTable tbody td A.calendarDate.notThisMonth {
+  color: #bfbfc1;
+}
+.AXScheduleCalendar table.scheduleTable tbody td A.calendarDate:hover {
+  border-bottom: 1px solid #d8d8d8;
+}
+.AXScheduleCalendar table.scheduleTable tbody td A.calendarDate:active {
+  /*background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;*/
+}
+.AXScheduleCalendar table.scheduleTable tbody td A.calendarDate.selected {
+  background: #dfedf8;
+  color: #fff;
+  box-shadow: inset 0px 0px 4px #3d84bc;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.selecting {
+  background: #f6e3df;
+  text-decoration: none;
+}
+.AXScheduleCalendar table.scheduleTable tbody td.selecting A.calendarDate {
+  color: #000;
+  text-decoration: none;
+}
+.AXScheduleCalendar .timePanel {
+  position: relative;
+}
+.AXScheduleCalendar .timeBgBlock {
+  position: absolute;
+  top: 0px;
+  border-top: 1px solid #d8d8d8;
+  width: 100%;
+}
+.AXScheduleCalendar .timeBgBlock .timeBg {
+  height: 19px;
+  border-bottom: 1px dotted #d8d8d8;
+  margin-left: 71px;
+}
+.AXScheduleCalendar .timeBgBlock .timeBgHour {
+  height: 19px;
+  border-bottom: 1px solid #d8d8d8;
+  margin-left: 71px;
+}
+.AXScheduleCalendar .timeSelector {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100px;
+  height: 100px;
+  background: #f6e3df;
+  opacity: 0.8;
+  display: none;
+}
+.AXScheduleCalendar table.timeTable {
+  position: relative;
+  table-layout: fixed;
+  width: 100%;
+}
+.AXScheduleCalendar table.timeTable tbody td {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-right: 1px solid #d8d8d8;
+}
+.AXScheduleCalendar table.timeTable tbody td.bodyColAct {
+  background: rgba(240, 240, 240, 0.2);
+}
+.AXScheduleCalendar table.timeTable tbody td.time_disp {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 70px;
+  border-top: 1px solid #d8d8d8;
+  border-left: 1px solid #d8d8d8;
+  font-size: 11px;
+  text-align: right;
+}
+.AXScheduleCalendar table.timeTable tbody td .timeDisplay {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 40px;
+  border-bottom: 1px solid #d8d8d8;
+  padding-right: 5px;
+  color: #888;
+}
+.AXScheduleCalendar.zoom .calendarPanel {
+  padding-left: 70px;
+  padding-bottom: 5px;
+}
+.AXScheduleCalendar.zoom .calendarPanel .editSpace {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+}
+.AXScheduleCalendar.zoom table.scheduleTable thead td {
+  text-indent: 0px;
+  text-align: center;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.AXScheduleCalendar.zoom table.scheduleTable thead td.setDate {
+  box-shadow: inset 0px 0px 4px #3d84bc;
+}
+.AXScheduleCalendar.zoom table.scheduleTable thead td.toDay {
+  text-decoration: underline;
+  font-weight: bold;
+  background: #FFF7F7;
+}
+.AXScheduleCalendar.zoom table.scheduleTable tbody td.setDate {
+  box-shadow: none;
+}
+.AXScheduleCalendar.zoom table.scheduleTable tbody td.toDay {
+  text-decoration: underline;
+  background: #fff;
+}
+.AXScheduleCalendar.zoom table.scheduleTable tbody td.bodyRow_0 {
+  border-bottom: 1px solid #d8d8d8;
+}
+.AXScheduleCalendar.zoom table.scheduleTable tbody td.selecting {
+  background: #f6e3df;
+  text-decoration: none;
+}
+.AXScheduleCalendar.zoom table.scheduleTable tbody td.selecting A.calendarDate {
+  color: #000;
+  text-decoration: none;
+}
+.AXScheduleCalendar.zoom .scheduleItem {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border: 1px solid #222;
+  background: #eee;
+  color: #222;
+  text-shadow: 0px 1px 0px #fff;
+  padding: 3px 5px;
+  font-size: 11px;
+  height: 20px;
+  line-height: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  box-Shadow: 0px 0px 2px #888;
+}
+.AXScheduleCalendar .scheduleItem {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border: 1px solid #222;
+  background: #eee;
+  color: #222;
+  text-shadow: 0px 1px 0px #fff;
+  padding: 3px 5px;
+  font-size: 11px;
+  height: 35px;
+  line-height: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  box-Shadow: 0px 0px 2px #888;
+}
+.AXScheduleCalendar .scheduleItem.red {
+  border: 1px solid #e98a9f;
+  background: #f8dce2;
+  color: #e98a9f;
+}
+.AXScheduleCalendar .scheduleItem.green {
+  border: 1px solid #85b63b;
+  background: #dae9c4;
+  color: #85b63b;
+}
+.AXScheduleCalendar .scheduleItem.blue {
+  border: 1px solid #6C9AB9;
+  background: #dce7ee;
+  color: #6C9AB9;
+}
+.AXScheduleCalendar .scheduleItem.notEndScheduleItem {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.AXScheduleCalendar .scheduleItem.notStartScheduleItem {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.AXScheduleCalendar .scheduleItem span {
+  font-size: 10px;
+  color: #000;
+  padding-left: 3px;
+}
+.AXScheduleCalendar .scheduleItem.hover {
+  background: #FFFFE6;
+}
+.AXScheduleCalendar .scheduleItem.itemHeight21 {
+  height: 20px;
+}
+.AXScheduleCalendar .timeZoneItem {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  position: absolute;
+  border: 1px solid #93b5cb;
+  background: #dce7ee;
+  opacity: 0.8;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: n-resize;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.AXScheduleCalendar .timeZoneItem span {
+  color: #888;
+  text-align: left;
+  display: block;
+}
+.AXScheduleCalendar .timeZoneItem .stimeControl {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 12px;
+  line-height: 12px;
+  font-size: 10px;
+  color: #93b5cb;
+  text-align: left;
+  cursor: n-resize;
+}
+.AXScheduleCalendar .timeZoneItem .etimeControl {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 12px;
+  line-height: 12px;
+  font-size: 10px;
+  color: #93b5cb;
+  text-align: right;
+  cursor: n-resize;
+}
+.AXScheduleCalendar .timeZoneItem.hover {
+  background: #eee;
+}
+.AXScheduleCalendar .timeZoneItem.hover .stimeControl {
+  background: #888;
+  color: #fff;
+}
+.AXScheduleCalendar .timeZoneItem.hover .etimeControl {
+  background: #888;
+  color: #fff;
+}
+.AXScheduleCalendar .act-timeZoneItem {
+  border: 1px solid #a89490;
+  background: #f6e3df;
+}
+.AXScheduleCalendar .act-timeZoneItem .stimeControl {
+  color: #a89490;
+}
+.AXScheduleCalendar .act-timeZoneItem .etimeControl {
+  color: #a89490;
+}
+.ax-wrap {
+  position: relative;
+}
+.ax-wrap .ax-col6 {
+  width: 50%;
+  float: left;
+}
+.ax-wrap .ax-unit {
+  padding: 10px;
+}
+.ax-wrap .ax-unit.alignRight {
+  text-align: right;
+}
+.ax-wrap .ax-unit.alignCenter {
+  text-align: center;
+}
+.ax-wrap .ax-clear {
+  clear: both;
+}
+@media all and (max-width: 639px) {
+  .AXScheduler {
+    position: relative;
+    height: 100%;
+  }
+  .AXScheduler .calendarBody {
+    padding: 44px 0px 0px 0px;
+    min-height: 500px;
+  }
+  .AXScheduler .scheduleControls {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 7px 0px;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background: #fbfbfb;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+  .AXScheduler .scheduleControls .datePanel {
+    display: block;
+    float: left;
+    margin-left: 20px;
+    margin-right: 20px;
+    line-height: 13px;
+    font-size: 12px;
+    font-weight: bold;
+    width: 130px;
+  }
+  .AXScheduler .scheduleControls .dateMovePanel {
+    display: block;
+    float: left;
+    margin-left: 10px;
+  }
+  .AXScheduler .scheduleControls .viewWeekEndPanel {
+    position: absolute;
+    right: 190px;
+    top: 7px;
+    line-height: 24px;
+  }
+  .AXScheduler .scheduleControls .scheduleModePanel {
+    position: absolute;
+    right: 110px;
+    top: 7px;
+  }
+  .AXScheduler .scheduleControls .calendarViewPanel {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+  }
+  .AXScheduler .scheduleControls #calendarMode {
+    border: 0px none;
+    width: 60px;
+    padding: 0px;
+    margin: 0px;
+  }
+  .AXScheduler .scheduleControls #calendarView {
+    border: 0px none;
+    width: 100px;
+    padding: 0px;
+    margin: 0px;
+  }
+}

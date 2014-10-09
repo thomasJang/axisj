@@ -47,13 +47,15 @@
                     targetID:"AXUpload5",
                     targetButtonClass:"Green",
                     uploadFileName:"fileData",
-                    file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
+                    file_types:"*/*",  //audio/*|video/*|image/*|MIME_type (accept)
                     dropBoxID:"uploadQueueBox",
                     queueBoxID:"uploadQueueBox", // upload queue targetID
                     //queueBoxAppendType:"(prepend || append)",
                     // html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
                     flash_url : pageObj.host+"lib/swfupload.swf",
                     flash9_url : pageObj.host+"lib/swfupload_fp9.swf",
+                    flash_file_types:"*.*",
+                    flash_file_types_description:"all",
 
                     // --------- e
                     onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
@@ -188,6 +190,15 @@
                 <input type="button" value="Get Select Param" class="AXButton" onclick="fnObj.upload.printMethodReturn('getSelectUploadedList','param')" />
             </div>
 
+
+
+            <p>
+                file_types:"image/*",  //audio/*|video/*|image/*|MIME_type (accept) 의 방식으로 지정해주세요. <br/>
+                <br/>
+                // 플래시 모드에서는 *.jpg,*.png 방식으로 설정합니다.<br/>
+                flash_file_types:"*.*",<br/>
+                flash_file_types_description:"all",
+            </p>
 
 		</div>
 	</div>

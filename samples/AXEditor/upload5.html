@@ -22,6 +22,9 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXCore.js"></script>
+    <script type="text/javascript" src="../../lib/AXUpload5.js"></script>
+
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -50,22 +53,25 @@
 					myEditor.setContent($("#editContent"));
 				}
 			});
-			
+
 			fnObj.upload.init();
 		},
 		upload: {
 			init: function(){
+
 				myUpload.setConfig({
-					targetID:"AXUpload5",
-					targetButtonClass:"Green",
-					uploadFileName:"fileData", // 서버로 전달될 파일 파라미터 네임
-					file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
-					dropBoxID:"uploadQueueBox",
-					queueBoxID:"uploadQueueBox", // upload queue targetID
-					//queueBoxAppendType:"(prepend || append)",
-					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
-					flash_url : pageObj.host+"lib/swfupload.swf",
-					flash9_url : pageObj.host+"lib/swfupload_fp9.swf",
+                    targetID:"AXUpload5",
+                    targetButtonClass:"Green",
+                    uploadFileName:"fileData",
+                    file_types:"image/*",  //audio/*|video/*|image/*|MIME_type (accept)
+                    dropBoxID:"uploadQueueBox",
+                    queueBoxID:"uploadQueueBox", // upload queue targetID
+                    //queueBoxAppendType:"(prepend || append)",
+                    // html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
+                    flash_url : pageObj.host+"lib/swfupload.swf",
+                    flash9_url : pageObj.host+"lib/swfupload_fp9.swf",
+                    flash_file_types:"*.jpg;*.jpeg;*.gif;*.bmp;*.png",
+                    flash_file_types_description:"image",
 					
 					// --------- e
 					onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
@@ -108,6 +114,7 @@
 							path: this.uploadedPath,
 							thumb: this.thumbUrl
 						});
+                        return true;
 					},
 					onComplete: function(){
 						//trace(this);
