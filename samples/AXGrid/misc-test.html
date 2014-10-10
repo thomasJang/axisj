@@ -42,41 +42,105 @@
 	var pageID = "misc";
 	var myGrid = new AXGrid();
 
+    var gridUtil = {
+        val_chk: function(){
+            return false;
+        }
+    };
+
 	var fnObj = {
 		pageStart: function(){
 
-			myGrid.setConfig({
-				targetID : "AXGridTarget",
-                theme: "AXGrid",
-                fitToWidth: false,
-                mediaQuery: {
-                    mx: { min: 0, max: 767 },
-                    dx: { min: 767 }
-                },
-                colGroup: [
-                    { key: "po_ic_no", label: "선택", width: "40", align: "center", formatter: "radio" },
-                    { key: "po_ic_no", label: "입차번호", display: false, width: "90", align: "center", formatter: "dec" },
-                    { key: "ic_date", label: "입차일", width: "300", align: "center", formatter: "dec" },
-                    { key: "cust_nm", label: "거래처명", width: "200", align: "left", formatter: "dec" },
-                    { key: "real_wgt", label: "실중량", width: "200", align: "center", formatter: "dec" },
-                    { key: "reg_date", label: "등록일자", display: false, width: "200", align: "center", formatter: "dec" }
-                ],
-                body: {
-
-                    oncheck: function () {
-                        /* oncheck속성 formatter 가 체크박스나 라디오버튼 객체일경우 이벤트를 줄때 사용 */
-                        //trace(this.item);
+            myGrid.setConfig({
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                //height:"560",
+                fitToWidth:false,
+                xscroll:true,
+                passiveMode:true,
+                passiveRemoveHide:false,
+                emptyListMSG: "조회 데이터가 없습니다",
+                colHeadAlign: "center",
+                colGroup : [
+                    {
+                        key:"no", label:"NO", width:"20", align:"center", formatter:"checkbox",
+                        //displayLabel:true, 헤드란에 체크박스를 표시 할지 여부
+                        checked:function(){
+                            return false;
+                        }
                     },
-                    onclick: function() {
-                        /*
-                         this.c : 열
-                         this.r : 행
-                         */
-                        if(this.c != 0) fnObj.item.open("gridView", this.item);
+                    {
+                        key:"status", label:"상태", width:"50", align:"center", formatter:function(){
+                            // CUD를 체크하여 상태값을 변경할 때 사용.
+                            //return gridUtil.CUDchk("s", this.item);
+                            return false;
+                        }
+                    },
+                    {key:"codeGrpCd", label:"그룹코드", width:"90"},
+                    {key:"code", label:"코드", width:"50"},
+                    {key:"codeNm", label:"코드명", width:"90"},
+                    {key:"rmk", label:"비고", width:"200"},
+                    {key:"useYn", label:"사용여부", width:"65", align:"center"},
+                    {key:"step", label:"순서", width:"40", align:"center"}
+                ],
+                body : {
+                    addClass: function(){
+                        // CUD를 체크하여 class로 반영할 때 사용.
+                        //return gridUtil.CUDchk("c", this.item);
+                    },
+                    onclick: function(){
+
+                    },
+                    ondblclick: function(){
+                        myGrid.setEditor(this.item, this.index);
+                    },
+                    oncheck: function(){
+                        //gridUtil.delChk(myGrid2, this.item, this.index, this.checked);
                     }
                 },
-                page: { paging: false, status: { formatter: null } }
-			});
+                page:{
+                    paging:false,
+                    status:{formatter: null}
+                },
+                editor: {
+                    rows: [
+                        [
+
+                            {colSeq:0, align:"center", valign:"middle", formatter: function(){return "";}},
+                            {colSeq:1, key:"status", align:"center", valign:"middle", form:{type:"hidden", value:"itemValue"}},
+                            {colSeq:2, align:"center", valign:"middle",
+                                formatter: function(){
+                                    return this.item.codeGrpCd;
+                                }
+                            },
+                            {colSeq:3, align:"center", valign:"middle",
+                                form:{
+                                    type:"text", value:"itemValue",
+                                    validate: function(){
+                                        return gridUtil.val_chk(this.value, "코드는 필수 입력 항목입니다.");    // validation
+                                    }
+                                }
+                            },
+                            {colSeq:4, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}},
+                            {colSeq:5, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}},
+                            {colSeq:6, align:"right", valign:"middle",
+                                form:{
+                                    type:"select", value:"itemText",
+                                    options:[
+                                        {value:1, optionText:"Y"},
+                                        {value:2, text:"N"}
+                                    ],
+                                    onChange: function(){
+                                    }
+                                }
+                            },
+                            {colSeq:7, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}}
+
+                        ]
+                    ]
+                }
+            });
+
 
 			var list = [
 				{no:1, no2:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10}, // item
@@ -101,13 +165,14 @@
 				{no:20, no2:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
 			];
 			myGrid.setList(list);
-			trace(myGrid.getSortParam());
-
-            myGrid.setFocus(10);
+			//trace(myGrid.getSortParam());
+            //myGrid.setFocus(10);
 
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document).ready(function() {
+        fnObj.pageStart()
+    });
 	</script>
 
 	<style type="text/css">

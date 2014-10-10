@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-08 
+AXJ - v1.0.9 - 2014-10-10 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-08 
+AXJ - v1.0.9 - 2014-10-10 
 */
 
 if(!window.AXConfig){
@@ -10522,6 +10522,7 @@ var gridConfig = {
 
 		var theme = this.theme;
 		var gridCss = [];
+		gridCss.push("overflow:hidden;");
 		if (cfg.width) gridCss.push("width:" + cfg.width + ";");
 		if (cfg.height) gridCss.push("height:" + cfg.height + ";");
 
@@ -10533,8 +10534,8 @@ var gridConfig = {
 		ol.push("		<div class=\"AXGridToolGroup top\" id=\"" + cfg.targetID + "_AX_gridToolGroupTop\"></div>");
 		ol.push("		<div class=\"AXGridBody\" id=\"" + cfg.targetID + "_AX_gridBody\"></div>");
 		ol.push("		<div class=\"AXGridToolGroup bottom\" id=\"" + cfg.targetID + "_AX_gridToolGroupBottom\"></div>");
-		ol.push("		<div class=\"AXgridEditor\" id=\"" + cfg.targetID + "_AX_gridEditor\"></div>");
 		ol.push("	</div>");
+		ol.push("   <div class=\"AXgridEditor\" id=\"" + cfg.targetID + "_AX_gridEditor\" style=\"z-index:2;\"></div>");
 		ol.push("	<div class=\"AXgridPageBody\" id=\"" + cfg.targetID + "_AX_gridPageBody\" style=\"z-index:1;\">");
 		ol.push("		<div class=\"AXgridPagingUnit\" id=\"" + cfg.targetID + "_AX_gridPagingUnit\">");
 		ol.push("			<a class=\"AXgridPagingPrev\">PREV</a>");
@@ -11268,13 +11269,15 @@ var gridConfig = {
 		var cfg = this.config;
 		var po = [];
 
-		if (cfg.viewMode == "grid") {
+		if (cfg.viewMode == "grid")
+		{
 			this.colHead.show();
 			var getColHeadTd = this.getColHeadTd.bind(this);
 
 			//trace(cfg.colHead.rows);
 
-			if (!this.hasFixed) {  /* 일반 colHead 구현 */
+			if (!this.hasFixed)
+			{  /* 일반 colHead 구현 */
 
 				var tableWidth = this.colWidth;
 				po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:", tableWidth, "px;\">");
@@ -11305,7 +11308,9 @@ var gridConfig = {
 				po.push("</tbody>");
 				po.push("</table>");
 
-			} else { /* fixedCol 구현 */
+			}
+			else
+			{ /* fixedCol 구현 */
 
 				po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"colHeadTable\" style=\"width:" + this.colWidth + "px;\">");
 				po.push(this.getColGroup("CH"));
@@ -11404,6 +11409,9 @@ var gridConfig = {
 			this.colHead.bind("mouseout", this.colHeadMouseOut.bind(this));
 			this.colHead.find(".colHeadNode").bind("click", this.colHeadNodeClick.bind(this));
 			this.colHead.find(".colHeadTool").bind("click", this.colHeadToolClick.bind(this));
+			this.colHead.find(".colHeadTool").bind("focus", function(){
+				this.blur();
+			});
 			this.colHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
 			this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 
@@ -11437,10 +11445,14 @@ var gridConfig = {
 				this.fixedColHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
 				this.fixedColHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 			}
-		} else if (cfg.viewMode == "icon") {
+		}
+		else if (cfg.viewMode == "icon")
+		{
 			this.colHead.empty();
 			this.colHead.hide();
-		} else if (cfg.viewMode == "mobile") { /* 모바일에서는 헤드 제거 또는 모바일용 헤드 재구성 */
+		}
+		else if (cfg.viewMode == "mobile")
+		{ /* 모바일에서는 헤드 제거 또는 모바일용 헤드 재구성 */
 			this.colHead.empty();
 			this.colHead.hide();
 		}
@@ -11991,9 +12003,13 @@ var gridConfig = {
 			po.push("<tbody id=\"" + cfg.targetID + "_AX_fpadding\"><tr class='tfpadding'><td colspan=\"" + (this.showColLen.number()+1) + "\"></td></tr></tbody>");
 
 			po.push("</table>");
-		} else if (cfg.viewMode == "icon") {
+		}
+		else if (cfg.viewMode == "icon")
+		{
 			po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
-		} else if (cfg.viewMode == "mobile") {
+		}
+		else if (cfg.viewMode == "mobile")
+		{
 			po.push("<div class=\"gridBodyDiv\" id=\"" + cfg.targetID + "_AX_gridBodyDiv\"></div>");
 		}
 		po.push("</div>");
@@ -12384,7 +12400,7 @@ var gridConfig = {
 	/**
 	 * @method AXGrid.getFormatterValue
 	 * @param formatter {String||Function} - config 의 colGroup이나 colHead에서 지정된 formatter
-	 * @param item {Object} - 대상 인덱스의 그리드 1개 열
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
 	 * @param itemIndex {Number} - 대상 인덱스
 	 * @param value {String} - 표현 대상 값.
   	 * @param key {Object} config 의 colGroup 내부 key 값
@@ -12438,7 +12454,7 @@ var gridConfig = {
 				}
 			}
 			result = "<label class=\"gridCheckboxLabel\">" +
-				"<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " />" +
+				"<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
 				"</label>";
 		} else {
 			if(Object.isFunction(formatter)){
@@ -12460,7 +12476,7 @@ var gridConfig = {
 	/**
 	 * @method AXGrid.getTooltipValue
 	 * @param formatter {String||Function} - config 의 colGroup이나 colHead에서 지정된 formatter
-	 * @param item {Object} - 대상 인덱스의 그리드 1개 열
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
 	 * @param itemIndex {Number} - 대상 인덱스
 	 * @param value {String} - 표현 대상 값.
   	 * @param key {Object} config 의 colGroup 내부 key 값
@@ -12518,7 +12534,7 @@ var gridConfig = {
 	/**
 	 * @method AXGrid.getItem
 	 * @param itemIndex {Number} - 대상 인덱스
-	 * @param item {Object} - 대상 인덱스의 그리드 1개 열
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
      * @param isfix {String} - 고정 높이 사용시 "fix"
 	 * @param hasTr {String} - tr 표시 여부
 	 * @returns {HTMLElement}
@@ -12622,6 +12638,22 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+	/**
+	 * @method AXGrid.getIconItem
+	 * @param itemIndex {Number} - 대상 인덱스
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
+     * @param viewIconObj {Object} - Config 에서 설정된 view 속성.
+	 * @param cssObj {Object} -
+		{
+				box: "width: ,height:",   - 기타 사용자 지정 스타일 추가 가능
+				img:  "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+				label: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+				description: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+				buttons: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+		};
+	 * @returns {HTMLElement}
+	 * @description config 의 viewMode가 icon 일때의 리스트를 구성 합니다. . 
+	 */
 	getIconItem: function (itemIndex, item, viewIconObj, cssObj) {
 		var cfg = this.config;
 		var tpo = [];
@@ -12670,6 +12702,14 @@ var gridConfig = {
 
 		return tpo.join('');
 	},
+	/**
+	 * @method AXGrid.getMobileItem
+	 * @param itemIndex {Number} - 대상 인덱스
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
+     * @param mobileView {Object} - Config 에서 설정된 view 속성.
+	 * @returns {HTMLElement}
+	 * @description config 의 viewMode가 mobile 일때의 리스트를 구성 합니다. . 
+	 */
 	getMobileItem: function (itemIndex, item, mobileView) {
 		var cfg = this.config;
 		var tpo = [];
@@ -12743,6 +12783,14 @@ var gridConfig = {
 
 		return tpo.join('');
 	},
+	/**
+	 * @method AXGrid.getItemMarker
+	 * @param itemIndex {Number} - 대상 인덱스
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
+     * @param isfix {String} - 고정 높이 사용시 "fix"
+	 * @returns {HTMLElement}
+	 * @description body(list) 구성시 marker row 가 존재할경우 처리 합니다.
+	 */
 	getItemMarker: function (itemIndex, item, isfix) {
 		var cfg = this.config;
 		var tpo = [];
@@ -12812,6 +12860,13 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+	/**
+	 * @method AXGrid.getMarkerDisplay
+	 * @param itemIndex {Number} - 대상 인덱스
+	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
+	 * @returns {Boolean}
+	 * @description config 내의 marker row 를 출력할지 여부를 판단하는 사용자 함수를 호출 합니다. 
+	 */
 	getMarkerDisplay: function (itemIndex, item) {
 		var cfg = this.config;
 		var bodyHasMarker = this.bodyHasMarker;
@@ -12832,6 +12887,12 @@ var gridConfig = {
 		}
 		return markerDisplay;
 	},
+	/**
+	 * @method AXGrid.printList
+	 * @param args {Object} - 출력 옵션  {sort:true} 
+	 * @returns {HTMLElement}
+	 * @description grid list 의 전체 출력을 처리 합니다. 
+	 */
 	printList: function (args) {
 		var cfg = this.config, _this = this;
 		var bodyHasMarker = this.bodyHasMarker;
@@ -13253,6 +13314,25 @@ var gridConfig = {
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
 	},
+	/**
+	 * @method AXGrid.updateList
+	 * @param itemIndex {Number} - 대상 인덱스
+	 * @param item {Object} - 대상 인덱스의 리스트 아이템.
+	 * @returns {AXGrid}
+	 * @description body(list) 구성시 marker row 가 존재할경우 처리 합니다.
+	 * @example
+	 ```
+		 var item = {
+						a: "a",
+						b: "b",
+						c: "c",
+						d: "d",
+						e: 14350
+		 };
+		 myGrid.updateList(0,item);
+
+	 ```
+	 */
 	updateList: function (itemIndex, item) {
 		var cfg = this.config;
 		this.cancelEditor();
@@ -13367,6 +13447,39 @@ var gridConfig = {
 
 		return this;
 	},
+	/**
+	 * @method AXGrid.fetchList
+	 * @param list {Array} - 추가될 list item Array
+	 * @returns {AXGrid}
+	 * @description grid의 리스트에 아이템을 추가 합니다.(배열)
+	 * @example
+	 ```
+			var list = [
+                {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10}, 
+				{no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:4, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:5, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:6, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:7, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+				{no:9, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:10, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
+			];
+		 myGrid.fetchList(list);
+
+	 ```
+	 */
 	fetchList: function(list){
 		var cfg = this.config, VS = this.virtualScroll;
 		this.list = this.list.concat(list);
@@ -13381,6 +13494,21 @@ var gridConfig = {
 		}
 		this.contentScrollResize(false);
 	},
+	/**
+	 * @method AXGrid.removeList
+	 * @param removeList {Array} - 키값 배열
+	 * @returns {AXGrid}
+	 * @description removeList의 전달된 키값 과 일치하는 대상을 삭제 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+	 * @example
+	 ```
+		 var checkedList = myGrid.getCheckedList(0);// colSeq
+		 var removeList = [];
+		 $.each(checkedList, function(){
+			removeList.push({no:this.no});
+		 });
+		 myGrid.removeList(removeList); 
+	 ```
+	 */
 	removeList: function (removeList) {
 		var cfg = this.config;
 		if (cfg.passiveMode) {
@@ -13438,6 +13566,17 @@ var gridConfig = {
 		this.setStatus(this.list.length);
 		this.redrawDataSet();
 	},
+	/**
+	 * @method AXGrid.removeListIndex
+	 * @param removeList {Array} - index 배열 (key value "index" 가 있어야 함)
+	 * @returns {AXGrid}
+	 * @description removeList의 index에 해당하는 항목을 제거 합니다..
+	 * @example
+	 ```
+		 var removeList = [{index:0},{index:1},{index:2}];
+		 myGrid.removeListIndex(removeList); 
+	 ```
+	 */
 	removeListIndex: function (removeList) {
 		var cfg = this.config;
 
@@ -13499,6 +13638,23 @@ var gridConfig = {
 		this.setStatus(this.list.length);
 		this.redrawDataSet();
 	},
+	/**
+	 * @method AXGrid.restoreList
+	 * @param removeList {Array} - 키값 배열
+	 * @returns {AXGrid}
+	 * @description restoreList 전달된 키값 과 일치하는 대상의 삭제 표시를 제거 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.(passive)
+	 * @example
+	 ```
+	     var myGrid = new AXGrid();
+		 myGrid.setConfig({passiveMode:true});
+		 var checkedList = myGrid.getCheckedList(0);// colSeq
+		 var removeList = [];
+		 $.each(checkedList, function(){
+			removeList.push({no:this.no});
+		 });
+		 myGrid.restoreList(removeList); 
+	 ```
+	 */
 	restoreList: function (restoreList) {
 		var cfg = this.config;
 		var collect = [];
@@ -13557,6 +13713,12 @@ var gridConfig = {
 		this.setStatus(this.list.length);
 		this.redrawDataSet();
 	},
+    /**
+     * @method AXGrid.gridBodyOver
+     * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  Grid 리스트(body)에 대한 mouseover 이벤트 처리를 합니다.
+     * @returns null
+     */
 	gridBodyOver: function (event) {
 		var cfg = this.config;
 
@@ -13569,6 +13731,12 @@ var gridConfig = {
 			this.overedItemIndex = itemIndex;
 		}
 	},
+    /**
+     * @method AXGrid.gridBodyOut
+     * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  Grid 리스트(body)에 대한 mouseout 이벤트 처리를 합니다.
+     * @returns null
+     */
 	gridBodyOut: function (event) {
 		var cfg = this.config;
 
@@ -13577,6 +13745,12 @@ var gridConfig = {
 		}
 
 	},
+    /**
+     * @method AXGrid.gridBodyClick
+     * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  Grid 리스트(body)에 대한 click 이벤트 처리를 합니다.
+     * @returns null
+     */
 	gridBodyClick: function (event) {
 		var cfg = this.config;
 
@@ -13600,6 +13774,12 @@ var gridConfig = {
 			this.gridBodyClickAct(event);
 		}
 	},
+    /**
+     * @method AXGrid.gridBodyClickAct
+     * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  Grid 리스트(body)내부 요소에 대한 클릭 후 처리를 합니다(checkbox,radio).
+     * @returns null
+     */
 	gridBodyClickAct: function (event) {
 		this.bodyClickObserver = null;
 		var cfg = this.config;
@@ -13835,6 +14015,12 @@ var gridConfig = {
 		}
 
 	},
+    /**
+     * @method AXGrid.gridBodyDBLClick
+     * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  Grid 리스트(body)에 대한 doubleclick 이벤트 처리를 합니다.
+     * @returns null
+     */
 	gridBodyDBLClick: function (event) {
 		var cfg = this.config;
 		if (event.target.id == "") return;
@@ -13958,6 +14144,17 @@ var gridConfig = {
 		this.stopEvent(event);
 		this.clearRange();
 	},
+    /**
+     * @method AXGrid.contentScrollResize
+     * @param resetLeft {Boolean} - false 시 가로 스크롤은 초기화 하지 않습니다.
+     * @description  Grid의 화면에 맞게 스크롤을 생성 합니다.
+     * @returns null
+	 * @example
+	 ```
+     var myGrid = new AXGrid();
+	 myGrid.contentScrollResize(false); 
+	 ```
+     */
 	contentScrollResize: function (resetLeft) {
 		var cfg = this.config, _this = this;
 		if (cfg.viewMode == "mobile") return; // 모바일이면 scroll이 없음.
@@ -13975,7 +14172,7 @@ var gridConfig = {
 			_this.colHead.css({ width: scrollWidth });
 			/* colHead width 재정의 */
 
-			if (_this.hasEditor) _this.editor.css({ width: scrollWidth });
+			if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
 
 			if (resetLeft != false) {
 				_this.scrollContent.css({ left: 0 });
@@ -14044,6 +14241,17 @@ var gridConfig = {
 			}
 		}, 100);
 	},
+    /**
+     * @method AXGrid.contentScrollScrollSync
+     * @param pos {Object} - top, left.
+     * @description  top, left에 맞게 스크롤을 이동 합니다.
+     * @returns null
+	 * @example
+	 ```
+     var myGrid = new AXGrid();
+	 myGrid.contentScrollScrollSync({left: myGrid.scrollXHandle.position().left});
+	 ```
+     */
 	contentScrollScrollSync: function (pos) {
 		var cfg = this.config;
 
@@ -14084,11 +14292,23 @@ var gridConfig = {
 			this.scrollContent.css({ top: -T });
 			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) this.fixedScrollContent.css({ top: -T });
 			if (this.editorOpend) {
-				this.editor.css({ top: -T + this.editorOpenTop });
+				this.editor.css({ top: -T + this.editorOpenTop + this.body.position().top });
 			}
 			this.bigDataSync();
 		}
 	},
+    /**
+     * @method AXGrid.contentScrollContentSync
+     * @param pos {Object} - top, left
+	 * @param touch {String} - "touch"
+     * @description  top, left에 맞게 그리드 내용을 이동 합니다.
+     * @returns null
+	 * @example
+	 ```
+     var myGrid = new AXGrid();
+	 myGrid.contentScrollContentSync({top: 0}, "touch");
+	 ```
+     */
 	contentScrollContentSync: function (pos, touch) {
 
 		var cfg = this.config;
@@ -14130,12 +14350,19 @@ var gridConfig = {
 			this.scrollYHandle.css({ top: -T });
 			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) this.fixedScrollContent.css({ top: pos.top });
 			if (this.editorOpend) {
-				this.editor.css({ top: pos.top + this.editorOpenTop });
+				this.editor.css({ top: pos.top + this.editorOpenTop + this.body.position().top });
 			}
 		}
 
 		if(touch == undefined) this.bigDataSync();
 	},
+    /**
+     * @method AXGrid.getMousePositionToContentScroll
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @param contentScrollID {String} - Event가 일어난 스크롤 객체 ID
+     * @description  스크롤이 발생된 마우스 위치를 반환합니다.
+     * @returns {Object} ({x,y})
+     */
 	getMousePositionToContentScroll: function (event, contentScrollID) {
 		var pos = axdom("#" + contentScrollID).offset();
 		var x = (event.pageX - pos.left);
@@ -14574,6 +14801,7 @@ var gridConfig = {
 				this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOver.bind(this));
 				this.body.find(".gridBodyTr").bind("mouseout", this.gridBodyOut.bind(this));
 				this.body.find(".gridBodyTr").bind("click", this.gridBodyClick.bind(this));
+
 				if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
 				if (this.selectedRow != undefined && this.selectedRow.length > 0) {
@@ -15334,11 +15562,13 @@ var gridConfig = {
 		po.push("</div>");
 		this.editor.html(po.join(''));
 
-		if (itemIndex != undefined) {
+		if (itemIndex != undefined)
+		{
 
 			var scrollTop = this.scrollContent.position().top, list = this.list;
 
-			if(cfg.height == "auto"){
+			if(cfg.height == "auto")
+			{
 				var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
 				itemTrHeight = (function () {
 					if (list.length == 0) {
@@ -15356,27 +15586,30 @@ var gridConfig = {
 						return p2 - p1;
 					}
 				})();
-			}else{
+			}
+			else
+			{
 				var editorTop = itemIndex * (itemTrHeight = this.virtualScroll.itemTrHeight);
 			}
 
-			this.editor.css({ top: editorTop + scrollTop });
+			this.editor.css({ top: editorTop + scrollTop + this.body.position().top });
 			this.editorOpend = true;
-			this.editorOpenTop = editorTop;
+			this.editorOpenTop = editorTop + this.body.position().top;
 			this.editorItemIndex = itemIndex;
 			this.editorButtonPosition = "bottom";
 
 			var trTop = -editorTop;
 
-
-
-			if (trTop.abs() + this.body.height() > this.scrollContent.height() && (this.scrollContent.height() > this.body.height())) {
+			if (editorTop + scrollTop + this.body.position().top > this.body.height() - this.body.position().top && (this.scrollContent.height() > this.body.height())) {
 				trTop = this.body.height() - this.scrollContent.height();
 				// 에디터 위로 들기
 				this.editorButtonPosition = "top";
 			}
 
-		} else if (insertIndex != undefined) {
+		}
+		else
+		if (insertIndex != undefined)
+		{
 
 			var scrollTop = this.scrollContent.position().top, list = this.list;;
 
@@ -15404,7 +15637,7 @@ var gridConfig = {
 				var editorTop = insertIndex * (itemTrHeight = this.virtualScroll.itemTrHeight);
 			}
 
-			this.editor.css({ top: editorTop });
+			this.editor.css({ top: editorTop + this.body.position().top });
 			this.editorOpend = true;
 			this.editorOpenTop = editorTop;
 			this.editorInsertIndex = insertIndex;
@@ -15423,11 +15656,12 @@ var gridConfig = {
 				this.contentScrollContentSync({ top: trTop });
 			}
 
-		} else {
-
+		}
+		else
+		{
 			var editorTop = 0, itemTrHeight = this.virtualScroll.itemTrHeight;
 
-			this.editor.css({ top: editorTop });
+			this.editor.css({ top: editorTop + this.body.position().top });
 			this.editorOpend = true;
 			this.editorOpenTop = editorTop;
 			this.editorItemIndex = null;
@@ -15436,13 +15670,16 @@ var gridConfig = {
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
 			}
-
 		}
 
-		this.scrollTrackY.before(this.editor);
+		//this.scrollTrackY.before(this.editor); 위치이동 안함. input focus할 때 스크롤 오버 버그 발생
 		this.editor.show();
 		this.editor.find("input[type=text],textarea").bind("mousedown.AXGrid", function () {
 			this.focus();
+		});
+		this.editor.find("input,textarea,select").bind("focus.AXGrid", function () {
+			//trace("editor focus");
+			//trace(axdom(this).position().left);
 		});
 
 		if (cfg.editor.onkeyup) {
@@ -15541,20 +15778,24 @@ var gridConfig = {
 			});
 		}
 
-		var editorContent = axdom("#" + cfg.targetID + "_AX_editorContent"), fixedEditorContent = axdom("#" + cfg.targetID + "_AX_fixedEditorContent"), editorButtons = axdom("#" + cfg.targetID + "_AX_editorButtons");
+		var editorContent = axdom("#" + cfg.targetID + "_AX_editorContent"),
+			fixedEditorContent = axdom("#" + cfg.targetID + "_AX_fixedEditorContent"),
+			editorButtons = axdom("#" + cfg.targetID + "_AX_editorButtons");
 		var editorContentHeight = editorContent.height();
 		var fixedEditorContentHeight = fixedEditorContent.height();
 		if (editorContentHeight < fixedEditorContentHeight) {
 			editorContentHeight = fixedEditorContentHeight;
 			editorContent.find(".gridBodyTable").css({ height: editorContentHeight });
-		} else {
+		}
+		else {
 			fixedEditorContent.find(".gridFixedBodyTable").css({ height: editorContentHeight });
 		}
 
 		editorButtons.css({ top: editorContentHeight });
 		var editorBoxHeight = editorContentHeight.number();
 
-		if (itemTrHeight > editorContentHeight) {
+		if (itemTrHeight > editorContentHeight)
+		{
 			editorContentHeight = itemTrHeight;
 			editorContent.find(".gridBodyTable").css({ height: editorContentHeight });
 			fixedEditorContent.find(".gridFixedBodyTable").css({ height: editorContentHeight });
@@ -15565,7 +15806,8 @@ var gridConfig = {
 		var scrollLeft = this.scrollContent.position().left;
 		editorContent.css({ left: scrollLeft });
 
-		if(this.editorButtonPosition == "top"){
+		if(this.editorButtonPosition == "top")
+		{
 			if(insertIndex != undefined) this.editor.css({top: this.editor.position().top - editorContentHeight });
 			else this.editor.css({top: this.editor.position().top - editorContentHeight + itemTrHeight});
 			editorButtons.addClass("top");
