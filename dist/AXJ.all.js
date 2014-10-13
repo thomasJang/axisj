@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-10 
+AXJ - v1.0.9 - 2014-10-13 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-10 
+AXJ - v1.0.9 - 2014-10-13 
 */
 
 if(!window.AXConfig){
@@ -11187,25 +11187,28 @@ var gridConfig = {
 	},
     /**
      * @method AXGrid.getColHeadTd
-     * @param {Object} -{
-							valign: " valign=\"bottom\"",    - td valign option string
-							rowspan: " rowspan=\"2\"",  - rowspan option string
-							colspan: " colspan=\"2\"",  - colspan option string
-							bottomClass: "",  - border-bottom 관련 후처리
-							r: 0, - colhead row index
-							CHidx: 0, -colhead cell index
-							align: "right", - align option string 
-							colSeq: 0, - config 에서 지정된 colGroup 내 순서 
-							formatter: "checkbox", - html 표시중 checkbox 등 특정 요소 렌더링
-							formatterLabel: "" - checkbox 등 특정 요소를 감쌀 label 태그 내부 출력 내용, 
-							sort: "desc", -정렬옵션 
-							tdHtml: "blah", - config colGroup 의 label 로 지정된 string
-							ghost: false,  - true 시 비어있는 dummy cell 이 생성됨.
-							displayLabel: false - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
-			  }
-		 
+     * @param {Object} arg
      * @description  Grid head를 위한 html을 생성합니다.
-     * @returns {HTMLElement} 
+     * @returns {HTMLElement}
+     * @example
+```
+{
+	valign: " valign=\"bottom\"",    - td valign option string
+	rowspan: " rowspan=\"2\"",  - rowspan option string
+	colspan: " colspan=\"2\"",  - colspan option string
+	bottomClass: "",  - border-bottom 관련 후처리
+	r: 0, - colhead row index
+	CHidx: 0, -colhead cell index
+	align: "right", - align option string
+	colSeq: 0, - config 에서 지정된 colGroup 내 순서
+	formatter: "checkbox", - html 표시중 checkbox 등 특정 요소 렌더링
+	formatterLabel: "" - checkbox 등 특정 요소를 감쌀 label 태그 내부 출력 내용,
+	sort: "desc", -정렬옵션
+	tdHtml: "blah", - config colGroup 의 label 로 지정된 string
+	ghost: false,  - true 시 비어있는 dummy cell 이 생성됨.
+	displayLabel: false - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
+}
+```
      */
 	getColHeadTd: function (arg) {
 		var cfg = this.config;
@@ -11634,9 +11637,8 @@ var gridConfig = {
 				var rc = cfg.editor._maps[_m][colSeq];
 				var CH = cfg.editor.rows[rc.r][rc.c];
 				var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + rc.r + "_AX_" + rc.c;
-				/*trace(formID); */
-				if (axf.getId(formID)) if (axf.getId(formID).tagName == "INPUT") AXInput.alignAnchor(formID);
 			}
+			AXInput.alignAllAnchor();
 		}
 
 
@@ -12399,13 +12401,13 @@ var gridConfig = {
 	},
 	/**
 	 * @method AXGrid.getFormatterValue
-	 * @param formatter {String||Function} - config 의 colGroup이나 colHead에서 지정된 formatter
-	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
-	 * @param itemIndex {Number} - 대상 인덱스
-	 * @param value {String} - 표현 대상 값.
-  	 * @param key {Object} config 의 colGroup 내부 key 값
-	 * @param CH {Object} 대상 그리드의 [열][행]
-	 * @param CHidx {Number} 대상 그리드의 [열][행] 중 행의 index
+	 * @param {String|Function} formatter - config 의 colGroup이나 colHead에서 지정된 formatter
+	 * @param {Object} item  - 대상 인덱스의 리스트 1개 열
+	 * @param {Number} itemIndex  - 대상 인덱스
+	 * @param {String} value - 표현 대상 값.
+  	 * @param {Object} key - config 의 colGroup 내부 key 값
+	 * @param {Object} CH - 대상 그리드의 [열][행]
+	 * @param {Number} CHidx - 대상 그리드의 [열][행] 중 행의 index
 
 	 * @returns {HTMLElement}
 	 * @description 지정된 표현 형식으로 데이터를 HTMLElement로 변환 시킵니다. 
@@ -12475,12 +12477,12 @@ var gridConfig = {
 	},
 	/**
 	 * @method AXGrid.getTooltipValue
-	 * @param formatter {String||Function} - config 의 colGroup이나 colHead에서 지정된 formatter
-	 * @param item {Object} - 대상 인덱스의 리스트 1개 열
-	 * @param itemIndex {Number} - 대상 인덱스
-	 * @param value {String} - 표현 대상 값.
-  	 * @param key {Object} config 의 colGroup 내부 key 값
-	 * @param CH {Object} 대상 그리드의 [열][행]
+	 * @param {String|Function} formatter - config 의 colGroup이나 colHead에서 지정된 formatter
+	 * @param {Object} item - 대상 인덱스의 리스트 1개 열
+	 * @param {Number} itemIndex - 대상 인덱스
+	 * @param {String} value - 표현 대상 값.
+  	 * @param {Object} key - config 의 colGroup 내부 key 값
+	 * @param {Object} CH - 대상 그리드의 [열][행]
 	 * @returns {HTMLElement}
 	 * @description 지정된 표현 형식으로 데이터를 HTMLElement로 변환 시킵니다. 
 	 */
@@ -14369,6 +14371,12 @@ var gridConfig = {
 		var y = (event.pageY - pos.top);
 		return { x: x, y: y };
 	},
+    /**
+     * @method AXGrid.getTouchPositionToContentScroll
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  터치 이벤트가 일어난 위치를 반환 합니다.
+     * @returns {Object} ({x,y})
+     */
 	getTouchPositionToContentScroll: function (event) {
 		var cfg = this.config;
 		var touch = event.touches[0], x, y;
@@ -14392,6 +14400,12 @@ var gridConfig = {
 		 */
 		return { x: x, y: y };
 	},
+    /**
+     * @method AXGrid.contentScrollScrollReady
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  스크롤에 대한 기본 속성/이벤트를 지정합니다.
+     * @returns null
+     */
 	contentScrollScrollReady: function (event) {
 		var cfg = this.config;
 		var handleName = (event.target.id).split(/_AX_/).last();
@@ -14455,6 +14469,12 @@ var gridConfig = {
 		this.contentScrollScrolling = true;
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
+    /**
+     * @method AXGrid.contentScrollScrollMove
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  스크롤바가 스크롤 될때 내부 처리를 합니다.
+     * @returns null
+     */
 	contentScrollScrollMove: function (event) {
 		var cfg = this.config;
 		var pos = this.getMousePositionToContentScroll(event, this.contentScrollAttrs.scrollTrack);
@@ -14479,6 +14499,12 @@ var gridConfig = {
 			this.scrollXHandle.css({ left: handleLeft });
 		}
 	},
+    /**
+     * @method AXGrid.contentScrollScrollEnd
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  스크롤바의 스크롤이 끝났을때의 처리를 합니다.
+     * @returns null
+     */
 	contentScrollScrollEnd: function (event) {
 		var cfg = this.config;
 		axdom(document.body).unbind("mousemove.AXGrid");
@@ -14503,6 +14529,12 @@ var gridConfig = {
 			this.contentScrollScrollSync({ left: this.scrollXHandle.position().left });
 		}
 	},
+    /**
+     * @method AXGrid.contentScrollScrollWheel
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  그리드 몸통에서 일어나는 마우스 휠 이벤트 처리를 합니다.
+     * @returns null
+     */
 	contentScrollScrollWheel: function (e) {
 		var cfg = this.config;
 
@@ -14563,6 +14595,12 @@ var gridConfig = {
 		}
 
 	},
+    /**
+     * @method AXGrid.contentScrollTouchstart
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  그리드 스크롤바에 대한 터치 이벤트를 처리 합니다.
+     * @returns null
+     */
 	contentScrollTouchstart: function (e) {
 		var cfg = this.config;
 		var event = window.event || e;
@@ -14599,6 +14637,12 @@ var gridConfig = {
 			document.addEventListener("touchmove", this.contentScrollTouchMoveBind, false);
 		}
 	},
+    /**
+     * @method AXGrid.contentScrollTouchMove
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  그리드내의 터치에 의한 화면 이동을 처리 합니다..
+     * @returns null
+     */
 	contentScrollTouchMove: function (e) {
 		var cfg = this.config;
 		var event = window.event || e;
@@ -14663,6 +14707,12 @@ var gridConfig = {
 			}
 		}
 	},
+    /**
+     * @method AXGrid.contentScrollTouchMove
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  그리드내의 터치(point)가 끝났을때의 처리를 합니다.
+     * @returns null
+     */
 	contentScrollTouchEnd: function (e) {
 		var cfg = this.config;
 		var event = window.event || e;
@@ -14681,6 +14731,11 @@ var gridConfig = {
 			this.contentScrollTouchMoved = false;
 		}
 	},
+    /**
+     * @method AXGrid.contentScrollTipOver
+     * @description  그리드내의 스크롤이 마지막 항목까지 도달 하였을때의 처리를 합니다. config에서 설정한 onscrollend 지정 함수도 이때 발생됩니다.
+     * @returns null
+     */
 	contentScrollEnd: function () {
 		if (this.contentScrollEndObserver) clearTimeout(this.contentScrollEndObserver);
 		var cfg = this.config;
@@ -14692,7 +14747,12 @@ var gridConfig = {
 			}
 		}
 	},
-
+    /**
+     * @method AXGrid.contentScrollEnd
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트 
+     * @description  null
+     * @returns null
+     */
 	contentScrollTipOver: function(event){
 		// TODO : contentScrollTipOver
 		/*
@@ -14701,6 +14761,12 @@ var gridConfig = {
 		 this.scrollYHandle.bind("mouseout");
 		 */
 	},
+    /**
+     * @method AXGrid.contentScrollTipOverMove
+	 * @param handleTop {Number} - 툴팁 출력위치의 상단 offset
+     * @description - Grid의 스크롤바를 움직일때 현레코드/전체레코드의 툴팁을 출력합니다. 
+     * @returns null
+     */
 	contentScrollTipOverMove: function(handleTop){
 		var cfg = this.config;
 		/*
@@ -14724,13 +14790,23 @@ var gridConfig = {
 		this.scrollYTipSpan.append( ((T.abs() / this.virtualScroll.itemTrHeight)).floor().money() + "/" + this.list.length.money() );
 		this.scrollYTip.css({top:hTop});
 	},
+    /**
+     * @method AXGrid.contentScrollTipOverOut
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트
+     * @description - Grid의 스크롤바에 대한 이동 이벤트가 끝났을때 툴팁을 해제합니다. 
+     * @returns null
+     */
 	contentScrollTipOverOut: function(event){
 		var cfg = this.config;
 		this.scrollYHandle.unbind("mousemove");
 		this.scrollYHandle.unbind("mouseout");
 		this.scrollYTip.hide();
 	},
-
+    /**
+     * @method AXGrid.bigDataSync
+     * @description - Grid의 데이터 바인드를 0.01초 지연 시켜서 시작 합니다.
+     * @returns null
+     */
 	bigDataSync: function(){
 		var cfg = this.config;
 		if(cfg.viewMode == "grid"){
@@ -14738,6 +14814,11 @@ var gridConfig = {
 			this.bigDataSyncObserver = setTimeout(this.bigDataSyncApply.bind(this), 10);
 		}
 	},
+    /**
+     * @method AXGrid.bigDataSyncApply
+     * @description - Grid의 리스트 내부 인덱스가 변경되거나 포커싱 대상 인덱스가 스크롤을 벗어나 있을경우 그리드를 재구성 합니다.
+     * @returns null
+     */
 	bigDataSyncApply: function(){
 		var cfg = this.config;
 		var bodyHasMarker = this.bodyHasMarker;
@@ -14823,7 +14904,17 @@ var gridConfig = {
 			}
 		}
 	},
-
+    /**
+     * @method AXGrid.scrollTop
+	 * @param itemIndex {Number} - 스크롤될 아이템 인덱스
+     * @description - itemIndex에 스크롤을 이동시킵니다.
+     * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.scrollTop(0);	 
+	 ```
+     */
 	scrollTop: function (itemIndex) {
 		var cfg = this.config;
 		if (cfg.height == "auto") return;
@@ -14855,6 +14946,17 @@ var gridConfig = {
 			this.contentScrollContentSync({ top: scrollTop });
 		}
 	},
+    /**
+     * @method AXGrid.scrollTop
+	 * @param itemIndex {Number} - 선택될 아이템 인덱스
+     * @description - itemIndex에 해당하는 열을 선택 합니다..
+     * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setFocus(0);	 
+	 ```
+     */
 	setFocus: function (itemIndex) {
 		var cfg = this.config, _this = this;
 
@@ -14975,6 +15077,12 @@ var gridConfig = {
 			this.body.find(".bodyViewMobile_" + itemIndex).focus();
 		}
 	},
+    /**
+     * @method AXGrid.scrollTop
+	 * @param direction {Number} - 정수/음수 이동될 칸 수 
+	 * @param {Event} - Grid body내부에서 감지되는 이벤트
+     * @description - direction 만큼 포커스를 이동 합니다.
+     */
 	focusMove: function (direction, event) {
 		var cfg = this.config;
 		var myIndex = this.selectedRow.first();
@@ -14988,6 +15096,16 @@ var gridConfig = {
 		event.cancelBubble = true;
 		return false;
 	},
+    /**
+     * @method AXGrid.getSelectedItem
+     * @description - 선택된 행의 index, item 을 가져 옵니다.선택된 행이 없으면 에러 객체를 전달 합니다.
+     * @returns {Object} - {index,item} , exception no item selected {error,description}
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.getSelectedItem();	 
+	 ```
+     */
 	getSelectedItem: function () {
 		var cfg = this.config;
 		if (this.selectedRow != undefined && this.selectedRow != null && this.selectedRow.length > 0) {
@@ -14996,6 +15114,17 @@ var gridConfig = {
 			return { error: "noselected", description: "선택된 item이 없습니다." };
 		}
 	},
+    /**
+     * @method AXGrid.scrollTop
+	 * @param itemIndex {Number} - 선택될 그리드 아이템 인덱스
+     * @description - 인덱스에 해당하는 행을 클릭 한 효과를 발생 시킵니다.config 에 body항목의 onclick 지정함수가 있다면 호출 됩니다.
+	 * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.click(0);	 
+	 ```
+     */
 	click: function (itemIndex) {
 		var cfg = this.config;
 		this.setFocus(itemIndex);
@@ -15024,6 +15153,13 @@ var gridConfig = {
 		return false;
 	},
 	// TODO : mergeCells
+    /**
+     * @method AXGrid.mergeCells
+	 * @param tgDom {Object} - 그리드 몸통 객체
+	 * @param typ {String} - 표현 형식 ("n" normal, "f" fixed) ??
+     * @description - config 내의 옵션에 따라 셀 병합을 실행 합니다.
+	 * @returns null
+     */
 	mergeCells: function(tgDom, typ){
 		var cfg = this.config;
 		// 중복된 셀 머지 함수
@@ -15118,6 +15254,16 @@ var gridConfig = {
 	// body 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ head & foot 영역
+    /**
+     * @method AXGrid.getDataSetFormatterValue
+	 * @param formatter {String} - formatter - config 에서 지정된 표현 형식
+	 * @param dataSet {Object} - setDataSet 메소드에 전달된 데이터 객체
+	 * @param value {String} - dataSet 객체 가 지니고 있는 값
+	 * @param key {String} - config colgroup의 key
+	 * @param CH {String} - config colgroup의 컬럼 객체
+     * @description - dataSet의 값을 지정된  formatter에 맞게 가공합니다.
+	 * @returns result {String}
+     */
 	getDataSetFormatterValue: function (formatter, dataSet, value, key, CH) {
 		var cfg = this.config;
 		var result;
@@ -15151,6 +15297,13 @@ var gridConfig = {
 		}
 		return result;
 	},
+    /**
+     * @method AXGrid.getHeadDataSet
+	 * @param dataSet {Object} - setDataSet 메소드에 전달된 데이터 객체
+	 * @param isfix {String} - "fix","n" 고정 형태
+     * @description - 그리드의 header를 생성 합니다..
+	 * @returns {HTMLElement}
+     */
 	getHeadDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
 		if (dataSet == undefined) return;
@@ -15213,6 +15366,13 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+    /**
+     * @method AXGrid.getFootDataSet
+	 * @param dataSet {Object} - setDataSet 메소드에 전달된 데이터 객체
+	 * @param isfix {String} - "fix","n" 고정 형태
+     * @description - 그리드의 footer 생성 합니다..
+	 * @returns {HTMLElement}
+     */
 	getFootDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
 		if (dataSet == undefined) return;
@@ -15275,6 +15435,18 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+    /**
+     * @method AXGrid.getFootDataSet
+	 * @param obj {Object} - ({key:value})
+     * @description - head, foot 속성을 정의한 경우 head, foot 에 값을 표시합니다. 비어있는 객체를 전달할 경우 formatter 연결된 함수에 의해 값이 계산됩니다.
+	 * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setDataSet({price:123000, amount:10});
+	 myGrid.setDataSet({});
+	 ```
+     */
 	setDataSet: function (obj) {
 		var cfg = this.config;
 		if (obj.ajaxUrl) {
@@ -15288,6 +15460,17 @@ var gridConfig = {
 			}
 		}
 	},
+    /**
+     * @method AXGrid.getFootDataSet
+     * @description - setDataSet애 의해 dataSet 객체가 변경된 경우 header나 footer를 다시 렌더링 합니다.
+	 * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setDataSet({price:123000, amount:10});
+	 myGrid.redrawDataSet();
+	 ```
+     */
 	redrawDataSet: function () {
 		var cfg = this.config;
 		if (this.dataSet) {
@@ -15295,6 +15478,17 @@ var gridConfig = {
 			if (cfg.foot) this.printFoot();
 		}
 	},
+    /**
+     * @method AXGrid.printHead
+     * @description - grid의 header를 구성합니다 . (getDataSet)
+	 * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setDataSet({price:123000, amount:10});
+	 myGrid.printHead();
+	 ```
+     */
 	printHead: function () {
 		var cfg = this.config;
 		var getDataSet = this.getHeadDataSet.bind(this);
@@ -15307,6 +15501,17 @@ var gridConfig = {
 			axdom("#" + cfg.targetID + "_AX_fixedThead").html(po.join(''));
 		}
 	},
+    /**
+     * @method AXGrid.printFoot
+     * @description - grid의 footer를 구성합니다 . (getDataSet)
+	 * @returns null
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setDataSet({price:123000, amount:10});
+	 myGrid.printFoot();
+	 ```
+     */
 	printFoot: function () {
 		var cfg = this.config;
 		var getDataSet = this.getFootDataSet.bind(this);
@@ -15322,6 +15527,17 @@ var gridConfig = {
 	/* head & foot 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ editor 영역  */
+    /**
+     * @method AXGrid.getEditorFormatterValue
+	 * @param formatter {String} - formatter - config editor 에서 지정된 표현 형식
+	 * @param dataSet {Object} - 데이터 객체
+	 * @param value {String} - dataSet 객체 가 지니고 있는 값
+	 * @param key {String} - config colgroup의 key
+	 * @param CH {String} - config colgroup의 컬럼 객체
+	 * @param idAttr {String} - Editor 타겟 구분 값
+     * @description - Editor의 데이터를 formatter에 맞게 가공하여 반환 합니다.
+	 * @returns {Object} or {String}
+     */
 	getEditorFormatterValue: function (formatter, dataSet, value, key, CH, idAttr) {
 		var cfg = this.config;
 		var result;
@@ -15359,6 +15575,17 @@ var gridConfig = {
 
 		return result + inputHidden;
 	},
+    /**
+     * @method AXGrid.getEditorFormValue
+	 * @param form {Object} -  config editor rows form에서 지정된 객체
+	 * @param dataSet {Object} - 데이터 객체
+	 * @param value {String} - dataSet 객체 가 지니고 있는 값
+	 * @param key {String} - config colgroup의 key
+	 * @param CH {String} - config colgroup의 컬럼 객체
+	 * @param idAttr {String} - Editor 타겟 구분 값
+     * @description - Editor의 데이터를 config editor rows form에 정의된 형식에 맞게 반환 합니다.
+	 * @returns {HTMLElement}  
+     */
 	getEditorFormValue: function (form, dataSet, value, key, CH, idAttr) {
 		var cfg = this.config;
 		var paddingRight = cfg.formPaddingRight;
@@ -15449,6 +15676,13 @@ var gridConfig = {
 		}
 		return result.join('');
 	},
+    /**
+     * @method AXGrid.getEditorBody
+	 * @param dataSet {Object} - 데이터 객체
+	 * @param isfix {String} - fix option . (AXGrid.hasFixed == true) "fix"	 
+     * @description - 에디터를 생성 합니다..
+	 * @returns {HTMLElement}  
+     */
 	getEditorBody: function (dataSet, isfix) {
 		var cfg = this.config;
 		var getEditorFormatterValue = this.getEditorFormatterValue.bind(this);
@@ -15514,6 +15748,20 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+    /**
+     * @method AXGrid.setEditor
+	 * @param item {Array} - 삽입될 아이템 데이터
+	 * @param itemIndex {Number} - 에디터가 가져올 아이템 인덱스	 
+	 * @param insertIndex {Number} - 에디터가 삽입될 위치 인덱스	 
+     * @description - 해당하는 인덱스에 에디터를 활성화 합니다.config 내에 editor 관련 항목이 없다면 작동하지 않습니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setEditor({}, 1);
+	 myGrid.setEditor(null, null, 1);
+	 ```    
+     */
 	setEditor: function (item, itemIndex, insertIndex) {
 		var cfg = this.config, _this = this, itemTrHeight;
 
@@ -15536,7 +15784,7 @@ var gridConfig = {
 
 		/*setEditor */
 		var po = [];
-		po.push("<div id=\"" + cfg.targetID + "_AX_editorContent\" class=\"editorContent\">");
+		po.push("<div id=\"" + cfg.targetID + "_AX_editorContent\" class=\"editorContent\" style=\"padding-left:1px;\">");
 		po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"gridBodyTable\" style=\"\">");
 		po.push(this.getColGroup("EB"));
 		/*colGroup 삽입 */
@@ -15546,7 +15794,7 @@ var gridConfig = {
 		po.push("</table>");
 		po.push("</div>");
 		if (this.hasFixed) {
-			po.push("<div id=\"" + cfg.targetID + "_AX_fixedEditorContent\" class=\"fixedEditorContent\" style=\"width:" + this.fixedColWidth + "px;\">");
+			po.push("<div id=\"" + cfg.targetID + "_AX_fixedEditorContent\" class=\"fixedEditorContent\" style=\"width:" + this.fixedColWidth + "px;padding-left:1px;\">");
 			po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"gridFixedBodyTable\" style=\"width:" + this.fixedColWidth + "px;\">");
 			po.push(this.getColGroup("FE"));
 			/*colGroup 삽입 */
@@ -15817,12 +16065,43 @@ var gridConfig = {
 		axdom("#" + cfg.targetID + "_AX_editorButtons_AX_save").bind("click", this.saveEditor.bind(this));
 		axdom("#" + cfg.targetID + "_AX_editorButtons_AX_cancel").bind("click", this.cancelEditor.bind(this));
 	},
+    /**
+     * @method AXGrid.setEditor
+	 * @param obj {Object} - 삽입될 아이템 데이터
+		{
+			key : , colgroup 컬럼 key 
+			position :, 적용될 대상의 배열 순서 [0,0]
+			value : , 넘겨줄 값 {String}
+		}
+     * @description - 활성화된 에디터에 특정 값을 전달 합니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.setEditorForm({
+		key:"title",
+		position:[0,2],
+		value:"가나다라"
+	 });
+	 ```    
+     */
 	setEditorForm: function (obj) {
 		var cfg = this.config;
 		var formID = cfg.targetID + "_AX_" + obj.key + "_AX_" + obj.position.join("_AX_");
 		if (!axf.getId(formID)) alert(formID + "로 Element를 찾을 수 없습니다.");
 		axdom("#" + formID).val(obj.value);
 	},
+    /**
+     * @method AXGrid.focusEditorForm
+	 * @param key {String} - colgroup 컬럼 key 
+     * @description - 활성화된 에디터의 특정 key 값과 매칭되는 요소를 활성화 합니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.focusEditorForm("regDate");
+	 ```    
+     */
 	focusEditorForm: function (key) { /* editor 활성화 된 폼의 특정 요소에 포커스 주기 */
 		var cfg = this.config;
 		this.editor.find("input[type=text],textarea").each(function () {
@@ -15832,6 +16111,16 @@ var gridConfig = {
 			}
 		});
 	},
+    /**
+     * @method AXGrid.saveEditor
+     * @description - 에디터의 내용을 저장하고 리스트에 반영 합니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.saveEditor();
+	 ```    
+     */
 	saveEditor: function () {
 		var cfg = this.config;
 
@@ -16005,7 +16294,12 @@ var gridConfig = {
 
 		}
 	},
-
+    /**
+     * @method AXGrid.saveEditorRequest
+	 * @param res {Object} - editorFormItem
+     * @description - config editor 항목에 request가 설정 되었을경우 서버 연동 처리를 합니다 response설정으로 예외 처리를 합니다.
+	 * @returns null  
+     */
 	saveEditorRequest: function (res) {
 		var cfg = this.config;
 
@@ -16053,11 +16347,31 @@ var gridConfig = {
 
 		}
 	},
+    /**
+     * @method AXGrid.cancelEditor
+     * @description - 활성화된 에디터를 해제 합니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.cancelEditor();
+	 ```    
+     */
 	cancelEditor: function () {
 		this.editor.hide();
 		this.editorOpend = false;
 		this.unbindAXbind();
 	},
+    /**
+     * @method AXGrid.unbindAXbind
+     * @description - 에디터내부 요소에 부여된 특성을 해제 합니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 myGrid.unbindAXbind();
+	 ```    
+     */
 	unbindAXbind: function () {
 		var cfg = this.config;
 		try {
@@ -16099,10 +16413,29 @@ var gridConfig = {
 			trace(e);
 		}
 	},
+    /**
+     * @method AXGrid.appendList
+	 * @param item {Object} - item dataset
+	 * @param insertIndex {Number} - 삽입 대상 index
+     * @description - 그리드에 신규 데이터를 삽입하기 위해 삽입용 에디터를 활성화 하여 줍니다. 
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+	 var item = {};
+	 myGrid.appendList(item);
+	 myGrid.appendList(item, 3);  
+	 ```    
+     */
 	appendList: function (item, insertIndex) {
 		this.setEditor(item, undefined, insertIndex);
 	},
 	/* editor 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /**
+     * @method AXGrid.setMobileTool
+     * @description - 출력 대상이 모바일일 경우 모바일용 page indicator를 생성합니다.
+	 * @returns {HTMLElement}  
+     */
 	setMobileTool: function () {
 		var cfg = this.config, _this = this;
 
@@ -16202,6 +16535,11 @@ var gridConfig = {
 			});
 		}
 	},
+    /**
+     * @method AXGrid.setPaging
+     * @description - 그리드 하단 page indicator를 생성합니다.
+	 * @returns {HTMLElement}  
+     */
 	setPaging: function () {
 		var cfg = this.config;
 		if (cfg.viewMode == "mobile") {
@@ -16257,6 +16595,17 @@ var gridConfig = {
 			});
 		}
 	},
+    /**
+     * @method AXGrid.goPageMove
+	 * @param pageAdd {Number} - 이동할 페이지 증/감(-) 수
+     * @description - pageAdd 만큼 페이지를 이동합니다.
+	 * @returns null  
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+ 	 myGrid.goPageMove(-1);
+	 ```    
+     */
 	goPageMove: function (pageAdd) {
 		var cfg = this.config;
 
@@ -16279,6 +16628,12 @@ var gridConfig = {
 		/*this.page.pageNo = pageNo; */
 		/*this.onPageChange(); bindSelectSetValue 시 자동 호출되는 구조 */
 	},
+    /**
+     * @method AXGrid.onPageChange
+	 * @param e {Event} - change 이벤트
+     * @description - 페이지 이동시 호출 됩니다.
+	 * @returns null      
+     */
 	onPageChange: function (e) {
 		var cfg = this.config;
 		var pgCount, pageNo, npageNo;
@@ -16314,6 +16669,17 @@ var gridConfig = {
 			}
 		}
 	},
+    /**
+     * @method AXGrid.setStatus
+	 * @param listLength {Number} - 그리드 리스트 아이템 갯수(length)
+     * @description - 그리드 리스트 아이템 갯수(length)를 표시 합니다.
+	 * @returns {HTMLElement}
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+ 	 myGrid.setStatus(myGrid.list.length);
+	 ```    	 
+     */
 	setStatus: function (listLength) {
 		var cfg = this.config, listCount;
 
@@ -16327,6 +16693,19 @@ var gridConfig = {
 
 		axdom("#" + cfg.targetID + "_AX_gridStatus").html(cfg.listCountMSG.replace("{listCount}", listCount.number().money()));
 	},
+    /**
+     * @method AXGrid.getSortParam
+	 * @param ty {String} - 출력옵션 "one" 으로 요청시 String 형태로, 미 지정시 Object 형태로 반환
+     * @description - 정렬옵션을 반환 합니다.
+	 * @returns {String} or {Object} - {sortKey:"" , -  정렬 기준 key
+                                        sortWay:""   -  정렬 방법 "asc" or "desc"
+	                                   }
+	 * @example
+	 ```
+	 var myGrid = new AXGrid();
+ 	 myGrid.getSortParam();
+	 ```    	 
+     */
 	getSortParam: function (ty) {
 		var cfg = this.config;
 		var sortObj = this.nowSortHeadObj;
@@ -16340,6 +16719,22 @@ var gridConfig = {
 			return "";
 		}
 	},
+    /**
+     * @method AXGrid.getExcelColHeadTd
+	 * @param arg {Object} - {
+		valign,  - valign 옵션
+		rowspan, - rowspan 옵션
+        colspan, - colspan 옵션
+		align,   - align 옵션
+		colSeq,  - config colgroup 내부 순서
+		formatter, - config colgroup에서 지정된 formatter
+		sort,  - 정렬 옵션
+		tdHtml, - config colgroup 지정된 label
+		displayLabel - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
+     }
+     * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 컬럼 해더를 생성 합니다.
+	 * @returns {HTMLElement}  	 
+     */
 	getExcelColHeadTd: function (arg) {
 		var cfg = this.config;
 		var po = [];
@@ -16361,6 +16756,13 @@ var gridConfig = {
 
 		return po.join('');
 	},
+    /**
+     * @method AXGrid.getExcelItem
+	 * @param itemIndex {Number} - 그리드 리스트중 대상 index
+ 	 * @param item {Object} - 그리드 리스트중 index 데이타
+     * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 리스트 데이터를 변환 합니다.
+	 * @returns {HTMLElement}  	 
+     */
 	getExcelItem: function (itemIndex, item) {
 		var cfg = this.config;
 		var tpo = [];
@@ -16402,6 +16804,14 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+    /**
+     * @method AXGrid.getExcelItemMarker
+	 * @param itemIndex {Number} - 그리드 리스트중 대상 index
+ 	 * @param item {Object} - 그리드 리스트중 index 데이타
+	 * @param isfix {String} - isfix {String} - fix option . 	 
+     * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 maker 데이터가 존재시 처리 합니다.
+	 * @returns {HTMLElement}  	 
+     */
 	getExcelItemMarker: function (itemIndex, item, isfix) {
 		var cfg = this.config;
 		var tpo = [];
@@ -16436,6 +16846,14 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+
+    /**
+     * @method AXGrid.getExcelHeadDataSet
+	 * @param dataSet {Object} - setDataSet 메소드에 전달된 데이터 객체
+	 * @param isfix {String} - "fix","n" 고정 형태 
+     * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 header 데이터가 존재시 처리 합니다.
+	 * @returns {HTMLElement}  	 
+     */
 	getExcelHeadDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
 		if (dataSet == undefined) return;
@@ -16479,6 +16897,13 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+    /**
+     * @method AXGrid.getExcelHeadDataSet
+	 * @param dataSet {Object} - setDataSet 메소드에 전달된 데이터 객체
+	 * @param isfix {String} - "fix","n" 고정 형태 
+     * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 footer 데이터가 존재시 처리 합니다.
+	 * @returns {HTMLElement}  	 
+     */
 	getExcelFootDataSet: function (dataSet, isfix) {
 		var cfg = this.config;
 		if (dataSet == undefined) return;
@@ -16524,6 +16949,12 @@ var gridConfig = {
 		}
 		return tpo.join('');
 	},
+    /**
+     * @method AXGrid.getExcelFormat
+	 * @param format {String} - "html","json" 변환 옵션
+     * @description -  format에 맞춰 그리드의 내용을 엑셀 포맷으로 변환 합니다.
+	 * @returns {HTMLElement}  	 
+     */
 	getExcelFormat: function (format) {
 		var cfg = this.config;
 		var getExcelColHeadTd = this.getExcelColHeadTd.bind(this);
@@ -16595,50 +17026,47 @@ var gridConfig = {
 	},
 
 	/**
-	 * 그리드의 뷰모드를 체인지 합니다.
-	 * change viewMode
-	 *
 	 * @method AXGrid.changeGridView
 	 * @param JSONObject {}
-	 * @description
-	 ```js
+	 * @description -그리드의 뷰모드를 체인지 합니다.
+	 * @example
+	 ```
 	 myGrid.changeGridView({
-    viewMode:"grid"
-});
+		viewMode:"grid"
+	 });
 	 myGrid.changeGridView({
-    viewMode:"icon",
-	view: {
-		width:"200", // icon width
-		height:"300", // icon height
-		img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"},
-		label:{left:"10", top:"200", width:"180", height:"20"},
-		description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
-		buttons: {
-			left:"5", top:"5", width:"180", height:"20", style:"",
-			items:[
-				{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
-					fnObj.otherFunction(this);
-				}},
-				{label:"but2", style:"", addClass:"AXButton", onclick:function(){
-					fnObj.otherFunction(this);
-				}}
-			]
-		},
-		format: function(){
-			return {
-				imgsrc : this.item.img,
-				label : this.item.title,
-				description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
+		viewMode:"icon",
+	    view: {
+			width:"200", // icon width
+			height:"300", // icon height
+			img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"},
+			label:{left:"10", top:"200", width:"180", height:"20"},
+			description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
+			buttons: {
+				left:"5", top:"5", width:"180", height:"20", style:"",
+				items:[
+					{label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
+						fnObj.otherFunction(this);
+					}},
+					{label:"but2", style:"", addClass:"AXButton", onclick:function(){
+						fnObj.otherFunction(this);
+					}}
+				]
+			},
+			format: function(){
+				return {
+					imgsrc : this.item.img,
+					label : this.item.title,
+					description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
+				}
 			}
 		}
-	}
-});
-	 myGrid.changeGridView({
-    viewMode:"mobile"
-});
+	});
+	myGrid.changeGridView({
+		viewMode:"mobile"
+	});
 	 ```
-	 *
-	 */
+    */
 	changeGridView: function (JSObject) {
 		var cfg = this.config;
 
@@ -16658,9 +17086,9 @@ var gridConfig = {
 		}
 	},
 	/**
-	 * 모바일 툴바가 클릭되었을 때 이벤트 함수
 	 * @method AXGrid.openMobileConfig
 	 * @param event {event}
+	 * @description - 모바일 툴바가 클릭되었을 때 툴바 박스 호출 이벤트 함수
 	 */
 	openMobileConfig: function (event) {
 		var cfg = this.config, _this = this;
@@ -17216,9 +17644,24 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	alignAnchor: function (objID, objSeq) {
 		var cfg = this.config;
+
+		if(typeof objSeq == "undefined"){
+			for(var i=0;i<this.objects.length;i++){
+				if(this.objects[i].id == objID && !this.objects[i].isDel) {
+					objSeq = i;
+					break;
+				}
+			}
+		}
+
 		var obj = this.objects[objSeq];
 
 		if (!AXgetId(objID)) return; /* 엘리먼트 존재 여부 확인 */
+
+		if(!obj.bindTarget) {
+			obj.bindTarget = axdom("#" + objID);
+			obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		}
 
 		var iobjPosition = obj.bindTarget.position();
 		var l = iobjPosition.left, t = iobjPosition.top;
