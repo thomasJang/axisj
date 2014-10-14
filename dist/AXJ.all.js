@@ -33065,14 +33065,12 @@ myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, 
 
 		//trace({itemIndex:itemIndex, item:item, subTree:subTree});
 
-		item._CUD = "C";
-
 		if (itemIndex == null || itemIndex == undefined || item == null || item == undefined) {
 
 			var tree = this.tree;
-
 			axf.each(subTree, function () {
 				this[cfg.reserveKeys.subTree] = [];
+				this._CUD = "C";
 				tree.push(this);
 			});
 
@@ -33097,6 +33095,7 @@ myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, 
 			//tree[cfg.reserveKeys.subTree] =
 			tree[reserveKeys.openKey] = true;
 			axf.each(subTree, function () {
+				this._CUD = "C";
 				tree[reserveKeys.subTree].push(this);
 			});
 
@@ -33220,8 +33219,11 @@ myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
 		AXUtil.overwriteObject(item, obj);
 
 		if(item._CUD != "C") item._CUD = "U";
+
 		//item[cfg.reserveKeys.subTree] = this.list[itemIndex][cfg.reserveKeys.subTree];
 		this.list[itemIndex] = item;
+
+
 		this.updateList(itemIndex, item);
 
 		for(var idx=0;idx<this.list.length;idx++){
