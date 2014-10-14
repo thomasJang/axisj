@@ -93,9 +93,9 @@
 
 			var List = [
 				{"no":"c0a800273ef5128c813ef572e64f0001", "nodeCode":"90", "nodeName":"Admin", "open":"1", "type":"company", "lvl":1, "pno":"0", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":1}, 
-				{"no":"c0a800273ef91207813ef984ac790002", "nodeCode":"9010", "nodeName":"시스템관리", "open":"1", "type":"computer", "lvl":2, "pno":"c0a800273ef5128c813ef572e64f0001", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":2}, 
+				//{"no":"c0a800273ef91207813ef984ac790002", "nodeCode":"9010", "nodeName":"시스템관리", "open":"1", "type":"computer", "lvl":2, "pno":"c0a800273ef5128c813ef572e64f0001", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":2},
 				{"no":"c0a800273ef91a46813ef98c59520003", "nodeCode":"9020", "nodeName":"웹폼관리", "open":"1", "type":"desktop", "lvl":2, "pno":"c0a800273ef5128c813ef572e64f0001", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":3}, 
-				{"no":"c0a800273ef91207813ef988821d0003", "nodeCode":"901011", "nodeName":"분류코드관리", "open":"1", "type":"tree", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrCodeCate.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":4}, 
+				//{"no":"c0a800273ef91207813ef988821d0003", "nodeCode":"901011", "nodeName":"분류코드관리", "open":"1", "type":"tree", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrCodeCate.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":4},
 				{"no":"c0a800273ef91a46813ef98e123f0004", "nodeCode":"902010", "nodeName":"마스타관리", "open":"1", "type":"folder", "lvl":3, "pno":"c0a800273ef91a46813ef98c59520003", "path":"/cm/mgrWfmMaster.ts", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":5}, 
 			//	{"no":"c0a800273ef91a46813ef98ae4130001", "nodeCode":"901012", "nodeName":"공통코드관리", "open":"1", "type":"AXfolder", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrCode.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":6},
 				{"no":"c0a800273ef91a46813ef98f2b4c0005", "nodeCode":"902020", "nodeName":"컨텐츠관리", "open":"1", "type":"img", "lvl":3, "pno":"c0a800273ef91a46813ef98c59520003", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":7}, 
@@ -107,28 +107,37 @@
 			
 		},
 		appendTree: function(){
-			var frm = document.treeWriteForm;
-			var writeMode = document.treeWriteForm.writeMode.value;
-			if(writeMode == "child"){
-				var obj = myTree.getSelectedList();
-				myTree.appendTree(obj.index, obj.item, [{no:AXUtil.timekey(), nodeName:frm.nodeName.value, writer:'mondo', type:"file", pno:obj.item.no, _CUD:"C"}]);
-			}else if(writeMode == "append"){
-				var obj = myTree.getSelectedListParent(); // 선택 아이템의 부모 아이템 가져오기
-				var pno = 0;
-				if(obj.item){
-					pno = obj.item.no;
-				}
-				myTree.appendTree(obj.index, obj.item, [{no:AXUtil.timekey(), nodeName:frm.nodeName.value, writer:'mondo', type:"file", pno:pno, _CUD:"C"}]);
-			}else if(writeMode == "modify"){
-				try{
-					var obj = myTree.getSelectedList();
-					myTree.updateTree(obj.index, obj.item, {nodeName:frm.nodeName.value, _CUD:"U"});
-				}catch(e){
-					alert(e.print());
-				}
-			}
-			myModal.close('addTreeModal');
-            
+            try {
+                var frm = document.treeWriteForm;
+                var writeMode = document.treeWriteForm.writeMode.value;
+
+                if (writeMode == "child") {
+                    var obj = myTree.getSelectedList();
+                    myTree.appendTree(obj.index, obj.item, [
+                        {no: AXUtil.timekey(), nodeName: frm.nodeName.value, writer: 'mondo', type: "file", pno: obj.item.no}
+                    ]);
+                } else if (writeMode == "append") {
+                    var obj = myTree.getSelectedListParent(); // 선택 아이템의 부모 아이템 가져오기
+                    var pno = 0;
+                    if (obj.item) {
+                        pno = obj.item.no;
+                    }
+                    myTree.appendTree(obj.index, obj.item, [
+                        {no: AXUtil.timekey(), nodeName: frm.nodeName.value, writer: 'mondo', type: "file", pno: pno}
+                    ]);
+                } else if (writeMode == "modify") {
+                    try {
+                        var obj = myTree.getSelectedList();
+                        myTree.updateTree(obj.index, obj.item, {nodeName: frm.nodeName.value});
+                    } catch (e) {
+                        alert(e.print());
+                    }
+                }
+                myModal.close('addTreeModal');
+
+            }catch(e){
+                trace(e.print());
+            }
 			return false;
 		},
 		addTree: function(){
@@ -167,7 +176,7 @@
 			myTree.removeTree(obj.index, obj.item);
 
             //trace(myTree.tree);
-            trace(myTree.list);
+            //trace(myTree.list);
 		},
 		updateTree: function(){
 			var obj = myTree.getSelectedList();
@@ -215,6 +224,7 @@
                 <input type="button" value="자식추가" class="AXButton" onclick="fnObj.addChildTree();" />
                 <input type="button" value="선택삭제" class="AXButton" onclick="fnObj.delTree();" />
                 <input type="button" value="수정" class="AXButton" onclick="fnObj.updateTree();" />
+                <button class="AXButton" onclick="trace(myTree.list);">trace(myTree.list);</button>
             </div>
 
             <div class="H10"></div>
