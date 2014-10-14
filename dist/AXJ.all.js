@@ -33270,12 +33270,23 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		tree._isDel = true;
-		tree._CUD = "D";
+
+		if(tree._CUD == "C"){
+			tree._CUD = "";
+		}else{
+			tree._CUD = "D";
+		}
 
 		var applyDel = function (subTree) {
 			for (var ti = 0; ti < subTree.length; ti++) {
 				subTree[ti]._isDel = true;
-				subTree[ti]._CUD = "D";
+
+				if(subTree[ti]._CUD == "C"){
+					subTree[ti]._CUD = "";
+				}else{
+					subTree[ti]._CUD = "D";
+				}
+
 				if (subTree[ti][cfg.reserveKeys.subTree]) {
 					applyDel(subTree[ti][cfg.reserveKeys.subTree]);
 				}
@@ -33297,7 +33308,11 @@ var AXTree = Class.create(AXJ, {
 
 			if (L[reserveKeys.hashKey].left(item[reserveKeys.hashKey].length) == item[reserveKeys.hashKey]) {
 				L._isDel = true;
-				L._CUD = "D";
+				if(L._CUD == "C"){
+					L._CUD = "";
+				}else{
+					L._CUD = "D";
+				}
 				_this.target.find(".gridBodyTr_" + idx).remove();
 			}
 			if (phash == L[reserveKeys.hashKey]) {
