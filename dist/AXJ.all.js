@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-13 
+AXJ - v1.0.9 - 2014-10-14 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-13 
+AXJ - v1.0.9 - 2014-10-14 
 */
 
 if(!window.AXConfig){
@@ -12437,7 +12437,7 @@ var gridConfig = {
 				value: value
 			};
 
-			if(this.list[itemIndex].___checked){
+			if(this.list[itemIndex].___checked && this.list[itemIndex].___checked[CHidx]){
 				if(this.list[itemIndex].___checked[CHidx]) checkedStr = " checked=\"checked\" ";
 				//if(itemIndex == 0) trace(this.list[itemIndex].___checked[CHidx], checkedStr);
 			}else if (Object.isFunction(CH.checked)) {
@@ -15049,7 +15049,7 @@ var gridConfig = {
 					}, 300);
 
 				} else {
-					trace("out of index");
+					//trace("out of index");
 				}
 			}
 
