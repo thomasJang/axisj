@@ -26499,17 +26499,17 @@ var AXSelectConverter = Class.create(AXJ, {
 		}
 	},
 
-	/**
-	 * @method AXSelectConverter.bindSelectAddOptions
-	 * @param objID {String} element select id
-	 * @param options {Array} 추가하려는 옵션 배열
-	 * @returns null
-	 * @description 설명
-	 * @example
-	 ```
-	 mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스제이"}]);
-	 ```
-	 */
+/**
+ * @method AXSelectConverter.bindSelectAddOptions
+ * @param {String} objID - element select id
+ * @param {Array} options - 추가하려는 옵션 배열
+ * @returns null
+ * @description 설명
+ * @example
+ ```
+mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스제이"}]);
+ ```
+ */
 	bindSelectAddOptions: function(objID, options){
 		var cfg = this.config, _this = this;
 		var objSeq = null;
@@ -26527,7 +26527,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var iobj = obj.iobj;
 
 		if(!Object.isArray(options)){
-			trace("options 야규먼트가 없습니다.");
+			trace("options 아규먼트가 없습니다.");
 			return;
 		}
 
@@ -26562,17 +26562,17 @@ var AXSelectConverter = Class.create(AXJ, {
 		return obj.options;
 	},
 
-	/**
-	 * @method AXSelectConverter.bindSelectRemoveOptions
-	 * @param objID {String} element select id
-	 * @param options {Array} 추가하려는 옵션 배열
-	 * @returns null
-	 * @description 설명
-	 * @example
-	 ```
-	 mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시스제이"}]);
-	 ```
-	 */
+/**
+ * @method AXSelectConverter.bindSelectRemoveOptions
+ * @param objID {String} element select id
+ * @param options {Array} 추가하려는 옵션 배열
+ * @returns null
+ * @description 설명
+ * @example
+ ```
+mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시스제이"}]);
+ ```
+ */
 	bindSelectRemoveOptions: function(objID, options){
 		var cfg = this.config, _this = this;
 		var objSeq = null;
@@ -26590,7 +26590,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var iobj = obj.iobj;
 
 		if(!Object.isArray(options)){
-			trace("options 야규먼트가 없습니다.");
+			trace("options 아규먼트가 없습니다.");
 			return;
 		}
 
@@ -26630,6 +26630,16 @@ var AXSelectConverter = Class.create(AXJ, {
 var AXSelect = new AXSelectConverter();
 AXSelect.setConfig({ targetID: "AXselect" });
 
+/**
+ * @method axdom.fn.unbindSelect
+ * @param {JSObject} configs
+ * @returns {axdom Object}
+ * @description select 엘리먼트에 select 콘트롤을 언바인드(제거) 합니다.
+ * @example
+ ```js
+ axdom("Selector").unbindSelect();
+ ```
+ **/
 axdom.fn.unbindSelect = function (config) {
 	axdom.each(this, function () {
 		if (config == undefined) config = {};
@@ -26639,6 +26649,17 @@ axdom.fn.unbindSelect = function (config) {
 	return this;
 };
 
+/**
+ * @method axdom.fn.bindSelect
+ * @param {JSObject} configs
+ * @returns {axdom Object}
+ * @description
+ * select 엘리먼트에 select 콘트롤을 바인드 합니다.
+ * @example
+ ```
+axdom("Selector").bindSelect(configs);
+ ```
+ */
 axdom.fn.bindSelect = function (config) {
 	axdom.each(this, function () {
 		if (config == undefined) config = {};
@@ -26647,13 +26668,36 @@ axdom.fn.bindSelect = function (config) {
 	});
 	return this;
 };
-
+/**
+ * @method axdom.fn.setConfigSelect
+ * @param {jsObject} config - select 설정
+ * @returns {axdom Object}
+ * @description
+ * select 콘트롤에 설정을 변경합니다.
+ * @example
+ ```
+axdom("Selector").bindSelect(configs);
+ ```
+ */
 axdom.fn.setConfigSelect = function (config) {
 	axdom.each(this, function () {
 		AXSelect.bindSetConfig(this.id, config);
 	});
 	return this;
 };
+
+/**
+ * @method axdom.fn.bindSelectSetValue
+ * @param {String} value
+ * @param {fn} [onEnd] - 끝나고 실행될 함수 / 예정
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤에 값을 입력하고 onEnd 함수가 있는 경우 실행합니다.
+ * @example
+ ```
+axdom("Selector").bindSelectSetValue('test');
+ ```
+ */
 
 axdom.fn.bindSelectSetValue = function (value, onEnd) {
 	axdom.each(this, function () {
@@ -26667,7 +26711,20 @@ axdom.fn.bindSelectGetValue = function (onEnd) {
 };
 
 //SetText
+
 //getText
+/**
+ * @method axdom.fn.setValueSelect
+ * @param {String} value
+ * @param {fn} [onEnd] - 끝나고 실행될 함수 / 예정
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤에 값을 입력하고 onEnd 함수가 있는 경우 실행합니다.
+ * @example
+ ```
+axdom("Selector").setValueSelect('test');
+ ```
+ */
 
 axdom.fn.setValueSelect = function (value, onEnd) {
 	axdom.each(this, function () {
@@ -26676,6 +26733,17 @@ axdom.fn.setValueSelect = function (value, onEnd) {
 	return this;
 };
 
+/**
+ * @method axdom.fn.bindSelectDisabled
+ * @param {Boolean} Disabled
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤의 Disabled 속성을 컨트롤 합니다.
+ * @example
+ ```
+ axdom("Selector").bindSelectDisabled(true);
+ ```
+ */
 axdom.fn.bindSelectDisabled = function (Disabled) {
 	axdom.each(this, function () {
 		AXSelect.bindSelectDisabled(this.id, Disabled);
@@ -26683,6 +26751,16 @@ axdom.fn.bindSelectDisabled = function (Disabled) {
 	return this;
 };
 
+/**
+ * @method axdom.fn.bindSelectUpdate
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤의 view 를 value 기준으로 변경합니다.
+ * @example
+ ```
+axdom("Selector").bindSelectUpdate();
+ ```
+ */
 axdom.fn.bindSelectUpdate = function () {
 	axdom.each(this, function () {
 		AXSelect.bindSelectUpdate(this.id);
@@ -26690,6 +26768,16 @@ axdom.fn.bindSelectUpdate = function () {
 	return this;
 };
 
+/**
+ * @method axdom.fn.bindSelectFocus
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤에 focus를 줍니다.
+ * @example
+ ```
+ axdom("Selector").bindSelectFocus();
+ ```
+ */
 axdom.fn.bindSelectFocus = function () {
 	axdom.each(this, function () {
 		AXSelect.bindSelectFocus(this.id);
@@ -26697,12 +26785,33 @@ axdom.fn.bindSelectFocus = function () {
 	return this;
 };
 
+/**
+ * @method axdom.fn.bindSelectBlur
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤을 blur 상태로 변경합니다.(비활성 처리후 메소드 종료)
+ * @example
+ ```
+ axdom("Selector").bindSelectBlur();
+ ```
+ */
 axdom.fn.bindSelectBlur = function () {
 	axdom.each(this, function () {
 		AXSelect.bindSelectBlur(this.id);
 	});
 	return this;
 };
+
+/**
+ * @method axdom.fn.bindSelectGetAnchorObject
+ * @returns {axdom Object}
+ * @description
+ * 해당 셀렉트 컨트롤의 view html element를 반환합니다.
+ * @example
+ ```
+axdom("Selector").bindSelectGetAnchorObject();
+ ```
+ */
 
 axdom.fn.bindSelectGetAnchorObject = function(){
 	var returnObj;
@@ -26714,14 +26823,14 @@ axdom.fn.bindSelectGetAnchorObject = function(){
 
 /**
  * @method axdom.fn.bindSelectAddOptions
- * @param options {Array} 추가하려는 옵션 배열
+ * @param {Array} options - 추가하려는 옵션 배열
  * @returns null
- * @description 설명
+ * @description 배열로 지정한 객체를 해당 셀렉트의 option 에 추가합니다.
  * @example
  ```
- $("#mySelect").bindSelectAddOptions([
- {optionValue:"1", optionText:"액시스제이"}
- ]);
+$("#mySelect").bindSelectAddOptions([
+    {optionValue:"1", optionText:"액시스제이"}
+]);
  ```
  */
 axdom.fn.bindSelectAddOptions = function (options) {
@@ -26734,9 +26843,9 @@ axdom.fn.bindSelectAddOptions = function (options) {
 
 /**
  * @method axdom.fn.bindSelectRemoveOptions
- * @param options {Array} 추가하려는 옵션 배열
+ * @param {Array} options - 삭제하려는 옵션 배열
  * @returns null
- * @description 설명
+ * @description 배열로 지정한 객체를 해당 셀렉트의 option 에서 제거합니다.
  * @example
  ```
 
@@ -28800,7 +28909,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.56.1
+ * @version v1.56.2
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -28836,6 +28945,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-08-13 tom : window.resize 이벤트시 selectedRow 유지, expandAll 메소드 뎁스 아규먼트 추가"
  "2014-09-01 tom : tree key event로 커서 이동 밑 트리 열기 닫기 지원"
  "2014-09-22 tom : positioningHashList 버그 픽스"
+ "2014-10-14 tom : removeTree 버그 픽스 / list에 _CUD = [C|U|D] 속성 추가"
  *
  * @description
  *
@@ -32955,6 +33065,8 @@ myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, 
 
 		//trace({itemIndex:itemIndex, item:item, subTree:subTree});
 
+		item._CUD = "C";
+
 		if (itemIndex == null || itemIndex == undefined || item == null || item == undefined) {
 
 			var tree = this.tree;
@@ -33107,6 +33219,7 @@ myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
 		var relation = cfg.relation;
 		AXUtil.overwriteObject(item, obj);
 
+		if(item._CUD != "C") item._CUD = "U";
 		//item[cfg.reserveKeys.subTree] = this.list[itemIndex][cfg.reserveKeys.subTree];
 		this.list[itemIndex] = item;
 		this.updateList(itemIndex, item);
@@ -33134,88 +33247,90 @@ myTree.removeTree(obj.index, obj.item);
 ```
      */
 	removeTree: function (itemIndex, item) {
-		var cfg = this.config;
-		var reserveKeys = cfg.reserveKeys;
-		var relation = cfg.relation;
-		// this.list 와 this.tree 에서 해당 개체를 찾아 제거 한다.
-		// tree 찾기
-		var hashs = item[reserveKeys.hashKey].split(/_/g);
-		var phash = item[reserveKeys.parentHashKey];
-		var tree = this.tree;
-		var ptree = this.tree;
-		for (var idx = 1; idx < hashs.length; idx++) {
-			var H = hashs[idx];
-			if (idx == 1) tree = tree[H.number()];
-			else tree = tree[cfg.reserveKeys.subTree][H.number()];
-			if (idx == hashs.length - 2) {
-				//부모 트리인 경우	
-				ptree = tree;
-			}
-		}
+	    var cfg = this.config, _this = this;
+	    var reserveKeys = cfg.reserveKeys;
+	    var relation = cfg.relation;
+	    // this.list 와 this.tree 에서 해당 개체를 찾아 제거 한다.
+	    // tree 찾기
+	    var hashs = item[reserveKeys.hashKey].split(/_/g);
+	    var phash = item[reserveKeys.parentHashKey];
+	    var tree = this.tree;
+	    var ptree = this.tree;
+	    for (var idx = 1; idx < hashs.length; idx++) {
+		    var H = hashs[idx];
+		    if (idx == 1) tree = tree[H.number()];
+		    else tree = tree[cfg.reserveKeys.subTree][H.number()];
+		    if (idx == hashs.length - 2) {
+			    //부모 트리인 경우
+			    ptree = tree;
+		    }
+	    }
 
-		tree._isDel = true;
+	    tree._isDel = true;
+	    tree._CUD = "D";
 
-		var applyDel = function (subTree) {
-			for (var ti = 0; ti < subTree.length; ti++) {
-				subTree[ti]._isDel = true;
-				if (subTree[ti][cfg.reserveKeys.subTree]) {
-					applyDel(subTree[ti][cfg.reserveKeys.subTree]);
-				}
-			}
-		};
-		applyDel(tree[cfg.reserveKeys.subTree]);
+	    var applyDel = function (subTree) {
+		    for (var ti = 0; ti < subTree.length; ti++) {
+			    subTree[ti]._isDel = true;
+			    subTree[ti]._CUD = "D";
+			    if (subTree[ti][cfg.reserveKeys.subTree]) {
+				    applyDel(subTree[ti][cfg.reserveKeys.subTree]);
+			    }
+		    }
+	    };
+	    applyDel(tree[cfg.reserveKeys.subTree]);
 
-		var __subTreeLength = 0;
-		if (ptree[cfg.reserveKeys.subTree]) {
-			axf.each(ptree[cfg.reserveKeys.subTree], function () {
-				if (!this._isDel) __subTreeLength++;
-			});
-		}
+	    var __subTreeLength = 0;
+	    if (ptree[cfg.reserveKeys.subTree]) {
+		    axf.each(ptree[cfg.reserveKeys.subTree], function () {
+			    if (!this._isDel) __subTreeLength++;
+		    });
+	    }
 
-		// 삭제할 item 에 종속된 itemIndex 구한다.
-		var pItem = null;
+	    // 삭제할 item 에 종속된 itemIndex 구한다.
+	    var pItem = null;
 
-		axf.each(this.list, function (idx, L) {
+	    axf.each(this.list, function (idx, L) {
 
-			if (L[reserveKeys.hashKey].left(item[reserveKeys.hashKey].length) == item[reserveKeys.hashKey]) {
-				L._isDel = true;
-				axdom(".gridBodyTr_" + idx).remove();
-			}
-			if (phash == L[reserveKeys.hashKey]) {
-				pItem = { itemIndex: idx, item: L };
-			}
-		});
+		    if (L[reserveKeys.hashKey].left(item[reserveKeys.hashKey].length) == item[reserveKeys.hashKey]) {
+			    L._isDel = true;
+			    L._CUD = "D";
+			    _this.target.find(".gridBodyTr_" + idx).remove();
+		    }
+		    if (phash == L[reserveKeys.hashKey]) {
+			    pItem = { itemIndex: idx, item: L };
+		    }
+	    });
 
-		//부모 ITEM 의 __subTreeLength 속성 변경하기
-		if (pItem) {
-			this.list[pItem.itemIndex].__subTreeLength = __subTreeLength;
-			// appendList 구문 생성
-			/*
-			 if (__subTreeLength == 0) {
-			 var lastR = cfg.body.rows.length - 1;
-			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
-			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
-			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
-			 axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
-			 }
-			 */
+	    //부모 ITEM 의 __subTreeLength 속성 변경하기
+	    if (pItem) {
+		    this.list[pItem.itemIndex].__subTreeLength = __subTreeLength;
+		    // appendList 구문 생성
+		    /*
+		     if (__subTreeLength == 0) {
+		     var lastR = cfg.body.rows.length - 1;
+		     axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
+		     axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").hide();
+		     axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_n_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
+		     axdom("#" + cfg.targetID + "_AX_tr_" + lastR + "_AX_f_AX_" + pItem.itemIndex).find(".bodyNodeIndent").removeClass("expand");
+		     }
+		     */
 
-			// 부모 ITEM 의 update
-			var getItem = this.getItem.bind(this);
-			var npo = "", lastR = cfg.body.rows.length - 1;
-			npo = getItem(pItem.itemIndex, this.list[pItem.itemIndex], "n", "notr");
-			axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + pItem.itemIndex).html( npo );
-		}
+		    // 부모 ITEM 의 update
+		    var getItem = this.getItem.bind(this);
+		    var npo = "", lastR = cfg.body.rows.length - 1;
+		    npo = getItem(pItem.itemIndex, this.list[pItem.itemIndex], "n", "notr");
+		    _this.target.find(".gridBodyTr_" + pItem.itemIndex).html(npo);
+	    }
 
-		if (this.selectedRow.length > 0) {
-			var body = this.body;
-			axf.each(this.selectedRow, function () {
-				body.find(".gridBodyTr_" + this).removeClass("selected");
-			});
-			this.selectedRow.clear();
-			AXContextMenu.close({ id: cfg.targetID + "ContextMenu" }); // event 직접 연결 방식
-		}
-
+	    if (this.selectedRow.length > 0) {
+		    var body = this.body;
+		    axf.each(this.selectedRow, function () {
+			    body.find(".gridBodyTr_" + this).removeClass("selected");
+		    });
+		    this.selectedRow.clear();
+		    AXContextMenu.close({ id: cfg.targetID + "ContextMenu" }); // event 직접 연결 방식
+	    }
 	},
 	moveUpTree: function () {
 		var cfg = this.config;

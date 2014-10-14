@@ -21,6 +21,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTree.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -96,10 +97,10 @@
 				{"no":"c0a800273ef91a46813ef98c59520003", "nodeCode":"9020", "nodeName":"웹폼관리", "open":"1", "type":"desktop", "lvl":2, "pno":"c0a800273ef5128c813ef572e64f0001", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":3}, 
 				{"no":"c0a800273ef91207813ef988821d0003", "nodeCode":"901011", "nodeName":"분류코드관리", "open":"1", "type":"tree", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrCodeCate.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":4}, 
 				{"no":"c0a800273ef91a46813ef98e123f0004", "nodeCode":"902010", "nodeName":"마스타관리", "open":"1", "type":"folder", "lvl":3, "pno":"c0a800273ef91a46813ef98c59520003", "path":"/cm/mgrWfmMaster.ts", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":5}, 
-				{"no":"c0a800273ef91a46813ef98ae4130001", "nodeCode":"901012", "nodeName":"공통코드관리", "open":"1", "type":"AXfolder", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrCode.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":6}, 
+			//	{"no":"c0a800273ef91a46813ef98ae4130001", "nodeCode":"901012", "nodeName":"공통코드관리", "open":"1", "type":"AXfolder", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrCode.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":6},
 				{"no":"c0a800273ef91a46813ef98f2b4c0005", "nodeCode":"902020", "nodeName":"컨텐츠관리", "open":"1", "type":"img", "lvl":3, "pno":"c0a800273ef91a46813ef98c59520003", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":7}, 
-				{"no":"c0a800273ef91f70813ef9e0f9870007", "nodeCode":"901013", "nodeName":"권한코드관리", "open":"1", "type":"zip", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrRole.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":8}, 
-				{"no":"c0a800273ef91a46813ef98b9d9b0002", "nodeCode":"901014", "nodeName":"메뉴관리", "open":"1", "type":"file", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrMenu.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":9}, 
+			//	{"no":"c0a800273ef91f70813ef9e0f9870007", "nodeCode":"901013", "nodeName":"권한코드관리", "open":"1", "type":"zip", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrRole.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":8},
+			//	{"no":"c0a800273ef91a46813ef98b9d9b0002", "nodeCode":"901014", "nodeName":"메뉴관리", "open":"1", "type":"file", "lvl":3, "pno":"c0a800273ef91207813ef984ac790002", "path":"/asm/mgrMenu.jsp", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":9},
 				{"no":"c0a800273ef91f70813ef9db88260006", "nodeCode":"902021", "nodeName":"도움말", "open":"1", "type":"fileTxt", "lvl":4, "pno":"c0a800273ef91a46813ef98f2b4c0005", "useYn":"Y", "roleGid":"c0a800273efa1c76813efa6a9d630003", "rowseq":10}
 			];
 			myTree.setList(List);
@@ -164,6 +165,9 @@
 				return;
 			}
 			myTree.removeTree(obj.index, obj.item);
+
+            //trace(myTree.tree);
+            trace(myTree.list);
 		},
 		updateTree: function(){
 			var obj = myTree.getSelectedList();
