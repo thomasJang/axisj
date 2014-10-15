@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-14 
+AXJ - v1.0.9 - 2014-10-15 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-14 
+AXJ - v1.0.9 - 2014-10-15 
 */
 
 if(!window.AXConfig){
@@ -28909,7 +28909,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.56.3
+ * @version v1.56.4
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -28947,6 +28947,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-09-22 tom : positioningHashList 버그 픽스"
  "2014-10-14 tom : removeTree 버그 픽스 / list에 _CUD = [C|U|D] 속성 추가"
  "2014-10-14 tom : positioningHashList childKey, parentKey값이 문자열인 경우 버그 픽스"
+ "2014-10-15 tom : setList사용하고 childKey가 숫자이면 생기는 버그 픽스"
  *
  * @description
  *
@@ -30932,7 +30933,8 @@ var AXTree = Class.create(AXJ, {
 
 		axdom("#" + cfg.targetID + "_AX_scrollContent").css({ width: "auto" });
 
-		if (obj.ajaxUrl) {
+		if (obj.ajaxUrl)
+		{
 			this.ajaxInfo = obj;
 			this.ajax_sortDisable = positioning;
 			var sortDisable = positioning;
@@ -30979,8 +30981,9 @@ var AXTree = Class.create(AXJ, {
 				}
 			});
 
-		} else {
-
+		}
+		else
+		{
 			this.ajaxInfo = null;
 			if (axdom.isArray(obj)) {
 				if (obj.length == 0) {
@@ -30996,18 +30999,18 @@ var AXTree = Class.create(AXJ, {
 				}
 
 				if (positioning == undefined) {
-					try{
-						this.list = this.positioningHashList(obj);
-						this.list = this.list.sort(function (prevItem, nowItem) {
-							var v1 = prevItem[cfg.reserveKeys.hashKey];
-							var v2 = nowItem[cfg.reserveKeys.hashKey];
-							if (v1 < v2) return -1;
-							else if (v1 > v2) return 1;
-							else if (v1 == v2) return 0;
-						});
-					}catch(e){
-						trace(e);
-					}
+
+					this.list = this.positioningHashList(obj);
+					/*
+					 this.list = this.list.sort(function (prevItem, nowItem) {
+					 var v1 = prevItem[cfg.reserveKeys.hashKey];
+					 var v2 = nowItem[cfg.reserveKeys.hashKey];
+					 if (v1 < v2) return -1;
+					 else if (v1 > v2) return 1;
+					 else if (v1 == v2) return 0;
+					 });
+					 */
+
 				} else {
 					this.list = obj;
 				}
@@ -32675,6 +32678,10 @@ var AXTree = Class.create(AXJ, {
 
 		var item = this.list[itemIndex];
 
+		if(!item){
+			return {focusedID:undefined};
+		}
+
 		var hashs = item.hash.split(/_/g);
 		var subTree = this.tree;
 
@@ -33896,14 +33903,14 @@ var AXTree = Class.create(AXJ, {
 		var seq = 0, _parentCheckKey = 0;
 		for (var idx = 0; idx < List.length; idx++) {
 			var L = List[idx];
-			if(idx == 0) _parentCheckKey =  L[relation.parentKey].trim();
+			if(idx == 0) _parentCheckKey =  L[relation.parentKey];
 			if (!L.isRoot) {
 				if(L.AXTreeSplit){
 
 				}else{
 					pointer[L[relation.childKey]] = idx;
 					if (L[reserveKeys.openKey] == undefined) L[reserveKeys.openKey] = false;
-					if (L[relation.parentKey].trim() == _parentCheckKey) {
+					if (L[relation.parentKey] == _parentCheckKey) {
 						L[reserveKeys.subTree] = [];
 						L.__subTreeLength = 0;
 						L[reserveKeys.parentHashKey] = "0".setDigit(cfg.hashDigit);
