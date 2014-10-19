@@ -20,6 +20,16 @@
 				],
 				dest: 'lib/AXJ.js'
 			},
+			tiny: {
+				src: [
+					'lib/AXJ.js',
+					'lib/AXInput.js',
+					'lib/AXSelect.js',
+					'lib/AXMobileMenu.js',
+					'lib/AXTopDownMenu.js'
+				],
+				dest: 'dist/<%= pkg.name %>.tiny.js'
+			},
 			extras: {
 				src: [
 					'lib/AXJ.js',
@@ -61,7 +71,9 @@
 			},
 			my_target: {
 				files: {
-					'dist/<%= pkg.name %>.min.js': ['dist/<%= pkg.name %>.all.js']
+					'dist/<%= pkg.name %>.min.js': ['dist/<%= pkg.name %>.all.js'],
+					'dist/<%= pkg.name %>.tinymin.js': ['dist/<%= pkg.name %>.tiny.js'],
+					'dist/<%= pkg.name %>.coremin.js': ['lib/AXJ.js']
 				}
 			}
 		},
