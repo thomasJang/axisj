@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
@@ -91,7 +92,7 @@
 						[
 							{colSeq:0, rowspan:2},
 							{colSeq:1, rowspan:2},
-							{colSeq:null, colspan:3, label:"표현식", align:"center"}, 
+							{colSeq:null, colspan:3, label:"표현식", align:"center"}, // 2,3,4
 							{colSeq:5, rowspan:2},
 							{colSeq:6, rowspan:2},
 							{colSeq:7, rowspan:2},
@@ -127,32 +128,7 @@
 						
 					}
 				},
-				head : {
-					rows: [
-						[
-							{colSeq:null, colspan:5, formatter:function(){
-								return "계";	
-							}, align:"center"}, 
-							{colSeq:5},
-							{colSeq:6},
-							{colSeq:7},
-							{colSeq:8}
-						]
-					]
-				},
-				foot : {
-					rows: [
-						[
-							{colSeq:null, colspan:5, formatter:function(){
-								return "계";	
-							}, align:"center"}, 
-							{colSeq:5},
-							{colSeq:6},
-							{colSeq:7},
-							{colSeq:8}
-						]
-					]
-				},
+
 				page:{
 					paging:false, 
 					status:{formatter: null}
@@ -223,7 +199,6 @@
 									}
 								}
 							}
-							
 						]
 					],
 					//request:{ajaxUrl:"saveGrid.asp", ajaxPars:"param1=1&param2=2"},
