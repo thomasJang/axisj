@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-19 
+AXJ - v1.0.9 - 2014-10-20 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-19 
+AXJ - v1.0.9 - 2014-10-20 
 */
 
 if(!window.AXConfig){
@@ -3611,8 +3611,8 @@ var AXCalendar = Class.create(AXJ, {
  */
     getTime: function () {
         var cfg = this.config;
-        var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
-        var mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
+        var hh = (axdom("#" + cfg.targetID + "_AX_hour").val()||0).number();
+        var mi = (axdom("#" + cfg.targetID + "_AX_minute").val()||0).number();
         var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
         if (apm == "PM") hh += 12;
         return hh.setDigit(2) + ":" + mi.setDigit(2);
@@ -19537,23 +19537,39 @@ var AXInputConverter = Class.create(AXJ, {
 						_this.value = va;
 					}
 				} else {
+					if (va.length < 4) {
+						_this.value = va;
+					}
+					else
 					if (va.length == 4) {
 						va = va + separator;
 						_this.value = va;
-					} else if (va.length == 6) {
+					}
+					else
+					if (va.length <= 6) {
 						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator;
 						_this.value = va;
-					} else if (va.length == 8) {
+					}
+					else
+					if (va.length <= 8) {
 						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
 						if (obj.config.expandTime) va += " ";
 						_this.value = va;
-					} else if (va.length == 10) {
+					}
+					else
+					{
+						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
+						_this.value = va;
+					}
+					/*
+					else if (va.length == 10) {
 						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
 						_this.value = va;
 					} else if (va.length > 12) {
 						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
 						_this.value = va;
 					}
+					*/
 				}
 			}
 		});
@@ -21350,7 +21366,9 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (objVal == "") {
 
-		} else {
+		}
+		else
+		{
 			var clearDate = false;
 			var nDate = (obj["nDate" + seq] || new Date());
 			var va = axdom("#" + targetObjID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
@@ -21373,7 +21391,10 @@ var AXInputConverter = Class.create(AXJ, {
 
 					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy"));
 
-				} else if (obj.config.selectType == "m") {
+				}
+				else
+				if (obj.config.selectType == "m")
+				{
 
 					if (va.length > 5) {
 						var yy = va.left(4).number();
@@ -21390,26 +21411,38 @@ var AXInputConverter = Class.create(AXJ, {
 
 					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy" + separator + "mm"));
 
-				} else {
+				}
+				else
+				{
 					var needAlert = false;
+					var yy, mm, dd, hh, mm;
 
 					if (va.length > 7) {
-						var yy = va.left(4).number();
-						var mm = va.substr(4, 2).number() - 1;
-						var dd = va.substr(6, 2).number();
+						yy = va.left(4).number();
+						mm = va.substr(4, 2).number() - 1;
+						dd = va.substr(6, 2).number();
 					} else if (va.length > 4) {
-						var yy = "20" + va.substr(0, 2);
-						var mm = va.substr(2, 2).number() - 1;
-						var dd = va.substr(4, 2).number();
+						yy = "20" + va.substr(0, 2);
+						mm = va.substr(2, 2).number() - 1;
+						dd = va.substr(4, 2).number();
 					} else if (va.length > 2) {
-						var yy = nDate.getFullYear();
-						var mm = va.substr(0, 2).number() - 1;
-						var dd = va.substr(2, 2).number();
+						yy = nDate.getFullYear();
+						mm = va.substr(0, 2).number() - 1;
+						dd = va.substr(2, 2).number();
 					} else {
-						var yy = nDate.getFullYear(); //va.left(4).number();
-						var mm = nDate.getMonth();
-						var dd = va.substr(0, 2).number();
+						yy = nDate.getFullYear(); //va.left(4).number();
+						mm = nDate.getMonth();
+						dd = va.substr(0, 2).number();
 					}
+
+					if (va.length >= 9){
+						hh = va.substr(8, 2).number();
+						mm = va.substr(10, 2).number();
+					}else{
+						hh = "00";
+						mm = "00";
+					}
+
 
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
@@ -21425,7 +21458,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 					printDate = obj["nDate" + seq].print("yyyy" + separator + "mm" + separator + "dd");
 					if (obj.config.expandTime) {
-						printDate += " " + obj["mycalendartime" + seq].getTime();
+						printDate += " " + hh + ":" + mm;
 					}
 
 					if (needAlert) {
@@ -21459,7 +21492,7 @@ var AXInputConverter = Class.create(AXJ, {
 						obj.nDate2 = obj.nDate1;
 						printDate = obj["nDate" + 2].print("yyyy" + separator + "mm" + separator + "dd");
 						if (obj.config.expandTime) {
-							printDate += " " + obj["mycalendartime" + 2].getTime();
+							if(obj["mycalendartime" + 2]) printDate += " " + obj["mycalendartime" + 2].getTime();
 						}
 						axdom("#" + objID).val(printDate);
 					}
@@ -21469,14 +21502,14 @@ var AXInputConverter = Class.create(AXJ, {
 							obj.nDate2 = obj.nDate1;
 							printDate = obj["nDate" + 2].print("yyyy" + separator + "mm" + separator + "dd");
 							if (obj.config.expandTime) {
-								printDate += " " + obj["mycalendartime" + 2].getTime();
+								if(obj["mycalendartime" + 2]) printDate += " " + obj["mycalendartime" + 2].getTime();
 							}
 							axdom("#" + objID).val(printDate);
 						} else {
 							obj.nDate1 = obj.nDate2;
 							printDate = obj["nDate" + 1].print("yyyy" + separator + "mm" + separator + "dd");
 							if (obj.config.expandTime) {
-								printDate += " " + obj["mycalendartime" + 1].getTime();
+								if(obj["mycalendartime" + 1]) printDate += " " + obj["mycalendartime" + 1].getTime();
 							}
 							axdom("#" + obj.config.startTargetID).val(printDate);
 						}

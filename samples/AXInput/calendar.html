@@ -35,27 +35,43 @@
 	var fnObj = {
 		pageStart: function(){
 
-			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"m", onchange:function(){toast.push(Object.toJSON(this));}});
-			$("#AXInputDateMiddle").bindDate({align:"left", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
-			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
-			$("#AXInputDateRight").bindDate({align:"right", valign:"top", onChange:function(){toast.push(Object.toJSON(this));}, defaultDate:"2013-05-01"});
+			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"m", onchange:function(){
+                toast.push(Object.toJSON(this));
+            }});
+			$("#AXInputDateMiddle").bindDate({align:"left", valign:"middle", onChange:function(){
+                toast.push(Object.toJSON(this));
+            }});
+			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){
+                toast.push(Object.toJSON(this));
+            }});
+			$("#AXInputDateRight").bindDate({align:"right", valign:"top", onChange:function(){
+                toast.push(Object.toJSON(this));
+            }, defaultDate:"2013-05-01"});
 			
 			$("#AXInputDate2").bindDate({separator:"/", selectType:"m"});
 			$("#AXInputDate3").bindDate({selectType:"y"});
 			
 			$("#AXInputDate4").bindDateTime({
 				onChange:function(){
-					toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(this));
 				}
 			});
 			
-			$("#AXInputDateED").bindTwinDate({handleLeft:25, align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateED").bindTwinDate({handleLeft:25, align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 			
-			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 			
-			$("#AXInputDateMED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateMST", selectType:"m", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateMED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateMST", selectType:"m", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 			
-			$("#AXInputDateTimeED").bindTwinDateTime({align:"right", valign:"top", separator:"/", startTargetID:"AXInputDateTimeST", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateTimeED").bindTwinDateTime({align:"right", valign:"top", separator:"/", startTargetID:"AXInputDateTimeST", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 
 			$("#AXInputDate_earlier").bindDate({align:"right", valign:"bottom", onChange:{
 					earlierThan:"AXInputDate_later", err:"종료일보다 빠른 날짜를 선택하세요", 
