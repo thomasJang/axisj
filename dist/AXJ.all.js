@@ -12074,7 +12074,6 @@ myGrid.sortList("desc",myGrid.cfg.colHead.rows[0][0],myGrid.list);
 	},
     /**
      * @method AXGrid.listLoadingDisplay
-	 * @param none
      * @description  그리드의 데이터 처리중 표시를 표현 합니다.
      */
 	listLoadingDisplay: function () {
@@ -19558,18 +19557,19 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					else
 					{
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
-						_this.value = va;
+						if(obj.config.expandTime){
+							if (va.length <= 10) {
+								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
+								_this.value = va;
+							} else if (va.length > 12) {
+								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
+								_this.value = va;
+							}
+						}else{
+							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
+							_this.value = va;
+						}
 					}
-					/*
-					else if (va.length == 10) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
-						_this.value = va;
-					} else if (va.length > 12) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
-						_this.value = va;
-					}
-					*/
 				}
 			}
 		});
@@ -27658,7 +27658,7 @@ var AXTabClass = Class.create(AXJ, {
      * @method AXTab.bind
      * @param obj {Object} - config
      * @description 대상에 탭 속성을 부여 합니다.
-     * @returns null
+     * @returns {AXTab}
      * @example 
 	 ```
 			$("#myTab01").bindTab({
@@ -27726,8 +27726,7 @@ var AXTabClass = Class.create(AXJ, {
      * @param objID {String} - 탭 대상 ID
 	 * @param objSeq {Number} - 대상 순서 seq
      * @description 탭을 초기화 합니다.
-     * @returns null
-     * @example none
+     * @returns {AXTab}
 	 */
     initTab: function(objID, objSeq){
     	//trace({objID:objID, objSeq:objSeq});
@@ -27881,8 +27880,7 @@ var AXTabClass = Class.create(AXJ, {
 	 * @param objSeq {Number} - 대상 순서 seq
 	 * @param event  {Event} - Click event
      * @description 탭을 클릭 할때 처리를 합니다.
-     * @returns null
-     * @example none
+     * @returns {AXTab}
 	 */
     bindTabClick: function(objID, objSeq, event){
     	//trace({objID:objID, objSeq:objSeq, e:event.target.id});
@@ -27932,7 +27930,7 @@ var AXTabClass = Class.create(AXJ, {
      * @param objID  {String} - 탭 대상 ID
 	 * @param value {String} - 값
      * @description 탭의 선택값을 변경 합니다.
-     * @returns null
+     * @returns {AXTab}
      * @example 
 	 ```
 		AXTab.setValueTab('myTab01','F');
@@ -27994,8 +27992,7 @@ var AXTabClass = Class.create(AXJ, {
  	 * @param direction {String} - "left"||"right"
 	 * @param event {Event} - "mouseover"
      * @description 탭의 양이 많아질때 생성되는 좌우 이동 화살표의 mouseover 이벤트를 처리 합니다.
-     * @returns null
-     * @example none
+     * @returns {AXTab}
 	 */
     bindTabMove: function(objID, objSeq, direction, event){
     	//trace({objID:objID, objSeq:objSeq});
@@ -28076,8 +28073,7 @@ var AXTabClass = Class.create(AXJ, {
  	 * @param direction {String} - "left"||"right"
 	 * @param event {Event} - "mousedown"
      * @description 탭의 양이 많아질때 생성되는 좌우 이동 화살표의 mousedown 이벤트를 처리 합니다.
-     * @returns null
-     * @example none
+     * @returns {AXTab}
 	 */
 	bindTabMoveClick: function(objID, objSeq, direction, event){
     	var cfg = this.config;
@@ -28151,7 +28147,6 @@ var AXTabClass = Class.create(AXJ, {
 	 * @param event {Event} - "click"
      * @description 탭의 양이 많아질때 생성되는 탭 리스트 툴 화살표에 대한 "click" 이벤트를 처리 합니다.
      * @returns {AXContextMenu}
-     * @example none
 	 */
     bindTabMoreClick: function(objID, objSeq, direction, event){
     	var cfg = this.config;
@@ -28164,10 +28159,8 @@ var AXTabClass = Class.create(AXJ, {
     },
     /**
      * @method AXTab.resizeCheck
-     * @param none
      * @description 윈도우 창 크기가 변경 되었을때를 감지하여 처리 합니다.
-     * @returns null
-     * @example none
+     * @returns {AXTab}
 	 */
     resizeCheck: function(){
     	var cfg = this.config;
@@ -28203,8 +28196,7 @@ var AXTabClass = Class.create(AXJ, {
 	 * @param objSeq {Number} - 대상 순서 seq
  	 * @param optionIndex {Number} - 탭 아이템 index
      * @description 대상의 해당 index에 해당하는 탭에 focus를 줍니다. 
-     * @returns null
-     * @example none
+     * @returns {AXTab}
 	 */
     focusingItem: function(objID, objSeq, optionIndex){
     	var cfg = this.config;

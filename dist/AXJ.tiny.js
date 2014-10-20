@@ -8772,18 +8772,19 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					else
 					{
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
-						_this.value = va;
+						if(obj.config.expandTime){
+							if (va.length <= 10) {
+								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
+								_this.value = va;
+							} else if (va.length > 12) {
+								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
+								_this.value = va;
+							}
+						}else{
+							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
+							_this.value = va;
+						}
 					}
-					/*
-					else if (va.length == 10) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
-						_this.value = va;
-					} else if (va.length > 12) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
-						_this.value = va;
-					}
-					*/
 				}
 			}
 		});
