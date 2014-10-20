@@ -53,7 +53,16 @@
 				theme : "AXSearch",
 				onsubmit: function(){
 					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
-				}
+				},
+                onkeydown: function(event){
+                    trace("keydown : " + event.keyCode);
+                },
+                onkeyup: function(event){
+                    trace("keyup : " + event.keyCode);
+                },
+                onchange: function(event){
+                    trace("change : " + event.target.tagName);
+                }
 			});
 			//검색도구 설정 01 ---------------------------------------------------------
 
@@ -217,7 +226,11 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">사업장</span>
                             <span class="td inputText" style="" title="">
-                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200"></select>
+                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
                             </span>
                         </div>
                     </div>
@@ -227,7 +240,7 @@
                             <span class="th" style="min-width:100px;">우편번호</span>
                             <span class="td inputText" style="" title="">
                                 <label class="AXInputLabel" >
-                                    <input type="text" name="zip1" id="zip1" class="AXInput" style="width:40px;" readonly="readonly" /> - <input type="text" name="zip2" id="zip2" class="AXInput" style="width:40px;" readonly="readonly" />
+                                    <input type="text" name="zip1" id="zip1" class="AXInput" style="width:40px;" /> - <input type="text" name="zip2" id="zip2" class="AXInput" style="width:40px;" />
                                     <input type="text" name="addr" id="addr" class="AXInput W400 sc-enter" />
                                     <button type="button" class="AXLabelFinder" id="ax-popup-btn-addr"><i class="axi axi-search2"></i></button>
                                 </label>
@@ -242,7 +255,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">거래처</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="customer" id="customer" class="AXInput W400 sc-enter" readonly="readonly" />
+                                <input type="text" name="customer" id="customer" class="AXInput W400 sc-enter" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-customer"><i class="axi axi-search2"></i>거래처</button>
                             </span>
                         </div>
@@ -255,7 +268,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">기사명</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter" readonly="readonly" />
+                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-driver"><i class="axi axi-search2"></i>기사명</button>
                             </span>
                         </div>
@@ -268,7 +281,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">상품명</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="goods" id="goods" class="AXInput W400 sc-enter" readonly="readonly" />
+                                <input type="text" name="goods" id="goods" class="AXInput W400 sc-enter" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-goods"><i class="axi axi-search2"></i>상품명</button>
 
                                 <button class="AXButton Blue">폼 서브밋 테스트</button>
