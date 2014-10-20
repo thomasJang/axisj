@@ -54,14 +54,21 @@
 				onsubmit: function(){
 					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
 				},
+                keydown_check_classname:"sc-keydown",
                 onkeydown: function(event){
                     trace("keydown : " + event.keyCode);
                 },
+                keyup_check_classname:"sc-keyup",
                 onkeyup: function(event){
                     trace("keyup : " + event.keyCode);
                 },
+                change_check_classname:"sc-change",
                 onchange: function(event){
                     trace("change : " + event.target.tagName);
+                },
+                return_check_classname:"sc-enter",
+                onreturn: function(event){
+                    trace("return : " + event.target.tagName);
                 }
 			});
 			//검색도구 설정 01 ---------------------------------------------------------
@@ -226,7 +233,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">사업장</span>
                             <span class="td inputText" style="" title="">
-                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200">
+                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200 sc-change">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -257,7 +264,7 @@
                             <span class="td inputText" style="" title="">
                                 <input type="text" name="customer" id="customer" class="AXInput W400 sc-enter" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-customer"><i class="axi axi-search2"></i>거래처</button>
-                                <input type="checkbox" value="12" />
+                                <input type="checkbox" value="12" class="sc-change" />
                             </span>
                         </div>
                     </div>
