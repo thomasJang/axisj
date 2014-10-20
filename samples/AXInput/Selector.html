@@ -33,6 +33,18 @@
 	 */	
 	var pageID = "Selector";
 	var MyMultiSelector = new AXMultiSelector();
+
+    var fn_bind_selector = function(config){
+        var clon_config = axf.copyObject(config);
+        if(Object.isFunction(config.onChange)){
+            clon_config.onChange = function(){
+                trace("i'm added : " + Object.toJSON(this.selectedOption));
+                config.onChange.call(this);
+            }
+        }
+        $("#AXInputSelector_text").bindSelector(clon_config);
+    };
+
 	var fnObj = {
 		pageStart: function(){
 
@@ -143,7 +155,34 @@
 						AXUtil.alert(this);
 					}
 				}
-			});			
+			});
+
+
+            //$("#AXInputSelector_text").bindSelector();
+
+            fn_bind_selector({
+                appendable:true,
+                options:[
+                    {optionValue:1, optionText:"Seoul"},
+                    {optionValue:2, optionText:"대구"},
+                    {optionValue:3, optionText:"대전"},
+                    {optionValue:4, optionText:"창원"},
+                    {optionValue:5, optionText:"마산"},
+                    {optionValue:6, optionText:"구례"},
+                    {optionValue:7, optionText:"제주도"},
+                    {optionValue:8, optionText:"전주"},
+                    {optionValue:4, optionText:"창원"},
+                    {optionValue:5, optionText:"마산"},
+                    {optionValue:6, optionText:"구례"},
+                    {optionValue:7, optionText:"제주도"},
+                    {optionValue:8, optionText:"전주"},
+                    {optionValue:9, optionText:"Gwangju"}
+                ],
+                onChange:function(){
+                    trace("i'm origin : " + Object.toJSON(this.selectedOption));
+                }
+            });
+
 		},
 		setValue: function(){
 			jQuery("#AXInputSelector").setValueInput(9);
@@ -220,7 +259,10 @@
 						<input type="text" name="inputSelector" id="AXInputSelectorFind" value="" class="AXInput W200" />
                         <h2>AXMultiSelector</h2>
 						<button type="button" class="AXButton" id="multiSelector">다중선택</button>						
-						<div class="H30"></div>	
+						<div class="H30"></div>
+
+
+                        <input type="text" name="inputSelector_text" id="AXInputSelector_text" value="" class="AXInput" />
 						
 					</div>	
 				</div>
