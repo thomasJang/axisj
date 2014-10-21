@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-20 
+AXJ - v1.0.9 - 2014-10-21 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-20 
+AXJ - v1.0.9 - 2014-10-21 
 */
 
 if(!window.AXConfig){
@@ -13385,7 +13385,9 @@ myGrid.pushList([item]);
 
 		pushItem._CUD = "C";
 		if (insertIndex != null && insertIndex != undefined) {
-
+			if(insertIndex >= this.list.length){
+				insertIndex = this.list.length-1;
+			}
 			var itemIndex = insertIndex;
 			var newList = [];
 			for (var L, listIndex = 0, __arr = this.list; (listIndex < __arr.length && (L = __arr[listIndex])); listIndex++) {
@@ -13418,8 +13420,14 @@ myGrid.pushList([item]);
 				this.list.push(pushData[li]);
 			}
 			//this.list.push(pushItem);
-			this.bigDataSyncApply();
+
+			// 스크롤이 되지 않는 상황이면...
+			if(this.virtualScroll.printListCount <= this.list.length){
+				this.printList();
+			}
+			//this.bigDataSyncApply();
 			this.contentScrollResize(false);
+			this.setFocus(this.list.length-1);
 		}
 
 		this.setStatus(this.list.length);
@@ -15777,7 +15785,12 @@ myGrid.setEditor(null, null, 1);
 
 			var trTop = -editorTop;
 
-			if (editorTop + scrollTop + this.body.position().top > this.body.height() - this.body.position().top && (this.scrollContent.height() > this.body.height())) {
+			if (
+					editorTop + scrollTop + this.body.position().top > this.body.height() - this.body.position().top &&
+					( this.scrollContent.height() > this.body.height() ) &&
+					this.list.length != 0
+				)
+			{
 				trTop = this.body.height() - this.scrollContent.height();
 				// 에디터 위로 들기
 				this.editorButtonPosition = "top";
@@ -15822,7 +15835,11 @@ myGrid.setEditor(null, null, 1);
 
 			var trTop = -editorTop;
 
-			if (trTop.abs() + this.body.height() > this.scrollContent.height()) {
+			if (
+				trTop.abs() + this.body.height() > this.scrollContent.height() &&
+				this.list.length > 0
+				)
+			{
 				trTop = this.body.height() - this.scrollContent.height();
 				// 에디터 위로 들기
 				this.editorButtonPosition = "top";
@@ -16351,6 +16368,7 @@ myGrid.appendList(item, 3);
 ```    
      */
 	appendList: function (item, insertIndex) {
+	    if(insertIndex <= this.list.length) insertIndex = this.list.length-1;
 		this.setEditor(item, undefined, insertIndex);
 	},
 	/* editor 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
