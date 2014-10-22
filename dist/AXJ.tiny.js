@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-21 
+AXJ - v1.0.9 - 2014-10-22 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-21 
+AXJ - v1.0.9 - 2014-10-22 
 */
 
 if(!window.AXConfig){
@@ -7045,7 +7045,7 @@ var AXInputConverter = Class.create(AXJ, {
 			bindNumberAdd(objID, -1, objSeq);
 			bindNumberCheck(objID, objSeq);
 		});
-		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function () {
+		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function () {
 			bindNumberCheck(objID, objSeq);
 		});
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
@@ -7063,7 +7063,7 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
-		var nval = axdom("#" + objID).val().number();
+		var nval = obj.bindTarget.val().number();
 		if (adder > 0) {
 			//max 를 초과 하는지 확인
 			if ((nval + adder) < minval) nval = minval;
@@ -7076,7 +7076,8 @@ var AXInputConverter = Class.create(AXJ, {
 				if ((nval + adder) < minval) return;
 			}
 		}
-		axdom("#" + objID).val(nval + adder);
+		obj.bindTarget.val(nval + adder);
+		obj.bindTarget.change();
 	},
 	bindNumberCheck: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
@@ -7086,44 +7087,44 @@ var AXInputConverter = Class.create(AXJ, {
 		var maxval = obj.config.max;
 		var minval = obj.config.min;
 		var nval;
-		if (axdom("#" + objID).val() == "") {
+		if (obj.bindTarget.val() == "") {
 			if (minval != undefined && minval != null) {
 				nval = minval;
 			} else {
-				nval = axdom("#" + objID).val().number();
+				nval = obj.bindTarget.val().number();
 			}
 		} else {
-			nval = axdom("#" + objID).val().number();
+			nval = obj.bindTarget.val().number();
 		}
 
 		if (maxval != undefined && maxval != null) {
 			if ((nval) > maxval) {
-				axdom("#" + objID).val("");
+				obj.bindTarget.val("");
 				try {
 					this.msgAlert("설정된 최대값을 넘어서는 입력입니다.");
 				} catch (e) { }
 			} else {
 				if (minval != undefined && minval != null) {
 					if ((nval) < minval) {
-						axdom("#" + objID).val("");
+						obj.bindTarget.val("");
 						try {
 							this.msgAlert("설정된 최소값보다 작은 입력입니다.");
 						} catch (e) { }
 					} else {
-						axdom("#" + objID).val(nval);
+						obj.bindTarget.val(nval);
 					}
 				}
 			}
 		} else {
 			if (minval != undefined && minval != null) {
 				if ((nval) < minval) {
-					axdom("#" + objID).val("");
+					obj.bindTarget.val("");
 					try {
 						this.msgAlert("설정된 최소값보다 작은 입력입니다.");
 					} catch (e) { }
 				}
 			} else {
-				axdom("#" + objID).val(nval);
+				obj.bindTarget.val(nval);
 			}
 		}
 
@@ -7421,7 +7422,6 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			this.bindSelectorSetOptions(objID, objSeq);
 			this.bindSelectorKeyupChargingUp(objID, objSeq, event);
-
 		}
 
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
@@ -7442,9 +7442,10 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 		if (objSeq != null) this.bindSelectorClose(objID, objSeq);
 	},
-	bindSelectorClose: function (objID, objSeq, event) {
+	bindSelectorClose: function (objID, objSeq, event, originChangeCall) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
 		if(obj.inProgress) AXReqAbort(); // AJAX 호출 중지 하기
 
@@ -7491,6 +7492,7 @@ var AXInputConverter = Class.create(AXJ, {
 					else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 				}
 				obj.config.isChangedSelect = false;
+				if(originChangeCall) obj.bindTarget.change();
 			}
 			//trace(obj.config.selectedObject);
 			if (obj.config.selectedObject) this.bindSelectorInputChange(objID, objSeq);
@@ -7607,15 +7609,13 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedObject = obj.config.options[selectedIndex];
 				obj.config.isChangedSelect = true;
 				obj.config.isSelectorClick = true;
-				this.bindSelectorClose(objID, objSeq, event); // 값 전달 후 닫기
+				this.bindSelectorClose(objID, objSeq, event, "bindTarget_onchange"); // 값 전달 후 닫기
 			}
 		}
 	},
 	bindSelectorKeyup: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq], _this = this;
 		var cfg = this.config;
-
-
 
 		if (obj.inProgress) {
 			obj.inProgressReACT = true;
@@ -7661,7 +7661,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.isChangedSelect = true;
 				axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
 				/*axdom("#" + objID).blur();*/
-				_this.bindSelectorClose(objID, objSeq, event); // 닫기
+				_this.bindSelectorClose(objID, objSeq, event, "bindTarget_onchange"); // 닫기
 			}
 
 		} else {
@@ -7983,6 +7983,9 @@ var AXInputConverter = Class.create(AXJ, {
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
 
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
+
 		axdom(document.body).unbind("mousemove.AXInput");
 		axdom(document.body).unbind("mouseup.AXInput");
 		obj.config.isMoving = false;
@@ -8077,6 +8080,9 @@ var AXInputConverter = Class.create(AXJ, {
 		axdom("#" + objID).val(objVal);
 		if (obj.config.onChange) obj.config.onChange(objID, objVal);
 		else if (obj.config.onchange) obj.config.onchange(objID, objVal);
+
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 	},
 	sliderTouchEnd: function (objID, objSeq, event) {
 		var cfg = this.config;
@@ -8087,6 +8093,8 @@ var AXInputConverter = Class.create(AXJ, {
 			var onchange = obj.config.onChange || obj.config.onchange;
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 
 		if (document.addEventListener) {
 			document.removeEventListener("touchmove", obj.bindSliderTouchMove, false);
@@ -8281,6 +8289,8 @@ var AXInputConverter = Class.create(AXJ, {
 			var onchange = obj.config.onChange || obj.config.onchange;
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 
 		axdom(document.body).unbind("mousemove.AXInput");
 		axdom(document.body).unbind("mouseup.AXInput");
@@ -8417,6 +8427,8 @@ var AXInputConverter = Class.create(AXJ, {
 		axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
 		if (obj.config.onChange) obj.config.onChange(objID, obj.vals.min + separator + obj.vals.max);
 		else if (obj.config.onchange) obj.config.onchange(objID, obj.vals.min + separator + obj.vals.max);
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 	},
 	twinSliderTouchEnd: function (objID, objSeq, event) {
 		var cfg = this.config;
@@ -8427,7 +8439,8 @@ var AXInputConverter = Class.create(AXJ, {
 			var onchange = obj.config.onChange || obj.config.onchange;
 			onchange.call({ id: objID, value: objVal }, objID, objVal);
 		}
-
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 		document.removeEventListener("touchmove", obj.bindTwinSliderTouchMove, false);
 		document.removeEventListener("touchend", obj.bindTwinSliderTouchEnd, false);
 
@@ -8512,6 +8525,8 @@ var AXInputConverter = Class.create(AXJ, {
 			if (obj.config.onChange) obj.config.onChange.call(sendObj);
 			if (obj.config.onchange) obj.config.onchange.call(sendObj);
 		}
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 	},
 	bindSwitchSetValue: function (objID, objSeq, value) {
 		var cfg = this.config;
@@ -8548,6 +8563,8 @@ var AXInputConverter = Class.create(AXJ, {
 			if (obj.config.onChange) obj.config.onChange.call(sendObj);
 			else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 		}
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 	},
 	bindSwitch_touchstart: function () {
 
@@ -8657,7 +8674,8 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.onChange) obj.config.onChange.call(sendObj);
 				else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 			}
-
+			if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+			obj.bindTarget.change();
 		}
 	},
 	bindSegmentSetValue: function (objID, objSeq, value) {
@@ -8696,7 +8714,8 @@ var AXInputConverter = Class.create(AXJ, {
 			if (obj.config.onChange) obj.config.onChange.call(sendObj);
 			else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 		}
-
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 	},
 
 	// date
@@ -9379,6 +9398,9 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 			}
 
+			if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+			obj.bindTarget.change();
+
 			obj.modal.close();
 			axdom("#" + objID).unbind("keydown.AXInput");
 
@@ -9446,6 +9468,8 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 				}
 			}
+			if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+			obj.bindTarget.change();
 
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 			obj.expandBox_axdom = null;
@@ -9607,7 +9631,8 @@ var AXInputConverter = Class.create(AXJ, {
 
 			}
 		}
-
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 		/* ie10 버그
 		 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
@@ -10271,6 +10296,9 @@ var AXInputConverter = Class.create(AXJ, {
 					ED_value: axdom("#" + objID).val()
 				});
 			}
+			if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+			obj.bindTarget.change();
+
 			obj.expandBox_axdom = null;
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
@@ -10750,7 +10778,8 @@ var AXInputConverter = Class.create(AXJ, {
 				ED_value: axdom("#" + objID).val()
 			});
 		}
-
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+		obj.bindTarget.change();
 		/* ie10 버그 픽스
 		 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 
@@ -11529,7 +11558,9 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		} else {
+		} 
+		else 
+		{
 			//AXUtil.alert(obj.options);
 
 			// PC 브라우저인 경우
@@ -11564,7 +11595,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			var bindSelectChangeBind = this.bindSelectChange.bind(this);
 			var bindSelectChange = function () {
-				bindSelectChangeBind(objID, objSeq);
+				bindSelectChangeBind(objID, objSeq, "load");
 			};
 
 			var url = obj.config.ajaxUrl;
@@ -11601,7 +11632,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						obj.options = AXUtil.copyObject(options);
 						obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 
-						if (obj.config.onChange) {
+						if (obj.config.onChange && obj.config.alwaysOnChange) {
 							obj.config.focusedIndex = obj.selectedIndex;
 							obj.config.selectedObject = obj.options[obj.selectedIndex];
 							obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject, "isPostBack");
@@ -11621,8 +11652,9 @@ var AXSelectConverter = Class.create(AXJ, {
 					obj.inProgress = false;
 				}
 			});
-
-		} else if (obj.config.options) {
+		}
+		else if (obj.config.options) 
+		{
 
 			iobj.html("<option></option>");
 
@@ -11646,7 +11678,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			obj.options = AXUtil.copyObject(options);
 			obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 
-			this.bindSelectChange(objID, objSeq);
+			this.bindSelectChange(objID, objSeq, "load");
 
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
 				obj.config.focusedIndex = obj.selectedIndex;
@@ -11658,8 +11690,11 @@ var AXSelectConverter = Class.create(AXJ, {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
-		} else {
-			this.bindSelectChange(objID, objSeq);
+				
+		}
+		else 
+		{
+			this.bindSelectChange(objID, objSeq, "load");
 
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
@@ -11713,7 +11748,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		}
 
 	},
-	bindSelectChange: function (objID, objSeq) {
+	bindSelectChange: function (objID, objSeq, isLoad) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		var selectedOption = this.getSelectedOption(objID, objSeq);
@@ -11722,7 +11757,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		}
 		if(obj && !this.isMobile){
 			if(!obj.iobj) obj.iobj = axdom("#" + objID);
-			obj.iobj.trigger( "change" ); // change 이벤트 발생
+			if(isLoad != "load") obj.iobj.trigger( "change" ); // change 이벤트 발생
 		}
 	},
 	bindSelectExpand: function (objID, objSeq, isToggle, event) {
@@ -11820,9 +11855,7 @@ var AXSelectConverter = Class.create(AXJ, {
 					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
 				}
 				obj.config.isChangedSelect = false;
-
 				this.bindSelectChange(objID, objSeq);
-
 			}
 
 			if(event) event.stopPropagation(); // disableevent
