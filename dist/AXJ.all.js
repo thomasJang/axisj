@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-22 
+AXJ - v1.0.9 - 2014-10-23 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-22 
+AXJ - v1.0.9 - 2014-10-23 
 */
 
 if(!window.AXConfig){
@@ -12431,9 +12431,12 @@ myGrid.setData(gridData);
 					this.list[itemIndex].___disabled[CHidx] = true;
 				}
 			}
+			/*
 			result = "<label class=\"gridCheckboxLabel\">" +
 				"<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
 				"</label>";
+				*/
+			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
 		} else {
 			if(Object.isFunction(formatter)){
 				var sendObj = {
@@ -14764,9 +14767,10 @@ myGrid.contentScrollContentSync({top: 0}, "touch");
 	},
     /**
      * @method AXGrid.bigDataSyncApply
+     * @param {Boolean} reload - 현재 그리드 스크롤된 컨텐츠를 다시 출력합니다.
      * @description - Grid의 리스트 내부 인덱스가 변경되거나 포커싱 대상 인덱스가 스크롤을 벗어나 있을경우 그리드를 재구성 합니다.
      */
-	bigDataSyncApply: function(){
+	bigDataSyncApply: function(reload){
 		var cfg = this.config;
 		var bodyHasMarker = this.bodyHasMarker;
 		var getItem = this.getItem.bind(this);
@@ -14774,7 +14778,7 @@ myGrid.contentScrollContentSync({top: 0}, "touch");
 		var getMarkerDisplay = this.getMarkerDisplay.bind(this);
 		// TODO : bigDataSyncApply
 		var scrollContentScrollTop, VS = this.virtualScroll, po = [], item;
-		if(VS.scrollTop != (scrollContentScrollTop = this.scrollContent.position().top)){
+		if(VS.scrollTop != (scrollContentScrollTop = this.scrollContent.position().top) || reload){
 			var newStartIndex = (scrollContentScrollTop.abs() / VS.itemTrHeight).ceil() - 1;
 			if(newStartIndex < 0) newStartIndex = 0;
 			var newEndIndex = newStartIndex + VS.printListCount;
@@ -14782,7 +14786,7 @@ myGrid.contentScrollContentSync({top: 0}, "touch");
 				newEndIndex = this.list.length;
 				newStartIndex = newEndIndex - VS.printListCount;
 			}
-			if(VS.startIndex != newStartIndex) {
+			if(VS.startIndex != newStartIndex || reload) {
 				//그리드 내용 다시 구성
 				po = [];
 				for (var itemIndex = newStartIndex; itemIndex < newEndIndex; itemIndex++) {
@@ -29220,7 +29224,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.56.4
+ * @version v1.57
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -29259,6 +29263,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-10-14 tom : removeTree 버그 픽스 / list에 _CUD = [C|U|D] 속성 추가"
  "2014-10-14 tom : positioningHashList childKey, parentKey값이 문자열인 경우 버그 픽스"
  "2014-10-15 tom : setList사용하고 childKey가 숫자이면 생기는 버그 픽스"
+ "2014-10-23 tom : expandToggleList 버그 픽스"
  *
  * @description
  *
@@ -30293,7 +30298,8 @@ myTree.setConfig({
 					}
 				}
 			});
-			po.push("<col />");
+			if(cfg.colHead.display) po.push("<col />");
+
 			//if (suffix == "CB") po.push("<col />");
 		} else {
 			//fixedCol 존재
@@ -31665,7 +31671,7 @@ myTree.setList(AJAXconfigs);
 					}
 				}
 			});
-			if (r == 0 && isfix == "n") {
+			if (r == 0 && isfix == "n" && cfg.colHead.display) {
 				tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_null_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.rows.length + "\"><div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlock_AX_" + itemIndex + "\">&nbsp;</div></td>");
 			}
 			if (hasTrValue) tpo.push("</tr>");
@@ -31885,16 +31891,18 @@ myTree.setList(AJAXconfigs);
  * @method AXTree.expandToggleList
  * @param {Number} itemIndex - 아이템 인덱스
  * @param {JSObject} item - 아이템 json
+ * @param {Boolean} expandStat - 트리 아이템 오픈 여부
  * @description
  * 아이템의 확장/축소 상태를 토글처리 합니다.
  * @example
  ```
-var iwantItemIndex = 10;
-var myitem = myTree.list[iwantItemIndex];
-myTree.expandToggleList(iwantItemIndex, myitem);
+ var iwantItemIndex = 10;
+ var myitem = myTree.list[iwantItemIndex];
+ myTree.expandToggleList(iwantItemIndex, myitem);
+ myTree.expandToggleList(iwantItemIndex, myitem, true); // 노드를 열린 상태로 바꾸어 줍니다.
  ```
  */
-	expandToggleList: function (itemIndex, item, r, c) {
+	expandToggleList: function (itemIndex, item, expandStat) {
 		var cfg = this.config;
 
 		this.gridBodyOverBind;
@@ -31902,7 +31910,8 @@ myTree.expandToggleList(iwantItemIndex, myitem);
 		this.gridBodyClickBind;
 		this.gridBodyDBLClickBind;
 
-		if (item[cfg.reserveKeys.openKey]) {
+
+		if (item[cfg.reserveKeys.openKey] && (typeof expandStat == "undefined" || expandStat == false)) {
 
 			//자식 개체 모두 닫기 체크하기
 			var pHash = item[cfg.reserveKeys.hashKey];
@@ -31962,8 +31971,11 @@ myTree.expandToggleList(iwantItemIndex, myitem);
 				};
 				cfg.body.oncontract.call(sendObj, itemIndex, item);
 			}
-
-		} else { // 자식개체 열기
+			trace(111);
+		}
+		else
+		if(typeof expandStat == "undefined" || expandStat == true)
+		{ // 자식개체 열기
 
 			item[cfg.reserveKeys.openKey] = true;
 
@@ -34372,7 +34384,7 @@ myTree.relationFixedSync({expandItem:true}); // 체크된 아이템을 확장상
 		var returnObject = [];
 		axf.each(this.list, function(lidx, L){
 			axdom("#" + cfg.targetID + "_AX_treeBody").find(".gridBodyTr_"+lidx+" .treeCheckBox_body").each(function(){
-				if(L.__checked && options && options.expandItem) _this.expandToggleList(lidx, L);
+				if(L.__checked && (options && options.expandItem)) _this.expandToggleList(lidx, L, true);
 				this.checked = L.__checked;
 				returnObject.push(this);
 			});
