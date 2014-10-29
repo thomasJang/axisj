@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-23 
+AXJ - v1.0.9 - 2014-10-29 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-23 
+AXJ - v1.0.9 - 2014-10-29 
 */
 
 if(!window.AXConfig){
@@ -285,7 +285,23 @@ var axf = AXUtil = {
  ```
  */
 	getId: function(id) { return document.getElementById(id);  },
-
+/**
+ * @method axf.each
+ * @param {Array|Object} obj
+ * @param {Function} callback
+ * @description Array 또는 Object의 아이템만큰 callback 함수를 call합니다.
+ * @example
+```
+var new_array = [];
+axf.each([0, 1, 2], function(){
+	new_array.push(this*2);
+});
+var new_object = {};
+axf.each({a:1, b:2, c:3}, function(k, v){
+	new_object[k] = v*2;
+});
+```
+ */
 	each:  function(obj, callback){
 		if(obj){
 			var name, i = 0, length = obj.length,
@@ -305,6 +321,18 @@ var axf = AXUtil = {
 			}
 		}
 	},
+/**
+ * 브라우저의 이름과 버전 모바일여부
+ * @member {Object} axf.browser
+ * @example
+ ```
+{
+	name: {String} - bowserName (ie|chrome|webkit|oprea),
+	version: {Number} - browserVersion,
+	mobile: {Boolean}
+}
+ ```
+ */
 	browser: (function () {
 		var ua = navigator.userAgent.toLowerCase();
 		var mobile = (ua.search(/mobile/g) != -1);
@@ -336,14 +364,32 @@ var axf = AXUtil = {
 			}
 		}
 	})(),
+/**
+ * 호환성보기 여부
+ * @member {String} axf.docTD
+ * @example
+ ```
+ axf.docTD = (Q|S)
+ ```
+ */
 	docTD: (function () {
 		if (!document.compatMode || document.compatMode == 'BackCompat') return "Q";
 		else return "S";
 	})(),
+/**
+ * @method axf.timekey
+ * @returns {String} timeKey
+ * @description 밀리세컨드까지 조합한 문자열을 반환합니다.
+ * @example
+```js
+trace(axf.timeKey()); // A004222760
+```
+ */
 	timekey: function () {
 		var d = new Date();
 		return ("A" + d.getHours().setDigit(2) + d.getMinutes().setDigit(2) + d.getSeconds().setDigit(2) + d.getMilliseconds());
 	},
+
 	overwriteObject: function (tg, obj, rewrite) {
 		if (rewrite == undefined) rewrite = true;
 		//trace(tg[k]);
@@ -575,7 +621,32 @@ var Class = (function () {
 // Object extend
 (function () {
 	var _toString = Object.prototype.toString;
-	function extend(destination, source) { for (var property in source) destination[property] = source[property]; return destination; }
+	//function extend(destination, source) { for (var property in source) destination[property] = source[property]; return destination; }
+
+
+	function extend() {
+		var target = arguments[0] || {}, items = arguments[1], overwrite = arguments[2]||false;
+		if ( typeof target !== "object" && typeof target !== "function" ) {
+			target = {};
+		}
+		if(typeof items === "string"){
+			target = items;
+		}
+		else {
+			if(overwrite === true) {
+				for(var k in items) target[k] = items[k];
+			}
+			else
+			if(overwrite === false) {
+				for(var k in items){
+					if(typeof target[k] === "undefined") target[k] = items[k];
+				}
+			}
+		}
+		return target;
+	}
+
+
 	function inspect(obj) { try { if (isUndefined(obj)) return 'undefined'; if (obj === null) return 'null'; return obj.inspect ? obj.inspect() : String(obj); } catch (e) { if (e instanceof RangeError) return '...'; throw e; } }
 	function toJSON(object, qoute) {
 		var type = typeof object;
@@ -28722,6 +28793,45 @@ var AXTopDownMenu = Class.create(AXJ, {
 		//trace(menuBoxWidth);
 		//this.menuBox.css({width:menuBoxWidth});
 	},
+/**
+ * @method AXTopDownMenu.setTree
+ * @param {jsObject} obj - example code 참고
+ * @description
+ * 메뉴타겟 엘리먼트 아이디 안에 메뉴 대상 HTML 엘리먼트가 있는 경우 자동으로 메뉴를 구성합니다. setTree 메소드는 타겟을 빈 노드로 선언하고 setTree 메소드를 통해 동적으로 메뉴를 구성하는 메소드입니다.
+ * @example
+ ```
+var sampleTreeItem = {
+    label: "Bottom Menu",			//{string} - 메뉴의 라벨
+    url: "http://www.axisj.com", 	//{string} - 연결URL
+    addClass: "myMenuClass", 		//{string} - 메뉴아이템에 추가할 CSS 클래스
+    cn: [sampleTreeItem, ...., sampleTreeItem]	//[array] - 자식 메뉴 Array
+};
+
+var myMenu = new AXTopDownMenu();
+
+var tree = [
+    {label:"Bottom Menu", url:"http://www.axisj.com", cn:[
+        {label:"valign - bottom", url:"http://www.axisj.com"},
+        {label:"margin - bootom", url:"http://www.axisj.com"},
+        {label:"margin - top X", url:"http://www.axisj.com"}
+    ]},
+    {label:"Script Control Way", url:"http://www.axisj.com", cn:[
+         {label:"Script Way Use setTree", url:"abhttp://www.axisj.comc"},
+         {label:"setHighLightMenu", url:"http://www.axisj.com", cn:[
+             {label:"first : String", url:"http://www.axisj.com"},
+             {label:"second : Array", url:"http://www.axisj.com"},
+             {label:"third : setHighLightOriginID", url:"http://www.axisj.com"}
+         ]},
+        {label:"myMenu2", url:"http://www.axisj.com"}
+    ]},
+     {label:"no Expand Menu", url:"http://www.axisj.combc"},
+     {label:"no Expand Menu", url:"http://www.axisj.com"},
+     {label:"no Expand Menu", url:"http://www.axisj.com"}
+];
+myMenu.setTree(Tree);
+
+ ```
+ */
 	setTree: function(tree){
 		var cfg = this.config;
 		cfg.menuBoxID = cfg.targetID, _this = this;
@@ -29151,6 +29261,17 @@ var AXTopDownMenu = Class.create(AXJ, {
 			
 		}
 	},
+/**
+ * @method AXTopDownMenu.setHighLightOriginID
+ * @param {string} - 메뉴 엘리먼트에 사용자가 정의한 ID
+ * @description
+ * 타겟 엘리먼트안에 Html 엘리먼트로 메뉴를 정의한 경우 엘리먼트 안에 사용자가 정의해 둔 아이디로 메뉴의 하이라이트를 처리해줍니다.
+ * @example
+ ```
+ myMenu.setHighLightOriginID("ID1245");
+ ```
+ */
+
 	setHighLightOriginID: function(_id){
 		var cfg = this.config;
 		var tree = this.tree;
@@ -29183,8 +29304,20 @@ var AXTopDownMenu = Class.create(AXJ, {
 			this.setHighLightMenu(selectedMenus);
 			return selectedMenus;
 		}
+
 	},
-	setHighLightID: function(_id){
+
+/**
+ * @method AXTopDownMenu.setHighLightID
+ * @param {array} - [0, 1] 와 같이 각 뎁스의 순번을 전달합니다.
+ * @description
+ * 메뉴의 포지션 값으로 포지션에 해당하는 메뉴를 하이라이트 처리해 줍니다.
+ * @example
+ ```
+ myMenu.setHighLightMenu([2, 1]); // 3번째 아이템(1depth)의 2번째 아이템(2depth)을 하이라이트 처리합니다.
+ ```
+ */
+    setHighLightID: function(_id){
 		var cfg = this.config;
 		var tree = this.tree;
 		var findedID = "";
@@ -29224,7 +29357,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.57
+ * @version v1.58
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -29264,6 +29397,7 @@ var AXTopDownMenu = Class.create(AXJ, {
  "2014-10-14 tom : positioningHashList childKey, parentKey값이 문자열인 경우 버그 픽스"
  "2014-10-15 tom : setList사용하고 childKey가 숫자이면 생기는 버그 픽스"
  "2014-10-23 tom : expandToggleList 버그 픽스"
+ "2014-10-29 tom : updateList body.addClass 함수 적용 구문 추가"
  *
  * @description
  *
@@ -31402,6 +31536,7 @@ myTree.setList(AJAXconfigs);
 	getFormatterValue: function (formatter, item, itemIndex, value, key, CH) {
 		var cfg = this.config;
 		var result;
+		if(typeof value == "undefined") value = "";
 		if (formatter == "money") {
 			if (value == "" || value == "null") {
 				result = "";
@@ -31865,6 +32000,20 @@ myTree.setList(AJAXconfigs);
 	},
 	updateList: function (itemIndex, item) {
 		var cfg = this.config;
+
+		var trAddClass = "";
+		if (cfg.body.addClass) {
+			try {
+				trAddClass = cfg.body.addClass.call({
+					index: itemIndex,
+					item: item,
+					list: this.list
+				});
+			} catch (e) {
+				trace(e);
+			}
+		}
+
 		var npo = this.getItem(itemIndex, item, "n", "notr");
 		if (this.hasFixed) {
 			var fpo = this.getItem(itemIndex, item, "fix", "notr");
@@ -31873,6 +32022,13 @@ myTree.setList(AJAXconfigs);
 		axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).html(npo);
 		if (this.hasFixed) {
 			axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).html(npo);
+		}
+
+		if (trAddClass) {
+			axdom("#" + cfg.targetID + "_AX_tbody").find(".gridBodyTr_" + itemIndex).addClass(trAddClass);
+			if (this.hasFixed) {
+				axdom("#" + cfg.targetID + "_AX_fixedTbody").find(".gridBodyTr_" + itemIndex).addClass(trAddClass);
+			}
 		}
 
 		this.body.find(".gridBodyTr").unbind("mouseover", this.gridBodyOverBind);
@@ -34450,7 +34606,6 @@ myTree.collapseAll();
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
- 
 
 /**
  * SWFUpload: http://www.swfupload.org, http://swfupload.googlecode.com
@@ -35629,6 +35784,78 @@ swfobject.addDomLoadEvent(function () {
  *
  */
 
+/**
+ * @method initialize.setConig
+ * @param {Object} config - gridConfig
+ * @description
+ * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
+ * @example
+ ```js
+var myUpload = new AXUPload5();
+myUpload.setConfig({
+	targetID:"AXUpload5",               //{String} - 업로드 버튼 엘리먼트 아이디
+	buttonTxt:"파일올리기",              //[String] - 업로드 버튼 문구. 사용자가 지정하지 않으면 AXConfig 에서 정의한 값을 사용합니다.
+	targetButtonClass:"Green",          //[String] - 업로드 버튼에 추가될 CSS 클래스
+	uploadFileName:"files[]",           //{String} - 서버에 전송될 파일 파라미터 키이름
+	file_types:"*.*",                   //{String} - upload 할 파일타입( *.* | audio/* | video/* | image/* | MIME_type (accept) )
+	dropBoxID:"uploadQueueBox",         //{String} - 드래그 드랍 타겟 엘리먼트 아이디
+	queueBoxID:"uploadQueueBox",        //{String} - 업로드된 파일 목록을 보여주는 업로드 큐박스 엘리먼트 아이디
+	flash_url : "../../_AXJ/lib/swfupload.swf",         //[String] - html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다.
+	flash9_url : "../../_AXJ/lib/swfupload_fp9.swf",    //[String] - html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다.
+	onClickUploadedItem: function(){    //[fn] 업로드된 목록을 클릭했을 때 이벤트 콜백함수
+		window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
+	},
+	uploadMaxFileSize:(10*1024*1024),   //{Number} - 업로드 될 개별 파일 사이즈(클라이언트에서 제한하는 사이즈이며, 서버에서 설정되는 값이 아닙니다.)
+	uploadMaxFileCount:3,               //{Number} - 업로드될 파일갯수 제한 0 은 무제한
+	uploadUrl:"uploadFile.asp",         //{String} - 서버전송 URL
+	uploadPars:{userID:"tom", userName:"액시스"},  //[JSObject] - 서버전송 URL 파라미터
+	deleteUrl:"deleteFile.asp",         //{String} - 서버전송 URL
+	deletePars:{userID:"tom", userName:"액시스"},  //[JSObject] - 서버전송 URL 파라미터
+	fileKeys:{                          //[JSObject] - 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+		name:"name",
+		type:"type",
+		saveName:"saveName",
+		fileSize:"fileSize",
+		uploadedPath:"uploadedPath",
+		thumbPath:"thumbUrl"            // 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
+	},
+	onbeforeFileSelect: function(){     //[fn] - 드랍되거나 파일이 선택되기 전에 이벤트 return true; 리턴하지 않으면 진행을 중지 합니다.
+		trace(this);
+		return true;
+	},
+	onUpload: function(){               //[fn] - 업로드가 완료되는 이벤트 콜백함수
+		trace(this);
+		//trace("onUpload");
+	},
+	onComplete: function(){             //[fn] - 업로드가 모두 완료되는 이벤트 콜백함수
+		//trace(this);
+		//trace("onComplete");
+		$("#uploadCancelBtn").get(0).disabled = true; // 전송중지 버튼 제어
+	},
+	onStart: function(){                //[fn] - 업로드가 시작되는 이벤트 콜백함수
+		//trace(this);
+		//trace("onStart");
+		$("#uploadCancelBtn").get(0).disabled = false; // 전송중지 버튼 제어
+	},
+	onDelete: function(){               //[fn] - 파일 삭제 완료되는 이벤트 콜백함수
+		//trace(this);
+		//trace("onDelete");
+	},
+	onError: function(errorType, extData){  //[fn] - 에러가 발생되었을 때 이벤트 콜백함수 [errorType, extData] 인자 사용
+		if(errorType == "html5Support"){
+			//dialog.push("The File APIs are not fully supported in this browser.");
+		}else if(errorType == "fileSize"){
+			trace(extData);
+			alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.("+extData.name+" : "+extData.size.byte()+")");
+		}else if(errorType == "fileCount"){
+			alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
+		}
+	}
+});
+
+ ```
+ */
+
 var AXUpload5 = Class.create(AXJ, {
 	initialize: function(AXJ_super){
 		AXJ_super();
@@ -36691,6 +36918,41 @@ var AXUpload5 = Class.create(AXJ, {
 	showMSG: function(msg){
 		dialog.push(msg);
 	},
+
+/**
+ * @method AXUpload5.setUploadedList
+ * @param {Array} files - example code 참고
+ * @returns {type} name
+ * @description
+ * 업로드된 목록을 지정합니다.
+ * @example
+ ```
+ ex1)
+var myFileList = [];
+var fileItem = {
+    name		: 'fileName', //{string} - setConfig.fileKeys 에서 정의한 json key
+    type		: 'fileType', //{string} - setConfig.fileKeys 에서 정의한 json key
+    saveName	: 'saveName', //{string} - setConfig.fileKeys 에서 정의한 json key
+    fileSize	: 'fileSize', //{string} - setConfig.fileKeys 에서 정의한 json key
+    uploadedPath: 'filePath', //{string} - setConfig.fileKeys 에서 정의한 json key
+    thumbPath	: 'thumbPath' //{string} - setConfig.fileKeys 에서 정의한 json key
+};
+myFileList.push(fileItem);
+myUpload.setUploadedList(myFileList);
+
+ ex2)
+var url = "loadFileList";               //해당 url 에서 예제1의 myFileList 구조에 맞는 json을 내려 줍니다.
+var pars = "dummy="+AXUtil.timekey();
+new AXReq(url, {pars:pars, onsucc:function(res){
+	if(res.result == "ok"){
+		myUpload.setUploadedList(res.ds);
+	}else{
+		alert(res.msg.dec());
+	}
+}});
+ ```
+ */
+
 	setUploadedList: function(files){
 		var cfg = this.config;
 		
@@ -36801,6 +37063,20 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 		}
 	},
+
+/**
+ * @method AXUpload5.getUploadedList
+ * @param {string} arg - ("param"|"json") 옵션에 따라 파라미터 타입 또는 JSObject 형태로 리턴 타입을 지정합니다.
+ * @returns {String | JSObject}
+ * @description
+ * 업로드된 파일목록을 반환합니다.
+ * @example
+ ```
+var list = myUpload.getUploadedList("json");
+trace(list);
+toast.push(Object.toJSON(list));
+ ```
+ */
 	getUploadedList: function(arg){
 		if(arg == "param"){
 			try{
@@ -36819,6 +37095,20 @@ var AXUpload5 = Class.create(AXJ, {
 			return this.uploadedList;
 		}
 	},
+
+/**
+ * @method AXUpload5.getSelectUploadedList
+ * @param {string} arg - ("param"|"json") 옵션에 따라 파라미터 타입 또는 JSObject 형태로 리턴 타입을 지정합니다.
+ * @returns {String | JSObject}
+ * @description
+ * 업로드된 파일 목록 중에서 선택된 아이템을 반환합니다.
+ * @example
+ ```
+ var list = myUpload.getSelectUploadedList("json");
+ trace(list);
+ toast.push(Object.toJSON(list));
+ ```
+ */
 	getSelectUploadedList: function(arg){
 		if(!this.multiSelector) return;
 		var selectObj = this.multiSelector.getSelects();
@@ -37222,37 +37512,103 @@ var AXValidator = Class.create(AXJ, {
 
         this.elements = _elements;
     },
-    del: function (delObj) {
-        var cfg = this.config;
-        var deledObject;
 
-        var findIndex = null;
-        if (delObj.id) {
-            $.each(this.elements, function (eidx, elem) {
-                if (this.id == delObj.id) {
-                    findIndex = eidx;
-                    return false;
-                }
-            });
-        } else if (delObj.name) {
-            $.each(this.elements, function (eidx, elem) {
-                if (this.name == delObj.name) {
-                    findIndex = eidx;
-                    return false;
-                }
-            });
-        }
+/**
+ * @method AXValidator.add
+ * @param {JSObject} - example code 참고
+ * @description
+ * validate 대상 아이템을 추가합니다.
+ * @example
+ ```
 
-        if (findIndex != null) {
-            deledObject = this.elements[findIndex];
-            $("#" + deledObject.id).unbind("keydown.validate");
-            $("#" + deledObject.id).unbind("keyup.validate");
-            $("#" + deledObject.id).unbind("blur.validate");
-            this.elements.splice(findIndex, 1);
-        }
-
-        //trace(this.elements);
+var jsObjectSample = {
+    id: "userID",           //{string} - 아이템식별자
+    label: "아이디",        //{string} - 아이템라벨
+    config: {               //필요한 조합을 object로 정의합니다.
+        required: true,		//[boolean=true] - 필수입력 체크
+        number: true, 		//[boolean=true] - 숫자입력 체크
+        email: true, 		//[boolean=true] - 이메일형식 체크
+        hangul: true, 		//[boolean=true] - 한글형식 체크
+        engonly: true, 		//[boolean=true] - 영문형식 체크
+        residentno: true, 	//[boolean=true] - 주민등록번호형식 체크
+        foreignerno: true,	//[boolean=true] - 외국인번호형식 체크
+        bizno: true, 		//[boolean=true] - 사업자등록번호형식 체크
+        phone: true, 		//[boolean=true] - 전화번호형식 체크
+        isdate: true, 		//[boolean=true] - 날짜형식 체크
+        zip: true, 			//[boolean=true] - 우편번호형식 체크
+        money: true, 		//[boolean=true] - 숫자에 , 포함 체크
+        earlierThan:{
+            id: "targetId",			//{string} - 대상의 아이디. 현재 아이템의 값이 대상보다 커야함
+            label:	"targetLabel"	//{string} - 대상의 라벨
+        },
+        laterThan:{
+            id: "targetId",			//{string} - 대상의 아이디. 현재 아이템의 값이 대상보다 작아야함
+            label:	"targetLabel"	//{string} - 대상의 라벨
+        },
+        min: true, 			//[boolean=true] - 최소값
+        max: true, 			//[boolean=true] - 최대값
+        minbyte: true, 		//[boolean=true] - 최소바이트값
+        maxbyte: true, 		//[boolean=true] - 최대바이트값
+        minlength: true, 	//[boolean=true] - 최소길이
+        maxlength: true 	//[boolean=true] - 최대길이
     },
+    realtime:{			    //특정이벤트 발생시 액션정의
+        event: "keydown",	//{String} - 발생하는 이벤트 종류
+        response: function(){   //{fn} - 정의된 이벤트에 따른 실시간 이벤트 콜백함수
+            //trace(this);
+        }
+    },
+    onblur: function(){     //[fn] - 대상 아이템에 블러 이벤트 발생 콜백함수
+        //trace(this);
+    }
+};
+
+var myValidator = new AXValidator();
+myValidator.add({
+    id: "userID",           //{string} - 아이템식별자
+    label: "아이디",        //{string} - 아이템라벨
+    config: {
+        required: true,     //[boolean=true] - 필수입력 체크
+        minbyte:10,         //[boolean=true] - 최소바이트값
+        maxbyte:20          //[boolean=true] - 최대바이트값
+    },
+    realtime: {
+        event: "keydown",           //{String} - 발생하는 이벤트 종류
+        response: function () {     //{fn} - 정의된 이벤트에 따른 실시간 이벤트 콜백함수
+        	if(this.result){
+        		$("#userID_realtime").html("OK");
+        	}else{
+            	$("#userID_realtime").html(this.message);
+           }
+			if (this.validateKey == "maxbyte" || this.validateKey == "maxlength") {
+			    return false; //키 입력 중지
+			} else {
+			    return true; //키 입력 제어 안함
+			}
+        }
+    },
+	onblur: function(){ //[fn] - 대상 아이템에 블러 이벤트 발생 콜백함수
+		trace(this);
+	}
+});
+
+myValidator.add({
+	id:"enddate",   //{string} - 아이템 식별자
+	label:"종료일",  //{string} - 아이템 라벨
+	config:{
+	    isdate:true,    //[boolean=true] - 날짜형식 체크
+	    laterThan:{
+	        id:"regdate",   //{string} - 대상의 아이디. 현재 아이템의 값이 대상보다 작아야함
+	        label:"등록일"  //{string} - 대상의 라벨
+        }
+    },
+	onblur: function(){     //[fn] - 대상 아이템에 블러 이벤트 발생 콜백함수
+        trace(this);
+	}
+});
+
+ ```
+ */
     add: function (addObj) {
         var cfg = this.config;
         var addedObject;
@@ -37475,6 +37831,50 @@ var AXValidator = Class.create(AXJ, {
         }
 
     },
+
+/**
+ * @method AXValidator.del
+ * @param {JSObject} - example code 참고
+ * @description
+ * validate 대상 아이템을 제거합니다.
+ * @example
+ ```
+ myValidator.del( {id:"userID"});   //아이템식별자
+
+ ```
+ */
+    del: function (delObj) {
+        var cfg = this.config;
+        var deledObject;
+
+        var findIndex = null;
+        if (delObj.id) {
+            $.each(this.elements, function (eidx, elem) {
+                if (this.id == delObj.id) {
+                    findIndex = eidx;
+                    return false;
+                }
+            });
+        } else if (delObj.name) {
+            $.each(this.elements, function (eidx, elem) {
+                if (this.name == delObj.name) {
+                    findIndex = eidx;
+                    return false;
+                }
+            });
+        }
+
+        if (findIndex != null) {
+            deledObject = this.elements[findIndex];
+            $("#" + deledObject.id).unbind("keydown.validate");
+            $("#" + deledObject.id).unbind("keyup.validate");
+            $("#" + deledObject.id).unbind("blur.validate");
+            this.elements.splice(findIndex, 1);
+        }
+
+        //trace(this.elements);
+    },
+
     addElement: function (addObj, findIndex) {
         AXUtil.overwriteObject(this.elements[findIndex].config, addObj.config, true);
         if (addObj.onblur) this.elements[findIndex].onblur = addObj.onblur;
@@ -37482,6 +37882,17 @@ var AXValidator = Class.create(AXJ, {
         if (addObj.message) this.elements[findIndex].message = addObj.message;
         if (addObj.label) this.elements[findIndex].label = addObj.label;
     },
+
+/**
+ * @method AXValidator.validate
+ * @returns {boolean} - 정의된 규칙에 따라 (true|false) 로 결과를 리턴합니다.
+ * @description
+ * validate 처리결과를 리턴합니다.
+ * @example
+ ```
+var validateResult = myValidator.validate();
+ ```
+ */
     validate: function (filterOption) {
         var cfg = this.config;
         var raiseError = this.raiseError.bind(this);
@@ -37897,6 +38308,24 @@ var AXValidator = Class.create(AXJ, {
     },
     //-------------------- validate check - formatter - message Set [E] ----------------------
     //-------------------- validate static 지원 함수 Set [S] ---------------------------------
+/**
+ * @method AXValidator.getErrorMessage
+ * @returns {string} - 에러메세지
+ * @description
+ * 에러메세지를 리턴합니다.
+ * @example
+ ```
+var validateResult = myValidator.validate();
+if (!validateResult) {
+	var msg = myValidator.getErrorMessage();    //에러메세지를 리턴합니다.
+	alert(msg);
+	myValidator.getErrorElement().focus();      //에러가 발생된 엘리먼트를 리턴합니다.
+	return false;
+}else{
+	alert( validateResult );
+}
+ ```
+ */
     getErrorMessage: function (errorMessagePattern) {
         if (!this.errElements) {
             return null;
@@ -37911,6 +38340,25 @@ var AXValidator = Class.create(AXJ, {
 
         return message;
     },
+
+/**
+ * @method AXValidator.getErrorElement
+ * @returns {HTMLElement} - 에러가 발생된 엘리먼트
+ * @description
+ * 에러가 발생된 엘리먼트를 리텀합니다.
+ * @example
+ ```
+var validateResult = myValidator.validate();
+if (!validateResult) {
+	var msg = myValidator.getErrorMessage();    //에러메세지를 리턴합니다.
+	alert(msg);
+	myValidator.getErrorElement().focus();      //에러가 발생된 엘리먼트를 리턴합니다.
+	return false;
+}else{
+	alert( validateResult );
+}
+ ```
+ */
     getErrorElement: function () {
         var cfg = this.config;
         if (!this.errElements) {
