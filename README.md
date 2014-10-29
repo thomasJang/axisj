@@ -1,5 +1,3 @@
-AXISJ
----
 Javascript UI Framework <b>AXISJ</b>
 ---
 - [Demonstration](http://dev.axisj.com)
