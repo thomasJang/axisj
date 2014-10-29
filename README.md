@@ -1,19 +1,18 @@
 AXISJ
-=====
-
+---
 Javascript UI Framework <b>AXISJ</b>
-<br/>
+---
+- [Demonstration](http://dev.axisj.com)
+- [Documentation](http://jdoc.axisj.com)
+- [Website](http://www.axisj.com)
+- [Facebook](http://facebook.com/axisj)
+- [Google+](http://google.com/+axisj)
 
+
+Install
 ```js
 // bower install
 $ bower install axisj
-/*
-http://dev.axisj.com : Demonstration
-http://jdoc.axisj.com : Documentation
-http://www.axisj.com : Website
-http://facebook.com/axisj : Fanpage
-http://google.com/+axisj : Google+
-*/
 ```
 
 ```html
@@ -22,7 +21,7 @@ ui/[theme]/AXJ.min.css
 ```
 
 and you can use with 'AXU'
-<a href="http://axu.axisj.com" target="_blank">http://axu.axisj.com</a><br/>
+- [AXU](http://axu.axisj.com)
 
 <br/>
 <img src="http://old2014.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
