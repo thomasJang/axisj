@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-29 
+AXJ - v1.0.9 - 2014-10-30 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-29 
+AXJ - v1.0.9 - 2014-10-30 
 */
 
 if(!window.AXConfig){
@@ -7123,7 +7123,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (event.keyCode == AXUtil.Event.KEY_UP) bindNumberAdd(objID, 1, objSeq);
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
 		});
-		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
+		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq);
 		});
 	},
@@ -7225,40 +7225,44 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			var elem = obj.bindTarget.get(0);
-			var elemFocusPosition;
-			if ('selectionStart' in elem) {
-				// Standard-compliant browsers
-				elemFocusPosition = elem.selectionStart;
-			} else if (document.selection) {
-				// IE
-				//elem.focus();
-				var sel = document.selection.createRange();
-				var selLen = document.selection.createRange().text.length;
-				sel.moveStart('character', -elem.value.length);
-				elemFocusPosition = sel.text.length - selLen;
-			}
-			//trace(elemFocusPosition);
+			if(elem.type != "number") {
+				var elemFocusPosition;
+				if ('selectionStart' in elem) {
+					// Standard-compliant browsers
+					elemFocusPosition = elem.selectionStart;
+				} else if (document.selection) {
+					// IE
+					//elem.focus();
+					var sel = document.selection.createRange();
+					var selLen = document.selection.createRange().text.length;
+					sel.moveStart('character', -elem.value.length);
+					elemFocusPosition = sel.text.length - selLen;
+				}
+				//trace(elemFocusPosition);
 
-			// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
+				// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
 
-			obj.bindTarget.data("focusPosition", elemFocusPosition);
-			obj.bindTarget.data("prevLen", elem.value.length);
+				obj.bindTarget.data("focusPosition", elemFocusPosition);
+				obj.bindTarget.data("prevLen", elem.value.length);
 
-			var event = window.event || e;
-			// ignore tab & shift key 스킵 & ctrl
-			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
-			if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
-			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-				bindMoneyCheck(objID, objSeq, "keyup");
-			} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
-				bindMoneyCheck(objID, objSeq, "keyup");
+				var event = window.event || e;
+				// ignore tab & shift key 스킵 & ctrl
+				if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
+				if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
+				if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
+					bindMoneyCheck(objID, objSeq, "keyup");
+				} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
+					bindMoneyCheck(objID, objSeq, "keyup");
+				}
 			}
 		});
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 				return false;
 			}
-			bindMoneyCheck(objID, objSeq, "change");
+			if(event.target.type != "number") {
+				bindMoneyCheck(objID, objSeq, "change");
+			}
 		});
 	},
 	bindMoneyCheck: function (objID, objSeq, eventType) {

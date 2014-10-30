@@ -2,6 +2,7 @@ Javascript UI Framework <b>AXISJ</b>
 ---
 - [Demonstration](http://dev.axisj.com)
 - [Documentation](http://jdoc.axisj.com)
+- [New Documentation](http://newdoc.axisj.com)
 - [Website](http://www.axisj.com)
 - [Facebook](http://facebook.com/axisj)
 - [Google+](http://google.com/+axisj)
