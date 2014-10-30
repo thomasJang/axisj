@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-30 
+AXJ - v1.0.9 - 2014-10-31 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-30 
+AXJ - v1.0.9 - 2014-10-31 
 */
 
 if(!window.AXConfig){
@@ -1021,7 +1021,7 @@ Object.extend(Number.prototype, (function () {
 		}
 	}
 	function toByte() { var n_unit = "KB"; var myByte = this / 1024; if (myByte / 1024 > 1) { n_unit = "MB"; myByte = myByte / 1024; } if (myByte / 1024 > 1) { n_unit = "GB"; myByte = myByte / 1024; } return myByte.round(1) + n_unit; }
-	function toNum() { return Math.round( this * 100000000000000 ) / 100000000000000; }
+	function toNum() { return this; }
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
@@ -12463,11 +12463,18 @@ myGrid.setData(gridData);
 		var cfg = this.config;
 		var result;
 		if (formatter == "money") {
+			if(Object.isNumber(value)){
+				result = value.money();
+			}else{
+				result = (value || 0).number().money();
+			}
+			/*
 			if (value == "" || value == "null" || value == null || value == undefined) {
 				result = "0";
 			} else {
 				result = (value || 0).number().money();
 			}
+			*/
 		} else if (formatter == "dec") {
 			result = (value == undefined) ? "" : value.dec();
 		} else if (formatter == "html") {
