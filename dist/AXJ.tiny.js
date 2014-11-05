@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-31 
+AXJ - v1.0.9 - 2014-11-05 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-31 
+AXJ - v1.0.9 - 2014-11-05 
 */
 
 if(!window.AXConfig){
@@ -11004,7 +11004,8 @@ var config = {
         onclick: function() { // {Function} - 파인더 버튼 클릭 이벤트 콜백함수 (optional)
             trace(this);
         }
-    }
+    },
+    maxHeight   : {Number} [150] - selector panel height
 };
 
 // 서버에서 리턴하는 JSON 구문 예시
