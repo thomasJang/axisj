@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-05 
+AXJ - v1.0.9 - 2014-11-07 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-05 
+AXJ - v1.0.9 - 2014-11-07 
 */
 
 if(!window.AXConfig){
@@ -11046,9 +11046,9 @@ var AXGrid = Class.create(AXJ, {
 					index: checkboxIndex,
 					list: _list
 				};
-				setTimeout(function() {
-					cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
-				}, 1);
+				//setTimeout(function() {
+				cfg.colGroup[colSeq].oncheck.call(sendObj, checked);
+				//}, 1);
 			}
 			if(cfg.body.oncheck) {
 				sendObj = {
@@ -11060,9 +11060,9 @@ var AXGrid = Class.create(AXJ, {
 					item    : item,
 					page   : this.page
 				};
-				setTimeout(function() {
-					cfg.body.oncheck.call(sendObj, itemIndex, item);
-				}, 1);
+				//setTimeout(function() {
+				cfg.body.oncheck.call(sendObj, itemIndex, item);
+				//}, 1);
 			}
 		}
 		return this;
@@ -14834,14 +14834,31 @@ myGrid.setConfig({
 		this.scrollYTip.hide();
 	},
 	/**
+	 * @method AXGrid.dataSync
+	 * @description - 그리드 데이터를 조작후 그리드에 현재 위치된 아이템을 다시 생성합니다.
+	 * @returns {AXGrid}
+	 * @example
+	 ```
+	 myGrid.list[0].id = 12;
+	 myGrid.dataSync();
+
+	 ```
+	 */
+	dataSync: function(){
+		this.bigDataSync(true);
+		return this;
+	},
+	/**
 	 * @method AXGrid.bigDataSync
 	 * @description - bigDataSyncApply를 호출 합니다.(grid에서만 동작, mobile,icon등의 모드에서는 동장 안함)
 	 */
-	bigDataSync: function(){
-		var cfg = this.config;
+	bigDataSync: function(reload){
+		var cfg = this.config, _this = this;
 		if(cfg.viewMode == "grid"){
 			if(this.bigDataSyncObserver) clearTimeout(this.bigDataSyncObserver);
-			this.bigDataSyncObserver = setTimeout(this.bigDataSyncApply.bind(this), 10);
+			this.bigDataSyncObserver = setTimeout(function(){
+				_this.bigDataSyncApply(reload);
+			}, 10);
 		}
 	},
 	/**
@@ -32141,7 +32158,6 @@ myTree.setList(AJAXconfigs);
 				};
 				cfg.body.oncontract.call(sendObj, itemIndex, item);
 			}
-			trace(111);
 		}
 		else
 		if(typeof expandStat == "undefined" || expandStat == true)

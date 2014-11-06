@@ -17,15 +17,15 @@
 }
 .axtabs-style-normal {
   background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -webkit-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Safari */
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -o-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -moz-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   border: 1px solid #b9babc;
@@ -132,15 +132,15 @@
 }
 .axtabs-event-normal {
   background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -webkit-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Safari */
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -o-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -moz-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   border: 1px solid #b9babc;
@@ -363,15 +363,15 @@
 }
 .AXTabs .AXTabsTray .AXTab {
   background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -webkit-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Safari */
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -o-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -moz-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   border: 1px solid #b9babc;
@@ -648,15 +648,15 @@
 }
 .AXTabsLarge .AXTabsTray .AXTab {
   background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -webkit-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Safari */
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -o-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -moz-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   border: 1px solid #b9babc;
@@ -933,15 +933,15 @@
 }
 .AXTabsSmall .AXTabsTray .AXTab {
   background: #e8e8e8;
-  background: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -webkit-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Safari */
-  background: -o-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -o-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#fdfdfd, #e8e8e8);
+  background: -moz-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#fdfdfd, #e8e8e8);
+  background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   border: 1px solid #b9babc;
