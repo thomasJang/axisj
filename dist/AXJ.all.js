@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-07 
+AXJ - v1.0.9 - 2014-11-08 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-07 
+AXJ - v1.0.9 - 2014-11-08 
 */
 
 if(!window.AXConfig){
@@ -10568,7 +10568,9 @@ var AXGrid = Class.create(AXJ, {
 			trace("need colGroup - setConfig({colGroup:[]})");
 			return;
 		}
-
+		if (typeof cfg.colHeadAlign == "undefined") {
+			cfg.colHeadAlign = AXConfig.AXGrid.colHeadAlign;
+		}
 		cfg.emptyListMSG = cfg.emptyListMSG || AXConfig.AXGrid.emptyListMSG;
 		cfg.listCountMSG = cfg.listCountMSG || AXConfig.AXGrid.listCountMSG || "전체 <b>{listCount}</b>개의 목록이 있습니다.";
 		cfg.pageCountMSG = cfg.pageCountMSG || AXConfig.AXGrid.pageCountMSG;
@@ -15938,6 +15940,7 @@ myGrid.setConfig({
 
 			if (
 				trTop.abs() + this.body.height() > this.scrollContent.height() &&
+				(this.scrollContent.height() > this.body.height()) &&
 				this.list.length > 0
 				)
 			{
