@@ -255,16 +255,16 @@
   border-bottom: 0px none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.hover td {
   background-color: #e7f1fa;
@@ -487,16 +487,16 @@
   border-bottom: 0px none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.selected td {
   background-color: #d2d9df;
@@ -822,16 +822,16 @@
   border-bottom: 0px none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.hover td {
   background-color: #e7f1fa;
@@ -1046,16 +1046,16 @@
   border-bottom: 0px none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.selected td {
   background-color: #d2d9df;
