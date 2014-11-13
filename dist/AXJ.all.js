@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-08 
+AXJ - v1.0.9 - 2014-11-13 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-08 
+AXJ - v1.0.9 - 2014-11-13 
 */
 
 if(!window.AXConfig){
@@ -25214,6 +25214,7 @@ myProgress.close();
  "2014-05-21 - tom : mobile view mode 추가"
  "2014-10-20 - tom : tagBind event(keydown, keyup, change) 함수 연결기능 추가"
  "2014-10-30 - tom : type:button tag변경"
+ "2014-11-11 - root : axdom 독립 우회 코드 변경"
  *
  * @description
  *
@@ -25439,7 +25440,7 @@ var AXSearch = Class.create(AXJ, {
 			            //po.push("<span class=\"th none\">&nbsp;</span>");
 		            }
 				    po.push("<span class=\"td\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
-					    jQuery.each(item.options, function(idx, Opt){
+					    axdom.each(item.options, function(idx, Opt){
 						    if(idx > 0) po.push(" | ");
 						    var classOn = "";
 						    if(item.value == Opt.optionValue){
@@ -25466,9 +25467,9 @@ var AXSearch = Class.create(AXJ, {
 			    po.push("<span class=\"td\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
 
 				    var values = item.value.split(/,/g);
-				    jQuery.each(item.options, function(idx, Opt){
+				    axdom.each(item.options, function(idx, Opt){
 					    var isCheck = false;
-					    jQuery.each(values, function(){
+					    axdom.each(values, function(){
 						    if(this == Opt.optionValue){
 							    isCheck = true;
 							    return false;
@@ -25498,9 +25499,9 @@ var AXSearch = Class.create(AXJ, {
 			    po.push("<span class=\"td\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
 
 			    var values = item.value.split(/,/g);
-			    jQuery.each(item.options, function(idx, Opt){
+			    axdom.each(item.options, function(idx, Opt){
 				    var isCheck = false;
-				    jQuery.each(values, function(){
+				    axdom.each(values, function(){
 					    if(this == Opt.optionValue){
 						    isCheck = true;
 						    return false;
@@ -25532,9 +25533,9 @@ var AXSearch = Class.create(AXJ, {
 				    po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem", itemAddClass.join(" "),"\" style=\"width:", selectWidth,";\" >");
 
 				    var values = item.value.split(/,/g);
-				    jQuery.each(item.options, function(idx, Opt){
+				    axdom.each(item.options, function(idx, Opt){
 					    var isCheck = false;
-					    jQuery.each(values, function(){
+					    axdom.each(values, function(){
 						    if(this == Opt.optionValue){
 							    isCheck = true;
 							    return false;
@@ -25609,7 +25610,7 @@ var AXSearch = Class.create(AXJ, {
 		            }
 		            if(cfg.rows[gr].addClass) classs.push(cfg.rows[gr].addClass);
 		            po.push("<div class=\"searchGroup ", classs.join(" "),"\" style=\"", styles.join(";"),"\">");
-		            jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
+		            axdom.each(cfg.rows[gr].list, function(itemIndex, item){
 		                po.push(getItemHtml(gr, itemIndex, item));
 		                if(item.AXBind){
 		                    AXBinds.push({display:cfg.rows[gr].display, gr:gr, itemIndex:itemIndex, item:item});
@@ -25637,7 +25638,7 @@ var AXSearch = Class.create(AXJ, {
 	    	};
 	    }
     	
-    	jQuery("#"+cfg.targetID+"_AX_expandHandle").bind("click", this.expandToggle.bind(this));
+    	axdom("#"+cfg.targetID+"_AX_expandHandle").bind("click", this.expandToggle.bind(this));
     	this.target.find(".searchLinkItem").bind("click", this.onclickLinkItem.bind(this));
     	this.target.find(".searchCheckboxItem").bind("click", this.onclickCheckboxItem.bind(this));
     	this.target.find(".searchSelectboxItem").bind("change", this.onChangeSelect.bind(this));
@@ -25653,33 +25654,33 @@ var AXSearch = Class.create(AXJ, {
     },
     AXBindItems: function(){
     	var cfg = this.config;
-    	jQuery.each(this.AXBinds, function(){
+    	axdom.each(this.AXBinds, function(){
     		var gr = this.gr, itemIndex = this.itemIndex, item = this.item;
     		var display = this.display;
     		var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
     		
     		if(display){
 	    		if(item.AXBind.type == "selector"){
-	    			jQuery("#"+itemID).bindSelector(item.AXBind.config);
+	    			axdom("#"+itemID).bindSelector(item.AXBind.config);
 	    		}else if(item.AXBind.type == "select"){
 				    try{
-					    jQuery("#"+itemID).bindSelect(item.AXBind.config);
+					    axdom("#"+itemID).bindSelect(item.AXBind.config);
 				    }catch(e){
 				    }
 	    		}else if(item.AXBind.type == "date"){
-	    			jQuery("#"+itemID).bindDate(item.AXBind.config);
+	    			axdom("#"+itemID).bindDate(item.AXBind.config);
 	    		}else if(item.AXBind.type == "twinDate"){
 	    			var startTargetID = item.AXBind.config.startTargetID;
 	    			var findItemID = "";
-	    			jQuery.each(cfg.rows, function(gidx, G){
-	    				jQuery.each(this.list, function(itemIndex, item){
+	    			axdom.each(cfg.rows, function(gidx, G){
+	    				axdom.each(this.list, function(itemIndex, item){
 			    			if(item.key == startTargetID){
 			    				findItemID = cfg.targetID + "_AX_" + gidx + "_AX_" + itemIndex + "_AX_" + item.key;
 			    			}
 			    		});
 	    			});
 	    			item.AXBind.config.startTargetID = findItemID;
-	    			jQuery("#"+itemID).bindTwinDate(item.AXBind.config);
+	    			axdom("#"+itemID).bindTwinDate(item.AXBind.config);
 	    		}
 	    	}
     	});    	
@@ -25687,31 +25688,31 @@ var AXSearch = Class.create(AXJ, {
     expandToggle: function(){
     	var cfg = this.config;
     	if(this.expanded){
-    		jQuery("#"+cfg.targetID+"_AX_expandHandle").html("상세검색");
+    		axdom("#"+cfg.targetID+"_AX_expandHandle").html("상세검색");
     		this.target.find(".expandGroup").hide();
     		this.expanded = false;
     	}else{
-    		jQuery("#"+cfg.targetID+"_AX_expandHandle").html("상세검색창 닫기");
+    		axdom("#"+cfg.targetID+"_AX_expandHandle").html("상세검색창 닫기");
     		this.target.find(".expandGroup").show();
     		this.expanded = true;
     		
-	    	jQuery.each(this.AXBinds, function(){
+	    	axdom.each(this.AXBinds, function(){
 	    		var gr = this.gr, itemIndex = this.itemIndex, item = this.item;
 	    		var display = this.display;
 	    		var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
 	    		if(!display){
 		    		if(item.AXBind.type == "selector"){
-		    			jQuery("#"+itemID).bindSelector(item.AXBind.config);
+		    			axdom("#"+itemID).bindSelector(item.AXBind.config);
 		    		}else if(item.AXBind.type == "select"){
-		    			jQuery("#"+itemID).bindSelect(item.AXBind.config);
+		    			axdom("#"+itemID).bindSelect(item.AXBind.config);
 		    		}else if(item.AXBind.type == "date"){
-		    			jQuery("#"+itemID).bindDate(item.AXBind.config);
+		    			axdom("#"+itemID).bindDate(item.AXBind.config);
 		    		}else if(item.AXBind.type == "twinDate"){
 
 		    			var startTargetID = item.AXBind.config.startTargetID.split(/_AX_/g).last();
 		    			var findItemID = "";
-		    			jQuery.each(cfg.rows, function(gidx, G){
-		    				jQuery.each(this.list, function(itemIndex, item){
+		    			axdom.each(cfg.rows, function(gidx, G){
+		    				axdom.each(this.list, function(itemIndex, item){
 				    			if(item.key == startTargetID){
 				    				findItemID = cfg.targetID + "_AX_" + gidx + "_AX_" + itemIndex + "_AX_" + item.key;
 				    			}
@@ -25719,7 +25720,7 @@ var AXSearch = Class.create(AXJ, {
 		    			});
 		    			
 		    			item.AXBind.config.startTargetID = findItemID;
-		    			jQuery("#"+itemID).bindTwinDate(item.AXBind.config);
+		    			axdom("#"+itemID).bindTwinDate(item.AXBind.config);
 
 		    		}
 		    	}
@@ -25737,20 +25738,20 @@ var AXSearch = Class.create(AXJ, {
     	//trace({itemIndex:itemIndex, item:item});
     	
     	var targetID = "";
-    	jQuery.each(ids, function(ii, io){
+    	axdom.each(ids, function(ii, io){
     		if(ii > 0) targetID += "_AX_";
     		targetID += this;
     	});
    		//trace(item.options[index].optionValue);
    		
    		if(item.selectedIndex != undefined){
-   			jQuery("#"+targetID+"_AX_"+item.selectedIndex).removeClass("on");
+   			axdom("#"+targetID+"_AX_"+item.selectedIndex).removeClass("on");
    		}
    		
    		item.selectedIndex = index;
    		item.value = item.options[index].optionValue;
-   		jQuery("#"+targetID+"_AX_"+index).addClass("on");
-    	jQuery("#"+targetID).val(item.options[index].optionValue);
+   		axdom("#"+targetID+"_AX_"+index).addClass("on");
+    	axdom("#"+targetID).val(item.options[index].optionValue);
     	
     	if(item.onChange){
     		item.onChange.call(item, item.options[index], item.options[index].optionValue);
@@ -25841,7 +25842,7 @@ trace(pars);
     getParam: function(){
     	var cfg = this.config;
     	var frm = (this.formbindMethod == "script") ? document[cfg.targetID+"_AX_form"] : this.target;
-    	return jQuery(frm).serialize();
+    	return axdom(frm).serialize();
     },
 
 /**
@@ -25859,11 +25860,11 @@ mySearch.getItemId("type");
     	var gr = 0;
     	var itemID;
     	for(;gr<cfg.rows.length;){
-			jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
+			axdom.each(cfg.rows[gr].list, function(itemIndex, item){
 				if(item.key == key){
 					if(item.type == "checkBox" || item.type == "radioBox"){
 						itemID = [];
-						jQuery.each(item.options, function(idx, Opt){
+						axdom.each(item.options, function(idx, Opt){
 							itemID.push(cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx);
 						});
 					}else{
@@ -25892,7 +25893,7 @@ mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 �
     	var cfg = this.config;
     	var gr = 0;
     	for(;gr<cfg.rows.length;){
-			jQuery.each(cfg.rows[gr].list, function(itemIndex, item){
+			axdom.each(cfg.rows[gr].list, function(itemIndex, item){
 				if(item.key == key){
 					if(item.type == "checkBox" || item.type == "radioBox"){
 						var values = [];
@@ -25903,16 +25904,16 @@ mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 �
 						}else{
 							values.push(value);
 						}
-			    		jQuery.each(item.options, function(idx, Opt){
+			    		axdom.each(item.options, function(idx, Opt){
 			    			var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key + "_AX_" + idx;			
 			    			var isCheck = false;
-			    			jQuery.each(values, function(){ if(this == Opt.optionValue){ isCheck = true; return false; } });
+			    			axdom.each(values, function(){ if(this == Opt.optionValue){ isCheck = true; return false; } });
 			    			AXgetId(itemID).checked = isCheck;
 			    			itemID = null;
 			    		});
 					}else{
 						var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
-						jQuery("#"+itemID).val((value||""));
+						axdom("#"+itemID).val((value||""));
 						itemID = null;
 					}
 				}
@@ -28217,6 +28218,13 @@ var AXTabClass = Class.create(AXJ, {
 					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
 				}
 			}
+		    if(obj.config.onclick){
+			    obj.config.onclick.call({
+				    options:obj.config.options,
+				    item:obj.config.options[itemIndex],
+				    index:itemIndex
+			    }, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
+		    }
 		}	
     },
     /**
@@ -28499,7 +28507,7 @@ var AXTabClass = Class.create(AXJ, {
     	if(obj.tabTray.outerWidth() > obj.tabScroll.outerWidth()){
     		return;
     	}
-    	
+
     	if(AXUtil.clientWidth() < cfg.responsiveMobile){
     		var scrollLeft = (axdom("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left);
     		var itemWidth = (axdom("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
