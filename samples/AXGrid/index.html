@@ -21,7 +21,9 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
 
     <style type="text/css">
-
+        .red{background-color: #FF8080;}
+        .blue{background-color: #98E0FF;}
+        .green{background-color: #C0E0C0;}
     </style>
     <!-- css block -->
 
@@ -54,12 +56,19 @@
                 var getColGroup = function(){
                     return [
                         {key:"no", label:"번호", width:"50", align:"right"},
-                        {
-                            key:"title", label:"제목", width:"200", tooltip:function(){
-                            return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
-                        }
+                        {key:"title", label:"제목", width:"200"
+                            , tooltip:function(){
+                                return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
+                            },
+                            addClass: function(){
+                                if(this.index % 2 == 0){
+                                    return "red";
+                                }else{
+                                    return "blue";
+                                }
+                            }
                         },
-                        {key:"writer", label:"작성자", width:"100"},
+                        {key:"writer", label:"작성자", width:"100", addClass:"green"},
                         {key:"regDate", label:"작성일", width:"100"},
                         {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
                         {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
