@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-13 
+AXJ - v1.0.9 - 2014-11-16 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-13 
+AXJ - v1.0.9 - 2014-11-16 
 */
 
 if(!window.AXConfig){
@@ -9911,7 +9911,8 @@ var AXGrid = Class.create(AXJ, {
 					valign: "bottom", isLastCell: true, display: CG.display, formatter: CG.formatter, formatterLabel:CG.formatterLabel, checked: CG.checked, disabled: CG.disabled,
 					sort: CG.sort,
 					tooltip: CG.tooltip,
-					displayLabel: (CG.displayLabel || false)
+					displayLabel: (CG.displayLabel || false),
+                    addClass: CG.addClass
 				};
 				if(cfg._colHead_rows) adder.sort = cfg._colHead_rows[0][cidx].sort; // redrawGrid 호출된 경우 예외처리
 				colHeadRows[0].push(adder);
@@ -10026,7 +10027,7 @@ var AXGrid = Class.create(AXJ, {
 				var adder = {
 					key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: (CG.valign || "middle"), isLastCell: true,
 					display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter, formatterLabel:CG.formatterLabel,
-					tooltip: CG.tooltip
+					tooltip: CG.tooltip, addClass: CG.addClass
 				};
 				bodyRows[0].push(adder);
 				cfg.body._maps[0].push({ r: 0, c: cidx });
@@ -12535,64 +12536,99 @@ myGrid.setConfig({
 		}
 		return result;
 	},
-	/**
-	 * @method AXGrid.getTooltipValue
-	 * @param {String|Function} formatter - config 의 colGroup이나 colHead에서 지정된 formatter
-	 * @param {Object} item - 대상 인덱스의 리스트 1개 열
-	 * @param {Number} itemIndex - 대상 인덱스
-	 * @param {String} value - 표현 대상 값.
-	 * @param {Object} key - config 의 colGroup 내부 key 값
-	 * @param {Object} CH - 대상 그리드의 [열][행]
-	 * @returns {String}
-	 * @description 지정된 표현 형식으로 데이터를 HTML String으로 변환 시킵니다.
-	 */
-	getTooltipValue: function (formatter, item, itemIndex, value, key, CH) {
-		var cfg = this.config;
-		var result;
-		if (formatter == "money") {
-			if (value == "" || value == "null") {
-				result = "0";
-			} else {
-				result = value.number().money();
-			}
-		} else if (formatter == "dec") {
-			result = (value == undefined) ? "" : value.dec();
-		} else if (formatter == "html") {
-			result = value;
-		} else if (formatter == "checkbox" || formatter == "radio") {
-			var checked = "";
-			if (CH.checked) {
-				var sendObj = {
-					index: itemIndex,
-					list: this.list,
-					item: item,
-					page: this.page,
-					key: key,
-					value: value
-				};
-				var callResult = CH.checked.call(sendObj);
-				if (callResult) {
-					checked = " checked=\"checked\" ";
-				}
-			}
-			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + " />";
-		} else {
-			if(Object.isFunction(formatter)){
-				var sendObj = {
-					index: itemIndex,
-					list: this.list,
-					item: item,
-					page: this.page,
-					key: key,
-					value: value
-				};
-				result = formatter.call(sendObj, itemIndex, item);
-			} else {
-				result = value;
-			}
-		}
-		return result;
-	},
+    /**
+     * @method AXGrid.getTooltipValue
+     * @param {String|Function} formatter - config 의 colGroup이나 colHead에서 지정된 formatter
+     * @param {Object} item - 대상 인덱스의 리스트 1개 열
+     * @param {Number} itemIndex - 대상 인덱스
+     * @param {String} value - 표현 대상 값.
+     * @param {Object} key - config 의 colGroup 내부 key 값
+     * @param {Object} CH - 대상 그리드의 [열][행]
+     * @returns {String}
+     * @description 지정된 표현 형식으로 데이터를 HTML String으로 변환 시킵니다.
+     */
+    getTooltipValue: function (formatter, item, itemIndex, value, key, CH) {
+        var cfg = this.config;
+        var result;
+        if (formatter == "money") {
+            if (value == "" || value == "null") {
+                result = "0";
+            } else {
+                result = value.number().money();
+            }
+        } else if (formatter == "dec") {
+            result = (value == undefined) ? "" : value.dec();
+        } else if (formatter == "html") {
+            result = value;
+        } else if (formatter == "checkbox" || formatter == "radio") {
+            var checked = "";
+            if (CH.checked) {
+                var sendObj = {
+                    index: itemIndex,
+                    list: this.list,
+                    item: item,
+                    page: this.page,
+                    key: key,
+                    value: value
+                };
+                var callResult = CH.checked.call(sendObj);
+                if (callResult) {
+                    checked = " checked=\"checked\" ";
+                }
+            }
+            result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + " />";
+        } else {
+            if(Object.isFunction(formatter)){
+                var sendObj = {
+                    index: itemIndex,
+                    list: this.list,
+                    item: item,
+                    page: this.page,
+                    key: key,
+                    value: value
+                };
+                result = formatter.call(sendObj, itemIndex, item);
+            } else {
+                result = value;
+            }
+        }
+        return result;
+    },
+
+    /**
+     * @method AXGrid.getAddingClass
+     * @param {String|Function} formatter - config 의 colGroup이나 colHead에서 지정된 formatter
+     * @param {Object} item - 대상 인덱스의 리스트 1개 열
+     * @param {Number} itemIndex - 대상 인덱스
+     * @param {String} value - 표현 대상 값.
+     * @param {Object} key - config 의 colGroup 내부 key 값
+     * @param {Object} CH - 대상 그리드의 [열][행]
+     * @returns {String}
+     * @description 해당 컬럼에 추가클래스를 정의 합니다. 문자열 방식과 함수방식을 지원합니다.
+     */
+    getAddingClass: function (formatter, item, itemIndex, value, key, CH) {
+        var cfg = this.config;
+        var result = "";
+
+        if (Object.isString(formatter)){
+            result = formatter;
+
+        }else if(Object.isFunction(formatter)){
+            var sendObj = {
+                index: itemIndex,
+                list: this.list,
+                item: item,
+                page: this.page,
+                key: key,
+                value: value
+            };
+            result = formatter.call(sendObj, itemIndex, item);
+        } else {
+
+        }
+
+        return result;
+    },
 	/**
 	 * @method AXGrid.getItem
 	 * @param itemIndex {Number} - 대상 인덱스
@@ -12613,6 +12649,8 @@ myGrid.setConfig({
 		 */
 		var getFormatterValue = this.getFormatterValue.bind(this);
 		var getTooltipValue = this.getTooltipValue.bind(this);
+        var getAddingClass = this.getAddingClass.bind(this);
+
 		var hasFixed = this.hasFixed;
 		var hasTrValue = (hasTr === undefined);
 		var trAddClass = "";
@@ -12669,10 +12707,13 @@ myGrid.setConfig({
 						var tooltipValue = "";
 						if (CH.tooltip) tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
 
+                        var addClasses = "";
+                        if (CH.addClass) addClasses = " " + getAddingClass(CH.addClass, item, itemIndex, item[CH.key], CH.key, CH);
+
 						tpo.push("<td" + valign + rowspan + colspan + styles + " " +
 							" id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "body_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
 							" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" " +
+						tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + addClasses + "\" " +
 							" align=\"" + CH.align + "\" " +
 							" id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
 							" title=\"" + tooltipValue + "\" title=\"" + tooltipValue + "\">");
@@ -17224,7 +17265,7 @@ myGrid.setConfig({
 /* http://www.axisj.com, license : http://www.axisj.com/license */
  
  
-jQuery.fn.loadHtmlElement = function(arg) {
+axdom.fn.loadHtmlElement = function(arg) {
 	if(arg == undefined) arg = {}
 	var varObj = new AXHtmlElement();
 	arg.target = this.get(0).id;
@@ -17270,19 +17311,19 @@ var AXHtmlElement = Class.create(AXJ, {
         if (config.displayType == "select") {
             // firstItemName 추가했음 by raniel, 2013-04-30 
             this.setSelectOption(
-    			{ tg: jQuery("#" + config.target)[0], ds: res.ds }, config.defaultValue, config.firstEmpty, config.firstEmptyItemName
+    			{ tg: axdom("#" + config.target)[0], ds: res.ds }, config.defaultValue, config.firstEmpty, config.firstEmptyItemName
     		);
-            jQuery("#" + config.target).unbind("change", this.onchange.bind(this));
-            jQuery("#" + config.target).bind("change", this.onchange.bind(this));
+            axdom("#" + config.target).unbind("change", this.onchange.bind(this));
+            axdom("#" + config.target).bind("change", this.onchange.bind(this));
         }
         if (config.displayType == "radio") {
             this.setInputOption(
-    			{ tg: jQuery("#" + config.target), ds: res.ds }, config.defaultValue
+    			{ tg: axdom("#" + config.target), ds: res.ds }, config.defaultValue
     		);
         }
         if (config.displayType == "checkbox") {
             this.setInputOption(
-    			{ tg: jQuery("#" + config.target), ds: res.ds }, config.defaultValue
+    			{ tg: axdom("#" + config.target), ds: res.ds }, config.defaultValue
     		);
         }
     },
@@ -17312,13 +17353,13 @@ var AXHtmlElement = Class.create(AXJ, {
             }
             obj.tg.appendChild(opts);
         }
-        jQuery.each(obj.ds, function(index, n) {
+        axdom.each(obj.ds, function(index, n) {
             if (n.optgroup) {
 
                 var oGroup = document.createElement('optgroup');
                 oGroup.label = n.optgroup.dec();
 
-                jQuery.each(n.option, function() {
+                axdom.each(n.option, function() {
                   if ( this.value != null ) {
                       var opts = document.createElement('option');
                       opts.value = this.value.dec();
@@ -17352,7 +17393,7 @@ var AXHtmlElement = Class.create(AXJ, {
         var po = [];
         var robj = { value: "", text: "" };
         this.ids = obj.ds;
-        jQuery.each(obj.ds, function(index, n) {
+        axdom.each(obj.ds, function(index, n) {
             //alert(Object.toJSON(n));
 
             if (config.title) {
@@ -17379,8 +17420,8 @@ var AXHtmlElement = Class.create(AXJ, {
 
         this.loadSucc(robj);
 
-        jQuery("#" + config.target).find("input").unbind("click", this.onchange2.bind(this));
-        jQuery("#" + config.target).find("input").bind("click", this.onchange2.bind(this));
+        axdom("#" + config.target).find("input").unbind("click", this.onchange2.bind(this));
+        axdom("#" + config.target).find("input").bind("click", this.onchange2.bind(this));
     },
     loadSucc: function(obj) {
         var config = this.config;
@@ -17408,7 +17449,7 @@ var AXHtmlElement = Class.create(AXJ, {
         var config = this.config;
 
         var myText = "";
-        jQuery.each(this.ids, function(idx, D) {
+        axdom.each(this.ids, function(idx, D) {
             if (D.value.dec() == tg.value) {
                 myText = D.text.dec();
             }
@@ -22840,7 +22881,7 @@ var AXMobileMenu = Class.create(AXJ, {
  * @class AXModal
  * @classdesc 모달창을 생성하고 제어 합니다. 모달창은 window, iframe, div 세 가지로 생성할 수 있습니다.
  * @extends AXJ
- * @version v1.38
+ * @version v1.39
  * @author tom@axisj.com
  * @logs
  "2013-02-13 오전 10:39:17 - axmods 에서 컨버트 : tom ",
@@ -22857,6 +22898,7 @@ var AXMobileMenu = Class.create(AXJ, {
  "2014-06-09 tom : mediaQuery bugfix"
  "2014-08-04 tom : fix resize error"
  "2014-09-17 tom : 'add Config' scrollLock"
+ "2014-11-16 tom : openDiv 메소드에 verticalAlign 속성 확장"
  *
 ```js
 var myModal = new AXModal();
@@ -23013,8 +23055,8 @@ myModal.open(configs);
 				po.push("		<input type='hidden' name='" + key + "' value='" + val + "' />");
 			});
 		} else {
-			jQuery.each(http.pars, function () {
-				jQuery.each(this, function (key, val) {
+			axdom.each(http.pars, function () {
+				axdom.each(this, function (key, val) {
 					po.push("		<input type='hidden' name='" + key + "' value='" + val + "' />");
 				});
 			});
@@ -23124,12 +23166,12 @@ myModal.open(configs);
 		po.push("		<input type='hidden' name='winID' value='" + this.winID + "' />");
 
 		if (isNaN(http.pars.length)) {
-			jQuery.each(http.pars, function (key, val) {
+			axdom.each(http.pars, function (key, val) {
 				po.push("		<input type='hidden' name='" + key + "' value='" + val + "' />");
 			});
 		} else {
-			jQuery.each(http.pars, function () {
-				jQuery.each(this, function (key, val) {
+			axdom.each(http.pars, function () {
+				axdom.each(this, function (key, val) {
 					po.push("		<input type='hidden' name='" + key + "' value='" + val + "' />");
 				});
 			});
@@ -23207,7 +23249,8 @@ var configs = {
 	targetID: {String} - 모달창 타켓 엘리먼트 아이디,
 	top: {Number} [scrollTop + 100] - 모달창 포지션 top,
 	width: {(String|Number)} - 모달창 너비,
-	closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부
+	closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부,
+	verticalAlign: {Boolean} [false] - 모달창 가운데 표시 여부
 }
 myModal.openDiv(configs);
 ```
@@ -23219,7 +23262,8 @@ myModal.openDiv(configs);
 		var modalID = cfg.opendModalID = args.modalID;
 
 		if (AXgetId(modalID)) {
-			jQuery("#" + modalID).show();
+			var modalTarget = $("#" + modalID);
+			modalTarget.show();
 
 			var maskTop = this.config.defaultTop;
 			if (args.top != undefined) {
@@ -23232,7 +23276,11 @@ myModal.openDiv(configs);
 				maskTop = jQuery(window).scrollTop();
 			}
 
-			jQuery("#" + modalID).css({ "top": maskTop });
+			if( args.verticalAlign ){
+				modalTarget.css({top: axf.clientHeight() / 2 - modalTarget.height()/2 + jQuery(window).scrollTop() })
+			}else{
+				modalTarget.css({ "top": maskTop });
+			}
 
 			if (args.closeByEscKey) {
 				var keydown = this.keydown.bind(this);
@@ -23241,7 +23289,6 @@ myModal.openDiv(configs);
 				};
 				jQuery(document.body).bind("keydown.AXModal", keydownBind);
 			}
-
 			return;
 		}
 
@@ -23268,7 +23315,6 @@ myModal.openDiv(configs);
 		} else {
 			maskTop = jQuery(window).scrollTop() + 50;
 		}
-
 
 		if (maskLeft < 0) maskLeft = 0;
 
@@ -23308,16 +23354,21 @@ myModal.openDiv(configs);
 		}
 
 		/*
-        if (this.mask) {
-            if (this.config.autoHide) this.mask.bind("click", close);
-        }
-        */
+		 if (this.mask) {
+		 if (this.config.autoHide) this.mask.bind("click", close);
+		 }
+		 */
 
 		jQuery(window).unbind("resize.AXModal");
 		jQuery(window).bind("resize.AXModal", this.onDocResize.bind(this));
 
 		if (cfg.scrollLock == true) {
 			jQuery(document.body).css({'overflow':'hidden'});
+		}
+
+		if( args.verticalAlign ){
+			var modalTarget = $("#" + modalID);
+			$("#" + modalID).css({top: axf.clientHeight() / 2 - modalTarget.height()/2 + jQuery(window).scrollTop() })
 		}
 	},
 /**
@@ -23355,12 +23406,12 @@ myModal.openNew(configs);
 		po.push("		<input type='hidden' name='winID' value='" + this.winID + "' />");
 
 		if (isNaN(http.pars.length)) {
-			jQuery.each(http.pars, function (key, val) {
+			axdom.each(http.pars, function (key, val) {
 				po.push("		<input type='hidden' name='" + key + "' value='" + val + "' />");
 			});
 		} else {
-			jQuery.each(http.pars, function () {
-				jQuery.each(this, function (key, val) {
+			axdom.each(http.pars, function () {
+				axdom.each(this, function (key, val) {
 					po.push("		<input type='hidden' name='" + key + "' value='" + val + "' />");
 				});
 			});
@@ -24805,9 +24856,9 @@ var AXMultiSelector = Class.create(AXJ, {
     expandOptionBox: function(){
     	var cfg = this.config;
     	
-    	jQuery.each(cfg.optionGroup, function (gidx, G) {
+    	axdom.each(cfg.optionGroup, function (gidx, G) {
     		if (G.getOptionValue) {
-    			jQuery.each(cfg.optionGroup[gidx].options, function (oidx, O) {
+    			axdom.each(cfg.optionGroup[gidx].options, function (oidx, O) {
     				cfg.optionGroup[gidx].options[oidx].selected = false;
     			});
     		}
@@ -24816,10 +24867,10 @@ var AXMultiSelector = Class.create(AXJ, {
 		var po = [];
 		po.push("<div id=\""+cfg.targetID + "_AX_expandBox\" class=\"AXMultiSelector_expandBox\">");
 		var boxWidth = 0;
-		jQuery.each(cfg.optionGroup, function(gidx, G){
+		axdom.each(cfg.optionGroup, function(gidx, G){
 			po.push("<div id=\""+cfg.targetID + "_AX_expandScrollBox_AX_"+gidx+"\" class=\"AXMultiSelector_scrollBox\" style=\"width:"+this.width+"px;\">");
 			po.push("	<div id=\""+cfg.targetID + "_AX_expandScroll_AX_"+gidx+"\" class=\"AXMultiSelector_scroll\">");
-			jQuery.each(this.options, function(index, O){
+			axdom.each(this.options, function(index, O){
 				var selectedClass = (O.selected) ? " on" : "";
 				po.push("<a href=\"#AXexec\" id=\""+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+index+"\" class=\"bindSelectorNodes "+selectedClass+"\">"+ O.optionText +"</a>");
 			});
@@ -24846,7 +24897,7 @@ var AXMultiSelector = Class.create(AXJ, {
     	jQuery("#"+cfg.targetID + "_AX_expandBox").css(css);
 
 
-		jQuery.each(cfg.optionGroup, function(gidx, G){
+		axdom.each(cfg.optionGroup, function(gidx, G){
 			G.myUIScroll = new AXScroll();
 			G.myUIScroll.setConfig({
 				CT_className:"AXScrollSmall",
@@ -24858,7 +24909,7 @@ var AXMultiSelector = Class.create(AXJ, {
 			var selectedValue = "";
 			if (G.getOptionValue) selectedValue = G.getOptionValue.call(G);
 
-			jQuery.each(cfg.optionGroup[gidx].options, function (oidx, O) {
+			axdom.each(cfg.optionGroup[gidx].options, function (oidx, O) {
 				if (G.getOptionValue) {
 					if (O.optionValue == selectedValue) {
 						O.selected = true;
@@ -24879,9 +24930,9 @@ var AXMultiSelector = Class.create(AXJ, {
 		jQuery("#"+cfg.targetID + "_AX_expandScrollBox_AX_confirm").bind("click", function(){
 			if(cfg.onChange){
 				var selectObj = {};
-				jQuery.each(cfg.optionGroup, function(gidx, G){
+				axdom.each(cfg.optionGroup, function(gidx, G){
 					selectObj[G.name] = {};
-					jQuery.each(cfg.optionGroup[gidx].options, function(oidx, O){
+					axdom.each(cfg.optionGroup[gidx].options, function(oidx, O){
 						if(O.selected){
 							selectObj[G.name] = O;
 						}
@@ -24902,7 +24953,7 @@ var AXMultiSelector = Class.create(AXJ, {
 			
 			jQuery("#"+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+index).addClass("on");
 			
-			jQuery.each(cfg.optionGroup[gidx].options, function(oidx, O){
+			axdom.each(cfg.optionGroup[gidx].options, function(oidx, O){
 				if(O.selected){
 					jQuery("#"+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+oidx).removeClass("on");	
 					delete O.selected;
@@ -24914,10 +24965,10 @@ var AXMultiSelector = Class.create(AXJ, {
     },
     setValue: function(obj){
     	var cfg = this.config;
-    	jQuery.each(cfg.optionGroup, function(gidx, G){
-    		jQuery.each(obj, function(k, v){
+    	axdom.each(cfg.optionGroup, function(gidx, G){
+    		axdom.each(obj, function(k, v){
     			if(G.name == k){
-    				jQuery.each(G.options, function(){
+    				axdom.each(G.options, function(){
     					if(this.optionValue+"" == v+""){
     						this.selected = true;
     					}else{
@@ -28209,7 +28260,14 @@ var AXTabClass = Class.create(AXJ, {
 				obj.config.selectedIndex = itemIndex;
 				
 				this.focusingItem(objID, objSeq, obj.config.selectedIndex);
-				
+				if(obj.config.onclick){
+					obj.config.onclick.call({
+						options:obj.config.options,
+						item:obj.config.options[itemIndex],
+						index:itemIndex
+					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
+				}
+
 				if(obj.config.onchange){
 					obj.config.onchange.call({
 						options:obj.config.options,
@@ -28217,14 +28275,16 @@ var AXTabClass = Class.create(AXJ, {
 						index:itemIndex
 					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
 				}
+			}else{
+				if(obj.config.onclick){
+					obj.config.onclick.call({
+						options:obj.config.options,
+						item:obj.config.options[itemIndex],
+						index:itemIndex
+					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
+				}
 			}
-		    if(obj.config.onclick){
-			    obj.config.onclick.call({
-				    options:obj.config.options,
-				    item:obj.config.options[itemIndex],
-				    index:itemIndex
-			    }, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
-		    }
+
 		}	
     },
     /**
