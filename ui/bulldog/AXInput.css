@@ -154,7 +154,10 @@
   display: block;
 }
 .AXInputLabel.fullWidth input[type=text],
-.AXInputLabel.fullWidth input[type=password] {
+.AXInputLabel.fullWidth input[type=password],
+.AXInputLabel.fullWidth .AXInput,
+.AXInputLabel.fullWidth select,
+.AXInputLabel.fullWidth textarea {
   width: 100%;
 }
 .AXInputGroup {

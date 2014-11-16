@@ -21,7 +21,9 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
 
     <style type="text/css">
-
+        .red{background-color: #FF8080;}
+        .blue{background-color: #98E0FF;}
+        .green{background-color: #C0E0C0;}
     </style>
     <!-- css block -->
 
@@ -79,8 +81,14 @@
                     {key:"codeGrpCd", label:"그룹코드", width:"90"},
                     {key:"code", label:"코드", width:"50"},
                     {key:"codeNm", label:"코드명", width:"90"},
-                    {key:"rmk", label:"비고", width:"200"},
-                    {key:"useYn", label:"사용여부", width:"65", align:"center"},
+                    {key:"rmk", label:"비고", width:"200", addClass: function(){
+                        if(this.index % 2 == 0){
+                            return "red";
+                        }else{
+                            return "blue";
+                        }
+                    }},
+                    {key:"useYn", label:"사용여부", width:"65", align:"center", addClass:"green"},
                     {key:"step", label:"순서", width:"40", align:"center"}
                 ],
                 body : {

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-10-23 
+AXJ - v1.0.9 - 2014-11-16 
 */
 /*! 
-AXJ - v1.0.9 - 2014-10-23 
+AXJ - v1.0.9 - 2014-11-16 
 */
 
 if(!window.AXConfig){
@@ -285,7 +285,23 @@ var axf = AXUtil = {
  ```
  */
 	getId: function(id) { return document.getElementById(id);  },
-
+/**
+ * @method axf.each
+ * @param {Array|Object} obj
+ * @param {Function} callback
+ * @description Array 또는 Object의 아이템만큰 callback 함수를 call합니다.
+ * @example
+```
+var new_array = [];
+axf.each([0, 1, 2], function(){
+	new_array.push(this*2);
+});
+var new_object = {};
+axf.each({a:1, b:2, c:3}, function(k, v){
+	new_object[k] = v*2;
+});
+```
+ */
 	each:  function(obj, callback){
 		if(obj){
 			var name, i = 0, length = obj.length,
@@ -305,6 +321,18 @@ var axf = AXUtil = {
 			}
 		}
 	},
+/**
+ * 브라우저의 이름과 버전 모바일여부
+ * @member {Object} axf.browser
+ * @example
+ ```
+{
+	name: {String} - bowserName (ie|chrome|webkit|oprea),
+	version: {Number} - browserVersion,
+	mobile: {Boolean}
+}
+ ```
+ */
 	browser: (function () {
 		var ua = navigator.userAgent.toLowerCase();
 		var mobile = (ua.search(/mobile/g) != -1);
@@ -336,14 +364,32 @@ var axf = AXUtil = {
 			}
 		}
 	})(),
+/**
+ * 호환성보기 여부
+ * @member {String} axf.docTD
+ * @example
+ ```
+ axf.docTD = (Q|S)
+ ```
+ */
 	docTD: (function () {
 		if (!document.compatMode || document.compatMode == 'BackCompat') return "Q";
 		else return "S";
 	})(),
+/**
+ * @method axf.timekey
+ * @returns {String} timeKey
+ * @description 밀리세컨드까지 조합한 문자열을 반환합니다.
+ * @example
+```js
+trace(axf.timeKey()); // A004222760
+```
+ */
 	timekey: function () {
 		var d = new Date();
 		return ("A" + d.getHours().setDigit(2) + d.getMinutes().setDigit(2) + d.getSeconds().setDigit(2) + d.getMilliseconds());
 	},
+
 	overwriteObject: function (tg, obj, rewrite) {
 		if (rewrite == undefined) rewrite = true;
 		//trace(tg[k]);
@@ -575,7 +621,32 @@ var Class = (function () {
 // Object extend
 (function () {
 	var _toString = Object.prototype.toString;
-	function extend(destination, source) { for (var property in source) destination[property] = source[property]; return destination; }
+	//function extend(destination, source) { for (var property in source) destination[property] = source[property]; return destination; }
+
+
+	function extend() {
+		var target = arguments[0] || {}, items = arguments[1], overwrite = arguments[2]||false;
+		if ( typeof target !== "object" && typeof target !== "function" ) {
+			target = {};
+		}
+		if(typeof items === "string"){
+			target = items;
+		}
+		else {
+			if(overwrite === true) {
+				for(var k in items) target[k] = items[k];
+			}
+			else
+			if(overwrite === false) {
+				for(var k in items){
+					if(typeof target[k] === "undefined") target[k] = items[k];
+				}
+			}
+		}
+		return target;
+	}
+
+
 	function inspect(obj) { try { if (isUndefined(obj)) return 'undefined'; if (obj === null) return 'null'; return obj.inspect ? obj.inspect() : String(obj); } catch (e) { if (e instanceof RangeError) return '...'; throw e; } }
 	function toJSON(object, qoute) {
 		var type = typeof object;
@@ -950,7 +1021,7 @@ Object.extend(Number.prototype, (function () {
 		}
 	}
 	function toByte() { var n_unit = "KB"; var myByte = this / 1024; if (myByte / 1024 > 1) { n_unit = "MB"; myByte = myByte / 1024; } if (myByte / 1024 > 1) { n_unit = "GB"; myByte = myByte / 1024; } return myByte.round(1) + n_unit; }
-	function toNum() { return Math.round( this * 100000000000000 ) / 100000000000000; }
+	function toNum() { return this; }
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
@@ -7052,7 +7123,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (event.keyCode == AXUtil.Event.KEY_UP) bindNumberAdd(objID, 1, objSeq);
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
 		});
-		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
+		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq);
 		});
 	},
@@ -7154,40 +7225,44 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			var elem = obj.bindTarget.get(0);
-			var elemFocusPosition;
-			if ('selectionStart' in elem) {
-				// Standard-compliant browsers
-				elemFocusPosition = elem.selectionStart;
-			} else if (document.selection) {
-				// IE
-				//elem.focus();
-				var sel = document.selection.createRange();
-				var selLen = document.selection.createRange().text.length;
-				sel.moveStart('character', -elem.value.length);
-				elemFocusPosition = sel.text.length - selLen;
-			}
-			//trace(elemFocusPosition);
+			if(elem.type != "number") {
+				var elemFocusPosition;
+				if ('selectionStart' in elem) {
+					// Standard-compliant browsers
+					elemFocusPosition = elem.selectionStart;
+				} else if (document.selection) {
+					// IE
+					//elem.focus();
+					var sel = document.selection.createRange();
+					var selLen = document.selection.createRange().text.length;
+					sel.moveStart('character', -elem.value.length);
+					elemFocusPosition = sel.text.length - selLen;
+				}
+				//trace(elemFocusPosition);
 
-			// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
+				// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
 
-			obj.bindTarget.data("focusPosition", elemFocusPosition);
-			obj.bindTarget.data("prevLen", elem.value.length);
+				obj.bindTarget.data("focusPosition", elemFocusPosition);
+				obj.bindTarget.data("prevLen", elem.value.length);
 
-			var event = window.event || e;
-			// ignore tab & shift key 스킵 & ctrl
-			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
-			if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
-			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-				bindMoneyCheck(objID, objSeq, "keyup");
-			} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
-				bindMoneyCheck(objID, objSeq, "keyup");
+				var event = window.event || e;
+				// ignore tab & shift key 스킵 & ctrl
+				if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
+				if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
+				if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
+					bindMoneyCheck(objID, objSeq, "keyup");
+				} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
+					bindMoneyCheck(objID, objSeq, "keyup");
+				}
 			}
 		});
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 				return false;
 			}
-			bindMoneyCheck(objID, objSeq, "change");
+			if(event.target.type != "number") {
+				bindMoneyCheck(objID, objSeq, "change");
+			}
 		});
 	},
 	bindMoneyCheck: function (objID, objSeq, eventType) {
@@ -10929,7 +11004,8 @@ var config = {
         onclick: function() { // {Function} - 파인더 버튼 클릭 이벤트 콜백함수 (optional)
             trace(this);
         }
-    }
+    },
+    maxHeight   : {Number} [150] - selector panel height
 };
 
 // 서버에서 리턴하는 JSON 구문 예시
@@ -13247,6 +13323,45 @@ var AXTopDownMenu = Class.create(AXJ, {
 		//trace(menuBoxWidth);
 		//this.menuBox.css({width:menuBoxWidth});
 	},
+/**
+ * @method AXTopDownMenu.setTree
+ * @param {jsObject} obj - example code 참고
+ * @description
+ * 메뉴타겟 엘리먼트 아이디 안에 메뉴 대상 HTML 엘리먼트가 있는 경우 자동으로 메뉴를 구성합니다. setTree 메소드는 타겟을 빈 노드로 선언하고 setTree 메소드를 통해 동적으로 메뉴를 구성하는 메소드입니다.
+ * @example
+ ```
+var sampleTreeItem = {
+    label: "Bottom Menu",			//{string} - 메뉴의 라벨
+    url: "http://www.axisj.com", 	//{string} - 연결URL
+    addClass: "myMenuClass", 		//{string} - 메뉴아이템에 추가할 CSS 클래스
+    cn: [sampleTreeItem, ...., sampleTreeItem]	//[array] - 자식 메뉴 Array
+};
+
+var myMenu = new AXTopDownMenu();
+
+var tree = [
+    {label:"Bottom Menu", url:"http://www.axisj.com", cn:[
+        {label:"valign - bottom", url:"http://www.axisj.com"},
+        {label:"margin - bootom", url:"http://www.axisj.com"},
+        {label:"margin - top X", url:"http://www.axisj.com"}
+    ]},
+    {label:"Script Control Way", url:"http://www.axisj.com", cn:[
+         {label:"Script Way Use setTree", url:"abhttp://www.axisj.comc"},
+         {label:"setHighLightMenu", url:"http://www.axisj.com", cn:[
+             {label:"first : String", url:"http://www.axisj.com"},
+             {label:"second : Array", url:"http://www.axisj.com"},
+             {label:"third : setHighLightOriginID", url:"http://www.axisj.com"}
+         ]},
+        {label:"myMenu2", url:"http://www.axisj.com"}
+    ]},
+     {label:"no Expand Menu", url:"http://www.axisj.combc"},
+     {label:"no Expand Menu", url:"http://www.axisj.com"},
+     {label:"no Expand Menu", url:"http://www.axisj.com"}
+];
+myMenu.setTree(Tree);
+
+ ```
+ */
 	setTree: function(tree){
 		var cfg = this.config;
 		cfg.menuBoxID = cfg.targetID, _this = this;
@@ -13676,6 +13791,17 @@ var AXTopDownMenu = Class.create(AXJ, {
 			
 		}
 	},
+/**
+ * @method AXTopDownMenu.setHighLightOriginID
+ * @param {string} - 메뉴 엘리먼트에 사용자가 정의한 ID
+ * @description
+ * 타겟 엘리먼트안에 Html 엘리먼트로 메뉴를 정의한 경우 엘리먼트 안에 사용자가 정의해 둔 아이디로 메뉴의 하이라이트를 처리해줍니다.
+ * @example
+ ```
+ myMenu.setHighLightOriginID("ID1245");
+ ```
+ */
+
 	setHighLightOriginID: function(_id){
 		var cfg = this.config;
 		var tree = this.tree;
@@ -13708,8 +13834,20 @@ var AXTopDownMenu = Class.create(AXJ, {
 			this.setHighLightMenu(selectedMenus);
 			return selectedMenus;
 		}
+
 	},
-	setHighLightID: function(_id){
+
+/**
+ * @method AXTopDownMenu.setHighLightID
+ * @param {array} - [0, 1] 와 같이 각 뎁스의 순번을 전달합니다.
+ * @description
+ * 메뉴의 포지션 값으로 포지션에 해당하는 메뉴를 하이라이트 처리해 줍니다.
+ * @example
+ ```
+ myMenu.setHighLightMenu([2, 1]); // 3번째 아이템(1depth)의 2번째 아이템(2depth)을 하이라이트 처리합니다.
+ ```
+ */
+    setHighLightID: function(_id){
 		var cfg = this.config;
 		var tree = this.tree;
 		var findedID = "";

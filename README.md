@@ -1,19 +1,16 @@
-AXISJ
-=====
-
 Javascript UI Framework <b>AXISJ</b>
-<br/>
+---
+- [Demonstration](http://dev.axisj.com)
+- [Documentation](http://jdoc.axisj.com)
+- [New Documentation](http://newdoc.axisj.com)
+- [Website](http://www.axisj.com)
+- [Facebook](http://facebook.com/axisj)
+- [Google+](http://google.com/+axisj)
+
 
 ```js
 // bower install
 $ bower install axisj
-/*
-http://dev.axisj.com : Demonstration
-http://jdoc.axisj.com : Documentation
-http://www.axisj.com : Website
-http://facebook.com/axisj : Fanpage
-http://google.com/+axisj : Google+
-*/
 ```
 
 ```html
@@ -22,18 +19,12 @@ ui/[theme]/AXJ.min.css
 ```
 
 and you can use with 'AXU'
-<a href="http://axu.axisj.com" target="_blank">http://axu.axisj.com</a><br/>
+---
+- [AXU](http://axu.axisj.com)
 
 <br/>
 <img src="http://old2014.axisj.com/resource/images/ax-demo.png" alt="axisjui" />
 <br/>
-<br/>
-<br/>
-<a href="http://dev.axisj.com" target="_blank">http://dev.axisj.com</a> Demonstration<br/>
-<a href="http://jdoc.axisj.com" target="_blank">http://jdoc.axisj.com</a> Documentation<br/>
-<a href="http://www.axisj.com" target="_blank">http://www.axisj.com</a> Website<br/>
-<a href="http://facebook.com/axisj" target="_blank">http://facebook.com/axisj</a> FaceBook<br/>
-<a href="http://google.com/+axisj" target="_blank">http://google.com/+axisj</a> Google+<br/>
 <br/>
 FullStack openSource Javascript UI framework<br/>
 <br/>
