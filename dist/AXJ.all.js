@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-16 
+AXJ - v1.0.9 - 2014-11-18 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-16 
+AXJ - v1.0.9 - 2014-11-18 
 */
 
 if(!window.AXConfig){
@@ -9869,6 +9869,7 @@ var AXGrid = Class.create(AXJ, {
 					appendPosToColHeadMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
 				}
 			}
+
 			/*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
 			for (var m, midx = 0, __arr = cfg.colHead._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
 				if (m) cfg.colHead.rows[m.r][m.c].isLastCell = true;
@@ -11406,10 +11407,17 @@ myGrid.setConfig({
 							var valign = " valign=\"" + CH.valign + "\"";
 							var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
 
+							/*
 							po.push(getColHeadTd({
 								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
 								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
 								ghost: (colCount < (cfg.fixedColSeq + 1))
+							}));
+							*/
+							po.push(getColHeadTd({
+								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
+								align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+								ghost: false
 							}));
 
 							colCount += CH.colspan;
@@ -23716,7 +23724,7 @@ var AXModelControl = Class.create(AXJ, {
 				jQueryObj.attr("data-axisjModelId", collectItem.length);
 				
 				var relationKey = [];
-				jQuery.each(getSubModel.parents, function(){
+				axdom.each(getSubModel.parents, function(){
 					if(this.id != ""){
 						if(this.id.left(cfg.subModelDetectClassName.length) == cfg.subModelDetectClassName){
 							var myKey = this.id.substr(this.id.lastIndexOf("_").number()+1);
@@ -23742,7 +23750,7 @@ var AXModelControl = Class.create(AXJ, {
 		
 		
 		var returnJSData = {};
-		jQuery.each(this.collectItem, function(itemIndex, item){
+		axdom.each(this.collectItem, function(itemIndex, item){
 			var keys = item.keys;
 			var targetJS = returnJSData;
 			
@@ -23760,7 +23768,7 @@ var AXModelControl = Class.create(AXJ, {
 			if(targetJS[key] == undefined){
 				if(this.type == "checkbox"){
 					var keyLength = 0;
-					jQuery.each(collectItem, function(){
+					axdom.each(collectItem, function(){
 						if(this.keys.join(".") == keys.join(".")) keyLength++;
 					});
 					if(keyLength == 1){
@@ -23785,7 +23793,7 @@ var AXModelControl = Class.create(AXJ, {
 						
 					}else if(this.type == "checkbox"){
 						var keyLength = 0;
-						jQuery.each(collectItem, function(){
+						axdom.each(collectItem, function(){
 							if(this.keys.join(".") == keys.join(".")) keyLength++;
 						});
 						if(keyLength == 1){
@@ -23857,7 +23865,7 @@ var AXModelControl = Class.create(AXJ, {
 		var returnJSData = this.returnJSData;
 		
 		var collectItem = this.collectItem;
-		jQuery.each(this.collectItem, function(){
+		axdom.each(this.collectItem, function(){
 			var keys = this.keys;
 			var targetJS = returnJSData;
 			var key;
@@ -23871,7 +23879,7 @@ var AXModelControl = Class.create(AXJ, {
 			key = keys.last();
 			if(this.type == "checkbox"){
 				var keyLength = 0;
-				jQuery.each(collectItem, function(){
+				axdom.each(collectItem, function(){
 					if(this.keys.join(".") == keys.join(".")) keyLength++;
 				});
 				if(keyLength > 1) targetJS[key] = [];
@@ -23879,7 +23887,7 @@ var AXModelControl = Class.create(AXJ, {
 			}
 		});
 		
-		jQuery.each(this.collectItem, function(){
+		axdom.each(this.collectItem, function(){
 			var keys = this.keys;
 			var targetJS = returnJSData;
 			
@@ -23897,7 +23905,7 @@ var AXModelControl = Class.create(AXJ, {
 			if(this.type == "checkbox"){
 				if(!AXUtil.isEmpty(nVal)){
 					var keyLength = 0;
-					jQuery.each(collectItem, function(){
+					axdom.each(collectItem, function(){
 						if(this.keys.join(".") == keys.join(".")) keyLength++;
 					});
 					if(keyLength > 1) targetJS[key].push(nVal);
@@ -23954,7 +23962,7 @@ var AXModelControl = Class.create(AXJ, {
 			if(Object.isString(val) || Object.isNumber(val)){
 				
 				var findedItem = false;
-				jQuery.each(this.collectItem, function(){
+				axdom.each(this.collectItem, function(){
 					if(this.keys.join(".") == jsPathObj.key){
 						if(jsPathObj.keySeq != undefined){
 							if(jsPathObj.keySeq == this.keySeq){
@@ -23987,7 +23995,7 @@ var AXModelControl = Class.create(AXJ, {
 			}else if(Object.isArray(val)){
 				
 				var findedItem = false;
-				jQuery.each(this.collectItem, function(){
+				axdom.each(this.collectItem, function(){
 					if(this.keys.join(".") == jsPathObj.key){
 						if(jsPathObj.keySeq != undefined){
 							if(jsPathObj.keySeq == this.keySeq){
@@ -24194,7 +24202,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var colWidth = 0;
 		var astricCount = 0;
 
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axdom.each(cfg.colGroup, function (cidx, CG) {
 			if(CG.widthAstric){
 				CG.width = 0;
 				CG._owidth = CG.width;
@@ -24208,7 +24216,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		/* width * 예외처리 구문 ------------ s */
 		if ((bodyWidth) > (colWidth + 100 * astricCount)) {
 			var remainsWidth = (bodyWidth) - colWidth;
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axdom.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.widthAstric) {
 					CG._owidth = remainsWidth / astricCount;
 					CG.width = CG._owidth;
@@ -24217,7 +24225,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 				newColWidth += CG.width.number();
 			});
 		}else{
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axdom.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.widthAstric) {
 					CG._owidth = 200;
 					CG.width = 200;
@@ -24228,7 +24236,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		}
 		this.colWidth = newColWidth;
 
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axdom.each(cfg.colGroup, function (cidx, CG) {
 			axdom("#" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_head").attr("width", this.width);
 			axdom("#" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_body").attr("width", this.width);
 		});
@@ -24244,7 +24252,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var cfg = this.config;
 		var po = [];
 		po.push("<colgroup>");
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axdom.each(cfg.colGroup, function (cidx, CG) {
 			po.push("<col width=\"" + CG.width + "\" style=\"\" id=\"" + cfg.targetID + "_AX_col_AX_" + cidx + "_AX_" + subfix + "\" />");
 		});
 		po.push("</colgroup>");
@@ -24279,7 +24287,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var colWidth = 0;
 		var astricCount = 0;
 
-		jQuery.each(cfg.colGroup, function (cidx, CG) {
+		axdom.each(cfg.colGroup, function (cidx, CG) {
 			if (!rewrite){
 				if(CG.width == "*"){
 					CG.width = 0;
@@ -24302,7 +24310,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		/* width * 예외처리 구문 ------------ s */
 		if ((bodyWidth) > (colWidth + 100 * astricCount)) {
 			var remainsWidth = (bodyWidth) - colWidth;
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axdom.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.widthAstric) {
 					CG._owidth = remainsWidth / astricCount;
 					CG.width = CG._owidth;
@@ -24311,7 +24319,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 				newColWidth += CG.width.number();
 			});
 		}else{
-			jQuery.each(cfg.colGroup, function (cidx, CG) {
+			axdom.each(cfg.colGroup, function (cidx, CG) {
 				if (CG.widthAstric) {
 					CG._owidth = 200;
 					CG.width = 200;
@@ -24332,7 +24340,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		po.push("<tbody>");
 		po.push("<tr>");
 		var colCount = 0;
-		jQuery.each(cfg.colGroup, function (CHidx, CH) {
+		axdom.each(cfg.colGroup, function (CHidx, CH) {
 			po.push(getHeadItem({
 				rowIndex:0, colIndex:CHidx,
 				align: CH.align,
@@ -24418,7 +24426,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		this.body.empty();
 		this.body.append(po.join(''));
 
-		jQuery.each(this.list, function (lidx, L) {
+		axdom.each(this.list, function (lidx, L) {
 			printItem(lidx, L);
 		});
 
@@ -24435,7 +24443,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var tr = [];
 		if(update == undefined) tr.push("<tr class='modelControlTR' id='" + cfg.targetID + "_tbodyTR_" + lidx + "'>");
 
-		jQuery.each(cfg.body.form, function (fidx, form) {
+		axdom.each(cfg.body.form, function (fidx, form) {
 			if (form) {
 				tr.push(getItem({
 					rowIndex: lidx, colIndex: fidx,
@@ -24453,12 +24461,12 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 		var oncursorKeyup = this.oncursorKeyup.bind(this);
 
-		jQuery.each(cfg.body.form, function (fidx, form) {
+		axdom.each(cfg.body.form, function (fidx, form) {
 			if (form) {
 				if (form.AXBind) {
 					var bindID = form.AXBind.id.replace(/@rowIndex/g, lidx);
 					var myConfig = AXUtil.copyObject(form.AXBind.config);
-					jQuery.each(myConfig, function (k, v) {
+					axdom.each(myConfig, function (k, v) {
 						if (Object.isString(v)) myConfig[k] = v.replace(/@rowIndex/g, lidx);
 					});
 
@@ -24665,7 +24673,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 		var foot = [];
 		foot.push("<tr class='modelControlTR' id='" + cfg.targetID + "_tbodyTR_foot'>");
 
-		jQuery.each(cfg.foot.form, function(fidx, arg){
+		axdom.each(cfg.foot.form, function(fidx, arg){
 			foot.push("<td class=\"bodyTd\" colspan=\"" + (arg.colspan || 1) + "\">");
 			foot.push("	<div class=\"tdRelBlock\" style=\"text-align:" + (arg.align||"left") + ";\">");
 
@@ -24703,7 +24711,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 
 
 			var _body = this.body;
-			jQuery.each(cfg.body.form, function (fidx, form) {
+			axdom.each(cfg.body.form, function (fidx, form) {
 				if(form.updateReload){
 					var td = getItem({
 						rowIndex:lidx, colIndex:fidx,
@@ -24809,7 +24817,7 @@ var AXModelControlGrid = Class.create(AXJ, {
 				}
 			});
 
-			jQuery.each(checkNames, function(k, v){
+			axdom.each(checkNames, function(k, v){
 				if(v.count == 1){
 					if(Object.isArray(item[v.name])){
 						item[v.name] = item[v.name].join(",");
