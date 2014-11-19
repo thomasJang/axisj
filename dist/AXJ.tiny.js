@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-18 
+AXJ - v1.0.9 - 2014-11-19 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-18 
+AXJ - v1.0.9 - 2014-11-19 
 */
 
 if(!window.AXConfig){
@@ -7213,7 +7213,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindTarget.css({ "text-align": "right" });
 		var bindMoneyCheck = this.bindMoneyCheck.bind(this);
 		var val = obj.bindTarget.val().trim();
-		if (val != "") val = obj.bindTarget.val().number().money()
+		if (val != "") val = obj.bindTarget.val().number().money();
 		obj.bindTarget.val(val);
 
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
@@ -7279,10 +7279,14 @@ var AXInputConverter = Class.create(AXJ, {
 			if (minval != undefined && minval != null) {
 				nval = minval;
 			} else {
-				nval = obj.bindTarget.val().number();
+				nval = "";
 			}
 		} else {
-			nval = obj.bindTarget.val().number();
+			if(obj.bindTarget.val() != "-") {
+				nval = obj.bindTarget.val().number();
+			}else{
+				nval = "";
+			}
 		}
 		if (maxval != undefined && maxval != null) {
 			if ((nval) > maxval) {
@@ -7304,7 +7308,9 @@ var AXInputConverter = Class.create(AXJ, {
 					obj.bindTarget.val(nval.money());
 				}
 			}
-		} else {
+		}
+		else
+		{
 			if (minval != undefined && minval != null) {
 				if ((nval) < minval) {
 					obj.bindTarget.val(minval.money());
@@ -7312,11 +7318,10 @@ var AXInputConverter = Class.create(AXJ, {
 						if(eventType == "change") this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 					} catch (e) { }
 				} else {
-					obj.bindTarget.val(nval.money());
+					if(nval != "" && nval != "-") obj.bindTarget.val(nval.money());
 				}
 			} else {
-				trace(1);
-				obj.bindTarget.val(nval.money());
+				if(nval != "" && nval != "-") obj.bindTarget.val(nval.money());
 			}
 		}
 
@@ -7326,6 +7331,10 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (obj.config.onChange) {
 			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: obj.bindTarget.val().number() });
+		}
+
+		if(eventType == "change"){
+			if(obj.bindTarget.val() == "-") obj.bindTarget.val('');
 		}
 	},
 

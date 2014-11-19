@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-18 
+AXJ - v1.0.9 - 2014-11-19 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-18 
+AXJ - v1.0.9 - 2014-11-19 
 */
 
 if(!window.AXConfig){
@@ -18098,7 +18098,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindTarget.css({ "text-align": "right" });
 		var bindMoneyCheck = this.bindMoneyCheck.bind(this);
 		var val = obj.bindTarget.val().trim();
-		if (val != "") val = obj.bindTarget.val().number().money()
+		if (val != "") val = obj.bindTarget.val().number().money();
 		obj.bindTarget.val(val);
 
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
@@ -18164,10 +18164,14 @@ var AXInputConverter = Class.create(AXJ, {
 			if (minval != undefined && minval != null) {
 				nval = minval;
 			} else {
-				nval = obj.bindTarget.val().number();
+				nval = "";
 			}
 		} else {
-			nval = obj.bindTarget.val().number();
+			if(obj.bindTarget.val() != "-") {
+				nval = obj.bindTarget.val().number();
+			}else{
+				nval = "";
+			}
 		}
 		if (maxval != undefined && maxval != null) {
 			if ((nval) > maxval) {
@@ -18189,7 +18193,9 @@ var AXInputConverter = Class.create(AXJ, {
 					obj.bindTarget.val(nval.money());
 				}
 			}
-		} else {
+		}
+		else
+		{
 			if (minval != undefined && minval != null) {
 				if ((nval) < minval) {
 					obj.bindTarget.val(minval.money());
@@ -18197,11 +18203,10 @@ var AXInputConverter = Class.create(AXJ, {
 						if(eventType == "change") this.msgAlert("설정된 최소값{" + minval.number().money() + "}보다 작은 입력입니다.");
 					} catch (e) { }
 				} else {
-					obj.bindTarget.val(nval.money());
+					if(nval != "" && nval != "-") obj.bindTarget.val(nval.money());
 				}
 			} else {
-				trace(1);
-				obj.bindTarget.val(nval.money());
+				if(nval != "" && nval != "-") obj.bindTarget.val(nval.money());
 			}
 		}
 
@@ -18211,6 +18216,10 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (obj.config.onChange) {
 			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: obj.bindTarget.val().number() });
+		}
+
+		if(eventType == "change"){
+			if(obj.bindTarget.val() == "-") obj.bindTarget.val('');
 		}
 	},
 
@@ -24859,7 +24868,7 @@ var AXMultiSelector = Class.create(AXJ, {
     },
     init: function () {
     	var cfg = this.config;
-    	jQuery("#"+cfg.targetID).bind("click", this.expandOptionBox.bind(this));
+    	axdom("#"+cfg.targetID).bind("click", this.expandOptionBox.bind(this));
     },
     expandOptionBox: function(){
     	var cfg = this.config;
@@ -24895,14 +24904,14 @@ var AXMultiSelector = Class.create(AXJ, {
 		axdom(document.body).append(po.join(''));
 		
 		boxWidth = boxWidth + (cfg.optionGroup.length * 5) + 5;
-		jQuery("#"+cfg.targetID + "_AX_expandBox").css({width:boxWidth});
+		axdom("#"+cfg.targetID + "_AX_expandBox").css({width:boxWidth});
 		
     	var css = {};
-    	var offset = jQuery("#"+cfg.targetID).offset();
+    	var offset = axdom("#"+cfg.targetID).offset();
     	css.top = offset.top;
-    	//css.left = offset.left - boxWidth + jQuery("#"+cfg.targetID).outerWidth();
+    	//css.left = offset.left - boxWidth + axdom("#"+cfg.targetID).outerWidth();
     	css.left = offset.left;
-    	jQuery("#"+cfg.targetID + "_AX_expandBox").css(css);
+    	axdom("#"+cfg.targetID + "_AX_expandBox").css(css);
 
 
 		axdom.each(cfg.optionGroup, function(gidx, G){
@@ -24935,7 +24944,7 @@ var AXMultiSelector = Class.create(AXJ, {
 			
 		});
 		
-		jQuery("#"+cfg.targetID + "_AX_expandScrollBox_AX_confirm").bind("click", function(){
+		axdom("#"+cfg.targetID + "_AX_expandScrollBox_AX_confirm").bind("click", function(){
 			if(cfg.onChange){
 				var selectObj = {};
 				axdom.each(cfg.optionGroup, function(gidx, G){
@@ -24948,22 +24957,22 @@ var AXMultiSelector = Class.create(AXJ, {
 				});
 				cfg.onChange.call(selectObj);
 			}
-			jQuery("#"+cfg.targetID + "_AX_expandBox").remove(); // 개체 삭제 처리
+			axdom("#"+cfg.targetID + "_AX_expandBox").remove(); // 개체 삭제 처리
 		});
-		jQuery("#"+cfg.targetID + "_AX_expandScrollBox_AX_cancel").bind("click", function(){
-			jQuery("#"+cfg.targetID + "_AX_expandBox").remove(); // 개체 삭제 처리
+		axdom("#"+cfg.targetID + "_AX_expandScrollBox_AX_cancel").bind("click", function(){
+			axdom("#"+cfg.targetID + "_AX_expandBox").remove(); // 개체 삭제 처리
 		});
 		
-		jQuery("#"+cfg.targetID + "_AX_expandBox").find(".bindSelectorNodes").bind("click", function(event){
+		axdom("#"+cfg.targetID + "_AX_expandBox").find(".bindSelectorNodes").bind("click", function(event){
 			var idx = event.target.id.split(/_AX_/g);
 			var gidx = idx[idx.length-3];
 			var index = idx[idx.length-1];
 			
-			jQuery("#"+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+index).addClass("on");
+			axdom("#"+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+index).addClass("on");
 			
 			axdom.each(cfg.optionGroup[gidx].options, function(oidx, O){
 				if(O.selected){
-					jQuery("#"+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+oidx).removeClass("on");	
+					axdom("#"+cfg.targetID + "_AX_"+gidx+"_AX_option_AX_"+oidx).removeClass("on");
 					delete O.selected;
 				}
 			});
@@ -25130,10 +25139,10 @@ myProgress.start(function(){
 		po.push("</div>");
 				
 		po.push("</div>");
-		this.progress = jQuery(po.join(''));
-		jQuery(document.body).append(this.progress);
+		this.progress = axdom(po.join(''));
+		axdom(document.body).append(this.progress);
 		
-		jQuery("#"+progressID+"_AX_cancel").bind("click", this.cancel.bind(this));
+		axdom("#"+progressID+"_AX_cancel").bind("click", this.cancel.bind(this));
         this.loadedCount = 1;
 		this.update();
 	},
@@ -25164,10 +25173,10 @@ myProgress.update();
 		var progressID = this.progressID;
 		var loadedRate = ((loadedCount-1) / (totalCount.number()) * 100).round(1);
 		if(loadedRate > 100) loadedRate = 100;
-		jQuery("#"+progressID+"_AX_loadedText").html(loadedRate+"%<span>"+(loadedCount-1).money()+"/"+totalCount.money()+"</span>");
+		axdom("#"+progressID+"_AX_loadedText").html(loadedRate+"%<span>"+(loadedCount-1).money()+"/"+totalCount.money()+"</span>");
 		
 		if(theme == "AXlineProgress"){
-			jQuery("#"+progressID+"_AX_bar").animate(
+			axdom("#"+progressID+"_AX_bar").animate(
 				{width:loadedRate+"%"},
 				config.duration, "", 
 				function(){
@@ -25184,7 +25193,7 @@ myProgress.update();
 		}else{
 			//circle
 			setTimeout(function(){
-				jQuery("#"+progressID+"_AX_bar").addClass("percent"+((loadedCount / (totalCount.number()) * 100).round(0) / 5).round() * 5);
+				axdom("#"+progressID+"_AX_bar").addClass("percent"+((loadedCount / (totalCount.number()) * 100).round(0) / 5).round() * 5);
 				if(config.callBack){
 					config.callBack.call({
 						totalCount:totalCount,
@@ -25253,7 +25262,7 @@ myProgress.close();
 	close: function(){
 		var config = this.config;
 		var progressID = this.progressID;
-		jQuery("#"+progressID+"_AX_tray").remove();
+		axdom("#"+progressID+"_AX_tray").remove();
 	}
 });
 /* ---------------------------- */
