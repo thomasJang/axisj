@@ -40,59 +40,54 @@
 		pageStart: function(){
 
 			myGrid.setConfig({
-				targetID : "AXGridTarget",
-				theme : "AXGrid",
-				fixedColSeq:0,
-				colGroup : [
-					{key:"no", label:"번호", width:"50", align:"right"}, 
-					{key:"title", label:"제목", width:"150"},
-					{key:"writer", label:"작성자", width:"100", align:"center"},
-					{key:"regDate", label:"작성일", width:"100", align:"center"},
-					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
-					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
-					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
-						return (this.item.price.number() * this.item.amount.number()).money();
-					}},
-					{key:"desc", label:"비고", width:"500"}
-				],
-				
-				colHead : {
-					rows: [
-						[
-							{colSeq:0, rowspan:2},
-							{colSeq:null, colspan:3, label:"표현식", align:"center"}, 
-							{colSeq:4, rowspan:2},
-							{colSeq:5, rowspan:2},
-							{colSeq:6, rowspan:2},
-							{colSeq:7, rowspan:2}
-						],
-						[
-							{colSeq:1},
-							{colSeq:2},
-							{colSeq:3}
-						]
-					]
-				},
-				
-				body : {
-					marker: function(){
-						
-					},
-					onclick: function(){
-						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-						//alert(this.list);
-						//alert(this.page);
-					},
-					ondblclick: function(){
-						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-						//alert(this.list);
-						//alert(this.page);
-					}
-				},
-				page:{
-					paging:false, 
-					status:{formatter: null}
-				}
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                fixedColSeq : 7,
+                fitToWidth:true,
+                colHeadAlign: "center",
+                colGroup : [
+                    {key:"no", label:"번호", width:"50", align:"right"},
+                    {key:"title", label:"제목", width:"*"},
+                    {key:"writer", label:"작성자", width:"100", align:"center"},
+                    {key:"regDate", label:"작성일", width:"100", align:"center"},
+                    {key:"price", label:"가격", width:"100", align:"right", formatter:""},
+                    {key:"amount", label:"수량", width:"80", align:"right", formatter:""},
+                    {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+                        return "1"; //(this.item.price.number() * this.item.amount.number()).money();
+                    }},
+                    {key:"desc", label:"합계" , width:"100"},
+                    {key:"desc1", label:"비고1", width:"100"},
+                    {key:"desc2", label:"비고2", width:"100"},
+                    {key:"desc3", label:"비고3", width:"100"}
+
+                ],
+                colHead : {
+                    rows: [
+                        [
+                            {colSeq:0, rowspan:2},
+                            {colSeq:1, rowspan:2},
+                            {colSeq:2, rowspan:2},
+                            {colSeq:3, rowspan:2},
+                            {colSeq:4, rowspan:2},
+                            {colSeq:5, rowspan:2},
+                            {colSeq:6, rowspan:2},
+                            {colSeq:7, rowspan:2},
+                            {colSeq:null, colspan:3, label:"merge 영역", align:"center"}//,
+                        ],
+                        [
+
+                            {colSeq:8},
+                            {colSeq:9},
+                            {colSeq:10}
+                        ]
+
+                    ]
+                },
+                body : {
+                    onclick: function(){
+
+                    }
+                }
 			});
 			
 			var list = [
