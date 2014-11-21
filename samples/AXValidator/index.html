@@ -38,7 +38,7 @@
 		var fnObj = {
 			pageStart: function(){
 
-
+            $("#isdate").bindDate();
             $("#regdate").bindDate({
                 align:"left", valign:"top", separator:"-", selectType:"d",
                 onChange:{
@@ -189,7 +189,11 @@
 				}else{
 					alert(	validateResult );
 				}
-			}
+			},
+            serialize: function(){
+                var frm = document.myForm;
+                prompt("$(frm).serialize()", $(frm).serialize() );
+            }
 		}
 		$(document).ready(fnObj.pageStart);
 		</script>
@@ -210,7 +214,7 @@
                             <col />
                         </colgroup>
                         <tbody>
-<!--
+
                             <tr>
                                 <th>
                                     <div class="tdRel">realtime</div>
@@ -242,6 +246,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <!--
                             <tr>
                                 <th>
                                     <div class="tdRel">hangul</div>
@@ -262,7 +267,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            -->
 
                             <tr>
                                 <th>
@@ -274,6 +278,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            -->
 <tr>
     <th>
         <div class="tdRel">residentno</div>
@@ -310,7 +315,7 @@
                                 </th>
                                 <td class="last">
                                     <div class="tdRel">
-                                        <input type="text" name="isdate" placeholder="isdate" value="" class="AXInput W200 av-isdate" />
+                                        <input type="text" name="isdate" id="isdate" placeholder="isdate" value="" class="AXInput W200 av-isdate" />
                                     </div>
                                 </td>
                             </tr>
@@ -424,6 +429,7 @@
 
                     <div style="padding:10px;">
                         <button class="AXButton Blue" onclick="fnObj.saveForm();">저장</button>
+                        <button class="AXButton Blue" onclick="fnObj.serialize();">serialize</button>
                     </div>
 
                 </div>
