@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-19 
+AXJ - v1.0.9 - 2014-11-23 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-19 
+AXJ - v1.0.9 - 2014-11-23 
 */
 
 if(!window.AXConfig){
@@ -13560,7 +13560,7 @@ myGrid.setConfig({
 			}
 			//this.bigDataSyncApply();
 			this.contentScrollResize(false);
-			this.setFocus(this.list.length-1);
+			//this.setFocus(this.list.length-1); insertIndex 가 없으면 focus 실행 안함.
 		}
 
 		this.setStatus(this.list.length);
@@ -28103,22 +28103,6 @@ var AXTabClass = Class.create(AXJ, {
 				if(obj.config.overflow != "visible"){
 				po.push("	<div class=\"trayScroll\" id=\"" + objID + "_AX_tabScroll\">");
 				}
-
-				var selectedIndex = null;
-				axdom.each(obj.config.options, function(oidx, O){
-					po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
-					if(O.optionValue == obj.config.value){
-						selectedIndex = oidx;
-						po.push(" on");
-						if(O.options) subOptions = O.options;
-					}
-					po.push("\">");
-					po.push(O.optionText.dec() + "</a>");
-					//if(AXUtil.browser.mobile){
-						po.push("<span class='AXTabSplit'></span>");
-					//}
-				});
-				obj.config.selectedIndex = selectedIndex;			
 				po.push("	<div class=\"clear\"></div>");
 			if(obj.config.overflow != "visible"){
 			po.push("	</div>");
@@ -28128,115 +28112,165 @@ var AXTabClass = Class.create(AXJ, {
 			}
 			po.push("</div>");
 
-	        if(subOptions.length > 0){
+			if(subOptions.length > 0){
 				// subOptions :
-
-	        }
+			}
 		po.push("</div>");
 		
 		obj.jQueryObjID = axdom("#"+objID);
 		obj.jQueryObjID.html(po.join(''));
 		obj.jQueryObjID.data("objSeq", objSeq); /* memory objSeq */
 		
-	    obj.tabTray = axdom("#" + objID + "_AX_tabTray");
-	    obj.tabScroll = axdom("#" + objID + "_AX_tabScroll");
-	    obj.tabContainer = axdom("#" + objID + "_AX_tabContainer");
-    	
-    	var setValueTab = this.setValueTab.bind(this);
-    	var myMenu = [];
-    	axdom.each(obj.config.options, function(oidx, O){
-    		myMenu.push({label:O.optionText, value:O.optionValue, className:"", onclick:function(){
-    			//trace(this);
-    			setValueTab(objID, this.menu.value);
-    		}});
-    	});
-    	
+		obj.tabTray = axdom("#" + objID + "_AX_tabTray");
+		obj.tabScroll = axdom("#" + objID + "_AX_tabScroll");
+		obj.tabContainer = axdom("#" + objID + "_AX_tabContainer");
+		
 		AXContextMenu.bind({
 			id:objID + "_AX_tabMore", 
 			theme:"AXContextMenu", // 선택항목
 			width:"200", // 선택항목
-			menu:myMenu
+			menu:[]
 		});
+		
+		this.addTabs(objID, obj.config.options);
+		
+		var bindTabMove = this.bindTabMove.bind(this);
+		var bindTabMoveClick = this.bindTabMoveClick.bind(this);
+		var bindTabMoreClick = this.bindTabMoreClick.bind(this);
+		
+		axdom("#" + objID + "_AX_Arrow_AX_Left").bind("mouseover", function(event){
+			bindTabMove(objID, objSeq, "left", event);
+		});
+		axdom("#" + objID + "_AX_Arrow_AX_Right").bind("mouseover", function(event){
+			bindTabMove(objID, objSeq, "right", event);
+		});
+		axdom("#" + objID + "_AX_Arrow_AX_Left, #" + objID + "_AX_Arrow_AX_Right").bind("mouseout", function(event){
+			if(obj.moveobj) clearTimeout(obj.moveobj);
+		});
+		axdom("#" + objID + "_AX_Arrow_AX_Left").bind("mousedown", function(event){
+			bindTabMoveClick(objID, objSeq, "left", event);
+		});
+		axdom("#" + objID + "_AX_Arrow_AX_Right").bind("mousedown", function(event){
+			bindTabMoveClick(objID, objSeq, "right", event);
+		});
+		axdom("#" + objID + "_AX_Arrow_AX_More").bind("click", function(event){
+			bindTabMoreClick(objID, objSeq, "right", event);
+		});
+		
+		if(obj.overflow != "visible"){
+			setTimeout(function(){
+				var tabsWidth = (axf.clientWidth() < cfg.responsiveMobile) ? 40 : 30;
+				var tabsMargin = (axf.clientWidth() < cfg.responsiveMobile) ? 5 : 5;
+				obj.tabContainer.find(".AXTab").each(function(){
+					tabsWidth += (axdom(this).outerWidth().number() + axdom(this).css("marginLeft").number() + axdom(this).css("marginRight").number() + tabsMargin);
+				});
 
-    	var bindTabClick = this.bindTabClick.bind(this);
-    	obj.tabContainer.find(".AXTab").bind("click", function(event){
-    		bindTabClick(objID, objSeq, event);
-    	});
-    	var bindTabMove = this.bindTabMove.bind(this);
-    	var bindTabMoveClick = this.bindTabMoveClick.bind(this);
-    	var bindTabMoreClick = this.bindTabMoreClick.bind(this);
-    	
-    	axdom("#" + objID + "_AX_Arrow_AX_Left").bind("mouseover", function(event){
-    		bindTabMove(objID, objSeq, "left", event);
-    	});
-    	axdom("#" + objID + "_AX_Arrow_AX_Right").bind("mouseover", function(event){
-    		bindTabMove(objID, objSeq, "right", event);
-    	});
-    	axdom("#" + objID + "_AX_Arrow_AX_Left, #" + objID + "_AX_Arrow_AX_Right").bind("mouseout", function(event){
-    		if(obj.moveobj) clearTimeout(obj.moveobj);
-    	});
-    	axdom("#" + objID + "_AX_Arrow_AX_Left").bind("mousedown", function(event){
-    		bindTabMoveClick(objID, objSeq, "left", event);
-    	});
-    	axdom("#" + objID + "_AX_Arrow_AX_Right").bind("mousedown", function(event){
-    		bindTabMoveClick(objID, objSeq, "right", event);
-    	});
-    	axdom("#" + objID + "_AX_Arrow_AX_More").bind("click", function(event){
-    		bindTabMoreClick(objID, objSeq, "right", event);
-    	});
-    	
-    	if(obj.overflow != "visible"){
-            setTimeout(function(){
-                var tabsWidth = (axf.clientWidth() < cfg.responsiveMobile) ? 40 : 30;
-                var tabsMargin = (axf.clientWidth() < cfg.responsiveMobile) ? 5 : 5;
-                obj.tabContainer.find(".AXTab").each(function(){
-                    tabsWidth += (axdom(this).outerWidth().number() + axdom(this).css("marginLeft").number() + axdom(this).css("marginRight").number() + tabsMargin);
-                });
+				obj.tabScroll.css({width:tabsWidth, left:cfg.handleWidth});
+				obj.tabTray.css({height:obj.tabScroll.outerHeight()});
 
-                obj.tabScroll.css({width:tabsWidth, left:cfg.handleWidth});
-                obj.tabTray.css({height:obj.tabScroll.outerHeight()});
+				var trayWidth = obj.tabTray.outerWidth();
+				var scrollWidth = obj.tabScroll.outerWidth();
 
-                var trayWidth = obj.tabTray.outerWidth();
-                var scrollWidth = obj.tabScroll.outerWidth();
+				if(trayWidth > scrollWidth){
+					obj.tabContainer.find(".leftArrowHandleBox").hide();
+					obj.tabContainer.find(".rightArrowHandleBox").hide();
+					obj.tabContainer.find(".rightArrowMoreBox").hide();
+					obj.tabScroll.css({left:0});
+				}else if(obj.config.selectedIndex != null){
+					obj.tabContainer.find(".leftArrowHandleBox").show();
+					obj.tabContainer.find(".rightArrowHandleBox").show();
+					obj.tabContainer.find(".rightArrowMoreBox").show();
+					_this.focusingItem(objID, objSeq, obj.config.selectedIndex);
+				}
 
-                if(trayWidth > scrollWidth){
-                    obj.tabContainer.find(".leftArrowHandleBox").hide();
-                    obj.tabContainer.find(".rightArrowHandleBox").hide();
-                    obj.tabContainer.find(".rightArrowMoreBox").hide();
-                    obj.tabScroll.css({left:0});
-                }else if(obj.config.selectedIndex != null){
-                    obj.tabContainer.find(".leftArrowHandleBox").show();
-                    obj.tabContainer.find(".rightArrowHandleBox").show();
-                    obj.tabContainer.find(".rightArrowMoreBox").show();
-                    _this.focusingItem(objID, objSeq, obj.config.selectedIndex);
-                }
+				if(trayWidth < scrollWidth && AXUtil.clientWidth() < cfg.responsiveMobile){
+					obj.tabContainer.find(".leftArrowHandleBox").hide();
+					obj.tabContainer.find(".rightArrowHandleBox").hide();
+					obj.tabScroll.css({left:0});
+				}else{
 
-                if(trayWidth < scrollWidth && AXUtil.clientWidth() < cfg.responsiveMobile){
-                    obj.tabContainer.find(".leftArrowHandleBox").hide();
-                    obj.tabContainer.find(".rightArrowHandleBox").hide();
-                    obj.tabScroll.css({left:0});
-                }else{
+				}
 
-                }
+				/* touch event */
+				var touchstart = _this.touchstart.bind(_this);
+				if(AXUtil.browser.mobile){
+					var touchBodyID = obj.tabTray.get(0).id;
+					_this.touchstartBind = function () { touchstart(objID, objSeq); };
+					if (document.addEventListener) AXgetId(touchBodyID).addEventListener("touchstart", _this.touchstartBind, false);
+				}else{
+					_this.touchstartBind = function (event) { touchstart(objID, objSeq, event); };
+					obj.tabTray.unbind("mousedown.AXMobileTouch").bind("mousedown.AXMobileTouch", _this.touchstartBind);
+				}
+				obj.tabTray.attr("onselectstart", "return false");
+				obj.tabTray.addClass("AXUserSelectNone");
 
-                /* touch event */
-                var touchstart = _this.touchstart.bind(_this);
-                if(AXUtil.browser.mobile){
-                    var touchBodyID = obj.tabTray.get(0).id;
-                    _this.touchstartBind = function () { touchstart(objID, objSeq); };
-                    if (document.addEventListener) AXgetId(touchBodyID).addEventListener("touchstart", _this.touchstartBind, false);
-                }else{
-                    _this.touchstartBind = function (event) { touchstart(objID, objSeq, event); };
-                    obj.tabTray.unbind("mousedown.AXMobileTouch").bind("mousedown.AXMobileTouch", _this.touchstartBind);
-                }
-                obj.tabTray.attr("onselectstart", "return false");
-                obj.tabTray.addClass("AXUserSelectNone");
-
-                obj.tabTray.unbind("dragstart.AXMobileTouch").bind("dragstart.AXMobileTouch", _this.cancelEvent.bind(_this));
-                /* touch event */
-            }, 50);
-	    }
-    },
+				obj.tabTray.unbind("dragstart.AXMobileTouch").bind("dragstart.AXMobileTouch", _this.cancelEvent.bind(_this));
+				/* touch event */
+			}, 50);
+		}
+	},
+	addTabs: function(objID, options){
+		var cfg = this.config;
+		var objSeq = axdom("#" + objID).data("objSeq");
+		var obj = this.objects[objSeq];
+		var po = [];
+		var target;
+		if(obj.config.overflow == "visible"){
+			target = axdom("#" + objID + "_AX_tabTray div.clear");
+		}else{
+			target = axdom("#" + objID + "_AX_tabScroll div.clear");
+		}
+	
+		var tabsCnt = obj.tabContainer.find(".AXTab").length;
+		var selectedIndex = null;
+		axdom.each(options, function(oidx, O){
+			oidx += tabsCnt;
+			po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
+			if(O.optionValue == obj.config.value){
+				selectedIndex = oidx;
+				po.push(" on");
+			}
+			po.push("\">");
+			po.push(O.optionText.dec() + "</a>");
+			//if(AXUtil.browser.mobile){
+				po.push("<span class='AXTabSplit'></span>");
+			//}
+		});
+		
+		if(selectedIndex != null){
+			obj.config.selectedIndex = selectedIndex;
+		}
+		target.before(po.join(""));
+		
+		var tabsWidth = (axf.clientWidth() < cfg.responsiveMobile) ? 40 : 30;
+		var tabsMargin = (axf.clientWidth() < cfg.responsiveMobile) ? 5 : 5;
+		obj.tabContainer.find(".AXTab").each(function(){
+			tabsWidth += (axdom(this).outerWidth().number() + axdom(this).css("marginLeft").number() + axdom(this).css("marginRight").number() + tabsMargin);
+		});
+		obj.tabScroll.css({width:tabsWidth});
+		
+		var setValueTab = this.setValueTab.bind(this);
+		var myMenu = [];
+		axdom.each(obj.config.options, function(oidx, O){
+			myMenu.push({label:O.optionText, value:O.optionValue, className:"", onclick:function(){
+				//trace(this);
+				setValueTab(objID, this.menu.value);
+			}});
+		});
+		
+		var tabMoreID = objID + "_AX_tabMore";
+		axdom.each(AXContextMenu.objects, function(oidx, O){
+			if(O.id == tabMoreID){
+				O.menu = myMenu;
+				return false; // break;
+			}
+		});
+		
+		var bindTabClick = this.bindTabClick.bind(this);
+		obj.tabContainer.find(".AXTab").bind("click", function(event){
+			bindTabClick(objID, objSeq, event);
+		});
+	},
     /**
      * @method AXTab.bindTabClick
      * @param objID  {String} - 탭 대상 ID
@@ -28277,14 +28311,7 @@ var AXTabClass = Class.create(AXJ, {
 				obj.config.selectedIndex = itemIndex;
 				
 				this.focusingItem(objID, objSeq, obj.config.selectedIndex);
-				if(obj.config.onclick){
-					obj.config.onclick.call({
-						options:obj.config.options,
-						item:obj.config.options[itemIndex],
-						index:itemIndex
-					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
-				}
-
+				
 				if(obj.config.onchange){
 					obj.config.onchange.call({
 						options:obj.config.options,
@@ -28292,16 +28319,7 @@ var AXTabClass = Class.create(AXJ, {
 						index:itemIndex
 					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
 				}
-			}else{
-				if(obj.config.onclick){
-					obj.config.onclick.call({
-						options:obj.config.options,
-						item:obj.config.options[itemIndex],
-						index:itemIndex
-					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
-				}
 			}
-
 		}	
     },
     /**
@@ -28584,7 +28602,7 @@ var AXTabClass = Class.create(AXJ, {
     	if(obj.tabTray.outerWidth() > obj.tabScroll.outerWidth()){
     		return;
     	}
-
+    	
     	if(AXUtil.clientWidth() < cfg.responsiveMobile){
     		var scrollLeft = (axdom("#" + objID + "_AX_Tabs_AX_" + optionIndex).position().left);
     		var itemWidth = (axdom("#" + objID + "_AX_Tabs_AX_" + optionIndex).outerWidth());
@@ -28849,6 +28867,21 @@ axdom.fn.setValueTab = function (value) {
         return this;
     });
 };
+
+axdom.fn.addTabs = function (options) {
+	axdom.each(this, function () {
+		var objSeq = axdom("#" + this.id).data("objSeq");
+		if(objSeq == null){
+			return;
+		}
+		
+		var obj = AXTab.objects[objSeq];
+		obj.config.options = obj.config.options.concat(options);
+		
+		AXTab.addTabs(this.id, options);
+		return this;
+	});
+};
 /* ---------------------------- */
 var AXTopDownMenu = Class.create(AXJ, {
 	initialize: function(AXJ_super){
@@ -28960,7 +28993,7 @@ myMenu.setTree(Tree);
 		var po = [];
 		
 		var treeFn = function(subTree){
-			jQuery.each(subTree, function(pi, T){
+			axdom.each(subTree, function(pi, T){
 				po.push("<li>");
 				var addClass = (T.cn && T.cn.length > 0 ) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
 				po.push("<a href=\"" + (T.url||cfg.href) + "\""+addClass+" id=\""+ (T._id||"") +"\">"+ (T.label||"").dec() + "</a>");
@@ -28976,7 +29009,7 @@ myMenu.setTree(Tree);
 		};
 		
 		po.push("<ul>");
-		jQuery.each(tree, function(pi, T){
+		axdom.each(tree, function(pi, T){
 			var addClass = [];
 			if(T.addClass){
 				addClass.push(T.addClass);
@@ -29018,9 +29051,9 @@ myMenu.setTree(Tree);
 			EL.id = cfg.menuBoxID + "_PM_" + pi;
 			var _id = "";
 
-			var ELA = jQuery(EL).children("A");
+			var ELA = axdom(EL).children("A");
 
-			if(ELA.get(0).id) _id = jQuery(EL).children("A").get(0).id;
+			if(ELA.get(0).id) _id = axdom(EL).children("A").get(0).id;
 			ELA.get(0).id = cfg.menuBoxID + "_PMA_" + pi;
 			ELA.attr("data-axmenuid", _id);
 
@@ -29052,8 +29085,8 @@ myMenu.setTree(Tree);
 		var cfg = this.config;
 		var poi = event.target.id.split(/\_/g).last();
 		if(this.poi != "" && this.poi != poi){
-			jQuery("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
-			jQuery("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
+			axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
+			axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
 				{
 					duration:cfg.easing.close.duration,
 					easing:cfg.easing.close.easing,
@@ -29066,11 +29099,11 @@ myMenu.setTree(Tree);
 		}
 
 		//slideDown check
-		if(this.dfPoi != undefined) jQuery("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).removeClass("on");
-		jQuery("#" + cfg.menuBoxID + "_PMA_" + poi).addClass("on");
+		if(this.dfPoi != undefined) axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).removeClass("on");
+		axdom("#" + cfg.menuBoxID + "_PMA_" + poi).addClass("on");
 		//trace("#" + cfg.menuBoxID + "_PMC_" + poi);
 		
-		var tgDiv = jQuery("#" + cfg.menuBoxID + "_PMC_" + poi);
+		var tgDiv = axdom("#" + cfg.menuBoxID + "_PMC_" + poi);
 		if(this.tree[poi] && !this.tree[poi].divDim){
 			tgDiv.show();
 			this.tree[poi].divDim = {width:tgDiv.outerWidth(), height:tgDiv.outerHeight()};
@@ -29155,12 +29188,12 @@ myMenu.setTree(Tree);
 		var initChilds = this.initChilds.bind(this);
 		var tree = this.tree;
 		this.menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL){
-			var child = jQuery(EL).children("."+cfg.childMenu.className).get(0);
+			var child = axdom(EL).children("."+cfg.childMenu.className).get(0);
 			if(child){
 				child.id = cfg.menuBoxID + "_PMC_" + pi;
 				if(cfg.childMenu.arrowClassName){
-					var arrow = jQuery("<div class=\""+cfg.childMenu.arrowClassName+"\"></div>");
-					jQuery(child).prepend(arrow);
+					var arrow = axdom("<div class=\""+cfg.childMenu.arrowClassName+"\"></div>");
+					axdom(child).prepend(arrow);
 				}
 				initChilds(child.id, tree[pi]);
 			}else{
@@ -29176,8 +29209,8 @@ myMenu.setTree(Tree);
 		var onoverChild = this.onoverChild.bind(this);
 		var onoutChild = this.onoutChild.bind(this);
 		//trace(cid);
-		jQuery("#"+cid+">ul>li").each(function(pi, EL){
-			var linkA = jQuery(EL).children("A");
+		axdom("#"+cid+">ul>li").each(function(pi, EL){
+			var linkA = axdom(EL).children("A");
 			var _id = "";
 			if(linkA.get(0).id) _id = linkA.get(0).id;
 			linkA.get(0).id = cid.replace("PMC", "PMA") + "_" + pi;
@@ -29187,14 +29220,14 @@ myMenu.setTree(Tree);
 				linkA.bind("mouseout", onoutChild);
 			}
 
-			//jQuery(EL).children("A").html(cid.replace("PMC", "PMA") + "_" + pi);
-			var childDiv = jQuery(EL).children("."+cfg.childsMenu.className).get(0);
+			//axdom(EL).children("A").html(cid.replace("PMC", "PMA") + "_" + pi);
+			var childDiv = axdom(EL).children("."+cfg.childsMenu.className).get(0);
 			if(childDiv){
 				childDiv.id = cid+"_"+pi;
 
 				if(cfg.childsMenu.arrowClassName){
-					var arrow = jQuery("<div class=\""+cfg.childsMenu.arrowClassName+"\"></div>");
-					jQuery(childDiv).prepend(arrow);
+					var arrow = axdom("<div class=\""+cfg.childsMenu.arrowClassName+"\"></div>");
+					axdom(childDiv).prepend(arrow);
 				}
 
 				tree.push({
@@ -29218,7 +29251,7 @@ myMenu.setTree(Tree);
 		if(!pitem) return;
 		if(pitem.coi == "") return;
 		var cfg = this.config;
-		jQuery("#" + pitem.coi).slideUp(
+		axdom("#" + pitem.coi).slideUp(
 			{
 				duration:cfg.easing.close.duration,
 				easing:cfg.easing.close.easing,
@@ -29230,9 +29263,9 @@ myMenu.setTree(Tree);
 	    //하위 자식들의 poi 모두 닫기
 
 		var closeAllSubMenu = function(stree){
-			jQuery.each(stree, function(){
+			axdom.each(stree, function(){
 				if(this.coi != ""){
-					jQuery("#" + this.coi).hide();
+					axdom("#" + this.coi).hide();
 				}
 				closeAllSubMenu(this.cn);
 			});
@@ -29268,13 +29301,13 @@ myMenu.setTree(Tree);
 		if(item){
 			if(item.id){
 
-				var tgDiv = jQuery("#" + item.id);
+				var tgDiv = axdom("#" + item.id);
 
 				//slideDown check
 				if(!item.divDim){
-					jQuery("#" + item.id).show();
+					axdom("#" + item.id).show();
 					item.divDim = {width:tgDiv.outerWidth(), height:tgDiv.outerHeight()};
-					var pDim = {width:jQuery("#"+eid).outerWidth(), height:jQuery("#"+eid).outerHeight(), pos:jQuery("#"+eid).position()};
+					var pDim = {width:axdom("#"+eid).outerWidth(), height:axdom("#"+eid).outerHeight(), pos:axdom("#"+eid).position()};
 
 					if(cfg.childsMenu.align == "left"){
 						var posLeft = pDim.width + cfg.childsMenu.margin.left;
@@ -29341,9 +29374,9 @@ myMenu.setTree(Tree);
 		var cfg = this.config;
 		this.closeSubMenu(this.tree[this.poi]);
 
-		jQuery("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
-		if(this.dfPoi != undefined) jQuery("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
-		jQuery("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
+		axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
+		if(this.dfPoi != undefined) axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
+		axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
 			{
 				duration:cfg.easing.close.duration,
 				easing:cfg.easing.close.easing,
@@ -29355,20 +29388,20 @@ myMenu.setTree(Tree);
 	setHighLightMenu: function(poi){
 		var cfg = this.config;
 		
-		if(jQuery.isArray(poi)){
+		if(axdom.isArray(poi)){
 			
 			this.dfPoi = poi;
 			
 			var tree = this.tree;
-			jQuery.each(poi, function(idx, T){
+			axdom.each(poi, function(idx, T){
 				if(idx == 0) tree = tree[T.number()];
 				else  tree = tree.cn[T.number()];
 				if(tree){
 					if(idx == 0){
-						jQuery("#" + tree.id).addClass("on");
-						jQuery("#" + tree.id).children("A").addClass("on");
+						axdom("#" + tree.id).addClass("on");
+						axdom("#" + tree.id).children("A").addClass("on");
 					}else{
-						jQuery("#" + tree.id.replace("_PMC_", "_PMA_")).addClass("on");
+						axdom("#" + tree.id.replace("_PMC_", "_PMA_")).addClass("on");
 					}
 				}
 			});
@@ -29376,7 +29409,7 @@ myMenu.setTree(Tree);
 		}else{
 			
 			this.dfPoi = poi;
-			jQuery("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
+			axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
 			
 		}
 	},
@@ -29397,7 +29430,7 @@ myMenu.setTree(Tree);
 		var findedID = "";
 
 		var treeFn = function(subTree){
-			jQuery.each(subTree, function(idx, T){
+			axdom.each(subTree, function(idx, T){
 				if(T._id == _id){
 					findedID = T.id;
 					return false;
@@ -29407,7 +29440,7 @@ myMenu.setTree(Tree);
 			});
 		};
 
-		jQuery.each(this.tree, function(idx, T){
+		axdom.each(this.tree, function(idx, T){
 			if(T._id == _id){
 				findedID = T.id;
 				return false;
@@ -29442,7 +29475,7 @@ myMenu.setTree(Tree);
 		var findedID = "";
 
 		var treeFn = function(subTree){
-			jQuery.each(subTree, function(idx, T){
+			axdom.each(subTree, function(idx, T){
 				if(T.id == _id){
 					findedID = T.id;
 					return false;
@@ -29451,7 +29484,7 @@ myMenu.setTree(Tree);
 				}
 			});
 		};
-		jQuery.each(tree, function(idx, T){
+		axdom.each(tree, function(idx, T){
 			if(T.id == _id){
 				findedID = T.id;
 				return false;

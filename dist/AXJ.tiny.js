@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-19 
+AXJ - v1.0.9 - 2014-11-23 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-19 
+AXJ - v1.0.9 - 2014-11-23 
 */
 
 if(!window.AXConfig){
@@ -13380,7 +13380,7 @@ myMenu.setTree(Tree);
 		var po = [];
 		
 		var treeFn = function(subTree){
-			jQuery.each(subTree, function(pi, T){
+			axdom.each(subTree, function(pi, T){
 				po.push("<li>");
 				var addClass = (T.cn && T.cn.length > 0 ) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
 				po.push("<a href=\"" + (T.url||cfg.href) + "\""+addClass+" id=\""+ (T._id||"") +"\">"+ (T.label||"").dec() + "</a>");
@@ -13396,7 +13396,7 @@ myMenu.setTree(Tree);
 		};
 		
 		po.push("<ul>");
-		jQuery.each(tree, function(pi, T){
+		axdom.each(tree, function(pi, T){
 			var addClass = [];
 			if(T.addClass){
 				addClass.push(T.addClass);
@@ -13438,9 +13438,9 @@ myMenu.setTree(Tree);
 			EL.id = cfg.menuBoxID + "_PM_" + pi;
 			var _id = "";
 
-			var ELA = jQuery(EL).children("A");
+			var ELA = axdom(EL).children("A");
 
-			if(ELA.get(0).id) _id = jQuery(EL).children("A").get(0).id;
+			if(ELA.get(0).id) _id = axdom(EL).children("A").get(0).id;
 			ELA.get(0).id = cfg.menuBoxID + "_PMA_" + pi;
 			ELA.attr("data-axmenuid", _id);
 
@@ -13472,8 +13472,8 @@ myMenu.setTree(Tree);
 		var cfg = this.config;
 		var poi = event.target.id.split(/\_/g).last();
 		if(this.poi != "" && this.poi != poi){
-			jQuery("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
-			jQuery("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
+			axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
+			axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
 				{
 					duration:cfg.easing.close.duration,
 					easing:cfg.easing.close.easing,
@@ -13486,11 +13486,11 @@ myMenu.setTree(Tree);
 		}
 
 		//slideDown check
-		if(this.dfPoi != undefined) jQuery("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).removeClass("on");
-		jQuery("#" + cfg.menuBoxID + "_PMA_" + poi).addClass("on");
+		if(this.dfPoi != undefined) axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).removeClass("on");
+		axdom("#" + cfg.menuBoxID + "_PMA_" + poi).addClass("on");
 		//trace("#" + cfg.menuBoxID + "_PMC_" + poi);
 		
-		var tgDiv = jQuery("#" + cfg.menuBoxID + "_PMC_" + poi);
+		var tgDiv = axdom("#" + cfg.menuBoxID + "_PMC_" + poi);
 		if(this.tree[poi] && !this.tree[poi].divDim){
 			tgDiv.show();
 			this.tree[poi].divDim = {width:tgDiv.outerWidth(), height:tgDiv.outerHeight()};
@@ -13575,12 +13575,12 @@ myMenu.setTree(Tree);
 		var initChilds = this.initChilds.bind(this);
 		var tree = this.tree;
 		this.menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL){
-			var child = jQuery(EL).children("."+cfg.childMenu.className).get(0);
+			var child = axdom(EL).children("."+cfg.childMenu.className).get(0);
 			if(child){
 				child.id = cfg.menuBoxID + "_PMC_" + pi;
 				if(cfg.childMenu.arrowClassName){
-					var arrow = jQuery("<div class=\""+cfg.childMenu.arrowClassName+"\"></div>");
-					jQuery(child).prepend(arrow);
+					var arrow = axdom("<div class=\""+cfg.childMenu.arrowClassName+"\"></div>");
+					axdom(child).prepend(arrow);
 				}
 				initChilds(child.id, tree[pi]);
 			}else{
@@ -13596,8 +13596,8 @@ myMenu.setTree(Tree);
 		var onoverChild = this.onoverChild.bind(this);
 		var onoutChild = this.onoutChild.bind(this);
 		//trace(cid);
-		jQuery("#"+cid+">ul>li").each(function(pi, EL){
-			var linkA = jQuery(EL).children("A");
+		axdom("#"+cid+">ul>li").each(function(pi, EL){
+			var linkA = axdom(EL).children("A");
 			var _id = "";
 			if(linkA.get(0).id) _id = linkA.get(0).id;
 			linkA.get(0).id = cid.replace("PMC", "PMA") + "_" + pi;
@@ -13607,14 +13607,14 @@ myMenu.setTree(Tree);
 				linkA.bind("mouseout", onoutChild);
 			}
 
-			//jQuery(EL).children("A").html(cid.replace("PMC", "PMA") + "_" + pi);
-			var childDiv = jQuery(EL).children("."+cfg.childsMenu.className).get(0);
+			//axdom(EL).children("A").html(cid.replace("PMC", "PMA") + "_" + pi);
+			var childDiv = axdom(EL).children("."+cfg.childsMenu.className).get(0);
 			if(childDiv){
 				childDiv.id = cid+"_"+pi;
 
 				if(cfg.childsMenu.arrowClassName){
-					var arrow = jQuery("<div class=\""+cfg.childsMenu.arrowClassName+"\"></div>");
-					jQuery(childDiv).prepend(arrow);
+					var arrow = axdom("<div class=\""+cfg.childsMenu.arrowClassName+"\"></div>");
+					axdom(childDiv).prepend(arrow);
 				}
 
 				tree.push({
@@ -13638,7 +13638,7 @@ myMenu.setTree(Tree);
 		if(!pitem) return;
 		if(pitem.coi == "") return;
 		var cfg = this.config;
-		jQuery("#" + pitem.coi).slideUp(
+		axdom("#" + pitem.coi).slideUp(
 			{
 				duration:cfg.easing.close.duration,
 				easing:cfg.easing.close.easing,
@@ -13650,9 +13650,9 @@ myMenu.setTree(Tree);
 	    //하위 자식들의 poi 모두 닫기
 
 		var closeAllSubMenu = function(stree){
-			jQuery.each(stree, function(){
+			axdom.each(stree, function(){
 				if(this.coi != ""){
-					jQuery("#" + this.coi).hide();
+					axdom("#" + this.coi).hide();
 				}
 				closeAllSubMenu(this.cn);
 			});
@@ -13688,13 +13688,13 @@ myMenu.setTree(Tree);
 		if(item){
 			if(item.id){
 
-				var tgDiv = jQuery("#" + item.id);
+				var tgDiv = axdom("#" + item.id);
 
 				//slideDown check
 				if(!item.divDim){
-					jQuery("#" + item.id).show();
+					axdom("#" + item.id).show();
 					item.divDim = {width:tgDiv.outerWidth(), height:tgDiv.outerHeight()};
-					var pDim = {width:jQuery("#"+eid).outerWidth(), height:jQuery("#"+eid).outerHeight(), pos:jQuery("#"+eid).position()};
+					var pDim = {width:axdom("#"+eid).outerWidth(), height:axdom("#"+eid).outerHeight(), pos:axdom("#"+eid).position()};
 
 					if(cfg.childsMenu.align == "left"){
 						var posLeft = pDim.width + cfg.childsMenu.margin.left;
@@ -13761,9 +13761,9 @@ myMenu.setTree(Tree);
 		var cfg = this.config;
 		this.closeSubMenu(this.tree[this.poi]);
 
-		jQuery("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
-		if(this.dfPoi != undefined) jQuery("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
-		jQuery("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
+		axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
+		if(this.dfPoi != undefined) axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
+		axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
 			{
 				duration:cfg.easing.close.duration,
 				easing:cfg.easing.close.easing,
@@ -13775,20 +13775,20 @@ myMenu.setTree(Tree);
 	setHighLightMenu: function(poi){
 		var cfg = this.config;
 		
-		if(jQuery.isArray(poi)){
+		if(axdom.isArray(poi)){
 			
 			this.dfPoi = poi;
 			
 			var tree = this.tree;
-			jQuery.each(poi, function(idx, T){
+			axdom.each(poi, function(idx, T){
 				if(idx == 0) tree = tree[T.number()];
 				else  tree = tree.cn[T.number()];
 				if(tree){
 					if(idx == 0){
-						jQuery("#" + tree.id).addClass("on");
-						jQuery("#" + tree.id).children("A").addClass("on");
+						axdom("#" + tree.id).addClass("on");
+						axdom("#" + tree.id).children("A").addClass("on");
 					}else{
-						jQuery("#" + tree.id.replace("_PMC_", "_PMA_")).addClass("on");
+						axdom("#" + tree.id.replace("_PMC_", "_PMA_")).addClass("on");
 					}
 				}
 			});
@@ -13796,7 +13796,7 @@ myMenu.setTree(Tree);
 		}else{
 			
 			this.dfPoi = poi;
-			jQuery("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
+			axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
 			
 		}
 	},
@@ -13817,7 +13817,7 @@ myMenu.setTree(Tree);
 		var findedID = "";
 
 		var treeFn = function(subTree){
-			jQuery.each(subTree, function(idx, T){
+			axdom.each(subTree, function(idx, T){
 				if(T._id == _id){
 					findedID = T.id;
 					return false;
@@ -13827,7 +13827,7 @@ myMenu.setTree(Tree);
 			});
 		};
 
-		jQuery.each(this.tree, function(idx, T){
+		axdom.each(this.tree, function(idx, T){
 			if(T._id == _id){
 				findedID = T.id;
 				return false;
@@ -13862,7 +13862,7 @@ myMenu.setTree(Tree);
 		var findedID = "";
 
 		var treeFn = function(subTree){
-			jQuery.each(subTree, function(idx, T){
+			axdom.each(subTree, function(idx, T){
 				if(T.id == _id){
 					findedID = T.id;
 					return false;
@@ -13871,7 +13871,7 @@ myMenu.setTree(Tree);
 				}
 			});
 		};
-		jQuery.each(tree, function(idx, T){
+		axdom.each(tree, function(idx, T){
 			if(T.id == _id){
 				findedID = T.id;
 				return false;
