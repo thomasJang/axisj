@@ -10958,13 +10958,16 @@ var AXGrid = Class.create(AXJ, {
 				this.pageBody.data("display", "hide");
 			}
 		}
-		this.defineConfig(true);
-		this.setColHead();
+		if(changeGridView) {
+			this.defineConfig(true);
+			this.setColHead();
 
-		this.gridTargetSetSize(true);
-		this.contentScrollResize();
-
-		this.setBody(undefined, true);
+			this.gridTargetSetSize(true);
+			this.contentScrollResize();
+			this.setBody(undefined, true);
+		}else{
+			this.contentScrollResize();
+		}
 
 		if (cfg.viewMode == "grid") {
 			if (this.list.length > 0) {
@@ -11645,7 +11648,7 @@ myGrid.setConfig({
 		axdom(document.body).bind("mouseleave.AXGrid", this.colHeadResizerMouseUpBind);
 
 		axdom(document.body).attr("onselectstart", "return false");
-		axdom(document.body).addClass("AXUserSelectNone");
+		//axdom(document.body).addClass("AXUserSelectNone");
 		/* resize event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	/**
@@ -11750,7 +11753,7 @@ myGrid.setConfig({
 		axdom(document.body).unbind("mouseleave.AXGrid");
 
 		axdom(document.body).removeAttr("onselectstart");
-		axdom(document.body).removeClass("AXUserSelectNone");
+		//axdom(document.body).removeClass("AXUserSelectNone");
 	},
 	/**
 	 * @method AXGrid.colHeadNodeClick
@@ -12161,6 +12164,9 @@ myGrid.setConfig({
 			this.scrollXHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
 			/* scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 		}
+
+
+
 	},
 	/**
 	 * @method AXGrid.listLoadingDisplay
@@ -14558,7 +14564,7 @@ myGrid.setConfig({
 		axdom(document.body).bind("mouseleave.AXGrid", this.contentScrollScrollEndBind);
 
 		axdom(document.body).attr("onselectstart", "return false");
-		axdom(document.body).addClass("AXUserSelectNone");
+		//axdom(document.body).addClass("AXUserSelectNone");
 
 		this.contentScrollScrolling = true;
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~ */
@@ -14604,7 +14610,7 @@ myGrid.setConfig({
 		axdom(document.body).unbind("mouseleave.AXGrid");
 
 		axdom(document.body).removeAttr("onselectstart");
-		axdom(document.body).removeClass("AXUserSelectNone");
+		//axdom(document.body).removeClass("AXUserSelectNone");
 		axdom("#" + cfg.targetID + "_AX_" + this.contentScrollAttrs.handleName).removeClass("hover");
 		this.contentScrollScrolling = false;
 
