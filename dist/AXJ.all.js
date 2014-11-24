@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-23 
+AXJ - v1.0.9 - 2014-11-24 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-23 
+AXJ - v1.0.9 - 2014-11-24 
 */
 
 if(!window.AXConfig){
@@ -13555,10 +13555,11 @@ myGrid.setConfig({
 			//this.list.push(pushItem);
 
 			// 스크롤이 되지 않는 상황이면...
-			if(this.virtualScroll.printListCount <= this.list.length){
+			if(this.body.height() >= this.scrollContent.height()){
 				this.printList();
 			}
-			//this.bigDataSyncApply();
+
+			this.bigDataSyncApply();
 			this.contentScrollResize(false);
 			//this.setFocus(this.list.length-1); insertIndex 가 없으면 focus 실행 안함.
 		}
@@ -28209,6 +28210,25 @@ var AXTabClass = Class.create(AXJ, {
 			}, 50);
 		}
 	},
+	/**
+	 * @method AXTab.addTabs
+	 * @param objID {String} - 탭 대상 ID
+	 * @param options {Array} - 대상 순서 seq
+	 * @description 탭을 추가 합니다.
+	 * @returns {AXTab}
+	 * @example
+```js
+$("#myTab01").addTabs([
+	{optionValue:"1", optionText:"1살"}, 
+	{optionValue:"2", optionText:"2살"}, 
+	{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+	{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+	{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+	{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+	{optionValue:"7", optionText:"7살"}
+]);
+```
+	 */
 	addTabs: function(objID, options){
 		var cfg = this.config;
 		var objSeq = axdom("#" + objID).data("objSeq");
@@ -37589,13 +37609,13 @@ var AXValidator = Class.create(AXJ, {
         var _elements = this.elements;
         var checkClass = this.validateCheckClass;
 
-        jQuery.each(allElements, function (eidx, Elem) {
+        axdom.each(allElements, function (eidx, Elem) {
             try {
                 var config = {};
                 var isValidate = false;
-                jQuery.each(checkClass, function (k, v) {
+                axdom.each(checkClass, function (k, v) {
                     if (Elem.id) {
-                        if (jQuery("#" + Elem.id).hasClass(cfg.clazz + k)) {
+                        if (axdom("#" + Elem.id).hasClass(cfg.clazz + k)) {
                             config[k] = v;
                             isValidate = true;
                         }
@@ -37617,11 +37637,11 @@ var AXValidator = Class.create(AXJ, {
         });
 	    // checkbox, radio 수집
 	    var checkedItems = {};
-	    jQuery(this.form).find("input[type=checkbox], input[type=radio]").each(function(eidx, Elem){
+	    axdom(this.form).find("input[type=checkbox], input[type=radio]").each(function(eidx, Elem){
 
 		    var config = {};
 		    var isValidate = false, label = "";
-		    jQuery.each(checkClass, function (k, v) {
+		    axdom.each(checkClass, function (k, v) {
 				if (Elem.name) {
 				    if ($(document[cfg.targetFormName][Elem.name]).hasClass(cfg.clazz + k)) {
 					    config[k] = v;
@@ -37771,7 +37791,7 @@ myValidator.add({
 
         if (addObj.id) {
             var findIndex = null;
-            jQuery.each(this.elements, function (eidx, elem) {
+            axdom.each(this.elements, function (eidx, elem) {
                 if (this.id == addObj.id) {
                     findIndex = eidx;
                     return false;
@@ -37781,13 +37801,13 @@ myValidator.add({
                 addElement(addObj, findIndex);
                 addedObject = this.elements[findIndex];
             } else {
-                addObj.name = jQuery("#" + addObj.id).attr("name");
+                addObj.name = axdom("#" + addObj.id).attr("name");
                 this.elements.push(addObj);
                 addedObject = this.elements.last();
             }
         } else if (addObj.name) {
             var findIndex = null;
-            jQuery.each(this.elements, function (eidx, elem) {
+            axdom.each(this.elements, function (eidx, elem) {
                 if (this.name == addObj.name) {
                     findIndex = eidx;
                     return false;
@@ -37810,7 +37830,7 @@ myValidator.add({
         var targetElemForSelect;
 
         if (addedObject.id) {
-            targetElem = jQuery("#" + addedObject.id);
+            targetElem = axdom("#" + addedObject.id);
             targetElemForSelect = AXgetId(addedObject.id);
         } else if (this.name) {
             targetElem = $(document[cfg.targetFormName][addedObject.name]);
@@ -37826,7 +37846,7 @@ myValidator.add({
             Elem.needRealtimeCheck = false;
             Elem.realtimeCheck = {};
 
-            jQuery.each(Elem.config, function (k, v) {
+            axdom.each(Elem.config, function (k, v) {
                 if (k == "maxlength" || k == "maxbyte") {
                     Elem.needRealtimeCheck = true;
                     Elem.realtimeCheck[k] = v;
@@ -37859,7 +37879,7 @@ myValidator.add({
                     }
 
 
-                    jQuery.each(Elem.realtimeCheck, function (k, v) {
+                    axdom.each(Elem.realtimeCheck, function (k, v) {
                         var val = targetElem.val() + "A";
                         if (!validateFormatter(Elem, val, k, v, "realtime")) { // 값 검증 처리
                             returnObject = raiseError(Elem, val, k, v);
@@ -37905,7 +37925,7 @@ myValidator.add({
                 var _val = this.value;
                 var returnObject = null;
                 var vKey;
-                jQuery.each(Elem.config, function (k, v) {
+                axdom.each(Elem.config, function (k, v) {
 
                     //trace(k);
 
@@ -37963,7 +37983,7 @@ myValidator.add({
         if (addedObject.onblur) {
             targetElem.unbind("blur.validate").bind("blur.validate", function (e) {
                 var returnObject = {result:true};
-                jQuery.each(Elem.config, function (k, v) {
+                axdom.each(Elem.config, function (k, v) {
                     var val = targetElem.val();
                     if (!validateFormatter(Elem, val, k, v, "")) {
                         returnObject = raiseError(Elem, val, k, v);
@@ -38053,9 +38073,9 @@ var validateResult = myValidator.validate();
         for (var Elem, eidx= 0, __arr = this.elements; (eidx < __arr.length && (Elem = __arr[eidx])); eidx++) {
             var targetElem;
             if (Elem.id && !Elem.multi) {
-                targetElem = jQuery("#" + Elem.id);
+                targetElem = axdom("#" + Elem.id);
             } else if (Elem.name) {
-                targetElem = jQuery( document[cfg.targetFormName][Elem.name] );
+                targetElem = axdom( document[cfg.targetFormName][Elem.name] );
             }
 
 	        if(Elem.name == "bizno") {
@@ -38105,7 +38125,7 @@ var validateResult = myValidator.validate();
 
                 var _end = false;
 
-                jQuery.each(Elem.config, function (k, v) {
+                axdom.each(Elem.config, function (k, v) {
                     if (!validateFormatter(Elem, val, k, v, "")) { // 값 검증 처리
                         returnObject = raiseError(Elem, val, k, v);
                         _end = true;
@@ -38249,7 +38269,7 @@ var validateResult = myValidator.validate();
                 /* for format */
             } else if (ElemValue != "" && validateKey == "number") {
                 //var pattern = /^[0-9]+$/;
-                result = jQuery.isNumeric(ElemValue.trim());
+                result = axdom.isNumeric(ElemValue.trim());
             } else if (ElemValue != "" && validateKey == "email") {
                 var pattern = /^[_a-zA-Z0-9-\.]+@[\.a-zA-Z0-9-]+\.[a-zA-Z]+$/;
                 result = pattern.test(ElemValue);
@@ -38413,7 +38433,7 @@ var validateResult = myValidator.validate();
                     result = true;
                 }else{
                     var st_date = ElemValue;
-                    var ed_date = jQuery("#" + validateValue.id).val().trim();
+                    var ed_date = axdom("#" + validateValue.id).val().trim();
                     if(ed_date != ""){
                         if (st_date.date().diff(ed_date) < 0) {
                             result = false;
@@ -38429,7 +38449,7 @@ var validateResult = myValidator.validate();
                     result = true;
                 }else{
                     var ed_date = ElemValue;
-                    var st_date = jQuery("#" + validateValue.id).val().trim();
+                    var st_date = axdom("#" + validateValue.id).val().trim();
                     if(st_date != ""){
                         //trace(st_date, ed_date, st_date.date());
                         if (st_date.date().diff(ed_date) < 0) {
@@ -38442,7 +38462,7 @@ var validateResult = myValidator.validate();
                     }
                 }
             } else {
-                if (jQuery.isFunction(validateValue)) {
+                if (axdom.isFunction(validateValue)) {
                     result = validateValue.call({
                         Elem: Elem,
                         ElemValue: ElemValue,
@@ -38520,7 +38540,7 @@ if (!validateResult) {
         }
         var errObj = this.errElements.last();
         var errElement = errObj.element;
-        return jQuery("#" + errElement.id).length > 0 ? jQuery("#" + errElement.id) : jQuery(document[cfg.targetFormName][errElement.name]);
+        return axdom("#" + errElement.id).length > 0 ? axdom("#" + errElement.id) : axdom(document[cfg.targetFormName][errElement.name]);
     },
     getElement: function (elementObj) {
         var cfg = this.config;
