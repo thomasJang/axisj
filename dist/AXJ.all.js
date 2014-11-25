@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-24 
+AXJ - v1.0.9 - 2014-11-25 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-24 
+AXJ - v1.0.9 - 2014-11-25 
 */
 
 if(!window.AXConfig){
@@ -11028,9 +11028,9 @@ var AXGrid = Class.create(AXJ, {
 					list   : this.list,
 					page   : this.page
 				};
-				setTimeout(function() {
+				//setTimeout(function() {
 					cfg.body.oncheck.call(sendObj);
-				}, 1);
+				//}, 1);
 			}
 		} else {
 			this.body.find(".gridBodyTr_" + itemIndex + " .gridCheckBox_body_colSeq" + colSeq).each(function () {
