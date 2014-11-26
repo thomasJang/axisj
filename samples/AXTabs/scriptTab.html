@@ -194,6 +194,9 @@
 				options.push({optionText: "add " + index, optionValue: index});
 			}
 			$("#" + tabID).addTabs(options);
+		},
+		removeTab: function(tabID, tabValue) {
+			$("#" + tabID).removeTab(tabValue);
 		}
 	};
 	$(document.body).ready(fnObj.pageStart.delay(0.1));
@@ -222,6 +225,9 @@
                 <input type="button" value="탭선택값 강제변경 (여성)" class="AXButton" onclick="fnObj.setValueTab('myTab01','F');" />
                 <input type="button" value="탭선택값 강제변경 (7살)" class="AXButton" onclick="fnObj.setValueTab('myTab01','7');" />
 				<input type="button" value="탭 추가" class="AXButton" onclick="fnObj.addTabs('myTab01', 6);" />
+				<input type="button" value="인덱스[2] 탭 삭제" class="AXButton" onclick="fnObj.removeTab('myTab01', 2);" />
+				<input type="button" value="여성탭 삭제" class="AXButton" onclick="fnObj.removeTab('myTab01', 'F');" />
+				<input type="button" value="마지막탭 삭제" class="AXButton" onclick="fnObj.removeTab('myTab01');" />
                 <p>
                     ※ 탭의 갯수가 탭 컨테이너의 너비보다 넓어져도 스크롤 되지 않고 넘쳐 흐르는 방식입니다.
                 </p>
