@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXConfig.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
     <script type="text/javascript" src="../../lib/AXTab.js"></script>
     <script type="text/javascript" src="../page.js"></script>
@@ -43,15 +44,20 @@
 				value:"",
 				overflow:"scroll", /* "visible" */
 				options:[
-					{optionValue:"M", optionText:"남성"}, 
-					{optionValue:"F", optionText:"여성"}, 
+					{optionValue:"M", optionText:"남성", closable:true}, 
+					{optionValue:"F", optionText:"여성", closable:true}, 
 					{optionValue:"N", optionText:"선택안함"}, 
 					{optionValue:"", optionText:"모두"}
 				],
 				onchange: function(selectedObject, value){
 					//toast.push(Object.toJSON(this));
 					//toast.push(Object.toJSON(selectedObject));
-					toast.push(Object.toJSON(value));
+					toast.push("onchange: "+Object.toJSON(value));
+				},
+				onclose: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onclose: "+Object.toJSON(value));
 				}
 			});
 			
@@ -60,6 +66,7 @@
 				value:"1",
 				overflow:"scroll",
 				scrollAmount:5,
+				closable:true,
 				options:[
 					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
 					{optionValue:"2", optionText:"2살 선택하기"}, 
@@ -81,7 +88,12 @@
 				onchange: function(selectedObject, value){
 					//toast.push(Object.toJSON(this));
 					//toast.push(Object.toJSON(selectedObject));
-					toast.push(Object.toJSON(value));
+					toast.push("onchange: "+Object.toJSON(value));
+				},
+				onclose: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onclose: "+Object.toJSON(value));
 				}
 			});
 			
@@ -191,12 +203,12 @@
 			var index;
 			for(var i = 0; i < addCount; i++){
 				index = "0" + (i + 1);
-				options.push({optionText: "add " + index, optionValue: index});
+				options.push({optionText: "add " + index, optionValue: index, closable:true});
 			}
 			$("#" + tabID).addTabs(options);
 		},
-		removeTab: function(tabID, tabValue) {
-			$("#" + tabID).removeTab(tabValue);
+		closeTab: function(tabID, tabValue) {
+			$("#" + tabID).closeTab(tabValue);
 		}
 	};
 	$(document.body).ready(fnObj.pageStart.delay(0.1));
@@ -225,9 +237,9 @@
                 <input type="button" value="탭선택값 강제변경 (여성)" class="AXButton" onclick="fnObj.setValueTab('myTab01','F');" />
                 <input type="button" value="탭선택값 강제변경 (7살)" class="AXButton" onclick="fnObj.setValueTab('myTab01','7');" />
 				<input type="button" value="탭 추가" class="AXButton" onclick="fnObj.addTabs('myTab01', 6);" />
-				<input type="button" value="인덱스[2] 탭 삭제" class="AXButton" onclick="fnObj.removeTab('myTab01', 2);" />
-				<input type="button" value="여성탭 삭제" class="AXButton" onclick="fnObj.removeTab('myTab01', 'F');" />
-				<input type="button" value="마지막탭 삭제" class="AXButton" onclick="fnObj.removeTab('myTab01');" />
+				<input type="button" value="인덱스[2] 탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01', 2);" />
+				<input type="button" value="여성탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01', 'F');" />
+				<input type="button" value="마지막탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01');" />
                 <p>
                     ※ 탭의 갯수가 탭 컨테이너의 너비보다 넓어져도 스크롤 되지 않고 넘쳐 흐르는 방식입니다.
                 </p>
