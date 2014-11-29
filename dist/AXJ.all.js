@@ -29518,17 +29518,7 @@ myViewer.setConfig({
     }
 });
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
- 
 var AXTabClass = Class.create(AXJ, {
-    version: "AXTabClass V0.5",
-    author: "tom@axisj.com",
-    logs: [
-		"2013-07-05 오후 1:16:16",
-		"2014-04-14 : tom 모바일 반응 너비 지정 방식 변경 & ff 타이밍 버그 픽스 ",
-		"2014-11-27 : jun addTabs, removeTab 메서드 추가 ",
-		"2014-11-28 : jun removeTab -> closeTab 메서드 명칭 변경, closable 속성 구현, onlcose 이벤트 추가 "
-    ],
     initialize: function(AXJ_super) {
         AXJ_super();
         this.objects = [];
@@ -29551,8 +29541,8 @@ var AXTabClass = Class.create(AXJ, {
         this.resizeCheck();
     },
     /**
-     * @method AXTab.bind
-     * @param obj {Object} - config
+     * @method AXTabClass.bind
+     * @param {Object} obj - config
      * @description 대상에 탭 속성을 부여 합니다.
      * @returns {AXTab}
      * @example 
@@ -29624,9 +29614,9 @@ var AXTabClass = Class.create(AXJ, {
 		}
     },
     /**
-     * @method AXTab.initTab
-     * @param objID {String} - 탭 대상 ID
-	 * @param objSeq {Number} - 대상 순서 seq
+     * @method AXTabClass.initTab
+     * @param {String} objID - 탭 대상 ID
+	 * @param {Number} objSeq - 대상 순서 seq
      * @description 탭을 초기화 합니다.
      * @returns {AXTab}
 	 */
@@ -29749,9 +29739,9 @@ var AXTabClass = Class.create(AXJ, {
 		}
 	},
 	/**
-	 * @method AXTab.addTabs
-	 * @param objID {String} - 탭 대상 ID
-	 * @param options {Array} - 대상 순서 seq
+	 * @method AXTabClass.addTabs
+	 * @param {String} objID - 탭 대상 ID
+	 * @param {Array} options - 대상 순서 seq
 	 * @description 탭을 추가 합니다.
 	 * @returns {AXTab}
 	 * @example
@@ -29844,9 +29834,9 @@ $("#myTab01").addTabs([
 		});
 	},
 	/**
-	 * @method AXTab.closeTab
-	 * @param objID {String} - 탭 대상 ID
-	 * @param options {Number|String} [last tab index] - 탭 인덱스(Number) or optionValue(String)
+	 * @method AXTabClass.closeTab
+	 * @param {String} objID - 탭 대상 ID
+	 * @param {Number|String} [tabIndex or options] - 탭 인덱스(Number) or optionValue(String)
 	 * @description 탭을 닫습니다.
 	 * @returns {AXTab}
 	 * @example
@@ -29862,7 +29852,7 @@ $("#myTab01").closeTab("optionValue");
 		
 		if (!obj.config.options) { return; }
 		
-		tabIndex = tabIndex || (tabs.length - 1);
+		tabIndex = (tabIndex === undefined ? (tabs.length - 1) : tabIndex);
 		// find tabIndex by optionValue
 		if (typeof(tabIndex) != "number") {
 			axdom.each(obj.config.options, function(oidx, O){
@@ -29903,6 +29893,8 @@ $("#myTab01").closeTab("optionValue");
 			var selectedIndex = tabIndex - 1;
 			if (selectedIndex > -1) {
 				this.setValueTab(objID, obj.config.options[selectedIndex].optionValue);
+			} else {
+				this.setValueTab(objID, obj.config.options[0].optionValue);
 			}
 		}else if(obj.config.selectedIndex > tabIndex){
 			var selectedIndex = obj.config.selectedIndex - 1;
@@ -29913,10 +29905,10 @@ $("#myTab01").closeTab("optionValue");
 		
 	},
     /**
-     * @method AXTab.bindTabClick
-     * @param objID  {String} - 탭 대상 ID
-	 * @param objSeq {Number} - 대상 순서 seq
-	 * @param event  {Event} - Click event
+     * @method AXTabClass.bindTabClick
+     * @param {String} objID - 탭 대상 ID
+	 * @param {Number} objSeq - 대상 순서 seq
+	 * @param {Event} event - Click event
      * @description 탭을 클릭 할때 처리를 합니다.
      * @returns {AXTab}
 	 */
@@ -29966,9 +29958,9 @@ $("#myTab01").closeTab("optionValue");
 		}	
     },
     /**
-     * @method AXTab.setValueTab
-     * @param objID  {String} - 탭 대상 ID
-	 * @param value {String} - 값
+     * @method AXTabClass.setValueTab
+     * @param {String} objID - 탭 대상 ID
+	 * @param {String} value - 값
      * @description 탭의 선택값을 변경 합니다.
      * @returns {AXTab}
      * @example 
@@ -30027,11 +30019,11 @@ $("#myTab01").closeTab("optionValue");
 		}
     },
     /**
-     * @method AXTab.bindTabMove
-     * @param objID {String} - 탭 대상 ID
-	 * @param objSeq {Number} - 대상 순서 seq
- 	 * @param direction {String} - "left"||"right"
-	 * @param event {Event} - "mouseover"
+     * @method AXTabClass.bindTabMove
+     * @param {String} objID - 탭 대상 ID
+	 * @param {Number} objSeq - 대상 순서 seq
+ 	 * @param {String} direction - "left"||"right"
+	 * @param {Event} event - "mouseover"
      * @description 탭의 양이 많아질때 생성되는 좌우 이동 화살표의 mouseover 이벤트를 처리 합니다.
      * @returns {AXTab}
 	 */
@@ -30108,11 +30100,11 @@ $("#myTab01").closeTab("optionValue");
 		
     },
     /**
-     * @method AXTab.bindTabMove
-     * @param objID {String} - 탭 대상 ID
-	 * @param objSeq {Number} - 대상 순서 seq
- 	 * @param direction {String} - "left"||"right"
-	 * @param event {Event} - "mousedown"
+     * @method AXTabClass.bindTabMove
+     * @param {String} objID - 탭 대상 ID
+	 * @param {Number} objSeq - 대상 순서 seq
+ 	 * @param {String} direction - "left"||"right"
+	 * @param {Event} event - "mousedown"
      * @description 탭의 양이 많아질때 생성되는 좌우 이동 화살표의 mousedown 이벤트를 처리 합니다.
      * @returns {AXTab}
 	 */
@@ -30181,11 +30173,11 @@ $("#myTab01").closeTab("optionValue");
 		return false;
     },
     /**
-     * @method AXTab.bindTabMoreClick
-     * @param objID {String} - 탭 대상 ID
-	 * @param objSeq {Number} - 대상 순서 seq
- 	 * @param direction {String} - "left"||"right"
-	 * @param event {Event} - "click"
+     * @method AXTabClass.bindTabMoreClick
+     * @param {String} objID - 탭 대상 ID
+	 * @param {Number} objSeq - 대상 순서 seq
+ 	 * @param {String} direction - "left"||"right"
+	 * @param {Event} event - "click"
      * @description 탭의 양이 많아질때 생성되는 탭 리스트 툴 화살표에 대한 "click" 이벤트를 처리 합니다.
      * @returns {AXContextMenu}
 	 */
@@ -30199,7 +30191,7 @@ $("#myTab01").closeTab("optionValue");
     	AXContextMenu.open({id:objID + "_AX_tabMore", title:AXConfig.AXContextMenu.title}, event);
     },
     /**
-     * @method AXTab.resizeCheck
+     * @method AXTabClass.resizeCheck
      * @description 윈도우 창 크기가 변경 되었을때를 감지하여 처리 합니다.
      * @returns {AXTab}
 	 */
@@ -30232,10 +30224,10 @@ $("#myTab01").closeTab("optionValue");
     	});
     },
 	/**
-	 * @method AXTab.focusingItem
-	 * @param objID {String} - 탭 대상 ID
-	 * @param objSeq {Number} - 대상 순서 seq
-	 * @param optionIndex {Number} - 탭 아이템 index
+	 * @method AXTabClass.focusingItem
+	 * @param {String} objID- 탭 대상 ID
+	 * @param {Number} objSeq - 대상 순서 seq
+	 * @param {Number} optionIndex - 탭 아이템 index
 	 * @description 대상의 해당 index에 해당하는 탭에 focus를 줍니다. 
 	 * @returns {AXTab}
 	 */
@@ -30489,31 +30481,97 @@ $("#myTab01").closeTab("optionValue");
 var AXTab = new AXTabClass();
 AXTab.setConfig({});
 
+/**
+ * @method jQueryExtends.unbindTab
+ * @param {Object} [configs]
+ * @returns {jQueryObject}
+ * @description 탭을 언바인드 합니다.
+ * @example
+ ```js
+ axdom("#myTab01").unbindTab();
+ ```
+ **/
 axdom.fn.unbindTab = function (config) {
     axdom.each(this, function () {
         if (config == undefined) config = {};
         config.id = this.id;
         AXTab.unbind(config);
-        return this;
     });
+	return this;
 };
 
+/**
+ * @method jQueryExtends.bindTab
+ * @param {Object} configs
+ * @returns {jQueryObject}
+ * @description 탭을 바인드 합니다.
+ * @example
+ ```js
+ $("#myTab01").bindTab({
+	theme : "AXTabs",
+	value:"",
+	overflow:"scroll", // "visible"
+	options:[
+		{optionValue:"M", optionText:"남성", closable:true},
+		{optionValue:"F", optionText:"여성", closable:true},
+		{optionValue:"N", optionText:"선택안함"},
+		{optionValue:"", optionText:"모두"}
+	],
+	onchange: function(selectedObject, value){
+		//toast.push(Object.toJSON(this));
+		//toast.push(Object.toJSON(selectedObject));
+		toast.push("onchange: "+Object.toJSON(value));
+	},
+	onclose: function(selectedObject, value){
+		//toast.push(Object.toJSON(this));
+		//toast.push(Object.toJSON(selectedObject));
+		toast.push("onclose: "+Object.toJSON(value));
+	}
+});
+ ```
+ **/
 axdom.fn.bindTab = function (config) {
     axdom.each(this, function () {
         if (config == undefined) config = {};
         config.id = this.id;
         AXTab.bind(config);
-        return this;
     });
+	return this;
 };
 
+/**
+ * @method jQueryExtends.setValueTab
+ * @param {String|Number} value
+ * @returns {jQueryObject}
+ * @description 탭의 value를 지정하고 지정된 value로 탭을 선택합니다.
+ * @example
+ ```js
+ $("#"+tabID).setValueTab(tabValue);
+ ```
+ **/
 axdom.fn.setValueTab = function (value) {
     axdom.each(this, function () {
         AXTab.setValueTab(this.id, value);
-        return this;
     });
+	return this;
 };
 
+/**
+ * @method jQueryExtends.addTabs
+ * @param {Array} options
+ * @returns {jQueryObject}
+ * @description 탭 아이템을 추가합니다.
+ * @example
+ ```js
+ var options = [];
+ var index;
+ for(var i = 0; i < addCount; i++){
+	index = "0" + (i + 1);
+	options.push({optionText: "add " + index, optionValue: index, closable:true});
+ }
+ $("#" + tabID).addTabs(options);
+ ```
+ **/
 axdom.fn.addTabs = function (options) {
 	axdom.each(this, function () {
 		var objSeq = axdom("#" + this.id).data("objSeq");
@@ -30525,15 +30583,25 @@ axdom.fn.addTabs = function (options) {
 		obj.config.options = obj.config.options.concat(options);
 		
 		AXTab.addTabs(this.id, options);
-		return this;
 	});
+	return this;
 };
 
+/**
+ * @method jQueryExtends.closeTab
+ * @param {Number} tabIndex
+ * @returns {jQueryObject}
+ * @description 탭 아이템을 제거합니다.
+ * @example
+ ```js
+ $("#" + tabID).closeTab(tabValue);
+ ```
+ **/
 axdom.fn.closeTab = function(tabIndex) {
 	axdom.each(this, function () {
 		AXTab.closeTab(this.id, tabIndex);
-		return this;
 	});
+	return this;
 };
 /* ---------------------------- */
 var AXTopDownMenu = Class.create(AXJ, {
