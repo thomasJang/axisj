@@ -53,10 +53,10 @@
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right", sort:"asc"},
                     {key:"no", label:"no", width:"80", align:"center", formatter:"checkbox", formatterLabel:"전체선택", sort:false, checked:function(){
-                        return this.item.no % 2 == 0;
+                        return this.item.___checked && this.item.___checked["1"];
                     }},
-                    {key:"no2", label:"no2", width:"40", align:"center", formatter:"checkbox", sort:false, checked:function(){
-                        return this.item.no2 % 2 == 0;
+                    {key:"no2", label:"no2", width:"40", align:"center", formatter:"radio", sort:false, checked:function(){
+                        return this.item.___checked && this.item.___checked["2"];
                     }},
 					{key:"title", label:"제목", width:"200", formatter: function(){
 						return this.item.no + "." + this.item.title + "/" + this.key;
@@ -77,12 +77,14 @@
 						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
 					},
 					/* ondblclick 선언하면 onclick 이벤트가 0.25 초 지연 발생 됩니다. 주의 하시기 바람니다. */
+                    /*
 					ondblclick: function(){
 						toast.push("더블클릭");
 						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
 						//alert(this.list);
 						//alert(this.page);
 					},
+					*/
 					addClass: function(){
 						// red, green, blue, yellow, white, gray
 						/*
@@ -157,6 +159,10 @@
                 myGrid.pushList(this);
             });
 
+        },
+        getCheckedList: function(colSeq){
+            var checkedList = myGrid.getCheckedList(colSeq);// colSeq
+            alert(Object.toJSON(checkedList));
         }
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
@@ -182,6 +188,8 @@
                 <input type="button" value="pushList" class="AXButton" onclick="fnObj.myGrid_pushList();" />
                 <input type="button" value="resetHeight : 300px" class="AXButton" onclick="$('#AXGridTarget').css({height:300});myGrid.resetHeight();" />
                 <input type="button" value="resetHeight : 600px" class="AXButton" onclick="$('#AXGridTarget').css({height:600});myGrid.resetHeight();" />
+                <input type="button"	value="getCheckedList(1)" class="AXButton Blue" onclick="fnObj.getCheckedList(1);" />
+                <input type="button"	value="getCheckedList(2)" class="AXButton Blue" onclick="fnObj.getCheckedList(2);" />
             </div>
 
 		</div>

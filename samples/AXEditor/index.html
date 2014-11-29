@@ -48,7 +48,10 @@
 				onReady: function(){
 					myEditor.setContent($("#editContent"));
 					//myEditor.setContent("ABCDEF");
-				}
+				},
+                onresize: function(){
+                    trace(this);
+                }
 			});
 		},
 		saveEditor: function(){
