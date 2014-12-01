@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-29 
+AXJ - v1.0.9 - 2014-12-01 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-29 
+AXJ - v1.0.9 - 2014-12-01 
 */
 
 if(!window.AXConfig){
@@ -737,7 +737,7 @@ Event: {
 ```
  */
 	isEmpty: function (obj) {
-		return (val === "" || val == null || val == undefined) ? true : false;
+		return (obj === "" || obj === null || obj === undefined);
 	},
 /**
  * @method axf.getUrlInfo
@@ -1672,7 +1672,7 @@ Object.extend(String.prototype, (function () {
 
 	}
 /**
- * #뒤 문자열을 반환합니다.
+ * anchor 데이터를 반환합니다.
  * @method String.getAnchorData
  * @returns {String}
  * @example
