@@ -30,3 +30,6 @@ FullStack openSource Javascript UI framework<br/>
 <br/>
 It can be used easily and lightly, by excluding the load which a developer does not intend or which is heavier than application.<br/>
 In terms of the development method, the collision issue between components has been minimised with the use of Class-based coding rules which manage each UI tool in Class.<br/>
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/axisj-com/axisj/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
