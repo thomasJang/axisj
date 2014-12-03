@@ -13229,9 +13229,10 @@ myGrid.setConfig({
 				axdom("#" + targetID).addClass("on");
 			}
 			//redraw grid
-			this.redrawGrid("");
+			this.redrawGrid("all");
 
 		} else {
+
 			axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
 			axdom(document).unbind("keydown", this.colGroupListClickBind);
 			axdom(document).unbind("click", this.colGroupListClickBind);
