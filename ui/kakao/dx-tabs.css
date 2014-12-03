@@ -364,6 +364,9 @@
   background: #fff;
   border-bottom: 1px solid #fff;
 }
+.AXTabs .AXTabsTray .AXTab.closable {
+  padding-right: 20px;
+}
 .AXTabs .AXTabsTray .AXTab .AXTabClose {
   position: absolute;
   right: 5px;
@@ -597,6 +600,9 @@
   background: #fff;
   border-bottom: 1px solid #fff;
 }
+.AXTabsLarge .AXTabsTray .AXTab.closable {
+  padding-right: 20px;
+}
 .AXTabsLarge .AXTabsTray .AXTab .AXTabClose {
   position: absolute;
   right: 5px;
@@ -829,6 +835,9 @@
   color: #eaeaea;
   background: #fff;
   border-bottom: 1px solid #fff;
+}
+.AXTabsSmall .AXTabsTray .AXTab.closable {
+  padding-right: 20px;
 }
 .AXTabsSmall .AXTabsTray .AXTab .AXTabClose {
   position: absolute;
