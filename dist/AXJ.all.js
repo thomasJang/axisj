@@ -29526,7 +29526,7 @@ var AXTabClass = Class.create(AXJ, {
         this.config.handleWidth = 22;
         this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
         this.config.bounces = true;
-		this.config.closable = AXConfig.AXTab.closable;
+		this.config.closable = ( (AXConfig && AXConfig.AXTab && AXConfig.AXTab.closable) ? AXConfig.AXTab.closable : false );
     },
     init: function(){
         axdom(window).bind("resize", this.windowResize.bind(this));
