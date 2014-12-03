@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-01 
+AXJ - v1.0.9 - 2014-12-03 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-01 
+AXJ - v1.0.9 - 2014-12-03 
 */
 
 if(!window.AXConfig){
@@ -576,7 +576,8 @@ Event: {
 		KEY_BACKSPACE: 8,
 		KEY_TAB: 9,
 		KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46,
-		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {} },
+		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {}
+	},
 /**
  * @method axf.console
  * @param {String|Object|Array} obj
@@ -29783,7 +29784,7 @@ $("#myTab01").addTabs([
 			po.push("\">");
 			po.push(O.optionText.dec());
 			if(closable){
-				po.push("<span class=\"AXTabClose\">X</span>");
+				po.push("<span class=\"AXTabClose\"></span>");
 			}
 			po.push("</a>");
 			//if(AXUtil.browser.mobile){

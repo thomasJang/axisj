@@ -178,8 +178,8 @@
 			&.Blue			{.axtabs-event-blue;}
 			&.Green			{.axtabs-event-green;}		
 			&.Red			{.axtabs-event-red;}
-			&[disabled]		{.axtabs-event-disabled;}		
-			
+			&[disabled]		{.axtabs-event-disabled;}
+			.AXTabClose{.axtabs-unit-tab-close(22px)}
 		}
 		.leftArrowHandleBox		{.axtabs-unit-left}		
 		.rightArrowHandleBox	{.axtabs-unit-right}				
@@ -203,8 +203,8 @@
 			&.Blue			{.axtabs-event-blue;}
 			&.Green			{.axtabs-event-green;}		
 			&.Red			{.axtabs-event-red;}
-			&[disabled]		{.axtabs-event-disabled;}		
-			
+			&[disabled]		{.axtabs-event-disabled;}
+			.AXTabClose{.axtabs-unit-tab-close(22px)}
 		}
 		.leftArrowHandleBox		{.axtabs-unit-left(44px)}		
 		.rightArrowHandleBox	{.axtabs-unit-right(44px)}				
@@ -228,8 +228,8 @@
 			&.Blue			{.axtabs-event-blue;}
 			&.Green			{.axtabs-event-green;}		
 			&.Red			{.axtabs-event-red;}
-			&[disabled]		{.axtabs-event-disabled;}		
-			
+			&[disabled]		{.axtabs-event-disabled;}
+			.AXTabClose{.axtabs-unit-tab-close(22px)}
 		}
 		.leftArrowHandleBox		{.axtabs-unit-left(22px)}		
 		.rightArrowHandleBox	{.axtabs-unit-right(22px)}				
@@ -241,6 +241,7 @@
 	//Default Horzonntal 
 	display:block;float:left;
 	cursor:pointer;
+	position: relative;
 	height:@height;min-width:@min-width;
 	padding:0px 10px;
 	box-sizing:content-box !important;
@@ -299,6 +300,10 @@
 	}	
 }
 
-
-
-
+.axtabs-unit-tab-close(@height:28px){
+	position: absolute; right: 5px;top: 0px;
+	font-family: axicon;
+	&:before {
+		content: "\f1b4";
+	}
+}
