@@ -29777,6 +29777,9 @@ $("#myTab01").addTabs([
 			oidx += tabsCnt;
 			
 			po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
+			if(closable){
+				po.push(" closable");
+			}
 			if(O.optionValue == obj.config.value){
 				selectedIndex = oidx;
 				po.push(" on");
