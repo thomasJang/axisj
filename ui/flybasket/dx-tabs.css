@@ -254,6 +254,7 @@
   display: block;
   float: left;
   cursor: pointer;
+  position: relative;
   height: 26px;
   min-width: 50px;
   padding: 0px 10px;
@@ -425,6 +426,18 @@
   background: #fff;
   border-bottom: 1px solid #fff;
 }
+.AXTabs .AXTabsTray .AXTab.closable {
+  padding-right: 20px;
+}
+.AXTabs .AXTabsTray .AXTab .AXTabClose {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  font-family: axicon;
+}
+.AXTabs .AXTabsTray .AXTab .AXTabClose:before {
+  content: "\f1b4";
+}
 .AXTabs .AXTabsTray .leftArrowHandleBox {
   position: absolute;
   left: 0px;
@@ -500,6 +513,7 @@
   display: block;
   float: left;
   cursor: pointer;
+  position: relative;
   height: 40px;
   min-width: 100px;
   padding: 0px 10px;
@@ -671,6 +685,18 @@
   background: #fff;
   border-bottom: 1px solid #fff;
 }
+.AXTabsLarge .AXTabsTray .AXTab.closable {
+  padding-right: 20px;
+}
+.AXTabsLarge .AXTabsTray .AXTab .AXTabClose {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  font-family: axicon;
+}
+.AXTabsLarge .AXTabsTray .AXTab .AXTabClose:before {
+  content: "\f1b4";
+}
 .AXTabsLarge .AXTabsTray .leftArrowHandleBox {
   position: absolute;
   left: 0px;
@@ -746,6 +772,7 @@
   display: block;
   float: left;
   cursor: pointer;
+  position: relative;
   height: 20px;
   min-width: 60px;
   padding: 0px 10px;
@@ -916,6 +943,18 @@
   color: #593629;
   background: #fff;
   border-bottom: 1px solid #fff;
+}
+.AXTabsSmall .AXTabsTray .AXTab.closable {
+  padding-right: 20px;
+}
+.AXTabsSmall .AXTabsTray .AXTab .AXTabClose {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  font-family: axicon;
+}
+.AXTabsSmall .AXTabsTray .AXTab .AXTabClose:before {
+  content: "\f1b4";
 }
 .AXTabsSmall .AXTabsTray .leftArrowHandleBox {
   position: absolute;

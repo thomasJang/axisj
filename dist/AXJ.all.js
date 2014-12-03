@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-11-29 
+AXJ - v1.0.9 - 2014-12-03 
 */
 /*! 
-AXJ - v1.0.9 - 2014-11-29 
+AXJ - v1.0.9 - 2014-12-03 
 */
 
 if(!window.AXConfig){
@@ -576,7 +576,8 @@ Event: {
 		KEY_BACKSPACE: 8,
 		KEY_TAB: 9,
 		KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46,
-		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {} },
+		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {}
+	},
 /**
  * @method axf.console
  * @param {String|Object|Array} obj
@@ -737,7 +738,7 @@ Event: {
 ```
  */
 	isEmpty: function (obj) {
-		return (val === "" || val == null || val == undefined) ? true : false;
+		return (obj === "" || obj === null || obj === undefined);
 	},
 /**
  * @method axf.getUrlInfo
@@ -1672,7 +1673,7 @@ Object.extend(String.prototype, (function () {
 
 	}
 /**
- * #뒤 문자열을 반환합니다.
+ * anchor 데이터를 반환합니다.
  * @method String.getAnchorData
  * @returns {String}
  * @example
@@ -13228,9 +13229,10 @@ myGrid.setConfig({
 				axdom("#" + targetID).addClass("on");
 			}
 			//redraw grid
-			this.redrawGrid("");
+			this.redrawGrid("all");
 
 		} else {
+
 			axdom("#" + cfg.targetID + "_AX_colHeadMenu").remove();
 			axdom(document).unbind("keydown", this.colGroupListClickBind);
 			axdom(document).unbind("click", this.colGroupListClickBind);
@@ -29525,7 +29527,7 @@ var AXTabClass = Class.create(AXJ, {
         this.config.handleWidth = 22;
         this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
         this.config.bounces = true;
-		this.config.closable = AXConfig.AXTab.closable;
+		this.config.closable = ( (AXConfig && AXConfig.AXTab && AXConfig.AXTab.closable) ? AXConfig.AXTab.closable : false );
     },
     init: function(){
         axdom(window).bind("resize", this.windowResize.bind(this));
@@ -29776,6 +29778,9 @@ $("#myTab01").addTabs([
 			oidx += tabsCnt;
 			
 			po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
+			if(closable){
+				po.push(" closable");
+			}
 			if(O.optionValue == obj.config.value){
 				selectedIndex = oidx;
 				po.push(" on");
@@ -29783,7 +29788,7 @@ $("#myTab01").addTabs([
 			po.push("\">");
 			po.push(O.optionText.dec());
 			if(closable){
-				po.push("<span class=\"AXTabClose\">X</span>");
+				po.push("<span class=\"AXTabClose\"></span>");
 			}
 			po.push("</a>");
 			//if(AXUtil.browser.mobile){
