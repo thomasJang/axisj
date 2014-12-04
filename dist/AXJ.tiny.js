@@ -11167,8 +11167,10 @@ var AXInputConverter = Class.create(AXJ, {
 				bindDateExpand(objID, objSeq, true, event);
 			}
 		});
-		obj.bindTarget.unbind("click.AXInput").bind("focus.AXInput", function (event) {
-			axdom("#" + objID).select();
+		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
+			setTimeout(function() {
+				obj.bindTarget.select();
+			}, 1);
 			/*
 			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 			 bindDateExpand(objID, objSeq, false, event);
@@ -11176,7 +11178,9 @@ var AXInputConverter = Class.create(AXJ, {
 			 */
 		});
 		obj.bindTargetStart.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
-			obj.bindTargetStart.select();
+			setTimeout(function(){
+				obj.bindTargetStart.select();
+			}, 1);
 			/*
 			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 			 bindDateExpand(objID, objSeq, false, event);
