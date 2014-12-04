@@ -2,7 +2,7 @@
 
 .AXScheduleCalendar{
 	position:relative;
-	border-top:2px solid #3286bd;
+	border-top:2px solid #ccc;
 }
 .AXScheduleCalendar .schduleItem {
     position:absolute;left:0px;top:0px;
@@ -31,7 +31,7 @@
 		font-size:10px;
 		height:30px;line-height:20px;
 		padding:0px;text-align:center;
-		background:#eff7fa;
+		background:#f3f3f3;
 		border-right:1px solid #f2f2f3;
 		border-bottom:1px solid #d8d8d8;
 	}

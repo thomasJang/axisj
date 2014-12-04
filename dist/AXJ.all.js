@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-03 
+AXJ - v1.0.9 - 2014-12-04 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-03 
+AXJ - v1.0.9 - 2014-12-04 
 */
 
 if(!window.AXConfig){
@@ -21023,7 +21023,10 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
-			obj.bindTarget.select();
+			setTimeout(function(){
+				obj.bindTarget.select();
+			},1);
+
 			/* 포거스 되었을 때 달력 도구 오픈 처리 방식 변경 2013-07-10 오전 11:09:40
 			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 			 bindDateExpand(objID, objSeq, false, event);
