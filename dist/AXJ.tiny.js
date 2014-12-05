@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-04 
+AXJ - v1.0.9 - 2014-12-05 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-04 
+AXJ - v1.0.9 - 2014-12-05 
 */
 
 if(!window.AXConfig){
@@ -4113,7 +4113,7 @@ myUIScroll.setConfig({
         var config = this.config;
         if (this.scrollBarMove) {
             axdom(document.body).attr("onselectstart", "return false");
-            axdom(document.body).addClass("AXUserSelectNone");
+            //axdom(document.body).addClass("AXUserSelectNone");
             var pos = this.getMousePosition(event);
 
             var SBy = pos.y + this.scrollBarAttr.y;
@@ -4133,7 +4133,7 @@ myUIScroll.setConfig({
             var config = this.config;
             this.scrollBarMove = false;
             axdom(document.body).removeAttr("onselectstart");
-            axdom(document.body).removeClass("AXUserSelectNone");
+            //axdom(document.body).removeClass("AXUserSelectNone");
         }
         axdom(document.body).unbind("mousemove.AXScroll");
         axdom(document.body).unbind("mouseup.AXScroll");
@@ -4163,7 +4163,7 @@ myUIScroll.setConfig({
         if (this.scrollBarMove) {
 
             axdom(document.body).attr("onselectstart", "return false");
-            axdom(document.body).addClass("AXUserSelectNone");
+            //axdom(document.body).addClass("AXUserSelectNone");
             var pos = this.getMousePosition(event);
 
             var SBx = pos.x + this.scrollBarAttr.x;
@@ -4183,7 +4183,7 @@ myUIScroll.setConfig({
             var config = this.config;
             this.scrollBarMove = false;
             axdom(document.body).removeAttr("onselectstart");
-            axdom(document.body).removeClass("AXUserSelectNone");
+            //axdom(document.body).removeClass("AXUserSelectNone");
         }
         axdom(document.body).unbind("mousemove.AXScroll");
         axdom(document.body).unbind("mouseup.AXScroll");
@@ -5009,7 +5009,7 @@ var AXMultiSelect = Class.create(AXJ, {
                 axdom(document.body).unbind("mouseup.AXMultiSelect");
                 axdom(document.body).unbind("mouseleave.AXMultiSelect");
                 axdom(document.body).removeAttr("onselectstart");
-                axdom(document.body).removeClass("AXUserSelectNone");
+                //axdom(document.body).removeClass("AXUserSelectNone");
                 this.helperAppenedReady = false;
                 this.helperAppened = false;
                 this.helper.remove();
@@ -5171,7 +5171,7 @@ var AXMultiSelect = Class.create(AXJ, {
         axdom(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
 
         axdom(document.body).attr("onselectstart", "return false");
-        axdom(document.body).addClass("AXUserSelectNone");
+        //axdom(document.body).addClass("AXUserSelectNone");
 
         this.helperAppenedReady = true;
     },
@@ -5194,7 +5194,7 @@ var AXMultiSelect = Class.create(AXJ, {
         axdom(document.body).unbind("mouseleave.AXMultiSelect");
 
         axdom(document.body).removeAttr("onselectstart");
-        axdom(document.body).removeClass("AXUserSelectNone");
+        //axdom(document.body).removeClass("AXUserSelectNone");
 
         if (this.helperAppened) {
             this.helperAppened = false;
@@ -5646,7 +5646,7 @@ var AXResizable = Class.create(AXJ, {
         /*axdom(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
 
         axdom(document.body).attr("onselectstart", "return false");
-        axdom(document.body).addClass("AXUserSelectNone");
+        //axdom(document.body).addClass("AXUserSelectNone");
 
         this.helperAppenedReady = true;
     },
@@ -5670,7 +5670,7 @@ var AXResizable = Class.create(AXJ, {
         /*axdom(document.body).unbind("mouseleave.AXResizable");*/
 
         axdom(document.body).removeAttr("onselectstart");
-        axdom(document.body).removeClass("AXUserSelectNone");
+        //axdom(document.body).removeClass("AXUserSelectNone");
 
         if (this.helperAppened) {
             this.helperAppened = false;
@@ -14085,7 +14085,7 @@ myMobileMenu.setConfig({
 		}
 
 		obj.modalBody.attr("onselectstart", "return false");
-		obj.modalBody.addClass("AXUserSelectNone");
+		//obj.modalBody.addClass("AXUserSelectNone");
 		obj.modalBody.bind("click.AXMobileMenu", this.onclickModalBody.bind(this));
 		
     	/* drag cancle */
