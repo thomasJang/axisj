@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-05 
+AXJ - v1.0.9 - 2014-12-12 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-05 
+AXJ - v1.0.9 - 2014-12-12 
 */
 
 if(!window.AXConfig){
@@ -15158,6 +15158,12 @@ myGrid.setConfig({
 	gridBodyClick: function (event) {
 		var cfg = this.config;
 
+		if (event.target.tagName.toLowerCase() == "input" && (
+			event.target.type == "radio" || event.target.type == "checkbox"
+			)) {
+			this.gridBodyClickAct(event);
+		}
+		else
 		if (cfg.body.ondblclick) {
 			if (this.needBindDBLClick()) {
 				clearTimeout(this.bodyClickObserver);

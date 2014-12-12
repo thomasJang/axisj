@@ -130,11 +130,9 @@
                 //분류 1
                 $("#gubun").bindSelect({
                     onChange: function(obj) {
-                        fnObj.SelectGubun1(obj.optionValue);
+
                     }
                 });
-
-                fnObj.SelectGubun1("M");
 
                 //fnObj.dips.search();
             },
@@ -310,7 +308,7 @@
             },
             addActivityForm: function (stDate, edDate) {
                 if (stDate == undefined) {
-                    stDate = edDate = (new Date()).print("YYYY-MM-DD");
+                    stDate = edDate = (new Date()).print("yyyy-mm-dd");
                 }
                 return;
                 fnObj.myModal.open({
@@ -324,7 +322,7 @@
             },
             addPlanForm: function (sDate, stTime, edTime) {
                 if (sDate == undefined) {
-                    sDate = (new Date()).print("YYYY-MM-DD");
+                    sDate = (new Date()).print("yyyy-mm-dd");
                     stTime = "09:00";
                     edTime = "19:00";
                 }
@@ -337,7 +335,7 @@
             },
             addActForm: function (sDate, stTime, edTime) {
                 if (sDate == undefined) {
-                    sDate = (new Date()).print("YYYY-MM-DD");
+                    sDate = (new Date()).print("yyyy-mm-dd");
                     stTime = "09:00";
                     edTime = "19:00";
                 }
@@ -430,7 +428,7 @@
 
             onUpdateHeight: function () {
                 //뷰모드가 체인지 되었을 때 이벤트
-                fcObj.frameResize();
+                //fcObj.frameResize();
             },
             onchangeType: function (typeName, typeValue) {
                 $("#calendar" + typeName).setValueInput(typeValue);
@@ -452,7 +450,7 @@
                 //trace(this);
                 //trace("update", index, item, type);
                 //trace(type, this.schduleid.dec(), this.stime.dec(), this.etime.dec());
-
+/*
                 var url = pageUrl + "/uptDipsTime";
                 var pars = "";
                 pars += "type=" + type;
@@ -474,12 +472,81 @@
                         }
                     }
                 });
+                */
             },
             onclickTimeItem: function (index, item, type) { //
                 fnObj.popEdit(index, item, type);
             },
 
             onchangeView: function (view) {
+                var plan_list = [], act_list = [], todo_list = [], month_list = [];
+
+
+                todo_list = [
+                    {schduleid:1, schedulename:"noname 1", sdate:(new Date()).add(-1).print(), edate:(new Date()).add(-1).print(), detail_nm:"T1", color:"red"},
+                    {schduleid:2, schedulename:"noname 2", sdate:(new Date()).add(0).print(), edate:(new Date()).add(2).print(), detail_nm:"T1", color:"blue"},
+                    {schduleid:3, schedulename:"noname 3", sdate:(new Date()).add(1).print(), edate:(new Date()).add(3).print(), detail_nm:"T1", color:"green"},
+                    {schduleid:4, schedulename:"noname 4", sdate:(new Date()).add(2).print(), edate:(new Date()).add(7).print(), detail_nm:"T1", color:"blue"}
+                ];
+                plan_list = [
+                    {schduleid:1, schedulename:"noname 1", sdate:(new Date()).add(-1).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"},
+                    {schduleid:2, schedulename:"noname 2", sdate:(new Date()).add(0).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"},
+                    {schduleid:3, schedulename:"noname 3", sdate:(new Date()).add(1).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"},
+                    {schduleid:4, schedulename:"noname 4", sdate:(new Date()).add(2).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"}
+                ];
+
+                month_list = [
+                    {schduleid:1, schedulename:"noname 1", sdate:(new Date()).add(-1).print(), edate:(new Date()).add(-1).print(), detail_nm:"T1", color:"red"},
+                    {schduleid:2, schedulename:"noname 2", sdate:(new Date()).add(0).print(), edate:(new Date()).add(2).print(), detail_nm:"T1", color:"blue"},
+                    {schduleid:3, schedulename:"noname 3", sdate:(new Date()).add(1).print(), edate:(new Date()).add(3).print(), detail_nm:"T1", color:"green"},
+                    {schduleid:4, schedulename:"noname 4", sdate:(new Date()).add(2).print(), edate:(new Date()).add(7).print(), detail_nm:"T1", color:"blue"}
+                ];
+
+                if (view.viewType == "1week") {
+
+                    //계획----------------------S
+                    //var plan_list = Object.toJSON(res.ds.plan_list, true).dec();
+                    $.each(plan_list, function (lidx, L) {
+                        plantimeList.push(this);
+                    });
+
+                    trace(plantimeList);
+
+                    fnObj.myScheduler.setPlanTimeList(plantimeList);
+                    //계획----------------------E
+
+                    //실적----------------------S
+                    //var act_list = Object.toJSON(res.ds.act_list, true).dec();
+                    $.each(act_list, function (lidx, L) {
+                        acttimeList.push(this);
+                    });
+                    fnObj.myScheduler.setActTimeList(acttimeList);
+                    //실적----------------------E
+
+                    //to-do----------------------S
+                    var weekList = [];
+                    $.each(todo_list, function (lidx, L) {
+                        weekList.push(this);
+                    });
+                    fnObj.myScheduler.setWeekList(weekList);
+                    //to-do----------------------E
+
+                }
+
+                if (view.viewType == "M") {
+                    //월별, 목록----------------------S
+                    //var month_list = Object.toJSON(res.ds.month_list, true).dec();
+                    $.each(month_list, function (lidx, L) {
+                        list.push(this);
+                    });
+
+                    fnObj.myScheduler.setList(list);
+                }
+
+                fnObj.myScheduler.printList();
+
+
+                /*
                 var emp_no = $("#empno_sc").val();
                 if (emp_no == null)
                 {
@@ -580,7 +647,7 @@
                         }
                     }
                 });
-
+                */
                 /* onchangeView 함수가 실행되게 하고 싶다면 fnObj.myScheduler.changeView(); 를 실행 하세요. */
 
             },
@@ -598,7 +665,7 @@
             },
 
             setTimePageHeight: function () {
-                return parent.getScreenSize();
+                return axf.clientHeight();
             }
         });
 
