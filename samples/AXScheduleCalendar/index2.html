@@ -16,9 +16,9 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
-    <link rel="stylesheet" type="text/css" href="AXScheduler.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <link rel="stylesheet" type="text/css" href="AXScheduler.css" />
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
@@ -28,222 +28,651 @@
     <!-- js block -->
     <link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css" />
 
-
-    <script type="text/javascript">
-        var pageID = "AXScheduleCalendar";
-        var myModal = new AXModal();
-        var myCalendar = new AXScheduler();
-        var myGrid = new AXGrid();
-        var fnObj = {
-            pageStart: function (h, w) {
-
-                myModal.setConfig({ windowID: "myModalCT", width: 860 });
-
-                $("#calendarViewMode").bindSegment({
-                    options: [
-                        { optionValue: "D", optionText: "일" },
-                        { optionValue: "W", optionText: "주" },
-                        { optionValue: "M", optionText: "월" }
-                    ],
-                    onChange: function () {
-                        fnObj.calendar.setViewMode(this.selectedOption.optionValue);
-                    }
-                });
-
-                fnObj.grid.init();
-                fnObj.calendar.init();
-
-            },
-            pageResize: function () {
-
-            },
-            calendar: {
-                init: function () {
-
-                    myCalendar.setConfig({
-                        targetID: "AXCalendarTarget",
-                        displayID: "calendarDisplay",
-                        toDay: (new Date()).print(),
-                        viewMode: "M",
-                        onChangeView: function(){
-                            $('#calendarViewMode').setValueInput(this.viewMode);
-                        },
-                        onChangeDate: function () {
-                            if (this.viewMode == "M") {
-                                var toDay = (new Date()).print("yyyymm");
-                                var calendarDay = this.date.print("yyyymm");
-                                if (toDay == calendarDay) {
-                                    $("#goToday").removeClass("Blue");
-                                    $("#goToday").get(0).disabled = true;
-                                } else {
-                                    $("#goToday").addClass("Blue");
-                                    $("#goToday").get(0).disabled = false;
-                                }
-                            } else if (this.viewMode == "W") {
-                                var toDay = (new Date()).print().date();
-                                var calendarDay = this.date;
-                                var weekStart = calendarDay.add(-calendarDay.getDay());
-                                var isToday = false;
-                                for (var a = 0; a < 7; a++) {
-                                    if (toDay.diff(weekStart) == 0) isToday = true;
-                                    weekStart = weekStart.add(1);
-                                }
-                                if (isToday) {
-                                    $("#goToday").removeClass("Blue");
-                                    $("#goToday").get(0).disabled = true;
-                                } else {
-                                    $("#goToday").addClass("Blue");
-                                    $("#goToday").get(0).disabled = false;
-                                }
-                            } else if (this.viewMode == "D") {
-                                var toDay = (new Date()).print().date();
-                                var calendarDay = this.date;
-                                var isToday = false;
-                                if (toDay.diff(calendarDay) == 0) isToday = true;
-
-                                if (isToday) {
-                                    $("#goToday").removeClass("Blue");
-                                    $("#goToday").get(0).disabled = true;
-                                } else {
-                                    $("#goToday").addClass("Blue");
-                                    $("#goToday").get(0).disabled = false;
-                                }
-                            }
-                        },
-                        onclick: function () {
-
-                            myModal.open({
-                                url: "/Template/WBS/UI/calendarView.aspx",
-                                pars: { schduleid: this.item.schduleid },
-                                width: 640,
-                                top: 20
-                            });
-
-                        }
-                    });
-                    fnObj.calendar.load();
-                },
-                move: function (direction) {
-                    myCalendar.moveDate(direction);
-                    fnObj.calendar.load();
-                },
-                goToday: function () {
-                    myCalendar.goToday();
-                },
-                setViewMode: function (viewMode) {
-                    myCalendar.setViewMode(viewMode);
-                },
-                load: function () {
-
-                    var list = [
-                        { schduleid: 1, schedulename: '일정 1', sdate: "2014-10-09", edate: "2014-10-09" },
-                        { schduleid: 2, schedulename: '일정 2', sdate: "2014-10-09", edate: "2014-11-18" },
-                        { schduleid: 3, schedulename: '일정 3', sdate: "2014-10-10", edate: "2014-10-16" },
-                        { schduleid: 4, schedulename: '일정 4', sdate: "2014-10-11", edate: "2014-10-11" },
-                        { schduleid: 5, schedulename: '일정 5', sdate: "2014-10-13", edate: "2014-10-14" },
-                        { schduleid: 6, schedulename: '일정 6', sdate: "2014-10-13", edate: "2014-10-14" },
-                        { schduleid: 7, schedulename: '일정 7', sdate: "2014-10-24", edate: "2014-10-30" },
-                        { schduleid: 8, schedulename: '일정 8', sdate: "2014-10-31", edate: "2014-11-05" },
-                        { schduleid: 9, schedulename: '일정 9', sdate: "2014-10-11", edate: "2014-10-12" }
-                    ];
-
-                    //myGrid.setList(list);
-                    myCalendar.setList(list);
-                }
-            },
-            grid: {
-                init: function () {
-                    myGrid.setConfig({
-                        targetID: "AXCalendarList",
-                        passiveMode: false,
-                        colGroup: [
-                            { key: "schduleid", label: "ID", width: "40", align: "center" },
-                            { key: "schedulename", label: "Schedule", width: "120" },
-                            {
-                                key: "dates", label: "dates", width: "100", formatter: function () {
-                                return this.item.sdate.date().print("mm/dd") + "~" + this.item.edate.date().print("mm/dd");
-                            }
-                            }
-                        ],
-                        body: {
-                            onclick: function () {
-
-                                myModal.open({
-                                    url: "/Template/WBS/UI/calendarView.aspx",
-                                    pars: { schduleid: this.item.schduleid },
-                                    width: 640,
-                                    top: 20
-                                });
-
-                            }
-                        },
-                        page: {
-                            paging: false,
-                            status: { formatter: null }
-                        }
-                    });
-
-                }
-            }
-        };
-
-        $(document.body).ready(function(){
-            setTimeout(fnObj.pageStart, 1);
-        });
-    </script>
 </head>
 <body>
 <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 <div class="AXdemoPageContent">
 
-    <h2>&nbsp;&nbsp;AXScheduleCalendar</h2>
+    <h2>&nbsp;&nbsp;AXScheduler</h2>
 
-    <div id="calendarControler">
-        <table style="table-layout:fixed;width:100%;">
-            <tbody>
-            <tr>
-                <td style="padding-right:5px;">
-                    <table style="table-layout:fixed;width:100%;">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <button class="AXButton" id="goToday" onclick="fnObj.calendar.goToday();" disabled="disabled"><span>Today</span></button>
-                                <button class="AXButton" onclick="fnObj.calendar.move(-1);"><i class="axi axi-chevron-left"></i></button>
-                                <button class="AXButton" onclick="fnObj.calendar.move(1);"><i class="axi axi-chevron-right"></i></button>
-                                <span id="calendarDisplay" style="padding-left:20px;font-weight:bold;"></span>
-                            </td>
-                            <td align="right">
-                                <input type="text" name="" value="M" id="calendarViewMode" style="width:150px;height:20px;" />
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td width="300">
+    <div style="position:relative;min-width:600px;" id="myScheduleFrame">
+        <div id="myScheduleTarget" class="AXScheduler">
+            <div class="calendarBody" id="calendarBody"></div> <!-- 달력표시 부 -->
+            <div class="scheduleControls">
+                <div class="dateMovePanel"> <!-- 이동 컨트롤 -->
+                    <button class="AXButton Blue" type="button" onclick="fnObj.myScheduler.goToday();"><i class="axi axi-calendar"></i> 오늘</button>
+                    <button class="AXButton W30" type="button" onclick="fnObj.myScheduler.moveDate(-1);"><i class="axi axi-angle-left"></i></button>
+                    <button class="AXButton W30" type="button" onclick="fnObj.myScheduler.moveDate(1);"><i class="axi axi-angle-right"></i></button>
+                </div>
+                <div class="datePanel" id="datePanel">2014년 2월</div>  <!-- 날짜 -->
 
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                <div class="viewWeekEndPanel"> <!-- 모드변경 컨트롤 -->
+                    <label>
+                        <input type="checkbox" name="" value="1" id="viewWeekEnd" />
+                        <label for="viewWeekEnd">주말보기</label>
+                    </label>
+                </div>
+
+                <div class="scheduleModePanel"> <!-- 모드변경 컨트롤 -->
+                    <input type="text" name="" value="plan" id="calendarMode" />
+                </div>
+                <div class="calendarViewPanel"> <!-- 뷰변경 컨트롤 -->
+                    <input type="text" name="" value="1week" id="calendarView" />
+                    <!-- 달력 기본 뷰 값 설정 ----------------------------------------------------------------------------------------------------------- -->
+                </div>
+            </div>
+        </div>
     </div>
 
-    <table style="table-layout:fixed;width:100%;">
-        <tbody>
-        <tr>
-            <td style="padding-right:5px;">
-                <div id="AXCalendarTarget" style="height:600px;"></div>
-            </td>
-            <td width="300">
-                <div id="AXCalendarList" style="height:600px;"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 
-    <div class="padding10">
+    <script type="text/javascript">
+        var pageID = "AXScheduleCalendar";
 
-    </div>
+        var plantimeList = [];
+        var acttimeList = [];
+        var list = [];
+        var fnObj = {
+            pageStart : function () {
+                $("#calendarMode").bindSegment({
+                    options: [
+                        { optionValue: "plan", optionText: "Plan" },
+                        { optionValue: "act", optionText: "ACT" }
+                    ],
+                    onChange: function () {
+                        if (this.selectedOption) {
+                            fnObj.myScheduler.setModeType(this.selectedOption.optionValue);
+                        }
+                        //this.targetID, this.options, this.selectedIndex, this.selectedOption
+                        //toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                    }
+                });
+                $("#calendarView").bindSegment({
+                    options: [
+                        { optionValue: "1week", optionText: "주별" },
+                        { optionValue: "M", optionText: "월별" },
+                        { optionValue: "List", optionText: "목록" }
+                    ],
+                    onChange: function () {
+                        if (this.selectedOption) {
+                            fnObj.myScheduler.setViewType(this.selectedOption.optionValue);
+                        }
+                        //
+                        //this.targetID, this.options, this.selectedIndex, this.selectedOption
+                        //toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                    }
+                });
+
+                $("#viewWeekEnd").bind("click", function () {
+
+                    fnObj.myScheduler.viewWeekEnd(this.checked);
+
+
+                });
+
+                // 모달정의
+                fnObj.myModal.setConfig({
+                    windowID: "schedulerPop",
+                    width: 750,
+                    onclose: function () {
+                        //trace("modal close");
+                        fnObj.myScheduler.selectingMonthPageClear();
+                        fnObj.myScheduler.selectingTimePageClear();
+
+                        // ie9  버그 패치
+                        if(AXUtil.browser.name == "ie" && AXUtil.browser.version <= 9){
+                            fnObj.myScheduler.windowResizeApply();
+                        }
+                    }
+                });
+                mask.close();
+
+                //분류 1
+                $("#gubun").bindSelect({
+                    onChange: function(obj) {
+
+                    }
+                });
+
+                //fnObj.dips.search();
+            },
+            dips : {
+                search : function (){
+
+                },
+                remove : function(sType, dips_id) {
+                    if (sType == "plan")
+                    {
+                        if(!confirm("계획을 삭제하시겠습니까? \n선택한 계획에 대한 실적도 삭제됩니다.")) return;
+                    }
+                    else
+                    {
+                        if(!confirm("실적을 삭제하시겠습니까?")) return;
+                    }
+
+                    var date_kijun = ($("[id^='calendarBody_AX_plantime_AX']")[0].id.right(8));
+                    var basedate = deObj.getWeekToDate(date_kijun.date());
+
+                    + "&emp_no=" + $("#empno_sc").val() + "&plan_dt_fr=" + basedate[0] + "&plan_dt_to=" + basedate[1] + "&plan_week=" + basedate[2];
+
+
+
+                    var url = pageUrl + "/delDips";
+                    var pars = "";
+                    pars = "type=" + sType + "&dips_id=" + dips_id;
+                    pars += "&emp_no=" + $("#empno_sc").val() + "&plan_dt_fr=" + basedate[0] + "&plan_dt_to=" + basedate[1] + "&plan_week=" + basedate[2];
+
+                    new AXReq(url, {
+                        debug: false,
+                        pars: pars,
+                        onsucc: function (res) {
+                            if (res.result == AXUtil.ajaxOkCode) {
+                                //alert("삭제완료");
+                                fnObj.myScheduler.changeView();
+                            } else {
+                                AXUtil.alert(res.msg.dec());
+                            }
+//			            if (sType == "plan") {
+//			                fnObj.myScheduler.removePlanTimeList(dips_id);
+//			            } else if (sType == "act") {
+//			                fnObj.myScheduler.removeActTimeList(dips_id);
+//			            }
+                        },
+                        onerr: null
+                    });
+                },
+                act_copy : function(sType, item) {
+                    if (sType == "act")
+                    {
+                        alert("실적은 복사할 수 없습니다.");
+                        return;
+                    }
+
+                    var result = fnObj.myScheduler.validateTime(item.schduleid, item.sdate, "act", item.stime, item.etime); //itemID, sDate, sType, startTime, endTime
+
+                    if (result == false)
+                    {
+                        alert("같은 시간대에 실적이 존재하여 복사할 수 없습니다.");
+                        return false;
+                    }
+
+                    if(!confirm("저장하시겠습니까? \n계획에 대한 실적이 존재하면 실적은 삭제됩니다.")) return;
+
+                    var url = pageUrl + "/save_ActCopy";
+                    var pars = "dips_id=" + item.schduleid;
+
+                    new AXReq(url, {
+                        debug: false,
+                        pars: pars,
+                        onsucc: function (res) {
+                            if (res.result == AXUtil.ajaxOkCode) {
+                                //alert("계획을 실적으로 적용 완료");
+                                fnObj.myScheduler.changeView();
+                            } else {
+                                AXUtil.alert(res.msg.dec());
+                            }
+                        },
+                        onerr: null
+                    });
+
+                },
+                plan_copy : function(sType, dips_id) {
+                    if (sType == "act")
+                    {
+                        alert("실적은 복사할 수 없습니다.");
+                        return;
+                    }
+
+                    fnObj.myModal.open({
+                        url: pagePath + "DIPS_Plan_Reg.aspx",
+                        pars: ("dips_id=" + dips_id + "&copy=Y").queryToObject(),
+                        closeByEscKey: true
+                    });
+                }
+            },
+            popEdit : function (index, item, type) {
+                if (type == "plan")
+                {
+                    fnObj.myModal.open({
+                        url: pagePath + "DIPS_Plan_Reg.aspx",
+                        pars: ("dips_id=" + item.schduleid.dec()).queryToObject(),
+                        closeByEscKey: true
+                    });
+                }
+                else if (type == "act")
+                {
+                    if (item.popgubun.dec() == "Y")
+                    {
+                        fnObj.myModal.open({
+                            url: pagePath + "DIPS_Act_Reg.aspx",
+                            pars: ("dips_id=" + item.schduleid.dec()).queryToObject(),
+                            closeByEscKey: true
+                        });
+                    }
+                    else
+                    {
+                        fnObj.myModal.open({
+                            url: pagePath + "DIPS_Act_Reg2.aspx",
+                            pars: ("dips_id=" + item.schduleid.dec()).queryToObject(),
+                            closeByEscKey: true
+                        });
+                    }
+                }
+            },
+            popBaseinfo: function() {
+                var qs = "";
+                var options = ",location=no,directories=no,resizable=yes,status=no,toolbar=no,menubar=no,scrollbars=yes,left=300,top=0";
+                fcObj.openWindow({ url: "/WorkPlace/PMS_MyPortal/UI/MyDeskTimeSheetPop.aspx", pars: qs, method: 'get', callBack: "", width: 850, height: 920, options: options });
+            },
+            resizeWindow: function () {
+                fnObj.myScheduler.reloadPrintCalendar();
+            }
+        };
+
+        // 스케줄러 함수 정의
+        fnObj.schedule = {
+            load: function () {
+
+            },
+            save: function () {
+
+            },
+            copy: function () {
+                if ($("#calendarView").val() != "1week")
+                {
+                    alert("업무복사는 주별에서 가능합니다.");
+                    return;
+                }
+
+                if(!confirm("해당 주차에 대한 모든 내용이 삭제됩니다.\n지난주 부대업무를 가져오시겠습니까?")) return;
+                var date_kijun = ($("[id^='calendarBody_AX_plantime_AX']")[0].id.right(8));
+
+                var basedate = deObj.getWeekToDate(date_kijun.date());
+
+                var url = pageUrl + "/beforeWeekCopy";
+                var pars = "emp_no=" + $("#empno_sc").val() + "&plan_dt_fr=" + basedate[0] + "&plan_dt_to=" + basedate[1] + "&plan_week=" + basedate[2];
+
+                new AXReq(url, {
+                    debug: false,
+                    pars: pars,
+                    onsucc: function (res) {
+                        if (res.result == AXUtil.ajaxOkCode) {
+                            //alert("복사완료");
+                            fnObj.myScheduler.changeView();
+                        } else {
+                            AXUtil.alert(res.msg.dec());
+                        }
+                    },
+                    onerr: null
+                });
+            },
+            addActivityForm: function (stDate, edDate) {
+                if (stDate == undefined) {
+                    stDate = edDate = (new Date()).print("yyyy-mm-dd");
+                }
+                return;
+                fnObj.myModal.open({
+                    url: pagePath + "dips_plan_form.asp",
+                    pars: ("stDate=" + stDate + "&edDate=" + edDate).queryToObject(),
+                    closeByEscKey: true
+                });
+            },
+            addActivity: function () {
+
+            },
+            addPlanForm: function (sDate, stTime, edTime) {
+                if (sDate == undefined) {
+                    sDate = (new Date()).print("yyyy-mm-dd");
+                    stTime = "09:00";
+                    edTime = "19:00";
+                }
+                fnObj.myModal.open({
+                    //url: pagePath + "dips_plan_form2.asp",
+                    url: pagePath + "DIPS_Plan_Reg.aspx",
+                    pars: ("sDate=" + sDate + "&stTime=" + stTime + "&edTime=" + edTime).queryToObject(),
+                    closeByEscKey: true
+                });
+            },
+            addActForm: function (sDate, stTime, edTime) {
+                if (sDate == undefined) {
+                    sDate = (new Date()).print("yyyy-mm-dd");
+                    stTime = "09:00";
+                    edTime = "19:00";
+                }
+                fnObj.myModal.open({
+                    //url: pagePath + "dips_plan_form3.asp",
+                    url: pagePath + "DIPS_Act_Reg.aspx",
+                    pars: ("sDate=" + sDate + "&stTime=" + stTime + "&edTime=" + edTime).queryToObject(),
+                    closeByEscKey: true
+                });
+            },
+            watch: function () {
+
+            }
+        };
+
+        //스케줄러 초기화
+        fnObj.myScheduler = new AXScheduler();
+        // 모달 초기화
+        var myModal = fnObj.myModal = new AXModal();
+
+        // 스케줄러 크기 정의
+        fnObj.resetFrameHeight = function () {
+            //alert(axf.clientHeight());
+            //$("#myScheduleFrame").css({ height: axf.clientHeight() - 110 });
+            //$("#myScheduleFrame").css({ height: 1024 });
+        };
+        fnObj.resetFrameHeight();
+
+        /*
+         $(window).resize(function () {
+         fnObj.resetFrameHeight();
+         });
+         */
+
+        fnObj.myScheduler.setConfig({
+            targetID: "calendarBody",
+            datePanelID: "datePanel",
+            viewType: "1week", // 달력 기본 뷰 값 설정 -----------------------------------------------------------------------------------------------------------
+            viewWeekEnd: false,
+            reserveKeys: {
+                schduleid: "schduleid",
+                schedulename: "schedulename",
+                sdate: "sdate",
+                edate: "edate",
+                stime: "stime",
+                etime: "etime",
+                color: "color"
+            },
+
+            //editStartDate: (new Date()).add(0).print(),
+            editStartDate : "2014-04-07".date(),
+
+            listConfig:{
+                ajaxUrl: "searchData_grid", ajaxPars: "emp_no=" + $("#empno_sc").val(), onLoad: function () {
+
+                }
+            },
+
+            /* 시간아이템 컨텍스트 메뉴 */
+            timeItemContextMenu: {
+                theme:"AXContextMenu", // 선택항목
+                width:"150", // 선택항목
+                menu:[
+                    {
+                        userType:1, label:"수정", className:"edit", onclick:function(){
+                        fnObj.popEdit(this.sendObj.index[3], this.sendObj.item, this.sendObj.index[2]);
+                    }
+                    },
+                    {
+                        userType:1, label:"삭제", className:"minus", onclick:function(){
+                        fnObj.dips.remove(this.sendObj.index[2], this.sendObj.item.schduleid.dec());
+                    }
+                    },
+                    {
+                        userType:1, label:"계획복사", className:"paste", onclick:function(){
+                        fnObj.dips.plan_copy(this.sendObj.index[2], this.sendObj.item.schduleid.dec());
+                    }
+                    },
+                    {
+                        userType:1, label:"실적적용", className:"copy", onclick:function(){
+                        fnObj.dips.act_copy(this.sendObj.index[2], this.sendObj.item);
+                    }
+                    }
+                ],
+                filter:function(id){
+                    return true;
+                }
+            },
+
+
+            onUpdateHeight: function () {
+                //뷰모드가 체인지 되었을 때 이벤트
+                //fcObj.frameResize();
+            },
+            onchangeType: function (typeName, typeValue) {
+                $("#calendar" + typeName).setValueInput(typeValue);
+            },
+            onselectMonthPage: function (startDate, endDate) {
+                //fnObj.schedule.addActivityForm(startDate, endDate);
+                fnObj.myScheduler.selectingMonthPageClear(); // 달력 선택 해제
+            },
+
+            // 1주 보기에서 시간 선택 도구
+            onselectTimePage: function (sType, sDate, startTime, endTime) {
+                if (sType == "plantime") {
+                    fnObj.schedule.addPlanForm(sDate, startTime, endTime);
+                } else {
+                    fnObj.schedule.addActForm(sDate, startTime, endTime);
+                }
+            },
+            onupdateTimeItem: function(index, item, type){ // 타임아이템이 수정 되었을 때.
+                //trace(this);
+                //trace("update", index, item, type);
+                //trace(type, this.schduleid.dec(), this.stime.dec(), this.etime.dec());
+/*
+                var url = pageUrl + "/uptDipsTime";
+                var pars = "";
+                pars += "type=" + type;
+                pars += "&dips_id=" + this.schduleid.dec();
+                pars += "&stime=" + this.stime.dec();
+                pars += "&etime=" + this.etime.dec();
+
+                new AXReq(url, {
+                    debug: false,
+                    pars: pars,
+                    onsucc: function (res) {
+                        if (res.result == AXUtil.ajaxOkCode) {
+                            //alert("시간변경 완료");
+                            //fnObj.myScheduler.changeView();
+
+                        } else {
+                            AXUtil.alert(res.msg.dec());
+
+                        }
+                    }
+                });
+                */
+            },
+            onclickTimeItem: function (index, item, type) { //
+                fnObj.popEdit(index, item, type);
+            },
+
+            onchangeView: function (view) {
+                var plan_list = [], act_list = [], todo_list = [], month_list = [];
+
+
+                todo_list = [
+                    {schduleid:1, schedulename:"noname 1", sdate:(new Date()).add(-1).print(), edate:(new Date()).add(-1).print(), detail_nm:"T1", color:"red"},
+                    {schduleid:2, schedulename:"noname 2", sdate:(new Date()).add(0).print(), edate:(new Date()).add(2).print(), detail_nm:"T1", color:"blue"},
+                    {schduleid:3, schedulename:"noname 3", sdate:(new Date()).add(1).print(), edate:(new Date()).add(3).print(), detail_nm:"T1", color:"green"},
+                    {schduleid:4, schedulename:"noname 4", sdate:(new Date()).add(2).print(), edate:(new Date()).add(7).print(), detail_nm:"T1", color:"blue"}
+                ];
+                plan_list = [
+                    {schduleid:1, schedulename:"noname 1", sdate:(new Date()).add(-1).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"},
+                    {schduleid:2, schedulename:"noname 2", sdate:(new Date()).add(0).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"},
+                    {schduleid:3, schedulename:"noname 3", sdate:(new Date()).add(1).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"},
+                    {schduleid:4, schedulename:"noname 4", sdate:(new Date()).add(2).print(), stime:"09:00", etime:"10:00", detail_nm:"T1"}
+                ];
+
+                month_list = [
+                    {schduleid:1, schedulename:"noname 1", sdate:(new Date()).add(-1).print(), edate:(new Date()).add(-1).print(), detail_nm:"T1", color:"red"},
+                    {schduleid:2, schedulename:"noname 2", sdate:(new Date()).add(0).print(), edate:(new Date()).add(2).print(), detail_nm:"T1", color:"blue"},
+                    {schduleid:3, schedulename:"noname 3", sdate:(new Date()).add(1).print(), edate:(new Date()).add(3).print(), detail_nm:"T1", color:"green"},
+                    {schduleid:4, schedulename:"noname 4", sdate:(new Date()).add(2).print(), edate:(new Date()).add(7).print(), detail_nm:"T1", color:"blue"}
+                ];
+
+                if (view.viewType == "1week") {
+
+                    //계획----------------------S
+                    //var plan_list = Object.toJSON(res.ds.plan_list, true).dec();
+                    $.each(plan_list, function (lidx, L) {
+                        plantimeList.push(this);
+                    });
+
+                    trace(plantimeList);
+
+                    fnObj.myScheduler.setPlanTimeList(plantimeList);
+                    //계획----------------------E
+
+                    //실적----------------------S
+                    //var act_list = Object.toJSON(res.ds.act_list, true).dec();
+                    $.each(act_list, function (lidx, L) {
+                        acttimeList.push(this);
+                    });
+                    fnObj.myScheduler.setActTimeList(acttimeList);
+                    //실적----------------------E
+
+                    //to-do----------------------S
+                    var weekList = [];
+                    $.each(todo_list, function (lidx, L) {
+                        weekList.push(this);
+                    });
+                    fnObj.myScheduler.setWeekList(weekList);
+                    //to-do----------------------E
+
+                }
+
+                if (view.viewType == "M") {
+                    //월별, 목록----------------------S
+                    //var month_list = Object.toJSON(res.ds.month_list, true).dec();
+                    $.each(month_list, function (lidx, L) {
+                        list.push(this);
+                    });
+
+                    fnObj.myScheduler.setList(list);
+                }
+
+                fnObj.myScheduler.printList();
+
+
+                /*
+                var emp_no = $("#empno_sc").val();
+                if (emp_no == null)
+                {
+                    emp_no = "<%=ui.Emp_no %>";
+                    fnObj.myScheduler.setListConfig({ ajaxPars: "emp_no=" + emp_no });
+                }
+
+
+                var rock_dt = new Date();
+
+                if (view.stDate != null)
+                {
+                    rock_dt = view.stDate.date();
+                }
+                var kijun_dt = "2014-04-07".date();
+
+                if(emp_no == "<%=ui.Emp_no %>")
+                {
+                    if (rock_dt < kijun_dt)
+                    {
+                        //trace("fnObj.myScheduler.editStatus(false);");
+                        $("#btnBeforeCopy").hide();
+                        fnObj.myScheduler.editStatus(false);
+                    }
+                    else
+                    {
+                        $("#btnBeforeCopy").show();
+                        //trace("fnObj.myScheduler.editStatus(true);");
+                        fnObj.myScheduler.editStatus(true); // 편집기능 풀기
+                    }
+                }
+                else
+                {
+                    $("#btnBeforeCopy").hide();
+                    fnObj.myScheduler.editStatus(false); // 편집기능 막기
+                }
+
+                plantimeList = [];
+                acttimeList = [];
+                list = [];
+                var url = "/searchData";
+                var pars = [];
+                pars.push("emp_no=" + emp_no);
+                pars.push("stDate=" + view.stDate);
+                pars.push("edDate=" + view.edDate);
+                pars.push("dept_cd=" + $("#deptcd_sc").val());
+                new AXReq(url, {
+                    debug: false,
+                    pars: pars.join("&"),
+                    onsucc: function (res) {
+                        if (res.result == AXUtil.ajaxOkCode) {
+                            $("#lbl_PlanActHour").html(res.rs.hrs.dec());
+
+                            if (view.viewType == "1week") {
+
+                                //계획----------------------S
+                                //var plan_list = Object.toJSON(res.ds.plan_list, true).dec();
+                                $.each(res.ds.plan_list, function (lidx, L) {
+                                    plantimeList.push(this);
+                                });
+                                fnObj.myScheduler.setPlanTimeList(plantimeList);
+                                //계획----------------------E
+
+                                //실적----------------------S
+                                //var act_list = Object.toJSON(res.ds.act_list, true).dec();
+                                $.each(res.ds.act_list, function (lidx, L) {
+                                    acttimeList.push(this);
+                                });
+                                fnObj.myScheduler.setActTimeList(acttimeList);
+                                //실적----------------------E
+
+                                //to-do----------------------S
+                                var weekList = [];
+                                $.each(res.ds.todo_list, function (lidx, L) {
+                                    weekList.push(this);
+                                });
+                                fnObj.myScheduler.setWeekList(weekList);
+                                //to-do----------------------E
+
+                            }
+
+                            if (view.viewType == "M") {
+                                //월별, 목록----------------------S
+                                //var month_list = Object.toJSON(res.ds.month_list, true).dec();
+                                $.each(res.ds.month_list, function (lidx, L) {
+                                    list.push(this);
+                                });
+
+                                fnObj.myScheduler.setList(list);
+                            }
+
+                            fnObj.myScheduler.printList();
+
+                            mask.close();
+
+                        } else {
+                            AXUtil.alert(res.msg.dec());
+                        }
+                    }
+                });
+                */
+                /* onchangeView 함수가 실행되게 하고 싶다면 fnObj.myScheduler.changeView(); 를 실행 하세요. */
+
+            },
+
+            onerror: function(error){
+                //trace(error);
+                if (error.fn == "onselectTimePage") {
+                    alert(error.msg);
+                    fnObj.myScheduler.selectingTimePageClear();
+                }
+            },
+
+            onclickList: function (index, item) {
+                fnObj.schedule.addActivityForm(item.sdate, item.edate);
+            },
+
+            setTimePageHeight: function () {
+                return axf.clientHeight();
+            }
+        });
+
+        $(document.body).ready(function(){
+           fnObj.pageStart();
+        });
+    </script>
 
 </div>
 </body>

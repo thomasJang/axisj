@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-03 
+AXJ - v1.0.9 - 2014-12-12 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-03 
+AXJ - v1.0.9 - 2014-12-12 
 */
 
 if(!window.AXConfig){
@@ -4113,7 +4113,7 @@ myUIScroll.setConfig({
         var config = this.config;
         if (this.scrollBarMove) {
             axdom(document.body).attr("onselectstart", "return false");
-            axdom(document.body).addClass("AXUserSelectNone");
+            //axdom(document.body).addClass("AXUserSelectNone");
             var pos = this.getMousePosition(event);
 
             var SBy = pos.y + this.scrollBarAttr.y;
@@ -4133,7 +4133,7 @@ myUIScroll.setConfig({
             var config = this.config;
             this.scrollBarMove = false;
             axdom(document.body).removeAttr("onselectstart");
-            axdom(document.body).removeClass("AXUserSelectNone");
+            //axdom(document.body).removeClass("AXUserSelectNone");
         }
         axdom(document.body).unbind("mousemove.AXScroll");
         axdom(document.body).unbind("mouseup.AXScroll");
@@ -4163,7 +4163,7 @@ myUIScroll.setConfig({
         if (this.scrollBarMove) {
 
             axdom(document.body).attr("onselectstart", "return false");
-            axdom(document.body).addClass("AXUserSelectNone");
+            //axdom(document.body).addClass("AXUserSelectNone");
             var pos = this.getMousePosition(event);
 
             var SBx = pos.x + this.scrollBarAttr.x;
@@ -4183,7 +4183,7 @@ myUIScroll.setConfig({
             var config = this.config;
             this.scrollBarMove = false;
             axdom(document.body).removeAttr("onselectstart");
-            axdom(document.body).removeClass("AXUserSelectNone");
+            //axdom(document.body).removeClass("AXUserSelectNone");
         }
         axdom(document.body).unbind("mousemove.AXScroll");
         axdom(document.body).unbind("mouseup.AXScroll");
@@ -5009,7 +5009,7 @@ var AXMultiSelect = Class.create(AXJ, {
                 axdom(document.body).unbind("mouseup.AXMultiSelect");
                 axdom(document.body).unbind("mouseleave.AXMultiSelect");
                 axdom(document.body).removeAttr("onselectstart");
-                axdom(document.body).removeClass("AXUserSelectNone");
+                //axdom(document.body).removeClass("AXUserSelectNone");
                 this.helperAppenedReady = false;
                 this.helperAppened = false;
                 this.helper.remove();
@@ -5171,7 +5171,7 @@ var AXMultiSelect = Class.create(AXJ, {
         axdom(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
 
         axdom(document.body).attr("onselectstart", "return false");
-        axdom(document.body).addClass("AXUserSelectNone");
+        //axdom(document.body).addClass("AXUserSelectNone");
 
         this.helperAppenedReady = true;
     },
@@ -5194,7 +5194,7 @@ var AXMultiSelect = Class.create(AXJ, {
         axdom(document.body).unbind("mouseleave.AXMultiSelect");
 
         axdom(document.body).removeAttr("onselectstart");
-        axdom(document.body).removeClass("AXUserSelectNone");
+        //axdom(document.body).removeClass("AXUserSelectNone");
 
         if (this.helperAppened) {
             this.helperAppened = false;
@@ -5646,7 +5646,7 @@ var AXResizable = Class.create(AXJ, {
         /*axdom(document.body).bind("mouseleave.AXResizable", this.mouseup.bind(this, objID, objSeq));*/
 
         axdom(document.body).attr("onselectstart", "return false");
-        axdom(document.body).addClass("AXUserSelectNone");
+        //axdom(document.body).addClass("AXUserSelectNone");
 
         this.helperAppenedReady = true;
     },
@@ -5670,7 +5670,7 @@ var AXResizable = Class.create(AXJ, {
         /*axdom(document.body).unbind("mouseleave.AXResizable");*/
 
         axdom(document.body).removeAttr("onselectstart");
-        axdom(document.body).removeClass("AXUserSelectNone");
+        //axdom(document.body).removeClass("AXUserSelectNone");
 
         if (this.helperAppened) {
             this.helperAppened = false;
@@ -8732,7 +8732,7 @@ var AXDrag = Class.create(AXJ, {
             jQuery(document).bind("mouseup", this.mouseUp);
             jQuery(document).bind("selectstart", this.selectstart);
             jQuery(document).bind("keyup", this.keyUp);
-            jQuery("#" + this.config.dragStage).addClass("AXJSelectNone");
+            //jQuery("#" + this.config.dragStage).addClass("AXJSelectNone");
             //alert("x");
         } else {
             if (this.mouseMove) jQuery("#" + this.config.dragStage).unbind('mousemove', this.mouseMove);
@@ -8740,7 +8740,7 @@ var AXDrag = Class.create(AXJ, {
             if (this.mouseUp) jQuery(document).unbind("mouseup", this.mouseup);
             if (this.selectstart) jQuery(document).unbind("selectstart", this.selectstart);
             if (this.keyUp) jQuery(document).unbind("keyup", this.keyup);
-            jQuery("#" + this.config.dragStage).removeClass("AXJSelectNone");
+            //jQuery("#" + this.config.dragStage).removeClass("AXJSelectNone");
             //alert("y");
         }
     },
@@ -15158,6 +15158,12 @@ myGrid.setConfig({
 	gridBodyClick: function (event) {
 		var cfg = this.config;
 
+		if (event.target.tagName.toLowerCase() == "input" && (
+			event.target.type == "radio" || event.target.type == "checkbox"
+			)) {
+			this.gridBodyClickAct(event);
+		}
+		else
 		if (cfg.body.ondblclick) {
 			if (this.needBindDBLClick()) {
 				clearTimeout(this.bodyClickObserver);
@@ -21023,7 +21029,10 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		});
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
-			obj.bindTarget.select();
+			setTimeout(function(){
+				obj.bindTarget.select();
+			},1);
+
 			/* 포거스 되었을 때 달력 도구 오픈 처리 방식 변경 2013-07-10 오전 11:09:40
 			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 			 bindDateExpand(objID, objSeq, false, event);
@@ -22143,8 +22152,10 @@ var AXInputConverter = Class.create(AXJ, {
 				bindDateExpand(objID, objSeq, true, event);
 			}
 		});
-		obj.bindTarget.unbind("click.AXInput").bind("focus.AXInput", function (event) {
-			axdom("#" + objID).select();
+		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
+			setTimeout(function() {
+				obj.bindTarget.select();
+			}, 1);
 			/*
 			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 			 bindDateExpand(objID, objSeq, false, event);
@@ -22152,7 +22163,9 @@ var AXInputConverter = Class.create(AXJ, {
 			 */
 		});
 		obj.bindTargetStart.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
-			obj.bindTargetStart.select();
+			setTimeout(function(){
+				obj.bindTargetStart.select();
+			}, 1);
 			/*
 			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
 			 bindDateExpand(objID, objSeq, false, event);
@@ -23793,7 +23806,7 @@ myMobileMenu.setConfig({
 		}
 
 		obj.modalBody.attr("onselectstart", "return false");
-		obj.modalBody.addClass("AXUserSelectNone");
+		//obj.modalBody.addClass("AXUserSelectNone");
 		obj.modalBody.bind("click.AXMobileMenu", this.onclickModalBody.bind(this));
 		
     	/* drag cancle */
@@ -31235,7 +31248,7 @@ myMenu.setTree(Tree);
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.58
+ * @version v1.58.1
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -31276,6 +31289,7 @@ myMenu.setTree(Tree);
  "2014-10-15 tom : setList사용하고 childKey가 숫자이면 생기는 버그 픽스"
  "2014-10-23 tom : expandToggleList 버그 픽스"
  "2014-10-29 tom : updateList body.addClass 함수 적용 구문 추가"
+ "2015-12-05 tom : gridBodyClickAct 이벤트 버블링 버그 픽스"
  *
  * @description
  *
@@ -32793,7 +32807,7 @@ var myArray = myTree.getCheckedList(0);
 		axdom("iframe").bind("mouseover.AXTree", this.colHeadResizerMouseUpBind);
 
 		axdom(document.body).attr("onselectstart", "return false");
-		axdom(document.body).addClass("AXUserSelectNone");
+		//axdom(document.body).addClass("AXUserSelectNone");
 		/* resize event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	colHeadResizerMouseMove: function (event) {
@@ -32876,7 +32890,7 @@ var myArray = myTree.getCheckedList(0);
 		axdom("iframe").unbind("mouseover.AXTree");
 
 		axdom(document.body).removeAttr("onselectstart");
-		axdom(document.body).removeClass("AXUserSelectNone");
+		//axdom(document.body).removeClass("AXUserSelectNone");
 	},
 	colHeadNodeClick: function (event) {
 		var cfg = this.config;
@@ -34125,8 +34139,7 @@ myTree.setList(AJAXconfigs);
 		this.bodyClickObserver = null;
 		var cfg = this.config;
 		// event target search -
-		if(event.target.id == "" && event.target.tagName.toLowerCase() != "span") return;
-		var eid = event.target.id.split(/_AX_/g);
+
 		var eventTarget = event.target;
 		var isoncheck = false;
 		if (eventTarget.tagName.toLowerCase() == "input") {
@@ -34138,11 +34151,9 @@ myTree.setList(AJAXconfigs);
 				return; //input 인 경우 제외
 			}
 		}
-		var myTarget = this.getEventTarget({
-			evt: eventTarget, evtIDs: eid,
-			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
-			find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyNodeIndent")) ? true : false; }
-		});
+
+		//if(event.target.id == "" && event.target.tagName.toLowerCase() != "span") return;
+		//var eid = event.target.id.split(/_AX_/g);
 		// event target search ------------------------
 
 		if (isoncheck) { //체크박스 구현
@@ -34167,6 +34178,13 @@ myTree.setList(AJAXconfigs);
 			//trace(sendObj);
 			cfg.body.oncheck.call(sendObj, itemIndex, item);
 		} else {
+
+			var myTarget = this.getEventTarget({
+				evt: eventTarget, evtIDs: "",
+				until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("gridBodyTr")) ? true : false; },
+				find: function (evt, evtIDs) { return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyNodeIndent")) ? true : false; }
+			});
+
 			if (myTarget) {
 
 				//colHeadTool ready
@@ -34277,7 +34295,7 @@ myTree.setList(AJAXconfigs);
 
 		var cfg = this.config;
 		// event target search -
-		if(event.target.id == "") return;
+		//if(event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		if (eventTarget.tagName.toLowerCase() == "input") return; //input 인 경우 제외
@@ -34745,7 +34763,7 @@ myTree.setList(AJAXconfigs);
 		axdom("iframe").bind("mouseover.AXTree", this.contentScrollScrollEndBind);
 
 		axdom(document.body).attr("onselectstart", "return false");
-		axdom(document.body).addClass("AXUserSelectNone");
+		//axdom(document.body).addClass("AXUserSelectNone");
 		/* scroll event bind ~~~~~~~~~~~~~~~~~~~ */
 	},
 	contentScrollScrollMove: function (event) {
@@ -34781,7 +34799,7 @@ myTree.setList(AJAXconfigs);
 		axdom("iframe").unbind("mouseover.AXTree");
 
 		axdom(document.body).removeAttr("onselectstart");
-		axdom(document.body).removeClass("AXUserSelectNone");
+		//axdom(document.body).removeClass("AXUserSelectNone");
 
 		axdom("#" + cfg.targetID + "_AX_" + this.contentScrollAttrs.handleName).removeClass("hover");
 	},
