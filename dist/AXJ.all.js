@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-12 
+AXJ - v1.0.9 - 2014-12-15 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-12 
+AXJ - v1.0.9 - 2014-12-15 
 */
 
 if(!window.AXConfig){
@@ -15900,13 +15900,14 @@ myGrid.setConfig({
 			}
 			this.scrollYHandle.css({ top: handleTop });
 			this.scrollYHandle.data("top", handleTop);
-
 			this.contentScrollTipOverMove(handleTop);
 		} else {
 			handleLeft = pos.x + this.contentScrollAttrs.x;
 			if (handleLeft < 0) handleLeft = 0;
 			if ((handleLeft + this.contentScrollAttrs.handleWidth) > this.contentScrollAttrs.trackWidth) handleLeft = this.contentScrollAttrs.trackWidth - this.contentScrollAttrs.handleWidth;
 			this.scrollXHandle.css({ left: handleLeft });
+			// 스크롤 X 예외 처리
+			this.contentScrollScrollSync({ left: handleLeft });
 		}
 	},
 	/**
