@@ -1569,7 +1569,7 @@
 /* ----------------------------- table styles ---------------------------------*/
 .AXGridTable {
   border-collapse: collapse;
-  border: 1px solid #000000;
+  border: 1px solid #cecece;
   border-bottom: 0px none;
   width: 100%;
   table-layout: fixed;
@@ -1591,13 +1591,13 @@
 .AXGridTable thead td,
 .AXGridTable thead th {
   background: #fee834;
-  border-bottom: 1px solid #000000;
-  border-right: 1px solid #000000;
+  border-bottom: 1px solid #cecece;
+  border-right: 1px solid #cecece;
 }
 .AXGridTable tbody td,
 .AXGridTable tbody th {
-  border-bottom: 1px solid #000000;
-  border-right: 1px solid #000000;
+  border-bottom: 1px solid #cecece;
+  border-right: 1px solid #cecece;
 }
 .AXGridTable tr.gray th,
 .AXGridTable tr.gray td {
@@ -1637,7 +1637,7 @@
 /* view Style table */
 .AXFormTable {
   border-collapse: collapse;
-  border: 1px solid #000000;
+  border: 1px solid #cecece;
   border-bottom: 0px none;
   width: 100%;
   table-layout: fixed;
@@ -1656,8 +1656,8 @@
 .AXFormTable tbody th {
   min-height: 25px;
   overflow: visible;
-  border-bottom: 1px solid #000000;
-  border-right: 1px solid #000000;
+  border-bottom: 1px solid #cecece;
+  border-right: 1px solid #cecece;
   color: #523636;
 }
 .AXFormTable tbody th {

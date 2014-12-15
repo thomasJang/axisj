@@ -993,7 +993,8 @@
 
 .AXGridTable{
   border-collapse:collapse;
-  border:@border-a;border-bottom:0px none;
+  border:@border-s;
+	border-bottom:0px none;
   width:100%;table-layout:fixed;
   font-size:12px;
   box-shadow:1px 1px 3px #eee;
@@ -1009,14 +1010,14 @@
     td, th{
       //.util-gradient (top, @bgcolor, @bgcolor-a);
       background: @bgcolor-b;
-      border-bottom:@border-a;
-      border-right:@border-a;
+      border-bottom:@border-s;
+      border-right:@border-s;
     }
   }
   tbody{
     td, th{
-      border-bottom:@border-a;
-      border-right:@border-a;
+      border-bottom:@border-s;
+      border-right:@border-s;
     }
   }
 
@@ -1040,7 +1041,7 @@
 /* view Style table */
 .AXFormTable{
   border-collapse:collapse;
-  border:@border-a;border-bottom:0px none;
+  border:@border-s;border-bottom:0px none;
   width:100%;table-layout:fixed;
   font-size:12px;
   box-shadow:1px 1px 3px #eee;
@@ -1051,8 +1052,8 @@
   tbody{
     td, th{
       min-height:25px;overflow:visible;
-      border-bottom:@border-a;
-      border-right:@border-a;
+      border-bottom:@border-s;
+      border-right:@border-s;
       color:@color;
     }
     th{
