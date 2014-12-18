@@ -29649,19 +29649,19 @@ var AXTabClass = Class.create(AXJ, {
      * @param {Object} obj - config
      * @description 대상에 탭 속성을 부여 합니다.
      * @returns {AXTab}
-     * @example 
+     * @example
 	 ```
 			$("#myTab01").bindTab({
 				theme : "AXTabs",
 				value:"2",
 				closable: false,
 				options:[
-					{optionValue:"1", optionText:"1살", closable: true}, 
-					{optionValue:"2", optionText:"2살", closable: true}, 
-					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
-					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
-					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
-					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"1", optionText:"1살", closable: true},
+					{optionValue:"2", optionText:"2살", closable: true},
+					{optionValue:"3", optionText:"3살", addClass:"Red"},
+					{optionValue:"4", optionText:"4살", addClass:"Blue"},
+					{optionValue:"5", optionText:"5살", addClass:"Green"},
+					{optionValue:"6", optionText:"6살", addClass:"Classic"},
 					{optionValue:"7", optionText:"7살"}
 				],
 				onchange: function(selectedObject, value){
@@ -29691,12 +29691,12 @@ var AXTabClass = Class.create(AXJ, {
 
 		var objID = obj.id;
 		var objSeq = null;
-		
+
 		obj.theme = (obj.theme || "AXTabs");
 		obj.overflow = (obj.overflow || "visible");
 		obj.scrollAmount = (obj.scrollAmount || 5);
 		obj.options = (obj.options || [{optionValue:"null", optionText:"빈 탭"}]);
-		
+
         axdom.each(this.objects, function (idx, O) {
             if (this.id == objID){
             	objSeq = idx;
@@ -29710,11 +29710,11 @@ var AXTabClass = Class.create(AXJ, {
 			this.objects[objSeq].isDel = undefined;
 			this.objects[objSeq].config = obj;
 		}
-		
+
 		if(objSeq != null){
 			this.initTab(objID, objSeq);
 		}else{
-			trace("object find error");	
+			trace("object find error");
 		}
     },
     /**
@@ -29749,28 +29749,28 @@ var AXTabClass = Class.create(AXJ, {
 				// subOptions :
 			}
 		po.push("</div>");
-		
+
 		obj.jQueryObjID = axdom("#"+objID);
 		obj.jQueryObjID.html(po.join(''));
 		obj.jQueryObjID.data("objSeq", objSeq); /* memory objSeq */
-		
+
 		obj.tabTray = axdom("#" + objID + "_AX_tabTray");
 		obj.tabScroll = axdom("#" + objID + "_AX_tabScroll");
 		obj.tabContainer = axdom("#" + objID + "_AX_tabContainer");
-		
+
 		AXContextMenu.bind({
-			id:objID + "_AX_tabMore", 
+			id:objID + "_AX_tabMore",
 			theme:"AXContextMenu", // 선택항목
 			width:"200", // 선택항목
 			menu:[]
 		});
-		
+
 		this.addTabs(objID, obj.config.options);
-		
+
 		var bindTabMove = this.bindTabMove.bind(this);
 		var bindTabMoveClick = this.bindTabMoveClick.bind(this);
 		var bindTabMoreClick = this.bindTabMoreClick.bind(this);
-		
+
 		axdom("#" + objID + "_AX_Arrow_AX_Left").bind("mouseover", function(event){
 			bindTabMove(objID, objSeq, "left", event);
 		});
@@ -29789,7 +29789,7 @@ var AXTabClass = Class.create(AXJ, {
 		axdom("#" + objID + "_AX_Arrow_AX_More").bind("click", function(event){
 			bindTabMoreClick(objID, objSeq, "right", event);
 		});
-		
+
 		if(obj.overflow != "visible"){
 			setTimeout(function(){
 				var tabsWidth = (axf.clientWidth() < cfg.responsiveMobile) ? 40 : 30;
@@ -29851,12 +29851,12 @@ var AXTabClass = Class.create(AXJ, {
 	 * @example
 ```js
 $("#myTab01").addTabs([
-	{optionValue:"1", optionText:"1살", closable: true}, 
-	{optionValue:"2", optionText:"2살", closable: true}, 
-	{optionValue:"3", optionText:"3살", addClass:"Red"}, 
-	{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
-	{optionValue:"5", optionText:"5살", addClass:"Green"}, 
-	{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+	{optionValue:"1", optionText:"1살", closable: true},
+	{optionValue:"2", optionText:"2살", closable: true},
+	{optionValue:"3", optionText:"3살", addClass:"Red"},
+	{optionValue:"4", optionText:"4살", addClass:"Blue"},
+	{optionValue:"5", optionText:"5살", addClass:"Green"},
+	{optionValue:"6", optionText:"6살", addClass:"Classic"},
 	{optionValue:"7", optionText:"7살"}
 ]);
 ```
@@ -29872,13 +29872,13 @@ $("#myTab01").addTabs([
 		}else{
 			target = axdom("#" + objID + "_AX_tabScroll div.clear");
 		}
-	
+
 		var tabsCnt = obj.tabContainer.find(".AXTab").length;
 		var selectedIndex = null;
 		axdom.each(options, function(oidx, O){
 			var closable = O.closable || obj.config.closable || cfg.closable;
 			oidx += tabsCnt;
-			
+
 			po.push("<a href=\"javascript:;\" id=\"" + objID + "_AX_Tabs_AX_"+oidx+"\" class=\"AXTab " + (O.addClass || ""));
 			if(closable){
 				po.push(" closable");
@@ -29897,19 +29897,19 @@ $("#myTab01").addTabs([
 				po.push("<span class='AXTabSplit'></span>");
 			//}
 		});
-		
+
 		if(selectedIndex != null){
 			obj.config.selectedIndex = selectedIndex;
 		}
 		target.before(po.join(""));
-		
+
 		var tabsWidth = (axf.clientWidth() < cfg.responsiveMobile) ? 40 : 30;
 		var tabsMargin = (axf.clientWidth() < cfg.responsiveMobile) ? 5 : 5;
 		obj.tabContainer.find(".AXTab").each(function(){
 			tabsWidth += (axdom(this).outerWidth().number() + axdom(this).css("marginLeft").number() + axdom(this).css("marginRight").number() + tabsMargin);
 		});
 		obj.tabScroll.css({width:tabsWidth});
-		
+
 		var setValueTab = this.setValueTab.bind(this);
 		var myMenu = [];
 		axdom.each(obj.config.options, function(oidx, O){
@@ -29918,7 +29918,7 @@ $("#myTab01").addTabs([
 				setValueTab(objID, this.menu.value);
 			}});
 		});
-		
+
 		var tabMoreID = objID + "_AX_tabMore";
 		axdom.each(AXContextMenu.objects, function(oidx, O){
 			if(O.id == tabMoreID){
@@ -29926,17 +29926,17 @@ $("#myTab01").addTabs([
 				return false; // break;
 			}
 		});
-		
+
 		var bindTabClick = this.bindTabClick.bind(this);
 		obj.tabContainer.find(".AXTab").bind("click", function(event){
 			bindTabClick(objID, objSeq, event);
 		});
-		
+
 		var closeTab = this.closeTab.bind(this);
 		obj.tabContainer.find(".AXTabClose").bind("click", function(event){
 			var tabIndex = obj.tabContainer.find(".AXTab").index(axdom(event.target).parent());
 			if (tabIndex === -1) { return; }
-			
+
 			closeTab(objID, tabIndex, event);
 		});
 	},
@@ -29956,9 +29956,9 @@ $("#myTab01").closeTab("optionValue");
 		var objSeq = axdom("#" + objID).data("objSeq");
 		var obj    = this.objects[objSeq];
 		var tabs   = obj.tabContainer.find(".AXTab");
-		
+
 		if (!obj.config.options) { return; }
-		
+
 		tabIndex = (tabIndex === undefined ? (tabs.length - 1) : tabIndex);
 		// find tabIndex by optionValue
 		if (typeof(tabIndex) != "number") {
@@ -29969,10 +29969,10 @@ $("#myTab01").closeTab("optionValue");
 				}
 			});
 		}
-		
+
 		var removeTarget = tabs.eq(tabIndex);
 		var removeTargetOption = obj.config.options.splice(tabIndex, 1)[0]; // remove and store target optoin
-		
+
 		// context menu remove
 		var tabMoreID = objID + "_AX_tabMore";
 		axdom.each(AXContextMenu.objects, function(oidx, O){
@@ -29981,12 +29981,12 @@ $("#myTab01").closeTab("optionValue");
 				return false; // break;
 			}
 		});
-		
+
 		// remove tab element
 		removeTarget
 			.next().remove() // <span class="AXTabSplit"></span> remove
 			.end().remove(); // <a href="javascript:;" id="myTab01_AX_Tabs_AX_... remove
-		
+
 		if (axdom.isFunction(obj.config.onclose)) {
 			obj.config.onclose.call({
 				options:obj.config.options,
@@ -29994,7 +29994,7 @@ $("#myTab01").closeTab("optionValue");
 				index:tabIndex
 			}, removeTargetOption, removeTargetOption.optionValue);
 		}
-		
+
 		// selected tab update
 		if(obj.config.selectedIndex === tabIndex){
 			var selectedIndex = tabIndex - 1;
@@ -30009,7 +30009,7 @@ $("#myTab01").closeTab("optionValue");
 				obj.config.selectedIndex = selectedIndex;
 			}
 		}
-		
+
 	},
     /**
      * @method AXTabClass.bindTabClick
@@ -30023,7 +30023,7 @@ $("#myTab01").closeTab("optionValue");
     	//trace({objID:objID, objSeq:objSeq, e:event.target.id});
     	var cfg = this.config;
     	var obj = this.objects[objSeq];
-    	
+
 		// event target search -
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
@@ -30032,37 +30032,52 @@ $("#myTab01").closeTab("optionValue");
 			until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXTabsTray")) ? true : false; },
 			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXTab")) ? true : false; }
 		});
-		// event target search ------------------------    	
-    	
-    	if (myTarget) {
-			//colHeadTool ready
-			var targetID = myTarget.id;
-			//var itemIndex = targetID.split(/_AX_/g).last();
-			var tabs = obj.tabContainer.find(".AXTab");
-			var itemIndex = tabs.index(myTarget);
-			
-			//trace(obj.config.options[itemIndex]);
-			
-			var selectedObject = obj.config.options[itemIndex];
-			if(obj.config.value != selectedObject.optionValue){
-				
-				tabs.eq(obj.config.selectedIndex).removeClass("on");
-				tabs.eq(itemIndex).addClass("on");
-				
-				obj.config.value = selectedObject.optionValue;
-				obj.config.selectedIndex = itemIndex;
-				
-				this.focusingItem(objID, objSeq, obj.config.selectedIndex);
-				
-				if(obj.config.onchange){
-					obj.config.onchange.call({
-						options:obj.config.options,
-						item:obj.config.options[itemIndex],
-						index:itemIndex
-					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
-				}
-			}
-		}	
+		// event target search ------------------------
+
+
+	    if (myTarget) {
+		    //colHeadTool ready
+		    var targetID = myTarget.id;
+		    var itemIndex = targetID.split(/_AX_/g).last();
+
+		    //trace(obj.config.options[itemIndex]);
+
+		    var selectedObject = obj.config.options[itemIndex];
+		    if(obj.config.value != selectedObject.optionValue){
+
+			    axdom("#" + objID + "_AX_Tabs_AX_"+obj.config.selectedIndex).removeClass("on");
+			    axdom("#" + objID + "_AX_Tabs_AX_"+itemIndex).addClass("on");
+
+			    obj.config.value = selectedObject.optionValue;
+			    obj.config.selectedIndex = itemIndex;
+
+			    this.focusingItem(objID, objSeq, obj.config.selectedIndex);
+			    if(obj.config.onclick){
+				    obj.config.onclick.call({
+					    options:obj.config.options,
+					    item:obj.config.options[itemIndex],
+					    index:itemIndex
+				    }, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
+			    }
+
+			    if(obj.config.onchange){
+				    obj.config.onchange.call({
+					    options:obj.config.options,
+					    item:obj.config.options[itemIndex],
+					    index:itemIndex
+				    }, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
+			    }
+		    }else{
+			    if(obj.config.onclick){
+				    obj.config.onclick.call({
+					    options:obj.config.options,
+					    item:obj.config.options[itemIndex],
+					    index:itemIndex
+				    }, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
+			    }
+		    }
+
+	    }
     },
     /**
      * @method AXTabClass.setValueTab
@@ -30070,7 +30085,7 @@ $("#myTab01").closeTab("optionValue");
 	 * @param {String} value - 값
      * @description 탭의 선택값을 변경 합니다.
      * @returns {AXTab}
-     * @example 
+     * @example
 	 ```
 		AXTab.setValueTab('myTab01','F');
 	 ```
@@ -30089,9 +30104,9 @@ $("#myTab01").closeTab("optionValue");
 			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
 			return;
 		}else{
-			
+
 			var obj = this.objects[objSeq];
-			
+
 			var itemIndex = null;
 			axdom.each(obj.config.options, function(oidx, O){
 				if(O.optionValue == value){
@@ -30104,25 +30119,25 @@ $("#myTab01").closeTab("optionValue");
 
 			var selectedObject = obj.config.options[itemIndex];
 			if(obj.config.value != selectedObject.optionValue){
-				
+
 				var tabs = obj.tabContainer.find(".AXTab");
 				tabs.eq(obj.config.selectedIndex).removeClass("on");
 				tabs.eq(itemIndex).addClass("on");
 				/*  */
 				this.focusingItem(objID, objSeq, itemIndex);
-				
+
 				obj.config.value = selectedObject.optionValue;
 				obj.config.selectedIndex = itemIndex;
-				
+
 				if(obj.config.onchange){
 					obj.config.onchange.call({
 						options:obj.config.options,
 						item:obj.config.options[itemIndex],
 						index:itemIndex
 					}, obj.config.options[itemIndex], obj.config.options[itemIndex].optionValue);
-				}	
+				}
 			}
-			
+
 		}
     },
     /**
@@ -30148,9 +30163,9 @@ $("#myTab01").closeTab("optionValue");
     	trayWidth -= rightMargin;
 		var scrollWidth = obj.tabScroll.outerWidth();
 		var scrollLeft = obj.tabScroll.position().left;
-		
+
 		//trace({trayWidth:trayWidth, scrollWidth:scrollWidth, scrollLeft:scrollLeft});
-		
+
 		var animateStyles = {};
 		if(direction == "left"){
 			if(scrollLeft < cfg.handleWidth){
@@ -30178,23 +30193,23 @@ $("#myTab01").closeTab("optionValue");
 				animateStyles = {left:scrollLeft};
 			}else{
 				//return;
-			}			
+			}
 
 		}
-		
+
 		obj.tabScroll.css(animateStyles);
-		
+
 		var bindTabMove = this.bindTabMove.bind(this);
-		
+
 		if(obj.moveobj) clearTimeout(obj.moveobj);
-		
+
 		//trace("move");
-		
+
 		obj.moveobj = setTimeout(function(){
 			bindTabMove(objID, objSeq, direction, event);
 		}, 20);
-		
-		
+
+
 		/*
 		obj.tabScroll.animate(
 			animateStyles,
@@ -30204,7 +30219,7 @@ $("#myTab01").closeTab("optionValue");
 			}
 		);
 		*/
-		
+
     },
     /**
      * @method AXTabClass.bindTabMove
@@ -30218,11 +30233,11 @@ $("#myTab01").closeTab("optionValue");
 	bindTabMoveClick: function(objID, objSeq, direction, event){
     	var cfg = this.config;
     	var obj = this.objects[objSeq];
-    	
+
     	if(obj.moveobj) clearTimeout(obj.moveobj);
-    	
+
 		var scrollAmount = 500;
-		
+
 		var trayWidth = obj.tabTray.outerWidth();
     	if(AXUtil.clientWidth() < cfg.responsiveMobile){
     		var rightMargin = 40;
@@ -30232,9 +30247,9 @@ $("#myTab01").closeTab("optionValue");
     	trayWidth -= rightMargin;
 		var scrollWidth = obj.tabScroll.outerWidth();
 		var scrollLeft = obj.tabScroll.position().left;
-		
+
 		//trace({trayWidth:trayWidth, scrollWidth:scrollWidth, scrollLeft:scrollLeft});
-		
+
 		var animateStyles = {};
 		if(direction == "left"){
 			if(scrollLeft < cfg.handleWidth){
@@ -30246,7 +30261,7 @@ $("#myTab01").closeTab("optionValue");
 			if(scrollLeft > cfg.handleWidth){
 				scrollLeft = cfg.handleWidth;
 				animateStyles = {left:scrollLeft};
-			} 
+			}
 		}else{
 			if(trayWidth < (scrollWidth + scrollLeft)){
 				scrollLeft -= scrollAmount;
@@ -30261,7 +30276,7 @@ $("#myTab01").closeTab("optionValue");
 				animateStyles = {left:scrollLeft};
 			}else{
 				//return;
-			}	
+			}
 
 		}
 
@@ -30273,7 +30288,7 @@ $("#myTab01").closeTab("optionValue");
 			function(){
 			}
 		);
-		
+
 		if (event.preventDefault) event.preventDefault();
 		if (event.stopPropagation) event.stopPropagation();
 		event.cancelBubble = true;
@@ -30305,7 +30320,7 @@ $("#myTab01").closeTab("optionValue");
     resizeCheck: function(){
     	var cfg = this.config;
     	var focusingItem = this.focusingItem.bind(this);
-    	
+
     	axdom.each(this.objects, function(objSeq, O){
     		var objID = this.id;
     		var obj = this;
@@ -30322,7 +30337,7 @@ $("#myTab01").closeTab("optionValue");
 					obj.tabContainer.find(".rightArrowHandleBox").hide();
 				}else{
 					obj.tabContainer.find(".leftArrowHandleBox").show();
-					obj.tabContainer.find(".rightArrowHandleBox").show();					
+					obj.tabContainer.find(".rightArrowHandleBox").show();
 				}
 				obj.tabContainer.find(".rightArrowMoreBox").show();
 				if(!AXUtil.isEmpty(obj.config.selectedIndex)) focusingItem(objID, objSeq, obj.config.selectedIndex);
@@ -30335,17 +30350,17 @@ $("#myTab01").closeTab("optionValue");
 	 * @param {String} objID - 탭 대상 ID
 	 * @param {Number} objSeq - 대상 순서 seq
 	 * @param {Number} optionIndex - 탭 아이템 index
-	 * @description 대상의 해당 index에 해당하는 탭에 focus를 줍니다. 
+	 * @description 대상의 해당 index에 해당하는 탭에 focus를 줍니다.
 	 * @returns {AXTab}
 	 */
 	focusingItem: function(objID, objSeq, optionIndex){
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
+
 		if(obj.tabTray.outerWidth() > obj.tabScroll.outerWidth()){
 			return;
 		}
-		
+
 		var tabs = obj.tabContainer.find(".AXTab");
 		var targetTab = tabs.eq(optionIndex);
 		if(AXUtil.clientWidth() < cfg.responsiveMobile){
@@ -30359,7 +30374,7 @@ $("#myTab01").closeTab("optionValue");
 			var handleWidth = cfg.handleWidth;
 			var rightMargin = 29 + cfg.handleWidth;
 		}
-		
+
 		/*trace({scrollLeft:scrollLeft, tsLeft:obj.tabScroll.position().left.abs(), trayWidth:obj.tabTray.outerWidth(), itemWidth:itemWidth, tt:(obj.tabScroll.position().left.abs() + obj.tabTray.outerWidth() - rightMargin - handleWidth	)});*/
 		if(scrollLeft > (obj.tabScroll.position().left).abs() && (scrollLeft + itemWidth) <= (obj.tabScroll.position().left.abs() + obj.tabTray.outerWidth() - rightMargin - handleWidth)){
 			//trace(11);
@@ -30371,26 +30386,26 @@ $("#myTab01").closeTab("optionValue");
 			}
 			//trace({left:-scrollLeft});
 			setTimeout(function(){
-				obj.tabScroll.css({left:-scrollLeft});	
+				obj.tabScroll.css({left:-scrollLeft});
 			}, 10);
 		}
     },
-    
+
     /* 터치 이동관련 함수 - s */
 	touchstart: function (objID, objSeq, e) {
 		if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
 		if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
-		
+
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
+
 		var trayWidth = obj.tabTray.outerWidth();
 		var scrollWidth = obj.tabScroll.outerWidth();
 
 		if(trayWidth > scrollWidth){
-			return;	
+			return;
 		}
-		
+
 		var touch;
 		var event = window.event;
 		if (AXUtil.browser.mobile){
@@ -30399,11 +30414,11 @@ $("#myTab01").closeTab("optionValue");
 		}else{
 			var event = e;
 			touch = {
-				pageX : e.pageX, 
+				pageX : e.pageX,
 				pageY : e.pageY
 			};
 		}
-		
+
 		this.touchStartXY = {
 			sTime: ((new Date()).getTime() / 1000),
 			sLeft:  obj.tabScroll.position().left,
@@ -30418,7 +30433,7 @@ $("#myTab01").closeTab("optionValue");
 			var event = window.event;
 			this.touchEndBind = function () {
 				touchEnd(objID, objSeq);
-			};	
+			};
 			this.touchMoveBind = function () {
 				touchMove(objID, objSeq);
 			};
@@ -30427,22 +30442,22 @@ $("#myTab01").closeTab("optionValue");
 				document.addEventListener("touchmove", this.touchMoveBind, false);
 			}
 		}else{
-			
+
 			this.touchEndBind = function (event) {
 				touchEnd(objID, objSeq, event);
-			};	
+			};
 			this.touchMoveBind = function (event) {
 				touchMove(objID, objSeq, event);
 			};
-			
+
 			axdom(document.body).bind("mouseup.AXMobileTouch", this.touchEndBind);
 			axdom(document.body).bind("mousemove.AXMobileTouch", this.touchMoveBind);
 		}
-		
+
 		var minLeft = 0;
 		var maxLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
 		var scrollPosition = obj.tabScroll.position();
-		
+
 		if(scrollPosition.left < minLeft && scrollPosition.left > maxLeft){
 			obj.tabScroll.stop();
 		}
@@ -30450,10 +30465,10 @@ $("#myTab01").closeTab("optionValue");
 	touchMove: function (objID, objSeq, e) {
 		if (this.touhEndObserver) clearTimeout(this.touhEndObserver);
 		if (this.touhMoveObserver) clearTimeout(this.touhMoveObserver);
-		
+
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
+
 		var touch;
 		var event = window.event;
 		if (AXUtil.browser.mobile){
@@ -30462,11 +30477,11 @@ $("#myTab01").closeTab("optionValue");
 		}else{
 			var event = e;
 			touch = {
-				pageX : e.pageX, 
+				pageX : e.pageX,
 				pageY : e.pageY
 			};
 		}
-		
+
 		if ((this.touchStartXY.x - touch.pageX).abs() < (this.touchStartXY.y - touch.pageY).abs()) {
 			//this.touchMode = ((this.touchStartXY.y - touch.pageY) <= 0) ? "up" : "dn"; /* 위아래 이동 */
 		} else if ((this.touchStartXY.x - touch.pageX).abs() > (this.touchStartXY.y - touch.pageY).abs()) {
@@ -30478,7 +30493,7 @@ $("#myTab01").closeTab("optionValue");
 		if (((this.touchStartXY.x - touch.pageX).abs() - (this.touchStartXY.y - touch.pageY).abs()).abs() < 5) {
 			//this.touchSelecting = true;
 		}
-		
+
 		var touchMoveAfter = this.touchMoveAfter.bind(this);
 		this.touhMoveObserver = setTimeout(function () {
 			touchMoveAfter(touch, objID, objSeq);
@@ -30500,7 +30515,7 @@ $("#myTab01").closeTab("optionValue");
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		var event = window.event || e;
-		
+
 		if(AXUtil.browser.mobile){
 			if (document.removeEventListener) {
 				document.removeEventListener("touchend", this.touchEndBind, false);
@@ -30510,25 +30525,25 @@ $("#myTab01").closeTab("optionValue");
 			axdom(document.body).unbind("mouseup.AXMobileTouch");
 			axdom(document.body).unbind("mousemove.AXMobileTouch");
 		}
-		
+
 		var moveEndBlock = this.moveEndBlock.bind(this);
 		this.touhEndObserver = setTimeout(function () {
 			moveEndBlock(objID, objSeq);
 		}, 10);
 	},
 	/* 터치 이동관련 함수 - e */
-	
+
 	moveBlock: function(objID, objSeq, moveX){
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
+
 		var newLeft = (this.touchStartXY.sLeft + (moveX));
 		/*
 			obj.tabTray
 			obj.tabScroll
 		*/
 		//trace(newLeft);
-	
+
 		var newLeft = (this.touchStartXY.sLeft + (moveX));
 		var minLeft = 0;
 		var maxLeft = - (this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth);
@@ -30536,7 +30551,7 @@ $("#myTab01").closeTab("optionValue");
 			minLeft = this.touchStartXY.targetWidth * 0.4;
 			maxLeft = -((this.touchStartXY.scrollWidth - this.touchStartXY.targetWidth) * 1.2);
 		}
-		
+
 		if(newLeft > minLeft){
 			newLeft = minLeft;
 		}else if(newLeft < maxLeft){
@@ -30547,7 +30562,7 @@ $("#myTab01").closeTab("optionValue");
 	moveEndBlock: function(objID, objSeq){
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		
+
 		/* 관성발동여부 체크 */
 		if(!this.touchStartXY) return;
 		var sTime = this.touchStartXY.sTime;
@@ -30555,7 +30570,7 @@ $("#myTab01").closeTab("optionValue");
 		var dTime = eTime - sTime;
 		var eLeft = obj.tabScroll.position().left;
 		var dLeft = eLeft - this.touchStartXY.sLeft;
-		
+
 		var velocity = Math.ceil((dLeft/dTime)/5); // 속력= 거리/시간
 		var endLeft = Math.ceil(eLeft + velocity); //스크롤할때 목적지
 		/*trace({eLeft: eLeft, velocity:velocity, endLeft:endLeft});*/
@@ -30571,14 +30586,14 @@ $("#myTab01").closeTab("optionValue");
 		if(obj.tabTray.outerWidth() - handleWidth > (obj.tabScroll.outerWidth() - newLeft)){
 			newLeft = (obj.tabScroll.outerWidth() - obj.tabTray.outerWidth()) + rightMargin;
 		}
-		
+
 		//trace(absPage);
 		this.touchStartXY.sLeft = -newLeft;
-		obj.tabScroll.animate({left: -newLeft}, (obj.tabScroll.position().left + newLeft).abs(), "cubicOut", function () {});		
+		obj.tabScroll.animate({left: -newLeft}, (obj.tabScroll.position().left + newLeft).abs(), "cubicOut", function () {});
 		//trace({left: -newLeft});
-		
+
 		this.touchStartXY = null;
-	},	
+	},
 	cancelEvent: function (event) {
 		event.stopPropagation(); // disable  event
 		return false;
@@ -30685,10 +30700,10 @@ axdom.fn.addTabs = function (options) {
 		if(objSeq == null){
 			return;
 		}
-		
+
 		var obj = AXTab.objects[objSeq];
 		obj.config.options = obj.config.options.concat(options);
-		
+
 		AXTab.addTabs(this.id, options);
 	});
 	return this;
