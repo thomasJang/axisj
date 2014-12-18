@@ -1,0 +1,68 @@
+.util-border-radius-none {
+  -webkit-border-radius: none;
+  -moz-border-radius: none;
+  border-radius: none;
+}
+.util-text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.util-textHidden {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+.AXToolBar .ax-root-menu-item {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 5px 1px;
+}
+.AXToolBar .ax-root-menu-item .ax-menu-item {
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  padding: 0px 30px 0px 10px;
+  text-decoration: none;
+  color: #6e7a85;
+  font-weight: bold;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.AXToolBar .ax-root-menu-item .ax-menu-item i.axi {
+  vertical-align: middle;
+  line-height: inherit;
+  font-size: 1.2em;
+}
+.AXToolBar .ax-root-menu-item .ax-menu-item.noexpand {
+  padding: 0px 10px 0px 10px;
+}
+.AXToolBar .ax-root-menu-item .ax-menu-handel {
+  font-family: axicon;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  display: block;
+  width: 20px;
+  height: 28px;
+  line-height: 28px;
+  font-size: 20px;
+  overflow: hidden;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.AXToolBar .ax-root-menu-item .ax-menu-handel:before {
+  content: "\e92e";
+}
+.AXToolBar .ax-root-menu-item .ax-menu-handel:hover {
+  background: #e5e5e5;
+  border-left: 1px solid #b9babc;
+  color: #6e7a85;
+}
+.AXToolBar .ax-root-menu-item:hover .ax-menu-item,
+.AXToolBar .ax-root-menu-item.hover .ax-menu-item {
+  color: #ffffff;
+  border: 1px solid #b9babc;
+  background: #c6cdd3;
+}

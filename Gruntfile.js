@@ -53,7 +53,7 @@
 					//'lib/AXSlidePPT.js',
 					'lib/AXSlideViewer.js',
 					'lib/AXTab.js',
-					//'lib/AXTimeTable.js',
+					'lib/AXToolBar.js',
 					'lib/AXTopDownMenu.js',
 					'lib/AXTree.js',
 					'lib/AXUpload5.js',

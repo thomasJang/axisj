@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-15 
+AXJ - v1.0.9 - 2014-12-18 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-15 
+AXJ - v1.0.9 - 2014-12-18 
 */
 
 if(!window.AXConfig){
@@ -837,7 +837,63 @@ axf.encParam("name=장기영&sex=남");
  * @member {type} axf.mousewheelevt
  * @description 브라우저에 따른 마우스 휠 이벤트이름
  */
-	mousewheelevt: ((/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel")
+	mousewheelevt: ((/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel"),
+
+//todo : event bubble catch
+/**
+ * 타겟엘리먼트의 부모 엘리멘트에서 원하는 조건의 엘리먼트를 얻습니다.
+ * @method axf.get_event_target
+ * @param {Element} target - target element
+ * @param {Object} cond - 원하는 element를 찾을 조건
+ * @returns {Element}
+ * @example
+ ```js
+ console.log(axf.get_event_target(e.target, {tagname:"a", clazz:"findclass", etc:"attribute"}));
+ ```
+ */
+	get_event_target: function(target, cond){
+		var _target = target;
+		if (_target) {
+			while ((function(){
+				var result = true;
+				for(var k in cond){
+					if(k === "tagname"){
+						if(_target.tagName.lcase() != cond[k]) {
+							result = false;
+							break;
+						}
+					}
+					else
+					if(k === "clazz"){
+						var klasss = _target.className.split(/ /g);
+						var hasClass = false;
+						for(var a=0;a<klasss.length;a++){
+							if(klasss[a] == cond[k]){
+								hasClass = true;
+								break;
+							}
+						}
+						result = hasClass;
+					}
+					else
+					{ // 그외 속성값들.
+						if(_target.getAttribute(k) != cond[k]) {
+							result = false;
+							break;
+						}
+					}
+				}
+				return !result;
+			})()) {
+				if (_target.parentNode) {
+					_target = _target.parentNode;
+				} else {
+					_target = false; break;
+				}
+			}
+		}
+		return _target;
+	}
 };
 var axdom;
 if(window.jQuery) axdom = jQuery;
@@ -5839,7 +5895,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.23
+ * @version v1.24
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5849,6 +5905,7 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add",
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
+ "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6454,8 +6511,11 @@ AXContextMenu.open({
         };
         axdom("#" + objID).find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
     },
+    // 이벤트로 인한 닫기
     _close: function (objSeq, objID) {
-        var cfg = this.config;
+        var cfg = this.config,
+            obj = this.objects[objSeq],
+            that = {id:obj.id, event_type:"event"};
 
         if(this.mobileMode){
             this.closeMobileModal();
@@ -6478,6 +6538,10 @@ AXContextMenu.open({
         this.showedItem = {}; // 초기화
         this.openTB = "";
         this.openLR = "";
+
+        if(obj.onclose){
+            obj.onclose.call(that);
+        }
     },
 /**
  * @method AXContextMenuClass.close
@@ -6492,8 +6556,9 @@ AXContextMenu.close({
 ```
  */
     close: function (myobj) {
-        var cfg = this.config;
-        var objSeq = null;
+        var cfg = this.config,
+            objSeq = null;
+
         axf.each(this.objects, function (index, O) {
             if (O.id == myobj.id) {
                 objSeq = index;
@@ -6504,12 +6569,17 @@ AXContextMenu.close({
             //trace("바인드 된 오브젝트를 찾을 수 없습니다.");
             return;
         }
-        var obj = this.objects[objSeq];
-        var objID = obj.id;
 
-        axdom("#" + objID).fadeOut("fast", function () {
-            axdom("#" + objID).remove();
-        });
+        var obj = this.objects[objSeq], objID = obj.id,
+            that = {id:obj.id, event_type:"script"};
+
+        if(this.mobileMode){
+            this.closeMobileModal();
+        }else{
+            axdom("#" + objID).fadeOut("fast", function () {
+                axdom("#" + objID).remove();
+            });
+        }
 
         axdom(document).unbind("keydown", this.contextMenuItemDownBind);
         axdom(document).unbind("mousedown", this.contextMenuItemDownBind);
@@ -6517,6 +6587,11 @@ AXContextMenu.close({
         this.showedItem = {}; // 초기화
         this.openTB = "";
         this.openLR = "";
+
+        if(obj.onclose){
+
+        }
+
 		return this;
     },
     contextMenuItemMouseOver: function (event, objSeq, objID) {
@@ -10945,7 +11020,6 @@ var AXGrid = Class.create(AXJ, {
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
 		this.config.scrollContentBottomMargin = "10";
 
-		//TODO mergeCells 기능구현
 		this.config.mergeCells = false; // cells merge option
 		this.selectedCells = [];
 		this.selectedRow = [];
@@ -13123,7 +13197,7 @@ myGrid.setConfig({
 			this.nowSortHeadObj = myColHead;
 		}
 
-		if (cfg.colHead.onclick) { /* onclick bind */
+		if (cfg.colHead.onclick) { /* onclick    bind */
 			var sendObj = {
 				index: null,
 				r: colHeadR,
@@ -13420,7 +13494,7 @@ myGrid.setConfig({
 
 		// tbody, fixedTbody dom cached
 		if(cfg.viewMode == "grid"){
-			// TODO: this.cachedDom.tbody, this.cachedDom.fixed_tbody, this.cachedDom.thpadding, this.cachedDom.tfpadding 윗마진 아래마진
+			// this.cachedDom.tbody, this.cachedDom.fixed_tbody, this.cachedDom.thpadding, this.cachedDom.tfpadding 윗마진 아래마진
 			this.cachedDom.tbody = axdom("#" + cfg.targetID + "_AX_tbody");
 			if(this.hasFixed) this.cachedDom.fixed_tbody = axdom("#" + cfg.targetID + "_AX_fixedTbody");
 			this.cachedDom.thpadding = axdom("#" + cfg.targetID + "_AX_hpadding").find("td");
@@ -13454,7 +13528,7 @@ myGrid.setConfig({
 
 		if (cfg.viewMode == "grid" || cfg.viewMode == "icon") {
 			/* scroll event bind */
-			// TODO : bind scroll tip
+			// bind scroll tip
 			this.scrollYHandle.unbind("mouseover").bind("mouseover", this.contentScrollTipOver.bind(this));
 			this.scrollYHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
 			this.scrollXHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
@@ -14411,7 +14485,7 @@ myGrid.setConfig({
 				}
 				this.cachedDom.tbody.empty();
 				this.cachedDom.tbody.append(po.join(''));
-				// TODO : 출력된 테이블에 mergeCells 호출
+				// 출력된 테이블에 mergeCells 호출
 				if (cfg.mergeCells) {
 					this.mergeCells(this.cachedDom.tbody, "n");
 				}
@@ -14431,7 +14505,7 @@ myGrid.setConfig({
 					}
 				}
 
-				// TODO : init virtualScroll & control height thpadding
+				// init virtualScroll & control height thpadding
 				this.virtualScroll = {
 					startIndex    : 0,
 					endIndex      : printListCount - 1,
@@ -14541,7 +14615,7 @@ myGrid.setConfig({
 				}
 			}
 
-			// TODO : printList then body.onchangeScroll
+			// printList then body.onchangeScroll
 			if(cfg.body.onchangeScroll){
 				var sendObj = axf.copyObject(this.virtualScroll);
 				cfg.body.onchangeScroll.call(sendObj, sendObj);
@@ -15197,8 +15271,6 @@ myGrid.setConfig({
 		if (event.target.id != "") {
 			var eid = event.target.id.split(/_AX_/g);
 			var isoncheck = false, checkedValue;
-
-			// TODO : 체크박스인 셀의 클릭 이벤트 예외처리 필요
 			if (eventTarget.tagName.toLowerCase() == "input") {
 				if(!eventTarget.disabled) {
 					if (eventTarget.type.toLowerCase() == "checkbox" || eventTarget.type.toLowerCase() == "radio") {
@@ -15264,7 +15336,9 @@ myGrid.setConfig({
 			} catch (e) {
 				trace(e);
 			}
-		} else{
+		}
+		else
+		{
 
 			var myTarget = this.getEventTarget({
 				evt: eventTarget, evtIDs: eid,
@@ -15285,9 +15359,13 @@ myGrid.setConfig({
 					var itemIndex = targetID.split(/_AX_/g).last();
 					var ids = targetID.split(/_AX_/g);
 
+					// todo : 다중선택 처리
 					if (event.shiftKey) {
 
-					} else if (event.metaKey || event.ctrlKey) {
+					}
+					else if (event.metaKey || event.ctrlKey)
+					{
+						// todo : selectedCells 기능 제거하고 selectedRow 추가하는 옵션으로 기능 변경
 						if (this.selectedRow.length > 0) {
 							var body = this.body;
 							axf.each(this.selectedRow, function () {
@@ -15312,7 +15390,9 @@ myGrid.setConfig({
 							axdom("#" + targetID).addClass("selected");
 							this.selectedCells.push(targetID);
 						}
-					} else {
+					}
+					else
+					{
 						if (this.selectedCells.length > 0) {
 							axf.each(this.selectedCells, function () {
 								axdom("#" + this).removeClass("selected");
@@ -15352,7 +15432,9 @@ myGrid.setConfig({
 						/*if(this.hasEditor) this.setEditor(item, itemIndex); */
 					}
 				}
-			} else if (cfg.viewMode == "icon") {
+			}
+			else
+			if (cfg.viewMode == "icon") {
 				if (myTarget) {
 					var targetID = myTarget.id;
 					var itemIndex = targetID.split(/_AX_/g).last();
@@ -15389,7 +15471,9 @@ myGrid.setConfig({
 						}
 					}
 				}
-			} else if (cfg.viewMode == "mobile") {
+			}
+			else
+			if (cfg.viewMode == "mobile") {
 				if (myTarget) {
 					var targetID = myTarget.id;
 					var itemIndex = targetID.split(/_AX_/g).last();
@@ -15611,7 +15695,7 @@ myGrid.setConfig({
 				_this.scrollTrackY.css({ height: scrollTrackYHeight });
 
 				var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
-				// TODO : scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
+				// scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
 				_this.scrollYHandle.data("height", scrollYHandleHeight);
 				if(scrollYHandleHeight < 30) scrollYHandleHeight = 30;
 				_this.scrollYHandle.css({ height: scrollYHandleHeight });
@@ -16126,7 +16210,7 @@ myGrid.setConfig({
 
 			if(cfg.height != "auto") this.bigDataSync();
 
-			//TODO : 관성법칙 적용 해야함.
+			// 관성법칙 적용 해야함.
 			this.scrollXHandle.removeClass("hover");
 			this.scrollYHandle.removeClass("hover");
 
@@ -16157,7 +16241,7 @@ myGrid.setConfig({
 	 * @param {Event} - Grid body내부에서 감지되는 이벤트
 	 */
 	contentScrollTipOver: function(event){
-		// TODO : contentScrollTipOver
+		// contentScrollTopOver
 		/*
 		 var cfg = this.config;
 		 this.scrollYHandle.bind("mousemove");
@@ -16242,7 +16326,7 @@ myGrid.setConfig({
 		var getItem = this.getItem.bind(this);
 		var getItemMarker = this.getItemMarker.bind(this);
 		var getMarkerDisplay = this.getMarkerDisplay.bind(this);
-		// TODO : bigDataSyncApply
+		// bigDataSyncApply
 		var scrollContentScrollTop, VS = this.virtualScroll, po = [], item;
 		if(VS.scrollTop != (scrollContentScrollTop = this.scrollContent.position().top) || reload){
 			var newStartIndex = (scrollContentScrollTop.abs() / VS.itemTrHeight).ceil() - 1;
@@ -16313,7 +16397,7 @@ myGrid.setConfig({
 				VS.endIndex = newEndIndex;
 				VS.scrollTop = scrollContentScrollTop;
 
-				//TODO : body.onchangeScroll
+				// body.onchangeScroll
 				if(cfg.body.onchangeScroll){
 					var sendObj = axf.copyObject(this.virtualScroll);
 					cfg.body.onchangeScroll.call(sendObj, sendObj);
@@ -16566,7 +16650,6 @@ myGrid.setConfig({
 		event.cancelBubble = true;
 		return false;
 	},
-	// TODO : mergeCells
 	/**
 	 * @method AXGrid.mergeCells
 	 * @param tgDom {Object} - 그리드 몸통 객체
@@ -24385,24 +24468,6 @@ myMobileMenu.setConfig({
  "2014-08-04 tom : fix resize error"
  "2014-09-17 tom : 'add Config' scrollLock"
  "2014-11-16 tom : openDiv 메소드에 verticalAlign 속성 확장"
- *
-```js
-var myModal = new AXModal();
-var modalConfig = {
-	animateDuration: {Number} [300],
-	contentDivClass: {String} ["bodyHeightDiv"] - iframe 모달의 창이 오픈된 경우 iframe 의 높이를 정확히 제어하기 위해 컨텐츠 전체를 감싸는 대상에 지정한 className 값,
-	defaultTop: {Number} [10] - 모달창 포지션 top,
-	displayLoading: {Boolean} [true] - 모달이 오픈될 때 로딩 표시 여부,
-	maskCss: "AXMask" - 배경 mask div의 css,
-	opendModalID: {String} - 모달 ID,
-	padding: {(String|Number)} ["0"] - 모달 padding 값,
-	viewMode: {String} ["dx"],
-	width: {(String|Number)} - 모달의 기본 너비,
-	windowBoxCss: {String} ["AXModalBox"] - 모달을 감싸는 제일 바깥쪽 div의 css,
-	windowID: {String} ["AXModal" + timekey] - 모달 식별 아이디
-};
-myModal.setConfig(modalConfig);
-```
  */
 var AXModal = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
@@ -24420,6 +24485,30 @@ var AXModal = Class.create(AXJ, {
 		this.config.opendModalID = "";
 		this.config.scrollLock = false;
 	},
+/**
+ * 모달의 기본 환경설정값을 셋팅합니다.
+ * @method AXModal.setConfig
+ * @param {Object} modalConfig
+ * @example
+```js
+ var myModal = new AXModal();
+ var modalConfig = {
+	animateDuration: {Number} [300],
+	contentDivClass: {String} ["bodyHeightDiv"] - iframe 모달의 창이 오픈된 경우 iframe 의 높이를 정확히 제어하기 위해 컨텐츠 전체를 감싸는 대상에 지정한 className 값,
+	defaultTop: {Number} [10] - 모달창 포지션 top,
+	displayLoading: {Boolean} [true] - 모달이 오픈될 때 로딩 표시 여부,
+	maskCss: "AXMask" - 배경 mask div의 css,
+	opendModalID: {String} - 모달 ID,
+	padding: {(String|Number)} ["0"] - 모달 padding 값,
+	viewMode: {String} ["dx"],
+	width: {(String|Number)} - 모달의 기본 너비,
+	windowBoxCss: {String} ["AXModalBox"] - 모달을 감싸는 제일 바깥쪽 div의 css,
+	windowID: {String} ["AXModal" + timekey] - 모달 식별 아이디,
+	onclose: {Function} - 모달창이 닫힐 때 이벤트
+};
+ myModal.setConfig(modalConfig);
+```
+ */
 	init: function () {
 		var cfg = this.config;
 		this.mask = jQuery("<div class=\"" + cfg.maskCss + "\"></div>");
@@ -24940,7 +25029,6 @@ parent.myModal.close(); // iframe 모달창을 오픈한 경우 열려진 iframe
 			this.config.opendModalID = "";
 			mask.close();
 		} else {
-
 			if (window[this.winID]) {
 				window[this.winID].location.href = "about:blank";
 				var windowID = this.config.windowID;
@@ -28880,7 +28968,7 @@ myViewer.setConfig({
      	this.isOpend = true;
      	
      	axdom(document.body).data("scrollTop", axdom(document.body).scrollTop());
-     	axdom(document.body).children().hide();
+     	//axdom(document.body).children().hide();
      	//this.bodyElement = axdom(document.body).children().not("script");
      	//axdom(document.body).children().not("script").remove();
      	
@@ -29213,7 +29301,7 @@ myViewer.setConfig({
  */
     close: function(){
         var cfg = this.config, _this = this;
-    	axdom(document.body).children().show(); //테스트 필요
+    	//axdom(document.body).children().show(); //테스트 필요
     	axdom(document.body).scrollTop( axdom(document.body).data("scrollTop") );
         if(cfg.onClose) cfg.onClose.call(cfg);
     	this.target.fadeOut(function(){
@@ -30622,6 +30710,140 @@ axdom.fn.closeTab = function(tabIndex) {
 	});
 	return this;
 };
+/* ---------------------------- */
+var AXToolBar = Class.create(AXJ, {
+	initialize: function (AXJ_super) {
+		AXJ_super();
+		this.config.theme = "AXToolBar";
+		this.opened = false; // expand submenu 상태 값
+		this.open_midx = null;
+	},
+/**
+ * 툴바의 환경을 설정합니다
+ * @method AXToolBar.setConfig
+ * @param {Object} config of toolbar
+ * @example
+```js
+
+```
+ */
+	init: function(){
+		var cfg = this.config;
+		if (Object.isUndefined(cfg.targetID)) {
+			trace("need targetID - setConfig({targetID:''})");
+			return;
+		}
+		this.target = jQuery("#" + cfg.targetID);
+		this.setBody();
+	},
+	setBody: function(){
+		var cfg = this.config, _this = this, po = [];
+
+		po.push('<div class="',cfg.theme,'">');
+		$.each(cfg.menu, function (midx, M) {
+			var addClass = [];
+			addClass.push(this.addClass);
+			if (!this.menu) {
+				addClass.push("noexpand");
+			}
+
+			po.push('<div class="ax-root-menu-item" data-item-idx="', midx,'">');
+				po.push('<a href="#axexec" class="ax-menu-item ', addClass.join(" ") ,'" data-item-idx="', midx,'">' , this.label , '</a>');
+			if (this.menu) {
+				po.push('<a href="#axexec" class="ax-menu-handel" data-item-idx="', midx,'"></a>');
+			}
+			po.push('</div>');
+		});
+		po.push('<div class="clear"></div>');
+		po.push('</div>');
+
+		this.target.html(po.join(''));
+
+		this.target.find(".ax-menu-item").bind("click", function(e){
+			var target = axf.get_event_target(e.target, {tagname:"a", clazz:"ax-menu-item"});
+			var midx = target.getAttribute("data-item-idx");
+			_this.exec(midx, cfg.menu[midx], event);
+		});
+		this.target.find(".ax-root-menu-item").bind("mouseover", function(e){
+			var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
+			var midx = target.getAttribute("data-item-idx");
+			_this.overitem(midx, cfg.menu[midx], event);
+		});
+		this.target.find(".ax-root-menu-item").bind("mouseout", function(e){
+			//var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
+			//var midx = target.getAttribute("data-item-idx");
+			_this.outitem();
+		});
+		this.target.find(".ax-menu-handel").bind("click", function(e){
+			var target = axf.get_event_target(e.target, {tagname:"a", clazz:"ax-menu-handel"});
+			var midx = target.getAttribute("data-item-idx");
+			//console.log(cfg.menu[midx]);
+			_this.expand(midx, cfg.menu[midx], event);
+		});
+	},
+	exec: function(midx, menu, event){
+		var cfg = this.config,
+			that = menu;
+
+		that.targetID = cfg.targetID;
+		menu.onclick.call(that, menu, event);
+	},
+	overitem: function(midx, menu, event){
+		var cfg = this.config, _target = this.target.find("[data-item-idx='"+midx+"']");
+		this.target.find(".ax-root-menu-item").removeClass("hover");
+		_target.addClass("hover");
+		if(this.opened){
+			this.expand(midx, menu, event);
+		}
+	},
+	outitem: function(){
+		if(this.opened) return;
+		var cfg = this.config;
+		this.target.find(".ax-root-menu-item").removeClass("hover");
+	},
+	expand: function(midx, menu, event){
+		var cfg = this.config, _this = this,
+			that = menu, offset, _target = this.target.find("[data-item-idx='"+midx+"']");
+
+		if(this.open_midx != midx){
+			AXContextMenu.close({id: cfg.targetID + "_AX_expand_AX_" + this.open_midx});
+		}
+		this.open_midx = midx;
+
+		if(menu.menu) {
+
+			if (!menu.context_menu) {
+				menu.context_menu = AXContextMenu.bind({
+					id         : cfg.targetID + "_AX_expand_AX_" + midx,
+					theme      : "AXContextMenu", // 선택항목
+					width      : "150", // 선택항목
+					reserveKeys: cfg.reserveKeys,
+					menu       : menu.menu,
+					onclose    : function () {
+						//trace(this);
+						_this.expand_end(this);
+					}
+				});
+			}
+
+			offset = _target.offset();
+			AXContextMenu.open({id: cfg.targetID + "_AX_expand_AX_" + midx}, {
+				left: offset.left,
+				top : offset.top + _target.outerHeight()
+			});
+			this.opened = true;
+		}else{
+			this.opened = false;
+		}
+
+	},
+	expand_end: function(){
+		trace("close");
+		this.opened = false;
+		this.open_midx = null;
+		this.outitem();
+	}
+});
 /* ---------------------------- */
 var AXTopDownMenu = Class.create(AXJ, {
 	initialize: function(AXJ_super){

@@ -207,7 +207,7 @@
   width: 140px;
   background: #ffffff;
   border: 1px solid #99847d;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXContextMenu .contextMenuItem {
@@ -334,7 +334,7 @@
   padding: 6px;
   background: #ffffff;
   border: 1px solid #99847d;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXPopOver .arrowTop {
@@ -453,7 +453,7 @@
   padding: 6px;
   background: #FFFFF0;
   border: 1px solid #B55A00;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXPopOverTooltip .arrowTop {

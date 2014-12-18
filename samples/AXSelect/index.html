@@ -99,6 +99,7 @@
                 ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                 isspace: true, isspaceTitle: "선택하세요",
                 setValue:"",
+                alwaysOnChange: true,
                 onChange: function(){
                     //toast.push(Object.toJSON(this));
 
@@ -106,6 +107,7 @@
                         ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                         isspace: true, isspaceTitle: "선택하세요",
                         setValue:this.optionValue,
+                        alwaysOnChange: true,
                         onChange: function(){
                             //toast.push(Object.toJSON(this));
 
@@ -113,6 +115,7 @@
                                 ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                                 isspace: true, isspaceTitle: "선택하세요",
                                 setValue:this.optionValue,
+                                alwaysOnChange: true,
                                 onChange: function(){
                                     //toast.push(Object.toJSON(this));
                                 }
