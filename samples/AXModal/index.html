@@ -49,7 +49,10 @@
                     mx:{min:0, max:767}, dx:{min:767}
                 },
 				displayLoading:true,
-                scrollLock: true
+                scrollLock: true,
+				onclose: function(){
+					toast.push("모달 close");
+				}
 			});
 		},
 		modalOpen: function(){

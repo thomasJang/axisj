@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-12 
+AXJ - v1.0.9 - 2014-12-18 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-12 
+AXJ - v1.0.9 - 2014-12-18 
 */
 
 if(!window.AXConfig){
@@ -837,7 +837,63 @@ axf.encParam("name=장기영&sex=남");
  * @member {type} axf.mousewheelevt
  * @description 브라우저에 따른 마우스 휠 이벤트이름
  */
-	mousewheelevt: ((/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel")
+	mousewheelevt: ((/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel"),
+
+//todo : event bubble catch
+/**
+ * 타겟엘리먼트의 부모 엘리멘트에서 원하는 조건의 엘리먼트를 얻습니다.
+ * @method axf.get_event_target
+ * @param {Element} target - target element
+ * @param {Object} cond - 원하는 element를 찾을 조건
+ * @returns {Element}
+ * @example
+ ```js
+ console.log(axf.get_event_target(e.target, {tagname:"a", clazz:"findclass", etc:"attribute"}));
+ ```
+ */
+	get_event_target: function(target, cond){
+		var _target = target;
+		if (_target) {
+			while ((function(){
+				var result = true;
+				for(var k in cond){
+					if(k === "tagname"){
+						if(_target.tagName.lcase() != cond[k]) {
+							result = false;
+							break;
+						}
+					}
+					else
+					if(k === "clazz"){
+						var klasss = _target.className.split(/ /g);
+						var hasClass = false;
+						for(var a=0;a<klasss.length;a++){
+							if(klasss[a] == cond[k]){
+								hasClass = true;
+								break;
+							}
+						}
+						result = hasClass;
+					}
+					else
+					{ // 그외 속성값들.
+						if(_target.getAttribute(k) != cond[k]) {
+							result = false;
+							break;
+						}
+					}
+				}
+				return !result;
+			})()) {
+				if (_target.parentNode) {
+					_target = _target.parentNode;
+				} else {
+					_target = false; break;
+				}
+			}
+		}
+		return _target;
+	}
 };
 var axdom;
 if(window.jQuery) axdom = jQuery;
@@ -5839,7 +5895,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.23
+ * @version v1.24
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5849,6 +5905,7 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-02-11 오전 11:06:13 root, subMenu underLine, upperLine add",
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
+ "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6454,8 +6511,11 @@ AXContextMenu.open({
         };
         axdom("#" + objID).find(".contextMenuItem").bind("click", this.contextMenuItemClickBind);
     },
+    // 이벤트로 인한 닫기
     _close: function (objSeq, objID) {
-        var cfg = this.config;
+        var cfg = this.config,
+            obj = this.objects[objSeq],
+            that = {id:obj.id, event_type:"event"};
 
         if(this.mobileMode){
             this.closeMobileModal();
@@ -6478,6 +6538,10 @@ AXContextMenu.open({
         this.showedItem = {}; // 초기화
         this.openTB = "";
         this.openLR = "";
+
+        if(obj.onclose){
+            obj.onclose.call(that);
+        }
     },
 /**
  * @method AXContextMenuClass.close
@@ -6492,8 +6556,9 @@ AXContextMenu.close({
 ```
  */
     close: function (myobj) {
-        var cfg = this.config;
-        var objSeq = null;
+        var cfg = this.config,
+            objSeq = null;
+
         axf.each(this.objects, function (index, O) {
             if (O.id == myobj.id) {
                 objSeq = index;
@@ -6504,12 +6569,17 @@ AXContextMenu.close({
             //trace("바인드 된 오브젝트를 찾을 수 없습니다.");
             return;
         }
-        var obj = this.objects[objSeq];
-        var objID = obj.id;
 
-        axdom("#" + objID).fadeOut("fast", function () {
-            axdom("#" + objID).remove();
-        });
+        var obj = this.objects[objSeq], objID = obj.id,
+            that = {id:obj.id, event_type:"script"};
+
+        if(this.mobileMode){
+            this.closeMobileModal();
+        }else{
+            axdom("#" + objID).fadeOut("fast", function () {
+                axdom("#" + objID).remove();
+            });
+        }
 
         axdom(document).unbind("keydown", this.contextMenuItemDownBind);
         axdom(document).unbind("mousedown", this.contextMenuItemDownBind);
@@ -6517,6 +6587,11 @@ AXContextMenu.close({
         this.showedItem = {}; // 초기화
         this.openTB = "";
         this.openLR = "";
+
+        if(obj.onclose){
+
+        }
+
 		return this;
     },
     contextMenuItemMouseOver: function (event, objSeq, objID) {

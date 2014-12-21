@@ -17,7 +17,8 @@ var sampleTree = [
         {menuID:"204", url:"javascript:pageObj.goLink('samples/AXNotification/index.html');", label:"AXNotification"},
         {menuID:"205", url:"javascript:pageObj.goLink('samples/AXProgress/index.html');", label:"AXProgress"},
         {menuID:"206", url:"javascript:pageObj.goLink('samples/AXScroll/index.html');", label:"AXScroll"},
-        {menuID:"207", url:"javascript:pageObj.goLink('samples/AXTabs/index.html');", label:"AXTabs"}
+        {menuID:"207", url:"javascript:pageObj.goLink('samples/AXTabs/index.html');", label:"AXTabs"},
+        {menuID:"207", url:"javascript:pageObj.goLink('samples/AXToolBar/index.html');", label:"AXToolBar"}
     ]},
     {menuID:"3", label:"UI-Complex", url:"javascript:pageObj.goLink('samples/AXModal/index.html');", cn:[
         {menuID:"301", url:"javascript:pageObj.goLink('samples/AXModal/index.html');", label:"AXModal"},

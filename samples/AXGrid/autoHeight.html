@@ -54,11 +54,12 @@
                         return [
                             {key:"no", label:"번호", width:"50", align:"right"},
                             {
-                                key:"title", label:"제목", width:"*", tooltip:function(){
-                                return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
-                            }
+                                key:"title", label:"제목(sort:false)", width:"300", tooltip:function(){
+                                    return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
+                                },
+                                sort: false
                             },
-                            {key:"writer", label:"작성자", width:"100"},
+                            {key:"writer", label:"작성자(sort:false)", width:"100", sort: false},
                             {key:"regDate", label:"작성일", width:"100"},
                             {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
                             {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
@@ -99,6 +100,37 @@
 
                             }
                         },
+                        foot : {
+                            rows: [
+                                [
+                                    {colSeq:null, colspan:4, formatter:function(){
+                                        return "계";
+                                    }, align:"center"},
+                                    {colSeq:4, formatter:function(){
+                                        var sum = 0;
+                                        $.each(this.list, function(){
+                                            sum += this.price;
+                                        });
+                                        return sum.money();
+                                    }},
+                                    {colSeq:5, formatter:function(){
+                                        var sum = 0;
+                                        $.each(this.list, function(){
+                                            sum += this.amount;
+                                        });
+                                        return sum.money();
+                                    }},
+                                    {colSeq:6, formatter:function(){
+                                        var sum = 0;
+                                        $.each(this.list, function(){
+                                            sum += (this.price * this.amount);
+                                        });
+                                        return sum.money();
+                                    }},
+                                    {colSeq:7}
+                                ]
+                            ]
+                        },
                         page: {
                             paging: false
                         }
@@ -127,6 +159,7 @@
                         {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
                     ];
                     myGrid.setList(list);
+                    myGrid.setDataSet({});
                     trace(myGrid.getSortParam());
 
                 },
