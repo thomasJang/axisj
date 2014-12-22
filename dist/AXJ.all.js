@@ -5896,7 +5896,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.24
+ * @version v1.25
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5907,6 +5907,7 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
  "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
+ "2014-12-22 tom : filter를 통화한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6382,6 +6383,8 @@ AXContextMenu.open({
 
         var filter = this.filter.bind(this);
         var getSubMenu = this.getSubMenu.bind(this);
+
+        var displayMenuCount = 0;
         var po = [];
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
@@ -6416,9 +6419,15 @@ AXContextMenu.open({
                 if (menu.underLine) {
                     po.push("<div class=\"hline\"></div>");
                 }
+                displayMenuCount++;
             }
         });
         po.push("</div>");
+
+        if(displayMenuCount == 0){
+            // 표시할 메뉴가 없음.
+            return false;
+        }
         axdom(document.body).append(po.join(''));
 
         axdom("#" + objID + " .contextMenuItem:first-child").addClass("first");
@@ -13606,6 +13615,7 @@ myGrid.setConfig({
 	 ```
 	 */
 	setList: function (obj, sortDisable, rewrite, exts) {
+
 		var cfg = this.config, _this = this;
 		var nowSortHeadID = this.nowSortHeadID;
 		var nowSortHeadObj = this.nowSortHeadObj;
