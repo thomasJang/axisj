@@ -6654,7 +6654,7 @@ AXContextMenu.close({
         var obj = this.objects[objSeq];
 
         if (event.keyCode == AXUtil.Event.KEY_ESC) {
-            this._close(objSeq, objID);
+            this._close(objSeq, objID, event);
             return;
         }
 
@@ -6670,7 +6670,7 @@ AXContextMenu.close({
         if (myTarget) {
 
         } else {
-            this._close(objSeq, objID);
+            this._close(objSeq, objID, event);
         }
     },
     contextMenuItemClick: function (event, objSeq, objID) {
@@ -6746,7 +6746,7 @@ AXContextMenu.close({
 
                 if (obj.onsort) {
                     if(obj.onsort.call({ menu: obj.menu, sortMenu: menu, sendObj: obj.sendObj }, objID) != true){
-                        this._close(objSeq, objID);
+                        this._close(objSeq, objID, event);
                     }
                 }
                 return true;
@@ -6754,7 +6754,7 @@ AXContextMenu.close({
 
             if (menu.onclick) {
                 if(menu.onclick.call({ menu: menu, sendObj: obj.sendObj }, objID) != true){
-                    this._close(objSeq, objID);
+                    this._close(objSeq, objID, event);
                 }
                 return true;
             }else if (obj.onchange) { // 라벨 선택 할 때. 정렬항목도 없는 경우만 체크 모드로 연결
@@ -6763,7 +6763,7 @@ AXContextMenu.close({
 
                 if (obj.onchange) {
                     if (obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID) != true){
-                        this._close(objSeq, objID);
+                        this._close(objSeq, objID, event);
                     }
                 }
                 return true;
@@ -30740,7 +30740,167 @@ var AXToolBar = Class.create(AXJ, {
  * @param {Object} config of toolbar
  * @example
 ```js
+ <div class="toolBar" id="tool-bar" style="border-bottom: 1px solid #d6d6d6;border-top: 1px solid #d6d6d6;"></div>
+ <script>
+ var menu = [
+ {
+	label   : "<i class='axi axi-axisj'></i> 액시스제이", addClass: "",
+	onclick : function (menu, event) {
+		//trace("1", menu);
+	},
+	menu    : [
+		{
+			label: "<i class=\"axi axi-box\"></i>  Common", onclick: function (event) {},
+			menu    : [
+				{
+					label: "<i class=\"axi axi-box\"></i> AXCore", onclick: function (event) {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXValidator", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXAddress", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> Table CSS Guide", onclick: function () {}
+				}
+			]
+		},
+		{
+			label: "<i class=\"axi axi-box\"></i>  UI-Unique", onclick: function () {},
+			menu    : [
+				{
+					label: "<i class=\"axi axi-box\"></i> AXButton", onclick: function (event) {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXInput", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXSelect", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXNotification", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXProgress", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXScroll", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXTabs", onclick: function () {}
+				},
+				{
+					label: "<i class=\"axi axi-box\"></i> AXToolBar", onclick: function () {}
+				}
+			]
+		},
+		{
+			label: "<i class=\"axi axi-box\"></i>  UI-Complex", onclick: function () {},
+			underLine: true
+		},
+		{
+			label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {}
+		},
+		{
+			label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+		}
+	]
+ },
+ {
+	label   : "<i class='axi axi-axu'></i> 악수", addClass: "",
+	onclick : function (event) {
 
+	},
+	menu    : [
+		{
+			label: "<i class=\"axi axi-box\"></i> Archon", onclick: function (event) {}
+		},
+		{
+			label: "<i class=\"axi axi-box\"></i> Barracks", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-box\"></i> Barracks-2", onclick: function () {}
+		}
+	]
+ },
+ {
+	label   : "<i class='axi axi-axicon'></i> 액시콘", addClass: "",
+	onclick : function (event) {
+
+	},
+	menu    : [
+		{
+			label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {}
+		},
+		{
+			label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {},
+			underLine: true
+		},
+		{
+			label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {}
+		},
+		{
+			label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+		},
+		{
+			label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+		}
+	]
+ },
+ {
+	label   : "<i class='axi axi-jsongum'></i> 제이슨껌", addClass: "",
+	onclick : function (event) {
+
+	},
+	menu    : [
+		{
+			label: "<i class=\"axi axi-box\"></i> $4.99", onclick: function (event) {}
+		},
+		{
+			label: "껌팔이 앱인데 하나도 안팔리고..", onclick: function () {
+				alert(this.menu.label);
+			}
+		},
+		{
+			label: "그래도 액시스제이는 포기하지 않아~ 열심히 돈을 벌어서 오픈소스를", onclick: function () {
+				alert(this.menu.label);
+			}
+		}
+	]
+ }
+ ];
+ var myToolbar = new AXToolBar();
+ myToolbar.setConfig({
+    targetID: "tool-bar",
+    theme   : "AXToolBar",
+    menu    : menu,
+    reserveKeys: {
+        subMenu: "menu"
+    }
+ });
+ </script>
 ```
  */
 	init: function(){
@@ -30794,7 +30954,7 @@ var AXToolBar = Class.create(AXJ, {
 			var target = axf.get_event_target(e.target, {tagname:"a", clazz:"ax-menu-handel"});
 			var midx = target.getAttribute("data-item-idx");
 			//console.log(cfg.menu[midx]);
-			_this.expand(midx, cfg.menu[midx], event);
+			_this.expand(midx, cfg.menu[midx], e);
 		});
 	},
 	exec: function(midx, menu, event){
@@ -30809,7 +30969,7 @@ var AXToolBar = Class.create(AXJ, {
 		this.target.find(".ax-root-menu-item").removeClass("hover");
 		_target.addClass("hover");
 		if(this.opened){
-			this.expand(midx, menu, event);
+			this.expand(midx, menu);
 		}
 	},
 	outitem: function(){
@@ -30818,16 +30978,23 @@ var AXToolBar = Class.create(AXJ, {
 		this.target.find(".ax-root-menu-item").removeClass("hover");
 	},
 	expand: function(midx, menu, event){
+
 		var cfg = this.config, _this = this,
 			that = menu, offset, _target = this.target.find("[data-item-idx='"+midx+"']");
 
+		if(this.closing){
+			AXContextMenu.close({id: cfg.targetID + "_AX_expand_AX_" + this.open_midx});
+			this.expand_end();
+			return;
+		}
+		else
 		if(this.open_midx != midx){
 			AXContextMenu.close({id: cfg.targetID + "_AX_expand_AX_" + this.open_midx});
 		}
+
 		this.open_midx = midx;
 
 		if(menu.menu) {
-
 			if (!menu.context_menu) {
 				menu.context_menu = AXContextMenu.bind({
 					id         : cfg.targetID + "_AX_expand_AX_" + midx,
@@ -30836,12 +31003,11 @@ var AXToolBar = Class.create(AXJ, {
 					reserveKeys: cfg.reserveKeys,
 					menu       : menu.menu,
 					onclose    : function () {
-						//trace(this);
+						//trace(event.type);
 						_this.expand_end(this);
 					}
 				});
 			}
-
 			offset = _target.offset();
 			AXContextMenu.open({id: cfg.targetID + "_AX_expand_AX_" + midx}, {
 				left: offset.left,
@@ -30851,13 +31017,16 @@ var AXToolBar = Class.create(AXJ, {
 		}else{
 			this.opened = false;
 		}
-
 	},
 	expand_end: function(){
-		trace("close");
+		var _this = this;
 		this.opened = false;
 		this.open_midx = null;
+		this.closing = true;
 		this.outitem();
+		setTimeout(function(){
+			_this.closing = false;
+		}, 100);
 	}
 });
 /* ---------------------------- */

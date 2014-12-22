@@ -6654,7 +6654,7 @@ AXContextMenu.close({
         var obj = this.objects[objSeq];
 
         if (event.keyCode == AXUtil.Event.KEY_ESC) {
-            this._close(objSeq, objID);
+            this._close(objSeq, objID, event);
             return;
         }
 
@@ -6670,7 +6670,7 @@ AXContextMenu.close({
         if (myTarget) {
 
         } else {
-            this._close(objSeq, objID);
+            this._close(objSeq, objID, event);
         }
     },
     contextMenuItemClick: function (event, objSeq, objID) {
@@ -6746,7 +6746,7 @@ AXContextMenu.close({
 
                 if (obj.onsort) {
                     if(obj.onsort.call({ menu: obj.menu, sortMenu: menu, sendObj: obj.sendObj }, objID) != true){
-                        this._close(objSeq, objID);
+                        this._close(objSeq, objID, event);
                     }
                 }
                 return true;
@@ -6754,7 +6754,7 @@ AXContextMenu.close({
 
             if (menu.onclick) {
                 if(menu.onclick.call({ menu: menu, sendObj: obj.sendObj }, objID) != true){
-                    this._close(objSeq, objID);
+                    this._close(objSeq, objID, event);
                 }
                 return true;
             }else if (obj.onchange) { // 라벨 선택 할 때. 정렬항목도 없는 경우만 체크 모드로 연결
@@ -6763,7 +6763,7 @@ AXContextMenu.close({
 
                 if (obj.onchange) {
                     if (obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID) != true){
-                        this._close(objSeq, objID);
+                        this._close(objSeq, objID, event);
                     }
                 }
                 return true;
