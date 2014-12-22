@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-18 
+AXJ - v1.0.9 - 2014-12-22 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-18 
+AXJ - v1.0.9 - 2014-12-22 
 */
 
 if(!window.AXConfig){
@@ -72,8 +72,8 @@ if(!window.AXConfig){
 			async: true, // AJAX 비동기 처리 여부
 			okCode: "ok", // 통신 성공 코드
 			responseType: "", // AJAX responseType
-			dataType: "", // AJAX return Data type
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8", // AJAX contentType
+			dataType: "json", // AJAX return Data type
+			contentType: "application/json", //"application/x-www-form-urlencoded; charset=UTF-8", // AJAX contentType
 			dataSendMethod: "parameter", // AJAX parameter send type
 			crossDomain: false,
 			resultFormatter: function () { // onsucc formatter
@@ -3058,17 +3058,18 @@ var AXReqQue = Class.create({
     },
     onsucc: function (req) {
         if (req != undefined) {
-            var myQue = this.que.first();
+            var myQue = this.que.first(), res;
 
             try {
                 if (myQue.configs.debug) trace("onsucc" + req);
+
                 if (myQue.configs.responseType == "text/html") {
-                    var res = req;
+                    res = req;
                 } else {
                     if ((typeof req) == "string") {
-                        var res = req.object();
+                        res = req.object();
                     } else {
-                        var res = AXConfig.AXReq.resultFormatter.call(req);
+                        res = AXConfig.AXReq.resultFormatter.call(req);
                     }
                 }
 
@@ -6653,7 +6654,7 @@ AXContextMenu.close({
         var obj = this.objects[objSeq];
 
         if (event.keyCode == AXUtil.Event.KEY_ESC) {
-            this._close(objSeq, objID);
+            this._close(objSeq, objID, event);
             return;
         }
 
@@ -6669,7 +6670,7 @@ AXContextMenu.close({
         if (myTarget) {
 
         } else {
-            this._close(objSeq, objID);
+            this._close(objSeq, objID, event);
         }
     },
     contextMenuItemClick: function (event, objSeq, objID) {
@@ -6745,7 +6746,7 @@ AXContextMenu.close({
 
                 if (obj.onsort) {
                     if(obj.onsort.call({ menu: obj.menu, sortMenu: menu, sendObj: obj.sendObj }, objID) != true){
-                        this._close(objSeq, objID);
+                        this._close(objSeq, objID, event);
                     }
                 }
                 return true;
@@ -6753,7 +6754,7 @@ AXContextMenu.close({
 
             if (menu.onclick) {
                 if(menu.onclick.call({ menu: menu, sendObj: obj.sendObj }, objID) != true){
-                    this._close(objSeq, objID);
+                    this._close(objSeq, objID, event);
                 }
                 return true;
             }else if (obj.onchange) { // 라벨 선택 할 때. 정렬항목도 없는 경우만 체크 모드로 연결
@@ -6762,7 +6763,7 @@ AXContextMenu.close({
 
                 if (obj.onchange) {
                     if (obj.onchange.call({ menu: obj.menu, clickMenu: menu, sendObj: obj.sendObj }, objID) != true){
-                        this._close(objSeq, objID);
+                        this._close(objSeq, objID, event);
                     }
                 }
                 return true;
