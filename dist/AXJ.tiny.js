@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-18 
+AXJ - v1.0.9 - 2014-12-22 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-18 
+AXJ - v1.0.9 - 2014-12-22 
 */
 
 if(!window.AXConfig){
@@ -72,8 +72,8 @@ if(!window.AXConfig){
 			async: true, // AJAX 비동기 처리 여부
 			okCode: "ok", // 통신 성공 코드
 			responseType: "", // AJAX responseType
-			dataType: "", // AJAX return Data type
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8", // AJAX contentType
+			dataType: "json", // AJAX return Data type
+			contentType: "application/json", //"application/x-www-form-urlencoded; charset=UTF-8", // AJAX contentType
 			dataSendMethod: "parameter", // AJAX parameter send type
 			crossDomain: false,
 			resultFormatter: function () { // onsucc formatter
@@ -3058,17 +3058,18 @@ var AXReqQue = Class.create({
     },
     onsucc: function (req) {
         if (req != undefined) {
-            var myQue = this.que.first();
+            var myQue = this.que.first(), res;
 
             try {
                 if (myQue.configs.debug) trace("onsucc" + req);
+
                 if (myQue.configs.responseType == "text/html") {
-                    var res = req;
+                    res = req;
                 } else {
                     if ((typeof req) == "string") {
-                        var res = req.object();
+                        res = req.object();
                     } else {
-                        var res = AXConfig.AXReq.resultFormatter.call(req);
+                        res = AXConfig.AXReq.resultFormatter.call(req);
                     }
                 }
 
