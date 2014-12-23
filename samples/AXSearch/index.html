@@ -62,9 +62,9 @@
 							],
 							onChange: function(selectedObject, value){
 								//아래 3개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(Object.toJSON(selectedObject));
-								dialog.push(value);
+								toast.push(Object.toJSON(this));
+								toast.push(Object.toJSON(selectedObject));
+								toast.push(value);
 							}
 						}
 					]},
@@ -79,18 +79,18 @@
 							options:[{optionValue:"all", optionText:"전체보기", title:"체크박스"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
 							onChange: function(selectedObject, value){
 								//아래 3개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(Object.toJSON(selectedObject));
-								dialog.push(value);
+								toast.push(Object.toJSON(this));
+								toast.push(Object.toJSON(selectedObject));
+								toast.push(value);
 							}
 						},
 						{label:"라디오류", labelWidth:"100", type:"radioBox", width:"", key:"radiobox", addClass:"secondItem", valueBoxStyle:"", value:"close",
 							options:[{optionValue:"all", optionText:"전체보기", title:"라디오타이틀"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
 							onChange: function(selectedObject, value){
 								//아래 3개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(Object.toJSON(selectedObject));
-								dialog.push(value);
+								toast.push(Object.toJSON(this));
+								toast.push(Object.toJSON(selectedObject));
+								toast.push(value);
 							}
 						}
 					]},
@@ -114,8 +114,8 @@
 						{label:"", labelWidth:"", type:"inputText", width:"150", key:"inputText", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"ABCD",
 							onChange: function(changedValue){
 								//아래 2개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(changedValue);
+								toast.push(Object.toJSON(this));
+								toast.push(changedValue);
 							}
 						},
 						{label:"입력2", labelWidth:"60", type:"inputText", width:"250", key:"inputText2", addClass:"secondItem", valueBoxStyle:"", value:"입력2", title:"타이틀정보",
@@ -274,6 +274,7 @@
 
             <div align="center">
                 <input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search1();" />
+				<input type="button" value="Reset" class="AXButtonLarge Classic W100" onclick="mySearch.reset();" />
             </div>
 
             <div class="H20"></div>
