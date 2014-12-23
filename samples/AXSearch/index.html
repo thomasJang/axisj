@@ -123,6 +123,9 @@
 						},
 						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"읽기전용",
 							onclick: function(){
+
+								mySearch.reset();
+
 								//mySearch.getItemId("inputText2");
                                 axdom("#" + mySearch.getItemId("inputText2")).attr("readonly", "readonly");
 
