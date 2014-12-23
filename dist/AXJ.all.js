@@ -12153,8 +12153,7 @@ var AXGrid = Class.create(AXJ, {
 				cfg.viewMode = _viewMode;
 			}
 		}
-
-		this.redrawGrid("");
+		this.redrawGrid(true);
 	},
 	gridTargetSetSize: function (react) { /* AXgridScrollBody 안쪽의 높이와 관련된 요소 설정 */
 		var cfg = this.config;
@@ -27561,6 +27560,8 @@ mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 �
 			gr++;
 		}
     }
+	//todo : reset 메소드 추가 필요
+
 });
 /* ---------------------------- */
 var AXSelectConverter = Class.create(AXJ, {
