@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-22 
+AXJ - v1.0.9 - 2014-12-23 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-22 
+AXJ - v1.0.9 - 2014-12-23 
 */
 
 if(!window.AXConfig){
@@ -12091,7 +12091,9 @@ var AXGrid = Class.create(AXJ, {
 			if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener("touchstart", contentScrollTouchstart, false);
 		}
 
-		this.target.bind("keydown", this.onKeydown.bind(this));
+		//this.target.bind("keydown", this.onKeydown.bind(this));
+		//keydown 이벤트 방식 변경
+		$(window).bind("keydown.axgrid", this.onKeydown.bind(this));
 
 		if (cfg.contextMenu) {
 			AXContextMenu.bind({
@@ -12510,16 +12512,18 @@ var AXGrid = Class.create(AXJ, {
 	 * @description  Grid 내부에서 감지되는 이벤트에 대한 처리를 합니다.(방향키로 포커스 이동등..)
 	 */
 	onKeydown: function (event) {
-		if (event.keyCode == 67 && event.ctrlKey) {
-			/*this.copyData(); */
-		}
+		if( this.selectedRow.length == 0 ) return;
 		if (this.editorOpend) return;
 
-		//trace("onKeydown" + event.keyCode);
-
+		if (event.keyCode == 67 && event.ctrlKey) {
+			// this.copyData();
+		}
+		else
 		if (event.keyCode == axf.Event.KEY_UP) { /* */
 			this.focusMove(-1, event);
-		} else if (event.keyCode == axf.Event.KEY_DOWN) { /* */
+		}
+		else
+		if (event.keyCode == axf.Event.KEY_DOWN) { /* */
 			this.focusMove(1, event);
 		}
 	},
