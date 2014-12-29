@@ -19,6 +19,15 @@
 .AXGrid {
   position: relative;
 }
+.AXGrid table thead tr td,
+.AXGrid table tbody tr td,
+.AXGrid table tfoot tr td,
+.AXGrid table thead tr th,
+.AXGrid table tbody tr th,
+.AXGrid table tfoot tr th {
+  min-width: auto;
+  min-height: auto;
+}
 .AXGrid .tdRelBlock {
   position: relative;
 }

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-23 
+AXJ - v1.0.9 - 2014-12-29 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-23 
+AXJ - v1.0.9 - 2014-12-29 
 */
 
 if(!window.AXConfig){
@@ -31687,7 +31687,7 @@ myMenu.setTree(Tree);
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.58.1
+ * @version v1.58.2
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -31729,6 +31729,7 @@ myMenu.setTree(Tree);
  "2014-10-23 tom : expandToggleList 버그 픽스"
  "2014-10-29 tom : updateList body.addClass 함수 적용 구문 추가"
  "2015-12-05 tom : gridBodyClickAct 이벤트 버블링 버그 픽스"
+ "2015-12-29 tom : AXTree.pageHeight 옵션 적용"
  *
  * @description
  *
@@ -32530,7 +32531,7 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
-		if (targetInnerHeight == 0) targetInnerHeight = 400;
+		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXTree.pageHeight || 400);
 		this.theme = (cfg.theme) ? cfg.theme : "AXTree"; // 테마기본값 지정
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; // 그리드 높이 지정
 
