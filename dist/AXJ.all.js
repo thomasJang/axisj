@@ -39561,7 +39561,7 @@ var AXUserSelect = Class.create(AXJ, {
         this.CT = jQuery("#" + config.containerID);
 
         var po = [];
-        po.push("<div class=\"" + config.className + " readyDrop\" id=\"" + config.containerID + "_UserSelectBox\" style='height:100%;'>");
+        po.push("<div class=\"" + config.className + " readyDrop\" id=\"" + config.containerID + "_AX_UserSelectBox\" style='height:100%;'>");
         po.push("</div>");
         this.CT.html(po.join(''));
 
@@ -39570,7 +39570,7 @@ var AXUserSelect = Class.create(AXJ, {
         var onDrop = this.onDrop.bind(this);
 
         this.myDrag.setConfig({
-            dragStage: config.containerID + "_UserSelectBox",
+            dragStage: config.containerID + "_AX_UserSelectBox",
             dragBoxClassName: "modsDragBox",
             bedragClassName: "bedraged",
             bedropClassName: "bedroped",
@@ -39580,7 +39580,7 @@ var AXUserSelect = Class.create(AXJ, {
             onDrop: onDrop,
             onSort: onSort,
             multiSelector: {
-                selectStage: config.containerID + "_UserSelectBox",
+                selectStage: config.containerID + "_AX_UserSelectBox",
                 selectClassName: "readyDrag",
                 beselectClassName: "beSelected"
             },
@@ -39621,11 +39621,11 @@ myUserBox.push(ds);
                 }
             });
             if (addOk == 1) {
-                po.push("<div class=\"readyDrag\" id=\"" + config.containerID + "userSelectItem_" + this.id + "\">");
+                po.push("<div class=\"readyDrag\" id=\"" + config.containerID + "userSelectItem_AX_" + this.id + "\">");
                 po.push("	<div class=\"userSelectItemBody\">");
-                po.push("	<input type=\"hidden\" name=\"id\" id=\"" + config.containerID + "userSelectItemID_" + this.id + "\" value=\"" + this.id + "\" /> ");
-                po.push("	<input type=\"hidden\" name=\"nm\" id=\"" + config.containerID + "userSelectItemNM_" + this.id + "\" value=\"" + this.nm + "\" /> ");
-                po.push("	<input type=\"hidden\" name=\"desc\" id=\"" + config.containerID + "userSelectItemDESC_" + this.id + "\" value=\"" + this.desc + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"id\" id=\"" + config.containerID + "userSelectItemID_AX_" + this.id + "\" value=\"" + this.id + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"nm\" id=\"" + config.containerID + "userSelectItemNM_AX_" + this.id + "\" value=\"" + this.nm + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"desc\" id=\"" + config.containerID + "userSelectItemDESC_AX_" + this.id + "\" value=\"" + this.desc + "\" /> ");
                 po.push("	" + this.nm.dec() + " ");
                 po.push("	" + this.desc.dec() + " ");
                 //po.push("	<a href=\"#modsExec\" class=\"del\">삭제</a>");
@@ -39635,7 +39635,7 @@ myUserBox.push(ds);
             }
         });
 
-        jQuery("#" + config.containerID + "_UserSelectBox").append(po.join(''));
+        jQuery("#" + config.containerID + "_AX_UserSelectBox").append(po.join(''));
 
 
         this.dragCollect();
@@ -39646,12 +39646,12 @@ myUserBox.push(ds);
         jQuery.each(this.ds, function() {
             var delOK = 0;
             for (var a = 0; a < select.length; a++) {
-                if (select[a].id.split(/\_/g).last() == this.id) {
+                if (select[a].id.split(/_AX_/g).last() == this.id) {
                     delOK = 1;
                 }
             }
             if (delOK == 1) {
-                jQuery("#" + config.containerID + "userSelectItem_" + this.id).remove();
+                jQuery("#" + config.containerID + "userSelectItem_AX_" + this.id).remove();
             } else {
                 myDS.push(this);
             }
@@ -39670,7 +39670,7 @@ myUserBox.push(ds);
                 }
             }
             if (delOK == 1) {
-                axdom("#" + config.containerID + "userSelectItem_" + this.id).remove();
+                axdom("#" + config.containerID + "userSelectItem_AX_" + this.id).remove();
             } else {
                 myDS.push(this);
             }
@@ -39696,7 +39696,7 @@ myUserBox.push(ds);
         var config = this.config;
         var dragCollect = this.dragCollect.bind(this);
         axdom(res.dragItem).fadeOut("fast", function() {
-            jQuery("#" + config.containerID + "_UserSelectBox").append(this); //예외 경우
+            jQuery("#" + config.containerID + "_AX_UserSelectBox").append(this); //예외 경우
             jQuery(this).show("fast");
             dragCollect();
         });
@@ -39723,17 +39723,17 @@ myUserBox.push(ds);
     },
     empty: function() {
         var config = this.config;
-        jQuery("#" + config.containerID + "_UserSelectBox").empty();
+        jQuery("#" + config.containerID + "_AX_UserSelectBox").empty();
         this.ds = [];
         this.dragCollect();
     },
     getDS: function() {
         var config = this.config;
         var myDS = [];
-        jQuery("#" + config.containerID + "_UserSelectBox").find(".readyDrag").each(function() {
-            var id = this.id.split(/\_/g).last();
-            var nm = jQuery("#" + config.containerID + "userSelectItemNM_" + id).val();
-            var desc = jQuery("#" + config.containerID + "userSelectItemDESC_" + id).val();
+        jQuery("#" + config.containerID + "_AX_UserSelectBox").find(".readyDrag").each(function() {
+            var id = this.id.split(/_AX_/g).last();
+            var nm = jQuery("#" + config.containerID + "userSelectItemNM_AX_" + id).val();
+            var desc = jQuery("#" + config.containerID + "userSelectItemDESC_AX_" + id).val();
             myDS.push({id:id, nm:nm, desc:desc});
         });
         return myDS;
@@ -39744,9 +39744,9 @@ myUserBox.push(ds);
 		var sls = this.myDrag.mselector.getSelects();
 		if(sls.length > 0){
 			for(var i=0;i<sls.length;i++){
-				var id = sls[i].id.split(/\_/g).last();
-				var nm = jQuery("#" + config.containerID + "userSelectItemNM_" + id).val();
-				var desc = jQuery("#" + config.containerID + "userSelectItemDESC_" + id).val();
+				var id = sls[i].id.split(/_AX_/g).last();
+				var nm = jQuery("#" + config.containerID + "userSelectItemNM_AX_" + id).val();
+				var desc = jQuery("#" + config.containerID + "userSelectItemDESC_AX_" + id).val();
 				myDS.push({id:id, nm:nm, desc:desc});
 			}
 		}
