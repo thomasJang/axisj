@@ -94,8 +94,9 @@
 						/*
 						 select box key : selectbox-0, selectbox-1, selectbox-2 의 엘리먼트 아이디를 구하여 스크립트를 연결해보겠습니다.
 						 */
+							// rows > list > item.width 를 선언하지 않게되면 내부에서 auto로 처리 되는데.. 현재 버전에서 bindSelect의 너비가 제대로 표현되지 않는 현상이 발견되고 있습니다.
 						{display:true, addClass:"", style:"", list:[
-							{label:"선택입력", labelWidth:"100", type:"selectBox", width:"", key:"selectbox-0", addClass:"", valueBoxStyle:"", value:"",
+							{label:"선택입력", labelWidth:"100", type:"selectBox", width:"150", key:"selectbox-0", addClass:"", valueBoxStyle:"", value:"",
 								options:[],
 								AXBind:{
 									type:"select", config:{
@@ -104,18 +105,18 @@
 										setValue:"",
 										alwaysOnChange: true,
 										onchange:function(){
+
 											var selectbox_0_value = this.optionValue;
 											$("#" + _target.getItemId("selectbox-1")).bindSelect({
-												ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:true,
+												ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync: true,
 												isspace: true, isspaceTitle: "선택하세요",
 												setValue: selectbox_0_value,
 												alwaysOnChange: true,
 												onchange: function(){
 
 													var selectbox_1_value = this.optionValue;
-
 													$("#" + _target.getItemId("selectbox-2")).bindSelect({
-														ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:true,
+														ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync: true,
 														isspace: true, isspaceTitle: "선택하세요",
 														setValue: selectbox_1_value,
 														alwaysOnChange: true,
@@ -123,14 +124,16 @@
 															//toast.push(Object.toJSON(this));
 														}
 													});
+
 												}
 											});
+
 										}
 									}
 								}
 							},
-							{label:"", type:"selectBox", key:"selectbox-1", valueBoxStyle:"padding-left:0px;", value:"", options:[]},
-							{label:"", type:"selectBox", key:"selectbox-2", valueBoxStyle:"padding-left:0px;", value:"", options:[]}
+							{label:"", type:"selectBox", width:"150", key:"selectbox-1", valueBoxStyle:"padding-left:0px;", value:"", options:[]},
+							{label:"", type:"selectBox", width:"150", key:"selectbox-2", valueBoxStyle:"padding-left:0px;", value:"", options:[]}
 						]}
 					]
 				});
