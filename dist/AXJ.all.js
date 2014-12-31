@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-30 
+AXJ - v1.0.9 - 2014-12-31 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-30 
+AXJ - v1.0.9 - 2014-12-31 
 */
 
 if(!window.AXConfig){
@@ -2953,12 +2953,13 @@ this.clearRange();
 // -- AXReq ----------------------------------------------
 /**
  * @class AXReqQue
- * @version v1.2
+ * @version v1.3
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * 2014-04-10 - tom : onbeforesend 옵션 추가 return false 하면 호출 제어됨.
  * 2014-10-06 - tom : dataSendMethod bug fix.
+ * 2014-12-31 - tom : AXConfig.AXReq.pars 확장
  */
 var AXReqQue = Class.create({
 /**
@@ -3034,14 +3035,32 @@ var AXReqQue = Class.create({
 
         if (config.debug) trace({ url: myQue.url, pars: myQue.configs.pars });
 
-        var ajaxOption = {};
+        var ajaxOption = {}, pars;
         axf.each(config, function (k, v) { // update to {this.config}
             ajaxOption[k] = v;
         });
         ajaxOption.url = myQue.url;
+        pars = myQue.configs.pars;
+        if(AXConfig.AXReq.pars){
+            if (typeof pars == "object") {
+                if (typeof AXConfig.AXReq.pars == "object") {
+                    pars = jQuery.extend(pars, AXConfig.AXReq.pars);
+                } else if (typeof AXConfig.AXReq.pars == "string") {
+                    pars = jQuery.extend(pars, AXConfig.AXReq.pars.queryToObject());
+                }
+            }else if (typeof pars == "string") {
+                if (typeof AXConfig.AXReq.pars == "object") {
+                    pars += "&" + jQuery.param(AXConfig.AXReq.pars);
+                } else if (typeof AXConfig.AXReq.pars == "string") {
+                    pars += "&" + AXConfig.AXReq.pars;
+                }
+            }
+        }
 
-        if (dataSendMethod == "json") ajaxOption["data"] = "{queryString:\"" + myQue.configs.pars + "\"}";
-        else ajaxOption["data"] = myQue.configs.pars;
+        if (dataSendMethod == "json") ajaxOption["data"] = "{queryString:\"" + pars + "\"}";
+        else ajaxOption["data"] = pars;
+
+
 
         ajaxOption.success = onsucc;
         ajaxOption.error = onerr;
@@ -15866,7 +15885,7 @@ myGrid.setConfig({
 			}
 		}
 
-		if(touch == undefined) this.bigDataSync();
+		if(typeof touch == "undefined") this.bigDataSync();
 	},
 	/**
 	 * @method AXGrid.getMousePositionToContentScroll
@@ -20101,6 +20120,7 @@ var AXInputConverter = Class.create(AXJ, {
 			} else if ((typeof pars).toLowerCase() == "object") {
 				pars[selectorName] = objVal.enc();
 			}
+
 			var msgAlert = this.msgAlert.bind(this);
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
