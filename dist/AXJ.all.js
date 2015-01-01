@@ -7562,6 +7562,7 @@ obj.modalBody.html("<div style='height:250px;background:#fff;text-align: center;
             width: (modalWidth*0.8),
             height: (modalHeight*0.8)
         };
+        //cssStylesStart.top += jQuery(window).scrollTop();
         this.modalPanel.css(cssStylesStart);
 
         cssStyles.left = left;
