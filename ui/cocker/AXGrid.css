@@ -19,6 +19,15 @@
 .AXGrid {
   position: relative;
 }
+.AXGrid table thead tr td,
+.AXGrid table tbody tr td,
+.AXGrid table tfoot tr td,
+.AXGrid table thead tr th,
+.AXGrid table tbody tr th,
+.AXGrid table tfoot tr th {
+  min-width: auto;
+  min-height: auto;
+}
 .AXGrid .tdRelBlock {
   position: relative;
 }
@@ -72,6 +81,8 @@
   /*For IE7-8-9*/
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td {
+  min-height: auto;
+  min-width: auto;
   padding: 0px;
   background: url('images/dx-grid-head-border.png') repeat-y 100% 0px;
   vertical-align: bottom;
@@ -259,6 +270,8 @@
   /* for bigData */
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td {
+  min-width: auto;
+  min-height: auto;
   padding: 0px;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #ffffec;
   vertical-align: bottom;
@@ -317,6 +330,8 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable thead tr td,
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tfoot tr td {
+  min-width: auto;
+  min-height: auto;
   padding: 0px;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
   vertical-align: bottom;
@@ -377,11 +392,19 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td,
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td {
+  min-width: auto;
+  min-height: auto;
   padding: 0px;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
   vertical-align: bottom;
   border-bottom: 1px solid #c8c8c8;
   background-color: #ffffec;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td,
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td,
+.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td {
+  min-width: auto;
+  min-height: auto;
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable thead tr td .bodyNode,
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td .bodyNode,

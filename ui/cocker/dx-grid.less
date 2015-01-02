@@ -5,6 +5,17 @@
 /** .AXGrid **/
 .AXGrid{
 	.dx-axgrid-preset();
+
+	table{
+		thead, tbody, tfoot{
+			tr{
+				td, th{
+					min-width: auto;min-height: auto;
+				}
+			}
+		}
+	}
+
 	position:relative;
 	.tdRelBlock{
 		position:relative;
@@ -39,6 +50,7 @@
 				tbody{
 					tr{
 						td{
+							min-height:auto;min-width:auto;
 							padding:0px;
 							background:url('images/dx-grid-head-border.png') repeat-y 100% 0px;
 							vertical-align:bottom;
@@ -175,6 +187,7 @@
 				tbody{
 					tr{
 						td{
+							min-width: auto;min-height: auto;
 							padding:0px;
 							background:url('images/dx-grid-body-border.png') repeat-y 100% 0px #FFFFEC;
 							vertical-align:bottom;
@@ -236,6 +249,7 @@
 				}
 				thead, tfoot{
 					tr td{
+						min-width: auto;min-height: auto;
 						padding:0px;
 						background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;
 						vertical-align:bottom;
@@ -281,6 +295,7 @@
 				table-layout:fixed;
 				thead, tfoot{
 					tr td{
+						min-width: auto;min-height: auto;
 						padding:0px;
 						background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;
 						vertical-align:bottom;
@@ -291,6 +306,7 @@
 				thead, tbody, tfoot{
 					tr{
 						td{
+							min-width: auto;min-height: auto;
 							//background-color:#FFFFEC;
 							.bodyNode{
 								position:relative;

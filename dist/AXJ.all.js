@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2014-12-22 
+AXJ - v1.0.9 - 2015-01-02 
 */
 /*! 
-AXJ - v1.0.9 - 2014-12-22 
+AXJ - v1.0.9 - 2015-01-02 
 */
 
 if(!window.AXConfig){
@@ -183,7 +183,8 @@ if(!window.AXConfig){
  ```
  */
 		AXModal: {
-			contentDivClass: "bodyHeightDiv"
+			contentDivClass: "bodyHeightDiv",
+			pars: ""
 		},
 /**
  * AXInput default config
@@ -2953,12 +2954,13 @@ this.clearRange();
 // -- AXReq ----------------------------------------------
 /**
  * @class AXReqQue
- * @version v1.2
+ * @version v1.3
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * 2014-04-10 - tom : onbeforesend 옵션 추가 return false 하면 호출 제어됨.
  * 2014-10-06 - tom : dataSendMethod bug fix.
+ * 2014-12-31 - tom : AXConfig.AXReq.pars 확장
  */
 var AXReqQue = Class.create({
 /**
@@ -3034,14 +3036,32 @@ var AXReqQue = Class.create({
 
         if (config.debug) trace({ url: myQue.url, pars: myQue.configs.pars });
 
-        var ajaxOption = {};
+        var ajaxOption = {}, pars;
         axf.each(config, function (k, v) { // update to {this.config}
             ajaxOption[k] = v;
         });
         ajaxOption.url = myQue.url;
+        pars = myQue.configs.pars;
+        if(AXConfig.AXReq.pars){
+            if (typeof pars == "object") {
+                if (typeof AXConfig.AXReq.pars == "object") {
+                    pars = jQuery.extend(pars, AXConfig.AXReq.pars);
+                } else if (typeof AXConfig.AXReq.pars == "string") {
+                    pars = jQuery.extend(pars, AXConfig.AXReq.pars.queryToObject());
+                }
+            }else if (typeof pars == "string") {
+                if (typeof AXConfig.AXReq.pars == "object") {
+                    pars += "&" + jQuery.param(AXConfig.AXReq.pars);
+                } else if (typeof AXConfig.AXReq.pars == "string") {
+                    pars += "&" + AXConfig.AXReq.pars;
+                }
+            }
+        }
 
-        if (dataSendMethod == "json") ajaxOption["data"] = "{queryString:\"" + myQue.configs.pars + "\"}";
-        else ajaxOption["data"] = myQue.configs.pars;
+        if (dataSendMethod == "json") ajaxOption["data"] = "{queryString:\"" + pars + "\"}";
+        else ajaxOption["data"] = pars;
+
+
 
         ajaxOption.success = onsucc;
         ajaxOption.error = onerr;
@@ -5896,7 +5916,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.24
+ * @version v1.25
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5907,6 +5927,7 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
  "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
+ "2014-12-22 tom : filter를 통화한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6382,6 +6403,8 @@ AXContextMenu.open({
 
         var filter = this.filter.bind(this);
         var getSubMenu = this.getSubMenu.bind(this);
+
+        var displayMenuCount = 0;
         var po = [];
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
@@ -6416,9 +6439,15 @@ AXContextMenu.open({
                 if (menu.underLine) {
                     po.push("<div class=\"hline\"></div>");
                 }
+                displayMenuCount++;
             }
         });
         po.push("</div>");
+
+        if(displayMenuCount == 0){
+            // 표시할 메뉴가 없음.
+            return false;
+        }
         axdom(document.body).append(po.join(''));
 
         axdom("#" + objID + " .contextMenuItem:first-child").addClass("first");
@@ -7534,6 +7563,7 @@ obj.modalBody.html("<div style='height:250px;background:#fff;text-align: center;
             width: (modalWidth*0.8),
             height: (modalHeight*0.8)
         };
+        //cssStylesStart.top += jQuery(window).scrollTop();
         this.modalPanel.css(cssStylesStart);
 
         cssStyles.left = left;
@@ -12082,7 +12112,9 @@ var AXGrid = Class.create(AXJ, {
 			if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener("touchstart", contentScrollTouchstart, false);
 		}
 
-		this.target.bind("keydown", this.onKeydown.bind(this));
+		//this.target.bind("keydown", this.onKeydown.bind(this));
+		//keydown 이벤트 방식 변경
+		$(window).bind("keydown.axgrid", this.onKeydown.bind(this));
 
 		if (cfg.contextMenu) {
 			AXContextMenu.bind({
@@ -12142,8 +12174,7 @@ var AXGrid = Class.create(AXJ, {
 				cfg.viewMode = _viewMode;
 			}
 		}
-
-		this.redrawGrid("");
+		this.redrawGrid(true);
 	},
 	gridTargetSetSize: function (react) { /* AXgridScrollBody 안쪽의 높이와 관련된 요소 설정 */
 		var cfg = this.config;
@@ -12501,16 +12532,18 @@ var AXGrid = Class.create(AXJ, {
 	 * @description  Grid 내부에서 감지되는 이벤트에 대한 처리를 합니다.(방향키로 포커스 이동등..)
 	 */
 	onKeydown: function (event) {
-		if (event.keyCode == 67 && event.ctrlKey) {
-			/*this.copyData(); */
-		}
+		if( this.selectedRow.length == 0 ) return;
 		if (this.editorOpend) return;
 
-		//trace("onKeydown" + event.keyCode);
-
+		if (event.keyCode == 67 && event.ctrlKey) {
+			// this.copyData();
+		}
+		else
 		if (event.keyCode == axf.Event.KEY_UP) { /* */
 			this.focusMove(-1, event);
-		} else if (event.keyCode == axf.Event.KEY_DOWN) { /* */
+		}
+		else
+		if (event.keyCode == axf.Event.KEY_DOWN) { /* */
 			this.focusMove(1, event);
 		}
 	},
@@ -12549,7 +12582,7 @@ myGrid.setConfig({
      */
 
 	onContextmenu: function (event) {
-		var cfg = this.config;
+		var cfg = this.config, body = this.body;
 
 		if (this.readyMoved) return false;
 
@@ -12575,23 +12608,42 @@ myGrid.setConfig({
 			var targetID = myTarget.id;
 			var itemIndex = targetID.split(/_AX_/g).last();
 			var ids = targetID.split(/_AX_/g);
-
+			/*
 			if (this.selectedCells.length > 0) {
 				axf.each(this.selectedCells, function () {
 					axdom("#" + this).removeClass("selected");
 				});
 				this.selectedCells.clear();
 			}
-			if (this.selectedRow.length > 0) {
-				var body = this.body;
+			*/
+
+			if(this.selectedRow.length < 2) {
+				if (this.selectedRow.length > 0) {
+					axf.each(this.selectedRow, function () {
+						body.find(".gridBodyTr_" + this).removeClass("selected");
+					});
+				}
+				this.selectedRow.clear();
+				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+				this.selectedRow.push(itemIndex);
+			}
+			else{
+				var hasItem = false;
 				axf.each(this.selectedRow, function () {
-					body.find(".gridBodyTr_" + this).removeClass("selected");
+					if(this == itemIndex){
+						hasItem = true;
+					}
 				});
+				if(!hasItem){
+					axf.each(this.selectedRow, function () {
+						body.find(".gridBodyTr_" + this).removeClass("selected");
+					});
+					this.selectedRow.clear();
+					this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+					this.selectedRow.push(itemIndex);
+				}
 			}
 
-			this.selectedRow.clear();
-			this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-			this.selectedRow.push(itemIndex);
 
 			var item = this.list[itemIndex];
 			AXContextMenu.open({ id: cfg.targetID + "ContextMenu", filter: cfg.contextMenu.filter, sendObj: { item: item, index: itemIndex } }, event);
@@ -13606,6 +13658,7 @@ myGrid.setConfig({
 	 ```
 	 */
 	setList: function (obj, sortDisable, rewrite, exts) {
+
 		var cfg = this.config, _this = this;
 		var nowSortHeadID = this.nowSortHeadID;
 		var nowSortHeadObj = this.nowSortHeadObj;
@@ -15239,7 +15292,7 @@ myGrid.setConfig({
 			this.gridBodyClickAct(event);
 		}
 		else
-		if (cfg.body.ondblclick) {
+		if (cfg.body.ondblclick && !event.shiftKey && !(event.metaKey || event.ctrlKey)) {
 			if (this.needBindDBLClick()) {
 				clearTimeout(this.bodyClickObserver);
 				this.gridBodyClickAct(event);
@@ -15356,41 +15409,82 @@ myGrid.setConfig({
 
 			if (cfg.viewMode == "grid") {
 				if (myTarget) {
-					var targetID = myTarget.id;
-					var itemIndex = targetID.split(/_AX_/g).last();
-					var ids = targetID.split(/_AX_/g);
 
-					// todo : 다중선택 처리
+					var targetID = myTarget.id,
+						itemIndex = targetID.split(/_AX_/g).last(),
+						ids = targetID.split(/_AX_/g),
+						len = this.selectedRow.length, _selectedRow = [], hasItem = false;
+
 					if (event.shiftKey) {
+						if(len > 0){
 
+							var l_itemIndex = this.selectedRow.last().number(), itemIndex = itemIndex.number(), st_index, ed_index;
+							if(l_itemIndex < itemIndex){
+								st_index = l_itemIndex;
+								ed_index = itemIndex;
+							}else{
+								st_index = itemIndex;
+								ed_index = l_itemIndex;
+							}
+
+							for(var k=st_index;k<(ed_index+1);k++) {
+								hasItem = false;
+								for(var i=0;i<len;i++) {
+									if(k == this.selectedRow[i]){
+										hasItem = true;
+										break;
+									}
+								}
+								if(!hasItem){
+									this.body.find(".gridBodyTr_" + k).addClass("selected");
+									this.selectedRow.push(k);
+								}
+							}
+
+						}else{
+							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+							this.selectedRow.push(itemIndex);
+						}
+						this.clearRange();
 					}
 					else if (event.metaKey || event.ctrlKey)
 					{
-						// todo : selectedCells 기능 제거하고 selectedRow 추가하는 옵션으로 기능 변경
-						if (this.selectedRow.length > 0) {
-							var body = this.body;
-							axf.each(this.selectedRow, function () {
-								body.find(".gridBodyTr_" + this).removeClass("selected");
-							});
-							this.selectedRow.clear();
+						for(var i=0;i<len;i++){
+							if(this.selectedRow[i] == itemIndex) {
+								this.body.find(".gridBodyTr_" + itemIndex).removeClass("selected");
+								hasItem = true;
+							} else {
+								_selectedRow.push(this.selectedRow[i]);
+							}
+						}
+						this.selectedRow = _selectedRow;
+
+						if(!hasItem){
+							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+							this.selectedRow.push(itemIndex);
 						}
 
-						var hasID = false;
-						var collect = [];
-						axf.each(this.selectedCells, function () {
-							if (this == targetID) {
-								hasID = true;
+						// 셀 선택 기능 : 비활성처리
+						if(false) {
+							var hasID = false;
+							var collect = [];
+							axf.each(this.selectedCells, function () {
+								if (this == targetID) {
+									hasID = true;
+								} else {
+									collect.push(this);
+								}
+							});
+							if (hasID) {
+								axdom("#" + targetID).removeClass("selected");
+								this.selectedCells = collect;
 							} else {
-								collect.push(this);
+								axdom("#" + targetID).addClass("selected");
+								this.selectedCells.push(targetID);
 							}
-						});
-						if (hasID) {
-							axdom("#" + targetID).removeClass("selected");
-							this.selectedCells = collect;
-						} else {
-							axdom("#" + targetID).addClass("selected");
-							this.selectedCells.push(targetID);
 						}
+
+						this.clearRange();
 					}
 					else
 					{
@@ -15853,7 +15947,7 @@ myGrid.setConfig({
 			}
 		}
 
-		if(touch == undefined) this.bigDataSync();
+		if(typeof touch == "undefined") this.bigDataSync();
 	},
 	/**
 	 * @method AXGrid.getMousePositionToContentScroll
@@ -16609,7 +16703,15 @@ myGrid.setConfig({
 	getSelectedItem: function () {
 		var cfg = this.config;
 		if (this.selectedRow != undefined && this.selectedRow != null && this.selectedRow.length > 0) {
-			return { index: this.selectedRow.first(), item: this.list[this.selectedRow.first()] };
+			if(this.selectedRow.length == 1){
+				return { index: this.selectedRow.first(), item: this.list[this.selectedRow.first()] };
+			}else{
+				var selectedList = [], len = this.selectedRow.length;
+				for(var i=0;i<len;i++){
+					selectedList.push( this.list[i] )
+				}
+				return { index: this.selectedRow, item: selectedList };
+			}
 		} else {
 			return { error: "noselected", description: "선택된 item이 없습니다." };
 		}
@@ -20088,6 +20190,7 @@ var AXInputConverter = Class.create(AXJ, {
 			} else if ((typeof pars).toLowerCase() == "object") {
 				pars[selectorName] = objVal.enc();
 			}
+
 			var msgAlert = this.msgAlert.bind(this);
 			new AXReq(url, {
 				debug: false, pars: pars, onsucc: function (res) {
@@ -24637,6 +24740,17 @@ myModal.open(configs);
 				});
 			});
 		}
+
+		if(AXConfig.AXModal.pars){
+			var appendPars = {};
+			if(Object.isString(AXConfig.AXModal.pars)){
+				appendPars = AXConfig.AXModal.pars.queryToObject();
+			}
+			jQuery.each(appendPars, function (key, val) {
+				po.push("<input type='hidden' name='" + key + "' value='" + val + "' />");
+			});
+		}
+
 		po.push("		</form>");
 		po.push("		<iframe src='' name='" + this.winID + "' id='" + this.winID + "' frameborder='0' class='windowboxFrame' style='width:100%;overflow:-y:hidden;' scrolling='no'></iframe>");
 		po.push("	</div>");
@@ -24752,6 +24866,17 @@ myModal.open(configs);
 				});
 			});
 		}
+
+		if(AXConfig.AXModal.pars){
+			var appendPars = {};
+			if(Object.isString(AXConfig.AXModal.pars)){
+				appendPars = AXConfig.AXModal.pars.queryToObject();
+			}
+			jQuery.each(appendPars, function (key, val) {
+				po.push("<input type='hidden' name='" + key + "' value='" + val + "' />");
+			});
+		}
+
 		po.push("		</form>");
 
 		if (http.maxHeight) {
@@ -26829,7 +26954,7 @@ myProgress.close();
  * AXSearch
  * @class AXSearch
  * @extends AXJ
- * @version v1.23.1
+ * @version v1.24
  * @author tom@axisj.com
  * @logs
  "2013-06-04 오후 2:00:44 - tom@axisj.com",
@@ -26841,6 +26966,7 @@ myProgress.close();
  "2014-10-20 - tom : tagBind event(keydown, keyup, change) 함수 연결기능 추가"
  "2014-10-30 - tom : type:button tag변경"
  "2014-11-11 - root : axdom 독립 우회 코드 변경"
+ "2014-12-23 tom : 메소드 reset 추가"
  *
  * @description
  *
@@ -27470,6 +27596,21 @@ trace(pars);
     	var frm = (this.formbindMethod == "script") ? document[cfg.targetID+"_AX_form"] : this.target;
     	return axdom(frm).serialize();
     },
+	/**
+	 * @method AXSearch.reset
+	 * @returns {AXSearch}
+	 * @description search폼 입력 정보를 리셋합니다.
+	 * @example
+```
+mySearch.reset();
+```
+	 */
+	reset: function(){
+		var cfg = this.config;
+		var frm = (this.formbindMethod == "script") ? document[cfg.targetID+"_AX_form"] : this.target;
+		axdom(frm).get(0).reset();
+		return this;
+	},
 
 /**
  * @method AXSearch.getItemId
@@ -27547,6 +27688,8 @@ mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 �
 			gr++;
 		}
     }
+	//todo : reset 메소드 추가 필요
+
 });
 /* ---------------------------- */
 var AXSelectConverter = Class.create(AXJ, {
@@ -31656,7 +31799,7 @@ myMenu.setTree(Tree);
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.58.1
+ * @version v1.58.2
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -31698,6 +31841,7 @@ myMenu.setTree(Tree);
  "2014-10-23 tom : expandToggleList 버그 픽스"
  "2014-10-29 tom : updateList body.addClass 함수 적용 구문 추가"
  "2015-12-05 tom : gridBodyClickAct 이벤트 버블링 버그 픽스"
+ "2015-12-29 tom : AXTree.pageHeight 옵션 적용"
  *
  * @description
  *
@@ -32499,7 +32643,7 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
-		if (targetInnerHeight == 0) targetInnerHeight = 400;
+		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXTree.pageHeight || 400);
 		this.theme = (cfg.theme) ? cfg.theme : "AXTree"; // 테마기본값 지정
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; // 그리드 높이 지정
 
@@ -39529,7 +39673,7 @@ var AXUserSelect = Class.create(AXJ, {
         this.CT = jQuery("#" + config.containerID);
 
         var po = [];
-        po.push("<div class=\"" + config.className + " readyDrop\" id=\"" + config.containerID + "_UserSelectBox\" style='height:100%;'>");
+        po.push("<div class=\"" + config.className + " readyDrop\" id=\"" + config.containerID + "_AX_UserSelectBox\" style='height:100%;'>");
         po.push("</div>");
         this.CT.html(po.join(''));
 
@@ -39538,7 +39682,7 @@ var AXUserSelect = Class.create(AXJ, {
         var onDrop = this.onDrop.bind(this);
 
         this.myDrag.setConfig({
-            dragStage: config.containerID + "_UserSelectBox",
+            dragStage: config.containerID + "_AX_UserSelectBox",
             dragBoxClassName: "modsDragBox",
             bedragClassName: "bedraged",
             bedropClassName: "bedroped",
@@ -39548,7 +39692,7 @@ var AXUserSelect = Class.create(AXJ, {
             onDrop: onDrop,
             onSort: onSort,
             multiSelector: {
-                selectStage: config.containerID + "_UserSelectBox",
+                selectStage: config.containerID + "_AX_UserSelectBox",
                 selectClassName: "readyDrag",
                 beselectClassName: "beSelected"
             },
@@ -39589,11 +39733,11 @@ myUserBox.push(ds);
                 }
             });
             if (addOk == 1) {
-                po.push("<div class=\"readyDrag\" id=\"" + config.containerID + "userSelectItem_" + this.id + "\">");
+                po.push("<div class=\"readyDrag\" id=\"" + config.containerID + "userSelectItem_AX_" + this.id + "\">");
                 po.push("	<div class=\"userSelectItemBody\">");
-                po.push("	<input type=\"hidden\" name=\"id\" id=\"" + config.containerID + "userSelectItemID_" + this.id + "\" value=\"" + this.id + "\" /> ");
-                po.push("	<input type=\"hidden\" name=\"nm\" id=\"" + config.containerID + "userSelectItemNM_" + this.id + "\" value=\"" + this.nm + "\" /> ");
-                po.push("	<input type=\"hidden\" name=\"desc\" id=\"" + config.containerID + "userSelectItemDESC_" + this.id + "\" value=\"" + this.desc + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"id\" id=\"" + config.containerID + "userSelectItemID_AX_" + this.id + "\" value=\"" + this.id + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"nm\" id=\"" + config.containerID + "userSelectItemNM_AX_" + this.id + "\" value=\"" + this.nm + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"desc\" id=\"" + config.containerID + "userSelectItemDESC_AX_" + this.id + "\" value=\"" + this.desc + "\" /> ");
                 po.push("	" + this.nm.dec() + " ");
                 po.push("	" + this.desc.dec() + " ");
                 //po.push("	<a href=\"#modsExec\" class=\"del\">삭제</a>");
@@ -39603,7 +39747,7 @@ myUserBox.push(ds);
             }
         });
 
-        jQuery("#" + config.containerID + "_UserSelectBox").append(po.join(''));
+        jQuery("#" + config.containerID + "_AX_UserSelectBox").append(po.join(''));
 
 
         this.dragCollect();
@@ -39614,12 +39758,12 @@ myUserBox.push(ds);
         jQuery.each(this.ds, function() {
             var delOK = 0;
             for (var a = 0; a < select.length; a++) {
-                if (select[a].id.split(/\_/g).last() == this.id) {
+                if (select[a].id.split(/_AX_/g).last() == this.id) {
                     delOK = 1;
                 }
             }
             if (delOK == 1) {
-                jQuery("#" + config.containerID + "userSelectItem_" + this.id).remove();
+                jQuery("#" + config.containerID + "userSelectItem_AX_" + this.id).remove();
             } else {
                 myDS.push(this);
             }
@@ -39638,7 +39782,7 @@ myUserBox.push(ds);
                 }
             }
             if (delOK == 1) {
-                axdom("#" + config.containerID + "userSelectItem_" + this.id).remove();
+                axdom("#" + config.containerID + "userSelectItem_AX_" + this.id).remove();
             } else {
                 myDS.push(this);
             }
@@ -39664,7 +39808,7 @@ myUserBox.push(ds);
         var config = this.config;
         var dragCollect = this.dragCollect.bind(this);
         axdom(res.dragItem).fadeOut("fast", function() {
-            jQuery("#" + config.containerID + "_UserSelectBox").append(this); //예외 경우
+            jQuery("#" + config.containerID + "_AX_UserSelectBox").append(this); //예외 경우
             jQuery(this).show("fast");
             dragCollect();
         });
@@ -39691,17 +39835,17 @@ myUserBox.push(ds);
     },
     empty: function() {
         var config = this.config;
-        jQuery("#" + config.containerID + "_UserSelectBox").empty();
+        jQuery("#" + config.containerID + "_AX_UserSelectBox").empty();
         this.ds = [];
         this.dragCollect();
     },
     getDS: function() {
         var config = this.config;
         var myDS = [];
-        jQuery("#" + config.containerID + "_UserSelectBox").find(".readyDrag").each(function() {
-            var id = this.id.split(/\_/g).last();
-            var nm = jQuery("#" + config.containerID + "userSelectItemNM_" + id).val();
-            var desc = jQuery("#" + config.containerID + "userSelectItemDESC_" + id).val();
+        jQuery("#" + config.containerID + "_AX_UserSelectBox").find(".readyDrag").each(function() {
+            var id = this.id.split(/_AX_/g).last();
+            var nm = jQuery("#" + config.containerID + "userSelectItemNM_AX_" + id).val();
+            var desc = jQuery("#" + config.containerID + "userSelectItemDESC_AX_" + id).val();
             myDS.push({id:id, nm:nm, desc:desc});
         });
         return myDS;
@@ -39712,9 +39856,9 @@ myUserBox.push(ds);
 		var sls = this.myDrag.mselector.getSelects();
 		if(sls.length > 0){
 			for(var i=0;i<sls.length;i++){
-				var id = sls[i].id.split(/\_/g).last();
-				var nm = jQuery("#" + config.containerID + "userSelectItemNM_" + id).val();
-				var desc = jQuery("#" + config.containerID + "userSelectItemDESC_" + id).val();
+				var id = sls[i].id.split(/_AX_/g).last();
+				var nm = jQuery("#" + config.containerID + "userSelectItemNM_AX_" + id).val();
+				var desc = jQuery("#" + config.containerID + "userSelectItemDESC_AX_" + id).val();
 				myDS.push({id:id, nm:nm, desc:desc});
 			}
 		}
