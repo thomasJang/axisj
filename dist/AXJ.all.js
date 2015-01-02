@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-01 
+AXJ - v1.0.9 - 2015-01-02 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-01 
+AXJ - v1.0.9 - 2015-01-02 
 */
 
 if(!window.AXConfig){
@@ -183,7 +183,8 @@ if(!window.AXConfig){
  ```
  */
 		AXModal: {
-			contentDivClass: "bodyHeightDiv"
+			contentDivClass: "bodyHeightDiv",
+			pars: ""
 		},
 /**
  * AXInput default config
@@ -12581,7 +12582,7 @@ myGrid.setConfig({
      */
 
 	onContextmenu: function (event) {
-		var cfg = this.config;
+		var cfg = this.config, body = this.body;
 
 		if (this.readyMoved) return false;
 
@@ -12607,23 +12608,42 @@ myGrid.setConfig({
 			var targetID = myTarget.id;
 			var itemIndex = targetID.split(/_AX_/g).last();
 			var ids = targetID.split(/_AX_/g);
-
+			/*
 			if (this.selectedCells.length > 0) {
 				axf.each(this.selectedCells, function () {
 					axdom("#" + this).removeClass("selected");
 				});
 				this.selectedCells.clear();
 			}
-			if (this.selectedRow.length > 0) {
-				var body = this.body;
+			*/
+
+			if(this.selectedRow.length < 2) {
+				if (this.selectedRow.length > 0) {
+					axf.each(this.selectedRow, function () {
+						body.find(".gridBodyTr_" + this).removeClass("selected");
+					});
+				}
+				this.selectedRow.clear();
+				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+				this.selectedRow.push(itemIndex);
+			}
+			else{
+				var hasItem = false;
 				axf.each(this.selectedRow, function () {
-					body.find(".gridBodyTr_" + this).removeClass("selected");
+					if(this == itemIndex){
+						hasItem = true;
+					}
 				});
+				if(!hasItem){
+					axf.each(this.selectedRow, function () {
+						body.find(".gridBodyTr_" + this).removeClass("selected");
+					});
+					this.selectedRow.clear();
+					this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+					this.selectedRow.push(itemIndex);
+				}
 			}
 
-			this.selectedRow.clear();
-			this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-			this.selectedRow.push(itemIndex);
 
 			var item = this.list[itemIndex];
 			AXContextMenu.open({ id: cfg.targetID + "ContextMenu", filter: cfg.contextMenu.filter, sendObj: { item: item, index: itemIndex } }, event);
@@ -15272,7 +15292,7 @@ myGrid.setConfig({
 			this.gridBodyClickAct(event);
 		}
 		else
-		if (cfg.body.ondblclick) {
+		if (cfg.body.ondblclick && !event.shiftKey && !(event.metaKey || event.ctrlKey)) {
 			if (this.needBindDBLClick()) {
 				clearTimeout(this.bodyClickObserver);
 				this.gridBodyClickAct(event);
@@ -15389,41 +15409,82 @@ myGrid.setConfig({
 
 			if (cfg.viewMode == "grid") {
 				if (myTarget) {
-					var targetID = myTarget.id;
-					var itemIndex = targetID.split(/_AX_/g).last();
-					var ids = targetID.split(/_AX_/g);
 
-					// todo : 다중선택 처리
+					var targetID = myTarget.id,
+						itemIndex = targetID.split(/_AX_/g).last(),
+						ids = targetID.split(/_AX_/g),
+						len = this.selectedRow.length, _selectedRow = [], hasItem = false;
+
 					if (event.shiftKey) {
+						if(len > 0){
 
+							var l_itemIndex = this.selectedRow.last().number(), itemIndex = itemIndex.number(), st_index, ed_index;
+							if(l_itemIndex < itemIndex){
+								st_index = l_itemIndex;
+								ed_index = itemIndex;
+							}else{
+								st_index = itemIndex;
+								ed_index = l_itemIndex;
+							}
+
+							for(var k=st_index;k<(ed_index+1);k++) {
+								hasItem = false;
+								for(var i=0;i<len;i++) {
+									if(k == this.selectedRow[i]){
+										hasItem = true;
+										break;
+									}
+								}
+								if(!hasItem){
+									this.body.find(".gridBodyTr_" + k).addClass("selected");
+									this.selectedRow.push(k);
+								}
+							}
+
+						}else{
+							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+							this.selectedRow.push(itemIndex);
+						}
+						this.clearRange();
 					}
 					else if (event.metaKey || event.ctrlKey)
 					{
-						// todo : selectedCells 기능 제거하고 selectedRow 추가하는 옵션으로 기능 변경
-						if (this.selectedRow.length > 0) {
-							var body = this.body;
-							axf.each(this.selectedRow, function () {
-								body.find(".gridBodyTr_" + this).removeClass("selected");
-							});
-							this.selectedRow.clear();
+						for(var i=0;i<len;i++){
+							if(this.selectedRow[i] == itemIndex) {
+								this.body.find(".gridBodyTr_" + itemIndex).removeClass("selected");
+								hasItem = true;
+							} else {
+								_selectedRow.push(this.selectedRow[i]);
+							}
+						}
+						this.selectedRow = _selectedRow;
+
+						if(!hasItem){
+							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+							this.selectedRow.push(itemIndex);
 						}
 
-						var hasID = false;
-						var collect = [];
-						axf.each(this.selectedCells, function () {
-							if (this == targetID) {
-								hasID = true;
+						// 셀 선택 기능 : 비활성처리
+						if(false) {
+							var hasID = false;
+							var collect = [];
+							axf.each(this.selectedCells, function () {
+								if (this == targetID) {
+									hasID = true;
+								} else {
+									collect.push(this);
+								}
+							});
+							if (hasID) {
+								axdom("#" + targetID).removeClass("selected");
+								this.selectedCells = collect;
 							} else {
-								collect.push(this);
+								axdom("#" + targetID).addClass("selected");
+								this.selectedCells.push(targetID);
 							}
-						});
-						if (hasID) {
-							axdom("#" + targetID).removeClass("selected");
-							this.selectedCells = collect;
-						} else {
-							axdom("#" + targetID).addClass("selected");
-							this.selectedCells.push(targetID);
 						}
+
+						this.clearRange();
 					}
 					else
 					{
@@ -16642,7 +16703,15 @@ myGrid.setConfig({
 	getSelectedItem: function () {
 		var cfg = this.config;
 		if (this.selectedRow != undefined && this.selectedRow != null && this.selectedRow.length > 0) {
-			return { index: this.selectedRow.first(), item: this.list[this.selectedRow.first()] };
+			if(this.selectedRow.length == 1){
+				return { index: this.selectedRow.first(), item: this.list[this.selectedRow.first()] };
+			}else{
+				var selectedList = [], len = this.selectedRow.length;
+				for(var i=0;i<len;i++){
+					selectedList.push( this.list[i] )
+				}
+				return { index: this.selectedRow, item: selectedList };
+			}
 		} else {
 			return { error: "noselected", description: "선택된 item이 없습니다." };
 		}
@@ -24671,6 +24740,17 @@ myModal.open(configs);
 				});
 			});
 		}
+
+		if(AXConfig.AXModal.pars){
+			var appendPars = {};
+			if(Object.isString(AXConfig.AXModal.pars)){
+				appendPars = AXConfig.AXModal.pars.queryToObject();
+			}
+			jQuery.each(appendPars, function (key, val) {
+				po.push("<input type='hidden' name='" + key + "' value='" + val + "' />");
+			});
+		}
+
 		po.push("		</form>");
 		po.push("		<iframe src='' name='" + this.winID + "' id='" + this.winID + "' frameborder='0' class='windowboxFrame' style='width:100%;overflow:-y:hidden;' scrolling='no'></iframe>");
 		po.push("	</div>");
@@ -24786,6 +24866,17 @@ myModal.open(configs);
 				});
 			});
 		}
+
+		if(AXConfig.AXModal.pars){
+			var appendPars = {};
+			if(Object.isString(AXConfig.AXModal.pars)){
+				appendPars = AXConfig.AXModal.pars.queryToObject();
+			}
+			jQuery.each(appendPars, function (key, val) {
+				po.push("<input type='hidden' name='" + key + "' value='" + val + "' />");
+			});
+		}
+
 		po.push("		</form>");
 
 		if (http.maxHeight) {

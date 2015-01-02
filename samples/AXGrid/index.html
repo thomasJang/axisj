@@ -133,6 +133,10 @@
                 var obj = myGrid.getExcelFormat(type);
                 trace(obj);
                 $("#printout").html(Object.toJSON(obj));
+            },
+            getSelectedItem: function(){
+                trace( this.target.getSelectedItem() );
+                toast.push('콘솔창에 데이터를 출력하였습니다.');
             }
         }
 	};
@@ -162,6 +166,8 @@
 
                     <input type="button" value="resetHeight : 300px" class="AXButton" onclick="$('#AXGridTarget').css({height:300});myGrid.resetHeight();" />
                     <input type="button" value="resetHeight : 600px" class="AXButton" onclick="$('#AXGridTarget').css({height:600});myGrid.resetHeight();" />
+
+                    <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
                 </div>
             </div>
 

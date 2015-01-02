@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-01 
+AXJ - v1.0.9 - 2015-01-02 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-01 
+AXJ - v1.0.9 - 2015-01-02 
 */
 
 if(!window.AXConfig){
@@ -183,7 +183,8 @@ if(!window.AXConfig){
  ```
  */
 		AXModal: {
-			contentDivClass: "bodyHeightDiv"
+			contentDivClass: "bodyHeightDiv",
+			pars: ""
 		},
 /**
  * AXInput default config
