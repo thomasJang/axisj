@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-02 
+AXJ - v1.0.9 - 2015-01-04 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-02 
+AXJ - v1.0.9 - 2015-01-04 
 */
 
 if(!window.AXConfig){
@@ -15417,7 +15417,6 @@ myGrid.setConfig({
 
 					if (event.shiftKey) {
 						if(len > 0){
-
 							var l_itemIndex = this.selectedRow.last().number(), itemIndex = itemIndex.number(), st_index, ed_index;
 							if(l_itemIndex < itemIndex){
 								st_index = l_itemIndex;
@@ -15440,7 +15439,6 @@ myGrid.setConfig({
 									this.selectedRow.push(k);
 								}
 							}
-
 						}else{
 							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 							this.selectedRow.push(itemIndex);
@@ -38203,7 +38201,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.33
+ * @version v1.33.1
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -38224,6 +38222,7 @@ var swfobject;
  "2014-06-17 tom : [bugfix] file_types undefined"
  "2014-06-26 tom : [bugfix] http error exception when delete runs "
  "2014-12-22 tom : [bugfix] manual 업로드 갯수제한 버그 픽스 "
+ "2015-01-04 tom : thumbUrl 값이 없을 때 썸네일 배경 예외 처리 "
 
  * @description
  *
@@ -39499,16 +39498,16 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtns").show();
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadLabel").show();
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcess").hide();
-		
+
 					if(f[cfg.fileKeys.thumbPath]){
 						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
 							"background-image":"url('"+(f[cfg.fileKeys.thumbPath]||"").dec()+"')"
 						}).addClass("AXUploadPreview");
 					}else{				
-						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
+						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"none"});
 						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((f[cfg.fileKeys.type]||"").dec().replace(".", ""));
 					}
-		
+
 					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
 						onClickDeleteButton(itemID);
 					});
