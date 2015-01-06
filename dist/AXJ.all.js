@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-04 
+AXJ - v1.0.9 - 2015-01-06 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-04 
+AXJ - v1.0.9 - 2015-01-06 
 */
 
 if(!window.AXConfig){
@@ -857,30 +857,36 @@ axf.encParam("name=장기영&sex=남");
 		if (_target) {
 			while ((function(){
 				var result = true;
-				for(var k in cond){
-					if(k === "tagname"){
-						if(_target.tagName.lcase() != cond[k]) {
-							result = false;
-							break;
-						}
-					}
-					else
-					if(k === "clazz"){
-						var klasss = _target.className.split(/ /g);
-						var hasClass = false;
-						for(var a=0;a<klasss.length;a++){
-							if(klasss[a] == cond[k]){
-								hasClass = true;
+				if(Object.isFunction(cond)){
+					result = cond(_target);
+				}
+				else
+				if(Object.isObject(cond)){
+					for(var k in cond){
+						if(k === "tagname"){
+							if(_target.tagName.lcase() != cond[k]) {
+								result = false;
 								break;
 							}
 						}
-						result = hasClass;
-					}
-					else
-					{ // 그외 속성값들.
-						if(_target.getAttribute(k) != cond[k]) {
-							result = false;
-							break;
+						else
+						if(k === "clazz"){
+							var klasss = _target.className.split(/ /g);
+							var hasClass = false;
+							for(var a=0;a<klasss.length;a++){
+								if(klasss[a] == cond[k]){
+									hasClass = true;
+									break;
+								}
+							}
+							result = hasClass;
+						}
+						else
+						{ // 그외 속성값들.
+							if(_target.getAttribute(k) != cond[k]) {
+								result = false;
+								break;
+							}
 						}
 					}
 				}
@@ -3042,7 +3048,7 @@ var AXReqQue = Class.create({
         });
         ajaxOption.url = myQue.url;
         pars = myQue.configs.pars;
-        if(AXConfig.AXReq.pars){
+        if(dataSendMethod != "DTO" && AXConfig.AXReq.pars){
             if (typeof pars == "object") {
                 if (typeof AXConfig.AXReq.pars == "object") {
                     pars = jQuery.extend(pars, AXConfig.AXReq.pars);
@@ -11933,8 +11939,8 @@ var AXGrid = Class.create(AXJ, {
 	 * @param {Object} config - gridConfig
 	 * @description 선언된 클래스를 사용하기 위해 속성을 정의합니다.
 	 * @example
-	 ```
-	 myGrid.setConfig({
+ ```
+ myGrid.setConfig({
 	targetID : "AXGridTarget",
 	colHeadAlign: "center", // 헤드의 기본 정렬 값
 	mergeCells: true|false|Array -- 전체셀병합,병합안함,지정된 인덱스열만 병합
@@ -11950,14 +11956,14 @@ var AXGrid = Class.create(AXJ, {
 	}
 });
 
-	 // grid config description
-	 var gridConfig = {
+ // grid config description
+ var gridConfig = {
 	targetID: {String} elementTargetID,
 	theme: [String=AXGrid] - CSS Class 이름,
 	fixedColSeq: [Number=0],
 	fitToWidth: [Boolean=false]
 };
-	 ```
+ ```
 	 */
 	init: function () {
 		var cfg = this.config, _this = this;
@@ -12277,10 +12283,10 @@ var AXGrid = Class.create(AXJ, {
 	 * @description ColGroup을 구성 합니다.
 	 * @returns {String} ColGroup html
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.getColGroup("CB");
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.getColGroup("CB");
+ ```
 	 */
 	getColGroup: function (suffix) {
 		var cfg = this.config;
@@ -12315,10 +12321,10 @@ var AXGrid = Class.create(AXJ, {
 	 * @description 대상의 colHead 내부 seq 가져옵니다.
 	 * @returns {Number} colSeq
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 var colSeq = myGrid.getColSeqToHead(colHeadR, colHeadC);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ var colSeq = myGrid.getColSeqToHead(colHeadR, colHeadC);
+ ```
 	 */
 	getColSeqToHead: function (r, c) {
 		/*trace("getColSeqToHead:"+r+","+c); */
@@ -12337,10 +12343,10 @@ var AXGrid = Class.create(AXJ, {
 	 * @param changeGridView {string}
 	 * @description 그리드의 모든 요소를 재 정렬 해 줍니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.redrawGrid();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.redrawGrid();
+ ```
 	 */
 	redrawGrid: function (changeGridView) {
 		var cfg = this.config, _this = this;
@@ -12385,11 +12391,11 @@ var AXGrid = Class.create(AXJ, {
 	 * @param {Number} itemIndex - 대상 열(미 지정시 전체)
 	 * @description colgroup내 해당 index의 checked 속성을 변경해 줍니다.해당 index의 아이템이 checkbox로 지정되어 있어야 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.checkedColSeq(0, true); // 모든 체크박스 속성을 checked로
-	 myGrid.checkedColSeq(0, true,0); // 첫번째 열의 체크박스속성을 checked로
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.checkedColSeq(0, true); // 모든 체크박스 속성을 checked로
+ myGrid.checkedColSeq(0, true,0); // 첫번째 열의 체크박스속성을 checked로
+ ```
 	 */
 	checkedColSeq: function (colSeq, checked, itemIndex) {
 		var cfg = this.config, sendObj;
@@ -12481,10 +12487,10 @@ var AXGrid = Class.create(AXJ, {
 	 * @description  Grid list 내의 checked 된 아이템을 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
 	 * @returns {Array} JSObject - 그리드 리스트의 체크된 인덱스 아이템
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.getCheckedList(0);
-	 ```
+```
+var myGrid = new AXGrid();
+myGrid.getCheckedList(0);
+```
 	 */
 	getCheckedList: function (colSeq) {
 		var cfg = this.config;
@@ -12507,10 +12513,10 @@ var AXGrid = Class.create(AXJ, {
 	 * @description  Grid list 내의 checked 된 아이템,index를 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
 	 * @returns {Array} [{index:Number, item:JSObject}] -그리드 리스트의 체크된 인덱스 , 아이템
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.getCheckedListWithIndex(0);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.getCheckedListWithIndex(0);
+ ```
 	 */
 	getCheckedListWithIndex: function (colSeq) {
 		var cfg = this.config;
@@ -12553,10 +12559,8 @@ var AXGrid = Class.create(AXJ, {
 	 * @description  setConfig에서 설정된 contextMenu에 대한 처리를 합니다.
 	 * @returns {AXContextMenu}
 	 * @example // 마우스 오른쪽 버튼 클릭시 메뉴를 호출 합니다.(추가,삭제,수정)
-	 ```
-	 var myGrid = new AXGrid();
-	 var fnObj = {
-pageStart: function(){
+ ```
+var myGrid = new AXGrid();
 myGrid.setConfig({
     targetID : "AXGridTarget",
     theme : "AXGrid",
@@ -12575,7 +12579,7 @@ myGrid.setConfig({
 					myGrid.appendList(null);
 				}
 			}
-		] 
+		]
 	}
 });
 ```
@@ -12690,25 +12694,25 @@ myGrid.setConfig({
 	 * @description  Grid head를 위한 html을 생성합니다.
 	 * @returns {String}
 	 * @example
-	 ```
-	 // arg
-	 {
-		valign: " valign=\"bottom\"",    - td valign option string
-		rowspan: " rowspan=\"2\"",  - rowspan option string
-		colspan: " colspan=\"2\"",  - colspan option string
-		bottomClass: "",  - border-bottom 관련 후처리
-		r: 0, - colhead row index
-		CHidx: 0, -colhead cell index
-		align: "right", - align option string
-		colSeq: 0, - config 에서 지정된 colGroup 내 순서
-		formatter: "checkbox", - html 표시중 checkbox 등 특정 요소 렌더링
-		formatterLabel: "" - checkbox 등 특정 요소를 감쌀 label 태그 내부 출력 내용,
-		sort: "desc", -정렬옵션
-		tdHtml: "blah", - config colGroup 의 label 로 지정된 string
-		ghost: false,  - true 시 비어있는 dummy cell 이 생성됨.
-		displayLabel: false - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
-	}
-	 ```
+ ```
+ // arg
+ {
+	valign: " valign=\"bottom\"",    - td valign option string
+	rowspan: " rowspan=\"2\"",  - rowspan option string
+	colspan: " colspan=\"2\"",  - colspan option string
+	bottomClass: "",  - border-bottom 관련 후처리
+	r: 0, - colhead row index
+	CHidx: 0, -colhead cell index
+	align: "right", - align option string
+	colSeq: 0, - config 에서 지정된 colGroup 내 순서
+	formatter: "checkbox", - html 표시중 checkbox 등 특정 요소 렌더링
+	formatterLabel: "" - checkbox 등 특정 요소를 감쌀 label 태그 내부 출력 내용,
+	sort: "desc", -정렬옵션
+	tdHtml: "blah", - config colGroup 의 label 로 지정된 string
+	ghost: false,  - true 시 비어있는 dummy cell 이 생성됨.
+	displayLabel: false - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
+}
+ ```
 	 */
 	getColHeadTd: function (arg) {
 		var cfg = this.config;
@@ -13212,7 +13216,7 @@ myGrid.setConfig({
 			return;
 		}
 
-		if (myColHead.sort == false) {
+		if (cfg.sort == false || myColHead.sort == false) {
 			return;
 		}
 
@@ -13402,13 +13406,13 @@ myGrid.setConfig({
 	 * @description  그리드의 리스트를 정렬 합니다.
 	 * @returns {Object}  - Grid list
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 // Array
-	 myGrid.setList({Array});
-	 ...
-	 myGrid.sortList("desc",myGrid.cfg.colHead.rows[0][0],myGrid.list);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ // Array
+ myGrid.setList({Array});
+ ...
+ myGrid.sortList("desc",myGrid.cfg.colHead.rows[0][0],myGrid.list);
+ ```
 	 */
 	sortList: function (nsort, myColHead, list) {
 		var cfg = this.config;
@@ -13635,12 +13639,12 @@ myGrid.setConfig({
 	 * @param exts
 	 * @description 그리드에 데이터를 선언하거나 AJAX url 속성을 정의합니다.
 	 * @example
-	 ```
-	 // Array
-	 myGrid.setList({Array});
+ ```
+ // Array
+ myGrid.setList({Array});
 
-	 // AJAX url 속성
-	 myGrid.setList({
+ // AJAX url 속성
+ myGrid.setList({
 	//method :
 	//contentType :
 	//responseType :
@@ -13655,10 +13659,9 @@ myGrid.setConfig({
 	
 	}
 });
-	 ```
+```
 	 */
 	setList: function (obj, sortDisable, rewrite, exts) {
-
 		var cfg = this.config, _this = this;
 		var nowSortHeadID = this.nowSortHeadID;
 		var nowSortHeadObj = this.nowSortHeadObj;
@@ -13747,13 +13750,13 @@ myGrid.setConfig({
 	 * @method AXGrid.reloadList
 	 * @description 그리드리스트를 새로 고침 합니다.(ajax를 통할 경우 다시 가져 옵니다).
 	 * @example
-	 ```
-	 myGrid.setList({
-	ajaxUrl:"loadGrid.php", 
+```
+ myGrid.setList({
+	ajaxUrl:"loadGrid.php",
 	ajaxPars:"param1=1&param2=2"
-});
-	 myGrid.reloadList();
-	 ```
+ });
+ myGrid.reloadList();
+```
 	 */
 	reloadList: function () {
 		var cfg = this.config;
@@ -13858,8 +13861,8 @@ myGrid.setConfig({
 	 * @param gridData {JSObject} object of grid
 	 * @description <ko>그리드 데이터를 페이지까지 포함하여 정의해 줍니다. (ajax를 사용하지 않는 방법)</ko>
 	 * @example
-	 ```
-	 var gridData = {
+```
+var gridData = {
 	list: _obj.document_list,
 	page:{
 		pageNo: _obj.page_navigation.cur_page,
@@ -13872,8 +13875,8 @@ myGrid.setConfig({
 		}
 	}
 };
-	 myGrid.setData(gridData);
-	 ```
+myGrid.setData(gridData);
+```
 	 */
 	setData: function (res) {
 		var cfg = this.config;
@@ -14188,15 +14191,15 @@ myGrid.setConfig({
 	 * @returns {String}
 	 * @description config 의 viewMode가 icon 일때의 리스트를 구성 합니다.
 	 * @example
-	 ```
-	 cssObj = {
+```
+cssObj = {
 	box: "width: ,height:",   - 기타 사용자 지정 스타일 추가 가능
 	img:  "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	label: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	description: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	buttons: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 };
-	 ```
+```
 	 */
 	getIconItem: function (itemIndex, item, viewIconObj, cssObj) {
 		var cfg = this.config;
@@ -14866,16 +14869,16 @@ myGrid.setConfig({
 	 * @returns {AXGrid}
 	 * @description body(list) 구성시 marker row 가 존재할경우 처리 합니다.
 	 * @example
-	 ```
-	 var item = {
+```
+ var item = {
 	a: "a",
 	b: "b",
 	c: "c",
 	d: "d",
 	e: 14350
-};
-	 myGrid.updateList(0,item);
-	 ```
+ };
+ myGrid.updateList(0,item);
+```
 	 */
 	updateList: function (itemIndex, item) {
 		var cfg = this.config;
@@ -14929,11 +14932,11 @@ myGrid.setConfig({
 	 * @returns {AXGrid}
 	 * @description 그리드에 데이터를 삽입합니다. <en>push to Grid.list</en>
 	 * @example
-	 ```
-	 myGrid.pushList([item Array]);
-	 myGrid.pushList([item Array], 1);
-	 myGrid.pushList([item]);
-	 ```
+ ```
+ myGrid.pushList([item Array]);
+ myGrid.pushList([item Array], 1);
+ myGrid.pushList([item]);
+ ```
 	 */
 	pushList: function (pushItem, insertIndex) {
 		var cfg = this.config;
@@ -15006,14 +15009,14 @@ myGrid.setConfig({
 	 * @returns {AXGrid}
 	 * @description grid의 리스트에 아이템을 추가 합니다.(배열)
 	 * @example
-	 ```
-	 var list = [
+ ```
+ var list = [
 	 {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
 	 {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
 	 {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5}
-	 ];
-	 myGrid.fetchList(list);
-	 ```
+ ];
+ myGrid.fetchList(list);
+ ```
 	 */
 	fetchList: function(list){
 		var cfg = this.config, VS = this.virtualScroll;
@@ -15035,14 +15038,14 @@ myGrid.setConfig({
 	 * @returns {AXGrid}
 	 * @description removeList의 전달된 키값 과 일치하는 대상을 삭제 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
 	 * @example
-	 ```
-	 var checkedList = myGrid.getCheckedList(0);// colSeq
-	 var removeList = [];
-	 $.each(checkedList, function(){
+```
+ var checkedList = myGrid.getCheckedList(0);// colSeq
+ var removeList = [];
+ $.each(checkedList, function(){
 	removeList.push({no:this.no});
  });
-	 myGrid.removeList(removeList);
-	 ```
+ myGrid.removeList(removeList);
+```
 	 */
 	removeList: function (removeList) {
 		var cfg = this.config;
@@ -15107,10 +15110,10 @@ myGrid.setConfig({
 	 * @returns {AXGrid}
 	 * @description removeList의 index에 해당하는 항목을 제거 합니다..
 	 * @example
-	 ```
-	 var removeList = [{index:0},{index:1},{index:2}];
-	 myGrid.removeListIndex(removeList);
-	 ```
+```
+var removeList = [{index:0},{index:1},{index:2}];
+myGrid.removeListIndex(removeList);
+```
 	 */
 	removeListIndex: function (removeList) {
 		var cfg = this.config;
@@ -15179,16 +15182,16 @@ myGrid.setConfig({
 	 * @returns {AXGrid}
 	 * @description restoreList 전달된 키값 과 일치하는 대상의 삭제 표시를 제거 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.(passive)
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setConfig({passiveMode:true});
-	 var checkedList = myGrid.getCheckedList(0);// colSeq
-	 var removeList = [];
-	 $.each(checkedList, function(){
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setConfig({passiveMode:true});
+ var checkedList = myGrid.getCheckedList(0);// colSeq
+ var removeList = [];
+ $.each(checkedList, function(){
 	removeList.push({no:this.no});
  });
-	 myGrid.restoreList(removeList);
-	 ```
+ myGrid.restoreList(removeList);
+ ```
 	 */
 	restoreList: function (restoreList) {
 		var cfg = this.config;
@@ -15352,7 +15355,8 @@ myGrid.setConfig({
 			}
 		}
 
-		if (isoncheck) { /*체크박스 구현 */
+		if (isoncheck)
+		{ /*체크박스 구현 */
 			var targetID = event.target.id;
 			var itemIndex = targetID.split(/_AX_/g).last();
 			var ids = targetID.split(/_AX_/g);
@@ -15393,7 +15397,7 @@ myGrid.setConfig({
 		}
 		else
 		{
-
+			/*
 			var myTarget = this.getEventTarget({
 				evt: eventTarget, evtIDs: eid,
 				until: function (evt, evtIDs) {
@@ -15405,15 +15409,25 @@ myGrid.setConfig({
 					return ((edom.hasClass("bodyTd") || edom.hasClass("bodyViewIcon") || edom.hasClass("bodyViewMobile")) && !edom.hasClass("buttonGroupItem"));
 				}
 			});
+			*/
+			// 새로운 이벤트 타켓 캡춰 테스트
+			var myTarget = axf.get_event_target(eventTarget, function(el){
+				var edom = axdom(el);
+				return (!edom.hasClass("buttonGroupItem") && (edom.hasClass("bodyTd") || edom.hasClass("bodyViewIcon") || edom.hasClass("bodyViewMobile")));
+			});
+
 			/* event target search ------------------------ */
 
 			if (cfg.viewMode == "grid") {
 				if (myTarget) {
 
-					var targetID = myTarget.id,
+					var body = this.body,
+						targetID = myTarget.id,
 						itemIndex = targetID.split(/_AX_/g).last(),
 						ids = targetID.split(/_AX_/g),
-						len = this.selectedRow.length, _selectedRow = [], hasItem = false;
+						len = this.selectedRow.length, _selectedRow = [], hasItem = false,
+						r = ids[ids.length - 3], c = ids[ids.length - 2], CG = cfg.colGroup[c],
+						i = 0;
 
 					if (event.shiftKey) {
 						if(len > 0){
@@ -15428,7 +15442,7 @@ myGrid.setConfig({
 
 							for(var k=st_index;k<(ed_index+1);k++) {
 								hasItem = false;
-								for(var i=0;i<len;i++) {
+								for(;i<len;i++) {
 									if(k == this.selectedRow[i]){
 										hasItem = true;
 										break;
@@ -15447,7 +15461,7 @@ myGrid.setConfig({
 					}
 					else if (event.metaKey || event.ctrlKey)
 					{
-						for(var i=0;i<len;i++){
+						for(;i<len;i++){
 							if(this.selectedRow[i] == itemIndex) {
 								this.body.find(".gridBodyTr_" + itemIndex).removeClass("selected");
 								hasItem = true;
@@ -15486,19 +15500,36 @@ myGrid.setConfig({
 					}
 					else
 					{
+
+						/*
 						if (this.selectedCells.length > 0) {
 							axf.each(this.selectedCells, function () {
 								axdom("#" + this).removeClass("selected");
 							});
 							this.selectedCells.clear();
 						}
+						*/
 						if (this.selectedRow.length > 0) {
-							var body = this.body;
-							axf.each(this.selectedRow, function () {
-								body.find(".gridBodyTr_" + this).removeClass("selected");
-							});
-						}
+							// colGroup 에 editable이 있는지 파악
 
+							if(CG.editable){
+								for(;i<len;i++){
+									if(this.selectedRow[i] == itemIndex){
+										hasItem = true;
+										break;
+									}
+								}
+								if(hasItem){ // inline 에디트가 발생할 수 있는 상황
+									this.editCell(r, c, itemIndex);
+								}
+							}
+
+							if(!hasItem){
+								for(i=0;i<len;i++){
+									body.find(".gridBodyTr_" + this.selectedRow[i]).removeClass("selected");
+								}
+							}
+						}
 						this.selectedRow.clear();
 						this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 						this.selectedRow.push(itemIndex);
@@ -15506,8 +15537,7 @@ myGrid.setConfig({
 						var item = this.list[itemIndex];
 
 						if (cfg.body.onclick) {
-							var r = ids[ids.length - 3];
-							var c = ids[ids.length - 2];
+
 							var sendObj = {
 								index: itemIndex,
 								r: r,
@@ -15738,15 +15768,40 @@ myGrid.setConfig({
 		this.stopEvent(event);
 		this.clearRange();
 	},
+/**
+ * 그리드 셀 인라인 에디트
+ * @method AXGrid.editCell
+ * @param {Number} r - index of body.rows
+ * @param {Number} c - index of colGroup
+ * @param {Number} itemIndex - index of this.list
+ * @returns {AXGrid}
+ * @example
+```js
+
+```
+ */
+	editCell: function(r, c, ii){
+		var cfg = this.config,
+			CG = cfg.colGroup[c];
+
+		var td = this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + c + "_AX_" + ii);
+
+		console.log(td.html());
+		//trace(cfg.colGroup[c]);
+		//grid-target_AX_bodyText_AX_0_AX_2_AX_1
+
+
+		return this;
+	},
 	/**
 	 * @method AXGrid.contentScrollResize
 	 * @param resetLeft {Boolean} - false 시 가로 스크롤은 초기화 하지 않습니다.
 	 * @description  Grid의 화면에 맞게 스크롤을 생성 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.contentScrollResize(false);
-	 ```
+```
+var myGrid = new AXGrid();
+myGrid.contentScrollResize(false);
+```
 	 */
 	contentScrollResize: function (resetLeft) {
 		var cfg = this.config, _this = this;
@@ -15839,10 +15894,10 @@ myGrid.setConfig({
 	 * @param pos {Object} - top, left.
 	 * @description  top, left에 맞게 스크롤을 이동 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.contentScrollScrollSync({left: myGrid.scrollXHandle.position().left});
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.contentScrollScrollSync({left: myGrid.scrollXHandle.position().left});
+ ```
 	 */
 	contentScrollScrollSync: function (pos) {
 		var cfg = this.config;
@@ -15895,10 +15950,10 @@ myGrid.setConfig({
 	 * @param touch {String} - "touch"
 	 * @description  top, left에 맞게 그리드 내용을 이동 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.contentScrollContentSync({top: 0}, "touch");
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.contentScrollContentSync({top: 0}, "touch");
+ ```
 	 */
 	contentScrollContentSync: function (pos, touch) {
 
@@ -15946,6 +16001,7 @@ myGrid.setConfig({
 		}
 
 		if(typeof touch == "undefined") this.bigDataSync();
+		if(touch == "direct")  this.bigDataSyncApply();
 	},
 	/**
 	 * @method AXGrid.getMousePositionToContentScroll
@@ -16385,11 +16441,11 @@ myGrid.setConfig({
 	 * @description - 그리드 데이터를 조작후 그리드에 현재 위치된 아이템을 다시 생성합니다.
 	 * @returns {AXGrid}
 	 * @example
-	 ```
-	 myGrid.list[0].id = 12;
-	 myGrid.dataSync();
+ ```
+ myGrid.list[0].id = 12;
+ myGrid.dataSync();
 
-	 ```
+ ```
 	 */
 	dataSync: function(){
 		this.bigDataSync(true);
@@ -16503,10 +16559,10 @@ myGrid.setConfig({
 	 * @param itemIndex {Number} - 스크롤될 아이템 인덱스
 	 * @description - itemIndex에 스크롤을 이동시킵니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.scrollTop(0);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.scrollTop(0);
+ ```
 	 */
 	scrollTop: function (itemIndex) {
 		var cfg = this.config;
@@ -16544,10 +16600,10 @@ myGrid.setConfig({
 	 * @param itemIndex {Number} - 선택될 아이템 인덱스
 	 * @description - itemIndex에 해당하는 열을 선택 합니다..
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setFocus(0);
-	 ```
+```
+var myGrid = new AXGrid();
+myGrid.setFocus(0);
+```
 	 */
 	setFocus: function (itemIndex) {
 		var cfg = this.config, _this = this;
@@ -16617,9 +16673,7 @@ myGrid.setConfig({
 						scrollTop = 0;
 					}
 					this.scrollContent.css({ top: scrollTop });
-					this.contentScrollContentSync({ top: scrollTop }, "manual");
-
-					this.bigDataSyncApply();
+					this.contentScrollContentSync({ top: scrollTop }, "direct");
 
 					setTimeout(function () {
 						if (_this.body.find(".gridBodyTr_" + itemIndex).get(0)) {
@@ -16629,16 +16683,16 @@ myGrid.setConfig({
 							if (trTop.number() + trHeight.number() > bodyHeight) {
 								scrollTop = bodyHeight - (trTop.number() + trHeight.number());
 								_this.scrollContent.css({ top: scrollTop });
-								_this.contentScrollContentSync({ top: scrollTop });
+								_this.contentScrollContentSync({ top: scrollTop }, "direct");
 							} else {
 								if (trTop.number() == 0) {
 									scrollTop = 0;
 									_this.scrollContent.css({ top: scrollTop });
-									_this.contentScrollContentSync({ top: scrollTop });
+									_this.contentScrollContentSync({ top: scrollTop }, "direct");
 								}
 							}
 						}
-					}, 300);
+					});
 
 				} else {
 					//trace("out of index");
@@ -16693,10 +16747,10 @@ myGrid.setConfig({
 	 * @description - 선택된 행의 index, item 을 가져 옵니다.선택된 행이 없으면 에러 객체를 전달 합니다.
 	 * @returns {Object} - {index,item} , exception no item selected {error,description}
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.getSelectedItem();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.getSelectedItem();
+ ```
 	 */
 	getSelectedItem: function () {
 		var cfg = this.config;
@@ -16719,10 +16773,10 @@ myGrid.setConfig({
 	 * @param itemIndex {Number} - 선택될 그리드 아이템 인덱스
 	 * @description - 인덱스에 해당하는 행을 클릭 한 효과를 발생 시킵니다.config 에 body항목의 onclick 지정함수가 있다면 호출 됩니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.click(0);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.click(0);
+ ```
 	 */
 	click: function (itemIndex) {
 		var cfg = this.config;
@@ -17037,11 +17091,11 @@ myGrid.setConfig({
 	 * @param {Object} obj - ({key:value})
 	 * @description - head, foot 속성을 정의한 경우 head, foot 에 값을 표시합니다. 비어있는 객체를 전달할 경우 formatter 연결된 함수에 의해 값이 계산됩니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setDataSet({price:123000, amount:10});
-	 myGrid.setDataSet({});
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setDataSet({price:123000, amount:10});
+ myGrid.setDataSet({});
+ ```
 	 */
 	setDataSet: function (obj) {
 		var cfg = this.config;
@@ -17060,11 +17114,11 @@ myGrid.setConfig({
 	 * @method AXGrid.redrawDataSet
 	 * @description - setDataSet애 의해 dataSet 객체가 변경된 경우 header나 footer를 다시 렌더링 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setDataSet({price:123000, amount:10});
-	 myGrid.redrawDataSet();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setDataSet({price:123000, amount:10});
+ myGrid.redrawDataSet();
+ ```
 	 */
 	redrawDataSet: function () {
 		var cfg = this.config;
@@ -17077,11 +17131,11 @@ myGrid.setConfig({
 	 * @method AXGrid.printHead
 	 * @description - grid의 header를 구성합니다 . (getDataSet)
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setDataSet({price:123000, amount:10});
-	 myGrid.printHead();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setDataSet({price:123000, amount:10});
+ myGrid.printHead();
+ ```
 	 */
 	printHead: function () {
 		var cfg = this.config;
@@ -17099,11 +17153,11 @@ myGrid.setConfig({
 	 * @method AXGrid.printFoot
 	 * @description - grid의 footer를 구성합니다 . (getDataSet)
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setDataSet({price:123000, amount:10});
-	 myGrid.printFoot();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setDataSet({price:123000, amount:10});
+ myGrid.printFoot();
+ ```
 	 */
 	printFoot: function () {
 		var cfg = this.config;
@@ -17348,11 +17402,11 @@ myGrid.setConfig({
 	 * @param {Number} insertIndex - 에디터가 삽입될 위치 인덱스
 	 * @description - 해당하는 인덱스에 에디터를 활성화 합니다.config 내에 editor 관련 항목이 없다면 작동하지 않습니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setEditor({}, 1);
-	 myGrid.setEditor(null, null, 1);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setEditor({}, 1);
+ myGrid.setEditor(null, null, 1);
+ ```
 	 */
 	setEditor: function (item, itemIndex, insertIndex) {
 		var cfg = this.config, _this = this, itemTrHeight;
@@ -17672,20 +17726,20 @@ myGrid.setConfig({
 	 * @param {Object} obj - 삽입될 아이템 데이터
 	 * @description - 활성화된 에디터에 특정 값을 전달 합니다.
 	 * @example
-	 ```
-	 var obj = {
+ ```
+ var obj = {
 	key : , colgroup 컬럼 key
 	position :, 적용될 대상의 배열 순서 [0,0]
 	value : , 넘겨줄 값 {String}
 }
 
-	 var myGrid = new AXGrid();
-	 myGrid.setEditorForm({
+ var myGrid = new AXGrid();
+ myGrid.setEditorForm({
 	key:"title",
 	position:[0,2],
 	value:"가나다라"
 });
-	 ```
+```
 	 */
 	setEditorForm: function (obj) {
 		var cfg = this.config;
@@ -17698,10 +17752,10 @@ myGrid.setConfig({
 	 * @param {String} key - colgroup 컬럼 key
 	 * @description - 활성화된 에디터의 특정 key 값과 매칭되는 요소를 활성화 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.focusEditorForm("regDate");
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.focusEditorForm("regDate");
+ ```
 	 */
 	focusEditorForm: function (key) { /* editor 활성화 된 폼의 특정 요소에 포커스 주기 */
 		var cfg = this.config;
@@ -17716,10 +17770,10 @@ myGrid.setConfig({
 	 * @method AXGrid.saveEditor
 	 * @description - 에디터의 내용을 저장하고 리스트에 반영 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.saveEditor();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.saveEditor();
+ ```
 	 */
 	saveEditor: function () {
 		var cfg = this.config;
@@ -17950,10 +18004,10 @@ myGrid.setConfig({
 	 * @method AXGrid.cancelEditor
 	 * @description - 활성화된 에디터를 해제 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.cancelEditor();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.cancelEditor();
+ ```
 	 */
 	cancelEditor: function () {
 		this.editor.hide();
@@ -17964,10 +18018,10 @@ myGrid.setConfig({
 	 * @method AXGrid.unbindAXbind
 	 * @description - 에디터내부 요소에 부여된 특성을 해제 합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.unbindAXbind();
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.unbindAXbind();
+ ```
 	 */
 	unbindAXbind: function () {
 		var cfg = this.config;
@@ -18016,12 +18070,12 @@ myGrid.setConfig({
 	 * @param {Number} insertIndex - 삽입 대상 index
 	 * @description - 그리드에 신규 데이터를 삽입하기 위해 삽입용 에디터를 활성화 하여 줍니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 var item = {};
-	 myGrid.appendList(item);
-	 myGrid.appendList(item, 3);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ var item = {};
+ myGrid.appendList(item);
+ myGrid.appendList(item, 3);
+ ```
 	 */
 	appendList: function (item, insertIndex) {
 		if(insertIndex <= this.list.length) insertIndex = this.list.length-1;
@@ -18197,10 +18251,10 @@ myGrid.setConfig({
 	 * @param pageAdd {Number} - 이동할 페이지 증/감(-) 수
 	 * @description - pageAdd 만큼 페이지를 이동합니다.
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.goPageMove(-1);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.goPageMove(-1);
+ ```
 	 */
 	goPageMove: function (pageAdd) {
 		var cfg = this.config;
@@ -18270,10 +18324,10 @@ myGrid.setConfig({
 	 * @description - 그리드 리스트 아이템 갯수(length)를 표시 합니다.
 	 * @returns {String}
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.setStatus(myGrid.list.length);
-	 ```
+ ```
+ var myGrid = new AXGrid();
+ myGrid.setStatus(myGrid.list.length);
+ ```
 	 */
 	setStatus: function (listLength) {
 		var cfg = this.config, listCount;
@@ -18294,16 +18348,16 @@ myGrid.setConfig({
 	 * @description - 정렬옵션을 반환 합니다.
 	 * @returns {String|Object}
 	 * @example
-	 ```
-	 var myGrid = new AXGrid();
-	 myGrid.getSortParam();
+ ```
+ var myGrid = new AXGrid();
+ myGrid.getSortParam();
 
-	 // return value
-	 {
-		sortKey:"" , -  정렬 기준 key
-		sortWay:""   -  정렬 방법 "asc" or "desc"
-	}
-	 ```
+ // return value
+ {
+	sortKey:"" , -  정렬 기준 key
+	sortWay:""   -  정렬 방법 "asc" or "desc"
+}
+ ```
 	 */
 	getSortParam: function (ty) {
 		var cfg = this.config;
@@ -18324,8 +18378,8 @@ myGrid.setConfig({
 	 * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 컬럼 해더를 생성 합니다.
 	 * @returns {String}
 	 * @example
-	 ```
-	 var arg = {
+ ```
+ var arg = {
 	valign,  - valign 옵션
 	rowspan, - rowspan 옵션
 	colspan, - colspan 옵션
@@ -18336,7 +18390,7 @@ myGrid.setConfig({
 	tdHtml, - config colgroup 지정된 label
 	displayLabel - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
 }
-	 ```
+ ```
 	 */
 	getExcelColHeadTd: function (arg) {
 		var cfg = this.config;
@@ -18558,10 +18612,10 @@ myGrid.setConfig({
 	 * @description -  format에 맞춰 그리드의 내용을 엑셀 포맷으로 변환 합니다.
 	 * @returns {String|Object}
 	 * @example
-	 ```
-	 var txt = myGrid.getExcelFormat("html");
-	 var json = myGrid.getExcelFormat("json");
-	 ```
+ ```
+ var txt = myGrid.getExcelFormat("html");
+ var json = myGrid.getExcelFormat("json");
+ ```
 	 */
 	getExcelFormat: function (format) {
 		var cfg = this.config;
@@ -18638,11 +18692,11 @@ myGrid.setConfig({
 	 * @param {JSONObject} obj
 	 * @description - 그리드의 뷰모드를 체인지 합니다.
 	 * @example
-	 ```
-	 myGrid.changeGridView({
+ ```
+ myGrid.changeGridView({
 	viewMode:"grid"
-});
-	 myGrid.changeGridView({
+ });
+ myGrid.changeGridView({
 	viewMode:"icon",
 	view: {
 		width:"200", // icon width
@@ -18670,10 +18724,10 @@ myGrid.setConfig({
 		}
 	}
 });
-	 myGrid.changeGridView({
+ myGrid.changeGridView({
 	viewMode:"mobile"
 });
-	 ```
+```
 	 */
 	changeGridView: function (JSObject) {
 		var cfg = this.config;
@@ -38201,7 +38255,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.33.1
+ * @version v1.33.2
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -38223,6 +38277,7 @@ var swfobject;
  "2014-06-26 tom : [bugfix] http error exception when delete runs "
  "2014-12-22 tom : [bugfix] manual 업로드 갯수제한 버그 픽스 "
  "2015-01-04 tom : thumbUrl 값이 없을 때 썸네일 배경 예외 처리 "
+ "2015-01-05 tom : queuebox class 가 listType일 때 progressbar 위치 조정"
 
  * @description
  *
@@ -38936,7 +38991,7 @@ var AXUpload5 = Class.create(AXJ, {
 		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 	},
 	onFileDrop: function(evt){
-		var cfg = this.config;
+		var cfg = this.config, quebox = jQuery("#" + cfg.queueBoxID);
 		evt.stopPropagation();
 		evt.preventDefault();
 		jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
@@ -38967,9 +39022,9 @@ var AXUpload5 = Class.create(AXJ, {
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 					this.queue.push({id:itemID, file:f});
 					//큐박스에 아이템 추가
-					if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
-					else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
+					if(cfg.queueBoxAppendType == "prepend") quebox.prepend(this.getItemTag(itemID, f));
+					else quebox.append(this.getItemTag(itemID, f));
+					quebox.find("#"+itemID).fadeIn();
 				}else{
 					cfg.onError("fileCount");
 					break;
@@ -39020,7 +39075,7 @@ var AXUpload5 = Class.create(AXJ, {
 		formData.append(cfg.uploadFileName, obj.file);
 		
 		//obj.id
-		var itemID = obj.id;
+		var itemID = obj.id, quebox = jQuery("#" + cfg.queueBoxID), itembox = jQuery("#"+itemID);
 		
 		this.xhr = new XMLHttpRequest();
 		this.xhr.open('POST', cfg.uploadUrl, true);
@@ -39042,20 +39097,20 @@ var AXUpload5 = Class.create(AXJ, {
 			
 			if(cfg.isSingleUpload)
 			{
-				
-				jQuery("#"+itemID+" .AXUploadBtns").show();
-				jQuery("#"+itemID+" .AXUploadLabel").show();
-				jQuery("#"+itemID+" .AXUploadTit").show();
-				
-				jQuery("#"+itemID+" .AXUploadProcess").hide();
+
+				itembox.find(".AXUploadBtns").show();
+				itembox.find(".AXUploadLabel").show();
+				itembox.find(".AXUploadTit").show();
+
+				itembox.find(".AXUploadProcess").hide();
 								
 				uploadSuccess(obj.file, itemID, res);
 				// --------------------- s
-				jQuery("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
+				itembox.find(".AXUploadBtnsA").bind("click", function(){
 					onClickDeleteButton(itemID);
 				});
 				if(cfg.onClickUploadedItem){
-					jQuery("#"+itemID+" .AXUploadDownload").bind("click", function(){
+					itembox.find(".AXUploadDownload").bind("click", function(){
 						onClickFileTitle(itemID);
 					});
 				}
@@ -39063,30 +39118,30 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			else
 			{
-				
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtns").show();
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadLabel").show();
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcess").hide();
+
+				itembox.find(".AXUploadBtns").show();
+				itembox.find(".AXUploadLabel").show();
+				itembox.find(".AXUploadProcess").hide();
 				
 				var _res = (Object.isArray(res)) ? res[0] : res; /* Array 타입 예외처리 */
 
 				if(_res[cfg.fileKeys.thumbPath]){
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
+					itembox.find(".AXUploadIcon").css({
 						"background-image":"url('"+(_res[cfg.fileKeys.thumbPath]||"").dec()+"')"
 					}).addClass("AXUploadPreview");
 				}else{
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((_res[cfg.fileKeys.type]||"").dec().replace(".", ""));
+					itembox.find(".AXUploadIcon").css({"background-image":"url()"});
+					itembox.find(".AXUploadIcon").html((_res[cfg.fileKeys.type]||"").dec().replace(".", ""));
 				}
 				
 				uploadSuccess(obj.file, itemID, _res);
 				
 				// --------------------- s
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
+				itembox.find(".AXUploadBtnsA").bind("click", function(){
 					onClickDeleteButton(itemID);
 				});
 				if(cfg.onClickUploadedItem){
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadDownload").bind("click", function(){
+					itembox.find(".AXUploadDownload").bind("click", function(){
 						onClickFileTitle(itemID);
 					});
 				}
@@ -39101,9 +39156,9 @@ var AXUpload5 = Class.create(AXJ, {
 		var setUploadingObjBind = setUploadingObj.bind(this);
 		this.xhr.upload.onprogress = function(e) {
 			if(cfg.isSingleUpload){
-				if (e.lengthComputable) { jQuery("#"+itemID).find(".AXUploadProcessBar").width( ((e.loaded / e.total) * 100).round(2)+"%" ); }	
+				if (e.lengthComputable) { itembox.find(".AXUploadProcessBar").width( ((e.loaded / e.total) * 100).round(2)+"%" ); }
 			}else{
-				if (e.lengthComputable) { jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcessBar").width( ((e.loaded / e.total) * 100).round(2)+"%" ); }	
+				if (e.lengthComputable) { itembox.find(".AXUploadProcessBar").width( ((e.loaded / e.total) * 100).round(2)+"%" ); }
 			}
 			if (e.lengthComputable) {
 				if(	e.loaded > e.total*0.9 ){
@@ -39414,17 +39469,13 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 }});
  ```
  */
-
 	setUploadedList: function(files){
 		var cfg = this.config;
 		
 		var getItemTag = this.getItemTag.bind(this);
 		var onClickDeleteButton = this.onClickDeleteButton.bind(this);
 		var onClickFileTitle = this.onClickFileTitle.bind(this);
-		
-		
-		//if (!files.length) return;
-		
+
 		if(cfg.isSingleUpload){
 			this.uploadedList = [];
 			var f;
@@ -39442,7 +39493,7 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			
 			this.uploadedList.push(f);
 			
-			var itemID = f.id;
+			var itemID = f.id, itembox = jQuery("#" + cfg.queueBoxID).find("#"+itemID);
 			
 			var uf = {
 				id:itemID,
@@ -39452,17 +39503,17 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			
 			jQuery("#" + cfg.targetID+'_AX_display').empty();
 			jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, uf));
-			
-			jQuery("#"+itemID+" .AXUploadBtns").show();
-			jQuery("#"+itemID+" .AXUploadLabel").show();
-			jQuery("#"+itemID+" .AXUploadTit").show();
-			jQuery("#"+itemID+" .AXUploadProcess").hide();
-			
-			jQuery("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
+
+			itembox.find(".AXUploadBtns").show();
+			itembox.find(".AXUploadLabel").show();
+			itembox.find(".AXUploadTit").show();
+			itembox.find(".AXUploadProcess").hide();
+
+			itembox.find(".AXUploadBtnsA").bind("click", function(){
 				onClickDeleteButton(itemID);
 			});
 			if(cfg.onClickUploadedItem){
-				jQuery("#"+itemID+" .AXUploadDownload").bind("click", function(){
+				itembox.find(".AXUploadDownload").bind("click", function(){
 					onClickFileTitle(itemID);
 				});
 			}
@@ -39485,41 +39536,40 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 						trace("id key는 필수 항목 입니다.");
 						return false;	
 					}
-					var itemID = f.id;
+					var itemID = f.id, quebox = jQuery("#" + cfg.queueBoxID), itembox = quebox.find("#"+itemID);
 					var uf = {
 						id:itemID,
 						name:f[cfg.fileKeys.name],
 						size:f[cfg.fileKeys.fileSize]
 					};
-					jQuery("#" + cfg.queueBoxID).prepend(getItemTag(itemID, uf));
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
+					quebox.prepend(getItemTag(itemID, uf));
+					itembox.fadeIn();
 					
 					// --------------------- s
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtns").show();
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadLabel").show();
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcess").hide();
+					itembox.find(".AXUploadBtns").show();
+					itembox.find(".AXUploadLabel").show();
+					itembox.find(".AXUploadProcess").hide();
 
 					if(f[cfg.fileKeys.thumbPath]){
-						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
+						itembox.find(".AXUploadIcon").css({
 							"background-image":"url('"+(f[cfg.fileKeys.thumbPath]||"").dec()+"')"
 						}).addClass("AXUploadPreview");
-					}else{				
-						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"none"});
-						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((f[cfg.fileKeys.type]||"").dec().replace(".", ""));
+					}else{
+						itembox.find(".AXUploadIcon").css({"background-image":"none"});
+						itembox.find(".AXUploadIcon").html((f[cfg.fileKeys.type]||"").dec().replace(".", ""));
 					}
 
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
+					itembox.find(".AXUploadBtnsA").bind("click", function(){
 						onClickDeleteButton(itemID);
 					});
 					if(cfg.onClickUploadedItem){
-						jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadDownload").bind("click", function(){
+						itembox.find(".AXUploadDownload").bind("click", function(){
 							onClickFileTitle(itemID);
 						});
 					}
 					// --------------------- e
 					
-					jQuery("#"+itemID).addClass("readyselect");
-					
+					itembox.addClass("readyselect");
 				});
 				this.multiSelector.collect();
 			}
@@ -39551,7 +39601,7 @@ toast.push(Object.toJSON(list));
 				return pars.join("&");
 				pars = null;
 			}catch(e){
-				trace(e);	
+				trace(e);
 			}
 		}else{
 			return this.uploadedList;

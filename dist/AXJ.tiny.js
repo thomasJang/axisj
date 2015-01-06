@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-04 
+AXJ - v1.0.9 - 2015-01-06 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-04 
+AXJ - v1.0.9 - 2015-01-06 
 */
 
 if(!window.AXConfig){
@@ -857,30 +857,36 @@ axf.encParam("name=장기영&sex=남");
 		if (_target) {
 			while ((function(){
 				var result = true;
-				for(var k in cond){
-					if(k === "tagname"){
-						if(_target.tagName.lcase() != cond[k]) {
-							result = false;
-							break;
-						}
-					}
-					else
-					if(k === "clazz"){
-						var klasss = _target.className.split(/ /g);
-						var hasClass = false;
-						for(var a=0;a<klasss.length;a++){
-							if(klasss[a] == cond[k]){
-								hasClass = true;
+				if(Object.isFunction(cond)){
+					result = cond(_target);
+				}
+				else
+				if(Object.isObject(cond)){
+					for(var k in cond){
+						if(k === "tagname"){
+							if(_target.tagName.lcase() != cond[k]) {
+								result = false;
 								break;
 							}
 						}
-						result = hasClass;
-					}
-					else
-					{ // 그외 속성값들.
-						if(_target.getAttribute(k) != cond[k]) {
-							result = false;
-							break;
+						else
+						if(k === "clazz"){
+							var klasss = _target.className.split(/ /g);
+							var hasClass = false;
+							for(var a=0;a<klasss.length;a++){
+								if(klasss[a] == cond[k]){
+									hasClass = true;
+									break;
+								}
+							}
+							result = hasClass;
+						}
+						else
+						{ // 그외 속성값들.
+							if(_target.getAttribute(k) != cond[k]) {
+								result = false;
+								break;
+							}
 						}
 					}
 				}
@@ -3042,7 +3048,7 @@ var AXReqQue = Class.create({
         });
         ajaxOption.url = myQue.url;
         pars = myQue.configs.pars;
-        if(AXConfig.AXReq.pars){
+        if(dataSendMethod != "DTO" && AXConfig.AXReq.pars){
             if (typeof pars == "object") {
                 if (typeof AXConfig.AXReq.pars == "object") {
                     pars = jQuery.extend(pars, AXConfig.AXReq.pars);

@@ -359,10 +359,10 @@
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadProcess {
   position: absolute;
-  left: 20px;
-  top: 54px;
+  left: 25px;
+  top: 7px;
   height: 8px;
-  width: 78px;
+  width: 120px;
   background: #b2b2b2;
   border: 1px solid #b2b2b2;
   -webkit-border-radius: 5px;
