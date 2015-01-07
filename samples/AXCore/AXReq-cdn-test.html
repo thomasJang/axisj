@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>AXISJ</title>
+
+    <link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axisj/ui/arongi/AXJ.min.css">
+    <script type="text/javascript" src="http://cdn.axisj.com/axisj/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.axisj.com/axisj/dist/AXJ.min.js"></script>
+
+</head>
+<body>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+
+            new AXReq(
+                "selectorData.php",
+                {
+                    debug: true,
+                    pars:"",
+                    onsucc:function(res){
+                        trace(res);
+                        $(document.body).append('<div>selectorData.php</div>');
+                        $(document.body).append('<div>' + Object.toJSON(res) + '</div>');
+                    }
+                }
+            );
+        });
+    </script>
+</body>
+</html>
