@@ -355,12 +355,14 @@
   font-size: 11px;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadProcess {
-  position: absolute;
-  left: 25px;
-  top: 7px;
+  position: relative;
+  left: auto;
+  top: auto;
   height: 8px;
-  width: 120px;
+  width: 80px;
   background: #b2b2b2;
+  float: left;
+  margin: 6px 0px 0px 6px;
   border: 1px solid #b2b2b2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;

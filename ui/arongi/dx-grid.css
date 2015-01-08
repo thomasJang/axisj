@@ -1167,3 +1167,31 @@
   background: url("images/mx-grid-icon-handle.png") no-repeat center center;
   background-size: 30px 30px;
 }
+.AXGrid .inline-editor {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  line-height: 20px;
+  padding: 5px 8px;
+}
+.AXGrid .inline-editor .inline_editor_input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 20px;
+  font-family: inherit;
+  font-size: inherit;
+}
+.AXGrid .inline-editor .inline_editor_input.finder {
+  padding-right: 20px;
+}
+.AXGrid .inline-editor .finder-handle {
+  position: absolute;
+  right: 8px;
+  top: 5px;
+  font-family: 'axicon';
+  text-align: center;
+  width: 20px;
+}
+.AXGrid .inline-editor .finder-handle:before {
+  content: "\f002";
+}
