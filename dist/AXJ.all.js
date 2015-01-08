@@ -15846,11 +15846,14 @@ myGrid.removeListIndex(removeList);
 			AXBindConfig = {};
 			jQuery.extend(AXBindConfig, CG.editable.config);
 			if(CG.editable.type == "number"){
-				inline_editor.find("input").bindNumber(AXBindConfig);
+				inline_editor.find("input").bindNumber(AXBindConfig).select();
 			}
 			else
 			if(CG.editable.type == "money"){
 				inline_editor.find("input").bindMoney(AXBindConfig);
+				setTimeout(function(){
+					inline_editor.find("input").select();
+				}, 100);
 			}
 			else
 			if(CG.editable.type == "calendar") {
