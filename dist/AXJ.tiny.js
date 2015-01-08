@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-06 
+AXJ - v1.0.9 - 2015-01-08 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-06 
+AXJ - v1.0.9 - 2015-01-08 
 */
 
 if(!window.AXConfig){
@@ -7835,7 +7835,7 @@ axdom.fn.endFocus = function () {
 
 /**
  * @method jQueryExtends.setCaret
- * @param {Number} pos - 포커스 포지션 넘버
+ * @param {Number} [pos=valueLength] - 포커스 포지션 넘버
  * @returns {jQueryObject}
  * @description input 엘리먼트 특정위치에 커서를 위치시켜 줍니다.
  * @example
@@ -7845,6 +7845,9 @@ axdom.fn.endFocus = function () {
  */
 axdom.fn.setCaret = function (pos) {
     var input = this[0];
+    if(typeof pos == "undefined"){
+        pos = input.value.length;
+    }
     if (input.setSelectionRange) {
         input.focus();
         input.setSelectionRange(pos, pos);
@@ -8528,6 +8531,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.bindTarget.val(nval);
 			}
 		}
+		obj.bindTarget.setCaret();
 
 		if (obj.config.onChange) {
 			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
@@ -10160,76 +10164,79 @@ var AXInputConverter = Class.create(AXJ, {
 			setTimeout(function(){
 				obj.bindTarget.select();
 			},1);
-
-			/* 포거스 되었을 때 달력 도구 오픈 처리 방식 변경 2013-07-10 오전 11:09:40
-			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
-			 bindDateExpand(objID, objSeq, false, event);
-			 }
-			 */
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
-			if(event.keyCode == axf.Event.KEY_RETURN){
-				//bindDateInputBlur(objID, objSeq, event);
-				this.blur();
-			}else if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-				var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
-				var _this = this;
-
-				if (obj.config.selectType == "y") {
-					if (va.length > 4) _this.value = va.left(4);
-				} else if (obj.config.selectType == "m") {
-					if (va.length == 4) {
-						va = va + separator;
-						_this.value = va;
-					} else if (va.length > 4) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2);
-						_this.value = va;
-					}
-				} else {
-					if (va.length < 4) {
-						_this.value = va;
-					}
-					else
-					if (va.length == 4) {
-						va = va + separator;
-						_this.value = va;
-					}
-					else
-					if (va.length <= 6) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator;
-						_this.value = va;
-					}
-					else
-					if (va.length <= 8) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
-						if (obj.config.expandTime) va += " ";
-						_this.value = va;
-					}
-					else
-					{
-						if(obj.config.expandTime){
-							if (va.length <= 10) {
-								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
-								_this.value = va;
-							} else if (va.length > 12) {
-								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
+		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
+			var _this = this;
+			setTimeout(function(){
+				if(event.keyCode == axf.Event.KEY_RETURN){
+					//bindDateInputBlur(objID, objSeq, event);
+					_this.blur();
+				}else if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
+					var va = _this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
+					if (obj.config.selectType == "y") {
+						if (va.length > 4) _this.value = va.left(4);
+					} else if (obj.config.selectType == "m") {
+						if (va.length == 4) {
+							va = va + separator;
+							_this.value = va;
+						} else if (va.length > 4) {
+							va = va.substr(0, 4) + separator + va.substr(4, 2);
+							_this.value = va;
+						}
+					} else {
+						if (va.length < 4) {
+							_this.value = va;
+						}
+						else
+						if (va.length == 4) {
+							va = va + separator;
+							_this.value = va;
+						}
+						else
+						if (va.length <= 6) {
+							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator;
+							_this.value = va;
+						}
+						else
+						if (va.length <= 8) {
+							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
+							if (obj.config.expandTime) va += " ";
+							_this.value = va;
+						}
+						else
+						{
+							if(obj.config.expandTime){
+								if (va.length <= 10) {
+									va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
+									_this.value = va;
+								} else if (va.length > 12) {
+									va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
+									_this.value = va;
+								}
+							}else{
+								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
 								_this.value = va;
 							}
-						}else{
-							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
-							_this.value = va;
 						}
 					}
 				}
-			}
+			});
 		});
 
 		var bindDateInputBlur = this.bindDateInputBlur.bind(this);
 		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
 			bindDateInputBlur(objID, objSeq, event);
 		});
+
+		// config.expand : true, 속성 bindDateExpand
+		if(obj.config.expand === true){
+			bindDateExpand(objID, objSeq, true, event);
+			setTimeout(function(){
+				obj.bindTarget.focus();
+			}, 100);
+		}
 	},
 	bindDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
@@ -10802,17 +10809,12 @@ var AXInputConverter = Class.create(AXJ, {
 							return;
 						}
 					}
-					if (obj.config.onChange.onChange) {
-						obj.config.onChange.onChange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					} else if (obj.config.onChange.onchange) {
-						obj.config.onChange.onchange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					}
+
+					obj.config.onChange.onChange.call({
+						objID: objID,
+						value: axdom("#" + objID).val(),
+						eventType: "expandClose"
+					});
 				}
 			}
 
@@ -10904,10 +10906,17 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		var objVal = axdom("#" + objID).val();
+		/*
+		if(obj.config.expand === true) {
+			//return false;
+		}
+		*/
 
 		if (objVal == "") {
 
-		} else {
+		}
+		else
+		{
 			var clearDate = false;
 			var nDate = (obj.nDate || new Date());
 			var va = axdom("#" + objID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
@@ -10932,7 +10941,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 				} else if (obj.config.selectType == "m") {
 
-					if (va.length > 5) {
+					if (va.length > 4) {
 						var yy = va.left(4).number();
 						var mm = va.substr(4, 2).number() - 1;
 						var dd = 1;
@@ -10949,11 +10958,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 				} else {
 					var needAlert = false;
-					if (va.length > 7) {
+					if (va.length > 5) {
 						var yy = va.left(4).number();
 						var mm = va.substr(4, 2).number() - 1;
 						var dd = va.substr(6, 2).number();
-					} else if (va.length > 4) {
+					} else if (va.length > 3) {
 						var yy = "20" + va.substr(0, 2);
 						var mm = va.substr(2, 2).number() - 1;
 						var dd = va.substr(4, 2).number();
@@ -10969,12 +10978,13 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
+
 					obj.nDate = new Date(yy, mm, dd, 12);
-					/*
-					 trace(obj.nDate.getFullYear() != yy.number());
-					 trace(obj.nDate.getMonth() != mm.number());
-					 trace(obj.nDate.getDate() != dd.number());
-					 */
+
+					 //trace(obj.nDate.getFullYear() != yy.number());
+					 //trace(obj.nDate.getMonth() != mm.number());
+					 //trace(obj.nDate.getDate(), dd.number());
+
 					if (obj.nDate.getFullYear() != yy.number()
 						|| obj.nDate.getMonth() != mm.number()
 						|| obj.nDate.getDate() != dd.number()) {
@@ -11011,7 +11021,8 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
-			if (axdom("#" + objID).data("val") != axdom("#" + objID).val()) {
+
+			if (axdom("#" + objID).data("val") && axdom("#" + objID).data("val") != axdom("#" + objID).val()) {
 
 				if (axdom.isFunction(obj.config.onChange)) {
 					obj.config.onChange.call({
@@ -11033,17 +11044,12 @@ var AXInputConverter = Class.create(AXJ, {
 							axdom("#" + objID).val("");
 						}
 					}
-					if (obj.config.onChange.onChange) {
-						obj.config.onChange.onChange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					} else if (obj.config.onChange.onchange) {
-						obj.config.onChange.onchange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					}
+
+					obj.config.onChange.onChange.call({
+						objID: objID,
+						value: axdom("#" + objID).val(),
+						eventType: "blur"
+					});
 				}
 				axdom("#" + objID).data("val", axdom("#" + objID).val());
 

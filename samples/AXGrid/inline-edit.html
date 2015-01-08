@@ -16,9 +16,10 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXGrid.css" />
 
     <style type="text/css">
     </style>
@@ -28,8 +29,15 @@
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
     <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
+
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-jsdoc.css">
+
     <!-- js block -->
 	<style type="text/css">
 	
@@ -49,17 +57,85 @@
                 <div id="AXGridTarget" style="height:300px;"></div>
                 <div style="padding:10px;">
 
-                    <input type="button" value="forExcel html" class="AXButton" onclick="fnObj.grid.getExcel('html');" />
-                    <input type="button" value="forExcel json" class="AXButton" onclick="fnObj.grid.getExcel('json');" />
-
-                    <input type="button" value="resetHeight : 300px" class="AXButton" onclick="$('#AXGridTarget').css({height:300});myGrid.resetHeight();" />
-                    <input type="button" value="resetHeight : 600px" class="AXButton" onclick="$('#AXGridTarget').css({height:600});myGrid.resetHeight();" />
-
                     <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
                 </div>
             </div>
 
             <div id="printout"></div>
+
+<pre class="prettyprint linenums">
+...
+// 그리드의 cloGrop에 editable 속성을 추가 하여 인라인 에디팅을 지원하는 방식
+colGroup : [
+    {
+        key:"no", label:"번호", width:"50", align:"right"
+    },
+    {
+        key:"title", label:"제목", width:"200",
+        tooltip:function(){
+            return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
+        },
+        editable: {
+            type: "finder", // type finder는 input옆에 돋보기 아이콘이 내장되고 아이콘을 누르는 이벤트는 finder.onclick에서 연결
+            finder: {
+                onclick: function(){
+                    var val = window.prompt("값 입력해주세요.");
+                    jQuery("#" + this.id).val(val).setCaret();
+                }
+            }
+        }
+    },
+    {
+        key:"writer", label:"작성자", width:"100",
+        editable: {
+            formatter: "dec",
+            type: "text",
+            beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+                return val.replace(/\./g, "") + "."; // 업데이트 되는 value를 연산 처리 할 수 있습니다.
+            },
+            afterUpdate: function(val){ // 수정이 처리된 후
+                // 수정이 된 후 액션.
+                console.log(this);
+            }
+        }
+    },
+    {
+        key:"regDate", label:"작성일", width:"105", align:"center",
+        editable: {
+            type: "calendar"
+        }
+    },
+    {
+        key:"price", label:"가격", width:"100", align:"right",
+        formatter:"money",
+        editable: {
+            type: "money",
+            updateWith: ["cost"]
+        }
+    },
+    {
+        key:"amount", label:"수량", width:"80", align:"right",
+        formatter:"money",
+        editable: {
+            type: "number",
+            updateWith: ["cost"]
+        }
+    },
+    {
+        key:"cost", label:"금액", width:"100", align:"right",
+        formatter:function(){
+            return (this.item.price.number() * this.item.amount.number()).money();
+        }
+    },
+    {
+        key:"desc", label:"비고", width:"200",
+        editable: {
+            formatter: "dec",
+            type: "text"
+        }
+    }
+],
+</pre>
 
 		</div>
 	</div>
@@ -77,6 +153,7 @@
     var fnObj = {
         pageStart: function(){
             fnObj.grid.bind();
+            prettyPrint();
         },
         grid: {
             target: new AXGrid(),
@@ -87,6 +164,10 @@
                     targetID : "AXGridTarget",
                     sort:false,
                     //fitToWidth:true, // 너비에 자동 맞춤
+
+                    /*
+                     todo : editable type options [text, number, money, calendar, select, selector, switch, segment, slider, finder]
+                     */
                     colGroup : [
                         {
                             key:"no", label:"번호", width:"50", align:"right"
@@ -95,28 +176,52 @@
                             key:"title", label:"제목", width:"200",
                             tooltip:function(){
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
+                            },
+                            editable: {
+                                type: "finder",
+                                finder: {
+                                    onclick: function(){
+                                        var val = window.prompt("값 입력해주세요.");
+                                        jQuery("#" + this.id).val(val).setCaret();
+                                    }
+                                }
                             }
                         },
                         {
                             key:"writer", label:"작성자", width:"100",
                             editable: {
                                 formatter: "dec",
-                                type: "text"
-                                /*
-                                 todo : editable type options [text, number, money, calendar, select, selector, switch, segment, slider, finder]
-                                 */
+                                type: "text",
+                                beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+                                    return val.replace(/\./g, "") + "."; // 업데이트 되는 value를 연산 처리 할 수 있습니다.
+                                },
+                                afterUpdate: function(val){ // 수정이 처리된 후
+                                    // 수정이 된 후 액션.
+                                    console.log(this);
+                                }
                             }
                         },
                         {
-                            key:"regDate", label:"작성일", width:"100"
+                            key:"regDate", label:"작성일", width:"105", align:"center",
+                            editable: {
+                                type: "calendar"
+                            }
                         },
                         {
                             key:"price", label:"가격", width:"100", align:"right",
-                            formatter:"money"
+                            formatter:"money",
+                            editable: {
+                                type: "money",
+                                updateWith: ["cost"]
+                            }
                         },
                         {
                             key:"amount", label:"수량", width:"80", align:"right",
-                            formatter:"money"
+                            formatter:"money",
+                            editable: {
+                                type: "number",
+                                updateWith: ["cost"]
+                            }
                         },
                         {
                             key:"cost", label:"금액", width:"100", align:"right",
@@ -125,13 +230,17 @@
                             }
                         },
                         {
-                            key:"desc", label:"비고", width:"200"
+                            key:"desc", label:"비고", width:"200",
+                            editable: {
+                                formatter: "dec",
+                                type: "text"
+                            }
                         }
                     ],
                     colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
                     body : {
                         onclick: function(){
-
+                            //trace(this.index);
                         }
                     },
                     page: {
@@ -162,7 +271,7 @@
                     {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
                 ];
                 myGrid.setList(list);
-                trace(myGrid.getSortParam());
+                //trace(myGrid.getSortParam());
 
             },
             getExcel: function(type){
@@ -179,6 +288,7 @@
     jQuery(document.body).ready(function() {
         fnObj.pageStart();
     });
+
 </script>
 
 </body>

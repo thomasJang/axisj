@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-06 
+AXJ - v1.0.9 - 2015-01-08 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-06 
+AXJ - v1.0.9 - 2015-01-08 
 */
 
 if(!window.AXConfig){
@@ -7835,7 +7835,7 @@ axdom.fn.endFocus = function () {
 
 /**
  * @method jQueryExtends.setCaret
- * @param {Number} pos - 포커스 포지션 넘버
+ * @param {Number} [pos=valueLength] - 포커스 포지션 넘버
  * @returns {jQueryObject}
  * @description input 엘리먼트 특정위치에 커서를 위치시켜 줍니다.
  * @example
@@ -7845,6 +7845,9 @@ axdom.fn.endFocus = function () {
  */
 axdom.fn.setCaret = function (pos) {
     var input = this[0];
+    if(typeof pos == "undefined"){
+        pos = input.value.length;
+    }
     if (input.setSelectionRange) {
         input.focus();
         input.setSelectionRange(pos, pos);
@@ -11265,7 +11268,7 @@ var AXGrid = Class.create(AXJ, {
 					}
 					if (myCG != null) {
 						if(CH.sort != myCG.sort){
-							trace(CH, myCG);
+							//trace(CH, myCG);
 						}
 						if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
 						else AXUtil.overwriteObject(CH, myCG, false);
@@ -12540,6 +12543,7 @@ myGrid.getCheckedList(0);
 	onKeydown: function (event) {
 		if( this.selectedRow.length == 0 ) return;
 		if (this.editorOpend) return;
+		if (this.inline_edit) return;
 
 		if (event.keyCode == 67 && event.ctrlKey) {
 			// this.copyData();
@@ -13076,6 +13080,11 @@ myGrid.setConfig({
 		axdom(document.body).attr("onselectstart", "return false");
 		//axdom(document.body).addClass("AXUserSelectNone");
 		/* resize event bind ~~~~~~~~~~~~~~~~~~~ */
+
+		// inline cell-editor 초기화
+		if(this.inline_edit){
+			this.editCellClear();
+		}
 	},
 	/**
 	 * @method AXGrid.colHeadResizerMouseMove
@@ -14108,8 +14117,9 @@ myGrid.setData(gridData);
 			}
 		}
 
-		for (var r = 0; r < cfg.body.rows.length; r++) {
-			var isLastTR = (cfg.body.rows.length - 1 == r);
+		var r= 0, l=cfg.body.rows.length;
+		for (; r < l; r++) {
+			var isLastTR = (l - 1 == r);
 			var trHeight = 0;
 			if (hasTrValue) {
 				if(isfix == "fix"){
@@ -14122,9 +14132,9 @@ myGrid.setData(gridData);
 				}
 
 			}
-			var colCount = 0;
-
-			for (var CH, CHidx = 0; (CHidx < cfg.body.rows[r].length && (CH = cfg.body.rows[r][CHidx])); CHidx++) {
+			var colCount = 0, CH, CHidx = 0, CHLen = cfg.body.rows[r].length;
+			for (;CHidx < cfg.body.rows[r].length; CHidx++) {
+				CH = cfg.body.rows[r][CHidx];
 				if (CH.display && CH.colspan > 0) {
 					var printOk = false;
 					if (isfix == "n") printOk = true;
@@ -14465,7 +14475,9 @@ cssObj = {
 						po.push(getItemMarker(itemIndex, item, "n"));
 					}
 				}
-			}else{
+			}
+			else
+			{
 				if (this.list.length > 0) {
 					var firstItem = this.list[0];
 					po.push(getItem(0, firstItem, "n"));
@@ -14584,8 +14596,7 @@ cssObj = {
 
 			}
 			else
-			if(cfg.height == "auto" && this.list.length > 0)
-			{
+			if(cfg.height == "auto" && this.list.length > 0) {
 
 				this.virtualScroll = {
 					startIndex : 0,
@@ -14611,7 +14622,6 @@ cssObj = {
 					}
 				}
 
-
 				if (cfg.mergeCells) {
 					this.mergeCells(this.cachedDom.tbody, "n");
 					if (this.hasFixed) {
@@ -14622,7 +14632,9 @@ cssObj = {
 				this.scrollContent.css({ top: 0 });
 				this.contentScrollContentSync({ top: 0 });
 
-			}else{
+			}
+			else
+			{
 
 				this.virtualScroll = {
 					startIndex : 0,
@@ -15429,6 +15441,15 @@ myGrid.removeListIndex(removeList);
 						r = ids[ids.length - 3], c = ids[ids.length - 2], CG = cfg.colGroup[c],
 						i = 0;
 
+					if(CG.editable){
+						if(this.editCellClear(r, c, itemIndex) === false){
+							return this; // 현재 에디팅 중인 셀이 클릭 되었을 때는 아무런 클릭 이벤트를 발생 시키지 않습니다.
+						}
+					}
+					else{
+						this.editCellClear();
+					}
+
 					if (event.shiftKey) {
 						if(len > 0){
 							var l_itemIndex = this.selectedRow.last().number(), itemIndex = itemIndex.number(), st_index, ed_index;
@@ -15536,7 +15557,7 @@ myGrid.removeListIndex(removeList);
 
 						var item = this.list[itemIndex];
 
-						if (cfg.body.onclick) {
+						if (!hasItem && cfg.body.onclick) {
 
 							var sendObj = {
 								index: itemIndex,
@@ -15780,17 +15801,259 @@ myGrid.removeListIndex(removeList);
 
 ```
  */
-	editCell: function(r, c, ii){
-		var cfg = this.config,
-			CG = cfg.colGroup[c];
+	editCell: function(r, c, ii, times){
+		this.setFocus(ii);
 
-		var td = this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + c + "_AX_" + ii);
+		var _this = this, cfg = this.config, CG = cfg.colGroup[c], po = [];
 
-		console.log(td.html());
-		//trace(cfg.colGroup[c]);
-		//grid-target_AX_bodyText_AX_0_AX_2_AX_1
+		//td : div 의 부모TD 태그, parent_type : nbody|fixedbody 로 결정되어 위치를 판단하는데 쓰임.
+		//po : 태그 생성 배열, inline_editor_id : 인라인 에디터의 아이디
+		// todo : 틀고정 영역이 있을 때 인라인 에디팅 테스트
 
+		this.editCellClear();
 
+		setTimeout(function () {
+
+			var div = _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + c + "_AX_" + ii),
+				td, td_ids, td_val, parent_type, inline_editor_id, inline_editor, inline_css, AXBindConfig = {};
+
+			if(!div.get(0)){
+				if((times|0) < 3) _this.editCell(r, c, ii, (times|0)+1); // 3번시도후 포기 합니다.
+				else trace("에디팅 타겟을 찾을 수 없습니다. AXGrid.editCell");
+				// call again
+				return false;
+			}
+
+			td = div.parent(), td_ids = td.get(0).id.split(/_AX_/g),
+			td_val = _this.list[ii][CG.key],
+			parent_type = td_ids[td_ids.length-4],
+			inline_editor_id = cfg.targetID + "_AX_inline_editor_AX_" + r + "_AX_" + c + "_AX_" + ii,
+			inline_editor, inline_css;
+
+			td_val = _this.getFormatterValue(CG.editable.formatter, _this.list[ii], ii, td_val, CG.key, {}, 0);
+
+			po.push('<div class="inline-editor" id="' + inline_editor_id + '">');
+				po.push(get_editor(CG.editable, td_val));
+			po.push('</div>');
+			div.after(po.join(''));
+			inline_editor = jQuery("#" + inline_editor_id);
+			inline_css = td.position();
+			inline_css.width = div.width();
+			inline_editor.css(inline_css).find("input, select, textarea").select();
+			_this.inline_edit = {editor:inline_editor, r:r,  c:c,  ii:ii, cell:div};
+
+			// AXBind 연결
+			AXBindConfig = {};
+			jQuery.extend(AXBindConfig, CG.editable.config);
+			if(CG.editable.type == "number"){
+				inline_editor.find("input").bindNumber(AXBindConfig);
+			}
+			else
+			if(CG.editable.type == "money"){
+				inline_editor.find("input").bindMoney(AXBindConfig);
+			}
+			else
+			if(CG.editable.type == "calendar") {
+				AXBindConfig.expand = true;
+				AXBindConfig.onchange = function(){
+					_this.updateItem(r, c, ii, this.value);
+				};
+				inline_editor.find("input").bindDate(AXBindConfig);
+			}
+			else
+			if(CG.editable.type == "finder") {
+				if(CG.editable.finder && CG.editable.finder.onclick){
+					inline_editor.find(".finder-handle").on("click", function(){
+						CG.editable.finder.onclick.call({
+							id : cfg.targetID + '_inline_editor',
+							value: jQuery('#' + cfg.targetID + '_inline_editor').val()
+						});
+					});
+				}
+			}
+			// todo : 에디팅 셀 이벤트 연결
+			inline_editor.bind("keydown", function(e){
+				setTimeout(function(){
+					if(
+						e.keyCode == axf.Event.KEY_DOWN || e.keyCode == axf.Event.KEY_UP ||
+						e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB
+					) {
+						if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB) {
+							_this.updateItem(r, c, ii, e.target.value);
+						}
+
+							if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_UP || e.keyCode == axf.Event.KEY_DOWN) {
+								var new_ii;
+								if (e.shiftKey && e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_UP) {
+									new_ii = ii.number() - 1;
+								}
+								else
+								{
+									new_ii = ii.number() + 1;
+								}
+								if (new_ii < 0) new_ii = _this.list.length - 1;
+								else if (_this.list.length <= new_ii) new_ii = 0;
+								_this.editCell(r, c, new_ii);
+							}
+							else if (e.keyCode == axf.Event.KEY_TAB) {
+								var new_c, ci, cl;
+								ci = 0, cl = cfg.colGroup.length;
+								if (e.shiftKey && e.keyCode == axf.Event.KEY_TAB) {
+									for (ci = cl - 1; ci > -1; ci--) {
+										if (cfg.colGroup[ci].editable) {
+											if (typeof new_c == "undefined") {
+												new_c = ci;
+											}
+											else
+											if (ci < c) {
+												new_c = ci;
+												break;
+											}
+										}
+									}
+								} else {
+									for (; ci < cl; ci++) {
+										if (cfg.colGroup[ci].editable) {
+											if (typeof new_c == "undefined") {
+												new_c = ci;
+											}
+											else
+											if (ci > c) {
+												new_c = ci;
+												break;
+											}
+										}
+									}
+								}
+								_this.editCell(r, new_c, ii);
+							}
+						_this.stopEvent(e);
+					}
+					else
+					if(e.keyCode == axf.Event.KEY_ESC){
+						_this.editCellClear();
+					}
+				}, 10);
+			});
+		}, 10);
+
+		function get_editor(cond, val){
+			// text, number, money, calendar, select, selector, switch, segment, slider, finder
+			var po = [];
+			if(cond.type === "select"){
+				// 조금 있다가..
+				po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'" />');
+				po.push('</select>');
+			}
+			else
+			{
+				po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + val + '" class="inline_editor_input '+cond.type+'" />');
+				if(cond.type == "finder"){
+					po.push('<a class="finder-handle"></a>');
+				}
+			}
+			return po.join('');
+		}
+		return this;
+	},
+/**
+ * 셀 인라인 에디트 상태 해제
+ * @method AXGrid.editCellClear
+ * @param {Number} [r] - index of config.body.rows
+ * @param {Number} [c] - index of colGrop
+ * @param {Number} [itemIndex] - index of data
+ * @returns {AXGrid|false}
+ * @example
+ ```
+ mygrid.editCellClear(); // 셀 에디트 상태 해제
+ mygrid.editCellClear(0, 1, 1); // 셀 에디트 해제 하려는 위치가 값을 현재 위치와 비교 하여 false가 리턴되면 현재 위치
+ ```
+ */
+	editCellClear: function(){
+		if(this.inline_edit){
+			if(this.inline_edit.r == arguments[0] && this.inline_edit.c == arguments[1] && this.inline_edit.ii == arguments[2]){
+				return false;
+			}else {
+				this.inline_edit.editor.remove();
+				this.inline_edit.editor.find("input").unbindInput();
+				this.inline_edit = null;
+			}
+		}
+		return this;
+	},
+/**
+ * 현재 활성화된 인라인 에디트 input에 값을 지정합니다.
+ * @method AXGrid.setEditCellValue
+ * @param {String} val
+ * @returns {AXGrid}
+ * @example
+ ```
+ mygrid.setEditCellValue("123");
+ ```
+ */
+	setEditCellValue: function(val){
+		if(this.inline_edit) {
+			this.inline_edit.editor.find("input, select, textarea").val(val);
+		}
+		return this;
+	},
+/**
+ * 리스트데이터의 특정 아이템값을 변경합니다.
+ * @method AXGrid.updateItem
+ * @param {Number} itemIndex
+ * @param {String} key
+ * @param {String|Number} value
+ * @returns {AXGrid}
+ * @example
+ ```
+
+ ```
+ */
+	updateItem: function(r, c, itemIndex, value){
+		var _this = this,  cfg = this.config,
+			CH = cfg.body.rows[r][c], item = this.list[itemIndex],
+			CG = cfg.colGroup[c],
+			that = {item:item, index:itemIndex, CG:CG, r:r, c:c};
+
+		// 입력받은 값을 전환 하는 함수 체크 필요.
+		// CG.editable.beforeUpdate
+		if(CG.editable.beforeUpdate){
+			value = CG.editable.beforeUpdate.call(that, value);
+		}
+		_this.list[itemIndex][CH.key] = value;
+
+		if(this.inline_edit) {
+			cellUpdate();
+			if(CG.editable.afterUpdate){
+				CG.editable.afterUpdate.call(that, value);
+			}
+			function cellUpdate() {
+				_this.inline_edit.cell.html(_this.getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, c));
+				if (CG.editable.updateWith) {
+					var i = 0, l = CG.editable.updateWith.length;
+					for (; i < l; i++) {
+						var v = CG.editable.updateWith[i], wCH, wc;
+						// 컬럼 인덱스 찾기
+						axf.each(cfg.colGroup, function (cidx, C) {
+							if (C.key == v) {
+								wc = cidx;
+								return false;
+							}
+						});
+						wCH = cfg.body.rows[r][wc];
+						//trace(v, wCH, wc);
+						_this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(
+							_this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc)
+						);
+					}
+				}
+			}
+			_this.editCellClear();
+		}
+		else
+		{
+			this.bigDataSyncApply("reload");
+		}
 		return this;
 	},
 	/**
@@ -16551,6 +16814,7 @@ myGrid.contentScrollResize(false);
 					var sendObj = axf.copyObject(this.virtualScroll);
 					cfg.body.onchangeScroll.call(sendObj, sendObj);
 				}
+				this.editCellClear();
 			}
 		}
 	},
@@ -16631,22 +16895,29 @@ myGrid.setFocus(0);
 				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 				this.selectedRow.push(itemIndex);
 
-				var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-				var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
+				var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top,
+					trHeight = this.body.find(".gridBodyTr_" + itemIndex).height(),
+					scrollHeight = this.scrollContent.height(),
+					bodyHeight = this.body.height(),
+					handleHeight = this.scrollYHandle.outerHeight(),
+					trackHeight = this.scrollTrackY.height(),
+					scrollContentTop = this.scrollContent.position().top, scrollTop;
 
-				var scrollHeight = this.scrollContent.height();
-				var bodyHeight = this.body.height();
-				var handleHeight = this.scrollYHandle.outerHeight();
-				var trackHeight = this.scrollTrackY.height();
-
-
-				if (trTop.number() + trHeight.number() > bodyHeight) {
-					var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+				if(trTop.number() + scrollContentTop < 0){ // 아래에서 위로 포커스 이동
+					scrollTop = -trTop.number();
 					this.scrollContent.css({ top: scrollTop });
 					this.contentScrollContentSync({ top: scrollTop });
-				} else {
+				}
+				else
+				if (trTop.number() + trHeight.number() + scrollContentTop > bodyHeight) { // 위에서 아래로 이동
+					scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+					this.scrollContent.css({ top: scrollTop });
+					this.contentScrollContentSync({ top: scrollTop });
+				}
+				else
+				{ // 예외처리
 					if (trTop.number() == 0) {
-						var scrollTop = 0;
+						scrollTop = 0;
 						this.scrollContent.css({ top: scrollTop });
 						this.contentScrollContentSync({ top: scrollTop });
 					}
@@ -16699,9 +16970,13 @@ myGrid.setFocus(0);
 				}
 			}
 
-		} else if (cfg.viewMode == "icon") {
+		}
+		else
+		if (cfg.viewMode == "icon") {
 
-		} else if (cfg.viewMode == "mobile") {
+		}
+		else
+		if (cfg.viewMode == "mobile") {
 
 			if (this.selectedCells.length > 0) {
 				axf.each(this.selectedCells, function () {
@@ -17907,16 +18182,32 @@ myGrid.setFocus(0);
 
 			var saveEditorRequest = this.saveEditorRequest.bind(this);
 			var cancelEditor = this.cancelEditor.bind(this);
-			var url = cfg.editor.request.ajaxUrl;
+			var ajax = cfg.editor.request, url = ajax.ajaxUrl;
 			var formPars = [];
 			axf.each(editorFormItem, function (k, v) {
 				formPars.push(k + "=" + v.enc());
 			});
-			var pars = (cfg.editor.request.ajaxPars) ? cfg.editor.request.ajaxPars + "&" + formPars.join('&') : formPars.join('&');
+			var pars = (ajax.ajaxPars) ? ajax.ajaxPars + "&" + formPars.join('&') : formPars.join('&');
+
+			var _method = "post";
+			var _contentType = AXConfig.AXReq.contentType;
+			var _headers = {};
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+
+			if (ajax.method) _method = ajax.method;
+			if (ajax.contentType) _contentType = ajax.contentType;
+			if (ajax.headers) _headers = ajax.headers;
 
 			new AXReq(url, {
-				debug: false, pars: pars, onsucc: function (res) {
-					//if (res.result == AXConfig.AXReq.okCode) {
+				type: _method,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				headers: _headers,
+				debug: ajax.debug,
+				pars: pars,
+				onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 						saveEditorRequest(res);
 					} else {
@@ -19640,6 +19931,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.bindTarget.val(nval);
 			}
 		}
+		obj.bindTarget.setCaret();
 
 		if (obj.config.onChange) {
 			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
@@ -21272,76 +21564,79 @@ var AXInputConverter = Class.create(AXJ, {
 			setTimeout(function(){
 				obj.bindTarget.select();
 			},1);
-
-			/* 포거스 되었을 때 달력 도구 오픈 처리 방식 변경 2013-07-10 오전 11:09:40
-			 if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
-			 bindDateExpand(objID, objSeq, false, event);
-			 }
-			 */
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
-			if(event.keyCode == axf.Event.KEY_RETURN){
-				//bindDateInputBlur(objID, objSeq, event);
-				this.blur();
-			}else if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-				var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
-				var _this = this;
-
-				if (obj.config.selectType == "y") {
-					if (va.length > 4) _this.value = va.left(4);
-				} else if (obj.config.selectType == "m") {
-					if (va.length == 4) {
-						va = va + separator;
-						_this.value = va;
-					} else if (va.length > 4) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2);
-						_this.value = va;
-					}
-				} else {
-					if (va.length < 4) {
-						_this.value = va;
-					}
-					else
-					if (va.length == 4) {
-						va = va + separator;
-						_this.value = va;
-					}
-					else
-					if (va.length <= 6) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator;
-						_this.value = va;
-					}
-					else
-					if (va.length <= 8) {
-						va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
-						if (obj.config.expandTime) va += " ";
-						_this.value = va;
-					}
-					else
-					{
-						if(obj.config.expandTime){
-							if (va.length <= 10) {
-								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
-								_this.value = va;
-							} else if (va.length > 12) {
-								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
+		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
+			var _this = this;
+			setTimeout(function(){
+				if(event.keyCode == axf.Event.KEY_RETURN){
+					//bindDateInputBlur(objID, objSeq, event);
+					_this.blur();
+				}else if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
+					var va = _this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
+					if (obj.config.selectType == "y") {
+						if (va.length > 4) _this.value = va.left(4);
+					} else if (obj.config.selectType == "m") {
+						if (va.length == 4) {
+							va = va + separator;
+							_this.value = va;
+						} else if (va.length > 4) {
+							va = va.substr(0, 4) + separator + va.substr(4, 2);
+							_this.value = va;
+						}
+					} else {
+						if (va.length < 4) {
+							_this.value = va;
+						}
+						else
+						if (va.length == 4) {
+							va = va + separator;
+							_this.value = va;
+						}
+						else
+						if (va.length <= 6) {
+							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator;
+							_this.value = va;
+						}
+						else
+						if (va.length <= 8) {
+							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
+							if (obj.config.expandTime) va += " ";
+							_this.value = va;
+						}
+						else
+						{
+							if(obj.config.expandTime){
+								if (va.length <= 10) {
+									va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":";
+									_this.value = va;
+								} else if (va.length > 12) {
+									va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2) + " " + va.substr(8, 2) + ":" + va.substr(10, 2);
+									_this.value = va;
+								}
+							}else{
+								va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
 								_this.value = va;
 							}
-						}else{
-							va = va.substr(0, 4) + separator + va.substr(4, 2) + separator + va.substr(6, 2);
-							_this.value = va;
 						}
 					}
 				}
-			}
+			});
 		});
 
 		var bindDateInputBlur = this.bindDateInputBlur.bind(this);
 		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
 			bindDateInputBlur(objID, objSeq, event);
 		});
+
+		// config.expand : true, 속성 bindDateExpand
+		if(obj.config.expand === true){
+			bindDateExpand(objID, objSeq, true, event);
+			setTimeout(function(){
+				obj.bindTarget.focus();
+			}, 100);
+		}
 	},
 	bindDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
@@ -21914,17 +22209,12 @@ var AXInputConverter = Class.create(AXJ, {
 							return;
 						}
 					}
-					if (obj.config.onChange.onChange) {
-						obj.config.onChange.onChange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					} else if (obj.config.onChange.onchange) {
-						obj.config.onChange.onchange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					}
+
+					obj.config.onChange.onChange.call({
+						objID: objID,
+						value: axdom("#" + objID).val(),
+						eventType: "expandClose"
+					});
 				}
 			}
 
@@ -22016,10 +22306,17 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		var objVal = axdom("#" + objID).val();
+		/*
+		if(obj.config.expand === true) {
+			//return false;
+		}
+		*/
 
 		if (objVal == "") {
 
-		} else {
+		}
+		else
+		{
 			var clearDate = false;
 			var nDate = (obj.nDate || new Date());
 			var va = axdom("#" + objID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
@@ -22044,7 +22341,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 				} else if (obj.config.selectType == "m") {
 
-					if (va.length > 5) {
+					if (va.length > 4) {
 						var yy = va.left(4).number();
 						var mm = va.substr(4, 2).number() - 1;
 						var dd = 1;
@@ -22061,11 +22358,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 				} else {
 					var needAlert = false;
-					if (va.length > 7) {
+					if (va.length > 5) {
 						var yy = va.left(4).number();
 						var mm = va.substr(4, 2).number() - 1;
 						var dd = va.substr(6, 2).number();
-					} else if (va.length > 4) {
+					} else if (va.length > 3) {
 						var yy = "20" + va.substr(0, 2);
 						var mm = va.substr(2, 2).number() - 1;
 						var dd = va.substr(4, 2).number();
@@ -22081,12 +22378,13 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
+
 					obj.nDate = new Date(yy, mm, dd, 12);
-					/*
-					 trace(obj.nDate.getFullYear() != yy.number());
-					 trace(obj.nDate.getMonth() != mm.number());
-					 trace(obj.nDate.getDate() != dd.number());
-					 */
+
+					 //trace(obj.nDate.getFullYear() != yy.number());
+					 //trace(obj.nDate.getMonth() != mm.number());
+					 //trace(obj.nDate.getDate(), dd.number());
+
 					if (obj.nDate.getFullYear() != yy.number()
 						|| obj.nDate.getMonth() != mm.number()
 						|| obj.nDate.getDate() != dd.number()) {
@@ -22123,7 +22421,8 @@ var AXInputConverter = Class.create(AXJ, {
 
 		if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if (obj.config.onChange) {
-			if (axdom("#" + objID).data("val") != axdom("#" + objID).val()) {
+
+			if (axdom("#" + objID).data("val") && axdom("#" + objID).data("val") != axdom("#" + objID).val()) {
 
 				if (axdom.isFunction(obj.config.onChange)) {
 					obj.config.onChange.call({
@@ -22145,17 +22444,12 @@ var AXInputConverter = Class.create(AXJ, {
 							axdom("#" + objID).val("");
 						}
 					}
-					if (obj.config.onChange.onChange) {
-						obj.config.onChange.onChange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					} else if (obj.config.onChange.onchange) {
-						obj.config.onChange.onchange.call({
-							objID: objID,
-							value: axdom("#" + objID).val()
-						});
-					}
+
+					obj.config.onChange.onChange.call({
+						objID: objID,
+						value: axdom("#" + objID).val(),
+						eventType: "blur"
+					});
 				}
 				axdom("#" + objID).data("val", axdom("#" + objID).val());
 

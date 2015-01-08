@@ -611,3 +611,9 @@ table.setConfig pre {
   line-height: 1.8em;
 }
 /* -------------------------------------------------------------------- oldCode Css} */
+.prettyprint {
+  border: 1px solid #ccc;
+  background: #f3f3f3;
+  border-radius: 10px;
+  padding: 20px;
+}
