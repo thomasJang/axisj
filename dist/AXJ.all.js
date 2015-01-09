@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-08 
+AXJ - v1.0.9 - 2015-01-09 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-08 
+AXJ - v1.0.9 - 2015-01-09 
 */
 
 if(!window.AXConfig){
@@ -11073,6 +11073,13 @@ var AXGrid = Class.create(AXJ, {
 			printListCount: 0,
 			scrollTop: 0
 		};
+		this.reserveKeys = {
+			// 시스템 설정 키들 -- s
+			parent_hash  : "phash",
+			child_hash   : "hash",
+			sub_list     : "list",
+			hidden       : "_hidden"
+		};
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
@@ -17009,15 +17016,25 @@ myGrid.setFocus(0);
 	 */
 	focusMove: function (direction, event) {
 		var cfg = this.config;
-		var myIndex = this.selectedRow.first();
-		var newIndex = myIndex.number() + direction;
-		if (newIndex < 0) newIndex = this.list.length - 1;
-		else if (newIndex > (this.list.length - 1)) newIndex = 0;
-		this.setFocus(newIndex);
+		var myIndex = this.selectedRow.first(),
+			itemIndex = myIndex.number() + direction;
 
-		if (event.preventDefault) event.preventDefault();
-		if (event.stopPropagation) event.stopPropagation();
-		event.cancelBubble = true;
+		if(itemIndex < 0) itemIndex = this.list.length - 1;
+		else if(itemIndex > this.list.length-1) itemIndex = 0;
+		// 사용 할 수 있는 itemIndex를 찾아라
+		while(this.list[itemIndex][cfg.reserveKeys.hidden]){
+			if(direction < 0) {
+				itemIndex--;
+				if(itemIndex < 0) itemIndex = this.list.length - 1;
+			}else{
+				itemIndex++;
+				if(itemIndex > this.list.length-1) itemIndex = 0;
+			}
+		}
+
+		this.setFocus(itemIndex);
+
+		this.stopEvent(event);
 		return false;
 	},
 	/**
@@ -17078,10 +17095,7 @@ myGrid.setFocus(0);
 			}
 		}
 
-		if (event.preventDefault) event.preventDefault();
-		if (event.stopPropagation) event.stopPropagation();
-		event.cancelBubble = true;
-		return false;
+		// this.stopEvent(event);
 	},
 	/**
 	 * @method AXGrid.mergeCells
@@ -38552,7 +38566,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.33.2
+ * @version v1.33.3
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -38575,6 +38589,7 @@ var swfobject;
  "2014-12-22 tom : [bugfix] manual 업로드 갯수제한 버그 픽스 "
  "2015-01-04 tom : thumbUrl 값이 없을 때 썸네일 배경 예외 처리 "
  "2015-01-05 tom : queuebox class 가 listType일 때 progressbar 위치 조정"
+ "2015-01-09 tom : onFileDrop uploadedCount 증가구문 수정 https://github.com/axisj-com/axisj/issues/385"
 
  * @description
  *
@@ -39314,8 +39329,8 @@ var AXUpload5 = Class.create(AXJ, {
 		var queueCount = this.queue.length;
 		for (var i = 0, f; f = files[i]; i++) {
 			if(f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || (cfg.file_types == "*/*" && f.type == "") ) ){
-				uploadedCount++;
 				if((uploadedCount+queueCount) < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0){
+					uploadedCount++;
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 					this.queue.push({id:itemID, file:f});
 					//큐박스에 아이템 추가
