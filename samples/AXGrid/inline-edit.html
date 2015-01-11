@@ -65,7 +65,7 @@
 
 <pre class="prettyprint linenums">
 ...
-// 그리드의 cloGrop에 editable 속성을 추가 하여 인라인 에디팅을 지원하는 방식
+// 그리드의 cloGrop에 editor 속성을 추가 하여 인라인 에디팅을 지원하는 방식
 colGroup : [
     {
         key:"no", label:"번호", width:"50", align:"right"
@@ -75,7 +75,7 @@ colGroup : [
         tooltip:function(){
             return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
         },
-        editable: {
+        editor: {
             type: "finder", // type finder는 input옆에 돋보기 아이콘이 내장되고 아이콘을 누르는 이벤트는 finder.onclick에서 연결
             finder: {
                 onclick: function(){
@@ -87,7 +87,7 @@ colGroup : [
     },
     {
         key:"writer", label:"작성자", width:"100",
-        editable: {
+        editor: {
             formatter: "dec",
             type: "text",
             beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
@@ -101,14 +101,14 @@ colGroup : [
     },
     {
         key:"regDate", label:"작성일", width:"105", align:"center",
-        editable: {
+        editor: {
             type: "calendar"
         }
     },
     {
         key:"price", label:"가격", width:"100", align:"right",
         formatter:"money",
-        editable: {
+        editor: {
             type: "money",
             updateWith: ["cost"]
         }
@@ -116,7 +116,7 @@ colGroup : [
     {
         key:"amount", label:"수량", width:"80", align:"right",
         formatter:"money",
-        editable: {
+        editor: {
             type: "number",
             updateWith: ["cost"]
         }
@@ -129,7 +129,7 @@ colGroup : [
     },
     {
         key:"desc", label:"비고", width:"200",
-        editable: {
+        editor: {
             formatter: "dec",
             type: "text"
         }
@@ -166,7 +166,7 @@ colGroup : [
                     //fitToWidth:true, // 너비에 자동 맞춤
 
                     /*
-                     todo : editable type options [text, number, money, calendar, select, selector, switch, segment, slider, finder]
+                     todo : editor type options [text, number, money, calendar, select, selector, switch, segment, slider, finder]
                      */
                     colGroup : [
                         {
@@ -177,7 +177,7 @@ colGroup : [
                             tooltip:function(){
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
                             },
-                            editable: {
+                            editor: {
                                 type: "finder",
                                 finder: {
                                     onclick: function(){
@@ -189,7 +189,7 @@ colGroup : [
                         },
                         {
                             key:"writer", label:"작성자", width:"100",
-                            editable: {
+                            editor: {
                                 formatter: "dec",
                                 type: "text",
                                 beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
@@ -203,14 +203,14 @@ colGroup : [
                         },
                         {
                             key:"regDate", label:"작성일", width:"105", align:"center",
-                            editable: {
+                            editor: {
                                 type: "calendar"
                             }
                         },
                         {
                             key:"price", label:"가격", width:"100", align:"right",
                             formatter:"money",
-                            editable: {
+                            editor: {
                                 type: "money",
                                 updateWith: ["cost"]
                             }
@@ -218,7 +218,7 @@ colGroup : [
                         {
                             key:"amount", label:"수량", width:"80", align:"right",
                             formatter:"money",
-                            editable: {
+                            editor: {
                                 type: "number",
                                 updateWith: ["cost"]
                             }
@@ -231,7 +231,7 @@ colGroup : [
                         },
                         {
                             key:"desc", label:"비고", width:"200",
-                            editable: {
+                            editor: {
                                 formatter: "dec",
                                 type: "text"
                             }
