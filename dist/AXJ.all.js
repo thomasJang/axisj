@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-12 
+AXJ - v1.0.9 - 2015-01-13 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-12 
+AXJ - v1.0.9 - 2015-01-13 
 */
 
 if(!window.AXConfig){
@@ -6107,7 +6107,9 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class='tool-checkbox"+ checked +"' id=\"" + subMenuID + "_tool_AX_" + depth + "_AX_" + idx + "\"></div>");
                 }
 
-                po.push("<span class='label'>" + menu.label + "</label>");
+                po.push("<span class='label'>" + menu.label + "</span>");
+
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
@@ -6235,6 +6237,8 @@ AXContextMenu.open({
 
                 po.push("<span class='label'>" + menu.label + "</label>");
 
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
+
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
@@ -6342,6 +6346,8 @@ AXContextMenu.open({
 
                 po.push("<span class='label'>" + menu.label + "</label>");
 
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
+
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
@@ -6434,6 +6440,8 @@ AXContextMenu.open({
                 }
 
                 po.push("<span class='label'>" + menu.label + "</span>");
+
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
@@ -12558,16 +12566,38 @@ myGrid.getCheckedList(0);
 		if (this.editorOpend) return;
 		if (this.inline_edit) return;
 
+
+		var _this = this,  cfg = this.config, body = this.body;
 		if (event.keyCode == 67 && event.ctrlKey) {
 			// this.copyData();
 		}
 
+		if(event.keyCode == axf.Event.KEY_ESC){
+			axf.each(this.selectedRow, function () {
+				body.find(".gridBodyTr_" + this).removeClass("selected");
+			});
+			this.selectedRow.clear();
+		}
+		else
+		if (event.keyCode == 65 && (event.ctrlKey || event.metaKey)) {
+
+		}
+		else
 		if(!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
 			if (event.keyCode == axf.Event.KEY_UP) { /* */
 				this.focusMove(-1, event);
 			}
 			else if (event.keyCode == axf.Event.KEY_DOWN) { /* */
 				this.focusMove(1, event);
+			}
+		}
+		else
+		if(event.shiftKey){
+			if (event.keyCode == axf.Event.KEY_UP) { /* */
+				// todo 멀티 셀렉트 기능 작
+			}
+			else if (event.keyCode == axf.Event.KEY_DOWN) { /* */
+
 			}
 		}
 	},
@@ -12609,7 +12639,10 @@ myGrid.setConfig({
 		if (this.readyMoved) return false;
 
 		/* event target search - */
-		if (event.target.id == "") return;
+		//if (event.target.id == "") return;
+
+		//trace(event.target.tagName);
+
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 		if (eventTarget.tagName.toLowerCase() == "input") return;
@@ -13944,7 +13977,7 @@ myGrid.setData(gridData);
 				result = (value || 0).number().money();
 			}
 		} else if (formatter == "dec") {
-			result = (value == undefined) ? "" : value.dec();
+			result = (value == undefined) ? "" : value.toString().dec();
 		} else if (formatter == "html") {
 			result = value;
 		} else if (formatter == "checkbox" || formatter == "radio") {
@@ -15917,8 +15950,10 @@ myGrid.removeListIndex(removeList);
 									new_ii = ii.number() + 1;
 								}
 								if (new_ii < 0) new_ii = _this.list.length - 1;
-								else if (_this.list.length <= new_ii) new_ii = 0;
-								_this.editCell(r, c, new_ii);
+								if (_this.list.length > new_ii) _this.editCell(r, c, new_ii);
+
+								//else if (_this.list.length <= new_ii) new_ii = 0;
+
 							}
 							else if (e.keyCode == axf.Event.KEY_TAB) {
 								var new_c, ci, cl;
@@ -17553,9 +17588,15 @@ myGrid.setFocus(0);
 
 		var getFormValue = function (formvalue, value) {
 			if (formvalue == "itemValue" || formvalue == "itemText") {
-				if (axdom.isArray(value)) {
+				if (typeof value != "undefined" && axdom.isArray(value)) {
 					return value;
-				} else {
+				}
+				else
+				if(typeof value == "boolean"){
+					return value;
+				}
+				else
+				{
 					return (value || "").dec();
 				}
 			} else if (axdom.isFunction(formvalue)) {
@@ -18246,6 +18287,21 @@ myGrid.setFocus(0);
 						toast.push({ body: res.msg.dec(), type: "Caution" });
 						cancelEditor();
 					}
+				},
+				onerr: function (res){
+					//toast.push({ body: res.msg.dec(), type: "Caution" });
+					if (cfg.editor.response) { /*  */
+						var sendObj = {
+							error      : true,
+							res        : res,
+							index      : this.editorItemIndex,
+							insertIndex: this.editorInsertIndex,
+							list       : this.list,
+							page       : this.page
+						};
+						cfg.editor.response.call(sendObj, this.editorItemIndex);
+					}
+					cancelEditor();
 				}
 			});
 

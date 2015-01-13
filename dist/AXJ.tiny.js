@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-12 
+AXJ - v1.0.9 - 2015-01-13 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-12 
+AXJ - v1.0.9 - 2015-01-13 
 */
 
 if(!window.AXConfig){
@@ -6107,7 +6107,9 @@ var AXContextMenuClass = Class.create(AXJ, {
                     po.push("<div class='tool-checkbox"+ checked +"' id=\"" + subMenuID + "_tool_AX_" + depth + "_AX_" + idx + "\"></div>");
                 }
 
-                po.push("<span class='label'>" + menu.label + "</label>");
+                po.push("<span class='label'>" + menu.label + "</span>");
+
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
@@ -6235,6 +6237,8 @@ AXContextMenu.open({
 
                 po.push("<span class='label'>" + menu.label + "</label>");
 
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
+
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
@@ -6342,6 +6346,8 @@ AXContextMenu.open({
 
                 po.push("<span class='label'>" + menu.label + "</label>");
 
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
+
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
                 if (obj.sortbox){
@@ -6434,6 +6440,8 @@ AXContextMenu.open({
                 }
 
                 po.push("<span class='label'>" + menu.label + "</span>");
+
+                if(menu.shotCut) po.push("<span class='shot-cut'>" + menu.shotCut + "</span>");
 
                 po.push("<div class='tool-rightGroup'>");
                 if (menu[obj.reserveKeys.subMenu] && menu[obj.reserveKeys.subMenu].length > 0) po.push("<div class=\"contextSubMenuIcon\"></div>");
