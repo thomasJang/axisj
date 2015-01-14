@@ -12426,8 +12426,10 @@ var AXGrid = Class.create(AXJ, {
  ```
 	 */
 	checkedColSeq: function (colSeq, checked, itemIndex) {
-		var cfg = this.config, sendObj;
+		var cfg = this.config, _this = this, sendObj;
 		var _list = this.list;
+
+
 		if (itemIndex == undefined) {
 			this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
 				this.checked = checked;
@@ -12467,7 +12469,17 @@ var AXGrid = Class.create(AXJ, {
 					cfg.body.oncheck.call(sendObj);
 				//}, 1);
 			}
-		} else {
+		}
+		else
+		{
+			if(cfg.colGroup[colSeq].formatter === "radio") {
+				var ii= 0, ll = this.list.length;
+				for(;ii<ll;ii++) {
+					if(typeof _this.list[ii].___checked === "undefined") _this.list[ii].___checked = {};
+					_this.list[ii].___checked[colSeq] = false;
+				}
+			}
+
 			this.body.find(".gridBodyTr_" + itemIndex + " .gridCheckBox_body_colSeq" + colSeq).each(function () {
 				if (checked == null) {
 					this.checked = !this.checked;
@@ -12475,14 +12487,22 @@ var AXGrid = Class.create(AXJ, {
 					this.checked = checked;
 				}
 			});
+
 			var item = this.list[itemIndex];
+
 			if(typeof item.___disabled == "undefined") item.___disabled = {};
 			if(typeof item.___checked == "undefined") item.___checked = {};
 			if (checked == null) {
-				item.___checked[colSeq] = !item.___checked[colSeq];
+				if(cfg.colGroup[c].formatter === "radio") {
+					item.___checked[colSeq] = true;
+				}else{
+					item.___checked[colSeq] = !item.___checked[colSeq];
+				}
 			}else{
 				item.___checked[colSeq] = checked;
 			}
+
+			return;
 			if (cfg.colGroup[colSeq].oncheck) {
 				sendObj = {
 					index: checkboxIndex,
@@ -15430,13 +15450,11 @@ myGrid.removeListIndex(removeList);
 			var itemIndex = targetID.split(/_AX_/g).last();
 			var ids = targetID.split(/_AX_/g);
 			if (ids.length < 4) return; //  약속된 아이디 형식이 아님.
-			var item = this.list[itemIndex];
-			var r = ids[ids.length - 3];
-			var c = ids[ids.length - 2];
+			var item = this.list[itemIndex], r = ids[ids.length - 3], c = ids[ids.length - 2];
 
 			if(cfg.colGroup[c].formatter === "radio"){
-				trace(cfg.colGroup[c].formatter, checkedValue);
-				for(var ii=0;ii<this.list.length;ii++){
+				var ii= 0, ll = this.list.length;
+				for(;ii<ll;ii++) {
 					if(typeof this.list[ii].___checked === "undefined") this.list[ii].___checked = {};
 					this.list[ii].___checked[c] = false;
 				}
@@ -15930,11 +15948,13 @@ myGrid.removeListIndex(removeList);
 			}
 			else
 			if(CG.editor.type == "finder") {
+
 				if(CG.editor.finder && CG.editor.finder.onclick){
 					inline_editor.find(".finder-handle").on("click", function(){
 						CG.editor.finder.onclick.call({
 							id : cfg.targetID + '_inline_editor',
-							value: jQuery('#' + cfg.targetID + '_inline_editor').val()
+							value: jQuery('#' + cfg.targetID + '_inline_editor').val(),
+							r: r,  c:c, index:ii, item: _this.list[ii]
 						});
 					});
 				}
@@ -16017,9 +16037,19 @@ myGrid.removeListIndex(removeList);
 			}
 			else
 			{
-				po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + val + '" class="inline_editor_input '+cond.type+'" />');
 				if(cond.type == "finder"){
+					po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + val + '" ');
+
+					if(cond.readonly){
+						po.push(' class="inline_editor_input '+cond.type+'" ');
+						po.push(' readonly="readonly" ');
+					}else{
+						po.push(' class="inline_editor_input '+cond.type+'" ');
+					}
+					po.push(' />');
 					po.push('<a class="finder-handle"></a>');
+				}else{
+					po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + val + '" class="inline_editor_input '+cond.type+'" ' + (cond.readonly?'readonly="readonly"':'') + ' />');
 				}
 			}
 			return po.join('');
@@ -16515,55 +16545,90 @@ myGrid.contentScrollResize(false);
 	 * @description  그리드 몸통에서 일어나는 마우스 휠 이벤트 처리를 합니다.
 	 */
 	contentScrollScrollWheel: function (e) {
-		var cfg = this.config;
+		var cfg = this.config,
+			scrollTop = this.scrollContent.position().top,
+			scrollLeft = this.scrollContent.position().left,
+			eventCancle = false,
+			event = window.event || e, deltaX = 0, deltaY = 0, attr;
 
 		if (cfg.height == "auto") return;
 
 		if(!this.contentScrollAttrs){
-			this.contentScrollYAttr = {
-				bodyHeight: this.body.height(),
-				scrollHeight: this.scrollContent.height(),
-				scrollTrackYHeight: this.scrollTrackY.height(),
-				scrollYHandleHeight: this.scrollYHandle.outerHeight()
+			this.contentScrollAttrs = {
+				bodyHeight         : this.body.height(),
+				bodyWidth          : this.body.width()
 			};
 		}
+		attr = this.contentScrollAttrs;
+		attr.scrollHeight =this.scrollContent.height();
+		attr.scrollWidth =this.scrollContent.width();
+		attr.scrollTrackYHeight = this.scrollTrackY.height();
+		attr.scrollYHandleHeight = this.scrollYHandle.outerHeight();
+		attr.scrollTrackYWidth = this.scrollTrackY.width();
+		attr.scrollYHandleWidth = this.scrollYHandle.outerWidth();
 
-		var event = window.event || e;
-		var delta = event.detail ? event.detail * (-20) : event.wheelDelta / 2;
+
+		if (event.wheelDeltaX) {
+			deltaX = (event.wheelDeltaX / 2).ceil();
+			deltaY = (event.wheelDeltaY / 2).ceil();
+		} else {
+			deltaY = (event.detail ? event.detail * (-20) : event.wheelDelta / 2).ceil();
+		}
+
 		/*check for detail first so Opera uses that instead of wheelDelta */
 
-		var bodyHeight = this.body.height();
-		var scrollTop = this.scrollContent.position().top;
-		var scrollHeight = this.scrollContent.height();
+		// 아무일도 하지 말기
+		if(deltaX == 0 && deltaY == 0) return true;
 
-		var handleHeight = this.scrollYHandle.outerHeight();
-		var trackHeight = this.scrollTrackY.height();
+		if(deltaY.abs() > 0) {
+			if (attr.scrollHeight < attr.bodyHeight) return;
+			scrollTop += deltaY;
 
-		if (scrollHeight < bodyHeight) return;
-
-		var eventCancle = false;
-		scrollTop += delta;
-
-		//trace(scrollTop.abs() + bodyHeight, scrollHeight);
-		if (scrollTop > 0) {
-			scrollTop = 0;
-			eventCancle = true;
-		} else if (scrollTop.abs() + bodyHeight > scrollHeight) {
-			scrollTop = bodyHeight - scrollHeight;
-			eventCancle = true;
-		} else if (scrollTop == 0) {
-			scrollTop = 0;
-			eventCancle = true;
+			//trace(scrollTop.abs() + bodyHeight, scrollHeight);
+			if (scrollTop > 0) {
+				scrollTop = 0;
+				eventCancle = true;
+			} else if (scrollTop.abs() + attr.bodyHeight > attr.scrollHeight) {
+				scrollTop = attr.bodyHeight - attr.scrollHeight;
+				eventCancle = true;
+			} else if (scrollTop == 0) {
+				scrollTop = 0;
+				eventCancle = true;
+			}
 		}
-		this.scrollContent.css({ top: scrollTop });
-		this.contentScrollContentSync({ top: scrollTop });
+
+		if(deltaX.abs() > 0) {
+			if (attr.scrollWidth < attr.bodyWidth) return;
+			scrollLeft += deltaX;
+
+			//trace(scrollTop.abs() + bodyHeight, scrollHeight);
+			if (scrollLeft > 0) {
+				scrollLeft = 0;
+				eventCancle = true;
+			} else if (scrollLeft.abs() + attr.bodyWidth > attr.scrollWidth) {
+				scrollLeft = attr.bodyWidth - attr.scrollWidth;
+				eventCancle = true;
+			} else if (scrollLeft == 0) {
+				scrollLeft = 0;
+				eventCancle = true;
+			}
+			this.scrollContent.css({ top: scrollTop, left: scrollLeft });
+			this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
+		}else{
+			this.scrollContent.css({ top: scrollTop });
+			this.contentScrollContentSync({ top: scrollTop });
+
+		}
+
 
 		if (!eventCancle) {
 			if (event.preventDefault) event.preventDefault();
 			if (event.stopPropagation) event.stopPropagation();
 			event.cancelBubble = true;
 			return false;
-		} else {
+		}
+		else
+		{
 			if (scrollTop != 0) {
 				var contentScrollEnd = this.contentScrollEnd.bind(this);
 				if (this.contentScrollEndObserver) clearTimeout(this.contentScrollEndObserver);
