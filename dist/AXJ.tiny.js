@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-13 
+AXJ - v1.0.9 - 2015-01-14 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-13 
+AXJ - v1.0.9 - 2015-01-14 
 */
 
 if(!window.AXConfig){
@@ -12937,7 +12937,7 @@ var AXSelectConverter = Class.create(AXJ, {
 	},
 	bindSelect: function (objID, objSeq) {
 		var cfg = this.config, _this = this;
-		var obj = this.objects[objSeq];
+		var obj = this.objects[objSeq], options, sendObj;
 
 		var iobj = obj.iobj;
 		var objDom = obj.objDom;
@@ -12989,7 +12989,13 @@ var AXSelectConverter = Class.create(AXJ, {
 					obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 					AXgetId(objID).options[obj.selectedIndex].selected = true;
 					obj.config.selectedObject = obj.options[obj.selectedIndex];
-					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+
+					options = AXgetId(objID).options[obj.selectedIndex];
+					sendObj = {
+						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
+						value:options.value, text:options.text
+					};
+					obj.config.onChange.call(sendObj, sendObj);
 				}
 
 			};
@@ -13078,7 +13084,14 @@ var AXSelectConverter = Class.create(AXJ, {
 						if (obj.config.onChange && obj.config.alwaysOnChange) {
 							obj.config.focusedIndex = obj.selectedIndex;
 							obj.config.selectedObject = obj.options[obj.selectedIndex];
-							obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject, "isPostBack");
+							sendObj = {
+								optionIndex: obj.selectedIndex,
+								optionValue: obj.options[obj.selectedIndex].optionValue,
+								optionText : obj.options[obj.selectedIndex].optionText,
+								value      : obj.options[obj.selectedIndex].optionValue,
+								text       : obj.options[obj.selectedIndex].optionText
+							};
+							obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 						}
 
 						bindSelectChange();
@@ -13096,8 +13109,8 @@ var AXSelectConverter = Class.create(AXJ, {
 				}
 			});
 		}
-		else if (obj.config.options) 
-		{
+		else
+		if (obj.config.options) {
 
 			iobj.html("<option></option>");
 
@@ -13126,27 +13139,33 @@ var AXSelectConverter = Class.create(AXJ, {
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
 				obj.config.focusedIndex = obj.selectedIndex;
 				obj.config.selectedObject = obj.options[obj.selectedIndex];
-				obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject, "isPostBack");
+
+				options = AXgetId(objID).options[obj.selectedIndex];
+				sendObj = {
+					optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
+					value:options.value, text:options.text
+				};
+				obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 			}
 
 			if (obj.config.onLoad) {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
-				
 		}
-		else 
+		else
 		{
 			this.bindSelectChange(objID, objSeq, "load");
-
 			if (obj.config.onChange && obj.config.alwaysOnChange) {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				if (selectedOption) {
-					var sendObj = {optionValue:selectedOption.value, optionText:selectedOption.text};
+					sendObj = {
+						optionIndex:selectedOption.index, optionValue:selectedOption.value, optionText:selectedOption.text,
+						value:selectedOption.value, text:selectedOption.text
+					};
 					obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 				}
 			}
-
 			if (obj.config.onLoad) {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
@@ -13184,10 +13203,16 @@ var AXSelectConverter = Class.create(AXJ, {
 				if(obj.selectedIndex != AXgetId(objID).options.selectedIndex) obj.selectedIndex = AXgetId(objID).options.selectedIndex;
 			}catch(e){
 			}
-			return AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
+			var options = AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
+			return {
+				value:options.value, text:options.text, index:AXgetId(objID).options.selectedIndex
+			}
 		}else{
 			obj.selectedIndex = 0;
-			return AXgetId(objID).options[0];
+			var options = AXgetId(objID).options[0];
+			return {
+				value:options.value, text:options.text, index:0
+			}
 		}
 
 	},
@@ -13280,7 +13305,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.bindSelectSetOptions(objID, objSeq);
 	},
 	bindSelectClose: function (objID, objSeq, event) {
-		var obj = this.objects[objSeq];
+		var obj = this.objects[objSeq], options, sendObj;
 		//trace("bindSelectorClose");
 		var cfg = this.config;
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -13292,10 +13317,14 @@ var AXSelectConverter = Class.create(AXJ, {
 			axdom(document).unbind("keydown", obj.documentKeyup);
 
 			if (obj.config.isChangedSelect) {
-
 				AXgetId(objID).options[obj.selectedIndex].selected = true;
 				if (obj.config.onChange) {
-					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+					options = AXgetId(objID).options[obj.selectedIndex];
+					sendObj = {
+						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
+						value: options.value, text: options.text
+					};
+					obj.config.onChange.call(sendObj, sendObj);
 				}
 				obj.config.isChangedSelect = false;
 				this.bindSelectChange(objID, objSeq);
@@ -13305,10 +13334,14 @@ var AXSelectConverter = Class.create(AXJ, {
 			return;
 		}else{
 			if (obj.config.isChangedSelect) {
-
 				AXgetId(objID).options[obj.selectedIndex].selected = true;
 				if (obj.config.onChange) {
-					obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+					options = AXgetId(objID).options[obj.selectedIndex];
+					sendObj = {
+						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
+						value: options.value, text: options.text
+					};
+					obj.config.onChange.call(sendObj, sendObj);
 				}
 				obj.config.isChangedSelect = false;
 
@@ -13512,7 +13545,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			return;
 		} else {
 
-			var obj = this.objects[findIndex];
+			var obj = this.objects[findIndex], options, sendObj;
 			var cfg = this.config;
 
 			if (this.isMobile) {
@@ -13520,10 +13553,15 @@ var AXSelectConverter = Class.create(AXJ, {
 					if (AXgetId(objID).options[oi].value == value) {
 						var selectedIndex = oi;
 						AXgetId(objID).options[oi].selected = true;
-						obj.config.selectedObject = { optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() };
+						obj.config.selectedObject = { optionIndex: oi, optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() };
 						this.bindSelectChange(objID, findIndex);
 						if (obj.config.onChange) {
-							obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+							options = AXgetId(objID).options[oi];
+							sendObj = {
+								optionIndex:oi, optionValue:options.value, optionText:options.text,
+								value: options.value, text: options.text
+							};
+							obj.config.onChange.call(sendObj, sendObj);
 						}
 						break;
 					}
@@ -13548,7 +13586,12 @@ var AXSelectConverter = Class.create(AXJ, {
 					this.bindSelectChange(objID, findIndex);
 
 					if (obj.config.onChange) {
-						obj.config.onChange.call(obj.config.selectedObject, obj.config.selectedObject);
+						options = AXgetId(objID).options[selectedIndex];
+						sendObj = {
+							optionIndex:selectedIndex, optionValue:options.value, optionText:options.text,
+							value: options.value, text: options.text
+						};
+						obj.config.onChange.call(sendObj, sendObj);
 					}
 
 				} else {
@@ -13723,7 +13766,7 @@ mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스�
 			po.push("<option value=\"" + opts.optionValue + "\"");
 			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
-		};
+		}
 		iobj.empty();
 		iobj.append(po.join(''));
 
