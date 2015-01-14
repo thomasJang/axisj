@@ -16028,6 +16028,7 @@ myGrid.removeListIndex(removeList);
 		}, 10);
 
 		function get_editor(cond, val){
+			if(typeof val == "undefined") val = "";
 			// text, number, money, calendar, select, selector, switch, segment, slider, finder
 			var po = [];
 			if(cond.type === "select"){
@@ -18690,6 +18691,9 @@ myGrid.setFocus(0);
 			/*alert(axf.getId(cfg.targetID + "_AX_gridPageNo").options[axf.getId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
 		}
 		axdom("#" + cfg.targetID + "_AX_gridPageCount").html("/ " + pgCount.money() + " " + cfg.pageCountMSG);
+
+
+		if(this.page.listCount.number() == 0) this.page.listCount = this.list.length;
 		axdom("#" + cfg.targetID + "_AX_gridStatus").html(cfg.listCountMSG.replace("{listCount}", this.page.listCount.number().money()));
 
 
@@ -31722,13 +31726,14 @@ var AXToolBar = Class.create(AXJ, {
 		}
 
 		this.open_midx = midx;
-
 		if(menu.menu) {
 			if (!menu.context_menu) {
+
+				if(typeof menu.width == "undefined") menu.width = 150;
 				menu.context_menu = AXContextMenu.bind({
 					id         : cfg.targetID + "_AX_expand_AX_" + midx,
 					theme      : "AXContextMenu", // 선택항목
-					width      : "150", // 선택항목
+					width      : menu.width, // 선택항목
 					reserveKeys: cfg.reserveKeys,
 					menu       : menu.menu,
 					onclose    : function () {
