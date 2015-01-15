@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-14 
+AXJ - v1.0.9 - 2015-01-15 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-14 
+AXJ - v1.0.9 - 2015-01-15 
 */
 
 if(!window.AXConfig){
@@ -16554,20 +16554,16 @@ myGrid.contentScrollResize(false);
 
 		if (cfg.height == "auto") return;
 
-		if(!this.contentScrollAttrs){
-			this.contentScrollAttrs = {
-				bodyHeight         : this.body.height(),
-				bodyWidth          : this.body.width()
-			};
-		}
-		attr = this.contentScrollAttrs;
-		attr.scrollHeight =this.scrollContent.height();
-		attr.scrollWidth =this.scrollContent.width();
+		attr = {
+			bodyHeight         : this.body.height(),
+			bodyWidth          : this.body.width()
+		};
+		attr.scrollHeight = this.scrollContent.height();
+		attr.scrollWidth = this.scrollContent.width();
 		attr.scrollTrackYHeight = this.scrollTrackY.height();
 		attr.scrollYHandleHeight = this.scrollYHandle.outerHeight();
 		attr.scrollTrackYWidth = this.scrollTrackY.width();
 		attr.scrollYHandleWidth = this.scrollYHandle.outerWidth();
-
 
 		if (event.wheelDeltaX) {
 			deltaX = (event.wheelDeltaX / 2).ceil();
@@ -16575,7 +16571,6 @@ myGrid.contentScrollResize(false);
 		} else {
 			deltaY = (event.detail ? event.detail * (-20) : event.wheelDelta / 2).ceil();
 		}
-
 		/*check for detail first so Opera uses that instead of wheelDelta */
 
 		// 아무일도 하지 말기
@@ -16584,7 +16579,6 @@ myGrid.contentScrollResize(false);
 		if(deltaY.abs() > 0) {
 			if (attr.scrollHeight < attr.bodyHeight) return;
 			scrollTop += deltaY;
-
 			//trace(scrollTop.abs() + bodyHeight, scrollHeight);
 			if (scrollTop > 0) {
 				scrollTop = 0;
@@ -16598,8 +16592,7 @@ myGrid.contentScrollResize(false);
 			}
 		}
 
-		if(deltaX.abs() > 0) {
-			if (attr.scrollWidth < attr.bodyWidth) return;
+		if(attr.scrollWidth > attr.bodyWidth && deltaX.abs() > 0) {
 			scrollLeft += deltaX;
 
 			//trace(scrollTop.abs() + bodyHeight, scrollHeight);
@@ -16615,10 +16608,13 @@ myGrid.contentScrollResize(false);
 			}
 			this.scrollContent.css({ top: scrollTop, left: scrollLeft });
 			this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
+
+			//trace({ top: scrollTop, left: scrollLeft });
+			//this.scrollContent.css({ top: scrollTop });
+			//this.contentScrollContentSync({ top: scrollTop });
 		}else{
 			this.scrollContent.css({ top: scrollTop });
 			this.contentScrollContentSync({ top: scrollTop });
-
 		}
 
 
