@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-15 
+AXJ - v1.0.9 - 2015-01-16 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-15 
+AXJ - v1.0.9 - 2015-01-16 
 */
 
 if(!window.AXConfig){
@@ -39004,6 +39004,10 @@ var AXUpload5 = Class.create(AXJ, {
 		
 		var pauseQueue = this.pauseQueue.bind(this);
 		var _this = this;
+
+
+
+
 		jQuery('#'+cfg.targetID+'_AX_selector').click(function(event){
 
 			if(cfg.onbeforeFileSelect){
@@ -40029,7 +40033,7 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			
 			this.uploadedList.push(f);
 			
-			var itemID = f.id, itembox = jQuery("#" + cfg.queueBoxID).find("#"+itemID);
+			var itemID = f.id, itembox;
 			
 			var uf = {
 				id:itemID,
@@ -40040,6 +40044,7 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			jQuery("#" + cfg.targetID+'_AX_display').empty();
 			jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, uf));
 
+			itembox = jQuery("#" + cfg.queueBoxID).find("#"+itemID);
 			itembox.find(".AXUploadBtns").show();
 			itembox.find(".AXUploadLabel").show();
 			itembox.find(".AXUploadTit").show();
@@ -40054,7 +40059,9 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 				});
 			}
 			
-		}else{
+		}
+		else
+		{
 
 			//this.uploadedList = files;
 			this.uploadedList = [];
@@ -40065,20 +40072,23 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			});
 			this.uploadedList = uploadedList;
 			//trace(this.uploadedList);
-			
+
+
 			if(cfg.queueBoxID){
+				var quebox = jQuery("#" + cfg.queueBoxID);
 				jQuery.each(this.uploadedList, function(fidx, f){
 					if(f.id == undefined){
 						trace("id key는 필수 항목 입니다.");
 						return false;	
 					}
-					var itemID = f.id, quebox = jQuery("#" + cfg.queueBoxID), itembox = quebox.find("#"+itemID);
+					var itemID = f.id, itembox;
 					var uf = {
 						id:itemID,
 						name:f[cfg.fileKeys.name],
 						size:f[cfg.fileKeys.fileSize]
 					};
 					quebox.prepend(getItemTag(itemID, uf));
+					itembox = axdom("#" + itemID);
 					itembox.fadeIn();
 					
 					// --------------------- s
