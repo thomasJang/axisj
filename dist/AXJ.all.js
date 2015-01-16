@@ -20038,23 +20038,24 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var bindNumberAdd = this.bindNumberAdd.bind(this);
 		var bindNumberCheck = this.bindNumberCheck.bind(this);
-		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").unbind("mousedown.AXInput").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").unbind("mousedown.AXInput").bind("mousedown.AXInput", function (event) {
 			bindNumberAdd(objID, 1, objSeq);
-			bindNumberCheck(objID, objSeq);
+			bindNumberCheck(objID, objSeq, event);
 		});
-		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").unbind("mousedown.AXInput").bind("mousedown.AXInput", function () {
+		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_decrease").unbind("mousedown.AXInput").bind("mousedown.AXInput", function (event) {
 			bindNumberAdd(objID, -1, objSeq);
-			bindNumberCheck(objID, objSeq);
+			bindNumberCheck(objID, objSeq, event);
 		});
-		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function () {
-			bindNumberCheck(objID, objSeq);
-		});
+		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
+
+			bindNumberCheck(objID, objSeq, event);
+		})
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			if (event.keyCode == AXUtil.Event.KEY_UP) bindNumberAdd(objID, 1, objSeq);
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
 		});
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
-			bindNumberCheck(objID, objSeq);
+			bindNumberCheck(objID, objSeq, event);
 		});
 	},
 	bindNumberAdd: function (objID, adder, objSeq) {
@@ -20080,7 +20081,7 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindTarget.val(nval + adder);
 		obj.bindTarget.change();
 	},
-	bindNumberCheck: function (objID, objSeq) {
+	bindNumberCheck: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
@@ -20128,7 +20129,8 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.bindTarget.val(nval);
 			}
 		}
-		obj.bindTarget.setCaret();
+
+		if(typeof event == "undefined" && event.type != "blur") obj.bindTarget.setCaret();
 
 		if (obj.config.onChange) {
 			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
@@ -20156,37 +20158,46 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 		obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			var elem = obj.bindTarget.get(0);
+
 			if(elem.type != "number") {
-				var elemFocusPosition;
-				if ('selectionStart' in elem) {
-					// Standard-compliant browsers
-					elemFocusPosition = elem.selectionStart;
-				} else if (document.selection) {
-					// IE
-					//elem.focus();
-					var sel = document.selection.createRange();
-					var selLen = document.selection.createRange().text.length;
-					sel.moveStart('character', -elem.value.length);
-					elemFocusPosition = sel.text.length - selLen;
-				}
-				//trace(elemFocusPosition);
+				event = window.event || event;
 
-				// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
-
-				obj.bindTarget.data("focusPosition", elemFocusPosition);
-				obj.bindTarget.data("prevLen", elem.value.length);
-
-				var event = window.event || e;
 				// ignore tab & shift key 스킵 & ctrl
-				if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
-				if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
-				if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-					bindMoneyCheck(objID, objSeq, "keyup");
-				} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
-					bindMoneyCheck(objID, objSeq, "keyup");
+				if (
+					(!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) ||
+					((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91))
+				){
+					jQuery.removeData(obj.bindTarget.get(0), "focusPosition");
+				}
+				else{
+					var elemFocusPosition;
+					if ('selectionStart' in elem) {
+						// Standard-compliant browsers
+						elemFocusPosition = elem.selectionStart;
+					} else if (document.selection) {
+						// IE
+						//elem.focus();
+						var sel = document.selection.createRange();
+						var selLen = document.selection.createRange().text.length;
+						sel.moveStart('character', -elem.value.length);
+						elemFocusPosition = sel.text.length - selLen;
+					}
+					//trace(elemFocusPosition);
+					// 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
+
+					obj.bindTarget.data("focusPosition", elemFocusPosition);
+					obj.bindTarget.data("prevLen", elem.value.length);
+
+					if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
+						bindMoneyCheck(objID, objSeq, "keyup");
+					} else if (event.keyCode == AXUtil.Event.KEY_DELETE || event.keyCode == AXUtil.Event.KEY_BACKSPACE) {
+						bindMoneyCheck(objID, objSeq, "keyup");
+					}
 				}
 			}
 		});
+
+		/* blur 이벤트 처리 이상 작동으로 제거 - 15-01-16
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 				return false;
@@ -20195,6 +20206,7 @@ var AXInputConverter = Class.create(AXJ, {
 				bindMoneyCheck(objID, objSeq, "change");
 			}
 		});
+		*/
 	},
 	bindMoneyCheck: function (objID, objSeq, eventType) {
 		var obj = this.objects[objSeq];
@@ -38790,7 +38802,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.33.3
+ * @version v1.34
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -38814,6 +38826,7 @@ var swfobject;
  "2015-01-04 tom : thumbUrl 값이 없을 때 썸네일 배경 예외 처리 "
  "2015-01-05 tom : queuebox class 가 listType일 때 progressbar 위치 조정"
  "2015-01-09 tom : onFileDrop uploadedCount 증가구문 수정 https://github.com/axisj-com/axisj/issues/385"
+ "2015-01-16 tom : setUploadedList bug fix"
 
  * @description
  *
