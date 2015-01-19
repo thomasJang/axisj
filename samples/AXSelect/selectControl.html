@@ -40,13 +40,13 @@
 				// alwaysOnChange: true, onchange이벤트가 바인드 시점에 발생되는 옵션
 				// maxHeight: 150, expandBox의 최대 높이값
 
-				/* ajax
+				// ajax
 				ajaxUrl: "selectData.php",
 				ajaxPars: "",
-				isspace: false,
+				isspace: true,
 				isspaceTitle: "전체",
-				setValue: "3",
-				*/
+				//setValue: "3",
+
 
 				/* script set option
 				options:[
@@ -67,7 +67,10 @@
             });
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){
+		fnObj.pageStart();
+	});
+
 	</script>
 
 	<style type="text/css">

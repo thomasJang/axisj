@@ -13113,9 +13113,13 @@ var AXSelectConverter = Class.create(AXJ, {
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
-							res.selectedIndex = obj.selectedIndex;
-							res.selectedObject = {optionValue:obj.options[obj.selectedIndex].value, optionText:obj.options[obj.selectedIndex].text};
-							obj.config.onLoad.call(res);
+							sendObj = {
+								selectedIndex: obj.selectedIndex,
+								selectedObject: obj.options[obj.selectedIndex],
+								options: obj.options,
+								response: res
+							}
+							obj.config.onLoad.call(sendObj, sendObj);
 						}
 
 					} else {
@@ -13187,6 +13191,8 @@ var AXSelectConverter = Class.create(AXJ, {
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
 		}
+
+		this.alignAnchor(objID, objSeq);
 	},
 	selectTextBox_onkeydown: function(objID, objSeq, event){
 		var cfg = this.config, _this = this;
@@ -13225,7 +13231,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 		}else{
 			obj.selectedIndex = 0;
-			var options = AXgetId(objID).options[0];
+			var options = (AXgetId(objID).options[0]||{value:"",text:""});
 			return {
 				value:options.value, text:options.text, index:0
 			}
