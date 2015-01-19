@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-16 
+AXJ - v1.0.12b - 2015-01-19 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-16 
+AXJ - v1.0.12b - 2015-01-19 
 */
 
 if(!window.AXConfig){
@@ -3346,7 +3346,7 @@ axdom.fn.mask = function (configs) {
  * AXNotification
  * @class AXNotification
  * @extends AXJ
- * @version v1.5
+ * @version v1.6
  * @author tom@axisj.com
  * @logs
  "2012-10-30 오후 12:01:10",
@@ -3356,6 +3356,7 @@ axdom.fn.mask = function (configs) {
  "2014-08-16 tom : dialog body에서 \n -> <br/> auto replace "
  "2014-08-25 tom : dialog body에서 \n -> <br/> auto replace 예외처리 "
  "2015-01-12 tom : ie7,8 fadeOut error fix https://github.com/axisj-com/axisj/issues/386"
+ "2015-01-19 tom : https://github.com/axisj-com/axisj/issues/392 dialog에 onConfirm 추가"
  */
 var AXNotification = Class.create(AXJ, {
     initialize: function (AXJ_super) {
@@ -3459,8 +3460,10 @@ var AXNotification = Class.create(AXJ, {
         if (config.type == "toast") {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.toastTray);
             this.bread.push({ breadID: breadID, type: obj.type, html: po.join('').enc() });
-            this.insertBread();
-        } else if (config.type == "dialog") {
+            this.insertBread(obj);
+        }
+        else
+        if (config.type == "dialog") {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.dialogTray);
             this.dialogTray.prepend(po.join(''));
 
@@ -3524,7 +3527,7 @@ var AXNotification = Class.create(AXJ, {
             });
         }
     },
-    insertBread: function () {
+    insertBread: function (obj) {
         var config = this.config;
         if (this.bread.length == 0) {
             return;
@@ -3541,6 +3544,7 @@ var AXNotification = Class.create(AXJ, {
         breadBox = axdom("#bread_AX_" + breadID);
 
         axdom("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
+            if (obj.onConfirm) obj.onConfirm(obj.data);
             breadBox.find("button, input").hide();
             breadBox.fadeOut({
                 duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
