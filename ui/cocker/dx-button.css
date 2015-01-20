@@ -15,6 +15,12 @@
   text-indent: 99999px;
   overflow: hidden;
 }
+button {
+  font-family: inherit;
+}
+button:hover {
+  font-family: inherit;
+}
 .axbutton-style-normal {
   background: #fff;
   color: #858585;
