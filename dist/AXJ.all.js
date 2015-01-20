@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.12b - 2015-01-19 
+AXJ - v1.0.12b - 2015-01-20 
 */
 /*! 
-AXJ - v1.0.12b - 2015-01-19 
+AXJ - v1.0.12b - 2015-01-20 
 */
 
 if(!window.AXConfig){
@@ -12430,11 +12430,12 @@ var AXGrid = Class.create(AXJ, {
  ```
 	 */
 	checkedColSeq: function (colSeq, checked, itemIndex) {
+
 		var cfg = this.config, _this = this, sendObj;
 		var _list = this.list;
 
 
-		if (itemIndex == undefined) {
+		if (typeof itemIndex === "undefined") {
 			this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
 				this.checked = checked;
 			});
@@ -12494,19 +12495,19 @@ var AXGrid = Class.create(AXJ, {
 
 			var item = this.list[itemIndex];
 
-			if(typeof item.___disabled == "undefined") item.___disabled = {};
-			if(typeof item.___checked == "undefined") item.___checked = {};
+			if(typeof item.___disabled === "undefined") item.___disabled = {};
+			if(typeof item.___checked === "undefined") item.___checked = {};
+
 			if (checked == null) {
-				if(cfg.colGroup[c].formatter === "radio") {
+				if(cfg.colGroup[colSeq].formatter === "radio") {
 					item.___checked[colSeq] = true;
 				}else{
-					item.___checked[colSeq] = !item.___checked[colSeq];
+					item.___checked[colSeq] = !(item.___checked[colSeq] == true);
 				}
 			}else{
 				item.___checked[colSeq] = checked;
 			}
 
-			return;
 			if (cfg.colGroup[colSeq].oncheck) {
 				sendObj = {
 					index: checkboxIndex,
