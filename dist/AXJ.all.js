@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.12b - 2015-01-20 
+AXJ - v1.0.12b - 2015-01-21 
 */
 /*! 
-AXJ - v1.0.12b - 2015-01-20 
+AXJ - v1.0.12b - 2015-01-21 
 */
 
 if(!window.AXConfig){
@@ -28551,16 +28551,19 @@ var AXSelectConverter = Class.create(AXJ, {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						//trace(res);
-						var po = [];
+						var po = [], adj = 0;
 						if (obj.config.isspace) {
-							po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
+							po.push("<option value=''");
+							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+							adj =-1;
 						}
 						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
 							po.push("<option value=\"" + opts.optionValue + "\"");
 							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == opts.optionValue || opts.selected) po.push(" selected=\"selected\"");
+							if (obj.config.setValue == opts.optionValue || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
 							po.push(">" + opts.optionText.dec() + "</option>");
-						};
+						}
 						axdom("#" + objID).html(po.join(''));
 
 						var options = [];
@@ -28607,17 +28610,20 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			iobj.html("<option></option>");
 
-			var po = [];
+			var po = [], adj = 0;
 			if (obj.config.isspace) {
-				po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
+				po.push("<option value=''");
+				if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+				po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+				adj = -1;
 			}
 
 			for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
 				var optionText = (opts.optionText||"").dec();
 				po.push("<option value=\"" + opts.optionValue + "\"");
-				if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+				if (obj.config.setValue == opts.optionValue || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
 				po.push(">" + optionText + "</option>");
-			};
+			}
 			iobj.html(po.join(''));
 
 			var options = [];
@@ -29211,7 +29217,7 @@ var AXSelectConverter = Class.create(AXJ, {
  * @method AXSelectConverter.bindSelectAddOptions
  * @param {String} objID - element select id
  * @param {Array} options - 추가하려는 옵션 배열
- * @returns null
+ * @returns {Array} options
  * @description 설명
  * @example
  ```
@@ -29274,7 +29280,7 @@ mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스�
  * @method AXSelectConverter.bindSelectRemoveOptions
  * @param objID {String} element select id
  * @param options {Array} 추가하려는 옵션 배열
- * @returns null
+ * @returns {Array} options
  * @description 설명
  * @example
  ```
@@ -29332,6 +29338,115 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 		this.alignAnchor(objID, objSeq);
 
 		return obj.options;
+	},
+
+
+	/**
+	 * @method AXSelectConverter.bindSelectUpdateOptions
+	 * @param {String} objID - element select id
+	 * @param {Array|Object} options - 옵션 배열
+	 * @param {Number} optionIndex - 변경하려는 옵션 인덱스
+	 * @returns {AXSelectConverter}
+	 * @description 설명
+	 * @example
+ ```
+ jQuery("#AXSelect1").bindSelectUpdateOptions([
+	 {optionValue:1, optionText:"abc-1 : ABCDEFG"},
+	 {optionValue:2, optionText:"abc-2 : 09123123"},
+	 {optionValue:3, optionText:"abc-3 : 1222"},
+	 {optionValue:4, optionText:"abc-4 : AXISJ"},
+	 {optionValue:5, optionText:"abc-5 : 액시스 제이"}
+ ]);
+
+ jQuery("#AXSelect1").bindSelectUpdateOptions({optionValue:3, optionText:"특별한 값으로 변경"}, 3);
+ ```
+	 */
+	bindSelectUpdateOptions: function(objID, options, optionIndex){
+		var cfg = this.config, _this = this;
+		var objSeq = null;
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
+			if (O.id == objID && O.isDel != true) {
+				objSeq = index;
+				break;
+			}
+		}
+		if(objSeq == null) {
+			trace("not found element id");
+			return;
+		}
+		var obj = this.objects[objSeq];
+		var iobj = obj.iobj;
+
+		if(typeof optionIndex === "undefined" && !Object.isArray(options)){
+			trace("options 아규먼트가 없습니다.");
+			return;
+		}
+
+		var newOptions = [];
+		if(typeof optionIndex === "undefined"){
+			for(var i = 0; i < options.length; i++){
+				newOptions.push(jQuery.extend({optionText:options[i].optionText.enc(), optionValue:options[i].optionValue}, options[i]));
+			}
+			obj.selectedIndex = 0;
+		}else{
+			var _adj = 0;
+			if (obj.config.isspace) _adj = 1;
+			for (var i = 0; i < obj.config.options.length; i++) {
+				if(i+_adj == optionIndex){
+					newOptions.push(jQuery.extend({optionText:options.optionText.enc(), optionValue:options.optionValue}, options));
+				}else{
+					newOptions.push(obj.config.options[i]);
+				}
+			}
+		}
+
+		obj.config.options = newOptions;
+		iobj.css({opacity:100});
+		iobj.html("<option></option>");
+
+		var po = [], adj = 0;
+		if (obj.config.isspace) {
+			po.push("<option value=''");
+			if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+			po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+			adj = -1;
+		}
+
+		for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
+			var optionText = (opts.optionText||"").dec();
+			po.push("<option value=\"" + opts.optionValue + "\"");
+			if (obj.config.setValue == opts.optionValue || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
+			po.push(">" + optionText + "</option>");
+		}
+
+		trace(po.join(''));
+
+		iobj.html(po.join(''));
+
+		var options = [];
+		for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
+			options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
+		}
+		obj.options = AXUtil.copyObject(options);
+		obj.selectedIndex = AXgetId(objID).options.selectedIndex;
+
+		this.bindSelectChange(objID, objSeq, "load");
+
+		if (obj.config.onChange && obj.config.alwaysOnChange) {
+			obj.config.focusedIndex = obj.selectedIndex;
+			obj.config.selectedObject = obj.options[obj.selectedIndex];
+
+			options = AXgetId(objID).options[obj.selectedIndex];
+			sendObj = {
+				optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
+				value:options.value, text:options.text
+			};
+			obj.config.onChange.call(sendObj, sendObj, "isPostBack");
+		}
+
+		this.alignAnchor(objID, objSeq);
+
+		return this;
 	}
 });
 
@@ -29561,6 +29676,32 @@ axdom.fn.bindSelectRemoveOptions = function (options) {
 	var returnObj;
 	axdom.each(this, function () {
 		returnObj = AXSelect.bindSelectRemoveOptions(this.id, options);
+	});
+	return returnObj;
+};
+
+
+/**
+ * @method jQueryExtends.bindSelectUpdateOptions
+ * @param {Array} options - 삭제하려는 옵션 배열
+ * @description 배열로 지정한 객체를 해당 셀렉트의 option 에서 제거합니다.
+ * @example
+ ```
+ jQuery("#AXSelect1").bindSelectUpdateOptions([
+	 {optionValue:1, optionText:"abc-1 : ABCDEFG"},
+	 {optionValue:2, optionText:"abc-2 : 09123123"},
+	 {optionValue:3, optionText:"abc-3 : 1222"},
+	 {optionValue:4, optionText:"abc-4 : AXISJ"},
+	 {optionValue:5, optionText:"abc-5 : 액시스 제이"}
+ ]);
+
+ jQuery("#AXSelect1").bindSelectUpdateOptions({optionValue:3, optionText:"특별한 값으로 변경"}, 3);
+ ```
+ */
+axdom.fn.bindSelectUpdateOptions = function (options, oidx) {
+	var returnObj;
+	axdom.each(this, function () {
+		returnObj = AXSelect.bindSelectUpdateOptions(this.id, options, oidx);
 	});
 	return returnObj;
 };
