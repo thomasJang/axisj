@@ -13079,6 +13079,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 						//trace(res);
 						var po = [], adj = 0;
+						obj.config.options = res.options;
 						if (obj.config.isspace) {
 							po.push("<option value=''");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
