@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.12b - 2015-01-21 
+AXJ - v1.0.12b - 2015-01-22 
 */
 /*! 
-AXJ - v1.0.12b - 2015-01-21 
+AXJ - v1.0.12b - 2015-01-22 
 */
 
 if(!window.AXConfig){
@@ -6431,6 +6431,7 @@ AXContextMenu.open({
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
             if (filter(objSeq, objID, myobj, menu)) {
+
                 if (menu.upperLine) {
                     po.push("<div class=\"hline\"></div>");
                 }
@@ -13081,7 +13082,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						var po = [], adj = 0;
 						obj.config.options = res.options;
 						if (obj.config.isspace) {
-							po.push("<option value=''");
+							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
@@ -13140,7 +13141,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			var po = [], adj = 0;
 			if (obj.config.isspace) {
-				po.push("<option value=''");
+				po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 				if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 				po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 				adj = -1;
@@ -13934,7 +13935,7 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 
 		var po = [], adj = 0;
 		if (obj.config.isspace) {
-			po.push("<option value=''");
+			po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 			if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 			po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 			adj = -1;
@@ -13946,8 +13947,6 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 			if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
 		}
-
-		trace(po.join(''));
 
 		iobj.html(po.join(''));
 

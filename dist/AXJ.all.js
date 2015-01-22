@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.12b - 2015-01-21 
+AXJ - v1.0.12b - 2015-01-22 
 */
 /*! 
-AXJ - v1.0.12b - 2015-01-21 
+AXJ - v1.0.12b - 2015-01-22 
 */
 
 if(!window.AXConfig){
@@ -6431,6 +6431,7 @@ AXContextMenu.open({
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
             if (filter(objSeq, objID, myobj, menu)) {
+
                 if (menu.upperLine) {
                     po.push("<div class=\"hline\"></div>");
                 }
@@ -11102,6 +11103,8 @@ var AXGrid = Class.create(AXJ, {
 			sub_list     : "list",
 			hidden       : "_hidden"
 		};
+
+		this.mobileContextMenu = new AXContextMenuClass();
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
@@ -16123,7 +16126,7 @@ myGrid.removeListIndex(removeList);
 
 		// 입력받은 값을 전환 하는 함수 체크 필요.
 		// CG.editor.beforeUpdate
-		if(CG.editor.beforeUpdate){
+		if(CG.editor && CG.editor.beforeUpdate){
 			value = CG.editor.beforeUpdate.call(that, value);
 		}
 		_this.list[itemIndex][CH.key] = value;
@@ -18597,7 +18600,9 @@ myGrid.setFocus(0);
 					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNoDisplay").html(po.join(''));
 					axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").html(po.join(''));
 					axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNoDisplay").html(po.join(''));
-				} else {
+				}
+				else
+				{
 					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").html("");
 					axdom("#" + cfg.targetID + "_AX_gridToolTopPageNoDisplay").html(pageNo);
 					var mySelect = axf.getId(cfg.targetID + "_AX_gridToolTopPageNo");
@@ -18618,7 +18623,6 @@ myGrid.setFocus(0);
 				axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").bind("change", this.onPageChange.bind(this));
 
 				/* page event bind */
-
 				var goPageMove = this.goPageMove.bind(this);
 				toolGroupTop.find(".tool-prevPage").bind("click", function (event) {
 					goPageMove(-1);
@@ -18632,7 +18636,6 @@ myGrid.setFocus(0);
 				toolGroupBottom.find(".tool-nextPage").bind("click", function (event) {
 					goPageMove(1);
 				});
-
 				/* page event bind */
 
 			}
@@ -19258,13 +19261,8 @@ myGrid.setFocus(0);
 		}
 
 		var contextMenu = mobileView.column.concat();
-		try{
-			AXContextMenu.setConfig({responsiveMobile: cfg.mediaQuery.mx.max});
-		}catch(e){
-			AXContextMenu.setConfig({responsiveMobile: 640});
-		}
-
-		AXContextMenu.bind({
+		this.mobileContextMenu.setConfig({responsiveMobile: 900000});
+		this.mobileContextMenu.bind({
 			id: cfg.targetID + "myContextMenu",
 			theme: "AXContextMenu", // 선택항목
 			width: "150", // 선택항목
@@ -19286,7 +19284,7 @@ myGrid.setFocus(0);
 				return true;// 메뉴 창이 닫히지 않게 합니다.
 			}
 		});
-		AXContextMenu.open({id: cfg.targetID + "myContextMenu"}, event);
+		this.mobileContextMenu.open({id: cfg.targetID + "myContextMenu"}, event);
 	},
 /**
  *
@@ -28554,7 +28552,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						var po = [], adj = 0;
 						obj.config.options = res.options;
 						if (obj.config.isspace) {
-							po.push("<option value=''");
+							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
@@ -28613,7 +28611,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			var po = [], adj = 0;
 			if (obj.config.isspace) {
-				po.push("<option value=''");
+				po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 				if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 				po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 				adj = -1;
@@ -29407,7 +29405,7 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 
 		var po = [], adj = 0;
 		if (obj.config.isspace) {
-			po.push("<option value=''");
+			po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 			if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 			po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 			adj = -1;
@@ -29419,8 +29417,6 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 			if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
 		}
-
-		trace(po.join(''));
 
 		iobj.html(po.join(''));
 
