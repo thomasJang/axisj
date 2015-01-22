@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.9 - 2015-01-16 
+AXJ - v1.0.12b - 2015-01-22 
 */
 /*! 
-AXJ - v1.0.9 - 2015-01-16 
+AXJ - v1.0.12b - 2015-01-22 
 */
 
 if(!window.AXConfig){
@@ -3346,7 +3346,7 @@ axdom.fn.mask = function (configs) {
  * AXNotification
  * @class AXNotification
  * @extends AXJ
- * @version v1.5
+ * @version v1.6
  * @author tom@axisj.com
  * @logs
  "2012-10-30 오후 12:01:10",
@@ -3356,6 +3356,7 @@ axdom.fn.mask = function (configs) {
  "2014-08-16 tom : dialog body에서 \n -> <br/> auto replace "
  "2014-08-25 tom : dialog body에서 \n -> <br/> auto replace 예외처리 "
  "2015-01-12 tom : ie7,8 fadeOut error fix https://github.com/axisj-com/axisj/issues/386"
+ "2015-01-19 tom : https://github.com/axisj-com/axisj/issues/392 dialog에 onConfirm 추가"
  */
 var AXNotification = Class.create(AXJ, {
     initialize: function (AXJ_super) {
@@ -3459,8 +3460,10 @@ var AXNotification = Class.create(AXJ, {
         if (config.type == "toast") {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.toastTray);
             this.bread.push({ breadID: breadID, type: obj.type, html: po.join('').enc() });
-            this.insertBread();
-        } else if (config.type == "dialog") {
+            this.insertBread(obj);
+        }
+        else
+        if (config.type == "dialog") {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.dialogTray);
             this.dialogTray.prepend(po.join(''));
 
@@ -3524,7 +3527,7 @@ var AXNotification = Class.create(AXJ, {
             });
         }
     },
-    insertBread: function () {
+    insertBread: function (obj) {
         var config = this.config;
         if (this.bread.length == 0) {
             return;
@@ -3541,6 +3544,7 @@ var AXNotification = Class.create(AXJ, {
         breadBox = axdom("#bread_AX_" + breadID);
 
         axdom("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
+            if (obj.onConfirm) obj.onConfirm(obj.data);
             breadBox.find("button, input").hide();
             breadBox.fadeOut({
                 duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
@@ -5928,7 +5932,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.25
+ * @version v1.27
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5939,7 +5943,8 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
  "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
- "2014-12-22 tom : filter를 통화한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
+ "2014-12-22 tom : filter를 통과한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
+ "2015-01-22 tom : item false 이면 표시 안하도록 변경"
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6333,7 +6338,7 @@ AXContextMenu.open({
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
         axf.each(menuList, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
                 var className = (menu.className) ? " " + menu.className : "";
                 var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
@@ -6426,7 +6431,8 @@ AXContextMenu.open({
         var po = [];
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
+
                 if (menu.upperLine) {
                     po.push("<div class=\"hline\"></div>");
                 }
@@ -13074,16 +13080,20 @@ var AXSelectConverter = Class.create(AXJ, {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						//trace(res);
-						var po = [];
+						var po = [], adj = 0;
+						obj.config.options = res.options;
 						if (obj.config.isspace) {
-							po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
+							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
+							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+							adj =-1;
 						}
 						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
 							po.push("<option value=\"" + opts.optionValue + "\"");
 							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == opts.optionValue || opts.selected) po.push(" selected=\"selected\"");
+							if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
 							po.push(">" + opts.optionText.dec() + "</option>");
-						};
+						}
 						axdom("#" + objID).html(po.join(''));
 
 						var options = [];
@@ -13109,9 +13119,13 @@ var AXSelectConverter = Class.create(AXJ, {
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
-							res.selectedIndex = obj.selectedIndex;
-							res.selectedObject = {optionValue:obj.options[obj.selectedIndex].value, optionText:obj.options[obj.selectedIndex].text};
-							obj.config.onLoad.call(res);
+							sendObj = {
+								selectedIndex: obj.selectedIndex,
+								selectedObject: obj.options[obj.selectedIndex],
+								options: obj.options,
+								response: res
+							}
+							obj.config.onLoad.call(sendObj, sendObj);
 						}
 
 					} else {
@@ -13126,17 +13140,20 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			iobj.html("<option></option>");
 
-			var po = [];
+			var po = [], adj = 0;
 			if (obj.config.isspace) {
-				po.push("<option value=\"\">" + obj.config.isspaceTitle + "</option>");
+				po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
+				if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+				po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+				adj = -1;
 			}
 
 			for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
 				var optionText = (opts.optionText||"").dec();
 				po.push("<option value=\"" + opts.optionValue + "\"");
-				if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+				if (obj.config.setValue == opts.optionValue || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
 				po.push(">" + optionText + "</option>");
-			};
+			}
 			iobj.html(po.join(''));
 
 			var options = [];
@@ -13183,6 +13200,8 @@ var AXSelectConverter = Class.create(AXJ, {
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
 		}
+
+		this.alignAnchor(objID, objSeq);
 	},
 	selectTextBox_onkeydown: function(objID, objSeq, event){
 		var cfg = this.config, _this = this;
@@ -13221,7 +13240,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 		}else{
 			obj.selectedIndex = 0;
-			var options = AXgetId(objID).options[0];
+			var options = (AXgetId(objID).options[0]||{value:"",text:""});
 			return {
 				value:options.value, text:options.text, index:0
 			}
@@ -13728,7 +13747,7 @@ var AXSelectConverter = Class.create(AXJ, {
  * @method AXSelectConverter.bindSelectAddOptions
  * @param {String} objID - element select id
  * @param {Array} options - 추가하려는 옵션 배열
- * @returns null
+ * @returns {Array} options
  * @description 설명
  * @example
  ```
@@ -13791,7 +13810,7 @@ mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스�
  * @method AXSelectConverter.bindSelectRemoveOptions
  * @param objID {String} element select id
  * @param options {Array} 추가하려는 옵션 배열
- * @returns null
+ * @returns {Array} options
  * @description 설명
  * @example
  ```
@@ -13849,6 +13868,113 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 		this.alignAnchor(objID, objSeq);
 
 		return obj.options;
+	},
+
+
+	/**
+	 * @method AXSelectConverter.bindSelectUpdateOptions
+	 * @param {String} objID - element select id
+	 * @param {Array|Object} options - 옵션 배열
+	 * @param {Number} optionIndex - 변경하려는 옵션 인덱스
+	 * @returns {AXSelectConverter}
+	 * @description 설명
+	 * @example
+ ```
+ jQuery("#AXSelect1").bindSelectUpdateOptions([
+	 {optionValue:1, optionText:"abc-1 : ABCDEFG"},
+	 {optionValue:2, optionText:"abc-2 : 09123123"},
+	 {optionValue:3, optionText:"abc-3 : 1222"},
+	 {optionValue:4, optionText:"abc-4 : AXISJ"},
+	 {optionValue:5, optionText:"abc-5 : 액시스 제이"}
+ ]);
+
+ jQuery("#AXSelect1").bindSelectUpdateOptions({optionValue:3, optionText:"특별한 값으로 변경"}, 3);
+ ```
+	 */
+	bindSelectUpdateOptions: function(objID, options, optionIndex){
+		var cfg = this.config, _this = this;
+		var objSeq = null;
+		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
+			if (O.id == objID && O.isDel != true) {
+				objSeq = index;
+				break;
+			}
+		}
+		if(objSeq == null) {
+			trace("not found element id");
+			return;
+		}
+		var obj = this.objects[objSeq];
+		var iobj = obj.iobj;
+
+		if(typeof optionIndex === "undefined" && !Object.isArray(options)){
+			trace("options 아규먼트가 없습니다.");
+			return;
+		}
+
+		var newOptions = [];
+		if(typeof optionIndex === "undefined"){
+			for(var i = 0; i < options.length; i++){
+				newOptions.push(jQuery.extend({optionText:options[i].optionText.enc(), optionValue:options[i].optionValue}, options[i]));
+			}
+			obj.selectedIndex = 0;
+		}else{
+			var _adj = 0;
+			if (obj.config.isspace) _adj = 1;
+			for (var i = 0; i < obj.config.options.length; i++) {
+				if(i+_adj == optionIndex){
+					newOptions.push(jQuery.extend({optionText:options.optionText.enc(), optionValue:options.optionValue}, options));
+				}else{
+					newOptions.push(obj.config.options[i]);
+				}
+			}
+		}
+
+		obj.config.options = newOptions;
+		iobj.css({opacity:100});
+		iobj.html("<option></option>");
+
+		var po = [], adj = 0;
+		if (obj.config.isspace) {
+			po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
+			if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+			po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+			adj = -1;
+		}
+
+		for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
+			var optionText = (opts.optionText||"").dec();
+			po.push("<option value=\"" + opts.optionValue + "\"");
+			if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+			po.push(">" + optionText + "</option>");
+		}
+
+		iobj.html(po.join(''));
+
+		var options = [];
+		for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
+			options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
+		}
+		obj.options = AXUtil.copyObject(options);
+		obj.selectedIndex = AXgetId(objID).options.selectedIndex;
+
+		this.bindSelectChange(objID, objSeq, "load");
+
+		if (obj.config.onChange && obj.config.alwaysOnChange) {
+			obj.config.focusedIndex = obj.selectedIndex;
+			obj.config.selectedObject = obj.options[obj.selectedIndex];
+
+			options = AXgetId(objID).options[obj.selectedIndex];
+			sendObj = {
+				optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
+				value:options.value, text:options.text
+			};
+			obj.config.onChange.call(sendObj, sendObj, "isPostBack");
+		}
+
+		this.alignAnchor(objID, objSeq);
+
+		return this;
 	}
 });
 
@@ -14078,6 +14204,32 @@ axdom.fn.bindSelectRemoveOptions = function (options) {
 	var returnObj;
 	axdom.each(this, function () {
 		returnObj = AXSelect.bindSelectRemoveOptions(this.id, options);
+	});
+	return returnObj;
+};
+
+
+/**
+ * @method jQueryExtends.bindSelectUpdateOptions
+ * @param {Array} options - 삭제하려는 옵션 배열
+ * @description 배열로 지정한 객체를 해당 셀렉트의 option 에서 제거합니다.
+ * @example
+ ```
+ jQuery("#AXSelect1").bindSelectUpdateOptions([
+	 {optionValue:1, optionText:"abc-1 : ABCDEFG"},
+	 {optionValue:2, optionText:"abc-2 : 09123123"},
+	 {optionValue:3, optionText:"abc-3 : 1222"},
+	 {optionValue:4, optionText:"abc-4 : AXISJ"},
+	 {optionValue:5, optionText:"abc-5 : 액시스 제이"}
+ ]);
+
+ jQuery("#AXSelect1").bindSelectUpdateOptions({optionValue:3, optionText:"특별한 값으로 변경"}, 3);
+ ```
+ */
+axdom.fn.bindSelectUpdateOptions = function (options, oidx) {
+	var returnObj;
+	axdom.each(this, function () {
+		returnObj = AXSelect.bindSelectUpdateOptions(this.id, options, oidx);
 	});
 	return returnObj;
 };

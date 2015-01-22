@@ -77,6 +77,7 @@
                     colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
                     body : {
                         onclick: function(){
+                            //trace(myGrid.config.colGroup[this.c]);
                             toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
                             //alert(this.list);
                             //alert(this.page);
