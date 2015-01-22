@@ -28,8 +28,9 @@
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
   border-radius: 3px 3px 3px 3px;
+  font-family: inherit;
   font-size: 12px;
-  line-height: 15px;
+  line-height: 1em;
   height: 15px;
   padding: 4px;
   margin: 0px auto;
@@ -76,8 +77,9 @@
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
   border-radius: 3px 3px 3px 3px;
+  font-family: inherit;
   font-size: 12px;
-  line-height: 12px;
+  line-height: 1em;
   height: 12px;
   padding: 3px 3px;
   margin: 0px auto;

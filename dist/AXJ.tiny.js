@@ -5932,7 +5932,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.25
+ * @version v1.27
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5943,7 +5943,8 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
  "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
- "2014-12-22 tom : filter를 통화한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
+ "2014-12-22 tom : filter를 통과한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
+ "2015-01-22 tom : item false 이면 표시 안하도록 변경"
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6337,7 +6338,7 @@ AXContextMenu.open({
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
         axf.each(menuList, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
                 var className = (menu.className) ? " " + menu.className : "";
                 var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
@@ -6430,7 +6431,7 @@ AXContextMenu.open({
         var po = [];
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
 
                 if (menu.upperLine) {
                     po.push("<div class=\"hline\"></div>");

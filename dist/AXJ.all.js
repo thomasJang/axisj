@@ -5932,7 +5932,7 @@ axdom.fn.unbindAXResizable = function (config) {
  * AXContextMenuClass
  * @class AXContextMenuClass
  * @extends AXJ
- * @version v1.25
+ * @version v1.27
  * @author tom@axisj.com, axisj.com
  * @logs
  "2013-03-22 오후 6:08:57",
@@ -5943,7 +5943,8 @@ axdom.fn.unbindAXResizable = function (config) {
  "2014-04-07 오전 9:55:57 tom, extent checkbox, sortbox"
  "2014-06-24 tom : reserveKeys.subMenu 설정할 수 있도록 기능 보강, 콜백함수 개선"
  "2014-12-18 tom : onclose 속성을 추가 할 수 있도록 속성 추가
- "2014-12-22 tom : filter를 통화한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
+ "2014-12-22 tom : filter를 통과한 메뉴 아이템이 없을 경우 표시 안하도록 변경"
+ "2015-01-22 tom : item false 이면 표시 안하도록 변경"
  */
 
 var AXContextMenuClass = Class.create(AXJ, {
@@ -6337,7 +6338,7 @@ AXContextMenu.open({
         po.push("<div id=\"" + objID + "_AX_containerBox\" class=\"AXContextMenuContainer\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + objID + "_AX_scroll\" class=\"AXContextMenuScroll\">");
         axf.each(menuList, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
                 var className = (menu.className) ? " " + menu.className : "";
                 var hasSubMenu = (menu[obj.reserveKeys.subMenu]) ? " hasSubMenu" : "";
                 po.push("<a " + href + " class=\"contextMenuItem" + className + hasSubMenu + "\" id=\"" + subMenuID + "_AX_" + depth + "_AX_" + idx + "\">");
@@ -6430,7 +6431,7 @@ AXContextMenu.open({
         var po = [];
         po.push("<div id=\"" + objID + "\" class=\"" + theme + "\" style=\"width:" + width + "px;\">");
         AXUtil.each(obj.menu, function (idx, menu) {
-            if (filter(objSeq, objID, myobj, menu)) {
+            if (menu && filter(objSeq, objID, myobj, menu)) {
 
                 if (menu.upperLine) {
                     po.push("<div class=\"hline\"></div>");
@@ -11080,6 +11081,7 @@ var AXGrid = Class.create(AXJ, {
 		this.config.scrollContentBottomMargin = "10";
 
 		this.config.mergeCells = false; // cells merge option
+		this.config.control_lock_status = 0; // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
 		this.selectedCells = [];
 		this.selectedRow = [];
 		this.copiedRow = [];
@@ -15255,6 +15257,7 @@ myGrid.removeListIndex(removeList);
 			var collect = [];
 			axf.each(removeList, function (ridx, r) {
 				if(_list[r.index]) {
+
 					_list[r.index]._isDel = true;
 				}
 			});
@@ -15267,7 +15270,6 @@ myGrid.removeListIndex(removeList);
 			});
 			this.list = collect;
 			this.removedList = removeCollect;
-
 		}
 
 		this.selectedCells.clear();
@@ -15550,8 +15552,9 @@ myGrid.removeListIndex(removeList);
 
 							for(var k=st_index;k<(ed_index+1);k++) {
 								hasItem = false;
+								i=0;
 								for(;i<len;i++) {
-									if(k == this.selectedRow[i]){
+									if(k == this.selectedRow[i].number()){
 										hasItem = true;
 										break;
 									}
@@ -15563,14 +15566,14 @@ myGrid.removeListIndex(removeList);
 							}
 						}else{
 							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-							this.selectedRow.push(itemIndex);
+							this.selectedRow.push(itemIndex.number());
 						}
 						this.clearRange();
 					}
 					else if (event.metaKey || event.ctrlKey)
 					{
 						for(;i<len;i++){
-							if(this.selectedRow[i] == itemIndex) {
+							if(this.selectedRow[i] == itemIndex.number()) {
 								this.body.find(".gridBodyTr_" + itemIndex).removeClass("selected");
 								hasItem = true;
 							} else {
@@ -15581,7 +15584,7 @@ myGrid.removeListIndex(removeList);
 
 						if(!hasItem){
 							this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-							this.selectedRow.push(itemIndex);
+							this.selectedRow.push(itemIndex.number());
 						}
 
 						// 셀 선택 기능 : 비활성처리
@@ -15620,7 +15623,7 @@ myGrid.removeListIndex(removeList);
 						if (this.selectedRow.length > 0) {
 							// colGroup 에 editor이 있는지 파악
 
-							if(CG.editor){
+							if(CG.editor && cfg.control_lock_status < 1){
 								for(;i<len;i++){
 									if(this.selectedRow[i] == itemIndex){
 										hasItem = true;
@@ -15640,7 +15643,7 @@ myGrid.removeListIndex(removeList);
 						}
 						this.selectedRow.clear();
 						this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
-						this.selectedRow.push(itemIndex);
+						this.selectedRow.push(itemIndex.number());
 
 						var item = this.list[itemIndex];
 
@@ -16128,6 +16131,9 @@ myGrid.removeListIndex(removeList);
 			CG = cfg.colGroup[c],
 			that = {item:item, index:itemIndex, CG:CG, r:r, c:c};
 
+		if(cfg.control_lock_status > 1) {
+			return this;
+		}
 		// 입력받은 값을 전환 하는 함수 체크 필요.
 		// CG.editor.beforeUpdate
 		if(CG.editor && CG.editor.beforeUpdate){
@@ -31811,18 +31817,20 @@ var AXToolBar = Class.create(AXJ, {
 
 		po.push('<div class="',cfg.theme,'">');
 		$.each(cfg.menu, function (midx, M) {
-			var addClass = [];
-			addClass.push(this.addClass);
-			if (!this.menu) {
-				addClass.push("noexpand");
-			}
+			if(M && cfg.filter.call({menu:M}, M)) {
+				var addClass = [];
+				addClass.push(this.addClass);
+				if (!this.menu) {
+					addClass.push("noexpand");
+				}
 
-			po.push('<div class="ax-root-menu-item" data-item-idx="', midx,'">');
-				po.push('<a href="#axexec" class="ax-menu-item ', addClass.join(" ") ,'" data-item-idx="', midx,'">' , this.label , '</a>');
-			if (this.menu) {
-				po.push('<a href="#axexec" class="ax-menu-handel" data-item-idx="', midx,'"></a>');
+				po.push('<div class="ax-root-menu-item" data-item-idx="', midx, '">');
+				po.push('<a href="#axexec" class="ax-menu-item ', addClass.join(" "), '" data-item-idx="', midx, '">', this.label, '</a>');
+				if (this.menu) {
+					po.push('<a href="#axexec" class="ax-menu-handel" data-item-idx="', midx, '"></a>');
+				}
+				po.push('</div>');
 			}
-			po.push('</div>');
 		});
 		po.push('<div class="clear"></div>');
 		po.push('</div>');
@@ -31850,6 +31858,9 @@ var AXToolBar = Class.create(AXJ, {
 			//console.log(cfg.menu[midx]);
 			_this.expand(midx, cfg.menu[midx], e);
 		});
+	},
+	reset: function(){
+		this.setBody();
 	},
 	exec: function(midx, menu, event){
 		var cfg = this.config,
@@ -31904,7 +31915,7 @@ var AXToolBar = Class.create(AXJ, {
 				});
 			}
 			offset = _target.offset();
-			AXContextMenu.open({id: cfg.targetID + "_AX_expand_AX_" + midx}, {
+			AXContextMenu.open({id: cfg.targetID + "_AX_expand_AX_" + midx, filter:menu.filter}, {
 				left: offset.left,
 				top : offset.top + _target.outerHeight()
 			});
@@ -40498,9 +40509,9 @@ myUserBox.push(ds);
                 po.push("	<div class=\"userSelectItemBody\">");
                 po.push("	<input type=\"hidden\" name=\"id\" id=\"" + config.containerID + "userSelectItemID_AX_" + this.id + "\" value=\"" + this.id + "\" /> ");
                 po.push("	<input type=\"hidden\" name=\"nm\" id=\"" + config.containerID + "userSelectItemNM_AX_" + this.id + "\" value=\"" + this.nm + "\" /> ");
-                po.push("	<input type=\"hidden\" name=\"desc\" id=\"" + config.containerID + "userSelectItemDESC_AX_" + this.id + "\" value=\"" + this.desc + "\" /> ");
+                po.push("	<input type=\"hidden\" name=\"desc\" id=\"" + config.containerID + "userSelectItemDESC_AX_" + this.id + "\" value=\"" + (this.desc||"") + "\" /> ");
                 po.push("	" + this.nm.dec() + " ");
-                po.push("	" + this.desc.dec() + " ");
+                po.push("	" + (this.desc||"").dec() + " ");
                 //po.push("	<a href=\"#modsExec\" class=\"del\">삭제</a>");
                 po.push("	</div>");
                 po.push("</div>");
