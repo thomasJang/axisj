@@ -13809,8 +13809,12 @@ myGrid.setConfig({
 						if (obj.onLoad) obj.onLoad.call(res);
 					} else {
 						if(obj.onError) obj.onError.call(res);
-						else AXUtil.alert(res);
+						else axf.alert(res);
 					}
+				},
+				onerr: function(res){
+					if (obj.onError) obj.onError.call(res);
+					else axf.alert(res.statusText);
 				}
 			});
 
