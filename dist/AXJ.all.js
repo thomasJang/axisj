@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-01-23 
+AXJ - v1.0.13 - 2015-01-26 
 */
 /*! 
-AXJ - v1.0.13 - 2015-01-23 
+AXJ - v1.0.13 - 2015-01-26 
 */
 
 if(!window.AXConfig){
@@ -31812,12 +31812,21 @@ var AXToolBar = Class.create(AXJ, {
 		this.target = jQuery("#" + cfg.targetID);
 		this.setBody();
 	},
+	filter: function (menu) {
+		var cfg = this.config, that;
+		if (cfg.filter.filter) {
+			that = menu;
+			return cfg.filter.call(that,  that);
+		} else {
+			return true;
+		}
+	},
 	setBody: function(){
 		var cfg = this.config, _this = this, po = [];
 
 		po.push('<div class="',cfg.theme,'">');
 		$.each(cfg.menu, function (midx, M) {
-			if(M && cfg.filter.call({menu:M}, M)) {
+			if(M && _this.filter(M) ) {
 				var addClass = [];
 				addClass.push(this.addClass);
 				if (!this.menu) {
@@ -31840,12 +31849,12 @@ var AXToolBar = Class.create(AXJ, {
 		this.target.find(".ax-menu-item").bind("click", function(e){
 			var target = axf.get_event_target(e.target, {tagname:"a", clazz:"ax-menu-item"});
 			var midx = target.getAttribute("data-item-idx");
-			_this.exec(midx, cfg.menu[midx], event);
+			_this.exec(midx, cfg.menu[midx], e);
 		});
 		this.target.find(".ax-root-menu-item").bind("mouseover", function(e){
 			var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
 			var midx = target.getAttribute("data-item-idx");
-			_this.overitem(midx, cfg.menu[midx], event);
+			_this.overitem(midx, cfg.menu[midx], e);
 		});
 		this.target.find(".ax-root-menu-item").bind("mouseout", function(e){
 			//var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
