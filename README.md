@@ -18,6 +18,7 @@ In terms of the development method, the collision issue between components has b
 
 ### Related Projects
 - AXU (https://www.axisj.com/axu), (http://axu.axisj.com), (https://github.com/axisj-com/axu)
+- AXU4J (https://github.com/axisj-com/axu4j)
 - AXIcon (https://www.axisj.com/en/axicon/), (http://axicon.axisj.com), (https://github.com/axisj-com/axicon)
 
 ## Download
