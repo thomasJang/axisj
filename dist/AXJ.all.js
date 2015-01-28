@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.12b - 2015-01-22 
+AXJ - v1.0.13 - 2015-01-26 
 */
 /*! 
-AXJ - v1.0.12b - 2015-01-22 
+AXJ - v1.0.13 - 2015-01-26 
 */
 
 if(!window.AXConfig){
@@ -6014,9 +6014,14 @@ var AXContextMenuClass = Class.create(AXJ, {
 		checkbox:"checkbox", // [checkbox|radio]
 		sortbox:true,
 		menu:[
-			{label:'선택 1', checked:true, onclick:function(){
-				return false;
-			}},
+			{
+				label:'선택 1',
+				checked:true,
+				className: 'doc | docline | plus | minus | group | edit | copy | cut | paste | up | down | left | right | link | unlink | openall | closeall'
+				onclick:function(){
+					return false;
+				}
+			},
 			{label:'선택 2', checked:true,
 				subMenu:[
 					{label:"하위메뉴1"},
@@ -20059,13 +20064,15 @@ var AXInputConverter = Class.create(AXJ, {
 			bindNumberAdd(objID, -1, objSeq);
 			bindNumberCheck(objID, objSeq, event);
 		});
+		/*
 		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
-
 			bindNumberCheck(objID, objSeq, event);
-		})
+		});
+		*/
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			if (event.keyCode == AXUtil.Event.KEY_UP) bindNumberAdd(objID, 1, objSeq);
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
+			//else bindNumberCheck(objID, objSeq, event);
 		});
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq, event);
@@ -20099,58 +20106,67 @@ var AXInputConverter = Class.create(AXJ, {
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
 		}
-		var maxval = obj.config.max;
-		var minval = obj.config.min;
-		var nval;
-		if (obj.bindTarget.val() == "") {
-			if (minval != undefined && minval != null) {
-				nval = minval;
+		if(this.numbercheck_obs) clearTimeout(this.numbercheck_obs);
+		this.numbercheck_obs = setTimeout(function(){
+			var maxval = obj.config.max;
+			var minval = obj.config.min;
+			var nval;
+			if (obj.bindTarget.val() == "") {
+				if (minval != undefined && minval != null) {
+					nval = minval;
+				} else {
+					nval = obj.bindTarget.val().number();
+				}
 			} else {
 				nval = obj.bindTarget.val().number();
 			}
-		} else {
-			nval = obj.bindTarget.val().number();
-		}
 
-		if (maxval != undefined && maxval != null) {
-			if ((nval) > maxval) {
-				obj.bindTarget.val("");
-				try {
-					this.msgAlert("설정된 최대값을 넘어서는 입력입니다.");
-				} catch (e) { }
+			if (maxval != undefined && maxval != null) {
+				if ((nval) > maxval) {
+					obj.bindTarget.val("");
+					try {
+						this.msgAlert("설정된 최대값을 넘어서는 입력입니다.");
+					} catch (e) {
+					}
+				} else {
+					if (minval != undefined && minval != null) {
+						if ((nval) < minval) {
+							obj.bindTarget.val("");
+							try {
+								this.msgAlert("설정된 최소값보다 작은 입력입니다.");
+							} catch (e) {
+							}
+						} else {
+							obj.bindTarget.val(nval);
+						}
+					}
+				}
 			} else {
 				if (minval != undefined && minval != null) {
 					if ((nval) < minval) {
 						obj.bindTarget.val("");
 						try {
 							this.msgAlert("설정된 최소값보다 작은 입력입니다.");
-						} catch (e) { }
-					} else {
-						obj.bindTarget.val(nval);
+						} catch (e) {
+						}
 					}
+				} else {
+					obj.bindTarget.val(nval);
 				}
 			}
-		} else {
-			if (minval != undefined && minval != null) {
-				if ((nval) < minval) {
-					obj.bindTarget.val("");
-					try {
-						this.msgAlert("설정된 최소값보다 작은 입력입니다.");
-					} catch (e) { }
-				}
-			} else {
-				obj.bindTarget.val(nval);
+			
+			if (event && event.type == "mousedown") {
+				obj.bindTarget.setCaret();
 			}
-		}
 
-		if(typeof event == "undefined" && event.type != "blur") obj.bindTarget.setCaret();
-
-		if (obj.config.onChange) {
-			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
-		}
-		if (obj.config.onchange) {
-			obj.config.onchange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
-		}
+			if (obj.config.onChange) {
+				obj.config.onChange.call({objID: objID, objSeq: objSeq, value: axdom("#" + objID).val()});
+			}
+			if (obj.config.onchange) {
+				obj.config.onchange.call({objID: objID, objSeq: objSeq, value: axdom("#" + objID).val()});
+			}
+		}, 1);
+		
 	},
 
 	// money
@@ -31812,12 +31828,21 @@ var AXToolBar = Class.create(AXJ, {
 		this.target = jQuery("#" + cfg.targetID);
 		this.setBody();
 	},
+	filter: function (menu) {
+		var cfg = this.config, that;
+		if (cfg.filter) {
+			that = menu;
+			return cfg.filter.call(that,  that);
+		} else {
+			return true;
+		}
+	},
 	setBody: function(){
 		var cfg = this.config, _this = this, po = [];
 
 		po.push('<div class="',cfg.theme,'">');
 		$.each(cfg.menu, function (midx, M) {
-			if(M && cfg.filter.call({menu:M}, M)) {
+			if(M && _this.filter(M) ) {
 				var addClass = [];
 				addClass.push(this.addClass);
 				if (!this.menu) {
@@ -31840,12 +31865,12 @@ var AXToolBar = Class.create(AXJ, {
 		this.target.find(".ax-menu-item").bind("click", function(e){
 			var target = axf.get_event_target(e.target, {tagname:"a", clazz:"ax-menu-item"});
 			var midx = target.getAttribute("data-item-idx");
-			_this.exec(midx, cfg.menu[midx], event);
+			_this.exec(midx, cfg.menu[midx], e);
 		});
 		this.target.find(".ax-root-menu-item").bind("mouseover", function(e){
 			var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
 			var midx = target.getAttribute("data-item-idx");
-			_this.overitem(midx, cfg.menu[midx], event);
+			_this.overitem(midx, cfg.menu[midx], e);
 		});
 		this.target.find(".ax-root-menu-item").bind("mouseout", function(e){
 			//var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
@@ -32562,7 +32587,7 @@ myMenu.setTree(Tree);
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.58.2
+ * @version v1.59
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -32605,6 +32630,7 @@ myMenu.setTree(Tree);
  "2014-10-29 tom : updateList body.addClass 함수 적용 구문 추가"
  "2015-12-05 tom : gridBodyClickAct 이벤트 버블링 버그 픽스"
  "2015-12-29 tom : AXTree.pageHeight 옵션 적용"
+ "2015-01-23 tom : 최소 높이 400 제거"
  *
  * @description
  *
@@ -33406,7 +33432,7 @@ var AXTree = Class.create(AXJ, {
 		}
 
 		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
-		if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXTree.pageHeight || 400);
+		//if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXTree.pageHeight || 400);
 		this.theme = (cfg.theme) ? cfg.theme : "AXTree"; // 테마기본값 지정
 		cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px"; // 그리드 높이 지정
 
@@ -33618,7 +33644,7 @@ myTree.setConfig({
 		var cfg = this.config;
 
 		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
-		if (targetInnerHeight == 0) targetInnerHeight = 400;
+		//if (targetInnerHeight == 0) targetInnerHeight = 400;
 		cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
 
 		this.redrawGrid("");
