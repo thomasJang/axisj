@@ -6014,9 +6014,14 @@ var AXContextMenuClass = Class.create(AXJ, {
 		checkbox:"checkbox", // [checkbox|radio]
 		sortbox:true,
 		menu:[
-			{label:'선택 1', checked:true, onclick:function(){
-				return false;
-			}},
+			{
+				label:'선택 1',
+				checked:true,
+				className: 'doc | docline | plus | minus | group | edit | copy | cut | paste | up | down | left | right | link | unlink | openall | closeall'
+				onclick:function(){
+					return false;
+				}
+			},
 			{label:'선택 2', checked:true,
 				subMenu:[
 					{label:"하위메뉴1"},
@@ -20059,13 +20064,15 @@ var AXInputConverter = Class.create(AXJ, {
 			bindNumberAdd(objID, -1, objSeq);
 			bindNumberCheck(objID, objSeq, event);
 		});
+		/*
 		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
-
 			bindNumberCheck(objID, objSeq, event);
-		})
+		});
+		*/
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			if (event.keyCode == AXUtil.Event.KEY_UP) bindNumberAdd(objID, 1, objSeq);
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
+			//else bindNumberCheck(objID, objSeq, event);
 		});
 		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq, event);
@@ -20099,58 +20106,67 @@ var AXInputConverter = Class.create(AXJ, {
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
 		}
-		var maxval = obj.config.max;
-		var minval = obj.config.min;
-		var nval;
-		if (obj.bindTarget.val() == "") {
-			if (minval != undefined && minval != null) {
-				nval = minval;
+		if(this.numbercheck_obs) clearTimeout(this.numbercheck_obs);
+		this.numbercheck_obs = setTimeout(function(){
+			var maxval = obj.config.max;
+			var minval = obj.config.min;
+			var nval;
+			if (obj.bindTarget.val() == "") {
+				if (minval != undefined && minval != null) {
+					nval = minval;
+				} else {
+					nval = obj.bindTarget.val().number();
+				}
 			} else {
 				nval = obj.bindTarget.val().number();
 			}
-		} else {
-			nval = obj.bindTarget.val().number();
-		}
 
-		if (maxval != undefined && maxval != null) {
-			if ((nval) > maxval) {
-				obj.bindTarget.val("");
-				try {
-					this.msgAlert("설정된 최대값을 넘어서는 입력입니다.");
-				} catch (e) { }
+			if (maxval != undefined && maxval != null) {
+				if ((nval) > maxval) {
+					obj.bindTarget.val("");
+					try {
+						this.msgAlert("설정된 최대값을 넘어서는 입력입니다.");
+					} catch (e) {
+					}
+				} else {
+					if (minval != undefined && minval != null) {
+						if ((nval) < minval) {
+							obj.bindTarget.val("");
+							try {
+								this.msgAlert("설정된 최소값보다 작은 입력입니다.");
+							} catch (e) {
+							}
+						} else {
+							obj.bindTarget.val(nval);
+						}
+					}
+				}
 			} else {
 				if (minval != undefined && minval != null) {
 					if ((nval) < minval) {
 						obj.bindTarget.val("");
 						try {
 							this.msgAlert("설정된 최소값보다 작은 입력입니다.");
-						} catch (e) { }
-					} else {
-						obj.bindTarget.val(nval);
+						} catch (e) {
+						}
 					}
+				} else {
+					obj.bindTarget.val(nval);
 				}
 			}
-		} else {
-			if (minval != undefined && minval != null) {
-				if ((nval) < minval) {
-					obj.bindTarget.val("");
-					try {
-						this.msgAlert("설정된 최소값보다 작은 입력입니다.");
-					} catch (e) { }
-				}
-			} else {
-				obj.bindTarget.val(nval);
+			
+			if (event && event.type == "mousedown") {
+				obj.bindTarget.setCaret();
 			}
-		}
 
-		if(typeof event == "undefined" && event.type != "blur") obj.bindTarget.setCaret();
-
-		if (obj.config.onChange) {
-			obj.config.onChange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
-		}
-		if (obj.config.onchange) {
-			obj.config.onchange.call({ objID: objID, objSeq: objSeq, value: axdom("#" + objID).val() });
-		}
+			if (obj.config.onChange) {
+				obj.config.onChange.call({objID: objID, objSeq: objSeq, value: axdom("#" + objID).val()});
+			}
+			if (obj.config.onchange) {
+				obj.config.onchange.call({objID: objID, objSeq: objSeq, value: axdom("#" + objID).val()});
+			}
+		}, 1);
+		
 	},
 
 	// money
@@ -31814,7 +31830,7 @@ var AXToolBar = Class.create(AXJ, {
 	},
 	filter: function (menu) {
 		var cfg = this.config, that;
-		if (cfg.filter.filter) {
+		if (cfg.filter) {
 			that = menu;
 			return cfg.filter.call(that,  that);
 		} else {
