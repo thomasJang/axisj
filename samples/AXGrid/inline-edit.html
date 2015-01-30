@@ -89,7 +89,11 @@ colGroup : [
         key:"writer", label:"작성자", width:"100",
         editor: {
             formatter: "dec",
-            type: "text",
+            type: "select",
+            options:[
+                {value:1, optionText:"옵션1"},
+                {value:2, text:"옵션2"}
+            ],
             beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
                 return val.replace(/\./g, "") + "."; // 업데이트 되는 value를 연산 처리 할 수 있습니다.
             },
@@ -191,7 +195,11 @@ colGroup : [
                             key:"writer", label:"작성자", width:"100",
                             editor: {
                                 formatter: "dec",
-                                type: "text",
+                                type: "select",
+                                options:[
+                                    {value:1, optionText:"옵션1"},
+                                    {value:2, text:"옵션2"}
+                                ],
                                 beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
                                     return val.replace(/\./g, "") + "."; // 업데이트 되는 value를 연산 처리 할 수 있습니다.
                                 },

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-01-26 
+AXJ - v1.0.13 - 2015-01-30 
 */
 /*! 
-AXJ - v1.0.13 - 2015-01-26 
+AXJ - v1.0.13 - 2015-01-30 
 */
 
 if(!window.AXConfig){
@@ -6085,7 +6085,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             var sendObj = {
                 menu: menu,
                 sendObj: obj.sendObj
-            }
+            };
             return myobj.filter.call(sendObj, objID);
         } else {
             return true;

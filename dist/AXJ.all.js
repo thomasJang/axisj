@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-01-26 
+AXJ - v1.0.13 - 2015-01-30 
 */
 /*! 
-AXJ - v1.0.13 - 2015-01-26 
+AXJ - v1.0.13 - 2015-01-30 
 */
 
 if(!window.AXConfig){
@@ -6085,7 +6085,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             var sendObj = {
                 menu: menu,
                 sendObj: obj.sendObj
-            }
+            };
             return myobj.filter.call(sendObj, objID);
         } else {
             return true;
@@ -14650,10 +14650,6 @@ cssObj = {
 				}
 				this.cachedDom.tbody.empty();
 				this.cachedDom.tbody.append(po.join(''));
-				// 출력된 테이블에 mergeCells 호출
-				if (cfg.mergeCells) {
-					this.mergeCells(this.cachedDom.tbody, "n");
-				}
 
 				if (this.hasFixed) {
 					po = [];
@@ -14665,10 +14661,8 @@ cssObj = {
 					}
 					this.cachedDom.fixed_tbody.empty();
 					this.cachedDom.fixed_tbody.append(po.join(''));
-					if (cfg.mergeCells) {
-						this.mergeCells(this.cachedDom.fixed_tbody, "f");
-					}
 				}
+
 
 				// init virtualScroll & control height thpadding
 				this.virtualScroll = {
@@ -14678,6 +14672,14 @@ cssObj = {
 					printListCount: printListCount,
 					scrollTop     : 0
 				};
+				
+				// 출력된 테이블에 mergeCells 호출
+				if (cfg.mergeCells) {
+					this.mergeCells(this.cachedDom.tbody, "n");
+					if (this.hasFixed) {
+						this.mergeCells(this.cachedDom.fixed_tbody, "f");
+					}
+				}
 
 				this.cachedDom.thpadding.css({ height: 0 });
 				this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
@@ -15914,9 +15916,19 @@ myGrid.removeListIndex(removeList);
 		}
 
 		this.editCellClear();
+	
+		// 타입이 finder 이면 토스~
+		if(CG.editor.type == "finder") {
+			CG.editor.finder.onclick.call({
+				id : cfg.targetID + '_inline_editor',
+				value: jQuery('#' + cfg.targetID + '_inline_editor').val(),
+				r: r,  c:c, index:ii, item: _this.list[ii]
+			});
+			return this;
+		}
 
 		setTimeout(function () {
-
+			
 			var div = _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + c + "_AX_" + ii),
 				td, td_ids, td_val, parent_type, inline_editor_id, inline_editor, inline_css, AXBindConfig = {};
 
@@ -15967,18 +15979,13 @@ myGrid.removeListIndex(removeList);
 				inline_editor.find("input").bindDate(AXBindConfig);
 			}
 			else
-			if(CG.editor.type == "finder") {
-
-				if(CG.editor.finder && CG.editor.finder.onclick){
-					inline_editor.find(".finder-handle").on("click", function(){
-						CG.editor.finder.onclick.call({
-							id : cfg.targetID + '_inline_editor',
-							value: jQuery('#' + cfg.targetID + '_inline_editor').val(),
-							r: r,  c:c, index:ii, item: _this.list[ii]
-						});
-					});
-				}
+			if(CG.editor.type == "select") {
+				//inline_editor.find("select").bindSelect(AXBindConfig);
+				inline_editor.find("select").bind("change", function(){
+					_this.updateItem(r, c, ii, this.value);
+				});
 			}
+
 			// todo : 에디팅 셀 이벤트 연결
 			inline_editor.bind("keydown", function(e){
 				setTimeout(function(){
@@ -16045,6 +16052,7 @@ myGrid.removeListIndex(removeList);
 					}
 				}, 10);
 			});
+			
 		}, 10);
 
 		function get_editor(cond, val){
@@ -16053,7 +16061,16 @@ myGrid.removeListIndex(removeList);
 			var po = [];
 			if(cond.type === "select"){
 				// 조금 있다가..
-				po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'" />');
+				po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'">');
+				for(var oi=0;oi<cond.options.length;oi++){
+					var value = (typeof cond.options[oi].value == "undefined") ? cond.options[oi].optionValue : cond.options[oi].value, 
+						text = (typeof cond.options[oi].text == "undefined") ? cond.options[oi].optionText : cond.options[oi].text;
+					po.push('<option value="'+ value +'"');
+					if(value == val){
+						po.push(' selected="selected"');
+					}
+					po.push('>' + text + '</option>');
+				}
 				po.push('</select>');
 			}
 			else
@@ -17335,11 +17352,25 @@ myGrid.setFocus(0);
 		}
 		_val = null;
 
-		for(var tri = 0;tri < rows.length;tri++) {
-			for(var tdi = 0;tdi < rows[tri].length;tdi++) {
-				if(rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
-				else rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+		if(typ == "n") {
+			for (var tri = 0; tri < rows.length; tri++) {
+				for (var tdi = 0; tdi < rows[tri].length; tdi++) {
+					if (rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
+					else rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+				}
 			}
+		}
+		else
+		if(typ == "f"){
+			for (var tri = 0; tri < rows.length; tri++) {
+				for (var tdi = 0; tdi < rows[tri].length; tdi++) {
+					if (rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
+					else{
+						rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+						rows[tri][tdi].tdom.css({height: (this.virtualScroll.itemTrHeight) * rows[tri][tdi].rowspan - 1});
+					} 
+				}
+			}			
 		}
 		rows = null;
 	},
