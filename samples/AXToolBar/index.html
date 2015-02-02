@@ -51,75 +51,78 @@ var fnObj = {
         init: function(){
             var menu = [
                 {
-                    label   : "<i class='axi axi-axisj'></i> 액시스제이", addClass: "",
+                    label   : "&lt;i class='axi axi-axisj'&gt;&lt;/i&gt; 액시스제이", addClass: "",
                     onclick : function (menu, event) {
                         trace("1", menu);
                     },
                     menu    : [
                         {
-                            label: "<i class=\"axi axi-box\"></i>  Common", onclick: function (event) {},
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt;  Common", onclick: function (event) {},
                             menu    : [
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXCore", onclick: function (event) {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXCore",
+                                    onclick: function (event) {
+                                        trace(this.menu);
+                                    }
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXValidator", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXValidator", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXAddress", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXAddress", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> Table CSS Guide", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; Table CSS Guide", onclick: function () {}
                                 }
                             ]
                         },
                         {
-                            label: "<i class=\"axi axi-box\"></i>  UI-Unique", onclick: function () {},
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt;  UI-Unique", onclick: function () {},
                             menu    : [
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXButton", onclick: function (event) {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXButton", onclick: function (event) {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXInput", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXInput", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXSelect", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXSelect", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXNotification", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXNotification", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXProgress", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXProgress", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXScroll", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXScroll", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXTabs", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXTabs", onclick: function () {}
                                 },
                                 {
-                                    label: "<i class=\"axi axi-box\"></i> AXToolBar", onclick: function () {}
+                                    label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; AXToolBar", onclick: function () {}
                                 }
                             ]
                         },
                         {
-                            label: "<i class=\"axi axi-box\"></i>  UI-Complex", onclick: function () {},
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt;  UI-Complex", onclick: function () {},
                             underLine: true
                         },
                         {
-                            label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+                            label: "&lt;i class='axi axi-accessibility'&gt;&lt;/i&gt; Material Design Icons", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-glass\"&gt;&lt;/i&gt; FontAwesome", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {}
+                            label: "&lt;i class=\"axi axi-axicon-o\"&gt;&lt;/i&gt; AXIcon", onclick: function (event) {}
                         },
                         {
-                            label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+                            label: "&lt;i class='axi axi-accessibility'&gt;&lt;/i&gt; Material Design Icons", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-glass\"&gt;&lt;/i&gt; FontAwesome", onclick: function () {}
                         }
                     ],
                     filter: function(){
@@ -127,67 +130,67 @@ var fnObj = {
                     }
                 },
                 {
-                    label   : "<i class='axi axi-axu'></i> 악수", addClass: "",
+                    label   : "&lt;i class='axi axi-axu'&gt;&lt;/i&gt; 악수", addClass: "",
                     onclick : function (event) {
 
                     },
                     menu    : [
                         {
-                            label: "<i class=\"axi axi-box\"></i> Archon", onclick: function (event) {}
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; Archon", onclick: function (event) {}
                         },
                         {
-                            label: "<i class=\"axi axi-box\"></i> Barracks", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; Barracks", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-box\"></i> Barracks-2", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; Barracks-2", onclick: function () {}
                         }
                     ]
                 },
                 {
-                    label   : "<i class='axi axi-axicon'></i> 액시콘", addClass: "",
+                    label   : "&lt;i class='axi axi-axicon'&gt;&lt;/i&gt; 액시콘", addClass: "",
                     onclick : function (event) {
 
                     },
                     menu    : [
                         {
-                            label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {}
+                            label: "&lt;i class=\"axi axi-axicon-o\"&gt;&lt;/i&gt; AXIcon", onclick: function (event) {}
                         },
                         {
-                            label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+                            label: "&lt;i class='axi axi-accessibility'&gt;&lt;/i&gt; Material Design Icons", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-glass\"&gt;&lt;/i&gt; FontAwesome", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {},
+                            label: "&lt;i class=\"axi axi-axicon-o\"&gt;&lt;/i&gt; AXIcon", onclick: function (event) {},
                             underLine: true
                         },
                         {
-                            label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+                            label: "&lt;i class='axi axi-accessibility'&gt;&lt;/i&gt; Material Design Icons", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-glass\"&gt;&lt;/i&gt; FontAwesome", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-axicon-o\"></i> AXIcon", onclick: function (event) {}
+                            label: "&lt;i class=\"axi axi-axicon-o\"&gt;&lt;/i&gt; AXIcon", onclick: function (event) {}
                         },
                         {
-                            label: "<i class='axi axi-accessibility'></i> Material Design Icons", onclick: function () {}
+                            label: "&lt;i class='axi axi-accessibility'&gt;&lt;/i&gt; Material Design Icons", onclick: function () {}
                         },
                         {
-                            label: "<i class=\"axi axi-glass\"></i> FontAwesome", onclick: function () {}
+                            label: "&lt;i class=\"axi axi-glass\"&gt;&lt;/i&gt; FontAwesome", onclick: function () {}
                         }
                     ]
                 },
                 {
                     type: 1,
-                    label   : "<i class='axi axi-jsongum'></i> 제이슨껌", addClass: "",
+                    label   : "&lt;i class='axi axi-jsongum'&gt;&lt;/i&gt; 제이슨껌", addClass: "",
                     onclick : function (event) {
 
                     },
                     menu    : [
                         {
-                            label: "<i class=\"axi axi-box\"></i> $4.99", onclick: function (event) {}
+                            label: "&lt;i class=\"axi axi-box\"&gt;&lt;/i&gt; $4.99", onclick: function (event) {}
                         },
                         {
                             label: "껌팔이 앱인데 하나도 안팔리고..", onclick: function () {
@@ -259,7 +262,10 @@ $(document.body).ready(function() {
                                     label: "<i class=\"axi axi-box\"></i>  Common", onclick: function (event) {},
                                     menu    : [
                                         {
-                                            label: "<i class=\"axi axi-box\"></i> AXCore", onclick: function (event) {}
+                                            label: "<i class=\"axi axi-box\"></i> AXCore",
+                                            onclick: function (event) {
+                                                trace(this.menu);
+                                            }
                                         },
                                         {
                                             label: "<i class=\"axi axi-box\"></i> AXValidator", onclick: function () {}
