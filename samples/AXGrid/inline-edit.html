@@ -182,13 +182,7 @@ colGroup : [
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
                             },
                             editor: {
-                                type: "finder",
-                                finder: {
-                                    onclick: function(){
-                                        var val = window.prompt("값 입력해주세요.");
-                                        jQuery("#" + this.id).val(val).setCaret();
-                                    }
-                                }
+                                type: "text"
                             }
                         },
                         {
