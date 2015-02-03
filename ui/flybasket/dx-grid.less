@@ -188,10 +188,6 @@
 							border-bottom:@border-d;
 							cursor:pointer;
 						}
-						td.selected{
-							background-color:@bgcolor-d;
-							box-shadow:inset 0px 0px 2px #000;
-						}
 					}
                   /* for bigData */
                   tr.thpadding td{
@@ -342,9 +338,6 @@
 							border-bottom:@border-d;
 							cursor:pointer;
 						}
-						td.selected{
-							background-color:@bgcolor-d;box-shadow:inset 0px 0px 2px #000;
-						}
 					}
                   /* for bigData */
                   tr.thpadding td{
@@ -394,6 +387,10 @@
                     background-color:@bgcolor-d;
                   }
 				}
+			}
+			// -- cell selected 추가 2015-02-03
+			tbody tr.selected td.selected{
+				background-color: @bgcolor-hh;
 			}
 		}
 		.AXGridFoot{
