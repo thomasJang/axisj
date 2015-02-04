@@ -211,15 +211,15 @@
 		closeTab: function(tabID, tabValue) {
 			$("#" + tabID).closeTab(tabValue);
 		},
-        updateTab: function(tabID){
-            var options = [
-                {optionValue:"M", optionText:"남성"},
-                {optionValue:"F", optionText:"여성"},
-                {optionValue:"N", optionText:"선택안함"},
-                {optionValue:"", optionText:"모두"}
-            ];
-            $("#" + tabID).updateTabs(options);
-        }
+		updateTab: function(tabID){
+		    var options = [
+		        {optionValue:"M", optionText:"남성"},
+		        {optionValue:"F", optionText:"여성"},
+		        {optionValue:"N", optionText:"선택안함"},
+		        {optionValue:"", optionText:"모두"}
+		    ];
+		    $("#" + tabID).updateTabs(options);
+		}
 	};
 	$(document.body).ready(fnObj.pageStart.delay(0.1));
 	</script>	
