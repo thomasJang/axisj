@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-03 
+AXJ - v1.0.13 - 2015-02-04 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-03 
+AXJ - v1.0.13 - 2015-02-04 
 */
 
 if(!window.AXConfig){
@@ -31719,15 +31719,15 @@ axdom.fn.setValueTab = function (value) {
  * @returns {jQueryObject}
  * @description 탭 아이템을 추가합니다.
  * @example
- ```js
- var options = [];
- var index;
- for(var i = 0; i < addCount; i++){
-	index = "0" + (i + 1);
-	options.push({optionText: "add " + index, optionValue: index, closable:true});
- }
- $("#" + tabID).addTabs(options);
- ```
+ * ```js
+ * var options = [];
+ * var index;
+ * for(var i = 0; i < addCount; i++){
+ * 	index = "0" + (i + 1);
+ * 	options.push({optionText: "add " + index, optionValue: index, closable:true});
+ * }
+ * $("#" + tabID).addTabs(options);
+ * ```
  **/
 axdom.fn.addTabs = function (options) {
 	axdom.each(this, function () {
@@ -31760,6 +31760,39 @@ axdom.fn.closeTab = function(tabIndex) {
 	});
 	return this;
 };
+
+/**
+ * @method jQueryExtends.updateTabs
+ * @param {Array} options
+ * @returns {jQueryObject}
+ * @description 탭 아이템을 재설정합니다.
+ * @example
+ * ```js
+ * var options = [];
+ * var index;
+ * for(var i = 0; i < addCount; i++){
+ * 	index = "0" + (i + 1);
+ * 	options.push({optionText: "O " + index, optionValue: index, closable:true});
+ * }
+ * $("#" + tabID).updateTabs(options);
+ * ```
+ **/
+axdom.fn.updateTabs = function (options) {
+	axdom.each(this, function () {
+		var objSeq = axdom("#" + this.id).data("objSeq");
+		if(objSeq == null){
+			return;
+		}
+
+		var obj = AXTab.objects[objSeq];
+		//obj.config.options = obj.config.options.concat(options);
+		obj.config.options = options;
+		obj.config.value = options[0].optionValue;
+		AXTab.initTab(this.id, objSeq);
+	});
+	return this;
+};
+
 /* ---------------------------- */
 var AXToolBar = Class.create(AXJ, {
 	initialize: function (AXJ_super) {

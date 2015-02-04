@@ -210,7 +210,16 @@
 		},
 		closeTab: function(tabID, tabValue) {
 			$("#" + tabID).closeTab(tabValue);
-		}
+		},
+        updateTab: function(tabID){
+            var options = [
+                {optionValue:"M", optionText:"남성"},
+                {optionValue:"F", optionText:"여성"},
+                {optionValue:"N", optionText:"선택안함"},
+                {optionValue:"", optionText:"모두"}
+            ];
+            $("#" + tabID).updateTabs(options);
+        }
 	};
 	$(document.body).ready(fnObj.pageStart.delay(0.1));
 	</script>	
@@ -234,7 +243,7 @@
 
             <div style="padding:20px 0px;">
                 <input type="button" value="탭 변경 (나이별)" class="AXButton" onclick="fnObj.tabChange1();" />
-                <input type="button" value="탭 변경 (성별)" class="AXButton" onclick="fnObj.tabChange2();" />
+                <input type="button" value="탭 변경 (성별)" class="AXButton" onclick="fnObj.updateTab('myTab01');" />
                 <input type="button" value="탭선택값 강제변경 (여성)" class="AXButton" onclick="fnObj.setValueTab('myTab01','F');" />
                 <input type="button" value="탭선택값 강제변경 (7살)" class="AXButton" onclick="fnObj.setValueTab('myTab01','7');" />
 				<input type="button" value="탭 추가" class="AXButton" onclick="fnObj.addTabs('myTab01', 6);" />
