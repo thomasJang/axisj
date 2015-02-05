@@ -39173,7 +39173,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.34
+ * @version v1.34.1
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -39198,6 +39198,7 @@ var swfobject;
  "2015-01-05 tom : queuebox class 가 listType일 때 progressbar 위치 조정"
  "2015-01-09 tom : onFileDrop uploadedCount 증가구문 수정 https://github.com/axisj-com/axisj/issues/385"
  "2015-01-16 tom : setUploadedList bug fix"
+ "2015-02-06 John : getItemTag : openMode (view 모드 추가) list 모드 css 적용"
 
  * @description
  *
