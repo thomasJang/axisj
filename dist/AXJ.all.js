@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-06 
+AXJ - v1.0.13 - 2015-02-07 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-06 
+AXJ - v1.0.13 - 2015-02-07 
 */
 
 if(!window.AXConfig){
@@ -11340,7 +11340,9 @@ var AXGrid = Class.create(AXJ, {
             /*trace(cfg.colHead._maps);  //_maps check */
 
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-        } else {
+        } 
+        else 
+        {
             /* colHeadRow 정해지지 않은 경우 */
 
             cfg.colHead._maps = [
@@ -11464,7 +11466,9 @@ var AXGrid = Class.create(AXJ, {
             }
 
             /* bodyRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-        } else {
+        } 
+        else 
+        {
             /* bodyRow 정해지지 않은 경우 */
             cfg.body._maps = [
                 []
@@ -11475,7 +11479,7 @@ var AXGrid = Class.create(AXJ, {
             for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
                 var adder = {
                     key: CG.key, colSeq: CG.colSeq, label: CG.label, align: (CG.align || "left"), rowspan: 1, colspan: 1, valign: (CG.valign || "middle"), isLastCell: true,
-                    display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter, formatterLabel:CG.formatterLabel,
+                    display: CG.display, checked: CG.checked, disabled: CG.disabled, formatter: CG.formatter, editor: CG.editor, formatterLabel:CG.formatterLabel,
                     tooltip: CG.tooltip, addClass: CG.addClass
                 };
                 bodyRows[0].push(adder);
@@ -14030,6 +14034,31 @@ var AXGrid = Class.create(AXJ, {
     getFormatterValue: function (formatter, item, itemIndex, value, key, CH, CHidx) {
         var cfg = this.config;
         var result;
+	    if(CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio")){
+		    // 
+		    // editCell 처리
+		    var checkedStr = "", disabled = "", 
+			    that = {
+				    index: itemIndex,
+				    list: this.list,
+				    item: item,
+				    page: this.page,
+				    key: key,
+				    value: value
+			    };
+		    
+		    if(value) checkedStr = ' checked="checked"';
+		    if(CH.editor.disabled){
+			    if(CH.editor.disabled.call(that)){
+				    disabled = ' disabled="disabled"';
+			    }
+		    }
+		    
+		    result = '<input type="'+CH.editor.type+'" name="'+ key +'" data-editor-key="'+itemIndex+','+CHidx+'" class="inline-editor-checkbox" ' +
+		    checkedStr + disabled + ' onfocus="this.blur();" />';
+			    //"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+	    }
+	    else
         if (formatter == "money") {
             if (value == "" || value == "null" || value == null || value == undefined) {
                 result = "0";
@@ -14239,9 +14268,10 @@ var AXGrid = Class.create(AXJ, {
                 }
 
             }
-            var colCount = 0, CH, CHidx = 0, CHLen = cfg.body.rows[r].length;
+            var colCount = 0, CH, CHidx = 0, CG, CHLen = cfg.body.rows[r].length;
             for (;CHidx < cfg.body.rows[r].length; CHidx++) {
                 CH = cfg.body.rows[r][CHidx];
+	            CG = cfg.colGroup[CHidx];
                 if (CH.display && CH.colspan > 0) {
                     var printOk = false;
                     if (isfix == "n") printOk = true;
@@ -14277,8 +14307,15 @@ var AXGrid = Class.create(AXJ, {
                         " title=\"" + tooltipValue + "\" title=\"" + tooltipValue + "\">");
                         if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
                             if (CH.formatter) {
-                                tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, CHidx));
-                            } else {
+	                            tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, CHidx));
+                            }
+	                        else
+                            if(CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio"))
+                            {
+	                            tpo.push(getFormatterValue("", item, itemIndex, item[CG.key], CH.key, CH, CHidx));
+                            } 
+                            else 
+	                        {
                                 tpo.push(item[CH.key]);
                             }
                         } else {
@@ -15651,8 +15688,13 @@ var AXGrid = Class.create(AXJ, {
 							 });
 							 this.selectedCells.clear();
                          }
-
-                        if (this.selectedRow.length > 0) {
+	
+	                    if(CG.editor && (CG.editor.type == "checkbox"||CG.editor.type == "radio")) {
+		                    this.editCell(r, c, itemIndex);
+	                    }
+	                    else
+                        if (this.selectedRow.length > 0) 
+                        {
                             // colGroup 에 editor이 있는지 파악
 
                             if(CG.editor && cfg.control_lock_status < 1){
@@ -15944,7 +15986,16 @@ var AXGrid = Class.create(AXJ, {
         }
 
         this.editCellClear();
-
+	
+	    if(CG.editor.type == "checkbox" || CG.editor.type == "radio") {
+		    if(CG.editor.type == "radio"){
+			    var _i = 0, _l = this.list.length;
+			    for(;_i<_l;_i++) this.list[_i][CG.key] = false;
+		    }
+		    _this.updateItem(r, c, ii, _this.body.find('[data-editor-key="' + ii + ',' + c + '"]').get(0).checked);
+			return this;
+	    }
+			    
         // 타입이 finder 이면 토스~
         if(CG.editor.type == "finder") {
             CG.editor.finder.onclick.call({
