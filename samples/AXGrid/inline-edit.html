@@ -173,16 +173,18 @@ colGroup : [
                      todo : editor type options [text, number, money, calendar, select, selector, switch, segment, slider, finder]
                      */
                     colGroup : [
-                        {
-                            key:"no", label:"번호", width:"50", align:"right"
-                        },
+                        {key:"no", label:"번호", width:"50", align:"right"},
+	                    {
+		                    key:"_CUD", label:"상태", width:"50", align:"center"
+	                    },
                         {
                             key:"title", label:"제목", width:"200",
                             tooltip:function(){
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
                             },
                             editor: {
-                                type: "text"
+                                type: "text",
+	                            updateWith: ["_CUD"]
                             }
                         },
                         {

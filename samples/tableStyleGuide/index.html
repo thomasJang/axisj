@@ -3,8 +3,8 @@
 	<head>
 		<title>AXISJ Table CSS Guide</title>
 
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 
@@ -40,7 +40,14 @@
 			setTimeout(fnObj.pageStart, 1);
 		});
 		</script>
-		
+		<style type="text/css">
+			.AXGridTable.AXGridTableSmall td,
+			.AXGridTable.AXGridTableSmall th {
+				min-height: 10px;
+				box-sizing: border-box;
+				padding: 0px;
+			}
+		</style>
 	</head>
 	<body>
     <div id="AXPage">
@@ -91,7 +98,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="mytr">
                             <td>
                                 사고
                             </td>
