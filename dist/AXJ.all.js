@@ -17428,7 +17428,8 @@ var AXGrid = Class.create(AXJ, {
                     if (rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
                     else{
                         rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
-                        rows[tri][tdi].tdom.css({height: (this.virtualScroll.itemTrHeight) * rows[tri][tdi].rowspan - 1});
+                        if(tdi > 0 || cfg.fixedColSeq == 0)
+	                    rows[tri][tdi].tdom.css({height: (this.virtualScroll.itemTrHeight) * rows[tri][tdi].rowspan - 1});
                     }
                 }
             }
