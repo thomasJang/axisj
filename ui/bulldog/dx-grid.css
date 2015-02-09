@@ -274,10 +274,6 @@
   border-bottom: 1px solid #ffffff;
   cursor: pointer;
 }
-.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td.selected {
-  background-color: #e7f1fa;
-  box-shadow: inset 0px 0px 2px #000;
-}
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.thpadding td {
   height: 0px;
   background: none;
@@ -454,10 +450,6 @@
   border-bottom: 1px solid #ffffff;
   cursor: pointer;
 }
-.AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr td.selected {
-  background-color: #e7f1fa;
-  box-shadow: inset 0px 0px 2px #000;
-}
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.thpadding td {
   height: 0px;
   background: none;
@@ -503,6 +495,9 @@
 }
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tbody tr.hover td {
   background-color: #e7f1fa;
+}
+.AXGrid .AXgridScrollBody .AXGridBody tbody tr.selected td.selected {
+  background-color: #d2d9df;
 }
 .AXGrid .AXgridScrollBody .gridBodyDiv .viewIcon {
   float: left;
@@ -1186,6 +1181,14 @@
 }
 .AXGrid .inline-editor .inline_editor_input.finder {
   padding-right: 20px;
+}
+.AXGrid .inline-editor .inline_editor_select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 20px;
+  border: 1px solid;
+  font-family: inherit;
+  font-size: inherit;
 }
 .AXGrid .inline-editor .finder-handle {
   position: absolute;

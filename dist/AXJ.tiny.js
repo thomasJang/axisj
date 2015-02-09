@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-01-26 
+AXJ - v1.0.13 - 2015-02-07 
 */
 /*! 
-AXJ - v1.0.13 - 2015-01-26 
+AXJ - v1.0.13 - 2015-02-07 
 */
 
 if(!window.AXConfig){
@@ -6085,7 +6085,7 @@ var AXContextMenuClass = Class.create(AXJ, {
             var sendObj = {
                 menu: menu,
                 sendObj: obj.sendObj
-            }
+            };
             return myobj.filter.call(sendObj, objID);
         } else {
             return true;
@@ -13143,7 +13143,7 @@ var AXSelectConverter = Class.create(AXJ, {
 							}
 							obj.config.onLoad.call(sendObj, sendObj);
 						}
-
+						_this.alignAnchor(objID, objSeq);
 					} else {
 						//trace(res);
 					}
@@ -13186,6 +13186,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				obj.config.selectedObject = obj.options[obj.selectedIndex];
 
 				options = AXgetId(objID).options[obj.selectedIndex];
+				if(!options) {
+					options = {value: "", text: ""};
+				}
 				sendObj = {
 					optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
 					value:options.value, text:options.text
@@ -13197,6 +13200,7 @@ var AXSelectConverter = Class.create(AXJ, {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
+			this.alignAnchor(objID, objSeq);
 		}
 		else
 		{
@@ -13215,9 +13219,10 @@ var AXSelectConverter = Class.create(AXJ, {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				obj.config.onLoad.call({selectedIndex:obj.selectedIndex, selectedObject:{optionValue:selectedOption.value, optionText:selectedOption.text}});
 			}
+			this.alignAnchor(objID, objSeq);
 		}
 
-		this.alignAnchor(objID, objSeq);
+		
 	},
 	selectTextBox_onkeydown: function(objID, objSeq, event){
 		var cfg = this.config, _this = this;
