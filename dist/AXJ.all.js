@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-07 
+AXJ - v1.0.13 - 2015-02-09 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-07 
+AXJ - v1.0.13 - 2015-02-09 
 */
 
 if(!window.AXConfig){
@@ -16072,8 +16072,10 @@ var AXGrid = Class.create(AXJ, {
             inline_editor.bind("keydown", function(e){
                 setTimeout(function(){
                     if(
-                        e.keyCode == axf.Event.KEY_DOWN || e.keyCode == axf.Event.KEY_UP ||
+	                    (
+	                    e.keyCode == axf.Event.KEY_DOWN || e.keyCode == axf.Event.KEY_UP ||
                         e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB
+	                    ) && (!e.altKey)
                     ) {
                         if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB) {
                             _this.updateItem(r, c, ii, e.target.value);
@@ -39225,7 +39227,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.34.1
+ * @version v1.35
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -39251,6 +39253,7 @@ var swfobject;
  "2015-01-09 tom : onFileDrop uploadedCount 증가구문 수정 https://github.com/axisj-com/axisj/issues/385"
  "2015-01-16 tom : setUploadedList bug fix"
  "2015-02-06 John : getItemTag : openMode (view 모드 추가) list 모드 css 적용"
+ "2015-02-07 tom : single 모드에서 fileDisplayHide: true 속성 추가"
 
  * @description
  *
@@ -39425,13 +39428,13 @@ var AXUpload5 = Class.create(AXJ, {
 		po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(cfg.buttonTxt)+'</span></button>');
 		po.push('	</td>');
 		
-		if(cfg.isSingleUpload){
+		if(cfg.isSingleUpload && cfg.fileDisplayHide != true){
 			po.push('<td>');
 			po.push('<div class="AXFileDisplay" id="'+cfg.targetID+'_AX_display">'+AXConfig.AXUpload5.uploadSelectTxt+'</div>');
 			po.push('</td>');
 		}
 		
-		po.push('	<tr></tbody></table>');
+		po.push('	</tr></tbody></table>');
 		po.push('</div>');
 		this.target.empty();
 		this.target.append(po.join(''));
@@ -39441,9 +39444,6 @@ var AXUpload5 = Class.create(AXJ, {
 		
 		var pauseQueue = this.pauseQueue.bind(this);
 		var _this = this;
-
-
-
 
 		jQuery('#'+cfg.targetID+'_AX_selector').click(function(event){
 
@@ -40827,6 +40827,7 @@ myUserBox.push(ds);
         this.myDrag.collectItem();
     },
     onSort: function(res) {
+	    var _this = this, that;
         var dragCollect = this.dragCollect.bind(this);
         if (axdom(res.dragItem).html() == axdom(res.sortItem).html()) return;
         if (res.dragItem == res.sortItem) return;
@@ -40834,34 +40835,67 @@ myUserBox.push(ds);
             axdom(res.sortItem).before(this);
             axdom(this).show("fast");
             dragCollect();
+	        if(_this.config.onchange){
+		        that = {
+			        containerID: _this.config.containerID,
+			        list : _this.getDS()
+		        };
+		        _this.config.onchange.call(that);
+	        }
         });
-
+	    
+	    return this;
     },
     onDrop: function(res) {
-        var config = this.config;
+	    var _this = this, that;
         var dragCollect = this.dragCollect.bind(this);
         axdom(res.dragItem).fadeOut("fast", function() {
-            jQuery("#" + config.containerID + "_AX_UserSelectBox").append(this); //예외 경우
+            jQuery("#" + _this.config.containerID + "_AX_UserSelectBox").append(this); //예외 경우
             jQuery(this).show("fast");
             dragCollect();
+	        if(_this.config.onchange){
+		        that = {
+			        containerID: _this.config.containerID,
+			        list : _this.getDS()
+		        };
+		        _this.config.onchange.call(that);
+	        }
         });
-
+	    return this;
     },
     moveup: function() {
-        var select = this.getSelect();
+	    var _this = this, that, select = this.getSelect();
 
         axf.each(select, function() {
             var prev = axdom(this).prev();
             prev.before(axdom(this));
         });
+
+	    if(_this.config.onchange){
+		    that = {
+			    containerID: _this.config.containerID,
+			    list : _this.getDS()
+		    };
+		    _this.config.onchange.call(that);
+	    }
+	    return this;
     },
     movedown: function() {
-        var select = this.getSelect();
+	    var _this = this, that, select = this.getSelect();
 
         axf.each(select, function() {
             var next = axdom(this).next();
             next.after(axdom(this));
         });
+
+	    if(_this.config.onchange){
+		    that = {
+			    containerID: _this.config.containerID,
+			    list : _this.getDS()
+		    };
+		    _this.config.onchange.call(that);
+	    }
+	    return this;
     },    
     getSelect: function() {
         return this.myDrag.mselector.getSelects();

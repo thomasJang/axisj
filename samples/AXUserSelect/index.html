@@ -35,7 +35,10 @@
 		},
 		userInit: function(){
 			myUserBox.setConfig({
-				containerID:"userSelect1"
+				containerID:"userSelect1",
+				onchange: function(){
+					trace(this);
+				}
 			});
 		},
 		getUserList: function(){
