@@ -113,7 +113,42 @@
 		position:absolute;left:-56px;
 	}
 }
-
+.AXbindCheckedHandle{
+	position: relative;
+	box-sizing: border-box;
+	border:1px solid #b6b6b6;
+	border-radius: 3px;
+	box-shadow: inset 0px 1px 2px rgba(0,0,0,0.2);
+	background: #fff;
+	a.checked-icon{
+		display: none;
+		width:100%;height: 100%;
+		background: url("images/mx-checked.png") no-repeat;
+		background-position: 50% 50%;
+		background-size: 10px 10px;
+		filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale');
+		-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+	}
+	&.checked{
+		box-shadow: none;
+		background: @bgcolor-c;
+		border-color: @bgcolor-c;
+		a.checked-icon{
+			display: block;
+		}
+	}
+}
+.AXbindCheckedHandle_radio{
+	.AXbindCheckedHandle();
+	border-radius: 50%;
+	a.checked-icon{
+		background: url("images/mx-checked-radio.png") no-repeat;
+		background-position: 50% 50%;
+		background-size: 10px 10px;
+		filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked-radio.png', sizingMethod='scale');
+		-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked-radio.png', sizingMethod='scale')";
+	}
+}
 
 // AXInputLabel ///////////////////////////////////////////////////
 .AXInputLabel{

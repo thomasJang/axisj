@@ -43,7 +43,11 @@
 			});
 			*/
 
-            $("#mycheck-target").bindChecked();
+            //$("#mycheck-target").bindChecked();
+			
+			$('input[type=checkbox]').bindChecked();
+			$('input[type=radio]').bindChecked();
+			
 		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));
@@ -214,11 +218,11 @@
 						-->
                         <form name="input-checked-form">
                             <!-- 직접바인딩 : label에 직접 바인딩 합니다. -->
-                            <label id="mycheck-target">
+                            <label>
                                 <input type="checkbox" name="mycheck" value="yes" />
                                 Javascript
                             </label>
-                            <label id="mycheck-radio-target">
+                            <label>
                                 <input type="radio" name="mycheckRadio" value="yes" />
                                 Javascript
                             </label>
@@ -226,7 +230,7 @@
                             <div class="H10"></div>
 
                             <!-- 간접바인딩 : label을 감싸고 있는 컨테이너 엘리먼트에 바인딩 합니다. -->
-                            <div id="AXInputChecked-target">
+                            <div>
                                 <label>
                                     <input type="checkbox" name="mycheck2" value="3" />
                                     Javascript
@@ -243,7 +247,7 @@
 
                             <div class="H10"></div>
 
-                            <div id="AXInputChecked-target-radio">
+                            <div>
                                 <label>
                                     <input type="radio" name="mycheck3" value="3" />
                                     Javascript
