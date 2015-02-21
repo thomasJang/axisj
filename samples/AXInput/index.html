@@ -36,18 +36,8 @@
 			$(".AXInputSearch").bindSearch();
 			$(".AXInputPlaceHolder").bindPlaceHolder();
 
-            /*
-			$(".AXCheckbox").find("input").bind("click", function(){
-				if(this.checked)this.checked = true;else this.checked = false;
-				if($(this).parent().hasClass("checked")) $(this).parent().removeClass("checked");else $(this).parent().addClass("checked");
-			});
-			*/
-
-            //$("#mycheck-target").bindChecked();
-			
 			$('input[type=checkbox]').bindChecked();
 			$('input[type=radio]').bindChecked();
-			
 		}
 	};
 	jQuery(document).ready(fnObj.pageStart.delay(0.1));

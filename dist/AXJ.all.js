@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-09 
+AXJ - v1.0.13 - 2015-02-22 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-09 
+AXJ - v1.0.13 - 2015-02-22 
 */
 
 if(!window.AXConfig){
@@ -19498,6 +19498,43 @@ var AXGrid = Class.create(AXJ, {
 		
         return this;
     },
+	
+	/**
+     * AXGrid의 checked 값을 jQuery.param 메서드에서 사용 가능한 배열로 반환합니다.
+	 *
+     * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+     * @param traditional {Boolean} [false] 반환 형태 지정
+     * @return {Array} traditional[false]: [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ], traditional[true]: [ { 'no': 1 }, { 'no': 2 } ]
+	 * @example
+```
+var myGrid = new AXGrid();
+myGrid.getCheckedParams(0); // -> [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ]
+myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
+```
+     */
+	getCheckedParams: function(colSeq, traditional){
+		var colName     = this.config.colGroup[colSeq].key;
+        var checkedList = this.getCheckedList(colSeq);
+        var params      = [];
+
+		if (!colName) {
+			trace("colSeq invalid. Please check the colSeq value.");
+			return params;
+		}
+        if (!checkedList || checkedList.length === 0) { return params; }
+
+        $.each(checkedList, function(idx, item){
+            if (traditional) {
+                var p = {};
+                p[colName] = (item[colName] || '');
+                params.push(p);
+            } else {
+                params.push({ "name": colName, "value": (item[colName] || "") });
+            }
+        });
+
+        return params;
+	}
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
@@ -19731,6 +19768,7 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorDateHandleClassName = "AXanchorDateHandle";
 		this.config.bindDateExpandBoxClassName = "AXbindDateExpandBox";
 		this.config.bindTwinDateExpandBoxClassName = "AXbindTwinDateExpandBox";
+		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
 	},
@@ -19743,7 +19781,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.windowResizeObserver = setTimeout(function () {
 			windowResizeApply();
-		}, 10);
+		}, 1);
 	},
 	windowResizeApply: function(){
 		// 사용안함
@@ -19815,10 +19853,11 @@ var AXInputConverter = Class.create(AXJ, {
 			this.objects[objSeq].config = obj;
 		}
 
-		if (obj.bindType != "checked") {
-			this.appendAnchor(objID, objSeq, obj.bindType);
-		}
-		// bind checked 는 anchor연결 안함.
+		//if (obj.bindType != "checked") {
+		//	this.appendAnchor(objID, objSeq, obj.bindType);
+		//}
+		// bind checked anchor 연결
+		this.appendAnchor(objID, objSeq, obj.bindType);
 
 		if (obj.bindType == "placeHolder") {
 			this.bindPlaceHolder(objID, objSeq);
@@ -19974,7 +20013,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var _this = this;
 		setTimeout(function () {
 			_this.alignAnchor(objID, objSeq);
-		}, 500);
+		});
 	},
 	alignAnchor: function (objID, objSeq) {
 		var cfg = this.config;
@@ -24026,28 +24065,76 @@ var AXInputConverter = Class.create(AXJ, {
 
 	// checked
 	bindChecked: function (objID, objSeq){
-		var cfg = this.config;
+		var cfg = this.config, _this = this;
 		var obj = this.objects[objSeq];
 
-		//if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
 		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-		var tagName = obj.bindTarget.get(0).tagName.ucase();
-
-		if(tagName == "LABEL"){
-
-		}else if(tagName == "INPUT"){
-
+		//var tagName = obj.bindTarget.get(0).tagName.ucase();
+		obj.bindTarget.css({opacity:0});
+		
+		var h = obj.bindAnchorTarget.data("height"),
+			marginWidth = obj.bindTarget.css("margin-left").number() + obj.bindTarget.css("margin-right").number(),
+			marginHeight = obj.bindTarget.css("margin-top").number() + obj.bindTarget.css("margin-bottom").number(),
+			chk_size = Math.max((h+marginWidth), (h + marginHeight)) - 1,
+			left = (obj.bindTarget.css("margin-left").number() - obj.bindTarget.css("margin-right").number()).abs(),
+			anchorHandle, linked_items = [];
+		
+		var onchange = function(e){
+			if(obj.bindTarget.get(0).checked){
+				anchorHandle.addClass("checked");
+			}else{
+				anchorHandle.removeClass("checked");
+			}
+			if(linked_items.length > 0){
+				for(var li=0;li<linked_items.length;li++){
+					var aHandle = jQuery(linked_items[li]).next().find("." + cfg.anchorCheckedContainerClassName+"_radio");
+					if(linked_items[li].checked){
+						aHandle.addClass("checked");
+					}else{
+						aHandle.removeClass("checked");
+					}
+				}
+			}
+		};
+		
+		var po = [];
+		po.push('<div id="' + cfg.targetID + '_AX_' + objID + '_AX_HandleContainer"');
+		if(obj.bindTarget.attr("type") == "radio"){
+			po.push(' class="' + cfg.anchorCheckedContainerClassName + '_radio" ');
 		}else{
-
+			po.push(' class="' + cfg.anchorCheckedContainerClassName + '" ');
 		}
 
-		/*
-		 $(".AXCheckbox").find("input").bind("click", function(){
-		 if(this.checked)this.checked = true;else this.checked = false;
-		 if($(this).parent().hasClass("checked")) $(this).parent().removeClass("checked");else $(this).parent().addClass("checked");
-		 });
-		 */
-
+		po.push(' style="left:'+left+'px;top:0px;width:' + chk_size + 'px;height:' + chk_size + 'px;"');
+		po.push(' onselectstart="return false;">');
+		po.push('<a class="checked-icon"></a>')
+		po.push('</div>');
+		obj.bindAnchorTarget.append(po.join(''));
+		obj.bindAnchorTarget.show();
+		if(obj.bindTarget.attr("type") == "radio") {
+			anchorHandle = obj.bindAnchorTarget.find("." + cfg.anchorCheckedContainerClassName+"_radio");
+		}else{
+			anchorHandle = obj.bindAnchorTarget.find("." + cfg.anchorCheckedContainerClassName);
+		}
+		
+		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", onchange);
+		anchorHandle.bind("click", function(e){
+			obj.bindTarget.get(0).checked = !obj.bindTarget.get(0).checked;
+			obj.bindTarget.trigger("change");
+			_this.stopEvent(e);
+		});
+		if(obj.bindTarget.attr("type") == "radio") {
+			// 이름이 같은 라디오 아이템을 수집하여 링크 합니다.
+			var nm = obj.bindTarget.attr("name");
+			//trace(nm, objID);
+			jQuery("input[name="+nm+"]").each(function(){
+				if(objID != this.id){
+					linked_items.push(this);
+				}
+			});
+		}
+		onchange();
 	}
 });
 
@@ -24496,7 +24583,7 @@ axdom(".AXInputChecked").bindChecked();
 **/
 axdom.fn.bindChecked = function (config) {
 	axf.each(this, function () {
-		config = config || {}; config.id = this.id;
+		config = config || {}; config.id = (this.id||(this.id="axchecked-"+axf.getUniqueId()));
 		config.bindType = "checked";
 		AXInput.bind(config);
 	});
@@ -28033,7 +28120,7 @@ var AXSearch = Class.create(AXJ, {
 			    }
 			    po.push("<span class=\"td selectBox\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
 				    var selectWidth = (item.width) ? item.width+"px" : "auto";
-				    po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem", itemAddClass.join(" "),"\" style=\"width:", selectWidth,";\" >");
+				    po.push("	<select name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" class=\"AXSelect searchSelectboxItem ", itemAddClass.join(" "),"\" style=\"width:", selectWidth,";\" >");
 
 				    var values = item.value.split(/,/g);
 				    axdom.each(item.options, function(idx, Opt){
@@ -39274,6 +39361,7 @@ var swfobject;
 var myUpload = new AXUPload5();
 myUpload.setConfig({
 	targetID:"AXUpload5",               //{String} - 업로드 버튼 엘리먼트 아이디
+	openMode: "view",                   //{String} - 업로드된 파일 삭제 아이콘 숨김
 	buttonTxt:"파일올리기",              //[String] - 업로드 버튼 문구. 사용자가 지정하지 않으면 AXConfig 에서 정의한 값을 사용합니다.
 	targetButtonClass:"Green",          //[String] - 업로드 버튼에 추가될 CSS 클래스
 	uploadFileName:"files[]",           //{String} - 서버에 전송될 파일 파라미터 키이름
