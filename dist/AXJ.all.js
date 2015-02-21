@@ -20011,7 +20011,9 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.bindAnchorTarget.data("height", h);
 
 		var _this = this;
-		_this.alignAnchor(objID, objSeq);
+		setTimeout(function () {
+			_this.alignAnchor(objID, objSeq);
+		});
 		setTimeout(function () {
 			_this.alignAnchor(objID, objSeq);
 		}, 500);
@@ -32455,7 +32457,9 @@ myMenu.setTree(Tree);
 	onoverParent: function(event){
 		if (this.childObserver) clearTimeout(this.childObserver); //닫기 명령 제거
 		var cfg = this.config;
-		var poi = event.target.id.split(/\_/g).last();
+		
+		var target = axf.get_event_target(event.target, {tagname:"a"});
+		var poi = target.id.split(/\_/g).last();
 		if(this.poi != "" && this.poi != poi){
 			axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
 			axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
@@ -32647,8 +32651,9 @@ myMenu.setTree(Tree);
 	onoverChild: function(event){
 		if (this.childObserver) clearTimeout(this.childObserver); //닫기 명령 제거
 		var cfg = this.config;
-		var eid = event.target.id;
-		var ids = event.target.id.split(/\_/g);
+		var target = axf.get_event_target(event.target, {tagname:"a"});
+		var eid = target.id;
+		var ids = target.id.split(/\_/g);
 		var tree = this.tree;
 		var item = {};
 		var pitem = {};
