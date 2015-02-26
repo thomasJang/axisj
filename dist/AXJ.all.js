@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-22 
+AXJ - v1.0.13 - 2015-02-26 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-22 
+AXJ - v1.0.13 - 2015-02-26 
 */
 
 if(!window.AXConfig){
@@ -11184,7 +11184,9 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
             /* width * 예외처리 구문 ------------ e */
-        } else {
+        } 
+        else 
+        {
             for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
                 if (CG.display && CG.widthAstric) {
                     CG.width = 100;
@@ -11210,7 +11212,9 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
                 this.colWidth = colWidth;
-            } else {
+            } 
+            else 
+            {
 
                 colWidth = 0;
                 for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
@@ -12059,7 +12063,6 @@ var AXGrid = Class.create(AXJ, {
             }
         }
 
-
         if (Object.isObject(cfg.colGroup)) {
             var newColGroup = cfg.colGroup.concat();
             cfg.colGroup = newColGroup;
@@ -12829,13 +12832,6 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config;
         var po = [];
 
-        if (arg.ghost) {
-            po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " class=\"colHeadTd" + arg.bottomClass + "\">");
-            po.push("<div class=\"tdRelBlock\">");
-            po.push("<div class=\"colHeadNode colHeadTdText\">&nbsp;</div>");
-            po.push("</div>");
-            po.push("</td>");
-        } else {
 
             var colHeadTdText = " colHeadTdText";
             var toolUse = true;
@@ -12857,17 +12853,21 @@ var AXGrid = Class.create(AXJ, {
             var sortClass = "";
             if (arg.sort) sortClass = (arg.sort == "desc") ? " sortDesc" : " sortAsc";
 
-            po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
+            po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " ");
+			if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+			po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
             po.push("<div class=\"tdRelBlock\">");
-            po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\">");
+            po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" ");
+			if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+			po.push(">");
             po.push(arg.tdHtml);
             po.push("</div>");
-            if (toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
-            po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
+            if (!arg.ghost && toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
+			if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
             po.push("</div>");
             po.push("</td>");
 
-            if (arg.sort) {
+            if (!arg.ghotst && arg.sort) {
                 var myColHead = cfg.colHead.rows[arg.r][arg.CHidx];
                 var tdID = cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx;
 
@@ -12875,7 +12875,6 @@ var AXGrid = Class.create(AXJ, {
                 this.nowSortHeadObj = myColHead;
             }
 
-        }
         return po.join('');
     },
 /**
@@ -12947,17 +12946,18 @@ var AXGrid = Class.create(AXJ, {
                             var valign = " valign=\"" + CH.valign + "\"";
                             var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
 
-                            /*
+/*
                              po.push(getColHeadTd({
                              valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
                              align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
                              ghost: (colCount < (cfg.fixedColSeq + 1))
                              }));
-                             */
+*/
+
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
                                 align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
-                                ghost: false
+                                ghost: (colCount < (cfg.fixedColSeq + 1))
                             }));
 
                             colCount += CH.colspan;
@@ -13029,6 +13029,9 @@ var AXGrid = Class.create(AXJ, {
                     axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
                 }
             });
+	        
+	        //AXGridTarget_AX_colHead_AX_0_AX_2
+	        //AXGridTarget_AX_colHead_AX_0_AX_0
 
             this.colHead.bind("mouseover", this.colHeadMouseOver.bind(this));
             this.colHead.bind("mouseout", this.colHeadMouseOut.bind(this));
