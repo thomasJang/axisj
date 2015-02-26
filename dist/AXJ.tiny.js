@@ -9178,7 +9178,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var bindSelectorSetOptions = this.bindSelectorSetOptions.bind(this);
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
 			var url = obj.config.ajaxUrl;
-			var pars = obj.config.ajaxPars;
+			var pars = obj.config.ajaxPars || {};
 			var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
 			if (pars == "") {
 				pars = selectorName + "=" + (objVal||"").enc();
