@@ -166,6 +166,66 @@
   position: absolute;
   left: -56px;
 }
+.AXbindCheckedHandle {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #b6b6b6;
+  border-radius: 3px;
+  box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+.AXbindCheckedHandle a.checked-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("images/mx-checked.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+}
+.AXbindCheckedHandle.checked {
+  box-shadow: none;
+  background: #717b85;
+  border-color: #717b85;
+}
+.AXbindCheckedHandle.checked a.checked-icon {
+  display: block;
+}
+.AXbindCheckedHandle_radio {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #b6b6b6;
+  border-radius: 3px;
+  box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-radius: 50%;
+}
+.AXbindCheckedHandle_radio a.checked-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("images/mx-checked.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+}
+.AXbindCheckedHandle_radio.checked {
+  box-shadow: none;
+  background: #717b85;
+  border-color: #717b85;
+}
+.AXbindCheckedHandle_radio.checked a.checked-icon {
+  display: block;
+}
+.AXbindCheckedHandle_radio a.checked-icon {
+  background: url("images/mx-checked-radio.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked-radio.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked-radio.png', sizingMethod='scale')";
+}
 .AXInputLabel {
   position: relative;
   display: inline-block;
@@ -603,23 +663,23 @@
   float: left;
   padding: 0px;
   margin: 0px;
-  border-top: 1px solid #b9babc;
-  border-left: 1px solid #b9babc;
-  border-bottom: 1px solid #b9babc;
+  border-top: 1px solid #b1b1b1;
+  border-left: 1px solid #b1b1b1;
+  border-bottom: 1px solid #b1b1b1;
   font-size: 12px;
   color: #6e7a86;
   text-align: center;
   text-decoration: none;
   background: #e8e8e8;
-  background: -webkit-linear-gradient(#ffffff, #e8e8e8);
+  background: -webkit-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Safari */
-  background: -o-linear-gradient(#ffffff, #e8e8e8);
+  background: -o-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#ffffff, #e8e8e8);
+  background: -moz-linear-gradient(#e8e8e8, #e8e8e8);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#ffffff, #e8e8e8);
+  background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   white-space: nowrap;
   overflow: hidden;
@@ -627,16 +687,16 @@
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle:hover,
 .AXanchorSegmentBox .AXanchorSegmentHandle:focus {
-  background: #e5eff2;
-  background: -webkit-linear-gradient(#c7cfd4, #e5eff2);
+  background: #c7cfd4;
+  background: -webkit-linear-gradient(#c7cfd4, #c7cfd4);
   /* For Safari */
-  background: -o-linear-gradient(#c7cfd4, #e5eff2);
+  background: -o-linear-gradient(#c7cfd4, #c7cfd4);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#c7cfd4, #e5eff2);
+  background: -moz-linear-gradient(#c7cfd4, #c7cfd4);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#c7cfd4, #e5eff2);
+  background: linear-gradient(#c7cfd4, #c7cfd4);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c7cfd4, endColorstr=#e5eff2);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c7cfd4, endColorstr=#c7cfd4);
   /*For IE7-8-9*/
   text-shadow: 0px 1px #fff;
 }
@@ -645,24 +705,25 @@
   border-bottom-left-radius: 4px;
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.segmentRight {
-  border-right: 1px solid #b9babc;
+  border-right: 1px solid #b1b1b1;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.on {
-  background: #b9babc;
-  background: -webkit-linear-gradient(#7c7e83, #b9babc);
+  background: #b1b1b1;
+  background: -webkit-linear-gradient(#b1b1b1, #b1b1b1);
   /* For Safari */
-  background: -o-linear-gradient(#7c7e83, #b9babc);
+  background: -o-linear-gradient(#b1b1b1, #b1b1b1);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#7c7e83, #b9babc);
+  background: -moz-linear-gradient(#b1b1b1, #b1b1b1);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#7c7e83, #b9babc);
+  background: linear-gradient(#b1b1b1, #b1b1b1);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#7c7e83, endColorstr=#b9babc);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1b1b1, endColorstr=#b1b1b1);
   /*For IE7-8-9*/
-  color: #ffffff;
-  text-shadow: 0px 1px #4e585f;
+  color: #fff;
+  text-shadow: none;
+  font-weight: bold;
 }
 .AXanchorDateHandle {
   position: absolute;

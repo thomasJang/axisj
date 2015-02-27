@@ -17,6 +17,8 @@
 }
 .AXSearch {
   position: relative;
+  border-spacing: 0px;
+  border-collapse: collapse;
 }
 .AXSearch .expandHandle {
   display: block;
