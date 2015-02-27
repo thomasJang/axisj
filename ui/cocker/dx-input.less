@@ -474,11 +474,11 @@
 		border-top:@border;border-left:@border;border-bottom:@border;
 		font-size:12px;
 		color:@color;
-		text-align:center;text-decoration:none;
-		.util-gradient(top,@bgcolor-a,@bgcolor-b);
+		text-align:center;text-decoration:none;;
+		.util-gradient(top,@bgcolor-b,@bgcolor-b);
 		.util-text-ellipsis();
 		&:hover, &:focus{
-			.util-gradient(top,@bgcolor-c,@bgcolor-d);
+			.util-gradient(top,@bgcolor-c,@bgcolor-c);
 			text-shadow:0px 1px #fff;
 		}
 		&.segmentLeft{
@@ -489,9 +489,10 @@
 			border-top-right-radius:@radius;border-bottom-right-radius:@radius;
 		}
 		&.on{
-			.util-gradient(top,@bgcolor-e,@bgcolor-f);
-			color:@color-a;
-			text-shadow:0px 1px #4e585f;
+			.util-gradient(top, #b1b1b1, #b1b1b1);
+			color:#fff;
+			text-shadow:none;
+			font-weight: bold;
 		}
 	}
 }

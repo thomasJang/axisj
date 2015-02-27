@@ -24,6 +24,7 @@
 				src: [
 					'lib/AXJ.js',
 					'lib/AXInput.js',
+					'lib/AXInputPro.js',
 					'lib/AXSelect.js',
 					'lib/AXMobileMenu.js',
 					'lib/AXTopDownMenu.js'
@@ -41,6 +42,7 @@
 					'lib/AXGrid.js',
 					'lib/AXHtmlElement.js',
 					'lib/AXInput.js',
+					'lib/AXInputPro.js',
 					'lib/AXMobileMenu.js',
 					'lib/AXModal.js',
 					'lib/AXModelControl.js',
