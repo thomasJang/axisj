@@ -10118,7 +10118,6 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var segmentOptions = obj.config.options;
 
-		/*
 		if (event.target.id == "") return;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
@@ -10126,8 +10125,7 @@ var AXInputConverter = Class.create(AXJ, {
 			evt: eventTarget, evtIDs: eid,
 			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXanchorSegmentHandle")) ? true : false; }
 		});
-		*/
-		var myTarget = axf.get_event_target(event.target, {tagname:"a", clazz:["AXanchorSegmentHandle"]});
+
 		if (myTarget) {
 
 			var seq = myTarget.id.split(/_AX_/g).last();
@@ -12458,6 +12456,16 @@ var config = {
     onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
         trace(this);
     },
+    onsearch     : function(objID, objVal) {               // {Function} - 값 변경시 options 변경 구현 함수(optional) ※ 주의: ajaxUrl과 중복 사용할 수 없습니다. 만약 두 옵션이 같이 선언되면 onsearch가 적용되고 ajaxUrl은 무시됩니다.
+        // this = { id: objID, value: objVal }
+        // 아래와 같은 형식으로 options 값을 반환해야 합니다.
+        return {
+            options:[
+                {optionValue:1, optionText:"Seoul", desc:"부가설명글"},
+                ...
+            ]
+        }
+    }
     finder: {
         onclick: function() { // {Function} - 파인더 버튼 클릭 이벤트 콜백함수 (optional)
             trace(this);
