@@ -13277,9 +13277,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 					(
 						event.which  > 47 && event.which  < 58
 						|| event.which  > 36 && event.which  < 41
+				        || event.which > 95 && event.which < 106
 							|| event.which == 8 || event.which == 9 || event.which == 13
-							|| event.which == 190
-							|| event.which == 189 || event.which == 187
+							|| event.which == 46 || event.which == 109 || event.which == 110
+							|| event.which == 189 || event.which == 187 || event.which == 190
 					)
 				) {
 
@@ -13290,7 +13291,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 					// 소수점 입력 막기
 					isStop = true;
 				}
-				else if (event.which == 189 || event.which == 187){
+				else if (event.which == 189 || event.which == 187 || event.which == 190){
 					if(
 						(
 							obj.config.pattern == "money" ||
@@ -13305,7 +13306,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 						isStop = true;
 					}
 				}
-				else if (event.which == 8 || event.which == 9 || event.which == 13 || event.which == 37 || event.which == 39) { // 백스페이스, 탭, 리턴, 좌, 우
+				else if (event.which == 8 || event.which == 9 || event.which == 13 || event.which == 37 || event.which == 39|| event.which == 46) { // 백스페이스, 탭, 리턴, 좌, 우, delete
 					if(event.which == 13){
 						obj.bindTarget.trigger("blur");
 					}
