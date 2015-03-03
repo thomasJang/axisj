@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-28 
+AXJ - v1.0.13 - 2015-03-03 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-28 
+AXJ - v1.0.13 - 2015-03-03 
 */
 
 if(!window.AXConfig){
@@ -884,7 +884,12 @@ axf.encParam("name=장기영&sex=남");
 						}
 						else
 						{ // 그외 속성값들.
-							if(_target.getAttribute(k) != cond[k]) {
+							if(_target.getAttribute) {
+								if (_target.getAttribute(k) != cond[k]) {
+									result = false;
+									break;
+								}
+							}else{
 								result = false;
 								break;
 							}
@@ -16141,7 +16146,17 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }, 10);
             });
+		
+	        if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
+		        jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
 
+			        var target = axf.get_event_target(e.target, {id: inline_editor_id});
+			        if (!target) {
+				        _this.updateItem(r, c, ii, inline_editor.find("input").val());
+				        jQuery(document.body).unbind("click.axgrid");
+			        }
+		        });
+	        }
         }, 10);
 
         function get_editor(cond, val){
@@ -16198,14 +16213,19 @@ var AXGrid = Class.create(AXJ, {
      */
     editCellClear: function(){
         if(this.inline_edit){
-            if(this.inline_edit.r == arguments[0] && this.inline_edit.c == arguments[1] && this.inline_edit.ii == arguments[2]){
-                return false;
+            if(this.inline_edit.r == arguments[0] && this.inline_edit.c == arguments[1] && this.inline_edit.ii == arguments[2]) {
+	            return false;
+            }else if(arguments[2]){
+	            if(this.inline_edit.editor.find("input").get(0)) {
+		            this.updateItem(arguments[0], arguments[1], arguments[2], this.inline_edit.editor.find("input").val());
+	            }
             }else {
                 this.inline_edit.editor.remove();
                 this.inline_edit.editor.find("input").unbindInput();
                 this.inline_edit = null;
             }
         }
+	    jQuery(document.body).unbind("click.axgrid");
         return this;
     },
     /**

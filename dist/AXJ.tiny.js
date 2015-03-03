@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-28 
+AXJ - v1.0.13 - 2015-03-03 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-28 
+AXJ - v1.0.13 - 2015-03-03 
 */
 
 if(!window.AXConfig){
@@ -884,7 +884,12 @@ axf.encParam("name=장기영&sex=남");
 						}
 						else
 						{ // 그외 속성값들.
-							if(_target.getAttribute(k) != cond[k]) {
+							if(_target.getAttribute) {
+								if (_target.getAttribute(k) != cond[k]) {
+									result = false;
+									break;
+								}
+							}else{
 								result = false;
 								break;
 							}
