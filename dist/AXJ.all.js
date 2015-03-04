@@ -13970,15 +13970,15 @@ var AXGrid = Class.create(AXJ, {
         var nowSortHeadObj = this.nowSortHeadObj;
 
         if (res._sortDisable || !cfg.sort) {
-            this.list = res.list;
+            this.list = res[AXConfig.AXGrid.keyList];
         } else {
             if (nowSortHeadID) {
-                this.list = this.sortList(nowSortHeadObj.sort, nowSortHeadObj, res.list);
+                this.list = this.sortList(nowSortHeadObj.sort, nowSortHeadObj, res[AXConfig.AXGrid.keyList]);
             } else {
-                this.list = res.list;
+                this.list = res[AXConfig.AXGrid.keyList];
             }
         }
-        AXUtil.overwriteObject(this.page, res.page, true);
+        axf.overwriteObject(this.page, res.page, true);
 
         this.printList();
 
