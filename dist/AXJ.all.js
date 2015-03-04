@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-03 
+AXJ - v1.0.13 - 2015-03-04 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-03 
+AXJ - v1.0.13 - 2015-03-04 
 */
 
 if(!window.AXConfig){
@@ -16149,7 +16149,6 @@ var AXGrid = Class.create(AXJ, {
 		
 	        if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
 		        jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
-
 			        var target = axf.get_event_target(e.target, {id: inline_editor_id});
 			        if (!target) {
 				        _this.updateItem(r, c, ii, inline_editor.find("input").val());
@@ -16215,10 +16214,16 @@ var AXGrid = Class.create(AXJ, {
         if(this.inline_edit){
             if(this.inline_edit.r == arguments[0] && this.inline_edit.c == arguments[1] && this.inline_edit.ii == arguments[2]) {
 	            return false;
-            }else if(arguments[2]){
+            }else if( typeof arguments[2] != "undefined" && this.inline_edit && this.inline_edit.editor.find("input").get(0) ){
+		            var ids = this.inline_edit.editor.get(0).id.split(/_AX_/g);
+		            var r, c, ii;
+		            r = ids[ids.length-3], c = ids[ids.length-2], ii = ids[ids.length-1];
+		            this.updateItem(r, c, ii, this.inline_edit.editor.find("input").val());
+	            /*
 	            if(this.inline_edit.editor.find("input").get(0)) {
 		            this.updateItem(arguments[0], arguments[1], arguments[2], this.inline_edit.editor.find("input").val());
 	            }
+	            */
             }else {
                 this.inline_edit.editor.remove();
                 this.inline_edit.editor.find("input").unbindInput();
