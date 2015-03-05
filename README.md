@@ -145,3 +145,7 @@ https://github.com/axisj-com/axisj/issues
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/axisj-com/axisj/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/axisj-com/axisj/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
