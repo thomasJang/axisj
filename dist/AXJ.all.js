@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-04 
+AXJ - v1.0.13 - 2015-03-05 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-04 
+AXJ - v1.0.13 - 2015-03-05 
 */
 
 if(!window.AXConfig){
@@ -21940,14 +21940,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var segmentOptions = obj.config.options;
 
-		if (event.target.id == "") return;
-		var eid = event.target.id.split(/_AX_/g);
-		var eventTarget = event.target;
-		var myTarget = this.getEventTarget({
-			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXanchorSegmentHandle")) ? true : false; }
-		});
-
+		var myTarget = axf.get_event_target(event.target, {tagname:"a", clazz:"AXanchorSegmentHandle"});
 		if (myTarget) {
 
 			var seq = myTarget.id.split(/_AX_/g).last();
