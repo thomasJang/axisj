@@ -28,6 +28,7 @@
     <!-- js block -->
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
     <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
@@ -191,6 +192,10 @@ colGroup : [
 	                    },
                         {
                             key:"title", label:"제목", width:"200",
+	                        formatter: function(){
+		                      return "<u>" + this.item.title + "</u>";
+		                        
+	                        },
                             tooltip:function(){
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
                             },

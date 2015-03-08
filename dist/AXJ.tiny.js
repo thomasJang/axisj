@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-02-28 
+AXJ - v1.0.13 - 2015-03-07 
 */
 /*! 
-AXJ - v1.0.13 - 2015-02-28 
+AXJ - v1.0.13 - 2015-03-07 
 */
 
 if(!window.AXConfig){
@@ -126,7 +126,10 @@ if(!window.AXConfig){
 	keyResult: "result",
 	keyTree: "tree",
 	keyList: "list",
-	emptyListMSG: "목록이 없습니다."
+	emptyListMSG: "목록이 없습니다.",
+	persist: true,
+    cookiePrefix: "axtree-",
+    cookieExpiredays: 7
 }
  ```
  */
@@ -138,7 +141,11 @@ if(!window.AXConfig){
 			keyResult: "result",
 			keyTree: "tree",
 			keyList: "list",
-			emptyListMSG: "목록이 없습니다."
+			emptyListMSG: "목록이 없습니다.",
+			persistExpanded: false,
+			persistSelected: false,
+			cookiePrefix: "axtree-",
+			cookieExpiredays: 7
 		},
 /**
  * AXProgress default config
@@ -884,7 +891,12 @@ axf.encParam("name=장기영&sex=남");
 						}
 						else
 						{ // 그외 속성값들.
-							if(_target.getAttribute(k) != cond[k]) {
+							if(_target.getAttribute) {
+								if (_target.getAttribute(k) != cond[k]) {
+									result = false;
+									break;
+								}
+							}else{
 								result = false;
 								break;
 							}
@@ -10118,14 +10130,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var segmentOptions = obj.config.options;
 
-		if (event.target.id == "") return;
-		var eid = event.target.id.split(/_AX_/g);
-		var eventTarget = event.target;
-		var myTarget = this.getEventTarget({
-			evt: eventTarget, evtIDs: eid,
-			find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXanchorSegmentHandle")) ? true : false; }
-		});
-
+		var myTarget = axf.get_event_target(event.target, {tagname:"a", clazz:"AXanchorSegmentHandle"});
 		if (myTarget) {
 
 			var seq = myTarget.id.split(/_AX_/g).last();
@@ -13272,9 +13277,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 					(
 						event.which  > 47 && event.which  < 58
 						|| event.which  > 36 && event.which  < 41
+				        || event.which > 95 && event.which < 106
 							|| event.which == 8 || event.which == 9 || event.which == 13
-							|| event.which == 190
-							|| event.which == 189 || event.which == 187
+							|| event.which == 46 || event.which == 109 || event.which == 110
+							|| event.which == 189 || event.which == 187 || event.which == 190
 					)
 				) {
 
@@ -13285,7 +13291,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 					// 소수점 입력 막기
 					isStop = true;
 				}
-				else if (event.which == 189 || event.which == 187){
+				else if (event.which == 189 || event.which == 187 || event.which == 190){
 					if(
 						(
 							obj.config.pattern == "money" ||
@@ -13300,7 +13306,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 						isStop = true;
 					}
 				}
-				else if (event.which == 8 || event.which == 9 || event.which == 13 || event.which == 37 || event.which == 39) { // 백스페이스, 탭, 리턴, 좌, 우
+				else if (event.which == 8 || event.which == 9 || event.which == 13 || event.which == 37 || event.which == 39|| event.which == 46) { // 백스페이스, 탭, 리턴, 좌, 우, delete
 					if(event.which == 13){
 						obj.bindTarget.trigger("blur");
 					}
