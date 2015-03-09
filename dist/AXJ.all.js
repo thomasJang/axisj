@@ -16287,8 +16287,10 @@ var AXGrid = Class.create(AXJ, {
 	            }
 	            */
             }else {
-                this.inline_edit.editor.remove();
-                this.inline_edit.editor.find("input").unbindInput();
+	            if(this.inline_edit.editor) {
+		            this.inline_edit.editor.find("input").unbindInput();
+		            this.inline_edit.editor.remove();
+	            }
                 this.inline_edit = null;
             }
         }
