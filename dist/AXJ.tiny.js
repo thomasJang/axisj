@@ -16750,11 +16750,12 @@ myMenu.setTree(Tree);
 	},
 	setHighLightMenu: function(poi){
 		var cfg = this.config;
-		
+		this.menuBox.find(".parentMenu").removeClass("on");
+		this.menuBox.find(".parentMenu a").removeClass("on");
+		this.menuBox.find(".childMenu a").removeClass("on");
+
 		if(axdom.isArray(poi)){
-			
-			this.dfPoi = poi;
-			
+			this.poi = this.dfPoi = poi;
 			var tree = this.tree;
 			axdom.each(poi, function(idx, T){
 				if(idx == 0) tree = tree[T.number()];
@@ -16768,12 +16769,9 @@ myMenu.setTree(Tree);
 					}
 				}
 			});
-			
 		}else{
-			
-			this.dfPoi = poi;
+			this.poi = this.dfPoi = poi;
 			axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
-			
 		}
 	},
 /**
