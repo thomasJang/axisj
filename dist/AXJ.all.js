@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-05 
+AXJ - v1.0.13 - 2015-03-09 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-05 
+AXJ - v1.0.13 - 2015-03-09 
 */
 
 if(!window.AXConfig){
@@ -12255,7 +12255,9 @@ var AXGrid = Class.create(AXJ, {
             this.pageBody.hide();
             this.setPaging();
 
-        } else {
+        } 
+        else 
+        {
 
             /*page setting */
             if (!cfg.page) {
@@ -12291,7 +12293,9 @@ var AXGrid = Class.create(AXJ, {
                 /*colhead + body height */
                 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
                 /* body Height */
-            } else {
+            } 
+            else 
+            {
 
                 if (cfg.height) this.gridBody.css({height: cfg.height});
 
@@ -13014,18 +13018,30 @@ var AXGrid = Class.create(AXJ, {
             this.colHead.html(po.join(''));
             axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
             if (fpo) this.colHead.after(fpo.join(''));
-
+	        var _tdHeight;
+	        
             /*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
             /*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
             this.colHead.find(".colHeadResizer").each(function () {
                 var resizerID = this.id;
+	            
                 var tdID = resizerID.replace("colHeadResizer", "colHead");
                 var txtID = resizerID.replace("colHeadResizer", "colHeadText");
                 var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
+
                 var rowspan = axdom("#" + tdID).attr("rowspan");
                 var valign = axdom("#" + tdID).attr("valign");
                 if (!rowspan) rowspan = 1;
-                var tdHeight = axdom("#" + tdID).height();
+	            if(typeof _tdHeight === "undefined") {
+		            _tdHeight = axdom("#" + tdID).height() / rowspan;
+	            }
+	            var tdHeight = _tdHeight * rowspan;
+	            if(rowspan > 1) {
+		            for (var a = 0; a < rowspan; a++) {
+						tdHeight += 1;
+		            }
+	            }
+	            
                 axdom(this).css({ height: tdHeight });
                 axdom(this).parent().css({ height: tdHeight });
                 if (rowspan > 1) {
@@ -13052,7 +13068,6 @@ var AXGrid = Class.create(AXJ, {
 
             if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
                 this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
-
                 this.fixedColHead.find(".colHeadResizer").each(function () {
                     var resizerID = this.id;
                     var tdID = resizerID.replace("colHeadResizer", "colHead");
@@ -13061,7 +13076,13 @@ var AXGrid = Class.create(AXJ, {
                     var rowspan = axdom("#" + tdID).attr("rowspan");
                     var valign = axdom("#" + tdID).attr("valign");
                     if (!rowspan) rowspan = 1;
-                    var tdHeight = axdom("#" + tdID).height();
+	                var tdHeight = _tdHeight * rowspan;
+	                if(rowspan > 1) {
+		                for (var a = 0; a < rowspan; a++) {
+			                tdHeight += 1;
+		                }
+	                }
+	                
                     axdom(this).css({ height: tdHeight });
                     axdom(this).parent().css({ height: tdHeight });
                     if (rowspan > 1) {
@@ -16409,6 +16430,8 @@ var AXGrid = Class.create(AXJ, {
                     //body Height
                 }
             }
+
+	        _this.onevent_grid({type:"scroll-resize"});
         }, 100);
     },
     /**
@@ -19564,6 +19587,10 @@ myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
         });
 
         return params;
+	},
+	onevent_grid: function(){
+		
+		
 	}
 });
 /* ---------------------------- */
