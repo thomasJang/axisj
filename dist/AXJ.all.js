@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-07 
+AXJ - v1.0.13 - 2015-03-09 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-07 
+AXJ - v1.0.13 - 2015-03-09 
 */
 
 if(!window.AXConfig){
@@ -476,13 +476,34 @@ trace(axf.timeKey()); // A004222760
  * @param {String} name
  * @param {String} value
  * @param {Number} [expiredays]
+ * @param {Object} options
  * @description 쿠키에 값을 지정합니다.
  * @example
 ```js
-axf.setCookie("myname", "tomas", 10);
+axf.setCookie("myname", "tomas", 10, {
+    path  : "/",             // {String} [현재 페이지의 path]
+    domain: "www.axisj.com", // {String} [현재 사이트의 domain]
+    secure: true             // {Boolean} [false]
+});
 ```
  */
-	setCookie: function (name, value, expiredays) { if (expiredays) { var todayDate = new Date(); todayDate.setDate(todayDate.getDate() + expiredays); document.cookie = name + '=' + escape(value) + '; path=/; expires=' + todayDate.toGMTString() + ';'; } else { document.cookie = name + '=' + escape(value) + '; path=/;'; } },
+	setCookie: function (name, value, expiredays, options) {
+        var expireDate;
+        if (typeof expiredays === "number") {
+            expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + expiredays);
+        }
+
+        options = options || {};
+
+        return (document.cookie = [
+            encodeURIComponent(name), '=', String(value),
+            expireDate      ? "; expires=" + expireDate.toUTCString() : "", // use expires attribute, max-age is not supported by IE
+            options.path    ? "; path=" + options.path : "",
+            options.domain  ? "; domain=" + options.domain : "",
+            options.secure  ? "; secure" : ""
+        ].join(""));
+    },
 /**
  * @method axf.getCookie
  * @param {String} name
@@ -493,7 +514,20 @@ axf.setCookie("myname", "tomas", 10);
  // tomas
  ```
  */
-	getCookie: function (name) { var nameOfCookie = name + "="; var x = 0; while (x <= document.cookie.length) { var y = (x + nameOfCookie.length); if (document.cookie.substring(x, y) == nameOfCookie) { if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length; return unescape(document.cookie.substring(y, endOfCookie)); } x = document.cookie.indexOf(" ", x) + 1; if (x == 0) break; } return ""; },
+	getCookie: function (name) {
+        var nameOfCookie = name + "=";
+        var x = 0;
+        while (x <= document.cookie.length) {
+            var y = (x + nameOfCookie.length);
+            if (document.cookie.substring(x, y) == nameOfCookie) {
+                if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length;
+                return decodeURIComponent(document.cookie.substring(y, endOfCookie));
+            }
+            x = document.cookie.indexOf(" ", x) + 1;
+            if (x == 0) break;
+        }
+        return "";
+    },
 	JSONFilter: /^\/\*-secure-([\s\S]*)\*\/\s*$/,
 /**
  * @method axf.dayLen
@@ -12262,7 +12296,9 @@ var AXGrid = Class.create(AXJ, {
             this.pageBody.hide();
             this.setPaging();
 
-        } else {
+        } 
+        else 
+        {
 
             /*page setting */
             if (!cfg.page) {
@@ -12298,7 +12334,9 @@ var AXGrid = Class.create(AXJ, {
                 /*colhead + body height */
                 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
                 /* body Height */
-            } else {
+            } 
+            else 
+            {
 
                 if (cfg.height) this.gridBody.css({height: cfg.height});
 
@@ -13021,18 +13059,30 @@ var AXGrid = Class.create(AXJ, {
             this.colHead.html(po.join(''));
             axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
             if (fpo) this.colHead.after(fpo.join(''));
-
+	        var _tdHeight;
+	        
             /*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
             /*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
             this.colHead.find(".colHeadResizer").each(function () {
                 var resizerID = this.id;
+	            
                 var tdID = resizerID.replace("colHeadResizer", "colHead");
                 var txtID = resizerID.replace("colHeadResizer", "colHeadText");
                 var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
+
                 var rowspan = axdom("#" + tdID).attr("rowspan");
                 var valign = axdom("#" + tdID).attr("valign");
                 if (!rowspan) rowspan = 1;
-                var tdHeight = axdom("#" + tdID).height();
+	            if(typeof _tdHeight === "undefined") {
+		            _tdHeight = axdom("#" + tdID).height() / rowspan;
+	            }
+	            var tdHeight = _tdHeight * rowspan;
+	            if(rowspan > 1) {
+		            for (var a = 0; a < rowspan; a++) {
+						tdHeight += 1;
+		            }
+	            }
+	            
                 axdom(this).css({ height: tdHeight });
                 axdom(this).parent().css({ height: tdHeight });
                 if (rowspan > 1) {
@@ -13059,7 +13109,6 @@ var AXGrid = Class.create(AXJ, {
 
             if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
                 this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
-
                 this.fixedColHead.find(".colHeadResizer").each(function () {
                     var resizerID = this.id;
                     var tdID = resizerID.replace("colHeadResizer", "colHead");
@@ -13068,7 +13117,13 @@ var AXGrid = Class.create(AXJ, {
                     var rowspan = axdom("#" + tdID).attr("rowspan");
                     var valign = axdom("#" + tdID).attr("valign");
                     if (!rowspan) rowspan = 1;
-                    var tdHeight = axdom("#" + tdID).height();
+	                var tdHeight = _tdHeight * rowspan;
+	                if(rowspan > 1) {
+		                for (var a = 0; a < rowspan; a++) {
+			                tdHeight += 1;
+		                }
+	                }
+	                
                     axdom(this).css({ height: tdHeight });
                     axdom(this).parent().css({ height: tdHeight });
                     if (rowspan > 1) {
@@ -16416,6 +16471,8 @@ var AXGrid = Class.create(AXJ, {
                     //body Height
                 }
             }
+
+	        _this.onevent_grid({type:"scroll-resize"});
         }, 100);
     },
     /**
@@ -19571,6 +19628,10 @@ myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
         });
 
         return params;
+	},
+	onevent_grid: function(){
+		
+		
 	}
 });
 /* ---------------------------- */
@@ -38024,6 +38085,11 @@ myTree.setConfig({
             this.setFocus(itemIndex);
         }
 
+        if (cfg.persistSelected && open !== "expand") { // printList에서 click 메서드를 호출시 "expand"를 사용한다.
+            var persistKey = cfg.cookiePrefix + cfg.targetID + "-selected-index";
+            axf.setCookie(persistKey, itemIndex, cfg.cookieExpiredays);
+        }
+
 		return {focusedID:this.body.find(".gridBodyTr_" + itemIndex).attr("id")};
 
 		/*
@@ -39424,11 +39490,28 @@ myTree.setConfig({
     /**
      * item의 부모 item들을 포함해서 차례대로 확장합니다.
      *
-     * @param item ex) myTree.list[5]
+     * @param {(Object|String)} - item or key ex) myTree.list[5](item) or myTree.list[5][relation.childKey](key)
      * @returns {AXTree}
      */
-    expand: function(item){
-        return this.click(item.__index, "open", true);
+    expand: function(key){
+        var targetItem;
+        if (Object.isObject(key)) {
+            targetItem = key;
+        } else {
+            var cfg = this.config;
+            axf.each(this.list, function(itemIndex, item){
+                if (item[cfg.relation.childKey] == key) {
+                    targetItem = item;
+                    return false;
+                }
+            });
+        }
+
+        if (!targetItem) {
+            return {focusedID:undefined};
+        }
+
+        return this.click(targetItem.__index, "open", true);
     }
 });
 /* ---------------------------- */
