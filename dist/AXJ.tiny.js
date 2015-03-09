@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-09 
+AXJ - v1.0.13 - 2015-03-07 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-09 
+AXJ - v1.0.13 - 2015-03-07 
 */
 
 if(!window.AXConfig){
@@ -126,7 +126,10 @@ if(!window.AXConfig){
 	keyResult: "result",
 	keyTree: "tree",
 	keyList: "list",
-	emptyListMSG: "목록이 없습니다."
+	emptyListMSG: "목록이 없습니다.",
+	persist: true,
+    cookiePrefix: "axtree-",
+    cookieExpiredays: 7
 }
  ```
  */
@@ -138,7 +141,11 @@ if(!window.AXConfig){
 			keyResult: "result",
 			keyTree: "tree",
 			keyList: "list",
-			emptyListMSG: "목록이 없습니다."
+			emptyListMSG: "목록이 없습니다.",
+			persistExpanded: false,
+			persistSelected: false,
+			cookiePrefix: "axtree-",
+			cookieExpiredays: 7
 		},
 /**
  * AXProgress default config

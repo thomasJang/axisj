@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-09 
+AXJ - v1.0.13 - 2015-03-07 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-09 
+AXJ - v1.0.13 - 2015-03-07 
 */
 
 if(!window.AXConfig){
@@ -126,7 +126,10 @@ if(!window.AXConfig){
 	keyResult: "result",
 	keyTree: "tree",
 	keyList: "list",
-	emptyListMSG: "목록이 없습니다."
+	emptyListMSG: "목록이 없습니다.",
+	persist: true,
+    cookiePrefix: "axtree-",
+    cookieExpiredays: 7
 }
  ```
  */
@@ -138,7 +141,11 @@ if(!window.AXConfig){
 			keyResult: "result",
 			keyTree: "tree",
 			keyList: "list",
-			emptyListMSG: "목록이 없습니다."
+			emptyListMSG: "목록이 없습니다.",
+			persistExpanded: false,
+			persistSelected: false,
+			cookiePrefix: "axtree-",
+			cookieExpiredays: 7
 		},
 /**
  * AXProgress default config
@@ -12255,9 +12262,7 @@ var AXGrid = Class.create(AXJ, {
             this.pageBody.hide();
             this.setPaging();
 
-        } 
-        else 
-        {
+        } else {
 
             /*page setting */
             if (!cfg.page) {
@@ -12293,9 +12298,7 @@ var AXGrid = Class.create(AXJ, {
                 /*colhead + body height */
                 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
                 /* body Height */
-            } 
-            else 
-            {
+            } else {
 
                 if (cfg.height) this.gridBody.css({height: cfg.height});
 
@@ -13018,30 +13021,18 @@ var AXGrid = Class.create(AXJ, {
             this.colHead.html(po.join(''));
             axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
             if (fpo) this.colHead.after(fpo.join(''));
-	        var _tdHeight;
-	        
+
             /*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
             /*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
             this.colHead.find(".colHeadResizer").each(function () {
                 var resizerID = this.id;
-	            
                 var tdID = resizerID.replace("colHeadResizer", "colHead");
                 var txtID = resizerID.replace("colHeadResizer", "colHeadText");
                 var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-
                 var rowspan = axdom("#" + tdID).attr("rowspan");
                 var valign = axdom("#" + tdID).attr("valign");
                 if (!rowspan) rowspan = 1;
-	            if(typeof _tdHeight === "undefined") {
-		            _tdHeight = axdom("#" + tdID).height() / rowspan;
-	            }
-	            var tdHeight = _tdHeight * rowspan;
-	            if(rowspan > 1) {
-		            for (var a = 0; a < rowspan; a++) {
-						tdHeight += 1;
-		            }
-	            }
-	            
+                var tdHeight = axdom("#" + tdID).height();
                 axdom(this).css({ height: tdHeight });
                 axdom(this).parent().css({ height: tdHeight });
                 if (rowspan > 1) {
@@ -13068,6 +13059,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
                 this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
+
                 this.fixedColHead.find(".colHeadResizer").each(function () {
                     var resizerID = this.id;
                     var tdID = resizerID.replace("colHeadResizer", "colHead");
@@ -13076,13 +13068,7 @@ var AXGrid = Class.create(AXJ, {
                     var rowspan = axdom("#" + tdID).attr("rowspan");
                     var valign = axdom("#" + tdID).attr("valign");
                     if (!rowspan) rowspan = 1;
-	                var tdHeight = _tdHeight * rowspan;
-	                if(rowspan > 1) {
-		                for (var a = 0; a < rowspan; a++) {
-			                tdHeight += 1;
-		                }
-	                }
-	                
+                    var tdHeight = axdom("#" + tdID).height();
                     axdom(this).css({ height: tdHeight });
                     axdom(this).parent().css({ height: tdHeight });
                     if (rowspan > 1) {
@@ -16430,8 +16416,6 @@ var AXGrid = Class.create(AXJ, {
                     //body Height
                 }
             }
-
-	        _this.onevent_grid({type:"scroll-resize"});
         }, 100);
     },
     /**
@@ -19587,10 +19571,6 @@ myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
         });
 
         return params;
-	},
-	onevent_grid: function(){
-		
-		
 	}
 });
 /* ---------------------------- */
@@ -34132,6 +34112,7 @@ myMenu.setTree(Tree);
  "2015-01-23 tom : 최소 높이 400 제거"
  "2015-02-03 john : gridCheckClick, checkedColSeq : itemIndex 추가 현재 선택한 col checked옵션"
  "2015-02-03 tom : checkbox click 버그 픽스 "
+ "2015-03-05 HJ.Park : expand 메서드, persistExpanded, persistSelected 옵션 추가"
  *
  * @description
  *
@@ -34171,6 +34152,11 @@ var AXTree = Class.create(AXJ, {
 		this.config.hashDigit = 3;
 
 		this.isMobile = AXUtil.browser.mobile;
+
+        this.config.persistExpanded  = (AXConfig.AXTree.persistExpanded || false);
+        this.config.persistSelected  = (AXConfig.AXTree.persistSelected || false);
+        this.config.cookiePrefix     = (AXConfig.AXTree.cookiePrefix || "axtree-");
+        this.config.cookieExpiredays = (AXConfig.AXTree.cookieExpiredays || 7);
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
@@ -35032,20 +35018,22 @@ var AXTree = Class.create(AXJ, {
 		axdom(window).bind("resize", this.windowResize.bind(this));
 	},
 	/**
-	 * @method AXTree.setConig
+	 * @method AXTree.setConfig
 	 * @param {Object} config - gridConfig
 	 * @description
 	 * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
 	 * @example
 	 ```js
-	 var myTree = new AXTree();
-	 myTree.setConfig({
+var myTree = new AXTree();
+myTree.setConfig({
     targetID : "AXTreeTarget",  //{String} - HTML 엘리먼트 타겟아이디
     theme: "AXTree_none",   //[String] - ("AXTree","AXTree_none") CSS Class 이름
     relation:{  //무보자식 키 정의
         parentKey:"pno",    //부모아이디 키
         childKey:"no"   //자식아이디 키
     },
+    persistExpanded: true, // 쿠키를 이용해서 트리의 확장된 상태를 유지합니다.
+    persistSelected: true, // 쿠키를 이용해서 트리의 선택된 상태를 유지합니다.
     colGroup: [ //트리 헤드정의
         {
             key:"nodeName", //{String} - 컬럼에 매치될 item 의 키
@@ -35819,7 +35807,7 @@ var AXTree = Class.create(AXJ, {
 				list: this.list,
 				colHead: myColHead,
 				page: this.page
-			}
+			};
 			cfg.colHead.onclick.call(sendObj);
 		}
 
@@ -36170,7 +36158,9 @@ var AXTree = Class.create(AXJ, {
 				headers: _headers,
 				debug: obj.debug,
 				pars: pars,
-				debug: false, pars: pars, onsucc: function (res) {
+				debug: false,
+                pars: pars,
+                onsucc: function (res) {
 					if (res.result == AXConfig.AXReq.okCode) {
 						res._sortDisable = sortDisable;
 						if (obj.response) {
@@ -36692,14 +36682,14 @@ var AXTree = Class.create(AXJ, {
 		var _tree = this.tree;
 		var list_pointer = {};
 		axf.each(this.list, function (lidx, L) {
-			list_pointer[L.hash] = lidx;
+			list_pointer[L[cfg.reserveKeys.hashKey]] = lidx;
 		});
 		//trace(list_pointer);
 
 		var _list = this.list;
 		axf.each(this.list, function (lidx, L) {
 			if(L.__checked){
-				var hashs = L.hash.split(/_/g);
+				var hashs = L[cfg.reserveKeys.hashKey].split(/_/g);
 				hashs.shift();
 				//trace(hashs);
 				for (var l = hashs.length - 1; l > -1; l--) {
@@ -36738,7 +36728,7 @@ var AXTree = Class.create(AXJ, {
 			}
 		});
 
-		for (var sr = 0; sr < this.selectedRow.length; sr++) {
+        for (var sr = 0; sr < this.selectedRow.length; sr++) {
 			this.body.find(".gridBodyTr_" + this.selectedRow[sr]).addClass("selected");
 		}
 		this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOverBind);
@@ -36749,6 +36739,20 @@ var AXTree = Class.create(AXJ, {
 
 		this.contentScrollXAttr = null;
 		this.contentScrollYAttr = null;
+
+        if (cfg.persistExpanded) {
+            var expandedIndexs = axf.getCookie(cfg.cookiePrefix + cfg.targetID + "-expanded-index").split(/,/g);
+            var expand = this.click.bind(this);
+            axf.each(expandedIndexs, function(idx, item){
+                expand(item, "expand", true);
+            });
+        }
+        if (cfg.persistSelected) {
+            var selectedIndex = axf.getCookie(cfg.cookiePrefix + cfg.targetID + "-selected-index");
+            if (selectedIndex !== undefined) {
+                this.click(selectedIndex);
+            }
+        }
 	},
 	updateList: function (itemIndex, item) {
 		var cfg = this.config;
@@ -36866,6 +36870,25 @@ var AXTree = Class.create(AXJ, {
 
 			this.clearFocus();
 
+            if (cfg.persistExpanded) {
+                var persistKey      = cfg.cookiePrefix + cfg.targetID + "-expanded-index";
+                var expandedIndices = axf.getCookie(persistKey).split(/,/g);
+
+                if (expandedIndices[0] === "") { expandedIndices.shift(); }
+
+                for (var ei = expandedIndices.length - 1; ei >= 0; ei--) {
+                    // 하위 노드 키도 삭제하기 위해서 hash로 비교한다.
+                    var itemHash      = item[cfg.reserveKeys.hashKey];
+                    var expandedIndex = expandedIndices[ei].number();
+                    var expandedHash  = this.list[expandedIndex][cfg.reserveKeys.hashKey];
+                    if (expandedHash.indexOf(itemHash) === 0) {
+                        expandedIndices.splice(ei, 1);
+                    }
+                }
+
+                axf.setCookie(persistKey, expandedIndices.join(","), cfg.cookieExpiredays);
+            }
+
 			if (cfg.body.oncontract) {
 				//itemIndex, item, subTree
 				//dialog.push(Object.toJSON(subTree));
@@ -36935,6 +36958,27 @@ var AXTree = Class.create(AXJ, {
 
 			this.contentScrollXAttr = null;
 			this.contentScrollYAttr = null;
+
+            if (cfg.persistExpanded) {
+                var persistKey     = cfg.cookiePrefix + cfg.targetID + "-expanded-index";
+                var expandedIndexs = axf.getCookie(persistKey).split(/,/g);
+
+                if (expandedIndexs[0] === "") { expandedIndexs.shift(); }
+
+                var isInclude = false;
+                axf.each(expandedIndexs, function(idx, expandedIndex){
+                    if (expandedIndex == item.__index) {
+                        isInclude = true;
+                        return false;
+                    }
+                });
+
+                if (!isInclude) {
+                    expandedIndexs.push(item.__index);
+                }
+
+                axf.setCookie(persistKey, expandedIndexs.join(","), cfg.cookieExpiredays);
+            }
 
 			if (cfg.body.onexpand) {
 				//itemIndex, item, subTree
@@ -37114,11 +37158,16 @@ var AXTree = Class.create(AXJ, {
 
 							var item = this.list[itemIndex];
 
-							if (cfg.body.onclick) {
+                            if (cfg.persistSelected) {
+                                var persistKey = cfg.cookiePrefix + cfg.targetID + "-selected-index";
+                                axf.setCookie(persistKey, item.__index, cfg.cookieExpiredays);
+                            }
+
+                            if (cfg.body.onclick) {
 								var r = ids[ids.length - 3];
 								var c = ids[ids.length - 2];
 
-								var hashs = item.hash.split(/_/g);
+								var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 								var subTree = this.tree;
 								axf.each(hashs, function (idx, arg) {
 									if (idx == 1) {
@@ -37136,7 +37185,7 @@ var AXTree = Class.create(AXJ, {
 									item: item,
 									subTree: subTree,
 									page: this.page
-								}
+								};
 								//trace(sendObj);
 
 								cfg.body.onclick.call(sendObj, itemIndex, item);
@@ -37387,7 +37436,7 @@ var AXTree = Class.create(AXJ, {
 					}
 					var myTree;
 					eval("myTree = this.tree" + subTreeStr);
-					//trace(myTree.hash);
+					//trace(myTree[cfg.reserveKeys.hashKey]);
 					var childIsAllUnChecked = true;
 					axf.each(myTree[reserveKeys.subTree], function () {
 						if (this.__checked) childIsAllUnChecked = false;
@@ -37897,7 +37946,7 @@ var AXTree = Class.create(AXJ, {
 	/**
 	 * @method AXTree.click
 	 * @param {Number} itemIndex - index of Array
-	 * @param {String} open - "open"이면 아이템개체 확장
+	 * @param {String} open||expand - "open"이면 아이템개체 확장 후 선택, "expand"이면 아이템개체 확장만
 	 * @param {Boolean} [doNotCallBack] - 아이템 개체 확장 처리후 클릭이벤트 발생 방지
 	 * @returns {JSObject} - {"focusedID": ID } 대상아이디가 오브젝트로 옵니다.
 	 * @description
@@ -37926,7 +37975,7 @@ var AXTree = Class.create(AXJ, {
 			return {focusedID:undefined};
 		}
 
-		var hashs = item.hash.split(/_/g);
+		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 		var subTree = this.tree;
 
 		var opendPath = [];
@@ -37939,7 +37988,9 @@ var AXTree = Class.create(AXJ, {
 				opendPath.push(subTree[reserveKeys.hashKey]);
 			}
 		});
-		opendPath.pop();
+        if (open !== "expand") {
+            opendPath.pop();
+        }
 
 		if (cfg.body.onclick && !doNotCallBack) {
 			var sendObj = {
@@ -37948,11 +37999,11 @@ var AXTree = Class.create(AXJ, {
 				item: item,
 				subTree: subTree,
 				page: this.page
-			}
+			};
 			cfg.body.onclick.call(sendObj, itemIndex, item);
 		}
 
-		if(open == "open"){
+		if(open == "open" || open == "expand"){
 			var expandList = [];
 			axf.each(this.list, function(lidx, L){
 				axf.each(opendPath, function(pidx, P){
@@ -37969,7 +38020,9 @@ var AXTree = Class.create(AXJ, {
 			}
 		}
 
-		this.setFocus(itemIndex);
+        if (open !== "expand") {
+            this.setFocus(itemIndex);
+        }
 
 		return {focusedID:this.body.find(".gridBodyTr_" + itemIndex).attr("id")};
 
@@ -38334,7 +38387,7 @@ var AXTree = Class.create(AXJ, {
 			axf.each(subTree, function () {
 				if (!this[cfg.reserveKeys.subTree]) this[cfg.reserveKeys.subTree] = [];
 			});
-			var hashs = item.hash.split(/_/g);
+			var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 
 			var tree = this.tree; // 추가될 트리 구하기
 			axf.each(hashs, function (idx, T) {
@@ -38426,7 +38479,7 @@ var AXTree = Class.create(AXJ, {
 
 		if(parentItem){
 
-			var hashs = parentItem.hash.split(/_/g);
+			var hashs = parentItem[cfg.reserveKeys.hashKey].split(/_/g);
 			axf.each(hashs, function (idx, T) {
 				if (idx > 0) {
 					if (idx == 1) tree = tree[T.number()];
@@ -38616,7 +38669,7 @@ var AXTree = Class.create(AXJ, {
 		var itemIndex = selectedObject.index;
 		var item = this.list[selectedObject.index];
 
-		var hashs = item.hash.split(/_/g);
+		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 		var myTree = this.tree;
 		var nowChildIndex;
 		var parentHashs = [];
@@ -38695,7 +38748,7 @@ var AXTree = Class.create(AXJ, {
 
 		var itemIndex = selectedObject.index;
 		var item = this.list[selectedObject.index];
-		var hashs = item.hash.split(/_/g);
+		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 
 		var myTree = this.tree;
 		var nowChildIndex;
@@ -38828,7 +38881,7 @@ var AXTree = Class.create(AXJ, {
 
 			var itemIndex = selectedObject.index;
 			var item = this.list[selectedObject.index];
-			var hashs = item.hash.split(/_/g);
+			var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 
 			this.body.find(".gridBodyTr_" + itemIndex).addClass("copied");
 			toast.push({ type: "Warning", body: "선택하신 아이템을 이동시킬 부모 아이템을 선택하세요" });
@@ -39168,8 +39221,9 @@ var AXTree = Class.create(AXJ, {
 				if(L.AXTreeSplit){
 
 				}else{
-					pointer[L[relation.childKey]] = idx;
-					if (L[reserveKeys.openKey] == undefined) L[reserveKeys.openKey] = false;
+                    L.__index = idx;
+                    pointer[L[relation.childKey]] = idx;
+                    if (L[reserveKeys.openKey] == undefined) L[reserveKeys.openKey] = false;
 					if (L[relation.parentKey] == _parentCheckKey) {
 						L[reserveKeys.subTree] = [];
 						L.__subTreeLength = 0;
@@ -39366,7 +39420,16 @@ var AXTree = Class.create(AXJ, {
 		this.list = this.positioningHashList(this.list);
 		this.printList();
 		return this;
-	}
+	},
+    /**
+     * item의 부모 item들을 포함해서 차례대로 확장합니다.
+     *
+     * @param item ex) myTree.list[5]
+     * @returns {AXTree}
+     */
+    expand: function(item){
+        return this.click(item.__index, "open", true);
+    }
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
