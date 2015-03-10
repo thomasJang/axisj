@@ -16276,23 +16276,20 @@ var AXGrid = Class.create(AXJ, {
         if(this.inline_edit){
             if(this.inline_edit.r == arguments[0] && this.inline_edit.c == arguments[1] && this.inline_edit.ii == arguments[2]) {
 	            return false;
-            }else if( typeof arguments[2] != "undefined" && this.inline_edit && this.inline_edit.editor.find("input").get(0) ){
+            }
+            else 
+            if( typeof arguments[2] != "undefined" && this.inline_edit && this.inline_edit.editor.find("input").get(0) ){
 		            var ids = this.inline_edit.editor.get(0).id.split(/_AX_/g);
 		            var r, c, ii;
 		            r = ids[ids.length-3], c = ids[ids.length-2], ii = ids[ids.length-1];
 		            this.updateItem(r, c, ii, this.inline_edit.editor.find("input").val());
-	            /*
-	            if(this.inline_edit.editor.find("input").get(0)) {
-		            this.updateItem(arguments[0], arguments[1], arguments[2], this.inline_edit.editor.find("input").val());
-	            }
-	            */
-            }else {
-	            if(this.inline_edit.editor) {
-		            if(this.inline_edit.editor.find("input").get(0)) {
-			            this.inline_edit.editor.find("input").unbindInput();
-		            }
-		            this.inline_edit.editor.remove();
-	            }
+            }
+            else 
+            {
+	            try{
+		            this.inline_edit.editor.find("input").unbindInput();
+	            }catch(e){}
+	            this.inline_edit.editor.remove();
                 this.inline_edit = null;
             }
         }
@@ -24340,6 +24337,7 @@ var config = {
     ajaxUrl      : "./data.json",                          // {String}   - AJAX 데이터 호출 URL (optional)
     ajaxPars     : "param1=val1&param2=val2",              // {String}   - AJAX 데이터 호출 URL 파라미터 (optional)
     positionFixed: ( true || false ),                      // {Boolean}  - expandBox position CSS 를 fixed 할지 여부. selector 가 fixed 된 엘리먼트 위에 위치하는 경우 사용하세요 (optional)
+    direction    : "bottom",                               // {String}   - expandBox의 위/아래 열리는 방향을 지정합니다. 기본값은 ""이며 "bottom"을 사용하는 경우 expandBox의 방향이 밑에서 위로 열리게 됩니다. (optional)
     onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
         trace(this);
     },
@@ -24471,7 +24469,7 @@ axdom.fn.bindTwinSlider = function (config) {
 var config = {
     off: "AM", // {String} switch off value
     on : "PM", // {String} switch on vlaue
-    onChange:function(){
+    onchange:function(){
         trace(this);
     }
 };
@@ -24501,7 +24499,7 @@ var config = {
         {optionValue:1, optionText:"가운데", addClass:"type2"},
         {optionValue:2, optionText:"오른쪽", addClass:"type3"}
     ],
-    onChange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         //this.targetID, this.options, this.selectedIndex, this.selectedOption
         trace(this);
     }
@@ -24532,7 +24530,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -24580,7 +24578,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -24612,7 +24610,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -24643,7 +24641,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -29265,7 +29263,9 @@ var AXSearch = Class.create(AXJ, {
     		po.push(item.value);
     		po.push("</div>");
 
-    	}else if(item.type == "link"){
+    	}
+	    else 
+	    if(item.type == "link"){
 
     		po.push("<div class=\"searchItem searchLink ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
 	            po.push("<input type=\"hidden\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" value=\"", item.value,"\" />");
@@ -29291,7 +29291,9 @@ var AXSearch = Class.create(AXJ, {
 			    po.push("</label>");
     		po.push("</div>");
 
-    	}else if(item.type == "checkBox"){
+    	}
+	    else 
+	    if(item.type == "checkBox"){
 
     		po.push("<div class=\"searchItem searchCheckbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
 			    po.push("<label class=\"itemTable\">");
@@ -29323,7 +29325,9 @@ var AXSearch = Class.create(AXJ, {
 			    po.push("</label>");
     		po.push("</div>");
 
-    	}else if(item.type == "radioBox"){
+    	}
+	    else 
+	    if(item.type == "radioBox"){
 
     		po.push("<div class=\"searchItem searchCheckbox ", itemAddClass.join(" "),"\" style=\"width:", (item.width||""),"px;text-align:", (item.align||"center"),";", itemAddStyles.join(''),"\">");
 			    po.push("<label class=\"itemTable\">");

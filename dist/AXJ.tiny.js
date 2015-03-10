@@ -12492,6 +12492,7 @@ var config = {
     ajaxUrl      : "./data.json",                          // {String}   - AJAX 데이터 호출 URL (optional)
     ajaxPars     : "param1=val1&param2=val2",              // {String}   - AJAX 데이터 호출 URL 파라미터 (optional)
     positionFixed: ( true || false ),                      // {Boolean}  - expandBox position CSS 를 fixed 할지 여부. selector 가 fixed 된 엘리먼트 위에 위치하는 경우 사용하세요 (optional)
+    direction    : "bottom",                               // {String}   - expandBox의 위/아래 열리는 방향을 지정합니다. 기본값은 ""이며 "bottom"을 사용하는 경우 expandBox의 방향이 밑에서 위로 열리게 됩니다. (optional)
     onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
         trace(this);
     },
@@ -12623,7 +12624,7 @@ axdom.fn.bindTwinSlider = function (config) {
 var config = {
     off: "AM", // {String} switch off value
     on : "PM", // {String} switch on vlaue
-    onChange:function(){
+    onchange:function(){
         trace(this);
     }
 };
@@ -12653,7 +12654,7 @@ var config = {
         {optionValue:1, optionText:"가운데", addClass:"type2"},
         {optionValue:2, optionText:"오른쪽", addClass:"type3"}
     ],
-    onChange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         //this.targetID, this.options, this.selectedIndex, this.selectedOption
         trace(this);
     }
@@ -12684,7 +12685,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -12732,7 +12733,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -12764,7 +12765,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -12795,7 +12796,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
