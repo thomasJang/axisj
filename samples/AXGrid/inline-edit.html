@@ -57,8 +57,9 @@
                 <h2>AXGrid</h2>
                 <div id="AXGridTarget" style="height:300px;"></div>
                 <div style="padding:10px;">
-
                     <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
+
+	                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
                 </div>
             </div>
 
@@ -177,7 +178,6 @@ colGroup : [
             bind: function(){
                 window.myGrid = fnObj.grid.target;
 
-	            /*
                 myGrid.setConfig({
                     targetID : "AXGridTarget",
                     sort:false,
@@ -278,164 +278,6 @@ colGroup : [
                         paging: false
                     }
                 });
-	*/
-	            myGrid.setConfig({
-		            targetID : "AXGridTarget",
-		            sort:false,
-		            colGroup : [
-			            {
-				            key:"no", label:"No", width:"50", align:"center"
-			            },
-			            {
-				            key:"status", label:"상태", width:"40", align:"center", formatter:function(){
-				            if(this.item._CUD == "C"){
-					            return "신규";
-				            }else if(this.item._CUD == "D"){
-					            return "삭제";
-				            }else if(this.item._CUD == "U"){
-					            return "수정";
-				            }
-			            },
-				            editor:{
-					            type:"text"
-				            }
-			            },
-			            {
-				            key:"cdType", label:"코드유형", width:"70", align:"center",
-				            editor: {
-					            formatter: "dec",
-					            type: "text",
-					            updateWith: ["status"]
-				            }
-				
-			            },
-			            {
-				            key:"cdName", label:"코드유형명칭", width:"200",
-				            tooltip:function(){
-					            return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
-				            },
-				            editor: {
-					            formatter:"dec",
-					            type: "text",
-					            updateWith: ["status"]
-				            }
-			            },
-			            {
-				            key:"mEditor", label:"현업수정", width:"100", align:"center",
-				            editor: {
-					            type: "checkbox"
-				            }
-			            }
-		            ],
-		            colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
-		            body : {
-			            onclick: function(){
-				            //alert(this.item.cdType);
-				            //toast.push(Object.toJSON({index:this.index, item:this.item}));
-				            //alert(this.cdType.val());
-				            //detailDB( this.item.cdType, subsyscode);
-				
-			            }
-		            },
-		            page: {
-			            paging: false
-		            },
-		            editor: {
-			            rows: [
-				            [
-					            {
-						            key:"no", colSeq:0, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:1, max:100}}
-					            },
-					            {
-						            key:"state", colSeq:1, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}, AXBind:{type:"text"}
-					            },
-					            {
-						            key:"cdType", colSeq:2, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}, AXBind:{type:"text"}
-					            },
-					            {
-						            key:"cdName", colSeq:3, align:"left", valign:"middle", form:{type:"text", value:"itemValue"}, AXBind:{type:"text"}
-					            },
-					            {
-						            key:"mEditor", colSeq:4, align:"center", valign:"middle", form:{type:"checkbox", value:"itemValue", options:[{value:true, text:''}]}
-					            }
-				            ]
-			            ],
-			            //request:{ajaxUrl:"saveGrid.php", ajaxPars:"param1=1&param2=2"},
-			            response: function(){ // ajax 응답에 대해 예외 처리 필요시 response 구현
-				            // response에서 처리 할 수 있는 객체 들
-				            //trace({res:this.res, index:this.index, insertIndex:this.insertIndex, list:this.list, page:this.page});
-				            alert(myGrid.list.length);
-				            for(var i=0; i<myGrid.list.length; i++){
-					            if(myGrid.list[i]._CUD =="C"){
-						            alert("aaa");
-						
-					            }
-				            }
-				            return;
-				            if(this.error){
-					            trace(this);
-					            return;
-				            }
-				
-				            trace(this.res.item);
-				
-				            if(this.index == null){ // 추가
-					            var pushItem = this.res.item;
-					            //pushItem 에 추가 값 지정 가능
-					            if(this.res.item.title == ""){
-						            alert("제목이 비어 추가 할 수 없습니다.");
-						            return false;
-					            }
-					            insertNewCode($("#largecode").val(), $("#midgcode").val(), this.res.item.cdType, this.res.item.cdName, this.res.item.mEditor,subsyscode);
-					            trace(pushItem, this.insertIndex);
-					            myGrid.pushList(pushItem, this.insertIndex);
-				            }else{ // 수정
-					            //trace(this.res.item);
-					            AXUtil.overwriteObject(this.list[this.index], this.res.item, true); // this.list[this.index] object 에 this.res.item 값 덮어쓰기
-					            myGrid.updateList(this.index, this.list[this.index]);
-				            }
-				
-			            },
-			            onkeyup: function(event, element){
-				            if(event.keyCode == 13 && element.name != "title") myGrid.saveEditor();
-				            else if(event.keyCode == 13 && element.name == "title") myGrid.focusEditorForm("regDate");
-			            }
-		            },
-		            contextMenu: {
-			            theme:"AXContextMenu", // 선택항목
-			            width:"150", // 선택항목
-			            menu:[
-				            {
-					            userType:1, label:"추가하기", className:"plus", onclick:function(){
-					            myGrid.appendList(null);
-				            }
-				            },
-				            {
-					            userType:1, label:"삭제하기", className:"minus", onclick:function(){
-					            if(this.sendObj){
-						            if(!confirm("정말 삭제 하시겠습니까?")) return;
-						            var removeList = [];
-						            removeList.push({no:this.sendObj.item.no});
-						            myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
-					            }
-				            }
-				            },
-				            {
-					            userType:1, label:"수정하기", className:"edit", onclick:function(){
-					            //trace(this);
-					            if(this.sendObj){
-						            myGrid.setEditor(this.sendObj.item, this.sendObj.index);
-					            }
-				            }
-				            }
-			            ],
-			            filter:function(id){
-				            return true;
-			            }
-		            }
-	            });
-	            
-	            
 
                 var list = [
                     {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:1709401, amount:10, chk:1}, // item
@@ -471,7 +313,11 @@ colGroup : [
             getSelectedItem: function(){
                 trace( this.target.getSelectedItem() );
                 toast.push('콘솔창에 데이터를 출력하였습니다.');
-            }
+            },
+	        append: function(){
+		        this.target.pushList({no:this.target.list.length+1, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1});
+		        this.target.setFocus(this.target.list.length-1);
+	        }
         }
     };
     jQuery(document.body).ready(function() {

@@ -15181,7 +15181,7 @@ var AXGrid = Class.create(AXJ, {
         }
 
         pushItem._CUD = "C";
-        if (insertIndex != null && insertIndex != undefined) {
+        if (insertIndex != null && typeof insertIndex != "undefined") {
             if(insertIndex >= this.list.length){
                 insertIndex = this.list.length-1;
             }
@@ -15211,12 +15211,13 @@ var AXGrid = Class.create(AXJ, {
             this.contentScrollResize(false);
             this.setFocus(itemIndex);
 
-        } else {
+        } 
+        else 
+        {
 
             for (var li = 0; li < pushData.length; li++) {
                 this.list.push(pushData[li]);
             }
-            //this.list.push(pushItem);
 
             // 스크롤이 되지 않는 상황이면...
             if(this.body.height() >= this.scrollContent.height()){
@@ -16720,6 +16721,7 @@ var AXGrid = Class.create(AXJ, {
             }
             this.scrollYHandle.css({ top: handleTop });
             this.scrollYHandle.data("top", handleTop);
+	        this.contentScrollScrollSync({ top: handleTop });
             this.contentScrollTipOverMove(handleTop);
         } else {
             handleLeft = pos.x + this.contentScrollAttrs.x;
@@ -16729,6 +16731,7 @@ var AXGrid = Class.create(AXJ, {
             // 스크롤 X 예외 처리
             this.contentScrollScrollSync({ left: handleLeft });
         }
+	    this.onevent_grid({type:"onscroll"});
     },
     /**
      * @method AXGrid.contentScrollScrollEnd
@@ -16747,14 +16750,11 @@ var AXGrid = Class.create(AXJ, {
         this.contentScrollScrolling = false;
 
         if(this.contentScrollAttrs.handleName == "scrollYHandle"){
-            this.contentScrollScrollSync({ top: this.scrollYHandle.position().top });
-
+	        this.contentScrollScrollSync({ top: this.scrollYHandle.position().top });
             if(this.contentScrollAttrs.trackHeight - this.contentScrollAttrs.handleHeight == this.scrollYHandle.data("top")){
                 this.contentScrollEnd();
             }
-
             this.scrollYTip.hide();
-
         }else{
             this.contentScrollScrollSync({ left: this.scrollXHandle.position().left });
         }
@@ -16827,13 +16827,14 @@ var AXGrid = Class.create(AXJ, {
             }
             this.scrollContent.css({ top: scrollTop, left: scrollLeft });
             this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
-
+	        this.onevent_grid({type:"onscroll"});
             //trace({ top: scrollTop, left: scrollLeft });
             //this.scrollContent.css({ top: scrollTop });
             //this.contentScrollContentSync({ top: scrollTop });
         }else{
             this.scrollContent.css({ top: scrollTop });
             this.contentScrollContentSync({ top: scrollTop });
+	        this.onevent_grid({type:"onscroll"});
         }
 
 
