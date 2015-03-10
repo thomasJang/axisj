@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-09 
+AXJ - v1.0.13 - 2015-03-10 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-09 
+AXJ - v1.0.13 - 2015-03-10 
 */
 
 if(!window.AXConfig){
@@ -16288,7 +16288,9 @@ var AXGrid = Class.create(AXJ, {
 	            */
             }else {
 	            if(this.inline_edit.editor) {
-		            this.inline_edit.editor.find("input").unbindInput();
+		            if(this.inline_edit.editor.find("input").get(0)) {
+			            this.inline_edit.editor.find("input").unbindInput();
+		            }
 		            this.inline_edit.editor.remove();
 	            }
                 this.inline_edit = null;
