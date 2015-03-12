@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-10 
+AXJ - v1.0.13 - 2015-03-12 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-10 
+AXJ - v1.0.13 - 2015-03-12 
 */
 
 if(!window.AXConfig){
@@ -14119,7 +14119,11 @@ var AXGrid = Class.create(AXJ, {
 				    value: value
 			    };
 		    
-		    if(value) checkedStr = ' checked="checked"';
+		    if(typeof value != "undefined") {
+			    if(value == "Y" || value == "1" || value == 1 || value == true) {
+				    checkedStr = ' checked="checked"';
+			    }
+		    }
 		    if(CH.editor.disabled){
 			    if(CH.editor.disabled.call(that)){
 				    disabled = ' disabled="disabled"';
@@ -14782,7 +14786,6 @@ var AXGrid = Class.create(AXJ, {
                     this.cachedDom.fixed_tbody.empty();
                     this.cachedDom.fixed_tbody.append(po.join(''));
                 }
-
 
                 // init virtualScroll & control height thpadding
                 this.virtualScroll = {
@@ -16771,7 +16774,7 @@ var AXGrid = Class.create(AXJ, {
             eventCancle = false,
             event = window.event || e, deltaX = 0, deltaY = 0, attr;
 
-        if (cfg.height == "auto") return;
+        if (cfg.height == "auto") return this;
 
         attr = {
             bodyHeight         : this.body.height(),
@@ -17937,8 +17940,12 @@ var AXGrid = Class.create(AXJ, {
                     return value;
                 }
                 else
+                if(typeof value == "string"){
+                    return value.dec();
+                }
+	            else
                 {
-                    return (value || "").dec();
+	                return value;
                 }
             } else if (axdom.isFunction(formvalue)) {
                 var sendObj = {
