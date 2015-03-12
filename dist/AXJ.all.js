@@ -11969,7 +11969,6 @@ var AXGrid = Class.create(AXJ, {
                     }
 
                 }
-
             }
 
             if (cfg.body.marker) {
@@ -13594,13 +13593,13 @@ var AXGrid = Class.create(AXJ, {
      * @description  그리드의 리스트를 정렬 합니다.
      * @returns {Object}  - Grid list
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      // Array
      myGrid.setList({Array});
      ...
      myGrid.sortList("desc",myGrid.cfg.colHead.rows[0][0],myGrid.list);
-     ```
+```
      */
     sortList: function (nsort, myColHead, list) {
         var cfg = this.config;
@@ -13827,7 +13826,7 @@ var AXGrid = Class.create(AXJ, {
      * @param exts
      * @description 그리드에 데이터를 선언하거나 AJAX url 속성을 정의합니다.
      * @example
-     ```
+```
      // Array
      myGrid.setList({Array});
 
@@ -13847,7 +13846,7 @@ var AXGrid = Class.create(AXJ, {
 	
 	}
 });
-     ```
+```
      */
     setList: function (obj, sortDisable, rewrite, exts) {
         var cfg = this.config, _this = this;
@@ -13942,13 +13941,13 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.reloadList
      * @description 그리드리스트를 새로 고침 합니다.(ajax를 통할 경우 다시 가져 옵니다).
      * @example
-     ```
+```
      myGrid.setList({
 	ajaxUrl:"loadGrid.php",
 	ajaxPars:"param1=1&param2=2"
  });
      myGrid.reloadList();
-     ```
+```
      */
     reloadList: function () {
         var cfg = this.config;
@@ -14053,7 +14052,7 @@ var AXGrid = Class.create(AXJ, {
      * @param gridData {JSObject} object of grid
      * @description <ko>그리드 데이터를 페이지까지 포함하여 정의해 줍니다. (ajax를 사용하지 않는 방법)</ko>
      * @example
-     ```
+```
      var gridData = {
 	list: _obj.document_list,
 	page:{
@@ -14068,7 +14067,7 @@ var AXGrid = Class.create(AXJ, {
 	}
 };
      myGrid.setData(gridData);
-     ```
+```
      */
     setData: function (res) {
         var cfg = this.config;
@@ -14417,7 +14416,7 @@ var AXGrid = Class.create(AXJ, {
      * @returns {String}
      * @description config 의 viewMode가 icon 일때의 리스트를 구성 합니다.
      * @example
-     ```
+```
      cssObj = {
 	box: "width: ,height:",   - 기타 사용자 지정 스타일 추가 가능
 	img:  "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
@@ -14425,7 +14424,7 @@ var AXGrid = Class.create(AXJ, {
 	description: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	buttons: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 };
-     ```
+```
      */
     getIconItem: function (itemIndex, item, viewIconObj, cssObj) {
         var cfg = this.config;
@@ -15099,7 +15098,7 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description body(list) 구성시 marker row 가 존재할경우 처리 합니다.
      * @example
-     ```
+```
      var item = {
 	a: "a",
 	b: "b",
@@ -15108,7 +15107,7 @@ var AXGrid = Class.create(AXJ, {
 	e: 14350
  };
      myGrid.updateList(0,item);
-     ```
+```
      */
     updateList: function (itemIndex, item) {
         var cfg = this.config;
@@ -15162,11 +15161,11 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description 그리드에 데이터를 삽입합니다. <en>push to Grid.list</en>
      * @example
-     ```
+```
      myGrid.pushList([item Array]);
      myGrid.pushList([item Array], 1);
      myGrid.pushList([item]);
-     ```
+```
      */
     pushList: function (pushItem, insertIndex) {
         var cfg = this.config;
@@ -15240,14 +15239,14 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description grid의 리스트에 아이템을 추가 합니다.(배열)
      * @example
-     ```
+```
      var list = [
      {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
      {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
      {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5}
      ];
      myGrid.fetchList(list);
-     ```
+```
      */
     fetchList: function(list){
         var cfg = this.config, VS = this.virtualScroll;
@@ -15269,14 +15268,14 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description removeList의 전달된 키값 과 일치하는 대상을 삭제 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
      * @example
-     ```
+```
      var checkedList = myGrid.getCheckedList(0);// colSeq
      var removeList = [];
      $.each(checkedList, function(){
 	removeList.push({no:this.no});
  });
      myGrid.removeList(removeList);
-     ```
+```
      */
     removeList: function (removeList) {
         var cfg = this.config;
@@ -15341,10 +15340,10 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description removeList의 index에 해당하는 항목을 제거 합니다..
      * @example
-     ```
+```
      var removeList = [{index:0},{index:1},{index:2}];
      myGrid.removeListIndex(removeList);
-     ```
+```
      */
     removeListIndex: function (removeList) {
         var cfg = this.config;
@@ -15413,7 +15412,7 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description restoreList 전달된 키값 과 일치하는 대상의 삭제 표시를 제거 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.(passive)
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setConfig({passiveMode:true});
      var checkedList = myGrid.getCheckedList(0);// colSeq
@@ -15422,7 +15421,7 @@ var AXGrid = Class.create(AXJ, {
 	removeList.push({no:this.no});
  });
      myGrid.restoreList(removeList);
-     ```
+```
      */
     restoreList: function (restoreList) {
         var cfg = this.config;
@@ -16037,9 +16036,9 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} itemIndex - index of this.list
      * @returns {AXGrid}
      * @example
-     ```js
+```js
 
-     ```
+```
      */
     editCell: function(r, c, ii, times){
         this.setFocus(ii);
@@ -16268,10 +16267,10 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} [itemIndex] - index of data
      * @returns {AXGrid|false}
      * @example
-     ```
+```
      mygrid.editCellClear(); // 셀 에디트 상태 해제
      mygrid.editCellClear(0, 1, 1); // 셀 에디트 해제 하려는 위치가 값을 현재 위치와 비교 하여 false가 리턴되면 현재 위치
-     ```
+```
      */
     editCellClear: function(){
         if(this.inline_edit){
@@ -16303,9 +16302,9 @@ var AXGrid = Class.create(AXJ, {
      * @param {String} val
      * @returns {AXGrid}
      * @example
-     ```
+```
      mygrid.setEditCellValue("123");
-     ```
+```
      */
     setEditCellValue: function(val){
         if(this.inline_edit) {
@@ -16321,9 +16320,9 @@ var AXGrid = Class.create(AXJ, {
      * @param {String|Number} value
      * @returns {AXGrid}
      * @example
-     ```
+```
 
-     ```
+```
      */
     updateItem: function(r, c, itemIndex, value){
         var _this = this,  cfg = this.config,
@@ -16384,10 +16383,10 @@ var AXGrid = Class.create(AXJ, {
      * @param resetLeft {Boolean} - false 시 가로 스크롤은 초기화 하지 않습니다.
      * @description  Grid의 화면에 맞게 스크롤을 생성 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.contentScrollResize(false);
-     ```
+```
      */
     contentScrollResize: function (resetLeft) {
         var cfg = this.config, _this = this;
@@ -16482,10 +16481,10 @@ var AXGrid = Class.create(AXJ, {
      * @param pos {Object} - top, left.
      * @description  top, left에 맞게 스크롤을 이동 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.contentScrollScrollSync({left: myGrid.scrollXHandle.position().left});
-     ```
+```
      */
     contentScrollScrollSync: function (pos) {
         var cfg = this.config;
@@ -16538,10 +16537,10 @@ var AXGrid = Class.create(AXJ, {
      * @param touch {String} - "touch"
      * @description  top, left에 맞게 그리드 내용을 이동 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.contentScrollContentSync({top: 0}, "touch");
-     ```
+```
      */
     contentScrollContentSync: function (pos, touch) {
 
@@ -17060,11 +17059,11 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 데이터를 조작후 그리드에 현재 위치된 아이템을 다시 생성합니다.
      * @returns {AXGrid}
      * @example
-     ```
+```
      myGrid.list[0].id = 12;
      myGrid.dataSync();
 
-     ```
+```
      */
     dataSync: function(){
         this.bigDataSync(true);
@@ -17180,10 +17179,10 @@ var AXGrid = Class.create(AXJ, {
      * @param itemIndex {Number} - 스크롤될 아이템 인덱스
      * @description - itemIndex에 스크롤을 이동시킵니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.scrollTop(0);
-     ```
+```
      */
     scrollTop: function (itemIndex) {
         var cfg = this.config;
@@ -17221,10 +17220,10 @@ var AXGrid = Class.create(AXJ, {
      * @param itemIndex {Number} - 선택될 아이템 인덱스
      * @description - itemIndex에 해당하는 열을 선택 합니다..
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setFocus(0);
-     ```
+```
      */
     setFocus: function (itemIndex) {
         var cfg = this.config, _this = this;
@@ -17444,10 +17443,10 @@ var AXGrid = Class.create(AXJ, {
      * @param itemIndex {Number} - 선택될 그리드 아이템 인덱스
      * @description - 인덱스에 해당하는 행을 클릭 한 효과를 발생 시킵니다.config 에 body항목의 onclick 지정함수가 있다면 호출 됩니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.click(0);
-     ```
+```
      */
     click: function (itemIndex) {
         var cfg = this.config;
@@ -17774,11 +17773,11 @@ var AXGrid = Class.create(AXJ, {
      * @param {Object} obj - ({key:value})
      * @description - head, foot 속성을 정의한 경우 head, foot 에 값을 표시합니다. 비어있는 객체를 전달할 경우 formatter 연결된 함수에 의해 값이 계산됩니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setDataSet({price:123000, amount:10});
      myGrid.setDataSet({});
-     ```
+```
      */
     setDataSet: function (obj) {
         var cfg = this.config;
@@ -17797,11 +17796,11 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.redrawDataSet
      * @description - setDataSet애 의해 dataSet 객체가 변경된 경우 header나 footer를 다시 렌더링 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setDataSet({price:123000, amount:10});
      myGrid.redrawDataSet();
-     ```
+```
      */
     redrawDataSet: function () {
         var cfg = this.config;
@@ -17814,11 +17813,11 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.printHead
      * @description - grid의 header를 구성합니다 . (getDataSet)
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setDataSet({price:123000, amount:10});
      myGrid.printHead();
-     ```
+```
      */
     printHead: function () {
         var cfg = this.config;
@@ -17836,11 +17835,11 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.printFoot
      * @description - grid의 footer를 구성합니다 . (getDataSet)
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setDataSet({price:123000, amount:10});
      myGrid.printFoot();
-     ```
+```
      */
     printFoot: function () {
         var cfg = this.config;
@@ -18098,11 +18097,11 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} insertIndex - 에디터가 삽입될 위치 인덱스
      * @description - 해당하는 인덱스에 에디터를 활성화 합니다.config 내에 editor 관련 항목이 없다면 작동하지 않습니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setEditor({}, 1);
      myGrid.setEditor(null, null, 1);
-     ```
+```
      */
     setEditor: function (item, itemIndex, insertIndex) {
         var cfg = this.config, _this = this, itemTrHeight;
@@ -18422,7 +18421,7 @@ var AXGrid = Class.create(AXJ, {
      * @param {Object} obj - 삽입될 아이템 데이터
      * @description - 활성화된 에디터에 특정 값을 전달 합니다.
      * @example
-     ```
+```
      var obj = {
 	key : , colgroup 컬럼 key
 	position :, 적용될 대상의 배열 순서 [0,0]
@@ -18435,7 +18434,7 @@ var AXGrid = Class.create(AXJ, {
 	position:[0,2],
 	value:"가나다라"
 });
-     ```
+```
      */
     setEditorForm: function (obj) {
         var cfg = this.config;
@@ -18448,10 +18447,10 @@ var AXGrid = Class.create(AXJ, {
      * @param {String} key - colgroup 컬럼 key
      * @description - 활성화된 에디터의 특정 key 값과 매칭되는 요소를 활성화 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.focusEditorForm("regDate");
-     ```
+```
      */
     focusEditorForm: function (key) { /* editor 활성화 된 폼의 특정 요소에 포커스 주기 */
         var cfg = this.config;
@@ -18466,10 +18465,10 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.saveEditor
      * @description - 에디터의 내용을 저장하고 리스트에 반영 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.saveEditor();
-     ```
+```
      */
     saveEditor: function () {
         var cfg = this.config;
@@ -18731,10 +18730,10 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.cancelEditor
      * @description - 활성화된 에디터를 해제 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.cancelEditor();
-     ```
+```
      */
     cancelEditor: function () {
         this.editor.hide();
@@ -18745,10 +18744,10 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.unbindAXbind
      * @description - 에디터내부 요소에 부여된 특성을 해제 합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.unbindAXbind();
-     ```
+```
      */
     unbindAXbind: function () {
         var cfg = this.config;
@@ -18797,12 +18796,12 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} insertIndex - 삽입 대상 index
      * @description - 그리드에 신규 데이터를 삽입하기 위해 삽입용 에디터를 활성화 하여 줍니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      var item = {};
      myGrid.appendList(item);
      myGrid.appendList(item, 3);
-     ```
+```
      */
     appendList: function (item, insertIndex) {
         if(insertIndex <= this.list.length) insertIndex = this.list.length-1;
@@ -18981,10 +18980,10 @@ var AXGrid = Class.create(AXJ, {
      * @param pageAdd {Number} - 이동할 페이지 증/감(-) 수
      * @description - pageAdd 만큼 페이지를 이동합니다.
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.goPageMove(-1);
-     ```
+```
      */
     goPageMove: function (pageAdd) {
         var cfg = this.config;
@@ -19054,10 +19053,10 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 리스트 아이템 갯수(length)를 표시 합니다.
      * @returns {String}
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.setStatus(myGrid.list.length);
-     ```
+```
      */
     setStatus: function (listLength) {
         var cfg = this.config, listCount;
@@ -19078,7 +19077,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - 정렬옵션을 반환 합니다.
      * @returns {String|Object}
      * @example
-     ```
+```
      var myGrid = new AXGrid();
      myGrid.getSortParam();
 
@@ -19087,7 +19086,7 @@ var AXGrid = Class.create(AXJ, {
 	sortKey:"" , -  정렬 기준 key
 	sortWay:""   -  정렬 방법 "asc" or "desc"
 }
-     ```
+```
      */
     getSortParam: function (ty) {
         var cfg = this.config;
@@ -19108,7 +19107,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 컬럼 해더를 생성 합니다.
      * @returns {String}
      * @example
-     ```
+```
      var arg = {
 	valign,  - valign 옵션
 	rowspan, - rowspan 옵션
@@ -19120,7 +19119,7 @@ var AXGrid = Class.create(AXJ, {
 	tdHtml, - config colgroup 지정된 label
 	displayLabel - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
 }
-     ```
+```
      */
     getExcelColHeadTd: function (arg) {
         var cfg = this.config;
@@ -19342,10 +19341,10 @@ var AXGrid = Class.create(AXJ, {
      * @description -  format에 맞춰 그리드의 내용을 엑셀 포맷으로 변환 합니다.
      * @returns {String|Object}
      * @example
-     ```
+```
      var txt = myGrid.getExcelFormat("html");
      var json = myGrid.getExcelFormat("json");
-     ```
+```
      */
     getExcelFormat: function (format) {
         var cfg = this.config;
@@ -19422,7 +19421,7 @@ var AXGrid = Class.create(AXJ, {
      * @param {JSONObject} obj
      * @description - 그리드의 뷰모드를 체인지 합니다.
      * @example
-     ```
+```
      myGrid.changeGridView({
 	viewMode:"grid"
  });
@@ -19457,7 +19456,7 @@ var AXGrid = Class.create(AXJ, {
      myGrid.changeGridView({
 	viewMode:"mobile"
 });
-     ```
+```
      */
     changeGridView: function (JSObject) {
         var cfg = this.config;
@@ -19633,6 +19632,58 @@ myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
         });
 
         return params;
+	},
+
+	/**
+	 * 그리드의 데이터를 조건에 따라 반환하며 clone 옵션을 사용해서 복사된 값을 받을 수 있다.
+	 *
+	 * @param filter {String|Function|Boolean} [undefined] - String: "C,U,D" 추가,수정,삭제. Function: true/false를 반환하는 함수를 사용한다. Boolean: filter 조건을 생략하고 바로 clone 옵션을 사용할 수 있다.
+	 * @param clone {Boolean} [false] true: referance 데이터를 반환 받는다. false: clone 데이터를 반환받는다.
+	 * @returns {Array}
+	 * @example
+```
+var myGrid = new AXGrid();
+myGrid.getList(); // 전체 데이터(referance) 배열 반환
+myGrid.getList(true); // 전체 데이터(clone) 배열 반환
+myGrid.getList("C,U"); // 추가,수정된 데이터(referance) 배열 반환
+myGrid.getList("C,U", true); // 추가,수정된 데이터(clone) 배열 반환
+function fnFilter(idx, item) { return (idx % 2) === 0; }
+myGrid.getList(fnFilter); // 함수에서 true를 반환한 데이터(referance) 배열 반환
+myGrid.getList(fnFilter, true); // 함수에서 true를 반환한 데이터(clone) 배열 반환
+```
+	 */
+	getList: function(filter, clone) {
+		var filteredList = [];
+		if (filter === false || Object.isUndefined(filter)) {
+			filteredList = this.list;
+			clone = false;
+		} else if (filter === true) {
+			filteredList = this.list;
+			clone = true;
+		} else if (Object.isString(filter)) {
+			axf.each(this.list, function(idx, item) {
+				if (filter.indexOf(item._CUD) > -1) {
+					filteredList.push(item);
+				}
+			});
+		} else if (Object.isFunction(filter)) {
+			var fnFilter = filter.bind(this);
+			axf.each(this.list, function(idx, item){
+				if (fnFilter(idx, item)) {
+					filteredList.push(item);
+				}
+			});
+		}
+
+		if (clone) {
+			var clonedList = [];
+			axf.each(filteredList, function(idx, item){
+				clonedList.push(Object.clone(item));
+			});
+			return clonedList;
+		} else {
+			return filteredList;
+		}
 	},
 	onevent_grid: function(){
 		
