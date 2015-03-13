@@ -223,8 +223,6 @@
 							return;
 						}
 
-						trace(this.res.item);
-						
 						if(this.index == null){ // 추가
 							var pushItem = this.res.item;
 							//pushItem 에 추가 값 지정 가능
@@ -314,7 +312,9 @@
 		},
 		appendGrid: function(index){
 			var item = {amount:0};
-			if(index){
+			if(index == "last") {
+				myGrid.appendList(item, myGrid.list.length);
+			}else if(typeof index != "undefined"){
 				myGrid.appendList(item, index);
 			}else{
 				myGrid.appendList(item);
@@ -368,6 +368,7 @@
                 <input type="button"	value="추가하기 (index : 10)" class="AXButton Red" onclick="fnObj.appendGrid(10);" />
                 <input type="button"	value="추가하기 (index : 15)" class="AXButton Red" onclick="fnObj.appendGrid(15);" />
                 <input type="button"	value="추가하기 (index : 20)" class="AXButton Red" onclick="fnObj.appendGrid(20);" />
+	            <input type="button"	value="추가하기 (마지막에)" class="AXButton Red" onclick="fnObj.appendGrid('last');" />
                 <input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
                 <input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
                 <input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />
