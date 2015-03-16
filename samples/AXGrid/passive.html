@@ -114,8 +114,7 @@
                     }
                 },
                 page:{
-                    paging:true,
-                    status:{formatter: null}
+                    paging:true
                 },
                 editor: {
                     rows: [
@@ -303,7 +302,7 @@
 		<div class="AXdemoPageContent">
 			<div class="title"><h1>AXGrid passive option true</h1></div>
 
-            <h3>grid의 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h3>
+            <h2>grid의 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h2>
             <div id="AXGridTarget" style="height:400px;"></div>
 
             <div class="H20"></div>
@@ -319,9 +318,9 @@
 
             <div>
                 <b>passiveMode:true </b> 사용시 <br/>
-                _isNew : 신규 등록된 item,
-                _isDel : 삭제된 item,
-                _isUpd : 수정된 item
+                myGrid.list[index]._CUD = "C" : 신규 등록된 item<br/>
+                myGrid.list[index]._CUD = "U" : 수정된 item<br/>
+                myGrid.list[index]._CUD = "D" : 삭제된 item<br/>
                 <br/>
                 <b>passiveRemoveHide:true</b> 변경 하면 삭제될 때 리스트가 제거 됩니다. 또한 삭제된 데이터가 myGrid.removedList 에 쌓이게 됩니다.
                 <br/>
