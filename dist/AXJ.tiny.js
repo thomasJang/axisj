@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-13 
+AXJ - v1.0.13 - 2015-03-17 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-13 
+AXJ - v1.0.13 - 2015-03-17 
 */
 
 if(!window.AXConfig){
@@ -197,22 +197,45 @@ if(!window.AXConfig){
  * AXInput default config
  * @memberof AXConfig
  * @example
- ```json
- AXInput: {
-	errorPrintType: "toast",
-	selectorOptionEmpty: "목록이 없습니다.",
-	yearText:"{year}년",
-	monthText:"{month}월",
-	confirmText:"확인"
-}
- ```
+ * ```json
+ * AXInput: {
+ * 	errorPrintType: "toast",
+ * 	selectorOptionEmpty: "목록이 없습니다.",
+ * 	yearText:"{year}년",
+ * 	monthText:"{month}월",
+ * 	confirmText:"확인",
+ * 	keyOptions:"options",
+ * 	keyOptionValue:"optionValue",
+ * 	keyOptionText:"optionText"
+ * }
+ * ```
  */
 		AXInput: {
 			errorPrintType: "toast",
 			selectorOptionEmpty: "목록이 없습니다.",
 			yearText:"{year}년",
 			monthText:"{month}월",
-			confirmText:"확인"
+			confirmText:"확인",
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
+		},
+/**
+ * AXSelect default config
+ * @memberof AXConfig
+ * @example
+ * ```json
+ * AXSelect: {
+ *  keyOptions:"options",
+ *  keyOptionValue:"optionValue",
+ *  keyOptionText:"optionText"
+ * }
+ * ```
+ */
+		AXSelect: {
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
 		},
 /**
  * AXContextMenu default config
@@ -1438,9 +1461,25 @@ Object.extend(String.prototype, (function () {
 				}
 				var aTimes = aTime.left(5).split(":");
 				var hh = aTimes[0];
-				var mm = aTimes[1];
+				var mi = aTimes[1];
+
 				if (!is24) hh += 12;
-				return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mm));
+
+				var d = new Date();
+				if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1) {
+					d.setUTCFullYear(aDate[0]);
+					d.setUTCMonth(0);
+					d.setUTCDate(1);
+					d.setHours(23, 59);
+					trace(d);
+				}else {
+					d.setUTCFullYear(aDate[0]);
+					d.setUTCMonth(parseFloat(aDate[1]) - 1);
+					d.setUTCDate(parseFloat(aDate[2]));
+					d.setHours(parseFloat(hh), parseFloat(mi));
+					//return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi));
+				}
+				return d;
 			} catch (e) {
 				var now = new Date();
 				return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
@@ -2949,9 +2988,13 @@ axdom("#" + elementID).on("mousedown", function(event){
  ```
  */
     stopEvent: function (event) {
-        if (event.preventDefault) event.preventDefault();
-        if (event.stopPropagation) event.stopPropagation();
-        event.cancelBubble = true;
+		try {
+			if (event.preventDefault) event.preventDefault();
+	        if (event.stopPropagation) event.stopPropagation();
+			event.cancelBubble = true;
+		}catch(e){
+
+		}
         return false;
     },
 /**
@@ -4647,17 +4690,15 @@ myUIScroll.setConfig({
 /**
  * @class AXCalendar
  * @extends AXJ
- * @version v1.1
+ * @version v1.2
  * @author tom@axisj.com
  * @logs
  * "2012-12-05 오후 11:54:27"
  * "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
+ * "2015-03-17 tom : 0시 0분 입력 가능 하도록 수정"
  *
  */
 var AXCalendar = Class.create(AXJ, {
-
-
-
 /**
  * AXCalendar 기본속성
  * @member {Object} AXCalendar.config
@@ -4714,7 +4755,6 @@ var AXCalendar = Class.create(AXJ, {
  };
 ```
  */
-
     init: function () {
 
     },
@@ -4950,8 +4990,8 @@ var AXCalendar = Class.create(AXJ, {
             var mm = now[1].left(2).setDigit(2);
             var apm = now[1].right(2);
             if (hh == "00" && mm == "00") {
-                hh = "12";
-                apm = "PM";
+                //hh = "12";
+                apm = "AM";
             }
             if (apm == "00") apm = "AM";
         } else {
@@ -4960,7 +5000,7 @@ var AXCalendar = Class.create(AXJ, {
             var mm = now.getMinutes();
             var apm = "AM";
             if (hh == 0 && mm == 0) {
-                hh = 24;
+                //hh = 24;
             }
             if (hh > 12) {
                 apm = "PM";
@@ -4988,7 +5028,7 @@ var AXCalendar = Class.create(AXJ, {
         axdom("#" + cfg.targetID + "_AX_minute").unbindInput();
         axdom("#" + cfg.targetID + "_AX_AMPM").unbindInput();
         axdom("#" + cfg.targetID + "_AX_hour").bindSlider({
-            min: 1, max: 12, onChange: function (objID, objVal) {
+            min: 0, max: 12, onChange: function (objID, objVal) {
                 timePageChange(objID, objVal);
             }
         });
@@ -5005,25 +5045,20 @@ var AXCalendar = Class.create(AXJ, {
     },
 	// 내부 함수
     timePageChange: function () {
-        var cfg = this.config;
-
-        if(axdom("#" + cfg.targetID + "_AX_AMPM").val() == "PM"){
-            if(axdom("#" + cfg.targetID + "_AX_hour").val().number() > 11){
+        var cfg = this.config, hh, mi, apm, mytime;
+	    hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
+	    mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
+	    apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
+        if(apm == "PM"){
+	        //hh += 12;
+            if(hh > 11){
                 axdom("#" + cfg.targetID + "_AX_hour").val(11);
                 axdom("#" + cfg.targetID + "_AX_hour").setValueInput(11);
             }
         }
-
-        var mytime = axdom("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) +
-            ":" + axdom("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) +
-            " " + axdom("#" + cfg.targetID + "_AX_AMPM").val();
+        mytime = hh.setDigit(2) + ":" + mi.setDigit(2) + " " + apm;
         axdom("#" + cfg.targetID + "_AX_box").find(".timeDisplay").html(mytime);
-
         if (cfg.onChange) {
-            var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
-            var mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
-            var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
-            if (apm == "PM") hh += 12;
             cfg.onChange(hh.setDigit(2) + ":" + mi.setDigit(2));
         }
     },
@@ -5906,7 +5941,7 @@ var AXResizable = Class.create(AXJ, {
     }
 });
 var AXResizableBinder = new AXResizable();
-AXResizableBinder.setConfig({ targetID: "defaultResiable" });
+AXResizableBinder.setConfig({ targetID: "defaultResizable" });
 
 /**
  * @method jQueryExtends.bindAXResizable
@@ -7457,8 +7492,8 @@ axdom.fn.bindTooltip = function (config) {
             }
             AXPopOver.open({ id: this.id + "_AX_tooltipobj", sendObj: {} }, { left: pos.left, top: posTop, handleHeight: (axdom(this).outerHeight().number() + 3) }); // event 직접 연결 방식
         });
-        return this;
     });
+	return this;
 };
 /* ---------------------------------------------- AXContextMenu -- */
 
@@ -7831,8 +7866,6 @@ axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
 	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
 });
 
-
-
 /**
  * 설명
  * @member {type} AXJ.name
@@ -7874,7 +7907,6 @@ axdom.fn.serializeObject = function () {
         }).get();
     return myArray;
 };
-
 
 /**
  * @method jQueryExtends.endFocus
@@ -8024,9 +8056,17 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
+		
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+
+		// 예약어 초기화
+		this.config.reserveKeys = {
+			options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
+			optionValue: (AXConfig.AXInput && AXConfig.AXInput.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -8085,6 +8125,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return;
 		}
 
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -8945,7 +8986,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 
 	},
@@ -9039,7 +9080,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			var descStr = (O.desc || O.optionDesc || "").dec();
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText].dec() + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -9056,11 +9097,11 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		var bindSelectorKeyup = this.bindSelectorKeyup.bind(this);
 		obj.inputKeyup = function (event) {
 			bindSelectorKeyup(objID, objSeq, event);
-		}
+		};
 
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
@@ -9091,7 +9132,6 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			expandBox.css({top:offset.top - expandBox.outerHeight() });
 		}
-
 	},
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -9240,11 +9280,10 @@ var AXInputConverter = Class.create(AXJ, {
 				debug: false, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						obj.config.options = (res.options || []);
-						//obj.config.selectedIndex = null;
+						//obj.config.options = (res.options || []);
+						obj.config.options = (res[cfg.reserveKeys.options] || []);
 						obj.config.focusedIndex = null;
-						//obj.config.selectedObject = null;
-						//obj.config.isChangedSelect = true;
+
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
 
@@ -9282,18 +9321,17 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (!obj.config.options) return;
-		//trace(obj.config.options);
 
 		var selectedIndex = null;
 		axf.each(obj.config.options, function (oidx, opt) {
-			if (opt.optionValue == value) selectedIndex = oidx;
+			if (opt[cfg.reserveKeys.optionValue] == value) selectedIndex = oidx;
 		});
 
 		if (selectedIndex != null) {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText].dec());
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -9320,7 +9358,7 @@ var AXInputConverter = Class.create(AXJ, {
 		eval("var reAt= /^" + sw + ".*/i");
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a].optionText || "").dec())) {
+			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || "").dec())) {
 				ix = a;
 				break;
 			}
@@ -10260,6 +10298,9 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		
+		//trace(obj.config);
+		
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			var _this = this;
 			setTimeout(function(){
@@ -10366,7 +10407,7 @@ var AXInputConverter = Class.create(AXJ, {
 		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
 
 		//Expand Box 생성 구문 작성
-		var objVal = axdom("#" + objID).val();
+		var objVal = axdom("#" + objID).val(), objHours = "";
 		if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
 
 		var today = new Date();
@@ -10380,9 +10421,9 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
+		
 		var dfDate = (obj.config.defaultDate || "").date();
 		var myDate = objVal.date(separator, dfDate);
-
 		var myYear = myDate.getFullYear();
 		var myMonth = (myDate.getMonth() + 1).setDigit(2);
 		var po = [];
@@ -10463,14 +10504,15 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 				axdom("#" + objID).val(printDate);
 
-			} else {
+			} 
+			else 
+			{
 				obj.mycalendarPageType = "d";
 				obj.mycalendar.printDayPage(myDate);
 				printDate = myDate.print("yyyy" + separator + "mm" + separator + "dd");
 				if (obj.config.expandTime) {
 					printDate += " " + myDate.print("hh:mi");
 				}
-
 				axdom("#" + objID).val(printDate);
 			}
 		}
@@ -10549,7 +10591,6 @@ var AXInputConverter = Class.create(AXJ, {
 		//trace("event bind");
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
-
 	},
 	// -- bindDate for mobile
 	bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
@@ -10854,7 +10895,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!obj){
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 
@@ -10915,11 +10956,11 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindTarget.change();
 
 			obj.modal.close();
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -10986,10 +11027,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 			obj.expandBox_axdom = null;
+			obj.mycalendartime = null;
 
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -11086,21 +11128,25 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 
 					printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
+					
 					if (obj.config.expandTime) {
+						var hh, mi;
 						try {
 							printDate += " " + obj.mycalendartime.getTime();
+							trace(printDate);
+							
 						} catch (e) {
 							if (va.length > 11) { // hh,mm
-								var hh = va.substr(8, 2).number();
-								var mm = va.substr(10, 2).number();
+								hh = va.substr(8, 2).number();
+								mi = va.substr(10, 2).number();
 							} else if (va.length > 9) {
-								var hh = va.substr(8, 2).number();
-								var mm = "00";
+								hh = va.substr(8, 2).number();
+								mi = "00";
 							} else {
-								var hh = "12";
-								var mm = "00";
+								hh = "12";
+								mi = "00";
 							}
-							printDate += " " + hh + ":" + mm;
+							printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
 						}
 					}
 
@@ -12229,7 +12275,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 					printDate = obj["nDate" + seq].print("yyyy" + separator + "mm" + separator + "dd");
 					if (obj.config.expandTime) {
-						printDate += " " + hh + ":" + mi;
+						printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
 					}
 
 					if (needAlert) {
@@ -14053,6 +14099,12 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.isMobile = browser.mobile;
 		//axdom(window).resize(this.windowResize.bind(this));
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+		
+		this.config.reserveKeys = {
+			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
+			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -14131,7 +14183,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
 		}
-
+		
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -14285,7 +14338,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		} 
+		}
 		else 
 		{
 			//AXUtil.alert(obj.options);
@@ -14329,7 +14382,6 @@ var AXSelectConverter = Class.create(AXJ, {
 			var pars = obj.config.ajaxPars;
 			obj.selectedIndex = null;
 
-			//axdom("#" + objID).empty(); serialObject 검색안됨
 			iobj.html("<option></option>");
 
 			obj.inProgress = true; //진행중 상태 변경
@@ -14339,20 +14391,19 @@ var AXSelectConverter = Class.create(AXJ, {
 				debug: false, async: async, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						//trace(res);
 						var po = [], adj = 0;
-						obj.config.options = res.options;
+						//obj.config.options = res.options;
+						obj.config.options = res[cfg.reserveKeys.options];
 						if (obj.config.isspace) {
 							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
 						}
-						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
-							po.push("<option value=\"" + opts.optionValue + "\"");
-							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
-							po.push(">" + opts.optionText.dec() + "</option>");
+						for (var opts, oidx = 0; (oidx < res[cfg.reserveKeys.options].length && (opts = res[cfg.reserveKeys.options][oidx])); oidx++) {
+							po.push("<option value=\"" + opts[cfg.reserveKeys.optionValue] + "\"");
+							if (obj.config.setValue == opts[cfg.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+							po.push(">" + opts[cfg.reserveKeys.optionText].dec() + "</option>");
 						}
 						axdom("#" + objID).html(po.join(''));
 
@@ -14375,7 +14426,6 @@ var AXSelectConverter = Class.create(AXJ, {
 							};
 							obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 						}
-
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
@@ -14384,7 +14434,7 @@ var AXSelectConverter = Class.create(AXJ, {
 								selectedObject: obj.options[obj.selectedIndex],
 								options: obj.options,
 								response: res
-							}
+							};
 							obj.config.onLoad.call(sendObj, sendObj);
 						}
 						_this.alignAnchor(objID, objSeq);

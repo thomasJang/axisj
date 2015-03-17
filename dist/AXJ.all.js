@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-13 
+AXJ - v1.0.13 - 2015-03-17 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-13 
+AXJ - v1.0.13 - 2015-03-17 
 */
 
 if(!window.AXConfig){
@@ -197,22 +197,45 @@ if(!window.AXConfig){
  * AXInput default config
  * @memberof AXConfig
  * @example
- ```json
- AXInput: {
-	errorPrintType: "toast",
-	selectorOptionEmpty: "목록이 없습니다.",
-	yearText:"{year}년",
-	monthText:"{month}월",
-	confirmText:"확인"
-}
- ```
+ * ```json
+ * AXInput: {
+ * 	errorPrintType: "toast",
+ * 	selectorOptionEmpty: "목록이 없습니다.",
+ * 	yearText:"{year}년",
+ * 	monthText:"{month}월",
+ * 	confirmText:"확인",
+ * 	keyOptions:"options",
+ * 	keyOptionValue:"optionValue",
+ * 	keyOptionText:"optionText"
+ * }
+ * ```
  */
 		AXInput: {
 			errorPrintType: "toast",
 			selectorOptionEmpty: "목록이 없습니다.",
 			yearText:"{year}년",
 			monthText:"{month}월",
-			confirmText:"확인"
+			confirmText:"확인",
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
+		},
+/**
+ * AXSelect default config
+ * @memberof AXConfig
+ * @example
+ * ```json
+ * AXSelect: {
+ *  keyOptions:"options",
+ *  keyOptionValue:"optionValue",
+ *  keyOptionText:"optionText"
+ * }
+ * ```
+ */
+		AXSelect: {
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
 		},
 /**
  * AXContextMenu default config
@@ -1438,9 +1461,25 @@ Object.extend(String.prototype, (function () {
 				}
 				var aTimes = aTime.left(5).split(":");
 				var hh = aTimes[0];
-				var mm = aTimes[1];
+				var mi = aTimes[1];
+
 				if (!is24) hh += 12;
-				return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mm));
+
+				var d = new Date();
+				if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1) {
+					d.setUTCFullYear(aDate[0]);
+					d.setUTCMonth(0);
+					d.setUTCDate(1);
+					d.setHours(23, 59);
+					trace(d);
+				}else {
+					d.setUTCFullYear(aDate[0]);
+					d.setUTCMonth(parseFloat(aDate[1]) - 1);
+					d.setUTCDate(parseFloat(aDate[2]));
+					d.setHours(parseFloat(hh), parseFloat(mi));
+					//return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi));
+				}
+				return d;
 			} catch (e) {
 				var now = new Date();
 				return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
@@ -2949,9 +2988,13 @@ axdom("#" + elementID).on("mousedown", function(event){
  ```
  */
     stopEvent: function (event) {
-        if (event.preventDefault) event.preventDefault();
-        if (event.stopPropagation) event.stopPropagation();
-        event.cancelBubble = true;
+		try {
+			if (event.preventDefault) event.preventDefault();
+	        if (event.stopPropagation) event.stopPropagation();
+			event.cancelBubble = true;
+		}catch(e){
+
+		}
         return false;
     },
 /**
@@ -4647,17 +4690,15 @@ myUIScroll.setConfig({
 /**
  * @class AXCalendar
  * @extends AXJ
- * @version v1.1
+ * @version v1.2
  * @author tom@axisj.com
  * @logs
  * "2012-12-05 오후 11:54:27"
  * "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
+ * "2015-03-17 tom : 0시 0분 입력 가능 하도록 수정"
  *
  */
 var AXCalendar = Class.create(AXJ, {
-
-
-
 /**
  * AXCalendar 기본속성
  * @member {Object} AXCalendar.config
@@ -4714,7 +4755,6 @@ var AXCalendar = Class.create(AXJ, {
  };
 ```
  */
-
     init: function () {
 
     },
@@ -4950,8 +4990,8 @@ var AXCalendar = Class.create(AXJ, {
             var mm = now[1].left(2).setDigit(2);
             var apm = now[1].right(2);
             if (hh == "00" && mm == "00") {
-                hh = "12";
-                apm = "PM";
+                //hh = "12";
+                apm = "AM";
             }
             if (apm == "00") apm = "AM";
         } else {
@@ -4960,7 +5000,7 @@ var AXCalendar = Class.create(AXJ, {
             var mm = now.getMinutes();
             var apm = "AM";
             if (hh == 0 && mm == 0) {
-                hh = 24;
+                //hh = 24;
             }
             if (hh > 12) {
                 apm = "PM";
@@ -4988,7 +5028,7 @@ var AXCalendar = Class.create(AXJ, {
         axdom("#" + cfg.targetID + "_AX_minute").unbindInput();
         axdom("#" + cfg.targetID + "_AX_AMPM").unbindInput();
         axdom("#" + cfg.targetID + "_AX_hour").bindSlider({
-            min: 1, max: 12, onChange: function (objID, objVal) {
+            min: 0, max: 12, onChange: function (objID, objVal) {
                 timePageChange(objID, objVal);
             }
         });
@@ -5005,25 +5045,20 @@ var AXCalendar = Class.create(AXJ, {
     },
 	// 내부 함수
     timePageChange: function () {
-        var cfg = this.config;
-
-        if(axdom("#" + cfg.targetID + "_AX_AMPM").val() == "PM"){
-            if(axdom("#" + cfg.targetID + "_AX_hour").val().number() > 11){
+        var cfg = this.config, hh, mi, apm, mytime;
+	    hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
+	    mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
+	    apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
+        if(apm == "PM"){
+	        //hh += 12;
+            if(hh > 11){
                 axdom("#" + cfg.targetID + "_AX_hour").val(11);
                 axdom("#" + cfg.targetID + "_AX_hour").setValueInput(11);
             }
         }
-
-        var mytime = axdom("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) +
-            ":" + axdom("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) +
-            " " + axdom("#" + cfg.targetID + "_AX_AMPM").val();
+        mytime = hh.setDigit(2) + ":" + mi.setDigit(2) + " " + apm;
         axdom("#" + cfg.targetID + "_AX_box").find(".timeDisplay").html(mytime);
-
         if (cfg.onChange) {
-            var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
-            var mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
-            var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
-            if (apm == "PM") hh += 12;
             cfg.onChange(hh.setDigit(2) + ":" + mi.setDigit(2));
         }
     },
@@ -5906,7 +5941,7 @@ var AXResizable = Class.create(AXJ, {
     }
 });
 var AXResizableBinder = new AXResizable();
-AXResizableBinder.setConfig({ targetID: "defaultResiable" });
+AXResizableBinder.setConfig({ targetID: "defaultResizable" });
 
 /**
  * @method jQueryExtends.bindAXResizable
@@ -7457,8 +7492,8 @@ axdom.fn.bindTooltip = function (config) {
             }
             AXPopOver.open({ id: this.id + "_AX_tooltipobj", sendObj: {} }, { left: pos.left, top: posTop, handleHeight: (axdom(this).outerHeight().number() + 3) }); // event 직접 연결 방식
         });
-        return this;
     });
+	return this;
 };
 /* ---------------------------------------------- AXContextMenu -- */
 
@@ -7831,8 +7866,6 @@ axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
 	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
 });
 
-
-
 /**
  * 설명
  * @member {type} AXJ.name
@@ -7874,7 +7907,6 @@ axdom.fn.serializeObject = function () {
         }).get();
     return myArray;
 };
-
 
 /**
  * @method jQueryExtends.endFocus
@@ -12035,31 +12067,126 @@ var AXGrid = Class.create(AXJ, {
  * @param {Object} config - gridConfig
  * @description 선언된 클래스를 사용하기 위해 속성을 정의합니다.
  * @example
- ```
- myGrid.setConfig({
-	targetID : "AXGridTarget",
-	colHeadAlign: "center", // 헤드의 기본 정렬 값
-	mergeCells: true|false|Array -- 전체셀병합,병합안함,지정된 인덱스열만 병합
-	colGroup : [
-		{key:"no", label:"번호", width:"50", align:"right", sort:"asc"}
-	],
-	body: {
-		onclick: function(){},
-		ondblclick: function(){},
-		addClass: function(){},
-		oncheck: function(){},
-		onchangeScroll: function(){}
-	}
-});
-
- // grid config description
- var gridConfig = {
-	targetID: {String} elementTargetID,
-	theme: [String=AXGrid] - CSS Class 이름,
-	fixedColSeq: [Number=0],
-	fitToWidth: [Boolean=false]
-};
- ```
+ * ```js
+ * myGrid.setConfig({
+ *     targetID    : "AXGridTarget", // {String} -- 그리드 div ID
+ *     theme       : "AXGrid",       // {String} [AXGrid] -- CSS Class 이름
+ *     fixedColSeq : 0,              // {Number} -- 컬럼고정 기능을 사용합니다. 고정할 마지막 컬럼의 인덱스 값입니다. 예제) http://dev.axisj.com/samples/AXGrid/fixedColSeq.html
+ *     fitToWidth  : true,           // {Boolean} [false] -- 컬럼 가로 길이를 그리드의 가로 길이에 맞춥니다.
+ *     colHeadAlign: "center",       // {String} 헤드의 기본 정렬. "left"|"center"|"right" 값을 사용할 수 있습니다. colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+ *     mergeCells  : [3,4]           // {Boolean|Array} -- 전체셀병합,병합안함,지정된 인덱스열만 병합
+ *     height      : "auto",         // {Number|String} -- 그리드의 높이를 지정합니다. 숫자를 사용하면 픽셀 단위로, "auto" 값을 사용하면 그리드의 높이가 내용에 맞춰서 늘어납니다. 예제) http://dev.axisj.com/samples/AXGrid/autoHeight.html
+ *     reserveKeys : { // reserveKeys는 AXISJ에서 지정한 키를 다른 키로 지정하는 하는 경우 사용합니다. reserveKeys를 사용하면 데이터를 수정없이 바로 사용할 수 있습니다.
+ *         parent_hash  : "phash", // {String} 부모해시 키의 이름을 지정합니다.
+ *         child_hash   : "hash",  // {String} 자식해시 키의 이름을 지정합니다.
+ *         sub_list     : "list",  // {String} 자식 리스트 키의 이름을 지정합니다.
+ *         hidden       : "_hidden"// {String} hidden 키의 이름을 지정합니다.
+ *     },
+ *     colGroup : [ // 데이터 리스트의 컬럼을 정의합니다.
+ *         {
+ *             key      : "no",    // {String} -- 데이터와 맵핑할 키 입니다. key 명칭은 reservedKey
+ *             label    : "번호",  // {String} -- 사용자에게 보여줄 컬럼명입니다.
+ *             width    : 50,      // {Number|String} -- 컬럼의 가로길이를 설정합니다. 픽셀단위의 숫자나 "*" 문자를 사용할 수 있습니다. "*"을 사용하는 경우 그리드의 가로 길이에 따라 컬럼의 결이가 가변적으로 변합니다.
+ *             align    : "right", // {String} ["left"] -- 컬럼 내용의 정렬을 설정합니다. "left"|"center"|"right" 값을 사용할 수 있습니다.
+ *             sort     : "asc",   // {String} [""] -- 컬럼의 정렬을 지정합니다. "asc"|"desc" 값을 사용할 수 있습니다.
+ *             formatter: "money", // {String|Function} -- 컬럼의 값을 표현하는 방식을 지정합니다. "money", "dec", "html", "checkbox", "radio", function은 아래 formatter 함수를 참고하세요.
+ *             tooltip  : "money"  // {String|Function} -- 툴팁의 값을 표현하는 방식을 지정합니다. 툴팁을 지정하면 td div.bodyNode에 title 속성으로 값이 표현됩니다. 위 formatter와 동일한 변수를 사용합니다.
+ *         }
+ *     ],
+ *     colHead: { // 예제) http://dev.axisj.com/samples/AXGrid/colhead.html
+ *         rows: [ // 컬럼 헤더를 병합할 수 있습니다.
+ *             [
+ *                 {colSeq:0, rowspan:2},
+ *                 {colSeq:null, colspan:3, label:"표현식", align:"center"},
+ *                 {colSeq:4, rowspan:2, formatter: function(){} },
+ *                 {colSeq:5, rowspan:2},
+ *                 {colSeq:6, rowspan:2},
+ *                 {colSeq:7, rowspan:2},
+ *                 {colSeq:8, rowspan:2},
+ *                 {colSeq:9, rowspan:2}
+ *             ],
+ *             [
+ *                 {colSeq:1},
+ *                 {colSeq:2},
+ *                 {colSeq:3}
+ *             ]
+ *         ],
+ *         onclick: function(){} // {Function} -- 그리드의 컬럼 헤드를 클릭시 발생하는 이벤트 입니다. 아래 onclick 함수를 참고하세요.
+ *     },
+ *     body: {
+ *         marker: { // 그리드의 목록의 중간에 소계같은 원하는 데이터를 표현할 수 있습니다. 예제) http://dev.axisj.com/samples/AXGrid/marker.html
+ *             display: function(){}, // {Function} -- marker 표시여부(true|flase)를 반환하는 함수를 작성합니다. 아래 display 함수를 참고하세요.
+ *             rows: [] // marker를 표시할 형태를 정의 합니다. colHead의 rows와 동일한 형식을 사용합니다.
+ *         },
+ *         onclick       : function(){}, // 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
+ *         ondblclick    : function(){}, // 데이터 행의 ondblclick 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
+ *         oncheck       : function(){}, // 데이터 행의 oncheck 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
+ *         addClass      : function(){}, // 데이터 행의 사용자 정의 class를 할당할 수 있습니다.
+ *         onchangeScroll: function(){}, // 스크롤 변경 이벤트 입니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
+ *         onscrollend   : function(){}  // 그리드내의 스크롤이 마지막 항목까지 도달 하였을때 발생하는 이벤트를 설정할 수 있습니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
+ *     },
+ *     foot: { // 그리드 마지막에 표시하는 행입니다. 예제) http://dev.axisj.com/samples/AXGrid/headfoot.html
+ *         rows: [] // foot을 표시할 형태를 정의 합니다. colHead의 rows와 동일한 형식을 사용합니다.
+ *     },
+ *     page:{
+ *         paging  : true, // {Boolean} -- 페이징 사용여부를 설정합니다.
+ *         pageNo  : 1,    // {Number} -- 현재 페이지 번호를 설정합니다.
+ *         pageSize: 100,  // {Number} -- 한 페이지장 표시할 데이터 수를 설정합니다.
+ *         status  : { formatter: null },
+ *         onchange: function(pageNo){} // {Funtion} -- 페이지 변경 이벤트입니다.
+ *     }
+ * });
+ *
+ * function formatter(itemIndex, item) {
+ *     //this.index
+ *     //this.list
+ *     //this.item
+ *     //this.page
+ *     //this.key
+ *     //this.value
+ * }
+ *
+ * function display() {
+ *     //this.index
+ *     //this.list
+ *     //this.item
+ *     //this.page
+ *
+ *     return true | false;
+ * }
+ *
+ * function onclick | ondblclick() {
+ *     //this.index
+ *     //this.r
+ *     //this.c
+ *     //this.list
+ *     //this.colHead
+ *     //this.page
+ * }
+ *
+ * function addClass() {
+ *     //this.index
+ *     //this.item
+ *     //this.list
+ *     //this.page
+ * }
+ *
+ * function oncheck() {
+ *     //this.index
+ *     //this.checked
+ *     //this.r
+ *     //this.c
+ *     //this.list
+ *     //this.page
+ * }
+ *
+ * function onchangeScroll(virtualScroll) {}
+ *
+ * function onscrollend() {
+ *     //this.list
+ *     //this.page
+ * }
+ * ```
  */
     init: function () {
         var cfg = this.config, _this = this;
@@ -14374,7 +14501,7 @@ var AXGrid = Class.create(AXJ, {
                         tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + addClasses + "\" " +
                         " align=\"" + CH.align + "\" " +
                         " id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
-                        " title=\"" + tooltipValue + "\" title=\"" + tooltipValue + "\">");
+                        " title=\"" + tooltipValue + "\">");
                         if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
                             if (CH.formatter) {
 	                            tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, CHidx));
@@ -14872,7 +14999,7 @@ var AXGrid = Class.create(AXJ, {
 
             this.body.find(".gridBodyTr").bind("mouseover", this.gridBodyOver.bind(this));
             this.body.find(".gridBodyTr").bind("mouseout", this.gridBodyOut.bind(this));
-            this.body.find(".gridBodyTr").bind("click", this.gridBodyClick.bind(this));
+            this.body.find(".gridBodyTr:not(.gridBodyMarker)").bind("click", this.gridBodyClick.bind(this));
             if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
             if (this.selectedRow && this.selectedRow.length > 0) {
@@ -15502,6 +15629,8 @@ var AXGrid = Class.create(AXJ, {
             this.body.find(".gridBodyTr_" + itemIndex).addClass("hover");
             this.overedItemIndex = itemIndex;
         }
+	    
+	    this.onevent_grid({type:"grid-list-over"});
     },
     /**
      * @method AXGrid.gridBodyOut
@@ -16201,7 +16330,7 @@ var AXGrid = Class.create(AXJ, {
                             }
                             _this.editCell(r, new_c, ii);
                         }
-                        _this.stopEvent(e);
+	                    _this.stopEvent(e);
                     }
                     else
                     if(e.keyCode == axf.Event.KEY_ESC){
@@ -16316,14 +16445,15 @@ var AXGrid = Class.create(AXJ, {
     /**
      * 리스트데이터의 특정 아이템값을 변경합니다.
      * @method AXGrid.updateItem
-     * @param {Number} itemIndex
-     * @param {String} key
-     * @param {String|Number} value
+     * @param {Number} rowsIndex - 바디의 한아이템의 줄 대게 0 body안에 rows를 구성하는 경우에 사용
+     * @param {Number} colsIndex - 컬럼 위치
+     * @param {Number} itemIndex - 아이템의 인덱스 <en>index of item<en>
+     * @param {String|Number} value - 변경하려는 값
      * @returns {AXGrid}
      * @example
-```
-
-```
+	 * ```
+	 * myGrid.updateItem(0, 2, 1, "AXISJ");
+	 * ```
      */
     updateItem: function(r, c, itemIndex, value){
         var _this = this,  cfg = this.config,
@@ -17483,22 +17613,28 @@ var AXGrid = Class.create(AXJ, {
         // 중복된 셀 머지 함수
         // 1 셀정보 수집
         var rows = [];
-        tgDom.find("tr").each(function(tri, tr){
+        var typn = typ=='f' ? 'fix' : 'n';
+        for(var tri = 0;tri < this.list.length;tri++){
             var row = [];
-            axdom(tr).find("td").each(function(tdi, td){
+            var tdi=0; // Column Index Value
+            for (var tdn in this.list[tri]) { // tdn is Column Attr Name (ex. 'col1' ~ 'col12')
                 var item = {
-                    tdom    : axdom(td),
+                    tdom    : axdom(tgDom.find("#AXGridTarget_AX_"+typn+
+                                                "body_AX_0_AX_"+tdi+"_AX_"+tri)[0]),
                     rowspan : 1
                 };
-                if(!item.tdom.hasClass("bodyNullTd")){
-                    item.html   = item.tdom.find("div.bodyNode").html();
+                if(cfg.colGroup[tdi].display && item.tdom.length == 0){
+                    break; // end loop
+                }else if(!item.tdom.hasClass("bodyNullTd")){
+                    item.html   = this.list[tri][tdn];
                     item.tri    = tri;
                     item.tdi    = tdi;
                     row.push(item);
                 }
-            });
+                tdi++; // Column Index ++
+            }
             rows.push(row);
-        });
+        }
 
         var _val = {};
         if(Object.isArray(cfg.mergeCells)){
@@ -19927,9 +20063,17 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
+		
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+
+		// 예약어 초기화
+		this.config.reserveKeys = {
+			options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
+			optionValue: (AXConfig.AXInput && AXConfig.AXInput.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -19988,6 +20132,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return;
 		}
 
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -20848,7 +20993,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 
 	},
@@ -20942,7 +21087,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			var descStr = (O.desc || O.optionDesc || "").dec();
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText].dec() + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -20959,11 +21104,11 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		var bindSelectorKeyup = this.bindSelectorKeyup.bind(this);
 		obj.inputKeyup = function (event) {
 			bindSelectorKeyup(objID, objSeq, event);
-		}
+		};
 
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
@@ -20994,7 +21139,6 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			expandBox.css({top:offset.top - expandBox.outerHeight() });
 		}
-
 	},
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -21143,11 +21287,10 @@ var AXInputConverter = Class.create(AXJ, {
 				debug: false, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						obj.config.options = (res.options || []);
-						//obj.config.selectedIndex = null;
+						//obj.config.options = (res.options || []);
+						obj.config.options = (res[cfg.reserveKeys.options] || []);
 						obj.config.focusedIndex = null;
-						//obj.config.selectedObject = null;
-						//obj.config.isChangedSelect = true;
+
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
 
@@ -21185,18 +21328,17 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (!obj.config.options) return;
-		//trace(obj.config.options);
 
 		var selectedIndex = null;
 		axf.each(obj.config.options, function (oidx, opt) {
-			if (opt.optionValue == value) selectedIndex = oidx;
+			if (opt[cfg.reserveKeys.optionValue] == value) selectedIndex = oidx;
 		});
 
 		if (selectedIndex != null) {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText].dec());
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -21223,7 +21365,7 @@ var AXInputConverter = Class.create(AXJ, {
 		eval("var reAt= /^" + sw + ".*/i");
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a].optionText || "").dec())) {
+			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || "").dec())) {
 				ix = a;
 				break;
 			}
@@ -22163,6 +22305,9 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		
+		//trace(obj.config);
+		
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			var _this = this;
 			setTimeout(function(){
@@ -22269,7 +22414,7 @@ var AXInputConverter = Class.create(AXJ, {
 		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
 
 		//Expand Box 생성 구문 작성
-		var objVal = axdom("#" + objID).val();
+		var objVal = axdom("#" + objID).val(), objHours = "";
 		if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
 
 		var today = new Date();
@@ -22283,9 +22428,9 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
+		
 		var dfDate = (obj.config.defaultDate || "").date();
 		var myDate = objVal.date(separator, dfDate);
-
 		var myYear = myDate.getFullYear();
 		var myMonth = (myDate.getMonth() + 1).setDigit(2);
 		var po = [];
@@ -22366,14 +22511,15 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 				axdom("#" + objID).val(printDate);
 
-			} else {
+			} 
+			else 
+			{
 				obj.mycalendarPageType = "d";
 				obj.mycalendar.printDayPage(myDate);
 				printDate = myDate.print("yyyy" + separator + "mm" + separator + "dd");
 				if (obj.config.expandTime) {
 					printDate += " " + myDate.print("hh:mi");
 				}
-
 				axdom("#" + objID).val(printDate);
 			}
 		}
@@ -22452,7 +22598,6 @@ var AXInputConverter = Class.create(AXJ, {
 		//trace("event bind");
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
-
 	},
 	// -- bindDate for mobile
 	bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
@@ -22757,7 +22902,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!obj){
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 
@@ -22818,11 +22963,11 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindTarget.change();
 
 			obj.modal.close();
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -22889,10 +23034,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 			obj.expandBox_axdom = null;
+			obj.mycalendartime = null;
 
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -22989,21 +23135,25 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 
 					printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
+					
 					if (obj.config.expandTime) {
+						var hh, mi;
 						try {
 							printDate += " " + obj.mycalendartime.getTime();
+							trace(printDate);
+							
 						} catch (e) {
 							if (va.length > 11) { // hh,mm
-								var hh = va.substr(8, 2).number();
-								var mm = va.substr(10, 2).number();
+								hh = va.substr(8, 2).number();
+								mi = va.substr(10, 2).number();
 							} else if (va.length > 9) {
-								var hh = va.substr(8, 2).number();
-								var mm = "00";
+								hh = va.substr(8, 2).number();
+								mi = "00";
 							} else {
-								var hh = "12";
-								var mm = "00";
+								hh = "12";
+								mi = "00";
 							}
-							printDate += " " + hh + ":" + mm;
+							printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
 						}
 					}
 
@@ -24132,7 +24282,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 					printDate = obj["nDate" + seq].print("yyyy" + separator + "mm" + separator + "dd");
 					if (obj.config.expandTime) {
-						printDate += " " + hh + ":" + mi;
+						printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
 					}
 
 					if (needAlert) {
@@ -29851,6 +30001,12 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.isMobile = browser.mobile;
 		//axdom(window).resize(this.windowResize.bind(this));
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+		
+		this.config.reserveKeys = {
+			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
+			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -29929,7 +30085,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
 		}
-
+		
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -30083,7 +30240,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		} 
+		}
 		else 
 		{
 			//AXUtil.alert(obj.options);
@@ -30127,7 +30284,6 @@ var AXSelectConverter = Class.create(AXJ, {
 			var pars = obj.config.ajaxPars;
 			obj.selectedIndex = null;
 
-			//axdom("#" + objID).empty(); serialObject 검색안됨
 			iobj.html("<option></option>");
 
 			obj.inProgress = true; //진행중 상태 변경
@@ -30137,20 +30293,19 @@ var AXSelectConverter = Class.create(AXJ, {
 				debug: false, async: async, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						//trace(res);
 						var po = [], adj = 0;
-						obj.config.options = res.options;
+						//obj.config.options = res.options;
+						obj.config.options = res[cfg.reserveKeys.options];
 						if (obj.config.isspace) {
 							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
 						}
-						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
-							po.push("<option value=\"" + opts.optionValue + "\"");
-							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
-							po.push(">" + opts.optionText.dec() + "</option>");
+						for (var opts, oidx = 0; (oidx < res[cfg.reserveKeys.options].length && (opts = res[cfg.reserveKeys.options][oidx])); oidx++) {
+							po.push("<option value=\"" + opts[cfg.reserveKeys.optionValue] + "\"");
+							if (obj.config.setValue == opts[cfg.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+							po.push(">" + opts[cfg.reserveKeys.optionText].dec() + "</option>");
 						}
 						axdom("#" + objID).html(po.join(''));
 
@@ -30173,7 +30328,6 @@ var AXSelectConverter = Class.create(AXJ, {
 							};
 							obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 						}
-
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
@@ -30182,7 +30336,7 @@ var AXSelectConverter = Class.create(AXJ, {
 								selectedObject: obj.options[obj.selectedIndex],
 								options: obj.options,
 								response: res
-							}
+							};
 							obj.config.onLoad.call(sendObj, sendObj);
 						}
 						_this.alignAnchor(objID, objSeq);
