@@ -16435,14 +16435,15 @@ var AXGrid = Class.create(AXJ, {
     /**
      * 리스트데이터의 특정 아이템값을 변경합니다.
      * @method AXGrid.updateItem
-     * @param {Number} itemIndex
-     * @param {String} key
-     * @param {String|Number} value
+     * @param {Number} rowsIndex - 바디의 한아이템의 줄 대게 0 body안에 rows를 구성하는 경우에 사용
+     * @param {Number} colsIndex - 컬럼 위치
+     * @param {Number} itemIndex - 아이템의 인덱스 <en>index of item<en>
+     * @param {String|Number} value - 변경하려는 값
      * @returns {AXGrid}
      * @example
-```
-
-```
+	 * ```
+	 * myGrid.updateItem(0, 2, 1, "AXISJ");
+	 * ```
      */
     updateItem: function(r, c, itemIndex, value){
         var _this = this,  cfg = this.config,
@@ -17602,22 +17603,28 @@ var AXGrid = Class.create(AXJ, {
         // 중복된 셀 머지 함수
         // 1 셀정보 수집
         var rows = [];
-        tgDom.find("tr").each(function(tri, tr){
+        var typn = typ=='f' ? 'fix' : 'n';
+        for(var tri = 0;tri < this.list.length;tri++){
             var row = [];
-            axdom(tr).find("td").each(function(tdi, td){
+            var tdi=0; // Column Index Value
+            for (var tdn in this.list[tri]) { // tdn is Column Attr Name (ex. 'col1' ~ 'col12')
                 var item = {
-                    tdom    : axdom(td),
+                    tdom    : axdom(tgDom.find("#AXGridTarget_AX_"+typn+
+                                                "body_AX_0_AX_"+tdi+"_AX_"+tri)[0]),
                     rowspan : 1
                 };
-                if(!item.tdom.hasClass("bodyNullTd")){
-                    item.html   = item.tdom.find("div.bodyNode").html();
+                if(cfg.colGroup[tdi].display && item.tdom.length == 0){
+                    break; // end loop
+                }else if(!item.tdom.hasClass("bodyNullTd")){
+                    item.html   = this.list[tri][tdn];
                     item.tri    = tri;
                     item.tdi    = tdi;
                     row.push(item);
                 }
-            });
+                tdi++; // Column Index ++
+            }
             rows.push(row);
-        });
+        }
 
         var _val = {};
         if(Object.isArray(cfg.mergeCells)){
