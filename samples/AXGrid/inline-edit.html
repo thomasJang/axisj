@@ -57,8 +57,9 @@
                 <h2>AXGrid</h2>
                 <div id="AXGridTarget" style="height:300px;"></div>
                 <div style="padding:10px;">
-
                     <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
+
+	                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
                 </div>
             </div>
 
@@ -182,9 +183,6 @@ colGroup : [
                     sort:false,
                     //fitToWidth:true, // 너비에 자동 맞춤
 
-                    /*
-                     todo : editor type options [text, number, money, calendar, select, selector, switch, segment, slider, finder]
-                     */
                     colGroup : [
                         {key:"no", label:"번호", width:"50", align:"right"},
 	                    {
@@ -253,7 +251,10 @@ colGroup : [
 	                    {
 		                    key:"chk", label:"체크", width:"50", align:"center",
 		                    editor: {
-			                    type: "checkbox"
+			                    type: "checkbox",
+			                    beforeUpdate: function(val){
+				                    return (val == true) ? "Y" : "N";
+			                    }
 		                    }
 	                    },
 	                    {
@@ -285,11 +286,11 @@ colGroup : [
                     {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:1709401, amount:10, chk:1}, // item
                     {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300.00, amount:7, chk:true},
                     {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"한기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5, chk:false},
-                    {no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
-                    {no:5, title:"AXGrid 세번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
-                    {no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
-                    {no:7, title:"AXGrid 세번째 줄 입니다.", writer:"소기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
-                    {no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"재기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+                    {no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4, chk:"N"},
+                    {no:5, title:"AXGrid 세번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3, chk:"0"},
+                    {no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2, chk:"1"},
+                    {no:7, title:"AXGrid 세번째 줄 입니다.", writer:"소기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1, chk:"Y"},
+                    {no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"재기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10, chk:1},
                     {no:9, title:"AXGrid 두번째 줄 입니다.", writer:"원기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
                     {no:10, title:"AXGrid 세번째 줄 입니다.", writer:"고기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
                     {no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
@@ -315,7 +316,11 @@ colGroup : [
             getSelectedItem: function(){
                 trace( this.target.getSelectedItem() );
                 toast.push('콘솔창에 데이터를 출력하였습니다.');
-            }
+            },
+	        append: function(){
+		        this.target.pushList({no:this.target.list.length+1, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1});
+		        this.target.setFocus(this.target.list.length-1);
+	        }
         }
     };
     jQuery(document.body).ready(function() {

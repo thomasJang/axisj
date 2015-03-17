@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXGrid(editor) - AXISJ</title>
@@ -176,7 +176,7 @@
 							},
 							{colSeq:4, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"date"}},
 							{colSeq:5, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"money"}},
-							{colSeq:6, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:1, max:100}}},
+							{colSeq:6, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:0, max:100}}},
 							{colSeq:7, align:"right", valign:"top"},
 							{colSeq:8, align:"left", valign:"top",
 
@@ -223,8 +223,6 @@
 							return;
 						}
 
-						trace(this.res.item);
-						
 						if(this.index == null){ // 추가
 							var pushItem = this.res.item;
 							//pushItem 에 추가 값 지정 가능
@@ -313,8 +311,10 @@
 			//myGrid.setDataSet({price:123000, amount:10});
 		},
 		appendGrid: function(index){
-			var item = {};
-			if(index){
+			var item = {amount:0};
+			if(index == "last") {
+				myGrid.appendList(item, myGrid.list.length);
+			}else if(typeof index != "undefined"){
 				myGrid.appendList(item, index);
 			}else{
 				myGrid.appendList(item);
@@ -368,6 +368,7 @@
                 <input type="button"	value="추가하기 (index : 10)" class="AXButton Red" onclick="fnObj.appendGrid(10);" />
                 <input type="button"	value="추가하기 (index : 15)" class="AXButton Red" onclick="fnObj.appendGrid(15);" />
                 <input type="button"	value="추가하기 (index : 20)" class="AXButton Red" onclick="fnObj.appendGrid(20);" />
+	            <input type="button"	value="추가하기 (마지막에)" class="AXButton Red" onclick="fnObj.appendGrid('last');" />
                 <input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
                 <input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
                 <input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />

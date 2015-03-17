@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXGrid() - AXISJ</title>
@@ -21,7 +21,16 @@
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
+
+	<script type="text/javascript" src="../../lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+	<script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+	<script type="text/javascript" src="../../lib/AXTab.js"></script>
+	<script type="text/javascript" src="../../lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../lib/AXGrid.js"></script>
+	
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -44,7 +53,7 @@
 				theme : "AXGrid",
 				fixedColSeq:3,
 				colGroup : [
-					{key:"no", label:"번호", width:"50", align:"right"}, 
+					{key:"no", label:"번호", width:"50", align:"right"},
 					{key:"title", label:"제목", width:"200"},
 					{key:"writer", label:"작성자", width:"100", align:"center"},
 					{key:"regDate", label:"작성일", width:"100", align:"center"},
@@ -55,12 +64,12 @@
 					}},
 					{key:"desc", label:"비고", width:"200"}
 				],
-				
+
 				colHead : {
 					rows: [
 						[
 							{colSeq:0, rowspan:2},
-							{colSeq:null, colspan:3, label:"표현식", align:"center"}, 
+							{colSeq:null, colspan:3, label:"표현식", align:"center"},
 							{colSeq:4, rowspan:2},
 							{colSeq:5, rowspan:2},
 							{colSeq:6, rowspan:2},
@@ -73,7 +82,7 @@
 						]
 					]
 				},
-				
+
 				body : {
 					rows: [
 						[
@@ -82,7 +91,7 @@
 								var mul = (this.index * this.item.no);
 								itemSum += this.item.no;
 								return "index * no = " + mul + ", no 누적합은 = " + itemSum;
-							}, align:"center", addClass:""}, 
+							}, align:"center", addClass:""},
 							{key:"price", rowspan:2, valign:"bottom", align:"left"},
 							{key:"amount", rowspan:2, valign:"middle"},
 							{key:"cost", rowspan:2, valign:"middle"},
@@ -95,7 +104,7 @@
 						]
 					],
 					marker: function(){
-						
+
 					},
 					onclick: function(){
 						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
@@ -109,11 +118,11 @@
 					},
 					onscrollend: function(){
 						// this.list, this.page 사용가능
-						toast.push("scroll End");	
+						toast.push("scroll End");
 					}
 				},
 				page:{
-					paging:false, 
+					paging:false,
 					status:{formatter: null}
 				}
 			});
@@ -161,7 +170,11 @@
 	<div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
         <div class="AXdemoPageContent">
-			<div class="title"><h1>AXGrid</h1></div>
+
+            <div class="title">
+                <h1>AXGrid body</h1>
+            </div>
+            <h2>body 속성을 사용하여 내용을 표현하고 이벤트를 설정할 수 있습니다.</h2>
 
             <div id="AXGridTarget" style="height:400px;"></div>
 

@@ -53,10 +53,10 @@
                 var getColGroup = function(){
                     return [
                         {key:"no", label:"번호", width:"50", align:"right"},
-                        {key:"title", label:"제목", width:"200"
-                            , tooltip:function(){
+                        {key:"title", label:"제목", width:"200",
+                            tooltip:function() {
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
-                            },
+                            }
                         },
                         {key:"writer", label:"작성자", width:"100"},
                         {key:"regDate", label:"작성일", width:"100"},
@@ -74,7 +74,7 @@
                     //sort:false, 정렬을 원하지 않을 경우 (tip
                     fitToWidth:true, // 너비에 자동 맞춤
                     colGroup : getColGroup(),
-                    colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+                    colHeadAlign: "center", // 헤드의 기본 정렬 값. colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
                     body : {
                         onclick: function(){
                             //trace(myGrid.config.colGroup[this.c]);
@@ -160,7 +160,11 @@
 		<div class="AXdemoPageContent">
 
             <div id="grid0">
-                <h2>AXGrid</h2>
+                <div class="title">
+                    <h1>AXGrid</h1>
+                </div>
+                <h2>그리드 기본 예제입니다.</h2>
+
                 <div id="AXGridTarget" style="height:300px;"></div>
                 <div style="padding:10px;">
 

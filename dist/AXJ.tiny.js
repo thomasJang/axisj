@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-07 
+AXJ - v1.0.13 - 2015-03-17 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-07 
+AXJ - v1.0.13 - 2015-03-17 
 */
 
 if(!window.AXConfig){
@@ -197,22 +197,45 @@ if(!window.AXConfig){
  * AXInput default config
  * @memberof AXConfig
  * @example
- ```json
- AXInput: {
-	errorPrintType: "toast",
-	selectorOptionEmpty: "목록이 없습니다.",
-	yearText:"{year}년",
-	monthText:"{month}월",
-	confirmText:"확인"
-}
- ```
+ * ```json
+ * AXInput: {
+ * 	errorPrintType: "toast",
+ * 	selectorOptionEmpty: "목록이 없습니다.",
+ * 	yearText:"{year}년",
+ * 	monthText:"{month}월",
+ * 	confirmText:"확인",
+ * 	keyOptions:"options",
+ * 	keyOptionValue:"optionValue",
+ * 	keyOptionText:"optionText"
+ * }
+ * ```
  */
 		AXInput: {
 			errorPrintType: "toast",
 			selectorOptionEmpty: "목록이 없습니다.",
 			yearText:"{year}년",
 			monthText:"{month}월",
-			confirmText:"확인"
+			confirmText:"확인",
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
+		},
+/**
+ * AXSelect default config
+ * @memberof AXConfig
+ * @example
+ * ```json
+ * AXSelect: {
+ *  keyOptions:"options",
+ *  keyOptionValue:"optionValue",
+ *  keyOptionText:"optionText"
+ * }
+ * ```
+ */
+		AXSelect: {
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
 		},
 /**
  * AXContextMenu default config
@@ -476,13 +499,34 @@ trace(axf.timeKey()); // A004222760
  * @param {String} name
  * @param {String} value
  * @param {Number} [expiredays]
+ * @param {Object} options
  * @description 쿠키에 값을 지정합니다.
  * @example
 ```js
-axf.setCookie("myname", "tomas", 10);
+axf.setCookie("myname", "tomas", 10, {
+    path  : "/",             // {String} [현재 페이지의 path]
+    domain: "www.axisj.com", // {String} [현재 사이트의 domain]
+    secure: true             // {Boolean} [false]
+});
 ```
  */
-	setCookie: function (name, value, expiredays) { if (expiredays) { var todayDate = new Date(); todayDate.setDate(todayDate.getDate() + expiredays); document.cookie = name + '=' + escape(value) + '; path=/; expires=' + todayDate.toGMTString() + ';'; } else { document.cookie = name + '=' + escape(value) + '; path=/;'; } },
+	setCookie: function (name, value, expiredays, options) {
+        var expireDate;
+        if (typeof expiredays === "number") {
+            expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + expiredays);
+        }
+
+        options = options || {};
+
+        return (document.cookie = [
+            encodeURIComponent(name), '=', String(value),
+            expireDate      ? "; expires=" + expireDate.toUTCString() : "", // use expires attribute, max-age is not supported by IE
+            options.path    ? "; path=" + options.path : "",
+            options.domain  ? "; domain=" + options.domain : "",
+            options.secure  ? "; secure" : ""
+        ].join(""));
+    },
 /**
  * @method axf.getCookie
  * @param {String} name
@@ -493,7 +537,20 @@ axf.setCookie("myname", "tomas", 10);
  // tomas
  ```
  */
-	getCookie: function (name) { var nameOfCookie = name + "="; var x = 0; while (x <= document.cookie.length) { var y = (x + nameOfCookie.length); if (document.cookie.substring(x, y) == nameOfCookie) { if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length; return unescape(document.cookie.substring(y, endOfCookie)); } x = document.cookie.indexOf(" ", x) + 1; if (x == 0) break; } return ""; },
+	getCookie: function (name) {
+        var nameOfCookie = name + "=";
+        var x = 0;
+        while (x <= document.cookie.length) {
+            var y = (x + nameOfCookie.length);
+            if (document.cookie.substring(x, y) == nameOfCookie) {
+                if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length;
+                return decodeURIComponent(document.cookie.substring(y, endOfCookie));
+            }
+            x = document.cookie.indexOf(" ", x) + 1;
+            if (x == 0) break;
+        }
+        return "";
+    },
 	JSONFilter: /^\/\*-secure-([\s\S]*)\*\/\s*$/,
 /**
  * @method axf.dayLen
@@ -871,7 +928,6 @@ axf.encParam("name=장기영&sex=남");
 				if(Object.isObject(cond)){
 					for(var k in cond){
 						if(k === "tagname"){
-							trace(_target.tagName);
 							if(_target.tagName.lcase() != cond[k]) {
 								result = false;
 								break;
@@ -7424,8 +7480,8 @@ axdom.fn.bindTooltip = function (config) {
             }
             AXPopOver.open({ id: this.id + "_AX_tooltipobj", sendObj: {} }, { left: pos.left, top: posTop, handleHeight: (axdom(this).outerHeight().number() + 3) }); // event 직접 연결 방식
         });
-        return this;
     });
+	return this;
 };
 /* ---------------------------------------------- AXContextMenu -- */
 
@@ -7842,7 +7898,6 @@ axdom.fn.serializeObject = function () {
     return myArray;
 };
 
-
 /**
  * @method jQueryExtends.endFocus
  * @returns {jQueryObject}
@@ -7991,9 +8046,17 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
+		
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+
+		// 예약어 초기화
+		this.config.reserveKeys = {
+			options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
+			optionValue: (AXConfig.AXInput && AXConfig.AXInput.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -8052,6 +8115,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return;
 		}
 
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -8912,7 +8976,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 
 	},
@@ -9006,7 +9070,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			var descStr = (O.desc || O.optionDesc || "").dec();
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText].dec() + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -9023,11 +9087,11 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		var bindSelectorKeyup = this.bindSelectorKeyup.bind(this);
 		obj.inputKeyup = function (event) {
 			bindSelectorKeyup(objID, objSeq, event);
-		}
+		};
 
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
@@ -9058,7 +9122,6 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			expandBox.css({top:offset.top - expandBox.outerHeight() });
 		}
-
 	},
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -9207,11 +9270,10 @@ var AXInputConverter = Class.create(AXJ, {
 				debug: false, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						obj.config.options = (res.options || []);
-						//obj.config.selectedIndex = null;
+						//obj.config.options = (res.options || []);
+						obj.config.options = (res[cfg.reserveKeys.options] || []);
 						obj.config.focusedIndex = null;
-						//obj.config.selectedObject = null;
-						//obj.config.isChangedSelect = true;
+
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
 
@@ -9249,18 +9311,17 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (!obj.config.options) return;
-		//trace(obj.config.options);
 
 		var selectedIndex = null;
 		axf.each(obj.config.options, function (oidx, opt) {
-			if (opt.optionValue == value) selectedIndex = oidx;
+			if (opt[cfg.reserveKeys.optionValue] == value) selectedIndex = oidx;
 		});
 
 		if (selectedIndex != null) {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText].dec());
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -9287,7 +9348,7 @@ var AXInputConverter = Class.create(AXJ, {
 		eval("var reAt= /^" + sw + ".*/i");
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a].optionText || "").dec())) {
+			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || "").dec())) {
 				ix = a;
 				break;
 			}
@@ -12458,6 +12519,7 @@ var config = {
     ajaxUrl      : "./data.json",                          // {String}   - AJAX 데이터 호출 URL (optional)
     ajaxPars     : "param1=val1&param2=val2",              // {String}   - AJAX 데이터 호출 URL 파라미터 (optional)
     positionFixed: ( true || false ),                      // {Boolean}  - expandBox position CSS 를 fixed 할지 여부. selector 가 fixed 된 엘리먼트 위에 위치하는 경우 사용하세요 (optional)
+    direction    : "bottom",                               // {String}   - expandBox의 위/아래 열리는 방향을 지정합니다. 기본값은 ""이며 "bottom"을 사용하는 경우 expandBox의 방향이 밑에서 위로 열리게 됩니다. (optional)
     onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
         trace(this);
     },
@@ -12589,7 +12651,7 @@ axdom.fn.bindTwinSlider = function (config) {
 var config = {
     off: "AM", // {String} switch off value
     on : "PM", // {String} switch on vlaue
-    onChange:function(){
+    onchange:function(){
         trace(this);
     }
 };
@@ -12619,7 +12681,7 @@ var config = {
         {optionValue:1, optionText:"가운데", addClass:"type2"},
         {optionValue:2, optionText:"오른쪽", addClass:"type3"}
     ],
-    onChange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange:function(){  // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         //this.targetID, this.options, this.selectedIndex, this.selectedOption
         trace(this);
     }
@@ -12650,7 +12712,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -12698,7 +12760,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -12730,7 +12792,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -12761,7 +12823,7 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
-    onChange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
+    onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
 };
@@ -14019,6 +14081,12 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.isMobile = browser.mobile;
 		//axdom(window).resize(this.windowResize.bind(this));
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+		
+		this.config.reserveKeys = {
+			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
+			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -14097,7 +14165,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
 		}
-
+		
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -14251,7 +14320,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		} 
+		}
 		else 
 		{
 			//AXUtil.alert(obj.options);
@@ -14295,7 +14364,6 @@ var AXSelectConverter = Class.create(AXJ, {
 			var pars = obj.config.ajaxPars;
 			obj.selectedIndex = null;
 
-			//axdom("#" + objID).empty(); serialObject 검색안됨
 			iobj.html("<option></option>");
 
 			obj.inProgress = true; //진행중 상태 변경
@@ -14305,20 +14373,19 @@ var AXSelectConverter = Class.create(AXJ, {
 				debug: false, async: async, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						//trace(res);
 						var po = [], adj = 0;
-						obj.config.options = res.options;
+						//obj.config.options = res.options;
+						obj.config.options = res[cfg.reserveKeys.options];
 						if (obj.config.isspace) {
 							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
 						}
-						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
-							po.push("<option value=\"" + opts.optionValue + "\"");
-							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
-							po.push(">" + opts.optionText.dec() + "</option>");
+						for (var opts, oidx = 0; (oidx < res[cfg.reserveKeys.options].length && (opts = res[cfg.reserveKeys.options][oidx])); oidx++) {
+							po.push("<option value=\"" + opts[cfg.reserveKeys.optionValue] + "\"");
+							if (obj.config.setValue == opts[cfg.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+							po.push(">" + opts[cfg.reserveKeys.optionText].dec() + "</option>");
 						}
 						axdom("#" + objID).html(po.join(''));
 
@@ -14341,7 +14408,6 @@ var AXSelectConverter = Class.create(AXJ, {
 							};
 							obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 						}
-
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
@@ -14350,7 +14416,7 @@ var AXSelectConverter = Class.create(AXJ, {
 								selectedObject: obj.options[obj.selectedIndex],
 								options: obj.options,
 								response: res
-							}
+							};
 							obj.config.onLoad.call(sendObj, sendObj);
 						}
 						_this.alignAnchor(objID, objSeq);
@@ -16716,11 +16782,12 @@ myMenu.setTree(Tree);
 	},
 	setHighLightMenu: function(poi){
 		var cfg = this.config;
-		
+		this.menuBox.find(".parentMenu").removeClass("on");
+		this.menuBox.find(".parentMenu a").removeClass("on");
+		this.menuBox.find(".childMenu a").removeClass("on");
+
 		if(axdom.isArray(poi)){
-			
-			this.dfPoi = poi;
-			
+			this.poi = this.dfPoi = poi;
 			var tree = this.tree;
 			axdom.each(poi, function(idx, T){
 				if(idx == 0) tree = tree[T.number()];
@@ -16734,12 +16801,9 @@ myMenu.setTree(Tree);
 					}
 				}
 			});
-			
 		}else{
-			
-			this.dfPoi = poi;
+			this.poi = this.dfPoi = poi;
 			axdom("#" + cfg.menuBoxID + "_PMA_" + this.dfPoi).addClass("on");
-			
 		}
 	},
 /**

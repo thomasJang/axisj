@@ -141,7 +141,6 @@ var sampleTreeMenu = new AXTopDownMenu();
             to.push("<div class='ax-clear'></div>");
             jQuery(".themeInfo").append(to.join(""));
 
-
             sampleTreeMenu.setConfig({
                 targetID:"sampleMenuBox",
                 parentMenu:{
@@ -168,7 +167,6 @@ var sampleTreeMenu = new AXTopDownMenu();
             });
             sampleTreeMenu.setTree(sampleTree);
             //sampleTreeMenu.setHighLightMenu([1,1]);
-
 
             sampleMobileMenu.setConfig({
                 reserveKeys:{
