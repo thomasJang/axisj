@@ -2988,9 +2988,13 @@ axdom("#" + elementID).on("mousedown", function(event){
  ```
  */
     stopEvent: function (event) {
-        if (event.preventDefault) event.preventDefault();
-        if (event.stopPropagation) event.stopPropagation();
-        event.cancelBubble = true;
+		try {
+			if (event.preventDefault) event.preventDefault();
+	        if (event.stopPropagation) event.stopPropagation();
+			event.cancelBubble = true;
+		}catch(e){
+
+		}
         return false;
     },
 /**
