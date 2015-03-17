@@ -3,7 +3,6 @@
   // Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-
 		concat: {
 			options: {
 				stripBanners: true,

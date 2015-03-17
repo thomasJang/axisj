@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-13 
+AXJ - v1.0.13 - 2015-03-17 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-13 
+AXJ - v1.0.13 - 2015-03-17 
 */
 
 if(!window.AXConfig){
@@ -197,22 +197,45 @@ if(!window.AXConfig){
  * AXInput default config
  * @memberof AXConfig
  * @example
- ```json
- AXInput: {
-	errorPrintType: "toast",
-	selectorOptionEmpty: "목록이 없습니다.",
-	yearText:"{year}년",
-	monthText:"{month}월",
-	confirmText:"확인"
-}
- ```
+ * ```json
+ * AXInput: {
+ * 	errorPrintType: "toast",
+ * 	selectorOptionEmpty: "목록이 없습니다.",
+ * 	yearText:"{year}년",
+ * 	monthText:"{month}월",
+ * 	confirmText:"확인",
+ * 	keyOptions:"options",
+ * 	keyOptionValue:"optionValue",
+ * 	keyOptionText:"optionText"
+ * }
+ * ```
  */
 		AXInput: {
 			errorPrintType: "toast",
 			selectorOptionEmpty: "목록이 없습니다.",
 			yearText:"{year}년",
 			monthText:"{month}월",
-			confirmText:"확인"
+			confirmText:"확인",
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
+		},
+/**
+ * AXSelect default config
+ * @memberof AXConfig
+ * @example
+ * ```json
+ * AXSelect: {
+ *  keyOptions:"options",
+ *  keyOptionValue:"optionValue",
+ *  keyOptionText:"optionText"
+ * }
+ * ```
+ */
+		AXSelect: {
+			keyOptions:"options",
+			keyOptionValue:"optionValue",
+			keyOptionText:"optionText"
 		},
 /**
  * AXContextMenu default config
@@ -7457,8 +7480,8 @@ axdom.fn.bindTooltip = function (config) {
             }
             AXPopOver.open({ id: this.id + "_AX_tooltipobj", sendObj: {} }, { left: pos.left, top: posTop, handleHeight: (axdom(this).outerHeight().number() + 3) }); // event 직접 연결 방식
         });
-        return this;
     });
+	return this;
 };
 /* ---------------------------------------------- AXContextMenu -- */
 
@@ -7875,7 +7898,6 @@ axdom.fn.serializeObject = function () {
     return myArray;
 };
 
-
 /**
  * @method jQueryExtends.endFocus
  * @returns {jQueryObject}
@@ -8024,9 +8046,17 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
+		
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+
+		// 예약어 초기화
+		this.config.reserveKeys = {
+			options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
+			optionValue: (AXConfig.AXInput && AXConfig.AXInput.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -8085,6 +8115,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return;
 		}
 
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -8945,7 +8976,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 
 	},
@@ -9039,7 +9070,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			var descStr = (O.desc || O.optionDesc || "").dec();
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O.optionText.dec() + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText].dec() + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -9056,11 +9087,11 @@ var AXInputConverter = Class.create(AXJ, {
 		var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
 		obj.documentclickEvent = function (event) {
 			bindSelectorOptionsClick(objID, objSeq, event);
-		}
+		};
 		var bindSelectorKeyup = this.bindSelectorKeyup.bind(this);
 		obj.inputKeyup = function (event) {
 			bindSelectorKeyup(objID, objSeq, event);
-		}
+		};
 
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
@@ -9091,7 +9122,6 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 			expandBox.css({top:offset.top - expandBox.outerHeight() });
 		}
-
 	},
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
@@ -9240,11 +9270,10 @@ var AXInputConverter = Class.create(AXJ, {
 				debug: false, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						obj.config.options = (res.options || []);
-						//obj.config.selectedIndex = null;
+						//obj.config.options = (res.options || []);
+						obj.config.options = (res[cfg.reserveKeys.options] || []);
 						obj.config.focusedIndex = null;
-						//obj.config.selectedObject = null;
-						//obj.config.isChangedSelect = true;
+
 						bindSelectorSetOptions(objID, objSeq);
 						bindSelectorSearch(objID, objSeq, objVal);
 
@@ -9282,18 +9311,17 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (!obj.config.options) return;
-		//trace(obj.config.options);
 
 		var selectedIndex = null;
 		axf.each(obj.config.options, function (oidx, opt) {
-			if (opt.optionValue == value) selectedIndex = oidx;
+			if (opt[cfg.reserveKeys.optionValue] == value) selectedIndex = oidx;
 		});
 
 		if (selectedIndex != null) {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText].dec());
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -9320,7 +9348,7 @@ var AXInputConverter = Class.create(AXJ, {
 		eval("var reAt= /^" + sw + ".*/i");
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a].optionText || "").dec())) {
+			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || "").dec())) {
 				ix = a;
 				break;
 			}
@@ -14053,6 +14081,12 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.isMobile = browser.mobile;
 		//axdom(window).resize(this.windowResize.bind(this));
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+		
+		this.config.reserveKeys = {
+			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
+			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -14131,7 +14165,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
 		}
-
+		
+		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
 		var objID = obj.id;
 		var objSeq = null;
 
@@ -14285,7 +14320,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		} 
+		}
 		else 
 		{
 			//AXUtil.alert(obj.options);
@@ -14329,7 +14364,6 @@ var AXSelectConverter = Class.create(AXJ, {
 			var pars = obj.config.ajaxPars;
 			obj.selectedIndex = null;
 
-			//axdom("#" + objID).empty(); serialObject 검색안됨
 			iobj.html("<option></option>");
 
 			obj.inProgress = true; //진행중 상태 변경
@@ -14339,20 +14373,19 @@ var AXSelectConverter = Class.create(AXJ, {
 				debug: false, async: async, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						//trace(res);
 						var po = [], adj = 0;
-						obj.config.options = res.options;
+						//obj.config.options = res.options;
+						obj.config.options = res[cfg.reserveKeys.options];
 						if (obj.config.isspace) {
 							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
 						}
-						for (var opts, oidx = 0; (oidx < res.options.length && (opts = res.options[oidx])); oidx++) {
-							po.push("<option value=\"" + opts.optionValue + "\"");
-							//if(obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
-							if (obj.config.setValue == opts.optionValue || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
-							po.push(">" + opts.optionText.dec() + "</option>");
+						for (var opts, oidx = 0; (oidx < res[cfg.reserveKeys.options].length && (opts = res[cfg.reserveKeys.options][oidx])); oidx++) {
+							po.push("<option value=\"" + opts[cfg.reserveKeys.optionValue] + "\"");
+							if (obj.config.setValue == opts[cfg.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+							po.push(">" + opts[cfg.reserveKeys.optionText].dec() + "</option>");
 						}
 						axdom("#" + objID).html(po.join(''));
 
@@ -14375,7 +14408,6 @@ var AXSelectConverter = Class.create(AXJ, {
 							};
 							obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 						}
-
 						bindSelectChange();
 
 						if (obj.config.onLoad) {
@@ -14384,7 +14416,7 @@ var AXSelectConverter = Class.create(AXJ, {
 								selectedObject: obj.options[obj.selectedIndex],
 								options: obj.options,
 								response: res
-							}
+							};
 							obj.config.onLoad.call(sendObj, sendObj);
 						}
 						_this.alignAnchor(objID, objSeq);
