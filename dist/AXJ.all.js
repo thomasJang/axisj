@@ -1461,9 +1461,25 @@ Object.extend(String.prototype, (function () {
 				}
 				var aTimes = aTime.left(5).split(":");
 				var hh = aTimes[0];
-				var mm = aTimes[1];
+				var mi = aTimes[1];
+
 				if (!is24) hh += 12;
-				return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mm));
+
+				var d = new Date();
+				if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1) {
+					d.setUTCFullYear(aDate[0]);
+					d.setUTCMonth(0);
+					d.setUTCDate(1);
+					d.setHours(23, 59);
+					trace(d);
+				}else {
+					d.setUTCFullYear(aDate[0]);
+					d.setUTCMonth(parseFloat(aDate[1]) - 1);
+					d.setUTCDate(parseFloat(aDate[2]));
+					d.setHours(parseFloat(hh), parseFloat(mi));
+					//return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi));
+				}
+				return d;
 			} catch (e) {
 				var now = new Date();
 				return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
@@ -4670,17 +4686,15 @@ myUIScroll.setConfig({
 /**
  * @class AXCalendar
  * @extends AXJ
- * @version v1.1
+ * @version v1.2
  * @author tom@axisj.com
  * @logs
  * "2012-12-05 오후 11:54:27"
  * "2014-03-31 오후 4:53:02 - tom : timePage PM 이면 12시 선택 못하도록 기능 변경"
+ * "2015-03-17 tom : 0시 0분 입력 가능 하도록 수정"
  *
  */
 var AXCalendar = Class.create(AXJ, {
-
-
-
 /**
  * AXCalendar 기본속성
  * @member {Object} AXCalendar.config
@@ -4737,7 +4751,6 @@ var AXCalendar = Class.create(AXJ, {
  };
 ```
  */
-
     init: function () {
 
     },
@@ -4973,8 +4986,8 @@ var AXCalendar = Class.create(AXJ, {
             var mm = now[1].left(2).setDigit(2);
             var apm = now[1].right(2);
             if (hh == "00" && mm == "00") {
-                hh = "12";
-                apm = "PM";
+                //hh = "12";
+                apm = "AM";
             }
             if (apm == "00") apm = "AM";
         } else {
@@ -4983,7 +4996,7 @@ var AXCalendar = Class.create(AXJ, {
             var mm = now.getMinutes();
             var apm = "AM";
             if (hh == 0 && mm == 0) {
-                hh = 24;
+                //hh = 24;
             }
             if (hh > 12) {
                 apm = "PM";
@@ -5011,7 +5024,7 @@ var AXCalendar = Class.create(AXJ, {
         axdom("#" + cfg.targetID + "_AX_minute").unbindInput();
         axdom("#" + cfg.targetID + "_AX_AMPM").unbindInput();
         axdom("#" + cfg.targetID + "_AX_hour").bindSlider({
-            min: 1, max: 12, onChange: function (objID, objVal) {
+            min: 0, max: 12, onChange: function (objID, objVal) {
                 timePageChange(objID, objVal);
             }
         });
@@ -5028,25 +5041,20 @@ var AXCalendar = Class.create(AXJ, {
     },
 	// 내부 함수
     timePageChange: function () {
-        var cfg = this.config;
-
-        if(axdom("#" + cfg.targetID + "_AX_AMPM").val() == "PM"){
-            if(axdom("#" + cfg.targetID + "_AX_hour").val().number() > 11){
+        var cfg = this.config, hh, mi, apm, mytime;
+	    hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
+	    mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
+	    apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
+        if(apm == "PM"){
+	        //hh += 12;
+            if(hh > 11){
                 axdom("#" + cfg.targetID + "_AX_hour").val(11);
                 axdom("#" + cfg.targetID + "_AX_hour").setValueInput(11);
             }
         }
-
-        var mytime = axdom("#" + cfg.targetID + "_AX_hour").val().number().setDigit(2) +
-            ":" + axdom("#" + cfg.targetID + "_AX_minute").val().number().setDigit(2) +
-            " " + axdom("#" + cfg.targetID + "_AX_AMPM").val();
+        mytime = hh.setDigit(2) + ":" + mi.setDigit(2) + " " + apm;
         axdom("#" + cfg.targetID + "_AX_box").find(".timeDisplay").html(mytime);
-
         if (cfg.onChange) {
-            var hh = axdom("#" + cfg.targetID + "_AX_hour").val().number();
-            var mi = axdom("#" + cfg.targetID + "_AX_minute").val().number();
-            var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
-            if (apm == "PM") hh += 12;
             cfg.onChange(hh.setDigit(2) + ":" + mi.setDigit(2));
         }
     },
@@ -5929,7 +5937,7 @@ var AXResizable = Class.create(AXJ, {
     }
 });
 var AXResizableBinder = new AXResizable();
-AXResizableBinder.setConfig({ targetID: "defaultResiable" });
+AXResizableBinder.setConfig({ targetID: "defaultResizable" });
 
 /**
  * @method jQueryExtends.bindAXResizable
@@ -7853,8 +7861,6 @@ axf.each(("touchstart touchmove touchend").split(" "), function (i, name) {
 	if (rkeyEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.keyHooks; }
 	if (rmouseEvent.test(name)) { axdom.event.fixHooks[name] = axdom.event.mouseHooks; }
 });
-
-
 
 /**
  * 설명
@@ -22295,6 +22301,9 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		
+		//trace(obj.config);
+		
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			var _this = this;
 			setTimeout(function(){
@@ -22401,7 +22410,7 @@ var AXInputConverter = Class.create(AXJ, {
 		axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
 
 		//Expand Box 생성 구문 작성
-		var objVal = axdom("#" + objID).val();
+		var objVal = axdom("#" + objID).val(), objHours = "";
 		if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
 
 		var today = new Date();
@@ -22415,9 +22424,9 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
+		
 		var dfDate = (obj.config.defaultDate || "").date();
 		var myDate = objVal.date(separator, dfDate);
-
 		var myYear = myDate.getFullYear();
 		var myMonth = (myDate.getMonth() + 1).setDigit(2);
 		var po = [];
@@ -22498,14 +22507,15 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 				axdom("#" + objID).val(printDate);
 
-			} else {
+			} 
+			else 
+			{
 				obj.mycalendarPageType = "d";
 				obj.mycalendar.printDayPage(myDate);
 				printDate = myDate.print("yyyy" + separator + "mm" + separator + "dd");
 				if (obj.config.expandTime) {
 					printDate += " " + myDate.print("hh:mi");
 				}
-
 				axdom("#" + objID).val(printDate);
 			}
 		}
@@ -22584,7 +22594,6 @@ var AXInputConverter = Class.create(AXJ, {
 		//trace("event bind");
 		axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
 		axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
-
 	},
 	// -- bindDate for mobile
 	bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
@@ -22889,7 +22898,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!obj){
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 
@@ -22950,11 +22959,11 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.bindTarget.change();
 
 			obj.modal.close();
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 			return;
 		}
 		if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -23021,10 +23030,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
 			obj.expandBox_axdom = null;
+			obj.mycalendartime = null;
 
 			//비활성 처리후 메소드 종료
 			axdom(document).unbind("click.AXInput");
-			axdom("#" + objID).unbind("keydown.AXInput");
+			//axdom("#" + objID).unbind("keydown.AXInput");
 
 			event.stopPropagation(); // disableevent
 			return;
@@ -23121,21 +23131,25 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 
 					printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
+					
 					if (obj.config.expandTime) {
+						var hh, mi;
 						try {
 							printDate += " " + obj.mycalendartime.getTime();
+							trace(printDate);
+							
 						} catch (e) {
 							if (va.length > 11) { // hh,mm
-								var hh = va.substr(8, 2).number();
-								var mm = va.substr(10, 2).number();
+								hh = va.substr(8, 2).number();
+								mi = va.substr(10, 2).number();
 							} else if (va.length > 9) {
-								var hh = va.substr(8, 2).number();
-								var mm = "00";
+								hh = va.substr(8, 2).number();
+								mi = "00";
 							} else {
-								var hh = "12";
-								var mm = "00";
+								hh = "12";
+								mi = "00";
 							}
-							printDate += " " + hh + ":" + mm;
+							printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
 						}
 					}
 
@@ -24264,7 +24278,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 					printDate = obj["nDate" + seq].print("yyyy" + separator + "mm" + separator + "dd");
 					if (obj.config.expandTime) {
-						printDate += " " + hh + ":" + mi;
+						printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
 					}
 
 					if (needAlert) {
