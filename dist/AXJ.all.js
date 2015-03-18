@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-17 
+AXJ - v1.0.13 - 2015-03-18 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-17 
+AXJ - v1.0.13 - 2015-03-18 
 */
 
 if(!window.AXConfig){
@@ -11157,6 +11157,7 @@ var AXGrid = Class.create(AXJ, {
         this.config.moveSens = 1;
         this.config.formPaddingRight = "11px";
         this.config.sort = true;
+	    this.config.colHeadTool = true;
         this.config.xscroll = true;
         this.config.fitToWidth = (AXConfig.AXGrid.fitToWidth || false);
         this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 10);
@@ -11421,13 +11422,11 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
             /*trace(cfg.colHead._maps);  //_maps check */
-
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         } 
         else 
         {
-            /* colHeadRow 정해지지 않은 경우 */
-
+            // colHeadRow 정해지지 않은 경우
             cfg.colHead._maps = [
                 []
             ];
@@ -11444,6 +11443,7 @@ var AXGrid = Class.create(AXJ, {
                     rowspan: 1, colspan: 1,
                     valign: "bottom", isLastCell: true, display: CG.display, formatter: CG.formatter, formatterLabel:CG.formatterLabel, checked: CG.checked, disabled: CG.disabled,
                     sort: CG.sort,
+	                colHeadTool: ((typeof CG.colHeadTool == "undefined") ? cfg.colHeadTool : CG.colHeadTool ),
                     tooltip: CG.tooltip,
                     displayLabel: (CG.displayLabel || false),
                     addClass: CG.addClass
@@ -11454,7 +11454,7 @@ var AXGrid = Class.create(AXJ, {
             }
             cfg.colHead.rows = colHeadRows;
             cfg.colHead.rowsEmpty = true;
-            /* colHeadRow 정해지지 않은 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+            // colHeadRow 정해지지 않은 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
         /* colHead rows ----------------------------------------------------------------------------------------------------- */
 
@@ -12084,17 +12084,19 @@ var AXGrid = Class.create(AXJ, {
  *     },
  *     colGroup : [ // 데이터 리스트의 컬럼을 정의합니다.
  *         {
- *             key      : "no",    // {String} -- 데이터와 맵핑할 키 입니다. key 명칭은 reservedKey
- *             label    : "번호",  // {String} -- 사용자에게 보여줄 컬럼명입니다.
- *             width    : 50,      // {Number|String} -- 컬럼의 가로길이를 설정합니다. 픽셀단위의 숫자나 "*" 문자를 사용할 수 있습니다. "*"을 사용하는 경우 그리드의 가로 길이에 따라 컬럼의 결이가 가변적으로 변합니다.
- *             align    : "right", // {String} ["left"] -- 컬럼 내용의 정렬을 설정합니다. "left"|"center"|"right" 값을 사용할 수 있습니다.
- *             sort     : "asc",   // {String} [""] -- 컬럼의 정렬을 지정합니다. "asc"|"desc" 값을 사용할 수 있습니다.
- *             formatter: "money", // {String|Function} -- 컬럼의 값을 표현하는 방식을 지정합니다. "money", "dec", "html", "checkbox", "radio", function은 아래 formatter 함수를 참고하세요.
- *             tooltip  : "money"  // {String|Function} -- 툴팁의 값을 표현하는 방식을 지정합니다. 툴팁을 지정하면 td div.bodyNode에 title 속성으로 값이 표현됩니다. 위 formatter와 동일한 변수를 사용합니다.
+ *             key      : "no",        // {String} -- 데이터와 맵핑할 키 입니다. key 명칭은 reservedKey
+ *             label    : "번호",      // {String} -- 사용자에게 보여줄 컬럼명입니다.
+ *             width    : 50,          // {Number|String} -- 컬럼의 가로길이를 설정합니다. 픽셀단위의 숫자나 "*" 문자를 사용할 수 있습니다. "*"을 사용하는 경우 그리드의 가로 길이에 따라 컬럼의 결이가 가변적으로 변합니다.
+ *             align    : "right",     // {String} ["left"] -- 컬럼 내용의 정렬을 설정합니다. "left"|"center"|"right" 값을 사용할 수 있습니다.
+ *             sort     : "asc",       // {String} [""] -- 컬럼의 정렬을 지정합니다. "asc"|"desc" 값을 사용할 수 있습니다.
+ *             formatter: "money",     // {String|Function} -- 컬럼의 값을 표현하는 방식을 지정합니다. "money", "dec", "html", "checkbox", "radio", function은 아래 formatter 함수를 참고하세요.
+ *             tooltip  : "money",     // {String|Function} -- 툴팁의 값을 표현하는 방식을 지정합니다. 툴팁을 지정하면 td div.bodyNode에 title 속성으로 값이 표현됩니다. 위 formatter와 동일한 변수를 사용합니다.
+ *             disabled : function(){},// {Boolean|Function} -- formatter가 checkbox, radio인 경우 input의 disabled 값을 지정합니다. disabled(true|flase)를 반환하는 함수를 작성합니다. 아래 disabled 함수를 참고하세요.
+ *             checked  : function(){} // {Boolean|Function} -- formatter가 checkbox, radio인 경우 input의 checked 값을 지정합니다. checked(true|flase)를 반환하는 함수를 작성합니다. 아래 checked 함수를 참고하세요.
  *         }
  *     ],
  *     colHead: { // 예제) http://dev.axisj.com/samples/AXGrid/colhead.html
- *         rows: [ // 컬럼 헤더를 병합할 수 있습니다.
+ *         rows: [ // 컬럼 헤더를 병합할 수 있습니다. 사용법은 colGroup과 동일하며 key 대신 colSeq를 사용할 수 있습니다.
  *             [
  *                 {colSeq:0, rowspan:2},
  *                 {colSeq:null, colspan:3, label:"표현식", align:"center"},
@@ -12118,12 +12120,12 @@ var AXGrid = Class.create(AXJ, {
  *             display: function(){}, // {Function} -- marker 표시여부(true|flase)를 반환하는 함수를 작성합니다. 아래 display 함수를 참고하세요.
  *             rows: [] // marker를 표시할 형태를 정의 합니다. colHead의 rows와 동일한 형식을 사용합니다.
  *         },
- *         onclick       : function(){}, // 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
- *         ondblclick    : function(){}, // 데이터 행의 ondblclick 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
- *         oncheck       : function(){}, // 데이터 행의 oncheck 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
- *         addClass      : function(){}, // 데이터 행의 사용자 정의 class를 할당할 수 있습니다.
- *         onchangeScroll: function(){}, // 스크롤 변경 이벤트 입니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
- *         onscrollend   : function(){}  // 그리드내의 스크롤이 마지막 항목까지 도달 하였을때 발생하는 이벤트를 설정할 수 있습니다. 이벤트 변수 및 this 프로퍼티는 아래 함수를 참고하세요.
+ *         onclick       : function(){}, // 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요.
+ *         ondblclick    : function(){}, // 데이터 행의 ondblclick 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 ondblclick 함수를 참고하세요.
+ *         oncheck       : function(){}, // 데이터 행의 oncheck 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 oncheck 함수를 참고하세요.
+ *         addClass      : function(){}, // 데이터 행의 사용자 정의 class를 할당할 수 있습니다.. 이벤트 변수 및 this 프로퍼티는 아래 addClass 함수를 참고하세요.
+ *         onchangeScroll: function(){}, // 스크롤 변경 이벤트 입니다. 이벤트 변수 및 this 프로퍼티는 아래 onchangeScroll 함수를 참고하세요.
+ *         onscrollend   : function(){}  // 그리드내의 스크롤이 마지막 항목까지 도달 하였을때 발생하는 이벤트를 설정할 수 있습니다. 이벤트 변수 및 this 프로퍼티는 아래 onscrollend 함수를 참고하세요.
  *     },
  *     foot: { // 그리드 마지막에 표시하는 행입니다. 예제) http://dev.axisj.com/samples/AXGrid/headfoot.html
  *         rows: [] // foot을 표시할 형태를 정의 합니다. colHead의 rows와 동일한 형식을 사용합니다.
@@ -12132,9 +12134,57 @@ var AXGrid = Class.create(AXJ, {
  *         paging  : true, // {Boolean} -- 페이징 사용여부를 설정합니다.
  *         pageNo  : 1,    // {Number} -- 현재 페이지 번호를 설정합니다.
  *         pageSize: 100,  // {Number} -- 한 페이지장 표시할 데이터 수를 설정합니다.
- *         status  : { formatter: null },
  *         onchange: function(pageNo){} // {Funtion} -- 페이지 변경 이벤트입니다.
- *     }
+ *     },
+ *     editor: { // 예제) http://localhost/axisj/samples/AXGrid/passive.html
+ *         rows: [
+ *             [
+ *                 {
+ *                     colSeq:0,
+ *                     align:"center",
+ *                     valign:"middle",
+ *                     formatter: function(){},
+ *                     form: {
+ *                         type    : "readonly",  // {String} -- "hidden"|"text"|"readonly"|"textarea"|"select"|"radio"|"checkbox"
+ *                         value   : "itemValue", // {String|Function} -- "itemValue"|"itemText": 해당 아이템의 값을 사용합니다. function을 사용해야 하는 경우 아래 formValue 함수를 참고하세요.
+ *                         onClick : formOnClick, // {Function} -- 아래 formOnClick 함수를 참고하세요.
+ *                         onBlur  : formOnBlur,  // {Function} -- 아래 formOnBlur  함수를 참고하세요.
+ *                         onFocus : formOnFocus  // {Function} -- 아래 formOnFocus 함수를 참고하세요.
+ *                         validate: function(formID, value){ // {Function} 입력된 값을 확인합니다.
+ *                             //this.formID
+ *                             //this.value
+ *                             //this.checkedValues
+ *                             //this.form
+ *
+ *                             return true | false;
+ *                         }
+ *                     },
+ *                     AXBind:{
+ *                         type  : "selector", // {String} -- form.type == "text"인 경우 "number"|"money"|"selector"|"slider"|"twinSlider"|"date"|"twinDate"|"dateTime"|"switch"를 사용할 수 있습니다. form.type == "select"인 경우 "select"를 사용할 수 있습니다.
+ *                         config: {} // {Object} -- API(http://jdoc.axisj.com/jQueryExtends.html)에서 bind + type으로 검색하세요.
+ *                     }
+ *                 }
+ *             ]
+ *         ],
+ *         request: {
+ *             ajaxUrl :"saveGrid.php",
+ *             ajaxPars:"param1=1&param2=2"
+ *         },
+ *         response: function(){ // ajax 응답에 대해 예외 처리 필요시 response 구현
+ *             // response에서 처리 할 수 있는 객체 들
+ *             //trace({res:this.res, index:this.index, insertIndex:this.insertIndex, list:this.list, page:this.page});
+ *             if(this.error){
+ *                 trace(this);
+ *                 return;
+ *             }
+ *         },
+ *         onkeyup: function(event, element){
+ *             //this.list
+ *             //this.item
+ *             //this.element
+ *         }
+ *     },
+ *     contextMenu: {} // API와 예제를 참고하세요. API) http://jdoc.axisj.com/AXContextMenu.html 예제) http://dev.axisj.com/samples/AXCore/AXContextMenu.html
  * });
  *
  * function formatter(itemIndex, item) {
@@ -12144,6 +12194,15 @@ var AXGrid = Class.create(AXJ, {
  *     //this.page
  *     //this.key
  *     //this.value
+ * }
+ *
+ * function disabled | checked() {
+ *     //index: itemIndex,
+ *     //list: this.list,
+ *     //item: item,
+ *     //page: this.page,
+ *     //key: key,
+ *     //value: value
  * }
  *
  * function display() {
@@ -12186,6 +12245,20 @@ var AXGrid = Class.create(AXJ, {
  *     //this.list
  *     //this.page
  * }
+ *
+ * function formOnClick | formOnBlur | formOnFocus() {
+ *     //this.key
+ *     //this.position
+ *     //this.value
+ * }
+ *
+ * function formValue(key, value) {
+ *     //this.key
+ *     //this.value
+ *     //this.list
+ *     //this.page
+ * }
+ *
  * ```
  */
     init: function () {
@@ -13006,51 +13079,46 @@ var AXGrid = Class.create(AXJ, {
  ```
  */
     getColHeadTd: function (arg) {
-        var cfg = this.config;
-        var po = [];
+        var cfg = this.config, po = [], colHeadTdText = " colHeadTdText",
+	        toolUse = true, sortClass = "";
 
-
-            var colHeadTdText = " colHeadTdText";
-            var toolUse = true;
-
-            if (arg.formatter == "html" || arg.formatter == "checkbox") {
-                if (!arg.displayLabel) {
-                    colHeadTdText = " colHeadTdHtml";
-                    toolUse = false;
-                    if (arg.formatter == "checkbox") {
-                        colHeadTdText = " colHeadTdCheck";
-                        arg.tdHtml = "<label>" +
-                        "<input type=\"checkbox\" name=\"checkAll\" class=\"gridCheckBox gridCheckBox_colHead_colSeq" + arg.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkAll_AX_" + arg.r + "_AX_" + arg.CHidx + "\" />" +
-                        (arg.formatterLabel || "") +
-                        "</label>";
-                    }
+        if (arg.formatter == "html" || arg.formatter == "checkbox") {
+            if (!arg.displayLabel) {
+                colHeadTdText = " colHeadTdHtml";
+                toolUse = false;
+                if (arg.formatter == "checkbox") {
+                    colHeadTdText = " colHeadTdCheck";
+                    arg.tdHtml = "<label>" +
+                    "<input type=\"checkbox\" name=\"checkAll\" class=\"gridCheckBox gridCheckBox_colHead_colSeq" + arg.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkAll_AX_" + arg.r + "_AX_" + arg.CHidx + "\" />" +
+                    (arg.formatterLabel || "") +
+                    "</label>";
                 }
             }
+        }
 
-            var sortClass = "";
-            if (arg.sort) sortClass = (arg.sort == "desc") ? " sortDesc" : " sortAsc";
+        if (arg.sort) sortClass = (arg.sort == "desc") ? " sortDesc" : " sortAsc";
+		if(toolUse) toolUse = arg.colHeadTool;
+        po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " ");
+		if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+		po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
+        po.push("<div class=\"tdRelBlock\">");
+        po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" ");
+		if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+		po.push(">");
+        po.push(arg.tdHtml);
+        po.push("</div>");
+        if (!arg.ghost && toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
+		if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
+        po.push("</div>");
+        po.push("</td>");
 
-            po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " ");
-			if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
-			po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
-            po.push("<div class=\"tdRelBlock\">");
-            po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" ");
-			if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
-			po.push(">");
-            po.push(arg.tdHtml);
-            po.push("</div>");
-            if (!arg.ghost && toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
-			if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
-            po.push("</div>");
-            po.push("</td>");
+        if (!arg.ghotst && arg.sort) {
+            var myColHead = cfg.colHead.rows[arg.r][arg.CHidx];
+            var tdID = cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx;
 
-            if (!arg.ghotst && arg.sort) {
-                var myColHead = cfg.colHead.rows[arg.r][arg.CHidx];
-                var tdID = cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx;
-
-                this.nowSortHeadID = tdID;
-                this.nowSortHeadObj = myColHead;
-            }
+            this.nowSortHeadID = tdID;
+            this.nowSortHeadObj = myColHead;
+        }
 
         return po.join('');
     },
@@ -13092,7 +13160,10 @@ var AXGrid = Class.create(AXJ, {
 
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, sort: CH.sort, tdHtml: tdHtml,
+                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
+	                            sort: CH.sort,
+	                            colHeadTool: CH.colHeadTool,
+	                            tdHtml: tdHtml,
                                 ghost: false, displayLabel: CH.displayLabel
                             }));
                         }
@@ -13133,7 +13204,10 @@ var AXGrid = Class.create(AXJ, {
 
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, 
+	                            sort: CH.sort,
+	                            colHeadTool: CH.colHeadTool,
+	                            tdHtml: tdHtml,
                                 ghost: (colCount < (cfg.fixedColSeq + 1))
                             }));
 
@@ -13167,7 +13241,10 @@ var AXGrid = Class.create(AXJ, {
 
                             fpo.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, sort: CH.sort, tdHtml: tdHtml,
+                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
+	                            sort: CH.sort,
+	                            colHeadTool: CH.colHeadTool,
+	                            tdHtml: tdHtml,
                                 ghost: false
                             }));
                         }
@@ -18445,9 +18522,6 @@ var AXGrid = Class.create(AXJ, {
                         } else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
                             /*axdom("#"+formID).unbindInput(); */
                             axdom("#" + formID).bindSelector((CH.AXBind.config || {}));
-                        } else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
-                            /*axdom("#"+formID).unbindInput(); */
-                            axdom("#" + formID).bindSlider((CH.AXBind.config || {}));
                         } else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
                             /*axdom("#"+formID).unbindInput(); */
                             axdom("#" + formID).bindSlider((CH.AXBind.config || {}));
