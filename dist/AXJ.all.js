@@ -17706,7 +17706,7 @@ var AXGrid = Class.create(AXJ, {
                     tdom    : tgDom.find("#"+ cfg.targetID + "_AX_" + typn + "body_AX_0_AX_" + tdi + "_AX_" + tri),
                     rowspan : 1
                 };
-                if(cfg.colGroup[tdi].display && item.tdom.length == 0){
+                if(cfg.colGroup[tdi] && cfg.colGroup[tdi].display && item.tdom.length == 0){
                     break; // end loop
                 }else if(!item.tdom.hasClass("bodyNullTd")){
                     item.html   = this.list[tri][tdn];
