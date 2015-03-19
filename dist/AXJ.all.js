@@ -17325,6 +17325,12 @@ var AXGrid = Class.create(AXJ, {
                 }
                 this.cachedDom.tbody.empty();
                 this.cachedDom.tbody.append(po.join(''));
+
+	            // 현재 표시할 아이템 범위 설정
+	            VS.startIndex = newStartIndex;
+	            VS.endIndex = newEndIndex;
+	            VS.scrollTop = scrollContentScrollTop;
+
                 // 셀머지
                 if (cfg.mergeCells) {
                     this.mergeCells(this.cachedDom.tbody, "n");
@@ -17371,9 +17377,6 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
 
-                VS.startIndex = newStartIndex;
-                VS.endIndex = newEndIndex;
-                VS.scrollTop = scrollContentScrollTop;
 
                 // body.onchangeScroll
                 if(cfg.body.onchangeScroll){
@@ -17692,14 +17695,18 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config;
         // 중복된 셀 머지 함수
         // 1 셀정보 수집
+	    
+		//this.virtualScroll.startIndex
+	    //this.virtualScroll.endIndex
         var rows = [];
         var typn = typ=='f' ? 'fix' : 'n';
-        for(var tri = 0;tri < this.list.length;tri++){
+        for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
+	        trace(tri);
             var row = [];
             var tdi=0; // Column Index Value
             for (var tdn in this.list[tri]) { // tdn is Column Attr Name (ex. 'col1' ~ 'col12')
                 var item = {
-                    tdom    : axdom(tgDom.find("#AXGridTarget_AX_"+typn+
+                    tdom    : axdom(tgDom.find("#"+ cfg.targetID +"_AX_"+typn+
                                                 "body_AX_0_AX_"+tdi+"_AX_"+tri)[0]),
                     rowspan : 1
                 };
@@ -17715,8 +17722,8 @@ var AXGrid = Class.create(AXJ, {
             }
             rows.push(row);
         }
-
-        var _val = {};
+	
+	    var _val = {};
         if(Object.isArray(cfg.mergeCells)){
             for(var tri = 0;tri < rows.length;tri++){
                 var isMerge = true;
