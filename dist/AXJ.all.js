@@ -11197,7 +11197,7 @@ var AXGrid = Class.create(AXJ, {
     defineConfig: function (rewrite) {
         var cfg = this.config;
         if (cfg.colGroup.length == 0) {
-            trace("colGrpup is empty)");
+            console.log("colGrpup is empty)");
             return;
         }
 
@@ -11391,7 +11391,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                     if (myCG != null) {
                         if(CH.sort != myCG.sort){
-                            //trace(CH, myCG);
+                            //console.log(CH, myCG);
                         }
                         if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
                         else AXUtil.overwriteObject(CH, myCG, false);
@@ -11421,7 +11421,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
             }
-            /*trace(cfg.colHead._maps);  //_maps check */
+            /*console.log(cfg.colHead._maps);  //_maps check */
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         } 
         else 
@@ -12175,9 +12175,9 @@ var AXGrid = Class.create(AXJ, {
  *         },
  *         response: function(){ // ajax 응답에 대해 예외 처리 필요시 response 구현
  *             // response에서 처리 할 수 있는 객체 들
- *             //trace({res:this.res, index:this.index, insertIndex:this.insertIndex, list:this.list, page:this.page});
+ *             //console.log({res:this.res, index:this.index, insertIndex:this.insertIndex, list:this.list, page:this.page});
  *             if(this.error){
- *                 trace(this);
+ *                 console.log(this);
  *                 return;
  *             }
  *         },
@@ -12268,11 +12268,11 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config, _this = this;
 
         if (Object.isUndefined(cfg.targetID)) {
-            trace("need targetID - setConfig({targetID:''})");
+            console.log("need targetID - setConfig({targetID:''})");
             return;
         }
         if (!cfg.colGroup) {
-            trace("need colGroup - setConfig({colGroup:[]})");
+            console.log("need colGroup - setConfig({colGroup:[]})");
             return;
         }
 
@@ -12632,7 +12632,7 @@ var AXGrid = Class.create(AXJ, {
  ```
  */
     getColSeqToHead: function (r, c) {
-        /*trace("getColSeqToHead:"+r+","+c); */
+        /*console.log("getColSeqToHead:"+r+","+c); */
         var cfg = this.config;
         var colSeq = null;
         for (var a = cfg.colHead._maps[r].length - 1; a > -1; a--) {
@@ -12957,7 +12957,7 @@ var AXGrid = Class.create(AXJ, {
         /* event target search - */
         //if (event.target.id == "") return;
 
-        //trace(event.target.tagName);
+        //console.log(event.target.tagName);
 
         var eid = event.target.id.split(/_AX_/g);
         var eventTarget = event.target;
@@ -13139,7 +13139,7 @@ var AXGrid = Class.create(AXJ, {
             this.colHead.show();
             var getColHeadTd = this.getColHeadTd.bind(this);
 
-            //trace(cfg.colHead.rows);
+            //console.log(cfg.colHead.rows);
 
             if (!this.hasFixed)
             {  /* 일반 colHead 구현 */
@@ -13234,7 +13234,7 @@ var AXGrid = Class.create(AXJ, {
                     var colCount = 0;
                     axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
                         if (CH.display && CH.isFixedCell && CH.colspan > 0) {
-                            /*trace({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)}); */
+                            /*console.log({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)}); */
                             /*radio, check exception */
                             var tdHtml = CH.label || "untitle";
                             var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
@@ -13432,7 +13432,7 @@ var AXGrid = Class.create(AXJ, {
         var colHeadR = eid[lastIdx - 1];
         var colHeadC = eid[lastIdx];
 
-        /*trace({colHeadR:colHeadR, colHeadC:colHeadC}); */
+        /*console.log({colHeadR:colHeadR, colHeadC:colHeadC}); */
 
         var colSeq = this.getColSeqToHead(colHeadR, colHeadC);
         if (colSeq == null) return;
@@ -13446,7 +13446,7 @@ var AXGrid = Class.create(AXJ, {
         var rightPosition = offset.left.number() + relBlockWidth.number();
         var blockWidth = axdom("#" + cfg.targetID + "_AX_col_AX_" + colSeq + "_AX_CH").attr("width");
         this.colResizeTarget = { colSeq: colSeq, leftPosition: (rightPosition - blockWidth), blockWidth: blockWidth, newWidth: blockWidth };
-        /*trace(this.colResizeTarget); */
+        /*console.log(this.colResizeTarget); */
 
         /* resize event bind */
         var colHeadResizerMouseMove = this.colHeadResizerMouseMove.bind(this);
@@ -13616,7 +13616,7 @@ var AXGrid = Class.create(AXJ, {
         var tdID = cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC;
 
         if (myColHead.colSeq == undefined || myColHead.colSeq == null) {
-            trace("정렬할 수 없는 컬럼 입니다.");
+            console.log("정렬할 수 없는 컬럼 입니다.");
         } else {
             if (this.nowSortHeadID) {
                 if (this.nowSortHeadID != tdID) {
@@ -13632,7 +13632,7 @@ var AXGrid = Class.create(AXJ, {
             if (myColHead.sort == "desc") nsort = "asc";
             else nsort = "desc";
             cfg.colHead.rows[colHeadR][colHeadC].sort = nsort;
-            //trace(colHeadR, colHeadC,  cfg.colHead.rows[colHeadR][colHeadC].sort);
+            //console.log(colHeadR, colHeadC,  cfg.colHead.rows[colHeadR][colHeadC].sort);
             //sort 처리하기
             if (nsort == "desc") {
                 axdom("#" + tdID).addClass("sortDesc");
@@ -14065,7 +14065,7 @@ var AXGrid = Class.create(AXJ, {
         /*this.selectedRow.clear(); */
 
         if (obj.ajaxUrl) {
-            /*trace("hear");	 */
+            /*console.log("hear");	 */
             this.ajaxInfo = obj;
             this.ajax_sortDisable = sortDisable;
             this.pageActive = true;
@@ -14268,7 +14268,7 @@ var AXGrid = Class.create(AXJ, {
 		listCount: _obj.page_navigation.total_count,
 		onchange: function(pageNo){
 			dialog.push(Object.toJSON(this));
-			trace(this, pageNo);
+			console.log(this, pageNo);
 		}
 	}
 };
@@ -14360,7 +14360,7 @@ var AXGrid = Class.create(AXJ, {
 
             if(this.list[itemIndex].___checked && this.list[itemIndex].___checked[CHidx]){
                 if(this.list[itemIndex].___checked[CHidx]) checkedStr = " checked=\"checked\" ";
-                //if(itemIndex == 0) trace(this.list[itemIndex].___checked[CHidx], checkedStr);
+                //if(itemIndex == 0) console.log(this.list[itemIndex].___checked[CHidx], checkedStr);
             }else if (Object.isFunction(CH.checked)) {
                 if (CH.checked.call(sendObj)) {
                     checkedStr = " checked=\"checked\" ";
@@ -14526,7 +14526,7 @@ var AXGrid = Class.create(AXJ, {
                     page: this.page
                 }) || "";
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
 
@@ -14642,7 +14642,7 @@ var AXGrid = Class.create(AXJ, {
         try {
             format = viewIconObj.format.call({ index: itemIndex, item: item });
         } catch (e) {
-            trace(e);
+            console.log(e);
         }
         tpo.push("<div class=\"viewIcon bodyViewIcon bodyViewIcon_" + itemIndex + " " + (viewIconObj.addClass || "") + "\" style=\"" + cssObj.box + ";\" id=\"" + cfg.targetID + "_AX_viewIcon_AX_" + itemIndex + "\">");
 
@@ -14704,7 +14704,7 @@ var AXGrid = Class.create(AXJ, {
                     page: this.page
                 }) || "";
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
 
@@ -14785,7 +14785,7 @@ var AXGrid = Class.create(AXJ, {
                     page: this.page
                 }) || "";
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
         for (var r = 0; r < cfg.body.marker.rows.length; r++) {
@@ -14806,7 +14806,7 @@ var AXGrid = Class.create(AXJ, {
                         var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
                         var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
 
-                        /*trace({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
+                        /*console.log({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
 
                         var bodyNodeClass = "";
                         if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
@@ -14861,7 +14861,7 @@ var AXGrid = Class.create(AXJ, {
         try {
             markerDisplay = cfg.body.marker.display.call(sendObj, itemIndex, item);
         } catch (e) {
-            trace(e);
+            console.log(e);
         }
         return markerDisplay;
     },
@@ -15020,12 +15020,12 @@ var AXGrid = Class.create(AXJ, {
             }
             else
             if(cfg.height == "auto" && this.list.length > 0) {
-
+	            
                 this.virtualScroll = {
                     startIndex : 0,
-                    endIndex : 0,
-                    itemTrHeight: 0,
-                    printListCount: 0,
+                    endIndex : this.list.length,
+                    itemTrHeight: this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number(),
+                    printListCount: this.list.length,
                     scrollTop: 0
                 };
 
@@ -15350,7 +15350,7 @@ var AXGrid = Class.create(AXJ, {
                     list: this.list
                 }) || "";
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
 
@@ -15791,7 +15791,7 @@ var AXGrid = Class.create(AXJ, {
                             try {
                                 cfg.colGroup[checkboxColSeq].oncheck.call(sendObj, event.target.checked);
                             } catch (e) {
-                                trace(e);
+                                console.log(e);
                             }
                         }
                     }
@@ -15817,7 +15817,7 @@ var AXGrid = Class.create(AXJ, {
 
             if(typeof this.list[itemIndex].___checked === "undefined") this.list[itemIndex].___checked = {};
             this.list[itemIndex].___checked[c] = checkedValue;
-            //trace(this.list[itemIndex].___checked[c]);
+            //console.log(this.list[itemIndex].___checked[c]);
 
             var target = event.target;
             var checked = event.target.checked;
@@ -15834,7 +15834,7 @@ var AXGrid = Class.create(AXJ, {
             try {
                 if(cfg.body.oncheck) cfg.body.oncheck.call(sendObj, itemIndex, item);
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
         else
@@ -16023,7 +16023,7 @@ var AXGrid = Class.create(AXJ, {
                             try {
                                 cfg.body.onclick.call(sendObj, itemIndex, item);
                             } catch (e) {
-                                trace(e);
+                                console.log(e);
                             }
                         }
                         /*if(this.hasEditor) this.setEditor(item, itemIndex); */
@@ -16063,7 +16063,7 @@ var AXGrid = Class.create(AXJ, {
                             try {
                                 cfg.body.onclick.call(sendObj, itemIndex, item);
                             } catch (e) {
-                                trace(e);
+                                console.log(e);
                             }
                         }
                     }
@@ -16104,7 +16104,7 @@ var AXGrid = Class.create(AXJ, {
                             try {
                                 cfg.body.onclick.call(sendObj, itemIndex, item);
                             } catch (e) {
-                                trace(e);
+                                console.log(e);
                             }
                         }
                     }
@@ -16139,7 +16139,7 @@ var AXGrid = Class.create(AXJ, {
         if (cfg.viewMode == "grid") {
             if (myTarget) {
                 /*colHeadTool ready */
-                /*trace({tagName:myTarget.tagName, id:myTarget.id}); */
+                /*console.log({tagName:myTarget.tagName, id:myTarget.id}); */
                 var targetID = myTarget.id;
                 var itemIndex = targetID.split(/_AX_/g).last();
                 var ids = targetID.split(/_AX_/g);
@@ -16169,14 +16169,14 @@ var AXGrid = Class.create(AXJ, {
                     try {
                         cfg.body.ondblclick.call(sendObj, itemIndex, item);
                     } catch (e) {
-                        trace(e);
+                        console.log(e);
                     }
                 }
             }
         } else if (cfg.viewMode == "icon") {
             if (myTarget) {
                 /*colHeadTool ready */
-                /*trace({tagName:myTarget.tagName, id:myTarget.id}); */
+                /*console.log({tagName:myTarget.tagName, id:myTarget.id}); */
                 var targetID = myTarget.id;
                 var itemIndex = targetID.split(/_AX_/g).last();
 
@@ -16201,14 +16201,14 @@ var AXGrid = Class.create(AXJ, {
                     try {
                         cfg.body.ondblclick.call(sendObj, itemIndex, item);
                     } catch (e) {
-                        trace(e);
+                        console.log(e);
                     }
                 }
             }
         } else if (cfg.viewMode == "mobile") {
             if (myTarget) {
                 /*colHeadTool ready */
-                /*trace({tagName:myTarget.tagName, id:myTarget.id}); */
+                /*console.log({tagName:myTarget.tagName, id:myTarget.id}); */
                 var targetID = myTarget.id;
                 var itemIndex = targetID.split(/_AX_/g).last();
 
@@ -16233,7 +16233,7 @@ var AXGrid = Class.create(AXJ, {
                     try {
                         cfg.body.ondblclick.call(sendObj, itemIndex, item);
                     } catch (e) {
-                        trace(e);
+                        console.log(e);
                     }
                 }
             }
@@ -16295,7 +16295,7 @@ var AXGrid = Class.create(AXJ, {
 
             if(!div.get(0)){
                 if((times|0) < 3) _this.editCell(r, c, ii, (times|0)+1); // 3번시도후 포기 합니다.
-                else trace("에디팅 타겟을 찾을 수 없습니다. AXGrid.editCell");
+                else console.log("에디팅 타겟을 찾을 수 없습니다. AXGrid.editCell");
                 // call again
                 return false;
             }
@@ -16574,7 +16574,7 @@ var AXGrid = Class.create(AXJ, {
                             }
                         });
                         wCH = cfg.body.rows[r][wc];
-                        //trace(v, wCH, wc);
+                        //console.log(v, wCH, wc);
                         _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(
                             _this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc)
                         );
@@ -16604,7 +16604,7 @@ var AXGrid = Class.create(AXJ, {
         if (cfg.viewMode == "mobile") return; // 모바일이면 scroll이 없음.
         if (this.contentScrollResize_timer) clearTimeout(this.contentScrollResize_timer);
         this.contentScrollResize_timer = setTimeout(function () {
-            //trace("contentScrollResize_timer");
+            //console.log("contentScrollResize_timer");
             var bodyHeight = _this.body.height();
             var scrollHeight = _this.scrollContent.height();
 
@@ -16851,7 +16851,7 @@ var AXGrid = Class.create(AXJ, {
     contentScrollScrollReady: function (event) {
         var cfg = this.config;
         var handleName = (event.target.id).split(/_AX_/).last();
-        /*trace(handleName); */
+        /*console.log(handleName); */
         this.contentScrollAttrs = { handleName: handleName };
         this.contentScrollXAttr = null;
         this.contentScrollYAttr = null;
@@ -16920,7 +16920,7 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config;
         var pos = this.getMousePositionToContentScroll(event, this.contentScrollAttrs.scrollTrack);
         var handleName = this.contentScrollAttrs.handleName;
-        /*trace(this.contentScrollAttrs); */
+        /*console.log(this.contentScrollAttrs); */
         var handleTop = 0;
         var handleLeft = 0;
         if (handleName == "scrollYHandle") {
@@ -17008,7 +17008,7 @@ var AXGrid = Class.create(AXJ, {
         if(deltaY.abs() > 0) {
             if (attr.scrollHeight < attr.bodyHeight) return;
             scrollTop += deltaY;
-            //trace(scrollTop.abs() + bodyHeight, scrollHeight);
+            //console.log(scrollTop.abs() + bodyHeight, scrollHeight);
             if (scrollTop > 0) {
                 scrollTop = 0;
                 eventCancle = true;
@@ -17024,7 +17024,7 @@ var AXGrid = Class.create(AXJ, {
         if(attr.scrollWidth > attr.bodyWidth && deltaX.abs() > 0) {
             scrollLeft += deltaX;
 
-            //trace(scrollTop.abs() + bodyHeight, scrollHeight);
+            //console.log(scrollTop.abs() + bodyHeight, scrollHeight);
             if (scrollLeft > 0) {
                 scrollLeft = 0;
                 eventCancle = true;
@@ -17038,7 +17038,7 @@ var AXGrid = Class.create(AXJ, {
             this.scrollContent.css({ top: scrollTop, left: scrollLeft });
             this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
 	        this.onevent_grid({type:"onscroll"});
-            //trace({ top: scrollTop, left: scrollLeft });
+            //console.log({ top: scrollTop, left: scrollLeft });
             //this.scrollContent.css({ top: scrollTop });
             //this.contentScrollContentSync({ top: scrollTop });
         }else{
@@ -17124,7 +17124,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (scrollTouchAttr.th > scrollTouchAttr.h && cfg.height != "auto") {
                 var scrollTop = scrollTouchAttr.nt - (pos.y - scrollTouchAttr.y);
-                //trace(scrollTop);
+                //console.log(scrollTop);
                 if (scrollTop > 0) {
                     scrollTop = 0;
                     eventCancle = true;
@@ -17210,7 +17210,7 @@ var AXGrid = Class.create(AXJ, {
             try {
                 cfg.body.onscrollend.call({ list: this.list, page: this.page });
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
     },
@@ -17455,7 +17455,7 @@ var AXGrid = Class.create(AXJ, {
                 });
             }
 
-            //trace(this.virtualScroll.startIndex, this.virtualScroll.endIndex, itemIndex);
+            //console.log(this.virtualScroll.startIndex, this.virtualScroll.endIndex, itemIndex);
 
             if(this.virtualScroll.startIndex <= itemIndex && this.virtualScroll.endIndex > itemIndex){
 
@@ -17536,7 +17536,7 @@ var AXGrid = Class.create(AXJ, {
                     });
 
                 } else {
-                    //trace("out of index");
+                    //console.log("out of index");
                 }
             }
 
@@ -17679,7 +17679,7 @@ var AXGrid = Class.create(AXJ, {
             try {
                 cfg.body.onclick.call(sendObj, itemIndex, item);
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
 
@@ -17696,18 +17696,14 @@ var AXGrid = Class.create(AXJ, {
         // 중복된 셀 머지 함수
         // 1 셀정보 수집
 	    
-		//this.virtualScroll.startIndex
-	    //this.virtualScroll.endIndex
         var rows = [];
         var typn = typ=='f' ? 'fix' : 'n';
         for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
-	        trace(tri);
             var row = [];
             var tdi=0; // Column Index Value
             for (var tdn in this.list[tri]) { // tdn is Column Attr Name (ex. 'col1' ~ 'col12')
                 var item = {
-                    tdom    : axdom(tgDom.find("#"+ cfg.targetID +"_AX_"+typn+
-                                                "body_AX_0_AX_"+tdi+"_AX_"+tri)[0]),
+                    tdom    : tgDom.find("#"+ cfg.targetID + "_AX_" + typn + "body_AX_0_AX_" + tdi + "_AX_" + tri),
                     rowspan : 1
                 };
                 if(cfg.colGroup[tdi].display && item.tdom.length == 0){
@@ -17722,6 +17718,8 @@ var AXGrid = Class.create(AXJ, {
             }
             rows.push(row);
         }
+	    
+	    
 	
 	    var _val = {};
         if(Object.isArray(cfg.mergeCells)){
@@ -17806,6 +17804,7 @@ var AXGrid = Class.create(AXJ, {
             }
         }
         rows = null;
+	    return this;
     },
     // body 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -17848,7 +17847,7 @@ var AXGrid = Class.create(AXJ, {
             try {
                 result = formatter.call(sendObj);
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
         return result;
@@ -17891,7 +17890,7 @@ var AXGrid = Class.create(AXJ, {
                         var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
                         var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
 
-                        /*trace({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
+                        /*console.log({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
 
                         var bodyNodeClass = "";
                         if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
@@ -17960,7 +17959,7 @@ var AXGrid = Class.create(AXJ, {
                         var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
                         var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
 
-                        /*trace({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
+                        /*console.log({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
 
                         var bodyNodeClass = "";
                         if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
@@ -18118,7 +18117,7 @@ var AXGrid = Class.create(AXJ, {
             try {
                 result = formatter.call(sendObj);
             } catch (e) {
-                trace(e);
+                console.log(e);
             }
         }
 
@@ -18197,7 +18196,7 @@ var AXGrid = Class.create(AXJ, {
             result.push("</div>");
         } else if (form.type == "select") {
             var formValue = getFormValue(form.value, dataSet[key]);
-            /*trace({key:key, dataSet_key:dataSet[key], formValue:formValue}); */
+            /*console.log({key:key, dataSet_key:dataSet[key], formValue:formValue}); */
             result.push("<div style=\"padding-right:1px;\">");
             result.push("<select id=\"" + formID + "\" name=\"" + key + "\" class=\"AXSelect" + formClass + "\" style=\"" + formWidth + formHeight + formStyle + "\" >");
             if (form.isspace) result.push("<option value=\"\">", (form.isspaceTitle || "").dec(), "</option>");
@@ -18502,8 +18501,8 @@ var AXGrid = Class.create(AXJ, {
             this.focus();
         });
         this.editor.find("input,textarea,select").bind("focus.AXGrid", function () {
-            //trace("editor focus");
-            //trace(axdom(this).position().left);
+            //console.log("editor focus");
+            //console.log(axdom(this).position().left);
         });
 
         if (cfg.editor.onkeyup) {
@@ -18793,7 +18792,7 @@ var AXGrid = Class.create(AXJ, {
 
         var validateError = false;
         for (var r = 0; r < cfg.editor.rows.length; r++) {
-            /*trace(cfg.editor.rows[r]);*/
+            /*console.log(cfg.editor.rows[r]);*/
             axf.each(cfg.editor.rows[r], function (CHidx, CH) {
                 if (CH.form) {
                     if (CH.form.validate) {
@@ -18981,7 +18980,7 @@ var AXGrid = Class.create(AXJ, {
 
                             if (CH.AXBind) {
                                 var formID = (CH.form.id) ? CH.form.id : cfg.targetID + "_AX_" + CH.key + "_AX_" + r + "_AX_" + CHidx;
-                                /*trace(formID); */
+                                /*console.log(formID); */
                                 if (CH.AXBind.type == "number" && CH.form.type == "text") {
                                     axdom("#" + formID).unbindInput();
                                 } else if (CH.AXBind.type == "money" && CH.form.type == "text") {
@@ -19009,7 +19008,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
         } catch (e) {
-            trace(e);
+            console.log(e);
         }
     },
     /**
@@ -19705,7 +19704,7 @@ var arg = {
      */
     openMobileConfig: function (event) {
         var cfg = this.config, _this = this;
-        //trace(cfg.view.column);
+        //console.log(cfg.view.column);
 
         var mobileView = cfg.view;
         if (mobileView == undefined) {
@@ -19762,7 +19761,7 @@ var arg = {
                 _this.printList();
             },
             onsort: function () { // 정렬이 변경 된 경우 호출 됩니다.
-                //trace(this.sortMenu);
+                //console.log(this.sortMenu);
                 _this.list = _this.sortList(this.sortMenu.sort, this.sortMenu, _this.list);
                 _this.printList();
 
@@ -19838,7 +19837,7 @@ myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
         var params      = [];
 
 		if (!colName) {
-			trace("colSeq invalid. Please check the colSeq value.");
+			console.log("colSeq invalid. Please check the colSeq value.");
 			return params;
 		}
         if (!checkedList || checkedList.length === 0) { return params; }
