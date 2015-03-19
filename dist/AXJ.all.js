@@ -14324,7 +14324,7 @@ var AXGrid = Class.create(AXJ, {
 				    value: value
 			    };
 		    
-		    if(value) checkedStr = ' checked="checked"';
+		    if(value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
 		    if(CH.editor.disabled){
 			    if(CH.editor.disabled.call(that)){
 				    disabled = ' disabled="disabled"';
@@ -16585,6 +16585,7 @@ var AXGrid = Class.create(AXJ, {
         }
         else
         {
+	        //console.log("bigDataSyncApply");
             this.bigDataSyncApply("reload");
         }
         return this;
@@ -17718,9 +17719,7 @@ var AXGrid = Class.create(AXJ, {
             }
             rows.push(row);
         }
-	    
-	    
-	
+
 	    var _val = {};
         if(Object.isArray(cfg.mergeCells)){
             for(var tri = 0;tri < rows.length;tri++){
@@ -34437,7 +34436,7 @@ myMenu.setTree(Tree);
  * AXTree
  * @class AXTree
  * @extends AXJ
- * @version v1.59.2
+ * @version v1.59.3
  * @author tom@axisj.com
  * @logs
  "2013-02-14 오후 2:36:35",
@@ -34484,6 +34483,7 @@ myMenu.setTree(Tree);
  "2015-02-03 john : gridCheckClick, checkedColSeq : itemIndex 추가 현재 선택한 col checked옵션"
  "2015-02-03 tom : checkbox click 버그 픽스 "
  "2015-03-05 HJ.Park : expand 메서드, persistExpanded, persistSelected 옵션 추가"
+ "2015-03-19 KimJM : https://github.com/axisj-com/axisj/issues/461 관련 수정"
  *
  * @description
  *
@@ -38808,11 +38808,13 @@ myTree.setConfig({
 					hasOpenKey = true;
 					pushItem[k] = v;
 				} else if (k == reserveKeys.subTree) {
-					hasSubTree = true;
-					pushItem.__subTreeLength = v.length;
+					if(v.length > 0){
+						hasSubTree = true;
+						pushItem.__subTreeLength = v.length;
+					}
 				} else if (k == "__subTree") {
-					hasSubTree = true;
-					pushItem.__subTreeLength = 1;
+					hasSubTree = v;
+					pushItem.__subTreeLength = v ? 1 : 0;
 				} else {
 					pushItem[k] = v;
 				}
@@ -39499,11 +39501,13 @@ myTree.setConfig({
 					hasOpenKey = true;
 					pushItem[k] = v;
 				} else if (k == reserveKeys.subTree) {
-					hasSubTree = true;
-					pushItem.__subTreeLength = v.length;
+					if(v.length > 0){
+						hasSubTree = true;
+						pushItem.__subTreeLength = v.length;
+					}
 				} else if (k == "__subTree") {
-					hasSubTree = true;
-					pushItem.__subTreeLength = 1;
+					hasSubTree = v;
+					pushItem.__subTreeLength = v ? 1 : 0;
 				} else {
 					pushItem[k] = v;
 				}
