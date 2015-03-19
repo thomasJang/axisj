@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-18 
+AXJ - v1.0.13 - 2015-03-19 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-18 
+AXJ - v1.0.13 - 2015-03-19 
 */
 
 if(!window.AXConfig){
@@ -9030,7 +9030,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 				var myVal = "";
 				if (obj.config.selectedObject) {
-					myVal = obj.config.selectedObject.optionText.dec();
+					myVal = obj.config.selectedObject.optionText;
 				}
 
 				if (obj.config.appendable) {
@@ -9078,9 +9078,15 @@ var AXInputConverter = Class.create(AXJ, {
 			if (!isNaN(optionPrintLength)) {
 				if (index > optionPrintLength - 1) return false;
 			}
-			var descStr = (O.desc || O.optionDesc || "").dec();
+
+            // options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
+            O[cfg.reserveKeys.optionText] = (O[cfg.reserveKeys.optionText] ? O[cfg.reserveKeys.optionText].dec() : "");
+            O.desc = (O.desc ? O.desc.dec() : "");
+            O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
+
+			var descStr = O.desc || O.optionDesc;
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText].dec() + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText] + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -9217,7 +9223,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
 				obj.config.selectedIndex = obj.config.focusedIndex;
 				obj.config.isChangedSelect = true;
-				axdom("#" + objID).val(obj.config.selectedObject.optionText.dec());
+				axdom("#" + objID).val(obj.config.selectedObject.optionText);
 				/*axdom("#" + objID).blur();*/
 				_this.bindSelectorClose(objID, objSeq, event, "bindTarget_onchange"); // 닫기
 			}
@@ -9306,7 +9312,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorInputChange: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		if (axdom("#" + objID).val() != obj.config.selectedObject.optionText.dec()) {
+		if (axdom("#" + objID).val() != obj.config.selectedObject.optionText) {
 			if (!obj.config.appendable) axdom("#" + objID).val("");
 			obj.config.selectedObject = null;
 			obj.config.selectedIndex = null;
@@ -9331,7 +9337,7 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText].dec());
+			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText]);
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -9358,7 +9364,7 @@ var AXInputConverter = Class.create(AXJ, {
 		eval("var reAt= /^" + sw + ".*/i");
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || "").dec())) {
+			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || ""))) {
 				ix = a;
 				break;
 			}
@@ -14183,11 +14189,12 @@ var AXSelectConverter = Class.create(AXJ, {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
 		}
-		
-		if(obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
-		var objID = obj.id;
-		var objSeq = null;
 
+		var objID = obj.id, objSeq = null, objConfig = {}, reserveKeys = jQuery.extend({}, cfg.reserveKeys);
+		objConfig = jQuery.extend(objConfig, obj, true);
+		if(typeof objConfig.reserveKeys == "undefined") objConfig.reserveKeys = {};
+		objConfig.reserveKeys = jQuery.extend(reserveKeys, objConfig.reserveKeys, true);
+		
 		for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
 			if (O.id == objID && O.isDel != true) {
 				objSeq = index;
@@ -14195,20 +14202,19 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 		}
 
-		if (obj.href == undefined) obj.href = cfg.href;
+		if (typeof objConfig.href == "undefined") objConfig.href = cfg.href;
 
 		if (objSeq == null) {
 			objSeq = this.objects.length;
-			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: obj });
+			this.objects.push({ id: objID, anchorID: cfg.targetID + "_AX_" + objID, config: objConfig });
 		} else {
 			this.objects[objSeq].isDel = undefined;
-			this.objects[objSeq].config = obj;
+			this.objects[objSeq].config = objConfig;
 		}
 
 		this.appendAnchor(objID, objSeq);
 		this.bindSelect(objID, objSeq);
 		this.windowResize();
-
 	},
 	appendAnchor: function (objID, objSeq) {
 		var cfg = this.config, _this = this;
@@ -14272,6 +14278,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		var iobj = obj.iobj;
 		var objDom = obj.objDom;
+		
 		if(!obj.config.onChange) obj.config.onChange = obj.config.onchange;
 		if(!obj.config.onLoad) obj.config.onLoad = obj.config.onload;
 
@@ -14391,19 +14398,22 @@ var AXSelectConverter = Class.create(AXJ, {
 				debug: false, async: async, pars: pars, onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
+						
+						
 						var po = [], adj = 0;
 						//obj.config.options = res.options;
-						obj.config.options = res[cfg.reserveKeys.options];
+						obj.config.options = res[obj.config.reserveKeys.options];
+						
 						if (obj.config.isspace) {
 							po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
 							if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
 							po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
 							adj =-1;
 						}
-						for (var opts, oidx = 0; (oidx < res[cfg.reserveKeys.options].length && (opts = res[cfg.reserveKeys.options][oidx])); oidx++) {
-							po.push("<option value=\"" + opts[cfg.reserveKeys.optionValue] + "\"");
-							if (obj.config.setValue == opts[cfg.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
-							po.push(">" + opts[cfg.reserveKeys.optionText].dec() + "</option>");
+						for (var opts, oidx = 0; (oidx < res[obj.config.reserveKeys.options].length && (opts = res[obj.config.reserveKeys.options][oidx])); oidx++) {
+							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\"");
+							if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+							po.push(">" + opts[obj.config.reserveKeys.optionText].dec() + "</option>");
 						}
 						axdom("#" + objID).html(po.join(''));
 
