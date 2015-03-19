@@ -294,13 +294,9 @@ var sampleTreeMenu = new AXTopDownMenu();
         pageObj.incFooter();
         $("#"+pageObj.theme).addClass("on");
 
-        $(".code-sample").each(function(idx, item){
-            CodeMirror.fromTextArea(item, {
-                lineNumbers: true,
-                readOnly: true,
-                mode: "javascript"
-            });
-        });
+        if (window["prettyPrint"]) {
+            window["prettyPrint"]();
+        }
 
 /*
         trace(" Fullstack open source javascript UI. framework ");

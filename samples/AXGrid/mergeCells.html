@@ -32,6 +32,13 @@
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+
 	<script>
 	/**
 	 * Require Files for AXISJ UI Component...
@@ -118,13 +125,6 @@
                     {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-19", desc:"myGrid.setList 의 2 사용법 list json 직접 지정 법", price:129500, amount:1}
                 ];
                 myGrid.setList(list);
-                //trace(myGrid.getSortParam());
-
-            },
-            getExcel: function(type){
-                var obj = myGrid.getExcelFormat(type);
-                trace(obj);
-                $("#printout").html(Object.toJSON(obj));
             }
         }
 	};
@@ -146,16 +146,23 @@
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 		<div class="AXdemoPageContent">
 
-            <div id="grid0">
-                <h2>AXGrid</h2>
-                <div id="AXGridTarget"></div>
+            <div class="title">
+                <h1>AXGrid (mergeCells)</h1>
             </div>
-            <p>
-                mergeCells: true => 모든 셀을 머지<br/>
-                mergeCells: [1] => 인덱스 1의 셀을 머지<br/>
-                mergeCells: [3,4] => 인덱스 3, 4 셀을 머지하지만 앞의 셀이 머지 되었을 때만 다음셀이 머지.<br/>
-            </p>
-            <div id="printout"></div>
+            <h2>mergeCells 속성을 사용하면 셀을 병합(rowspan)할 수 있습니다.</h2>
+
+<pre class="prettyprint linenums">
+myGrid.setConfig({
+    targetID : "AXGridTarget",
+    ...
+    mergeCells: true   // 모든 셀을 병합합니다.
+    mergeCells: [1],   // 인덱스 1의 셀을 병합합니다.
+    mergeCells: [2,3], // 인덱스 3, 4 셀을 머지하지만 앞의 셀이 머지 되었을 때만 다음셀을 병합합니다.
+    ...
+});
+</pre>
+
+            <div id="AXGridTarget"></div>
 
 		</div>
 	</div>

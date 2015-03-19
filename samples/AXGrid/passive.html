@@ -300,9 +300,11 @@
 	<div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 		<div class="AXdemoPageContent">
-			<div class="title"><h1>AXGrid passive option true</h1></div>
+			<div class="title">
+                <h1>AXGrid (passive)</h1>
+            </div>
+            <h2>passiveMode 속성을 사용해서 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h2>
 
-            <h2>grid의 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h2>
             <div id="AXGridTarget" style="height:400px;"></div>
 
             <div class="H20"></div>
@@ -325,8 +327,8 @@
                 <b>passiveRemoveHide:true</b> 변경 하면 삭제될 때 리스트가 제거 됩니다. 또한 삭제된 데이터가 myGrid.removedList 에 쌓이게 됩니다.
                 <br/>
                 <br/>
-                AXUtil.gridPassiveMode = true; 로 그리드 기본값을 설정 하실 수도 있습니다.<br/>
-                AXUtil.gridPassiveRemoveHide = true; 로 그리드 기본값을 설정 하실 수도 있습니다.
+                AXConfig.AXGrid.passiveMode = true; 로 그리드 기본값을 설정 하실 수도 있습니다.<br/>
+                AXConfig.AXGrid.passiveRemoveHide = true; 로 그리드 기본값을 설정 하실 수도 있습니다.
             </div>
 
             <div style="padding:10px 0px;">

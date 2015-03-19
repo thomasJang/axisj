@@ -19,12 +19,20 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <!-- css block -->
 
+    <!-- js block -->
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
 
 	<script>
 	/**
@@ -134,7 +142,27 @@
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 		<div class="AXdemoPageContent">
 
-			<div class="title"><h1>AXGrid 그리드에 데이터를 정의하는 새로운 방법</h1></div>
+            <div class="title">
+                <h1>AXGrid (setData way)</h1>
+            </div>
+            <h2>setData 메서드를 이용해서 그리드에 데이터를 설정하는 방법을 설명합니다.</h2>
+
+<pre class="prettyprint linenums">
+var gridData = {
+    list: [
+        {document_srl:46695, category_srl:0, ...},
+        {...},
+        ...
+    ],
+    page:{
+        pageNo   : 1,
+        pageSize : 20,
+        pageCount: 2,
+        listCount: 23
+    }
+};
+myGrid.setData(gridData);
+</pre>
 
             <div id="AXGridTarget" style="height:400px;"></div>
 

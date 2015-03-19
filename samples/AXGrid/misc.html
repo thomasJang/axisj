@@ -32,6 +32,12 @@
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
 	<script>
 	/**
 	 * Require Files for AXISJ UI Component...
@@ -183,15 +189,38 @@
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 		<div class="AXdemoPageContent">
 
-            <h2>AXGrid</h2>
+            <div class="title">
+                <h1>AXGrid (misc)</h1>
+            </div>
+            <h2>setList, pushList, setHeight, getCheckedList에 대해 설명합니다.</h2>
+
+<pre class="prettyprint linenums">
+var list = [
+    {no:1, no2:1, title:"AXGrid 첫번째 줄 입니다.", ...},
+    ...
+];
+
+// 그리드에 데이터를 선언하거나 AJAX url 속성을 정의합니다. API) http://jdoc.axisj.com/AXGrid.html#setList
+myGrid.setList(list);
+
+// 그리드에 데이터를 삽입합니다. API) http://jdoc.axisj.com/AXGrid.html#pushList
+myGrid.pushList(list, 0);
+
+// 그리드의 높이를 설정합니다. viewMode가 "mobile"인 경우는 작동하지 않습니다. API) http://jdoc.axisj.com/AXGrid.html#setHeight
+myGrid.setHeight(600);
+
+// Grid list 내의 checked 된 아이템을 반환합니다.해당 colSeq의 아이템이 checkbox|radio로 지정되어 있어야 합니다. API) http://jdoc.axisj.com/AXGrid.html#getCheckedList
+var checkedList = myGrid.getCheckedList(1);
+</pre>
+
             <div id="AXGridTarget" style="height:300px;"></div>
             <div style="padding:10px;">
                 <input type="button" value="setList" class="AXButton" onclick="fnObj.myGrid_setList();" />
                 <input type="button" value="pushList" class="AXButton" onclick="fnObj.myGrid_pushList();" />
-                <input type="button" value="resetHeight : 300px" class="AXButton" onclick="$('#AXGridTarget').css({height:300});myGrid.resetHeight();" />
-                <input type="button" value="resetHeight : 600px" class="AXButton" onclick="$('#AXGridTarget').css({height:600});myGrid.resetHeight();" />
-                <input type="button"	value="getCheckedList(1)" class="AXButton Blue" onclick="fnObj.getCheckedList(1);" />
-                <input type="button"	value="getCheckedList(2)" class="AXButton Blue" onclick="fnObj.getCheckedList(2);" />
+                <input type="button" value="setHeight: 300px" class="AXButton" onclick="myGrid.setHeight(300);" />
+                <input type="button" value="setHeight: 600px" class="AXButton" onclick="myGrid.setHeight(600);" />
+                <input type="button" value="getCheckedList(1)" class="AXButton Blue" onclick="fnObj.getCheckedList(1);" />
+                <input type="button" value="getCheckedList(2)" class="AXButton Blue" onclick="fnObj.getCheckedList(2);" />
             </div>
 
 		</div>
