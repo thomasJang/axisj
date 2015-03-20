@@ -295,6 +295,7 @@ var sampleTreeMenu = new AXTopDownMenu();
         $("#"+pageObj.theme).addClass("on");
 
         if (window["prettyPrint"]) {
+            $("#pretty").text($("#jscode").text());
             window["prettyPrint"]();
         }
 
