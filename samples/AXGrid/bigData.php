@@ -86,8 +86,7 @@
 					}
 				},
 				page:{
-					paging:false, 
-					status:{formatter: null}
+					paging:false
 				}
 			});
 

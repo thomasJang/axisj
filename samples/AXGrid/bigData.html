@@ -25,88 +25,70 @@
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
-    <script>
-        /**
-         * Require Files for AXISJ UI Component...
-         * Based		: jQuery
-         * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
-         * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
-         */
-        var pageID = "bigData";
-        var myGrid = new AXGrid();
-        var itemSum = 0;
 
-        var fnObj = {
-            pageStart: function(){
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
 
-                myGrid.setConfig({
-                    targetID : "AXGridTarget",
-                    theme : "AXGrid",
-                    //mergeCells: true,
-                    //fixedColSeq:3,
-                    colGroup : [
-                        {key:"no", label:"번호", width:"70", align:"right", formatter:"money"},
-                        {key:"title", label:"제목", width:"*"},
-                        {key:"writer", label:"작성자", width:"100", align:"center"},
-                        {key:"regDate", label:"작성일", width:"100", align:"center"},
-                        {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
-                        {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
-                        {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+    <script id="jscode">
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based        : jQuery
+     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
+     */
+    var pageID = "bigData";
+    var myGrid = new AXGrid();
+    var itemSum = 0;
+
+    var fnObj = {
+        pageStart: function(){
+
+            myGrid.setConfig({
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                //mergeCells: true,
+                //fixedColSeq:3,
+                colGroup : [
+                    {key:"no",      label:"번호",   width:"70",  align:"right", formatter:"money"},
+                    {key:"title",   label:"제목",   width:"*"},
+                    {key:"writer",  label:"작성자", width:"100", align:"center"},
+                    {key:"regDate", label:"작성일", width:"100", align:"center"},
+                    {key:"price",   label:"가격",   width:"100", align:"right", formatter:"money"},
+                    {key:"amount",  label:"수량",   width:"80",  align:"right", formatter:"money"},
+                    {key:"cost",    label:"금액",   width:"100", align:"right",
+                        formatter:function(){
                             return (this.item.price.number() * this.item.amount.number()).money();
-                        }},
-                        {key:"desc", label:"비고", width:"100"}
-                    ],
-
-                    body : {
-                        /*
-                         rows: [
-                         [
-                         {key:"no", rowspan:2, align:"center"},
-                         {colSeq:null, colspan:3, formatter:function(){
-                         var mul = (this.index * this.item.no);
-                         itemSum += this.item.no;
-                         return "index * no = " + mul + ", no 누적합은 = " + itemSum;
-                         }, align:"center", addClass:""},
-                         {key:"price", rowspan:2, valign:"bottom", align:"left"},
-                         {key:"amount", rowspan:2, valign:"middle"},
-                         {key:"cost", rowspan:2, valign:"middle"},
-                         {key:"desc", rowspan:2, valign:"middle"}
-                         ],
-                         [
-                         {key:"title"},
-                         {key:"writer"},
-                         {key:"regDate"}
-                         ]
-                         ],
-                         */
-                        onclick: function(){
-                            toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-                            //alert(this.list);
-                            //alert(this.page);
                         }
                     },
-                    page:{
-                        paging:false,
-                        status:{formatter: null}
+                    {key:"desc", label:"비고", width:"100"}
+                ],
+                body : {
+                    onclick: function(){
+                        toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+                        //alert(this.list);
+                        //alert(this.page);
                     }
-                });
+                },
+                page:{ paging:false }
+            });
 
 
-                 myGrid.setList({
-                     ajaxUrl:"loadGrid_big.php", ajaxPars:"browser="+axf.browser.name+"&version="+axf.browser.version.number(), onLoad:function(){
-                     //trace(this);
-                     }
-                 });
-            }
-        };
-        jQuery(document.body).ready(function() {
-            fnObj.pageStart();
-        });
+             myGrid.setList({
+                 ajaxUrl : "loadGrid_big.php",
+                 ajaxPars: "browser="+axf.browser.name+"&version="+axf.browser.version.number(),
+                 onLoad  : function(){
+                    //trace(this);
+                 }
+             });
+        }
+    };
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
     </script>
-
-    <style type="text/css">
-
-    </style>
 </head>
 
 <body>
@@ -117,7 +99,11 @@
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
         <div class="AXdemoPageContent">
 
-            <div class="title"><h1>AXGrid(bigData)</h1></div>
+            <div class="title">
+                <h1>AXGrid (bigData)</h1>
+            </div>
+            <h2>AXGrid는 대용량 데이터 테스트(30,000건[IE7] ~ 600,000건[chrome, FF])를 통과했습니다.</h2>
+
             <div id="AXGridTarget" style="height:400px;"></div>
             <div style="padding:10px 0px;">
                 <button class="AXButton" onclick="myGrid.setFocus(0);">setFocus(0)</button>
@@ -127,12 +113,14 @@
             </div>
 
             <p>
-            <div>mac chrome : 600,000건 OK</div>
-            <div>mac FF : 600,000건 OK</div>
-            <div>windows IE9 : 100,000건 OK</div>
-            <div>windows IE7,8 : 30,000건 OK</div>
-            <div>그러나.. 웹서버에서 작동하는 경우 인터넷 속도가 느려서 제대로 동작하지 않는 경우가 있습니다. WAS스크립트 응답시간도 문제가 될 수 있구요. 위의 건수 테스트는 테스트 데이터의 기준으로 로컬서버환경에서의 수치 입니다.</div>
+                <div>chrome : 600,000건 OK</div>
+                <div>FF : 600,000건 OK</div>
+                <div>windows IE9 : 100,000건 OK</div>
+                <div>windows IE7,8 : 30,000건 OK</div>
+                <div>그러나.. 웹서버에서 작동하는 경우 인터넷 속도가 느려서 제대로 동작하지 않는 경우가 있습니다. WAS스크립트 응답시간도 문제가 될 수 있구요. 위의 건수 테스트는 테스트 데이터의 기준으로 로컬서버환경에서의 수치 입니다.</div>
             </p>
+
+            <pre id="pretty" class="prettyprint linenums"></pre>
 
         </div>
     </div>

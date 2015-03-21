@@ -293,6 +293,12 @@ var sampleTreeMenu = new AXTopDownMenu();
         pageObj.incHeader();
         pageObj.incFooter();
         $("#"+pageObj.theme).addClass("on");
+
+        if (window["prettyPrint"]) {
+            $("#pretty").text($("#jscode").text());
+            window["prettyPrint"]();
+        }
+
 /*
         trace(" Fullstack open source javascript UI. framework ");
         trace(" axis of javascript - axisj.com, April 2014 ");
