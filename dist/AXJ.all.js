@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-19 
+AXJ - v1.0.13 - 2015-03-21 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-19 
+AXJ - v1.0.13 - 2015-03-21 
 */
 
 if(!window.AXConfig){
@@ -3049,13 +3049,14 @@ this.clearRange();
 // -- AXReq ----------------------------------------------
 /**
  * @class AXReqQue
- * @version v1.3
+ * @version v1.4
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * 2014-04-10 - tom : onbeforesend 옵션 추가 return false 하면 호출 제어됨.
  * 2014-10-06 - tom : dataSendMethod bug fix.
  * 2014-12-31 - tom : AXConfig.AXReq.pars 확장
+ * 2015-03-19 - tom : AXConfig.AXReq.dataSendMethod = "json|query-json|parameter" 옵션을 수용하도록 변경 *
  */
 var AXReqQue = Class.create({
 /**
@@ -12076,10 +12077,11 @@ var AXGrid = Class.create(AXJ, {
  *     fixedColSeq : 0,              // {Number} -- 컬럼고정 기능을 사용합니다. 고정할 마지막 컬럼의 인덱스 값입니다. 예제) http://dev.axisj.com/samples/AXGrid/fixedColSeq.html
  *     fitToWidth  : true,           // {Boolean} [false] -- 컬럼 가로 길이를 그리드의 가로 길이에 맞춥니다.
  *     colHeadAlign: "center",       // {String} 헤드의 기본 정렬. "left"|"center"|"right" 값을 사용할 수 있습니다. colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
- *     mergeCells  : [3,4]           // {Boolean|Array} -- 전체셀병합,병합안함,지정된 인덱스열만 병합
+ *     mergeCells  : [3,4]           // {Boolean|Array} -- 전체셀병합,병합안함,지정된 인덱스열만 병합 예제) http://dev.axisj.com/samples/AXGrid/mergeCells.html
  *     height      : "auto",         // {Number|String} -- 그리드의 높이를 지정합니다. 숫자를 사용하면 픽셀 단위로, "auto" 값을 사용하면 그리드의 높이가 내용에 맞춰서 늘어납니다. 예제) http://dev.axisj.com/samples/AXGrid/autoHeight.html
- *     sort        : true,           // {Boolean}
- *     colHeadTool : true,           // {Boolean}
+ *     sort        : true,           // {Boolean} -- true: 그리드의 헤더를 클릭해서 정렬 할 수 있습니다. false: 정렬 기능을 비활성화 합니다.  이 설정은 colGroup의 sort 보다 우선적으로 적용됩니다.
+ *     colHeadTool : true,           // {Boolean} -- 컬럼 display 여부를 설정 합니다. 이 설정은 colGroup의 colHeadTool 보다 우선적으로 적용됩니다.
+ *     viewMode    : "grid"          // {String} -- 그리드가 보여지는 형태("grid"|"icon"|"mobile")를 지정합니다. viewMode는 mediaQuery에 의해서 자동으로 결정되기도 합니다. 예제) http://localhost/axisj/samples/AXGrid/viewMode.html
  *     reserveKeys : { // reserveKeys는 AXISJ에서 지정한 키를 다른 키로 지정하는 하는 경우 사용합니다. reserveKeys를 사용하면 데이터를 수정없이 바로 사용할 수 있습니다.
  *         parent_hash  : "phash", // {String} 부모해시 키의 이름을 지정합니다.
  *         child_hash   : "hash",  // {String} 자식해시 키의 이름을 지정합니다.
@@ -12092,8 +12094,8 @@ var AXGrid = Class.create(AXJ, {
  *             label    : "번호",      // {String} -- 사용자에게 보여줄 컬럼명입니다.
  *             width    : 50,          // {Number|String} -- 컬럼의 가로길이를 설정합니다. 픽셀단위의 숫자나 "*" 문자를 사용할 수 있습니다. "*"을 사용하는 경우 그리드의 가로 길이에 따라 컬럼의 결이가 가변적으로 변합니다.
  *             align    : "right",     // {String} ["left"] -- 컬럼 내용의 정렬을 설정합니다. "left"|"center"|"right" 값을 사용할 수 있습니다.
- *             sort     : "asc",       // {String} [""] -- 컬럼의 정렬을 지정합니다. "asc"|"desc" 값을 사용할 수 있습니다.
- *             colHeadTool : true      // {Boolean}
+ *             sort     : "asc",       // {String|Boolean} [""] -- 컬럼의 정렬을 지정합니다. "asc"|"desc"|false 값을 사용할 수 있습니다. false 값을 사용하면 컬럼의 정렬을 비활성화 합니다.
+ *             colHeadTool : true      // {Boolean} -- 컬럼 display 여부를 설정 합니다.
  *             formatter: "money",     // {String|Function} -- 컬럼의 값을 표현하는 방식을 지정합니다. "money", "dec", "html", "checkbox", "radio", function은 아래 formatter 함수를 참고하세요.
  *             tooltip  : "money",     // {String|Function} -- 툴팁의 값을 표현하는 방식을 지정합니다. 툴팁을 지정하면 td div.bodyNode에 title 속성으로 값이 표현됩니다. 위 formatter와 동일한 변수를 사용합니다.
  *             disabled : function(){},// {Boolean|Function} -- formatter가 checkbox, radio인 경우 input의 disabled 값을 지정합니다. disabled(true|flase)를 반환하는 함수를 작성합니다. 아래 disabled 함수를 참고하세요.
@@ -12233,6 +12235,8 @@ var AXGrid = Class.create(AXJ, {
  *     //this.item
  *     //this.list
  *     //this.page
+ *
+ *     return "red"|"green"|"blue"|"yellow"|"white"|"gray"; // 별도의 색상별 CSS를 추가로 정의해서 사용할 수 있습니다.
  * }
  *
  * function oncheck() {
@@ -12558,9 +12562,10 @@ var AXGrid = Class.create(AXJ, {
     },
     resetHeight: function () {
         var cfg = this.config;
+        var target = axdom("#" + cfg.targetID);
 
         if (cfg.viewMode != "mobile") {
-            var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
+            var targetInnerHeight = target.innerHeight();
             if (targetInnerHeight == 0) targetInnerHeight = 400;
             cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
 
@@ -12582,19 +12587,40 @@ var AXGrid = Class.create(AXJ, {
              this.contentScrollResize(false);
              */
         }
-
     },
-/**
- * @method AXGrid.getColGroup
- * @param suffix {String} - "CH" ColHead, "CB" ColBody, "EB" EditorBody, "FE" FixedEditorBody,"FB" FixedColBody,"FC" FixedColHead
- * @description ColGroup을 구성 합니다.
- * @returns {String} ColGroup html
- * @example
- ```
- var myGrid = new AXGrid();
- myGrid.getColGroup("CB");
- ```
- */
+    /**
+     * @method AXGrid.setHeight
+     * @param height {Number} - grid outerHeight
+     * @description 그리드의 높이를 설정합니다. viewMode가 "mobile"인 경우는 작동하지 않습니다.
+     * @returns {jQueryObject}
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.setHeight(600);
+     * ```
+     */
+    setHeight: function(height) {
+        var cfg = this.config;
+        var target = axdom("#" + cfg.targetID);
+
+        if (cfg.viewMode != "mobile" && typeof height == "number") {
+            target.css({"height": height});
+            this.resetHeight();
+        }
+
+        return target;
+    },
+    /**
+     * @method AXGrid.getColGroup
+     * @param suffix {String} - "CH" ColHead, "CB" ColBody, "EB" EditorBody, "FE" FixedEditorBody,"FB" FixedColBody,"FC" FixedColHead
+     * @description ColGroup을 구성 합니다.
+     * @returns {String} ColGroup html
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.getColGroup("CB");
+     * ```
+     */
     getColGroup: function (suffix) {
         var cfg = this.config;
         var fixedColSeq = this.fixedColSeq;
@@ -12621,18 +12647,18 @@ var AXGrid = Class.create(AXJ, {
         po.push("</colgroup>");
         return po.join('');
     },
-/**
- * @method AXGrid.getColSeqToHead
- * @param r {Number} - Row
- * @param c {Number} - Column
- * @description 대상의 colHead 내부 seq 가져옵니다.
- * @returns {Number} colSeq
- * @example
- ```
- var myGrid = new AXGrid();
- var colSeq = myGrid.getColSeqToHead(colHeadR, colHeadC);
- ```
- */
+    /**
+     * @method AXGrid.getColSeqToHead
+     * @param r {Number} - Row
+     * @param c {Number} - Column
+     * @description 대상의 colHead 내부 seq 가져옵니다.
+     * @returns {Number} colSeq
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * var colSeq = myGrid.getColSeqToHead(colHeadR, colHeadC);
+     * ```
+     */
     getColSeqToHead: function (r, c) {
         /*console.log("getColSeqToHead:"+r+","+c); */
         var cfg = this.config;
@@ -12645,16 +12671,16 @@ var AXGrid = Class.create(AXJ, {
         }
         return colSeq;
     },
-/**
- * @method AXGrid.redrawGrid
- * @param changeGridView {string}
- * @description 그리드의 모든 요소를 재 정렬 해 줍니다.
- * @example
- ```
- var myGrid = new AXGrid();
- myGrid.redrawGrid();
- ```
- */
+    /**
+     * @method AXGrid.redrawGrid
+     * @param changeGridView {string}
+     * @description 그리드의 모든 요소를 재 정렬 해 줍니다.
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.redrawGrid();
+     * ```
+     */
     redrawGrid: function (changeGridView) {
         var cfg = this.config, _this = this;
         /*
@@ -12691,19 +12717,19 @@ var AXGrid = Class.create(AXJ, {
         }
         /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
     },
-/**
- * @method AXGrid.checkedColSeq
- * @param {Number} colSeq - 대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
- * @param {Boolean} checked - true면 check , false면 uncheck
- * @param {Number} itemIndex - 대상 열(미 지정시 전체)
- * @description colgroup내 해당 index의 checked 속성을 변경해 줍니다.해당 index의 아이템이 checkbox로 지정되어 있어야 합니다.
- * @example
- ```
- var myGrid = new AXGrid();
- myGrid.checkedColSeq(0, true); // 모든 체크박스 속성을 checked로
- myGrid.checkedColSeq(0, true,0); // 첫번째 열의 체크박스속성을 checked로
- ```
- */
+    /**
+     * @method AXGrid.checkedColSeq
+     * @param {Number} colSeq - 대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+     * @param {Boolean} checked - true면 check , false면 uncheck
+     * @param {Number} itemIndex - 대상 열(미 지정시 전체)
+     * @description colgroup내 해당 index의 checked 속성을 변경해 줍니다.해당 index의 아이템이 checkbox로 지정되어 있어야 합니다.
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.checkedColSeq(0, true); // 모든 체크박스 속성을 checked로
+     * myGrid.checkedColSeq(0, true,0); // 첫번째 열의 체크박스속성을 checked로
+     * ```
+     */
     checkedColSeq: function (colSeq, checked, itemIndex) {
 
         var cfg = this.config, _this = this, sendObj;
@@ -12809,17 +12835,17 @@ var AXGrid = Class.create(AXJ, {
         }
         return this;
     },
-/**
- * @method AXGrid.getCheckedList
- * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
- * @description  Grid list 내의 checked 된 아이템을 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
- * @returns {Array} JSObject - 그리드 리스트의 체크된 인덱스 아이템
- * @example
- ```
- var myGrid = new AXGrid();
- myGrid.getCheckedList(0);
- ```
- */
+    /**
+     * @method AXGrid.getCheckedList
+     * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+     * @description  Grid list 내의 checked 된 아이템을 반환합니다.해당 colSeq의 아이템이 checkbox|radio로 지정되어 있어야 합니다.
+     * @returns {Array} JSObject - 그리드 리스트의 체크된 인덱스 아이템
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.getCheckedList(0);
+     * ```
+     */
     getCheckedList: function (colSeq) {
         var cfg = this.config;
         var collect = [];
@@ -12835,17 +12861,17 @@ var AXGrid = Class.create(AXJ, {
 
         return collect;
     },
-/**
- * @method AXGrid.getCheckedListWithIndex
- * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
- * @description  Grid list 내의 checked 된 아이템,index를 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
- * @returns {Array} [{index:Number, item:JSObject}] -그리드 리스트의 체크된 인덱스 , 아이템
- * @example
- ```
- var myGrid = new AXGrid();
- myGrid.getCheckedListWithIndex(0);
- ```
- */
+    /**
+     * @method AXGrid.getCheckedListWithIndex
+     * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
+     * @description  Grid list 내의 checked 된 아이템,index를 반환합니다.해당 colSeq의 아이템이 checkbox로 지정되어 있어야 합니다.
+     * @returns {Array} [{index:Number, item:JSObject}] -그리드 리스트의 체크된 인덱스 , 아이템
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.getCheckedListWithIndex(0);
+     * ```
+     */
     getCheckedListWithIndex: function (colSeq) {
         var cfg = this.config;
         var collect = [];
@@ -16345,7 +16371,12 @@ var AXGrid = Class.create(AXJ, {
             if(CG.editor.type == "select") {
                 //inline_editor.find("select").bindSelect(AXBindConfig);
                 inline_editor.find("select").bind("change", function(){
-                    _this.updateItem(r, c, ii, this.value);
+	                var sdom = inline_editor.find("select").get(0);
+	                var obj = {
+		                optionValue: sdom.options[sdom.selectedIndex].value,
+		                optionText: sdom.options[sdom.selectedIndex].text
+	                }
+                    _this.updateItem(r, c, ii, obj);
                 });
 				setTimeout(function(){
 					inline_editor.find("select").focus();
@@ -16430,6 +16461,20 @@ var AXGrid = Class.create(AXJ, {
 			        }
 		        });
 	        }
+	        if(CG.editor.type == "select"){
+		        jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+			        var target = axf.get_event_target(e.target, {id: inline_editor_id});
+			        if (!target) {
+				        var sdom = inline_editor.find("select").get(0);
+				        var obj = {
+					        optionValue: sdom.options[sdom.selectedIndex].value,
+					        optionText: sdom.options[sdom.selectedIndex].text
+				        }
+				        _this.updateItem(r, c, ii, obj);
+				        jQuery(document.body).unbind("click.axgrid");
+			        }
+		        });
+	        }
         }, 10);
 
         function get_editor(cond, val){
@@ -16443,7 +16488,7 @@ var AXGrid = Class.create(AXJ, {
                     var value = (typeof cond.options[oi].value == "undefined") ? cond.options[oi].optionValue : cond.options[oi].value,
                         text = (typeof cond.options[oi].text == "undefined") ? cond.options[oi].optionText : cond.options[oi].text;
                     po.push('<option value="'+ value +'"');
-                    if(value == val){
+                    if(value == val.optionValue){
                         po.push(' selected="selected"');
                     }
                     po.push('>' + text + '</option>');
@@ -19826,11 +19871,11 @@ var arg = {
      * @param traditional {Boolean} [false] 반환 형태 지정
      * @return {Array} traditional[false]: [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ], traditional[true]: [ { 'no': 1 }, { 'no': 2 } ]
 	 * @example
-```
-var myGrid = new AXGrid();
-myGrid.getCheckedParams(0); // -> [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ]
-myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
-```
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.getCheckedParams(0); // -> [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ]
+     * myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
+     * ```
      */
 	getCheckedParams: function(colSeq, traditional){
 		var colName     = this.config.colGroup[colSeq].key;
@@ -19884,10 +19929,15 @@ myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
 			clone = true;
 		} else if (Object.isString(filter)) {
 			axf.each(this.list, function(idx, item) {
-				if (filter.indexOf(item._CUD) > -1) {
-					filteredList.push(item);
+                if (filter.indexOf(item._CUD) > -1) {
+                    filteredList.push(item);
 				}
 			});
+            if (this.config.passiveRemoveHide && filter.indexOf("D") > -1) {
+                axf.each(this.removedList, function(idx, item) {
+                    filteredList.push(item);
+                });
+            }
 		} else if (Object.isFunction(filter)) {
 			var fnFilter = filter.bind(this);
 			axf.each(this.list, function(idx, item){

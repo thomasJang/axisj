@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
-    <title>AXGrid - AXISJ</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGrid - AXISJ</title>
 
     <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
     <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
@@ -28,28 +28,29 @@
     <!-- js block -->
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
-    <script type="text/javascript" src="../../lib/AXUtil.js"></script>
+	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
     <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
-    <!-- js block -->
 
-    <!-- prettify block -->
-    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
     <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
     <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
-    <!-- prettify block -->
-    
+	<link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+
+    <!-- js block -->
+	<style type="text/css">
+	
+	</style>
 </head>
-    
+	
 <body>
 
 <div id="AXPage">
 
-    <div id="AXPageBody" class="SampleAXSelect">
+	<div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-        <div class="AXdemoPageContent">
+		<div class="AXdemoPageContent">
 
             <div id="grid0">
                 <h2>AXGrid</h2>
@@ -57,14 +58,12 @@
                 <div style="padding:10px;">
                     <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
 
-                    <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
+	                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
                 </div>
             </div>
 
-            <pre id="pretty" class="prettyprint linenums"></pre>
-
             <div id="printout"></div>
-<!--
+
 <pre class="prettyprint linenums">
 ...
 // 그리드의 cloGrop에 editor 속성을 추가 하여 인라인 에디팅을 지원하는 방식
@@ -140,169 +139,159 @@ colGroup : [
             type: "text"
         }
     },
-    {
-        key:"chk", label:"체크", width:"50", align:"center",
-        editor: {
-            type: "checkbox"
-        }
-    },
-    {
-        key:"rad", label:"라디오", width:"50", align:"center",
-        editor: {
-            type: "radio"
-        }
-    }
+	{
+	    key:"chk", label:"체크", width:"50", align:"center",
+	    editor: {
+	        type: "checkbox"
+	    }
+	},
+	{
+	    key:"rad", label:"라디오", width:"50", align:"center",
+	    editor: {
+	        type: "radio"
+	    }
+	}
 ],
 </pre>
--->
-        </div>
-    </div>
+
+		</div>
+	</div>
 
 </div>
 
-<script id="jscode">
+<script>
     /**
      * Require Files for AXISJ UI Component...
-     * Based        : jQuery
-     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
-     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelect.css
+     * Based		: jQuery
+     * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelect.css
      */
     var pageID = "inline-edit";
     var fnObj = {
         pageStart: function(){
             fnObj.grid.bind();
+            prettyPrint();
         },
         grid: {
             target: new AXGrid(),
             bind: function(){
                 window.myGrid = fnObj.grid.target;
 
-                myGrid.setConfig({
-                    targetID : "AXGridTarget",
-                    sort:false,
-                    //fitToWidth:true, // 너비에 자동 맞춤
+	            myGrid.setConfig({
+		            targetID : "AXGridTarget",
+		            sort:false,
+		            //fitToWidth:true, // 너비에 자동 맞춤
 
-                    colGroup : [
-                        {key:"no", label:"번호", width:"50", align:"right"},
-                        {
-                            key:"_CUD", label:"상태", width:"50", align:"center"
-                        },
-                        {
-                            key:"title", label:"제목", width:"200",
-                            formatter: function(){
-                              return "<u>" + this.item.title + "</u>";
-                                
-                            },
-                            tooltip:function(){
-                                return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
-                            },
-                            editor: {
-                                type: "text",
-                                updateWith: ["_CUD"]
-                            }
-                        },
-                        {
-                            key:"writer", label:"작성자", width:"100",
-                            editor: {
-                                formatter: "dec",
-                                type: "select",
-                                options:[
-                                    {value:1, optionText:"옵션1"},
-                                    {value:2, text:"옵션2"}
-                                ],
-                                beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
-                                    return val.replace(/\./g, "") + "."; // 업데이트 되는 value를 연산 처리 할 수 있습니다.
-                                },
-                                afterUpdate: function(val){ // 수정이 처리된 후
-                                    // 수정이 된 후 액션.
-                                    console.log(this);
-                                }
-                            }
-                        },
-                        {
-                            key:"regDate", label:"작성일", width:"105", align:"center",
-                            editor: {
-                                type: "calendar"
-                            }
-                        },
-                        {
-                            key:"price", label:"가격", width:"100", align:"right",
-                            formatter:"money",
-                            editor: {
-                                type: "money",
-                                updateWith: ["cost"]
-                            }
-                        },
-                        {
-                            key:"amount", label:"수량", width:"80", align:"right",
-                            formatter:"money",
-                            editor: {
-                                type: "number",
-                                updateWith: ["cost"]
-                            }
-                        },
-                        {
-                            key:"cost", label:"금액", width:"100", align:"right",
-                            formatter:function(){
-                                return (this.item.price.number() * this.item.amount.number()).money();
-                            }
-                        },
-                        {
-                            key:"chk", label:"체크", width:"50", align:"center",
-                            editor: {
-                                type: "checkbox",
-                                beforeUpdate: function(val){
-                                    return (val == true) ? "Y" : "N";
-                                }
-                            }
-                        },
-                        {
-                            key:"rad", label:"라디오", width:"50", align:"center",
-                            editor: {
-                                type: "radio"
-                            }
-                        },
-                        {
-                            key:"desc", label:"비고", width:"200",
-                            editor: {
-                                formatter: "dec",
-                                type: "text"
-                            }
-                        }
-                    ],
-                    colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
-                    body : {
-                        onclick: function(){
-                            //trace(this.index);
-                        }
-                    },
-                    page: {
-                        paging: false
-                    }
-                });
+		            colGroup : [
+			            {key:"no", label:"번호", width:"50", align:"right"},
+			            {
+				            key:"_CUD", label:"상태", width:"50", align:"center"
+			            },
+			            {
+				            key:"string", label:"String", width:"200",
+				            editor: {
+					            type: "text",
+					            updateWith: ["_CUD"]
+				            }
+			            },
+			            {
+				            key:"combobox", label:"combobox", width:"100",
+				            formatter: function(val){
+					            return this.value.optionText;
+				            },
+				            editor: {
+					            type: "select",
+					            options:[
+						            {optionValue:1, optionText:"김기영"},
+						            {optionValue:2, optionText:"장기영"}
+					            ],
+					            beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+						            // 선택된 값은 
+						            console.log(val);
+						            return val;
+					            },
+					            afterUpdate: function(val){ // 수정이 처리된 후
+						            // 수정이 된 후 액션.
+						            console.log(this);
+					            }
+				            }
+			            },
+			            {
+				            key:"date", label:"date", width:"105", align:"center",
+				            editor: {
+					            type: "calendar"
+				            }
+			            },
+			            {
+				            key:"money", label:"money", width:"100", align:"right",
+				            formatter:"money",
+				            editor: {
+					            type: "money",
+					            updateWith: ["cost"]
+				            }
+			            },
+			            {
+				            key:"number", label:"number", width:"80", align:"right",
+				            formatter:"money",
+				            editor: {
+					            type: "number",
+					            updateWith: ["cost"]
+				            }
+			            },
+			            {
+				            key:"checkbox", label:"checkbox", width:"50", align:"center",
+				            editor: {
+					            type: "checkbox",
+					            beforeUpdate: function(val){
+						            return (val == true) ? "Y" : "N";
+					            }
+				            }
+			            },
+			            {
+				            key:"radio", label:"radio", width:"50", align:"center",
+				            editor: {
+					            type: "radio"
+				            }
+			            },
+			            {
+				            key:"finder", label:"finder", width:"100", align:"center",
+				            editor: {
+					            type: "finder",
+					            formatter: function(){
+						            return (this.item.finder || "");
+					            },
+					            finder: {
+						            onclick: function(){
+							            alert("새창 열기");
+						            }
+					            }
+				            }
+			            }
+		            ],
+		            colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+		            body : {
+			            onclick: function(){
+				            //trace(this.index);
+			            }
+		            },
+		            page: {
+			            paging: false
+		            }
+	            });
 
-                var list = [
-                    {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:1709401, amount:10, chk:1}, // item
-                    {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300.00, amount:7, chk:true},
-                    {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"한기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5, chk:false},
-                    {no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4, chk:"N"},
-                    {no:5, title:"AXGrid 세번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3, chk:"0"},
-                    {no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2, chk:"1"},
-                    {no:7, title:"AXGrid 세번째 줄 입니다.", writer:"소기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1, chk:"Y"},
-                    {no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"재기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10, chk:1},
-                    {no:9, title:"AXGrid 두번째 줄 입니다.", writer:"원기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
-                    {no:10, title:"AXGrid 세번째 줄 입니다.", writer:"고기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
-                    {no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
-                    {no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
-                    {no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
-                    {no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
-                    {no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
-                    {no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
-                    {no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
-                    {no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
-                    {no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
-                    {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
-                ];
+	            var list = [
+		            {
+			            no:1,
+			            string: "AXGrid 첫번째 줄 입니다.",
+			            combobox: {optionValue:1, optionText:"김기영"},
+			            date: "2013-01-18",
+			            money: 1709401,
+			            number: 10,
+			            checkbox: 1,
+			            radio: 1,
+			           finder: "선택"
+		            }
+	            ];
                 myGrid.setList(list);
                 //trace(myGrid.getSortParam());
 
@@ -316,10 +305,10 @@ colGroup : [
                 trace( this.target.getSelectedItem() );
                 toast.push('콘솔창에 데이터를 출력하였습니다.');
             },
-            append: function(){
-                this.target.pushList({no:this.target.list.length+1, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1});
-                this.target.setFocus(this.target.list.length-1);
-            }
+	        append: function(){
+		        this.target.pushList({no:this.target.list.length+1, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1});
+		        this.target.setFocus(this.target.list.length-1);
+	        }
         }
     };
     jQuery(document.body).ready(function() {
@@ -329,4 +318,4 @@ colGroup : [
 </script>
 
 </body>
-</html>        
+</html>		
