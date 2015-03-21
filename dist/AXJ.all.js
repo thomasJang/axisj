@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-21 
+AXJ - v1.0.13 - 2015-03-22 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-21 
+AXJ - v1.0.13 - 2015-03-22 
 */
 
 if(!window.AXConfig){
@@ -30423,15 +30423,38 @@ var AXSelectConverter = Class.create(AXJ, {
 
 			var url = obj.config.ajaxUrl;
 			var pars = obj.config.ajaxPars;
+			var _method = "post";
+			var _headers = {};
+			var _contentType = AXConfig.AXReq.contentType;
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+			var _async = AXConfig.AXReq.async; 
+				
+			// ajax 옵션 확장
+			if (obj.config.method) _method = obj.config.method;
+			if (obj.config.headers) _headers = obj.config.headers;
+			if (obj.config.contentType) _contentType = obj.config.contentType;
+			if (obj.config.responseType) _responseType = obj.config.responseType;
+			if (obj.config.dataType) _dataType = obj.config.dataType;
+			if (obj.config.ajaxAsync) _async = obj.config.ajaxAsync;
+			
 			obj.selectedIndex = null;
 
 			iobj.html("<option></option>");
 
 			obj.inProgress = true; //진행중 상태 변경
 
-			var async = (obj.config.ajaxAsync == undefined) ? true : obj.config.ajaxAsync;
+			
 			new AXReq(url, {
-				debug: false, async: async, pars: pars, onsucc: function (res) {
+				type: _method,
+				headers: _headers,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				async: _async,
+				debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
+				pars: pars, 
+				onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						
