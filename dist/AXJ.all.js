@@ -33765,7 +33765,8 @@ var AXToolBar = Class.create(AXJ, {
 		this.target.find(".ax-menu-item").bind("click", function(e){
 			var target = axf.get_event_target(e.target, {tagname:"a", clazz:"ax-menu-item"});
 			var midx = target.getAttribute("data-item-idx");
-			_this.exec(midx, cfg.menu[midx], e);
+			if(cfg.menu[midx].onclick) _this.exec(midx, cfg.menu[midx], e);
+			else _this.expand(midx, cfg.menu[midx], e);
 		});
 		this.target.find(".ax-root-menu-item").bind("mouseover", function(e){
 			var target = axf.get_event_target(e.target, {tagname:"div", clazz:"ax-root-menu-item"});
