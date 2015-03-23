@@ -134,6 +134,63 @@
 							},
 							{label:"", type:"selectBox", width:"150", key:"selectbox-1", valueBoxStyle:"padding-left:0px;", value:"", options:[]},
 							{label:"", type:"selectBox", width:"150", key:"selectbox-2", valueBoxStyle:"padding-left:0px;", value:"", options:[]}
+						]},
+						{display:true, addClass:"", style:"", list:[
+							{label:"선택입력", labelWidth:"100", type:"selectBox", width:"150", key:"selectbox-1-0", addClass:"", valueBoxStyle:"", value:"",
+								options:[],
+								AXBind:{
+									type:"select", config:{
+										reserveKeys: {
+											options: "list",
+											optionValue: "optionValue",
+											optionText: "optionText"
+										},
+										ajaxUrl: "selectData-01.php", ajaxPars: "", ajaxAsync: true,
+										isspace: true, isspaceTitle: "선택하세요",
+										setValue:"",
+										alwaysOnChange: true,
+										onchange:function(){
+
+										}
+									}
+								}
+							},
+							{label:"", type:"selectBox", width:"150", key:"selectbox-1-1", valueBoxStyle:"padding-left:0px;", value:"", options:[],
+								AXBind:{
+									type:"select", config:{
+										reserveKeys: {
+											options: "lists",
+											optionValue: "value",
+											optionText: "text"
+										},
+										ajaxUrl: "selectData-02.php", ajaxPars: "", ajaxAsync: true,
+										isspace: true, isspaceTitle: "선택하세요",
+										setValue:"",
+										alwaysOnChange: true,
+										onchange:function(){
+											
+										}
+									}
+								}
+							},
+							{label:"", type:"selectBox", width:"150", key:"selectbox-1-2", valueBoxStyle:"padding-left:0px;", value:"", options:[],
+								AXBind:{
+									type:"select", config:{
+										reserveKeys: {
+											options: "options",
+											optionValue: "CD",
+											optionText: "NM"
+										},
+										ajaxUrl: "selectData-03.php", ajaxPars: "", ajaxAsync: true,
+										isspace: true, isspaceTitle: "선택하세요",
+										setValue:"",
+										alwaysOnChange: true,
+										onchange:function(){
+
+										}
+									}
+								}
+							}
 						]}
 					]
 				});
