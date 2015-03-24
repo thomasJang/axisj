@@ -19144,13 +19144,15 @@ myGrid.appendList(item, 3);
                     axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").html("");
                     axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNoDisplay").html(pageNo);
                     var mySelectBottom = axf.getId(cfg.targetID + "_AX_gridToolBottomPageNo");
+	                var oi = 0;
                     for (var p = 1; p < pgCount + 1; p++) {
-                        mySelect.options[p] = new Option(p, p.money());
-                        mySelectBottom.options[p] = new Option(p, p.money());
+                        mySelect.options[oi] = new Option(p, p.money());
+                        mySelectBottom.options[oi] = new Option(p, p.money());
                         if (pageNo == p) {
-                            mySelect.options[p].selected = true;
-                            mySelectBottom.options[p].selected = true;
+                            mySelect.options[oi].selected = true;
+                            mySelectBottom.options[oi].selected = true;
                         }
+	                    oi++;
                     }
                 }
 
@@ -19193,17 +19195,18 @@ myGrid.appendList(item, 3);
         var cfg = this.config;
         if (cfg.viewMode == "mobile") {
             this.setMobileTool();
-            return;
+            return this;
         }else{
             axdom("#" + cfg.targetID + "_AX_gridToolGroupTop").empty();
             axdom("#" + cfg.targetID + "_AX_gridToolGroupBottom").empty();
         }
+	    
         /* apply page vars */
         var pageNos = axf.getId(cfg.targetID + "_AX_gridPageNo");
         var pgCount = this.page.pageCount.number();
         var pageNo = this.page.pageNo.number();
 
-        if (pgCount == 0) {
+        if (pgCount === 0) {
             var po = [];
             po.push("<option value=\"\">..</option>");
             axdom("#" + cfg.targetID + "_AX_gridPageNo").html(po.join(''));
@@ -19222,9 +19225,11 @@ myGrid.appendList(item, 3);
                     oi++;
                 }
             } else {
+	            var oi = 0;
                 for (var p = 1; p < pgCount + 1; p++) {
-                    mySelect.options[p] = new Option(p, p.money());
-                    if (pageNo == p) mySelect.options[p].selected = true;
+                    mySelect.options[oi] = new Option(p, p.money());
+                    if (pageNo == p) mySelect.options[oi].selected = true;
+	                oi++;
                 }
             }
             /*alert(axf.getId(cfg.targetID + "_AX_gridPageNo").options[axf.getId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
