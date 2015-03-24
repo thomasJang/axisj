@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.13 - 2015-03-22 
+AXJ - v1.0.14 - 2015-03-24 
 */
 /*! 
-AXJ - v1.0.13 - 2015-03-22 
+AXJ - v1.0.14 - 2015-03-24 
 */
 
 if(!window.AXConfig){
@@ -12571,7 +12571,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (cfg.height) this.gridBody.css({height: cfg.height});
             this.redrawGrid();
-
+			this.onevent_grid({type:"resetHeight"})
             /*
              var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
              if (cfg.page.display == false) pageBodyHeight = 0;
@@ -13779,6 +13779,11 @@ var AXGrid = Class.create(AXJ, {
             } else {
                 cfg.colGroup[colSeq].display = true;
                 axdom("#" + targetID).addClass("on");
+            }
+            if(cfg.editor){
+                for (var r = 0; r < cfg.editor.rows.length; r++) {
+                     cfg.editor.rows[r][colSeq].display = !cfg.editor.rows[r][colSeq].display;
+                }
             }
             //redraw grid
             this.redrawGrid("all");
@@ -30470,7 +30475,8 @@ var AXSelectConverter = Class.create(AXJ, {
 							adj =-1;
 						}
 						for (var opts, oidx = 0; (oidx < res[obj.config.reserveKeys.options].length && (opts = res[obj.config.reserveKeys.options][oidx])); oidx++) {
-							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\"");
+							//trace(opts);
+							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts.optionData + "\" ");
 							if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
 							po.push(">" + opts[obj.config.reserveKeys.optionText].dec() + "</option>");
 						}
@@ -30478,7 +30484,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
 						var options = [];
 						for (var oi = 0; oi < AXgetId(objID).options.length; oi++) {
-							options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc() });
+							options.push({ optionValue: AXgetId(objID).options[oi].value, optionText: AXgetId(objID).options[oi].text.enc(), optionData:AXgetId(objID).options[oi].getAttribute("data-option") });
 						}
 						obj.options = AXUtil.copyObject(options);
 						obj.selectedIndex = AXgetId(objID).options.selectedIndex;
@@ -30490,8 +30496,10 @@ var AXSelectConverter = Class.create(AXJ, {
 								optionIndex: obj.selectedIndex,
 								optionValue: obj.options[obj.selectedIndex].optionValue,
 								optionText : obj.options[obj.selectedIndex].optionText,
+								optionData : obj.options[obj.selectedIndex].optionData,
 								value      : obj.options[obj.selectedIndex].optionValue,
-								text       : obj.options[obj.selectedIndex].optionText
+								text       : obj.options[obj.selectedIndex].optionText,
+								data       : obj.options[obj.selectedIndex].optionData
 							};
 							obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 						}
@@ -30572,8 +30580,11 @@ var AXSelectConverter = Class.create(AXJ, {
 				var selectedOption = this.getSelectedOption(objID, objSeq);
 				if (selectedOption) {
 					sendObj = {
-						optionIndex:selectedOption.index, optionValue:selectedOption.value, optionText:selectedOption.text,
-						value:selectedOption.value, text:selectedOption.text
+						optionIndex:selectedOption.index, 
+						optionValue:selectedOption.value, 
+						optionText:selectedOption.text,
+						value:selectedOption.value, 
+						text:selectedOption.text
 					};
 					obj.config.onChange.call(sendObj, sendObj, "isPostBack");
 				}
@@ -30584,8 +30595,6 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 			this.alignAnchor(objID, objSeq);
 		}
-
-		
 	},
 	selectTextBox_onkeydown: function(objID, objSeq, event){
 		var cfg = this.config, _this = this;
@@ -30620,13 +30629,14 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 			var options = AXgetId(objID).options[AXgetId(objID).options.selectedIndex];
 			return {
-				value:options.value, text:options.text, index:AXgetId(objID).options.selectedIndex
+				value:options.value, text:options.text, data:options.getAttribute("data-option"), index:AXgetId(objID).options.selectedIndex
 			}
 		}else{
 			obj.selectedIndex = 0;
-			var options = (AXgetId(objID).options[0]||{value:"",text:""});
+			var options = AXgetId(objID).options[0];
+			options = (options) ? {value:options.value,text:options.text, data:options.getAttribute("data-option")} : {value:"",text:"", data:""};
 			return {
-				value:options.value, text:options.text, index:0
+				value:options.value, text:options.text, data:options.data, index:0
 			}
 		}
 
@@ -30736,8 +30746,8 @@ var AXSelectConverter = Class.create(AXJ, {
 				if (obj.config.onChange) {
 					options = AXgetId(objID).options[obj.selectedIndex];
 					sendObj = {
-						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
-						value: options.value, text: options.text
+						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text, optionData: options.getAttribute("data-option"),
+						value: options.value, text: options.text, data: options.data
 					};
 					obj.config.onChange.call(sendObj, sendObj);
 				}
@@ -30753,8 +30763,8 @@ var AXSelectConverter = Class.create(AXJ, {
 				if (obj.config.onChange) {
 					options = AXgetId(objID).options[obj.selectedIndex];
 					sendObj = {
-						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text,
-						value: options.value, text: options.text
+						optionIndex:obj.selectedIndex, optionValue:options.value, optionText:options.text, optionData: options.getAttribute("data-option"),
+						value: options.value, text: options.text, data: options.data
 					};
 					obj.config.onChange.call(sendObj, sendObj);
 				}
