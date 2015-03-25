@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-24 
+AXJ - v1.0.14 - 2015-03-25 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-24 
+AXJ - v1.0.14 - 2015-03-25 
 */
 
 if(!window.AXConfig){
@@ -17748,13 +17748,12 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config;
         // 중복된 셀 머지 함수
         // 1 셀정보 수집
-	    
         var rows = [];
         var typn = typ=='f' ? 'fix' : 'n';
         for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
             var row = [];
-            var tdi=0; // Column Index Value
-            for (var tdn in this.list[tri]) { // tdn is Column Attr Name (ex. 'col1' ~ 'col12')
+            for(var tdi = 0; tdi < cfg.colGroup.length; tdi++){
+                var tdn = cfg.colGroup[tdi].key; //Column Name Variable
                 var item = {
                     tdom    : tgDom.find("#"+ cfg.targetID + "_AX_" + typn + "body_AX_0_AX_" + tdi + "_AX_" + tri),
                     rowspan : 1
@@ -17767,11 +17766,9 @@ var AXGrid = Class.create(AXJ, {
                     item.tdi    = tdi;
                     row.push(item);
                 }
-                tdi++; // Column Index ++
             }
             rows.push(row);
         }
-
 	    var _val = {};
         if(Object.isArray(cfg.mergeCells)){
             for(var tri = 0;tri < rows.length;tri++){
@@ -27133,13 +27130,14 @@ myModal.open(configs);
 		this.winID = "mdw" + AXUtil.timekey();
 		this.frmID = "frm" + AXUtil.timekey();
 
+        var maskWidth, maskLeft;
 		if (this.config.width) {
-			var maskWidth = this.config.width;
-			var maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
+			maskWidth = this.config.width;
+			maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
 			this.config.fixedWidth = true;
 		} else {
-			var maskWidth = jQuery(document.body).width() - 50;
-			var maskLeft = 10;
+			maskWidth = jQuery(document.body).width() - 50;
+			maskLeft = 10;
 			this.config.fixedWidth = false;
 		}
 
@@ -27163,7 +27161,7 @@ myModal.open(configs);
 		if (cfg.displayLoading) {
 			po.push("		<div id='" + this.config.windowID + "_loading' style='position:absolute;left:0px;top:0px;width:100%;padding:50px 0px 0px 0px;' align='center'>");
 			po.push("		<div class=\"AXLoading\"></div>");
-			po.push("		<br/><br><font class='blue'>페이지를 로딩 중입니다. 잠시만 기다려 주세요.</font></div>");
+			po.push("		<br/><br><span class='blue'>페이지를 로딩 중입니다. 잠시만 기다려 주세요.</span></div>");
 		}
 		po.push("		<a id='" + this.config.windowID + "_close' class='closeBtn'>닫기</a>");
 
@@ -27260,13 +27258,14 @@ myModal.open(configs);
 		this.winID = "mdw" + AXUtil.timekey();
 		this.frmID = "frm" + AXUtil.timekey();
 
+        var maskWidth, maskLeft;
 		if (this.config.width) {
-			var maskWidth = this.config.width;
-			var maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
+			maskWidth = this.config.width;
+			maskLeft = (jQuery(document.body).width() / 2) - (this.config.width / 2);
 			this.config.fixedWidth = true;
 		} else {
-			var maskWidth = jQuery(document.body).width() - 50;
-			var maskLeft = 10;
+			maskWidth = jQuery(document.body).width() - 50;
+			maskLeft = 10;
 			this.config.fixedWidth = false;
 		}
 
@@ -27677,13 +27676,13 @@ parent.myModal.resize(); //iframe 모달창을 오픈한 경우 열려진 iframe
 			try {
 				parent.fcObj.contentResetHeight();
 			} catch (e) {
-				//trace(e);	
+				//trace(e);
 			}
 
 			try {
 				parent.fnObj.contentResetHeight(null, bodyHeight + 100);
 			} catch (e) {
-				//trace(e);	
+				//trace(e);
 			}
 		}, 50);
 	},
@@ -27717,36 +27716,36 @@ parent.myModal.resize(); //iframe 모달창을 오픈한 경우 열려진 iframe
 		if(cfg.viewMode == "dx"){
 			try {
 				if (cfg.fixedWidth) {
-
+                    var maskWidth, maskLeft;
 					if(cfg.opendModalID != ""){
-						var maskWidth = jQuery("#" + cfg.opendModalID).outerWidth();
+						maskWidth = jQuery("#" + cfg.opendModalID).outerWidth();
 						if(maskWidth != jQuery("#" + cfg.opendModalID).data("width")) {
 							jQuery("#" + cfg.opendModalID).css({
 								top: jQuery("#" + cfg.opendModalID).data("top"),
 								width: jQuery("#" + cfg.opendModalID).data("width")
 							});
 						}
-						var maskLeft = (jQuery(document.body).width() / 2) - (maskWidth / 2);
+						maskLeft = (jQuery(document.body).width() / 2) - (maskWidth / 2);
 						if (maskLeft < 0) maskLeft = 0;
 						jQuery("#" + cfg.opendModalID).css({ left: maskLeft });
 					}else{
-						var maskWidth = jQuery("#" + cfg.windowID).outerWidth();
+						maskWidth = jQuery("#" + cfg.windowID).outerWidth();
 						if(maskWidth != jQuery("#" + cfg.windowID).data("width")) {
 							jQuery("#" + cfg.windowID).css({
 								top: jQuery("#" + cfg.windowID).data("top"),
 								width: jQuery("#" + cfg.windowID).data("width")
 							});
 						}
-						var maskLeft = (jQuery(document.body).width() / 2) - (maskWidth / 2);
+						maskLeft = (jQuery(document.body).width() / 2) - (maskWidth / 2);
 						if (maskLeft < 0) maskLeft = 0;
 						jQuery("#" + cfg.windowID).css({ left: maskLeft });
 					}
 				} else {
 					if(cfg.opendModalID != "") {
-						var maskWidth = jQuery(".container").width() - 50;
+						maskWidth = jQuery(".container").width() - 50;
 						jQuery("#" + cfg.opendModalID).css({ width: maskWidth });
 					}else{
-						var maskWidth = jQuery(".container").width() - 50;
+						maskWidth = jQuery(".container").width() - 50;
 						jQuery("#" + cfg.windowID).css({ width: maskWidth });
 					}
 				}
