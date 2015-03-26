@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-25 
+AXJ - v1.0.14 - 2015-03-26 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-25 
+AXJ - v1.0.14 - 2015-03-26 
 */
 
 if(!window.AXConfig){
@@ -11342,7 +11342,7 @@ var AXGrid = Class.create(AXJ, {
                         }
                     }
                     if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
-                    if (cfg.colHeadAlign) CH.align = "center";
+                    if (cfg.colHeadAlign) CH.align = cfg.colHeadAlign; // 고정값 아닌 설정 값 가져오기
                     colLen += (CH.colspan||0).number();
                 }
                 if (colMaxLen < colLen) colMaxLen = colLen;
@@ -13191,7 +13191,7 @@ var AXGrid = Class.create(AXJ, {
 
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
+                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
 	                            sort: CH.sort,
 	                            colHeadTool: CH.colHeadTool,
 	                            tdHtml: tdHtml,
@@ -13235,7 +13235,7 @@ var AXGrid = Class.create(AXJ, {
 
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, 
+                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, 
 	                            sort: CH.sort,
 	                            colHeadTool: CH.colHeadTool,
 	                            tdHtml: tdHtml,
@@ -13272,7 +13272,7 @@ var AXGrid = Class.create(AXJ, {
 
                             fpo.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
+                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
 	                            sort: CH.sort,
 	                            colHeadTool: CH.colHeadTool,
 	                            tdHtml: tdHtml,
@@ -17752,22 +17752,24 @@ var AXGrid = Class.create(AXJ, {
         var typn = typ=='f' ? 'fix' : 'n';
         for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
             var row = [];
-            for(var tdi = 0; tdi < cfg.colGroup.length; tdi++){
-                var tdn = cfg.colGroup[tdi].key; //Column Name Variable
-                var item = {
-                    tdom    : tgDom.find("#"+ cfg.targetID + "_AX_" + typn + "body_AX_0_AX_" + tdi + "_AX_" + tri),
-                    rowspan : 1
-                };
-                if(cfg.colGroup[tdi] && cfg.colGroup[tdi].display && item.tdom.length == 0){
-                    break; // end loop
-                }else if(!item.tdom.hasClass("bodyNullTd")){
-                    item.html   = this.list[tri][tdn];
-                    item.tri    = tri;
-                    item.tdi    = tdi;
-                    row.push(item);
+            if(this.list[tri]) {
+                for (var tdi = 0; tdi < cfg.colGroup.length; tdi++) {
+                    var tdn = cfg.colGroup[tdi].key; //Column Name Variable
+                    var item = {
+                        tdom   : tgDom.find("#" + cfg.targetID + "_AX_" + typn + "body_AX_0_AX_" + tdi + "_AX_" + tri),
+                        rowspan: 1
+                    };
+                    if (cfg.colGroup[tdi] && cfg.colGroup[tdi].display && item.tdom.length == 0) {
+                        break; // end loop
+                    } else if (!item.tdom.hasClass("bodyNullTd")) {
+                        item.html = this.list[tri][tdn];
+                        item.tri = tri;
+                        item.tdi = tdi;
+                        row.push(item);
+                    }
                 }
+                rows.push(row);
             }
-            rows.push(row);
         }
 	    var _val = {};
         if(Object.isArray(cfg.mergeCells)){
@@ -41250,7 +41252,7 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 		}
 		
-		this.target = jQuery("#"+cfg.targetID);
+		this.target = axdom("#"+cfg.targetID);
 		if(reset == undefined){
 			this.target.empty();
 			this.uploadedList = [];
@@ -41283,13 +41285,13 @@ var AXUpload5 = Class.create(AXJ, {
 		this.target.empty();
 		this.target.append(po.join(''));
 		
-		jQuery('#'+cfg.targetID+'_AX_selectorTD').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth()+5});
-		jQuery('#'+cfg.targetID+'_AX_files').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth(),height:jQuery('#'+cfg.targetID+'_AX_selector').outerHeight()});
+		axdom('#'+cfg.targetID+'_AX_selectorTD').css({width:axdom('#'+cfg.targetID+'_AX_selector').outerWidth()+5});
+		axdom('#'+cfg.targetID+'_AX_files').css({width:axdom('#'+cfg.targetID+'_AX_selector').outerWidth(),height:axdom('#'+cfg.targetID+'_AX_selector').outerHeight()});
 		
 		var pauseQueue = this.pauseQueue.bind(this);
 		var _this = this;
 
-		jQuery('#'+cfg.targetID+'_AX_selector').click(function(event){
+		axdom('#'+cfg.targetID+'_AX_selector').click(function(event){
 
 			if(cfg.onbeforeFileSelect){
 				if(!cfg.onbeforeFileSelect.call({
@@ -41309,7 +41311,7 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 			
 			pauseQueue();
-			jQuery('#'+cfg.targetID+'_AX_files').click();
+			axdom('#'+cfg.targetID+'_AX_files').click();
 		});
 		
 		var onFileSelect = this.onFileSelect.bind(this);
@@ -41329,23 +41331,23 @@ var AXUpload5 = Class.create(AXJ, {
 				dropZoneMsg.push("<span class=\"msgText\" id=\""+cfg.dropBoxID+"_msgText\">");
 				dropZoneMsg.push(AXConfig.AXUpload5.dropZoneTxt);
 				dropZoneMsg.push("</span>");
-				jQuery("#"+cfg.dropBoxID).append(dropZoneMsg.join(''));
+				axdom("#"+cfg.dropBoxID).append(dropZoneMsg.join(''));
 				*/
-				jQuery("#"+cfg.dropBoxID).addClass("allowDrop");
-				//jQuery("#"+cfg.dropBoxID).find(".msgText").css({"top":jQuery("#"+cfg.dropBoxID).height()/2-50});
+				axdom("#"+cfg.dropBoxID).addClass("allowDrop");
+				//axdom("#"+cfg.dropBoxID).find(".msgText").css({"top":axdom("#"+cfg.dropBoxID).height()/2-50});
 				// 드랍존 표현구문 ----------------- e
 				
 				var dropZoneBox = [];
 				dropZoneBox.push("<div class=\"dropZoneBox\" id=\""+cfg.dropBoxID+"_dropZoneBox\" style=\"border:3px dashed #d7d7d7;display:none;\">");
 				dropZoneBox.push("</div>");
-				jQuery("#"+cfg.dropBoxID).append(dropZoneBox.join(''));
+				axdom("#"+cfg.dropBoxID).append(dropZoneBox.join(''));
 				
 				// ---------------- 옵션사항 s
 				/*
-				jQuery("#"+cfg.dropBoxID+"_dropZoneBox").show();
-				jQuery("#"+cfg.dropBoxID+"_dropZoneBox").css({height:jQuery("#"+cfg.dropBoxID).innerHeight()-6, width:jQuery("#"+cfg.dropBoxID).innerWidth()-6});
+				axdom("#"+cfg.dropBoxID+"_dropZoneBox").show();
+				axdom("#"+cfg.dropBoxID+"_dropZoneBox").css({height:axdom("#"+cfg.dropBoxID).innerHeight()-6, width:axdom("#"+cfg.dropBoxID).innerWidth()-6});
 				setTimeout(function(){
-					jQuery("#"+cfg.dropBoxID+"_dropZoneBox").fadeOut();
+					axdom("#"+cfg.dropBoxID+"_dropZoneBox").fadeOut();
 				}, 2000);
 				*/
 				// ---------------- 옵션사항 e
@@ -41366,8 +41368,8 @@ var AXUpload5 = Class.create(AXJ, {
 						})){
 							evt.stopPropagation();
 							evt.preventDefault();
-							jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
-							jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
+							axdom("#"+cfg.dropBoxID).removeClass("onDrop");
+							axdom("#"+cfg.dropBoxID+"_dropZoneBox").hide();
 							return false;
 						}
 					}
@@ -41376,8 +41378,8 @@ var AXUpload5 = Class.create(AXJ, {
 						if(_this.uploadedList.length >= cfg.uploadMaxFileCount){
 							evt.stopPropagation();
 							evt.preventDefault();
-							jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
-							jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
+							axdom("#"+cfg.dropBoxID).removeClass("onDrop");
+							axdom("#"+cfg.dropBoxID+"_dropZoneBox").hide();
 							cfg.onError("fileCount");
 							return false;
 						}
@@ -41399,7 +41401,7 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	swfinit: function(reset){
 		var cfg = this.config;
-		this.target = jQuery("#"+cfg.targetID);
+		this.target = axdom("#"+cfg.targetID);
 
 		var po = [];
 		po.push('<div style="position:relative;">');
@@ -41419,10 +41421,10 @@ var AXUpload5 = Class.create(AXJ, {
 		this.target.empty();
 		this.target.append(po.join(''));
 		
-		jQuery('#'+cfg.targetID+'_AX_selectorTD').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth()+5});
+		axdom('#'+cfg.targetID+'_AX_selectorTD').css({width:axdom('#'+cfg.targetID+'_AX_selector').outerWidth()+5});
 		
-		var btnW = jQuery('#'+cfg.targetID+'_AX_selector').outerWidth();
-		var btnH = jQuery('#'+cfg.targetID+'_AX_selector').outerHeight();
+		var btnW = axdom('#'+cfg.targetID+'_AX_selector').outerWidth();
+		var btnH = axdom('#'+cfg.targetID+'_AX_selector').outerHeight();
 		
 		// functions --------------------------------------------------------------- s
 		var uploadSuccess = this.uploadSuccess.bind(this);
@@ -41450,16 +41452,16 @@ var AXUpload5 = Class.create(AXJ, {
 					var uploadFn = function(){
 						var itemID = 'AX_'+ file.id;
 						this.queue.push({id:itemID, file:file});
-						jQuery("#" + cfg.targetID+'_AX_display').empty();
-						jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, file));
+						axdom("#" + cfg.targetID+'_AX_display').empty();
+						axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, file));
 					};
 					this.deleteFile(myFile, uploadFn.bind(this));
 					return;
 				}else{
 					var itemID = 'AX_'+ file.id;
 					this.queue.push({id:itemID, file:file});
-					jQuery("#" + cfg.targetID+'_AX_display').empty();
-					jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, file));
+					axdom("#" + cfg.targetID+'_AX_display').empty();
+					axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, file));
 				}
 			}else{
 				//cfg.uploadMaxFileCount
@@ -41476,9 +41478,9 @@ var AXUpload5 = Class.create(AXJ, {
 				var itemID = 'AX_'+ file.id;
 				this.queue.push({id:itemID, file:file});
 				//큐박스에 아이템 추가
-				if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, file));
-				else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, file));
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
+				if(cfg.queueBoxAppendType == "prepend") axdom("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, file));
+				else axdom("#" + cfg.queueBoxID).append(this.getItemTag(itemID, file));
+				axdom("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
 			}
 		};
 		var file_queued_handler_bind = file_queued_handler.bind(this);
@@ -41534,9 +41536,9 @@ var AXUpload5 = Class.create(AXJ, {
 		var upload_progress_handler = function(file, bytesLoaded, bytesTotal){
 			var itemID = 'AX_'+ file.id;
 			if(cfg.isSingleUpload){
-				jQuery("#"+itemID).find(".AXUploadProcessBar").width( ((bytesLoaded / bytesTotal) * 100).round(2)+"%" );
+				axdom("#"+itemID).find(".AXUploadProcessBar").width( ((bytesLoaded / bytesTotal) * 100).round(2)+"%" );
 			}else{
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcessBar").width( ((bytesLoaded / bytesTotal) * 100).round(2)+"%" );
+				axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcessBar").width( ((bytesLoaded / bytesTotal) * 100).round(2)+"%" );
 			}
 		};
 		var upload_progress_handler_bind = upload_progress_handler.bind(this);
@@ -41547,45 +41549,45 @@ var AXUpload5 = Class.create(AXJ, {
 			try{if(typeof res == "string") res = res.object();}catch(e){trace(e);}
 			if(cfg.isSingleUpload){
 				
-				jQuery("#"+itemID+" .AXUploadBtns").show();
-				jQuery("#"+itemID+" .AXUploadLabel").show();
-				jQuery("#"+itemID+" .AXUploadTit").show();
+				axdom("#"+itemID+" .AXUploadBtns").show();
+				axdom("#"+itemID+" .AXUploadLabel").show();
+				axdom("#"+itemID+" .AXUploadTit").show();
 				
-				jQuery("#"+itemID+" .AXUploadProcess").hide();
+				axdom("#"+itemID+" .AXUploadProcess").hide();
 								
 				uploadSuccess(file, itemID, res);
 				// --------------------- s
-				jQuery("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
+				axdom("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
 					onClickDeleteButton(itemID);
 				});
 				if(cfg.onClickUploadedItem){
-					jQuery("#"+itemID+" .AXUploadDownload").bind("click", function(){
+					axdom("#"+itemID+" .AXUploadDownload").bind("click", function(){
 						onClickFileTitle(itemID);
 					});
 				}
 				
 			}else{
 				
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtns").show();
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadLabel").show();
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcess").hide();
+				axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtns").show();
+				axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadLabel").show();
+				axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadProcess").hide();
 				
 				if(res[cfg.fileKeys.thumbPath]){
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
+					axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({
 						"background-image":"url('"+(res[cfg.fileKeys.thumbPath]||"").dec()+"')"
-					}).addClass("AXUploadPreview");
+					}).addClass("AXUploadPreview").find("img.preview").remove();
 				}else{
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((res[cfg.fileKeys.type]||"").dec().replace(".", ""));
+					axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").css({"background-image":"url()"});
+					axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadIcon").html((res[cfg.fileKeys.type]||"").dec().replace(".", ""));
 				}
 				
 				uploadSuccess(file, itemID, res);
 				// --------------------- s
-				jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
+				axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadBtnsA").bind("click", function(){
 					onClickDeleteButton(itemID);
 				});
 				if(cfg.onClickUploadedItem){
-					jQuery("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadDownload").bind("click", function(){
+					axdom("#" + cfg.queueBoxID).find("#"+itemID+" .AXUploadDownload").bind("click", function(){
 						onClickFileTitle(itemID);
 					});
 				}
@@ -41593,7 +41595,7 @@ var AXUpload5 = Class.create(AXJ, {
 			
 			//큐에서 제거
 			var updateQueue = [];
-			jQuery.each(this.queue, function(){
+			axdom.each(this.queue, function(){
 				if(this.id != itemID) updateQueue.push(this);
 			});
 			this.queue = updateQueue;			
@@ -41684,7 +41686,9 @@ var AXUpload5 = Class.create(AXJ, {
             po.push('</div>');
         }else{
             po.push('<div class="AXUploadItem ' + cfg.openMode +'" id="'+itemID+'" style=\"display:none;\">');
-            po.push('	<div class="AXUploadIcon"></div>');
+            po.push('	<div class="AXUploadIcon">');
+			po.push('		<img id="' + itemID + '_preview" class="preview" src="" />');
+			po.push('	</div>');
             po.push('	<div class="AXUploadType"><span class="AXUploadSize">'+f.size.number().byte()+'</span></div>');
             po.push('	<div class="AXUploadTit" title="'+f.name.dec()+'">'+f.name.dec()+'</div>');
             po.push('	<div class="AXUploadProcess">');
@@ -41724,8 +41728,8 @@ var AXUpload5 = Class.create(AXJ, {
 					var uploadFn = function(){
 						var itemID = 'AX'+AXUtil.timekey()+'_AX_0';
 						this.queue.push({id:itemID, file:_this.__tempFiles});
-						jQuery("#" + cfg.targetID+'_AX_display').empty();
-						jQuery("#" + cfg.targetID+'_AX_display').append(_this.getItemTag(itemID, _this.__tempFiles));
+						axdom("#" + cfg.targetID+'_AX_display').empty();
+						axdom("#" + cfg.targetID+'_AX_display').append(_this.getItemTag(itemID, _this.__tempFiles));
 
 						_this.queueLive = true;
 						if(cfg.onStart) cfg.onStart.call(_this.queue, _this.queue);
@@ -41740,8 +41744,8 @@ var AXUpload5 = Class.create(AXJ, {
 					var f = files[i];
 					var itemID = 'AX'+AXUtil.timekey()+'_AX_'+i;
 					this.queue.push({id:itemID, file:f});
-					jQuery("#" + cfg.targetID+'_AX_display').empty();
-					jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, f));					
+					axdom("#" + cfg.targetID+'_AX_display').empty();
+					axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, f));					
 				}
 
 			}
@@ -41774,9 +41778,13 @@ var AXUpload5 = Class.create(AXJ, {
 							this.queue.push({id:itemID, file:f});
 							//큐박스에 아이템 추가
 
-							if(cfg.queueBoxAppendType == "prepend") jQuery("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
-							else jQuery("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
-							jQuery("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
+							if(cfg.queueBoxAppendType == "prepend") axdom("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
+							else axdom("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
+
+							this.setLocalPreview(itemID, f);
+
+							axdom("#" + cfg.queueBoxID).find("#"+itemID).fadeIn();
+
 							uploadedCount++;
 
 							//trace(uploadedCount, this.queue.length);
@@ -41797,15 +41805,15 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	onFileDragOver: function(evt){
 		var cfg = this.config;
-		jQuery("#"+cfg.dropBoxID).addClass("onDrop");
-		jQuery("#"+cfg.dropBoxID+"_dropZoneBox").show();
-		/*jQuery("#"+cfg.dropBoxID+"_dropZoneBox").css({height:jQuery("#"+cfg.dropBoxID).innerHeight()-6, width:jQuery("#"+cfg.dropBoxID).innerWidth()-6}); 라르게덴 2013-10-29 오후 3:21:45 */
-		jQuery("#"+cfg.dropBoxID+"_dropZoneBox").css({height:jQuery("#"+cfg.dropBoxID).prop("scrollHeight")-6, width:jQuery("#"+cfg.dropBoxID).innerWidth()-6});
+		axdom("#"+cfg.dropBoxID).addClass("onDrop");
+		axdom("#"+cfg.dropBoxID+"_dropZoneBox").show();
+		/*axdom("#"+cfg.dropBoxID+"_dropZoneBox").css({height:axdom("#"+cfg.dropBoxID).innerHeight()-6, width:axdom("#"+cfg.dropBoxID).innerWidth()-6}); 라르게덴 2013-10-29 오후 3:21:45 */
+		axdom("#"+cfg.dropBoxID+"_dropZoneBox").css({height:axdom("#"+cfg.dropBoxID).prop("scrollHeight")-6, width:axdom("#"+cfg.dropBoxID).innerWidth()-6});
 		
 		var dropZone = document.getElementById(cfg.dropBoxID+"_dropZoneBox");
 		dropZone.addEventListener('dragleave', function(evt){
-			jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
-			jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide();
+			axdom("#"+cfg.dropBoxID).removeClass("onDrop");
+			axdom("#"+cfg.dropBoxID+"_dropZoneBox").hide();
 		}, false);
 
 		evt.stopPropagation();
@@ -41813,11 +41821,11 @@ var AXUpload5 = Class.create(AXJ, {
 		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 	},
 	onFileDrop: function(evt){
-		var cfg = this.config, quebox = jQuery("#" + cfg.queueBoxID);
+		var cfg = this.config, quebox = axdom("#" + cfg.queueBoxID);
 		evt.stopPropagation();
 		evt.preventDefault();
-		jQuery("#"+cfg.dropBoxID).removeClass("onDrop");
-		jQuery("#"+cfg.dropBoxID+"_dropZoneBox").hide()
+		axdom("#"+cfg.dropBoxID).removeClass("onDrop");
+		axdom("#"+cfg.dropBoxID+"_dropZoneBox").hide()
 		
 		var files = evt.dataTransfer.files; // FileList object.
 		
@@ -41846,6 +41854,9 @@ var AXUpload5 = Class.create(AXJ, {
 					//큐박스에 아이템 추가
 					if(cfg.queueBoxAppendType == "prepend") quebox.prepend(this.getItemTag(itemID, f));
 					else quebox.append(this.getItemTag(itemID, f));
+
+					this.setLocalPreview(itemID, f);
+
 					quebox.find("#"+itemID).fadeIn();
 				}else{
 					cfg.onError("fileCount");
@@ -41890,14 +41901,14 @@ var AXUpload5 = Class.create(AXJ, {
 		this.uploadingObj = obj;
 		var formData = new FormData();
 		//서버로 전송해야 할 추가 파라미터 정보 설정
-		jQuery.each(cfg.uploadPars, function(k, v){
+		axdom.each(cfg.uploadPars, function(k, v){
 			formData.append(k, v); 
 		});
 		//formData.append(obj.file.name, obj.file);
 		formData.append(cfg.uploadFileName, obj.file);
 		
 		//obj.id
-		var itemID = obj.id, quebox = jQuery("#" + cfg.queueBoxID), itembox = jQuery("#"+itemID);
+		var itemID = obj.id, quebox = axdom("#" + cfg.queueBoxID), itembox = axdom("#"+itemID);
 		
 		this.xhr = new XMLHttpRequest();
 		this.xhr.open('POST', cfg.uploadUrl, true);
@@ -41912,7 +41923,7 @@ var AXUpload5 = Class.create(AXJ, {
 			if (res.result == "err" || res.error) {
 				alert("파일전송에 실패 하였습니다. 서버에서 에러가 리턴되었습니다. 콘솔창을 확인 하세요.");
 				trace(res);
-				jQuery("#" + itemID).fadeOut("slow");
+				axdom("#" + itemID).fadeOut("slow");
 				cancelUpload();
 				return;
 			}
@@ -41950,7 +41961,7 @@ var AXUpload5 = Class.create(AXJ, {
 				if(_res[cfg.fileKeys.thumbPath]){
 					itembox.find(".AXUploadIcon").css({
 						"background-image":"url('"+(_res[cfg.fileKeys.thumbPath]||"").dec()+"')"
-					}).addClass("AXUploadPreview");
+					}).addClass("AXUploadPreview").find("img.preview").remove();
 				}else{
 					itembox.find(".AXUploadIcon").css({"background-image":"url()"});
 					itembox.find(".AXUploadIcon").html((_res[cfg.fileKeys.type]||"").dec().replace(".", ""));
@@ -41994,26 +42005,26 @@ var AXUpload5 = Class.create(AXJ, {
 		var cfg = this.config;
 		var uploadedItem = {id:itemID};
 		var _res = (Object.isArray(res)) ? res[0] : res; /* Array 타입 예외처리 */
-		jQuery.each(_res, function(k, v){
+		axdom.each(_res, function(k, v){
 			uploadedItem[k] = v;
 		});
 		if(cfg.queueBoxAppendType == "prepend") this.uploadedList.push(uploadedItem);
 		else{
 			var uploadedList = [];
 			uploadedList.push(uploadedItem);
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				uploadedList.push(this);
 			});
 			this.uploadedList = uploadedList;
 		}
-		jQuery("#"+itemID).addClass("readyselect");
+		axdom("#"+itemID).addClass("readyselect");
 		if(cfg.onUpload) cfg.onUpload.call(uploadedItem, uploadedItem);
 	},
 	clearQueue: function(){
 		//큐제거
-		jQuery.each(this.queue, function(){
-			jQuery("#"+this.id).hide(function(){
-				jQuery(this).remove();
+		axdom.each(this.queue, function(){
+			axdom("#"+this.id).hide(function(){
+				axdom(this).remove();
 			});
 		});
 		this.queue = [];
@@ -42023,7 +42034,7 @@ var AXUpload5 = Class.create(AXJ, {
 		//trace("uploadComplete");
 		if(AXgetId(cfg.targetID+'_AX_files')){
 			
-			jQuery('#'+cfg.targetID+'_AX_files').remove();
+			axdom('#'+cfg.targetID+'_AX_files').remove();
 			
 			var inputFileMultiple = 'multiple="multiple"';
 			var inputFileAccept = cfg.file_types;
@@ -42035,8 +42046,8 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 
 			var  po = ['	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />'];
-			jQuery("#"+cfg.targetID+"_AX_selectorTD").prepend(po.join(''));
-			jQuery('#'+cfg.targetID+'_AX_files').css({width:jQuery('#'+cfg.targetID+'_AX_selector').outerWidth(),height:jQuery('#'+cfg.targetID+'_AX_selector').outerHeight()});
+			axdom("#"+cfg.targetID+"_AX_selectorTD").prepend(po.join(''));
+			axdom('#'+cfg.targetID+'_AX_files').css({width:axdom('#'+cfg.targetID+'_AX_selector').outerWidth(),height:axdom('#'+cfg.targetID+'_AX_selector').outerHeight()});
 
 			var onFileSelect = this.onFileSelect.bind(this);
 			var fileSelector = document.getElementById(cfg.targetID+'_AX_files');
@@ -42067,7 +42078,7 @@ var AXUpload5 = Class.create(AXJ, {
 		}else{
 			if(this.uploadingObj){
 				this.xhr.abort();
-				jQuery("#"+this.uploadingObj.id).remove();
+				axdom("#"+this.uploadingObj.id).remove();
 				this.uploadingObj = null;
 			}
 			this.pauseQueue();
@@ -42079,7 +42090,7 @@ var AXUpload5 = Class.create(AXJ, {
 		var cfg = this.config;
 		if(cfg.isSingleUpload){
 			var myFile;
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				if(this.id == itemID){
 					myFile = this;
 					return false;
@@ -42093,7 +42104,7 @@ var AXUpload5 = Class.create(AXJ, {
 			this.init("reset");
 		}else{
 			var myFile;
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				if(this.id == itemID){
 					myFile = this;
 					return false;
@@ -42115,7 +42126,7 @@ var AXUpload5 = Class.create(AXJ, {
 		if(cfg.onClickUploadedItem){
 			
 			var myFile;
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				if(this.id == itemID){
 					myFile = this;
 					return false;
@@ -42135,10 +42146,10 @@ var AXUpload5 = Class.create(AXJ, {
 				
 			if(withOutServer == "withOutServer"){
 				if(cfg.isSingleUpload){
-					jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+					axdom('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
 				}else{
-					jQuery("#"+file.id).hide(function(){
-						jQuery(this).remove();
+					axdom("#"+file.id).hide(function(){
+						axdom(this).remove();
 					});
 				}
 				removeUploadedList(file.id);	
@@ -42149,12 +42160,12 @@ var AXUpload5 = Class.create(AXJ, {
 			
 			var pars = [];
 			var sendPars = "";
-			jQuery.each(file, function(k, v){
+			axdom.each(file, function(k, v){
 				pars.push(k + '=' + v);
 			});
 			
 			if (typeof(cfg.deletePars) === "object") {
-				jQuery.each(cfg.deletePars, function(k, v){
+				axdom.each(cfg.deletePars, function(k, v){
 					pars.push(k + '=' + v);
 				});
 				sendPars = pars.join("&");
@@ -42163,9 +42174,9 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 
 			if(cfg.isSingleUpload){
-				jQuery("#"+file.id+" .AXUploadBtns").hide();
+				axdom("#"+file.id+" .AXUploadBtns").hide();
 			}else{
-				jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+				axdom("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
 			}
 			
 			new AXReq(cfg.deleteUrl, {
@@ -42176,10 +42187,10 @@ var AXUpload5 = Class.create(AXJ, {
 
 						if(onEnd) setTimeout(onEnd, 1);
 						if(cfg.isSingleUpload){
-							jQuery('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
+							axdom('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
 						}else{
-							jQuery("#"+file.id).hide(function(){
-								jQuery(this).remove();
+							axdom("#"+file.id).hide(function(){
+								axdom(this).remove();
 							});
 						}
 						if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
@@ -42187,17 +42198,17 @@ var AXUpload5 = Class.create(AXJ, {
 
 					}else{
 						if(cfg.isSingleUpload){
-							jQuery("#"+file.id+" .AXUploadBtns").show();
+							axdom("#"+file.id+" .AXUploadBtns").show();
 						}else{
-							jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
+							axdom("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
 						}
 					}
 				},
 				onerr: function(){
 					if(cfg.isSingleUpload){
-						jQuery("#"+file.id+" .AXUploadBtns").show();
+						axdom("#"+file.id+" .AXUploadBtns").show();
 					}else{
-						jQuery("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
+						axdom("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
 					}
 				}
 			});
@@ -42209,7 +42220,7 @@ var AXUpload5 = Class.create(AXJ, {
 	deleteSelect: function(arg, withOutServer){
 		if(arg == "all"){
 			var deleteQueue = [];
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				deleteQueue.push(this.id);
 			});
 			this.ccDelete(deleteQueue, 0, withOutServer);
@@ -42219,7 +42230,7 @@ var AXUpload5 = Class.create(AXJ, {
 			var selectObj = this.multiSelector.getSelects();
 			if (selectObj.length > 0){
 				var deleteQueue = [];
-				jQuery.each(selectObj, function(){
+				axdom.each(selectObj, function(){
 					deleteQueue.push(this.id);
 				});
 				this.ccDelete(deleteQueue, 0, withOutServer);
@@ -42232,7 +42243,7 @@ var AXUpload5 = Class.create(AXJ, {
 	ccDelete: function(deleteQueue, index, withOutServer){
 		if(deleteQueue.length > index){
 			var myFile;
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				if(this.id == deleteQueue[index]){
 					myFile = this;
 					return false;
@@ -42246,7 +42257,7 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	removeUploadedList: function(fid){
 		var newUploadedList = [];
-		jQuery.each(this.uploadedList, function(){
+		axdom.each(this.uploadedList, function(){
 			if(this.id != fid) newUploadedList.push(this);
 		});
 		this.uploadedList = newUploadedList;
@@ -42301,8 +42312,8 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 		if(cfg.isSingleUpload){
 			this.uploadedList = [];
 			var f;
-			if(jQuery.isArray(files)){
-				if( jQuery.isArray(files.first()) ){
+			if(axdom.isArray(files)){
+				if( axdom.isArray(files.first()) ){
 					f = files.first();	
 				}
 			}else{
@@ -42323,10 +42334,10 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 				size:f[cfg.fileKeys.fileSize]
 			};
 			
-			jQuery("#" + cfg.targetID+'_AX_display').empty();
-			jQuery("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, uf));
+			axdom("#" + cfg.targetID+'_AX_display').empty();
+			axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, uf));
 
-			itembox = jQuery("#" + cfg.queueBoxID).find("#"+itemID);
+			itembox = axdom("#" + cfg.queueBoxID).find("#"+itemID);
 			itembox.find(".AXUploadBtns").show();
 			itembox.find(".AXUploadLabel").show();
 			itembox.find(".AXUploadTit").show();
@@ -42357,8 +42368,8 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 
 
 			if(cfg.queueBoxID){
-				var quebox = jQuery("#" + cfg.queueBoxID);
-				jQuery.each(this.uploadedList, function(fidx, f){
+				var quebox = axdom("#" + cfg.queueBoxID);
+				axdom.each(this.uploadedList, function(fidx, f){
 					if(f.id == undefined){
 						trace("id key는 필수 항목 입니다.");
 						return false;	
@@ -42381,7 +42392,7 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 					if(f[cfg.fileKeys.thumbPath]){
 						itembox.find(".AXUploadIcon").css({
 							"background-image":"url('"+(f[cfg.fileKeys.thumbPath]||"").dec()+"')"
-						}).addClass("AXUploadPreview");
+						}).addClass("AXUploadPreview").find("img.preview").remove();
 					}else{
 						itembox.find(".AXUploadIcon").css({"background-image":"none"});
 						itembox.find(".AXUploadIcon").html((f[cfg.fileKeys.type]||"").dec().replace(".", ""));
@@ -42422,8 +42433,8 @@ toast.push(Object.toJSON(list));
 			try{
 				var pars = [];
 				if(this.uploadedList){
-					jQuery.each(this.uploadedList, function(){
-						if(this != "") pars.push(jQuery.param(this));
+					axdom.each(this.uploadedList, function(){
+						if(this != "") pars.push(axdom.param(this));
 					});
 				}
 				return pars.join("&");
@@ -42454,16 +42465,16 @@ toast.push(Object.toJSON(list));
 		var selectObj = this.multiSelector.getSelects();
 		if(arg == "param"){
 			var pars = [];
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				for(var a=0;a<selectObj.length;a++){
-					if(this.id == selectObj[a].id) pars.push(jQuery.param(this));
+					if(this.id == selectObj[a].id) pars.push(axdom.param(this));
 				}
 			});
 			return pars.join("&");
 			pars = null;
 		}else{
 			var pars = [];
-			jQuery.each(this.uploadedList, function(){
+			axdom.each(this.uploadedList, function(){
 				for(var a=0;a<selectObj.length;a++){
 					if(this.id == selectObj[a].id) pars.push(this);
 				}
@@ -42493,12 +42504,12 @@ toast.push(Object.toJSON(list));
 		po.push("<a href='#AXexec' class='AXFileTitle'>"+AXfile.ti.dec()+"</a>");
 		po.push("<a href='#AXexec' class='AXFileDelete'>X</a>");
 		po.push("</div>"); 
-		jQuery("#"+UploadDisplay_id).html(po.join(''));			
-		jQuery("#"+UploadDisplay_id).find(".AXFileDelete").bind("click", onClickButton);
+		axdom("#"+UploadDisplay_id).html(po.join(''));			
+		axdom("#"+UploadDisplay_id).find(".AXFileDelete").bind("click", onClickButton);
 
 		if(this.settings.onclick){
 			var onclick = this.settings.onclick.bind(this);
-			jQuery("#"+UploadDisplay_id).find(".AXFileTitle").bind("click", function(){
+			axdom("#"+UploadDisplay_id).find(".AXFileTitle").bind("click", function(){
 				onclick(AXfile);
 			});
 		}
@@ -42513,17 +42524,42 @@ toast.push(Object.toJSON(list));
 	addKeyInUploadedListItem: function(objID, obj){
 		var uploadedList = this.uploadedList;
 		
-		jQuery.each(uploadedList, function(idx, o){
+		axdom.each(uploadedList, function(idx, o){
 			if (o.id == objID){
-				jQuery.each(obj, function(k, v){
+				axdom.each(obj, function(k, v){
 					o[k] = v;
 				});
 			}else{
-				jQuery.each(obj, function(k, v){
+				axdom.each(obj, function(k, v){
 					o[k] = '';
 				});
 			}
 		});
+	},
+
+	setLocalPreview: function(itemID, file){
+		if (!this.supportHtml5 || this.config.isSingleUpload) { return; }
+		if (!this.supportHtml5 || this.config.isSingleUpload) { return; }
+
+		try {
+			var previewId = itemID + "_preview";
+			var preview   = axf.getId(previewId);
+			var reader    = new FileReader(previewId);
+
+			reader.onloadend = function () {
+				try {
+					preview.src = reader.result;
+				} catch (ex) {
+					trace(ex);
+				}
+			};
+
+			if (file) {
+				reader.readAsDataURL(file);
+			}
+		} catch (e) {
+			trace(e);
+		}
 	},
 	
 	nothing: function(){
@@ -42531,7 +42567,7 @@ toast.push(Object.toJSON(list));
 	}
 });
 
-// jquery extend
+// axdom extend
 /* ---------------------------- */
 var AXUserSelect = Class.create(AXJ, {
     initialize: function(AXJ_super) {

@@ -71,8 +71,6 @@
     var pageID = "AXGrid";
     var fnObj = {
         pageStart: function(){
-//            axf.readyMobileConsole();
-
             fnObj.grid.bind();
         },
         grid: {
@@ -83,7 +81,7 @@
                 var getColGroup = function(){
                     return [
                         {key:"col1", label:"컬럼1", width:"100", align:"center"},
-                        {key:"col2", label:"컬럼2", width:"100", align:"center"},
+                        {key:"col2", label:"컬럼2", width:"100", align:"center", display:false},
                         {key:"col3", label:"컬럼3", width:"70", align:"center"},
                         {key:"col4", label:"컬럼4", width:"100", align:"center"},
                         {key:"col5", label:"컬럼5", width:"100", align:"center"},
@@ -100,12 +98,12 @@
 
                 myGrid.setConfig({
                     targetID : "AXGridTarget",
-                    fixedColSeq:1,
+                    //fixedColSeq:1,
                     //sort:false,
                     fitToWidth:true,
                     colGroup : getColGroup(),
                     colHeadAlign: "center",
-                    mergeCells : [0,1,2,3],
+                    mergeCells : [0,2],
                     body : {
                         onclick: function(){
                             // toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
