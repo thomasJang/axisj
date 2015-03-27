@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-26 
+AXJ - v1.0.14 - 2015-03-27 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-26 
+AXJ - v1.0.14 - 2015-03-27 
 */
 
 if(!window.AXConfig){
@@ -616,32 +616,74 @@ axf.setCookie("myname", "tomas", 10, {
 	},
 /**
  * @member {Object} axf.Event
- * @description Event.keyCode 모음
+ * @description Event.keyCode 모음 ref => https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
  * @example
- ```js
-Event: {
-	KEY_BACKSPACE: 8,
-	KEY_TAB: 9,
-	KEY_RETURN: 13,
-	KEY_ESC: 27,
-	KEY_LEFT: 37,
-	KEY_UP: 38,
-	KEY_RIGHT: 39,
-	KEY_DOWN: 40,
-	KEY_DELETE: 46,
-	KEY_HOME: 36,
-	KEY_END: 35,
-	KEY_PAGEUP: 33,
-	KEY_PAGEDOWN: 34,
-	KEY_INSERT: 45
-}
- ```
+ *``js
+ *Event: {
+ *    KEY_BACKSPACE: 8,
+ *    KEY_TAB      : 9,
+ *    KEY_RETURN   : 13,
+ *    KEY_SHIFT    : 16,
+ *    KEY_CONTROL  : 17,
+ *    KEY_ALT      : 18,
+ *    KEY_ESC      : 27,
+ *    KEY_SPACE    : 32,
+ *    KEY_PAGEUP   : 33,
+ *    KEY_PAGEDOWN : 34,
+ *    KEY_END      : 35,
+ *    KEY_HOME     : 36,
+ *    KEY_LEFT     : 37,
+ *    KEY_UP       : 38,
+ *    KEY_RIGHT    : 39,
+ *    KEY_DOWN     : 40,
+ *    KEY_INSERT   : 45,
+ *    KEY_DELETE   : 46,
+ *    KEY_WINDOW   : 91,
+ *    KEY_EQUAL    : 187,
+ *    KEY_MINUS    : 189,
+ *    KEY_PERIOD   : 190,
+ *    NUMPAD_EQUAL   : 12,
+ *    NUMPAD_MULTIPLY: 106,
+ *    NUMPAD_ADD     : 107,
+ *    NUMPAD_SUBTRACT: 109,
+ *    NUMPAD_DECIMAL : 110,
+ *    NUMPAD_DIVIDE  : 111,
+ *    NUMPAD_COMMA   : 194,
+ *    cache: {}
+ *}
+ *```
  */
 	Event: {
 		KEY_BACKSPACE: 8,
-		KEY_TAB: 9,
-		KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46,
-		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {}
+		KEY_TAB      : 9,
+		KEY_RETURN   : 13,
+		KEY_SHIFT    : 16,
+		KEY_CONTROL  : 17,
+		KEY_ALT      : 18,
+		KEY_ESC      : 27,
+		KEY_SPACE    : 32,
+		KEY_PAGEUP   : 33,
+		KEY_PAGEDOWN : 34,
+		KEY_END      : 35,
+		KEY_HOME     : 36,
+		KEY_LEFT     : 37,
+		KEY_UP       : 38,
+		KEY_RIGHT    : 39,
+		KEY_DOWN     : 40,
+		KEY_INSERT   : 45,
+		KEY_DELETE   : 46,
+		KEY_WINDOW   : 91,
+		KEY_EQUAL    : 187,
+		KEY_MINUS    : 189,
+		KEY_PERIOD   : 190,
+		NUMPAD_EQUAL   : 12,
+		NUMPAD_MULTIPLY: 106,
+		NUMPAD_ADD     : 107,
+		NUMPAD_SUBTRACT: 109,
+		NUMPAD_DECIMAL : 110,
+		NUMPAD_DIVIDE  : 111,
+		NUMPAD_COMMA   : 194,
+		cache: {}
 	},
 /**
  * @method axf.console
@@ -12080,6 +12122,7 @@ var AXGrid = Class.create(AXJ, {
  *     mergeCells  : [3,4]           // {Boolean|Array} -- 전체셀병합,병합안함,지정된 인덱스열만 병합 예제) http://dev.axisj.com/samples/AXGrid/mergeCells.html
  *     height      : "auto",         // {Number|String} -- 그리드의 높이를 지정합니다. 숫자를 사용하면 픽셀 단위로, "auto" 값을 사용하면 그리드의 높이가 내용에 맞춰서 늘어납니다. 예제) http://dev.axisj.com/samples/AXGrid/autoHeight.html
  *     sort        : true,           // {Boolean} -- true: 그리드의 헤더를 클릭해서 정렬 할 수 있습니다. false: 정렬 기능을 비활성화 합니다.  이 설정은 colGroup의 sort 보다 우선적으로 적용됩니다.
+ *     remoteSort  : true,           // {Boolean} [false] -- 서버에서 정렬을 처리(서버에서 별도 처리 필요)합니다. 헤더 클릭시 'sortBy=cost desc' 형식의 정렬 정보가 ajax 요청에 포함됩니다.
  *     colHeadTool : true,           // {Boolean} -- 컬럼 display 여부를 설정 합니다. 이 설정은 colGroup의 colHeadTool 보다 우선적으로 적용됩니다.
  *     viewMode    : "grid"          // {String} -- 그리드가 보여지는 형태("grid"|"icon"|"mobile")를 지정합니다. viewMode는 mediaQuery에 의해서 자동으로 결정되기도 합니다. 예제) http://localhost/axisj/samples/AXGrid/viewMode.html
  *     reserveKeys : { // reserveKeys는 AXISJ에서 지정한 키를 다른 키로 지정하는 하는 경우 사용합니다. reserveKeys를 사용하면 데이터를 수정없이 바로 사용할 수 있습니다.
@@ -13668,11 +13711,24 @@ var AXGrid = Class.create(AXJ, {
                 axdom("#" + tdID).addClass("sortAsc");
             }
 
-            this.list = this.sortList(nsort, myColHead, this.list);
-            this.printList({sort:true});
-
             this.nowSortHeadID = tdID;
             this.nowSortHeadObj = myColHead;
+
+            var ai = this.ajaxInfo;
+            if (ai && cfg.remoteSort) {
+                if (ai.ajaxPars) {
+                    var parsObj = $.extend(ai.ajaxPars.queryToObject(), this.getSortParam("one").queryToObject());
+                    ai.ajaxPars = axdom.param(parsObj);
+                } else {
+                    ai.ajaxPars = this.getSortParam("one");
+                }
+
+                this.reloadList();
+            } else {
+                this.list = this.sortList(nsort, myColHead, this.list);
+                this.printList({sort:true});
+            }
+
         }
 
         if (cfg.colHead.onclick) { /* onclick    bind */
@@ -14109,6 +14165,14 @@ var AXGrid = Class.create(AXJ, {
                 "pageSize=" + this.page.pageSize
             ];
 
+            // 기본 소팅정보
+            if (cfg.remoteSort) {
+                var sortParam = this.getSortParam("one");
+                if (sortParam) {
+                    appendPars.push(sortParam);
+                }
+            }
+
             var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
 
             var _method = "post";
@@ -14269,7 +14333,7 @@ var AXGrid = Class.create(AXJ, {
         var nowSortHeadID = this.nowSortHeadID;
         var nowSortHeadObj = this.nowSortHeadObj;
 
-        if (res._sortDisable || !cfg.sort) {
+        if (res._sortDisable || !cfg.sort || cfg.remoteSort) {
             this.list = res[AXConfig.AXGrid.keyList];
         } else {
             if (nowSortHeadID) {
@@ -17750,7 +17814,7 @@ var AXGrid = Class.create(AXJ, {
         // 1 셀정보 수집
         var rows = [];
         var typn = typ=='f' ? 'fix' : 'n';
-        for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
+        for(var tri = this.virtualScroll.startIndex;tri < this.virtualScroll.endIndex;tri++){
             var row = [];
             if(this.list[tri]) {
                 for (var tdi = 0; tdi < cfg.colGroup.length; tdi++) {
@@ -25511,12 +25575,20 @@ var AXInputConverterPro = Class.create(AXJ, {
 			if (
 					event.which &&
 					(
-						event.which  > 47 && event.which  < 58
-						|| event.which  > 36 && event.which  < 41
-				        || event.which > 95 && event.which < 106
-							|| event.which == 8 || event.which == 9 || event.which == 13
-							|| event.which == 46 || event.which == 109 || event.which == 110
-							|| event.which == 189 || event.which == 187 || event.which == 190
+						event.which > 47 && event.which < 58  ||
+						event.which > 36 && event.which < 41  ||
+						event.which > 95 && event.which < 106 ||
+						event.which == axf.Event.KEY_BACKSPACE   ||
+						event.which == axf.Event.KEY_TAB         ||
+						event.which == axf.Event.KEY_RETURN      ||
+						event.which == axf.Event.KEY_DELETE      ||
+						event.which == axf.Event.NUMPAD_SUBTRACT ||
+						event.which == axf.Event.NUMPAD_DECIMAL  ||
+						event.which == axf.Event.KEY_MINUS       ||
+						event.which == axf.Event.KEY_EQUAL       ||
+						event.which == axf.Event.KEY_PERIOD      ||
+						event.which == axf.Event.KEY_HOME        ||
+						event.which == axf.Event.KEY_END
 					)
 				) {
 
@@ -25527,7 +25599,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 					// 소수점 입력 막기
 					isStop = true;
 				}
-				else if (event.which == 189 || event.which == 187 || event.which == 190){
+				else if (event.which == axf.Event.KEY_MINUS || event.which == axf.Event.KEY_EQUAL || event.which == axf.Event.KEY_PERIOD){
 					if(
 						(
 							obj.config.pattern == "money" ||
@@ -25542,7 +25614,16 @@ var AXInputConverterPro = Class.create(AXJ, {
 						isStop = true;
 					}
 				}
-				else if (event.which == 8 || event.which == 9 || event.which == 13 || event.which == 37 || event.which == 39|| event.which == 46) { // 백스페이스, 탭, 리턴, 좌, 우, delete
+				else if (
+					event.which == axf.Event.KEY_BACKSPACE ||
+					event.which == axf.Event.KEY_TAB       ||
+					event.which == axf.Event.KEY_RETURN    ||
+					event.which == axf.Event.KEY_LEFT      ||
+					event.which == axf.Event.KEY_RIGHT     ||
+					event.which == axf.Event.KEY_DELETE    ||
+					event.which == axf.Event.KEY_HOME      ||
+					event.which == axf.Event.KEY_END) { // 백스페이스, 탭, 리턴, 좌, 우, delete
+
 					if(event.which == 13){
 						obj.bindTarget.trigger("blur");
 					}
@@ -25624,8 +25705,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 			var event = window.event || event;
 			// ignore tab & shift key 스킵 & ctrl
+			if (!event.keyCode || event.keyCode ==axf.Event.KEY_TAB|| event.keyCode == 16 || event.keyCode == 17||
+				event.which == axf.Event.KEY_HOME ||
+				event.which == axf.Event.KEY_END) return;
 
-			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
 			if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
 			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 				bindPatternCheck(objID, objSeq, "keyup");
@@ -30384,8 +30467,7 @@ var AXSelectConverter = Class.create(AXJ, {
 				}
 
 			};
-
-			objDom_selectTextBox.bind("click.AXSelect", function (event) {
+			objDom_selectTextBox.unbind("click.AXSelect").bind("click.AXSelect", function (event) {
 				axdom("#" + objID).click();
 			});
 
@@ -31373,6 +31455,7 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 		}
 
 		this.alignAnchor(objID, objSeq);
+		iobj.css({opacity:0});
 
 		return this;
 	}
