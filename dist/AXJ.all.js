@@ -15401,16 +15401,16 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description body(list) 구성시 marker row 가 존재할경우 처리 합니다.
      * @example
-```
- var item = {
-	a: "a",
-	b: "b",
-	c: "c",
-	d: "d",
-	e: 14350
- };
-     myGrid.updateList(0,item);
-```
+     * ```
+     *  var item = {
+     * 	a: "a",
+     * 	b: "b",
+     * 	c: "c",
+     * 	d: "d",
+     * 	e: 14350
+     *  };
+     *      myGrid.updateList(0,item);
+     * ```
      */
     updateList: function (itemIndex, item) {
         var cfg = this.config;
@@ -15464,11 +15464,11 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description 그리드에 데이터를 삽입합니다. <en>push to Grid.list</en>
      * @example
-```
- myGrid.pushList([item Array]);
- myGrid.pushList([item Array], 1);
- myGrid.pushList([item]);
-```
+     * ```
+     *  myGrid.pushList([item Array]);
+     *  myGrid.pushList([item Array], 1);
+     *  myGrid.pushList([item]);
+     * ```
      */
     pushList: function (pushItem, insertIndex) {
         var cfg = this.config;
@@ -15548,14 +15548,14 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description grid의 리스트에 아이템을 추가 합니다.(배열)
      * @example
-```
- var list = [
-     {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
-     {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
-     {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5}
- ];
- myGrid.fetchList(list);
-```
+     * ```
+     *  var list = [
+     *      {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+     *      {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+     *      {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5}
+     *  ];
+     *  myGrid.fetchList(list);
+     * ```
      */
     fetchList: function(list){
         var cfg = this.config, VS = this.virtualScroll;
@@ -15649,10 +15649,10 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description removeList의 index에 해당하는 항목을 제거 합니다..
      * @example
-```
- var removeList = [{index:0},{index:1},{index:2}];
- myGrid.removeListIndex(removeList);
-```
+     * ```
+     *  var removeList = [{index:0},{index:1},{index:2}];
+     *  myGrid.removeListIndex(removeList);
+     * ```
      */
     removeListIndex: function (removeList) {
         var cfg = this.config;
@@ -15693,7 +15693,6 @@ var AXGrid = Class.create(AXJ, {
             var collect = [];
             axf.each(removeList, function (ridx, r) {
                 if(_list[r.index]) {
-
                     _list[r.index]._isDel = true;
                 }
             });
@@ -16677,10 +16676,6 @@ var AXGrid = Class.create(AXJ, {
         }
 
         if(this.inline_edit) {
-            cellUpdate();
-            if(CG.editor.afterUpdate){
-                CG.editor.afterUpdate.call(that, value);
-            }
             function cellUpdate() {
                 _this.inline_edit.cell.html(_this.getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, c));
                 if (CG.editor.updateWith) {
@@ -16701,6 +16696,10 @@ var AXGrid = Class.create(AXJ, {
                         );
                     }
                 }
+            }
+            cellUpdate();
+            if(CG.editor.afterUpdate){
+                CG.editor.afterUpdate.call(that, value);
             }
             _this.editCellClear();
         }
