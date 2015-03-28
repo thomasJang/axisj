@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-27 
+AXJ - v1.0.14 - 2015-03-28 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-27 
+AXJ - v1.0.14 - 2015-03-28 
 */
 
 if(!window.AXConfig){
@@ -15967,7 +15967,9 @@ var AXGrid = Class.create(AXJ, {
                         len = this.selectedRow.length, _selectedRow = [], hasItem = false,
                         r = ids[ids.length - 3], c = ids[ids.length - 2], CG = cfg.colGroup[c],
                         i = 0;
-
+    
+                    this._focusedItemIndex = itemIndex;
+                    
                     if(CG.editor){
                         if(this.editCellClear(r, c, itemIndex) === false){
                             return this; // 현재 에디팅 중인 셀이 클릭 되었을 때는 아무런 클릭 이벤트를 발생 시키지 않습니다.
@@ -16132,6 +16134,7 @@ var AXGrid = Class.create(AXJ, {
                 if (myTarget) {
                     var targetID = myTarget.id;
                     var itemIndex = targetID.split(/_AX_/g).last();
+                    this._focusedItemIndex = itemIndex;
 
                     if (event.shiftKey) {
 
@@ -16171,6 +16174,7 @@ var AXGrid = Class.create(AXJ, {
                 if (myTarget) {
                     var targetID = myTarget.id;
                     var itemIndex = targetID.split(/_AX_/g).last();
+                    this._focusedItemIndex = itemIndex;
 
                     if (event.shiftKey) {
 
@@ -16208,6 +16212,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
 
+            this.onevent_grid({type:"grid-list-click"});
         }
 
     },
@@ -17573,7 +17578,7 @@ var AXGrid = Class.create(AXJ, {
             }
 
             //console.log(this.virtualScroll.startIndex, this.virtualScroll.endIndex, itemIndex);
-
+            this._focusedItemIndex = itemIndex;
             if(this.virtualScroll.startIndex <= itemIndex && this.virtualScroll.endIndex > itemIndex){
 
                 this.selectedRow.clear();
@@ -17652,11 +17657,13 @@ var AXGrid = Class.create(AXJ, {
                         }
                     });
 
-                } else {
+                } 
+                else {
                     //console.log("out of index");
+                    this._focusedItemIndex = undefined;
                 }
             }
-
+            this.onevent_grid({type:"grid-list-focus"});
         }
         else
         if (cfg.viewMode == "icon") {
@@ -41155,7 +41162,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.35
+ * @version v1.36
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -41182,6 +41189,7 @@ var swfobject;
  "2015-01-16 tom : setUploadedList bug fix"
  "2015-02-06 John : getItemTag : openMode (view 모드 추가) list 모드 css 적용"
  "2015-02-07 tom : single 모드에서 fileDisplayHide: true 속성 추가"
+ "2015-03-28 tom : https://github.com/axisj-com/axisj/issues/501 삭제후 리스트가 비었을 때 onDeleteAll 호출"
 
  * @description
  *
@@ -42345,6 +42353,7 @@ var AXUpload5 = Class.create(AXJ, {
 		});
 		this.uploadedList = newUploadedList;
 		newUploadedList = null;
+		if (this.config.onDeleteAll && this.uploadedList.length < 1)  this.config.onDeleteAll.call();
 		
 		this.multiSelector.collect();
 	},
