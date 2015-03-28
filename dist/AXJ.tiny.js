@@ -15093,7 +15093,20 @@ var AXSelectConverter = Class.create(AXJ, {
 				break;
 			}
 		}
+
 		if(findIndex != null){
+			var obj = this.objects[findIndex], selectedIndex, options, sendObj;
+			if (obj.config.onChange) {
+				selectedIndex = AXgetId(objID).options.selectedIndex;
+				options = AXgetId(objID).options[selectedIndex];
+				sendObj = {
+					optionIndex:selectedIndex,
+					optionValue:options.value, optionText:options.text,
+					value: options.value,
+					text: options.text
+				};
+				obj.config.onChange.call(sendObj, sendObj);
+			}
 			this.bindSelectChange(objID, findIndex);
 		}
 	},
@@ -15211,12 +15224,13 @@ mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스�
 		for (var opts, oidx = 0; (oidx < obj.options.length && (opts = obj.options[oidx])); oidx++) {
 			var optionText = (opts.optionText||"").dec();
 			po.push("<option value=\"" + opts.optionValue + "\"");
-			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+			if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
 		}
 		iobj.empty();
 		iobj.append(po.join(''));
 
+		//this.bindSelectChangeValue(objID, obj.config.setValue);
 		this.alignAnchor(objID, objSeq);
 
 		return obj.options;
@@ -15275,7 +15289,7 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 		for (var opts, oidx = 0; (oidx < obj.options.length && (opts = obj.options[oidx])); oidx++) {
 			var optionText = (opts.optionText||"").dec();
 			po.push("<option value=\"" + opts.optionValue + "\"");
-			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+			if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
 		}
 		iobj.empty();
