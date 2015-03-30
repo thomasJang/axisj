@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-28 
+AXJ - v1.0.14 - 2015-03-31 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-28 
+AXJ - v1.0.14 - 2015-03-31 
 */
 
 if(!window.AXConfig){
@@ -1472,63 +1472,58 @@ Object.extend(String.prototype, (function () {
 		if(this.length == 14){
 			try {
 				var va = this.replace(/\D/g, "");
-				return new Date(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2), va.substr(8, 2), va.substr(10, 2), va.substr(12, 2));
+				var d = new Date(Date.UTC(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2), va.substr(8, 2), va.substr(10, 2), va.substr(12, 2)));
+				if(va.substr(4, 2).number() == 1 && parseFloat(va.substr(6, 2)) == 1 && parseFloat(va.substr(8, 2)) < (d.getTimezoneOffset()/60).abs()) {
+					d.setUTCHours(0);
+				}else{
+					d.setUTCHours(d.getUTCHours() + (d.getTimezoneOffset()/60));
+				}
+				return d;
 			} catch (e) {
 				return (defaultDate || new Date());
 			}
 		}else if (this.length == 10) {
 			try {
 				var aDate = this.split(separator || "-");
-				return new Date(aDate[0], ((aDate[1]) - 1).number(), (aDate[2]).number(), 12);
+				var d = new Date(aDate[0], ((aDate[1]) - 1).number(), (aDate[2]).number(), 23);
+				//d.setUTCHours(d.getUTCHours() - (d.getTimezoneOffset()/60));
+				return d;
 			} catch (e) {
 				return (defaultDate || new Date());
 			}
 		} else if (this.length == 8) {
 			var va = this.replace(/\D/g, "");
-			return new Date(va.substr(0, 4), (va.substr(4, 2).number()-1), va.substr(6, 2).number(), 12);
+			return new Date(va.substr(0, 4), (va.substr(4, 2).number()-1), va.substr(6, 2).number(), 23);
 		} else if (this.length < 10) {
 			return (defaultDate || new Date());
 		} else if (this.length > 15) {
-			try {
-				var aDateTime = this.split(/ /g);
-				var aDate = aDateTime[0].split(separator || "-");
-				if (aDateTime[1]) {
-					var aTime = aDateTime[1];
-				} else {
-					var aTime = "09:00";
-				}
-				var is24 = true;
-				if (aTime.right(2) == "AM" || aTime.right(2) == "PM") {
-					is24 = false;
-				}
-				var aTimes = aTime.left(5).split(":");
-				var hh = aTimes[0];
-				var mi = aTimes[1];
-
-				if (!is24) hh += 12;
-
-				var d = new Date();
-				if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1) {
-					d.setUTCFullYear(aDate[0]);
-					d.setUTCMonth(0);
-					d.setUTCDate(1);
-					d.setHours(23, 59);
-					trace(d);
-				}else {
-					d.setUTCFullYear(aDate[0]);
-					d.setUTCMonth(parseFloat(aDate[1]) - 1);
-					d.setUTCDate(parseFloat(aDate[2]));
-					d.setHours(parseFloat(hh), parseFloat(mi));
-					//return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi));
-				}
-				return d;
-			} catch (e) {
-				var now = new Date();
-				return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
+			var aDateTime = this.split(/ /g);
+			var aDate = aDateTime[0].split(separator || "-");
+			if (aDateTime[1]) {
+				var aTime = aDateTime[1];
+			} else {
+				var aTime = "09:00";
 			}
+			var is24 = true;
+			if (aTime.right(2) == "AM" || aTime.right(2) == "PM") {
+				is24 = false;
+			}
+			var aTimes = aTime.left(5).split(":");
+			var hh = aTimes[0];
+			var mi = aTimes[1];
+
+			if (!is24) hh += 12;
+
+			var d = new Date(Date.UTC(aDate[0], parseFloat(aDate[1]) - 1, parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi)));
+			if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1 && parseFloat(hh) < (d.getTimezoneOffset()/60).abs()) {
+				d.setUTCHours(0);
+			}else{
+				d.setUTCHours(d.getUTCHours() + (d.getTimezoneOffset()/60));
+			}
+			return d;
 		} else { // > 10
 			var now = new Date();
-			return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
+			return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), (now.getTimezoneOffset()/60)));
 		}
 	}
 /**
@@ -15866,7 +15861,7 @@ var AXGrid = Class.create(AXJ, {
         var eventTarget = event.target;
 
         if (event.target.id != "") {
-            var eid = event.target.id.split(/_AX_/g);
+            //var eid = event.target.id.split(/_AX_/g);
             var isoncheck = false, checkedValue;
             if (eventTarget.tagName.toLowerCase() == "input") {
                 if(!eventTarget.disabled) {
@@ -16222,20 +16217,15 @@ var AXGrid = Class.create(AXJ, {
      */
     gridBodyDBLClick: function (event) {
         var cfg = this.config;
-        if (event.target.id == "") return;
-        var eid = event.target.id.split(/_AX_/g);
         var eventTarget = event.target;
         if (eventTarget.tagName.toLowerCase() == "input" || eventTarget.tagName.toLowerCase() == "button") return;
         /*input, button 인 경우 제외 */
-        var myTarget = this.getEventTarget({
-            evt: eventTarget, evtIDs: eid,
-            until: function (evt, evtIDs) {
-                return (axdom(evt.parentNode).hasClass("AXGridBody")) ? true : false;
-            },
-            find: function (evt, evtIDs) {
-                return (axdom(evt).hasClass("bodyTd") || axdom(evt).hasClass("bodyViewIcon") || axdom(evt).hasClass("bodyViewMobile")) ? true : false;
-            }
+
+        var myTarget = axf.get_event_target(eventTarget, function(el){
+            var edom = axdom(el);
+            return (!edom.hasClass("buttonGroupItem") && (edom.hasClass("bodyTd") || edom.hasClass("bodyViewIcon") || edom.hasClass("bodyViewMobile")));
         });
+
         /* event target search ------------------------ */
         if (cfg.viewMode == "grid") {
             if (myTarget) {
@@ -22524,9 +22514,9 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		
+
 		//trace(obj.config);
-		
+
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			var _this = this;
 			setTimeout(function(){
@@ -22647,7 +22637,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
-		
+
 		var dfDate = (obj.config.defaultDate || "").date();
 		var myDate = objVal.date(separator, dfDate);
 		var myYear = myDate.getFullYear();
