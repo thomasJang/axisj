@@ -15514,16 +15514,10 @@ var AXGrid = Class.create(AXJ, {
         } 
         else 
         {
-
             for (var li = 0; li < pushData.length; li++) {
                 this.list.push(pushData[li]);
             }
-
-            // 스크롤이 되지 않는 상황이면...
-            if(this.body.height() >= this.scrollContent.height()){
-                this.printList();
-            }
-
+            if(this.list.length === 1) this.printList();
             this.bigDataSyncApply();
             this.contentScrollResize(false);
             //this.setFocus(this.list.length-1); insertIndex 가 없으면 focus 실행 안함.
@@ -21568,8 +21562,7 @@ var AXInputConverter = Class.create(AXJ, {
 		kword = kword.replace(/\//g, "\\\/");
 		var sw = AXUtil.consonantKR((kword || "").dec());
 		var reAt = new RegExp("^" + sw + ".*", "i");
-		//trace(sw);
-		//eval("var reAt= /^" + sw + ".*/i");
+
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
 			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || ""))) {
