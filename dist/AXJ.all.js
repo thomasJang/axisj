@@ -1469,61 +1469,57 @@ Object.extend(String.prototype, (function () {
  ```
  */
 	function toDate(separator, defaultDate) {
-		if(this.length == 14){
-			try {
-				var va = this.replace(/\D/g, "");
-				var d = new Date(Date.UTC(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2), va.substr(8, 2), va.substr(10, 2), va.substr(12, 2)));
-				if(va.substr(4, 2).number() == 1 && parseFloat(va.substr(6, 2)) == 1 && parseFloat(va.substr(8, 2)) < (d.getTimezoneOffset()/60).abs()) {
-					d.setUTCHours(0);
-				}else{
-					d.setUTCHours(d.getUTCHours() + (d.getTimezoneOffset()/60));
-				}
-				return d;
-			} catch (e) {
-				return (defaultDate || new Date());
-			}
-		}else if (this.length == 10) {
-			try {
-				var aDate = this.split(separator || "-");
-				var d = new Date(aDate[0], ((aDate[1]) - 1).number(), (aDate[2]).number(), 23);
-				//d.setUTCHours(d.getUTCHours() - (d.getTimezoneOffset()/60));
-				return d;
-			} catch (e) {
-				return (defaultDate || new Date());
-			}
-		} else if (this.length == 8) {
-			var va = this.replace(/\D/g, "");
-			return new Date(va.substr(0, 4), (va.substr(4, 2).number()-1), va.substr(6, 2).number(), 23);
-		} else if (this.length < 10) {
-			return (defaultDate || new Date());
-		} else if (this.length > 15) {
-			var aDateTime = this.split(/ /g);
-			var aDate = aDateTime[0].split(separator || "-");
-			if (aDateTime[1]) {
-				var aTime = aDateTime[1];
-			} else {
-				var aTime = "09:00";
-			}
-			var is24 = true;
-			if (aTime.right(2) == "AM" || aTime.right(2) == "PM") {
-				is24 = false;
-			}
-			var aTimes = aTime.left(5).split(":");
-			var hh = aTimes[0];
-			var mi = aTimes[1];
+		function local_date(yy, mm, dd, hh, mi, ss){
+			var utc_d, local_d;
+			local_d = new Date();
+			utc_d = new Date(Date.UTC(yy, mm, dd||1, hh||23, mi||59, ss||0));
 
-			if (!is24) hh += 12;
-
-			var d = new Date(Date.UTC(aDate[0], parseFloat(aDate[1]) - 1, parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi)));
-			if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1 && parseFloat(hh) < (d.getTimezoneOffset()/60).abs()) {
-				d.setUTCHours(0);
+			if(mm == 0 && dd == 1 && utc_d.getUTCHours() + (utc_d.getTimezoneOffset()/60) < 0){
+				utc_d.setUTCHours(0);
 			}else{
-				d.setUTCHours(d.getUTCHours() + (d.getTimezoneOffset()/60));
+				utc_d.setUTCHours(utc_d.getUTCHours() + (utc_d.getTimezoneOffset()/60));
 			}
-			return d;
-		} else { // > 10
-			var now = new Date();
-			return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), (now.getTimezoneOffset()/60)));
+			return utc_d;
+		}
+
+		if(this.length == 0){
+			return defaultDate || new Date();
+		}
+		else if (this.length > 15) {
+			var yy, mm, dd, hh, mi,
+				aDateTime = this.split(/ /g), aTimes, aTime,
+				aDate = aDateTime[0].split(separator || "-"),
+				utc_d, local_d;
+
+			yy = aDate[0];
+			mm = parseFloat(aDate[1]);
+			dd = parseFloat(aDate[2]);
+			aTime = aDateTime[1] || "09:00";
+			aTimes = aTime.left(5).split(":");
+			hh = parseFloat(aTimes[0]);
+			mi = parseFloat(aTimes[1]);
+			if (aTime.right(2) === "AM" || aTime.right(2) === "PM") hh += 12;
+			return local_date(yy, mm-1, dd, hh, mi);
+		}
+		else if(this.length == 14){
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2).number(), va.substr(8, 2).number(), va.substr(10, 2).number(), va.substr(12, 2).number());
+		}
+		else if (this.length > 7) {
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2).number());
+		}
+		else if (this.length > 4) {
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, 1);
+		}
+		else if (this.length > 2) {
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, 1);
+		}
+		else
+		{
+			return defaultDate || new Date();
 		}
 	}
 /**
@@ -22637,11 +22633,12 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
-
 		var dfDate = (obj.config.defaultDate || "").date();
 		var myDate = objVal.date(separator, dfDate);
-		var myYear = myDate.getFullYear();
-		var myMonth = (myDate.getMonth() + 1).setDigit(2);
+
+		var myYear = myDate.getUTCFullYear();
+		var myMonth = (myDate.getUTCMonth() + 1).setDigit(2);
+
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
 		po.push("	<div>");
