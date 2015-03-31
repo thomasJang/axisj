@@ -28,6 +28,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXSelect.js"></script>
     <script type="text/javascript" src="../../lib/AXSearch.js"></script>
 
     <script type="text/javascript" src="../page.js"></script>
@@ -56,6 +57,7 @@
 
             <div align="center">
                 <input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search.getParam();" />
+	            <input type="button" value="Reset" class="AXButtonLarge W100" onclick="fnObj.search.reset();" />
             </div>
 
 		</div>
@@ -200,6 +202,9 @@
 				var pars = this.target.getParam();
 				toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
 				trace(pars);
+			},
+			reset: function(){
+				this.target.reset();
 			}
 		}
 	};

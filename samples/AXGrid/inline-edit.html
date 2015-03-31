@@ -59,6 +59,7 @@
                     <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
 
 	                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
+	                <input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.grid.remove();" />
                 </div>
             </div>
 
@@ -181,9 +182,11 @@ colGroup : [
 		            targetID : "AXGridTarget",
 		            sort:false,
 		            //fitToWidth:true, // 너비에 자동 맞춤
+		            passiveMode:true,
+		            passiveRemoveHide:false,
 
 		            colGroup : [
-			            {key:"no", label:"번호", width:"50", align:"right"},
+			            {key:"no", label:"번호", width:"50", align:"center", formatter:"checkbox"},
 			            {
 				            key:"_CUD", label:"상태", width:"50", align:"center"
 			            },
@@ -290,6 +293,28 @@ colGroup : [
 			            checkbox: 1,
 			            radio: 1,
 			           finder: "선택"
+		            },
+		            {
+			            no:2,
+			            string: "AXGrid 첫번째 줄 입니다.",
+			            combobox: {optionValue:1, optionText:"김기영"},
+			            date: "2013-01-18",
+			            money: 1709401,
+			            number: 10,
+			            checkbox: 1,
+			            radio: 1,
+			            finder: "선택"
+		            },
+		            {
+			            no:3,
+			            string: "AXGrid 첫번째 줄 입니다.",
+			            combobox: {optionValue:1, optionText:"김기영"},
+			            date: "2013-01-18",
+			            money: 1709401,
+			            number: 10,
+			            checkbox: 1,
+			            radio: 1,
+			            finder: "선택"
 		            }
 	            ];
                 myGrid.setList(list);
@@ -306,8 +331,29 @@ colGroup : [
                 toast.push('콘솔창에 데이터를 출력하였습니다.');
             },
 	        append: function(){
-		        this.target.pushList({no:this.target.list.length+1, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1});
+		        this.target.pushList(
+			        {
+				        no:this.target.list.length,
+				        string: "AXGrid 첫번째 줄 입니다.",
+				        combobox: {optionValue:1, optionText:"김기영"},
+				        date: "2013-01-18",
+				        money: 1709401,
+				        number: 10,
+				        checkbox: 1,
+				        radio: 1,
+				        finder: "선택"
+			        }
+		        );
 		        this.target.setFocus(this.target.list.length-1);
+	        },
+	        remove: function(){
+		        var checkedList = myGrid.getCheckedListWithIndex(0);// colSeq
+		        if(checkedList.length == 0){
+			        alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");
+			        return;
+		        }
+		        this.target.removeListIndex(checkedList);
+		        // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
 	        }
         }
     };

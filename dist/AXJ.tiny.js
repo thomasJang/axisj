@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-24 
+AXJ - v1.0.14 - 2015-03-31 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-24 
+AXJ - v1.0.14 - 2015-03-31 
 */
 
 if(!window.AXConfig){
@@ -616,32 +616,74 @@ axf.setCookie("myname", "tomas", 10, {
 	},
 /**
  * @member {Object} axf.Event
- * @description Event.keyCode 모음
+ * @description Event.keyCode 모음 ref => https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
  * @example
- ```js
-Event: {
-	KEY_BACKSPACE: 8,
-	KEY_TAB: 9,
-	KEY_RETURN: 13,
-	KEY_ESC: 27,
-	KEY_LEFT: 37,
-	KEY_UP: 38,
-	KEY_RIGHT: 39,
-	KEY_DOWN: 40,
-	KEY_DELETE: 46,
-	KEY_HOME: 36,
-	KEY_END: 35,
-	KEY_PAGEUP: 33,
-	KEY_PAGEDOWN: 34,
-	KEY_INSERT: 45
-}
- ```
+ *``js
+ *Event: {
+ *    KEY_BACKSPACE: 8,
+ *    KEY_TAB      : 9,
+ *    KEY_RETURN   : 13,
+ *    KEY_SHIFT    : 16,
+ *    KEY_CONTROL  : 17,
+ *    KEY_ALT      : 18,
+ *    KEY_ESC      : 27,
+ *    KEY_SPACE    : 32,
+ *    KEY_PAGEUP   : 33,
+ *    KEY_PAGEDOWN : 34,
+ *    KEY_END      : 35,
+ *    KEY_HOME     : 36,
+ *    KEY_LEFT     : 37,
+ *    KEY_UP       : 38,
+ *    KEY_RIGHT    : 39,
+ *    KEY_DOWN     : 40,
+ *    KEY_INSERT   : 45,
+ *    KEY_DELETE   : 46,
+ *    KEY_WINDOW   : 91,
+ *    KEY_EQUAL    : 187,
+ *    KEY_MINUS    : 189,
+ *    KEY_PERIOD   : 190,
+ *    NUMPAD_EQUAL   : 12,
+ *    NUMPAD_MULTIPLY: 106,
+ *    NUMPAD_ADD     : 107,
+ *    NUMPAD_SUBTRACT: 109,
+ *    NUMPAD_DECIMAL : 110,
+ *    NUMPAD_DIVIDE  : 111,
+ *    NUMPAD_COMMA   : 194,
+ *    cache: {}
+ *}
+ *```
  */
 	Event: {
 		KEY_BACKSPACE: 8,
-		KEY_TAB: 9,
-		KEY_RETURN: 13, KEY_ESC: 27, KEY_LEFT: 37, KEY_UP: 38, KEY_RIGHT: 39, KEY_DOWN: 40, KEY_DELETE: 46,
-		KEY_HOME: 36, KEY_END: 35, KEY_PAGEUP: 33, KEY_PAGEDOWN: 34, KEY_INSERT: 45, KEY_SPACE: 32, cache: {}
+		KEY_TAB      : 9,
+		KEY_RETURN   : 13,
+		KEY_SHIFT    : 16,
+		KEY_CONTROL  : 17,
+		KEY_ALT      : 18,
+		KEY_ESC      : 27,
+		KEY_SPACE    : 32,
+		KEY_PAGEUP   : 33,
+		KEY_PAGEDOWN : 34,
+		KEY_END      : 35,
+		KEY_HOME     : 36,
+		KEY_LEFT     : 37,
+		KEY_UP       : 38,
+		KEY_RIGHT    : 39,
+		KEY_DOWN     : 40,
+		KEY_INSERT   : 45,
+		KEY_DELETE   : 46,
+		KEY_WINDOW   : 91,
+		KEY_EQUAL    : 187,
+		KEY_MINUS    : 189,
+		KEY_PERIOD   : 190,
+		NUMPAD_EQUAL   : 12,
+		NUMPAD_MULTIPLY: 106,
+		NUMPAD_ADD     : 107,
+		NUMPAD_SUBTRACT: 109,
+		NUMPAD_DECIMAL : 110,
+		NUMPAD_DIVIDE  : 111,
+		NUMPAD_COMMA   : 194,
+		cache: {}
 	},
 /**
  * @method axf.console
@@ -1427,66 +1469,57 @@ Object.extend(String.prototype, (function () {
  ```
  */
 	function toDate(separator, defaultDate) {
-		if(this.length == 14){
-			try {
-				var va = this.replace(/\D/g, "");
-				return new Date(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2), va.substr(8, 2), va.substr(10, 2), va.substr(12, 2));
-			} catch (e) {
-				return (defaultDate || new Date());
+		function local_date(yy, mm, dd, hh, mi, ss){
+			var utc_d, local_d;
+			local_d = new Date();
+			utc_d = new Date(Date.UTC(yy, mm, dd||1, hh||23, mi||59, ss||0));
+
+			if(mm == 0 && dd == 1 && utc_d.getUTCHours() + (utc_d.getTimezoneOffset()/60) < 0){
+				utc_d.setUTCHours(0);
+			}else{
+				utc_d.setUTCHours(utc_d.getUTCHours() + (utc_d.getTimezoneOffset()/60));
 			}
-		}else if (this.length == 10) {
-			try {
-				var aDate = this.split(separator || "-");
-				return new Date(aDate[0], ((aDate[1]) - 1).number(), (aDate[2]).number(), 12);
-			} catch (e) {
-				return (defaultDate || new Date());
-			}
-		} else if (this.length == 8) {
+			return utc_d;
+		}
+
+		if(this.length == 0){
+			return defaultDate || new Date();
+		}
+		else if (this.length > 15) {
+			var yy, mm, dd, hh, mi,
+				aDateTime = this.split(/ /g), aTimes, aTime,
+				aDate = aDateTime[0].split(separator || "-"),
+				utc_d, local_d;
+
+			yy = aDate[0];
+			mm = parseFloat(aDate[1]);
+			dd = parseFloat(aDate[2]);
+			aTime = aDateTime[1] || "09:00";
+			aTimes = aTime.left(5).split(":");
+			hh = parseFloat(aTimes[0]);
+			mi = parseFloat(aTimes[1]);
+			if (aTime.right(2) === "AM" || aTime.right(2) === "PM") hh += 12;
+			return local_date(yy, mm-1, dd, hh, mi);
+		}
+		else if(this.length == 14){
 			var va = this.replace(/\D/g, "");
-			return new Date(va.substr(0, 4), (va.substr(4, 2).number()-1), va.substr(6, 2).number(), 12);
-		} else if (this.length < 10) {
-			return (defaultDate || new Date());
-		} else if (this.length > 15) {
-			try {
-				var aDateTime = this.split(/ /g);
-				var aDate = aDateTime[0].split(separator || "-");
-				if (aDateTime[1]) {
-					var aTime = aDateTime[1];
-				} else {
-					var aTime = "09:00";
-				}
-				var is24 = true;
-				if (aTime.right(2) == "AM" || aTime.right(2) == "PM") {
-					is24 = false;
-				}
-				var aTimes = aTime.left(5).split(":");
-				var hh = aTimes[0];
-				var mi = aTimes[1];
-
-				if (!is24) hh += 12;
-
-				var d = new Date();
-				if(parseFloat(aDate[1]) == 1 && parseFloat(aDate[2]) == 1) {
-					d.setUTCFullYear(aDate[0]);
-					d.setUTCMonth(0);
-					d.setUTCDate(1);
-					d.setHours(23, 59);
-					trace(d);
-				}else {
-					d.setUTCFullYear(aDate[0]);
-					d.setUTCMonth(parseFloat(aDate[1]) - 1);
-					d.setUTCDate(parseFloat(aDate[2]));
-					d.setHours(parseFloat(hh), parseFloat(mi));
-					//return new Date(aDate[0], (parseFloat(aDate[1]) - 1), parseFloat(aDate[2]), parseFloat(hh), parseFloat(mi));
-				}
-				return d;
-			} catch (e) {
-				var now = new Date();
-				return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
-			}
-		} else { // > 10
-			var now = new Date();
-			return (defaultDate || new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12));
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2).number(), va.substr(8, 2).number(), va.substr(10, 2).number(), va.substr(12, 2).number());
+		}
+		else if (this.length > 7) {
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, va.substr(6, 2).number());
+		}
+		else if (this.length > 4) {
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, 1);
+		}
+		else if (this.length > 2) {
+			var va = this.replace(/\D/g, "");
+			return local_date(va.substr(0, 4), va.substr(4, 2).number()-1, 1);
+		}
+		else
+		{
+			return defaultDate || new Date();
 		}
 	}
 /**
@@ -10307,9 +10340,9 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 		var separator = (obj.config.separator) ? obj.config.separator : "-";
-		
+
 		//trace(obj.config);
-		
+
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			var _this = this;
 			setTimeout(function(){
@@ -10430,11 +10463,12 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		}
 
-		
 		var dfDate = (obj.config.defaultDate || "").date();
 		var myDate = objVal.date(separator, dfDate);
-		var myYear = myDate.getFullYear();
-		var myMonth = (myDate.getMonth() + 1).setDigit(2);
+
+		var myYear = myDate.getUTCFullYear();
+		var myMonth = (myDate.getUTCMonth() + 1).setDigit(2);
+
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
 		po.push("	<div>");
@@ -13364,12 +13398,20 @@ var AXInputConverterPro = Class.create(AXJ, {
 			if (
 					event.which &&
 					(
-						event.which  > 47 && event.which  < 58
-						|| event.which  > 36 && event.which  < 41
-				        || event.which > 95 && event.which < 106
-							|| event.which == 8 || event.which == 9 || event.which == 13
-							|| event.which == 46 || event.which == 109 || event.which == 110
-							|| event.which == 189 || event.which == 187 || event.which == 190
+						event.which > 47 && event.which < 58  ||
+						event.which > 36 && event.which < 41  ||
+						event.which > 95 && event.which < 106 ||
+						event.which == axf.Event.KEY_BACKSPACE   ||
+						event.which == axf.Event.KEY_TAB         ||
+						event.which == axf.Event.KEY_RETURN      ||
+						event.which == axf.Event.KEY_DELETE      ||
+						event.which == axf.Event.NUMPAD_SUBTRACT ||
+						event.which == axf.Event.NUMPAD_DECIMAL  ||
+						event.which == axf.Event.KEY_MINUS       ||
+						event.which == axf.Event.KEY_EQUAL       ||
+						event.which == axf.Event.KEY_PERIOD      ||
+						event.which == axf.Event.KEY_HOME        ||
+						event.which == axf.Event.KEY_END
 					)
 				) {
 
@@ -13380,7 +13422,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 					// 소수점 입력 막기
 					isStop = true;
 				}
-				else if (event.which == 189 || event.which == 187 || event.which == 190){
+				else if (event.which == axf.Event.KEY_MINUS || event.which == axf.Event.KEY_EQUAL || event.which == axf.Event.KEY_PERIOD){
 					if(
 						(
 							obj.config.pattern == "money" ||
@@ -13395,7 +13437,16 @@ var AXInputConverterPro = Class.create(AXJ, {
 						isStop = true;
 					}
 				}
-				else if (event.which == 8 || event.which == 9 || event.which == 13 || event.which == 37 || event.which == 39|| event.which == 46) { // 백스페이스, 탭, 리턴, 좌, 우, delete
+				else if (
+					event.which == axf.Event.KEY_BACKSPACE ||
+					event.which == axf.Event.KEY_TAB       ||
+					event.which == axf.Event.KEY_RETURN    ||
+					event.which == axf.Event.KEY_LEFT      ||
+					event.which == axf.Event.KEY_RIGHT     ||
+					event.which == axf.Event.KEY_DELETE    ||
+					event.which == axf.Event.KEY_HOME      ||
+					event.which == axf.Event.KEY_END) { // 백스페이스, 탭, 리턴, 좌, 우, delete
+
 					if(event.which == 13){
 						obj.bindTarget.trigger("blur");
 					}
@@ -13477,8 +13528,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 			var event = window.event || event;
 			// ignore tab & shift key 스킵 & ctrl
+			if (!event.keyCode || event.keyCode ==axf.Event.KEY_TAB|| event.keyCode == 16 || event.keyCode == 17||
+				event.which == axf.Event.KEY_HOME ||
+				event.which == axf.Event.KEY_END) return;
 
-			if (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) return;
 			if ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91)) return;
 			if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
 				bindPatternCheck(objID, objSeq, "keyup");
@@ -14340,8 +14393,7 @@ var AXSelectConverter = Class.create(AXJ, {
 				}
 
 			};
-
-			objDom_selectTextBox.bind("click.AXSelect", function (event) {
+			objDom_selectTextBox.unbind("click.AXSelect").bind("click.AXSelect", function (event) {
 				axdom("#" + objID).click();
 			});
 
@@ -15033,7 +15085,20 @@ var AXSelectConverter = Class.create(AXJ, {
 				break;
 			}
 		}
+
 		if(findIndex != null){
+			var obj = this.objects[findIndex], selectedIndex, options, sendObj;
+			if (obj.config.onChange) {
+				selectedIndex = AXgetId(objID).options.selectedIndex;
+				options = AXgetId(objID).options[selectedIndex];
+				sendObj = {
+					optionIndex:selectedIndex,
+					optionValue:options.value, optionText:options.text,
+					value: options.value,
+					text: options.text
+				};
+				obj.config.onChange.call(sendObj, sendObj);
+			}
 			this.bindSelectChange(objID, findIndex);
 		}
 	},
@@ -15151,12 +15216,13 @@ mySelect.bindSelectAddOptions("objID", [{optionValue:"1", optionText:"액시스�
 		for (var opts, oidx = 0; (oidx < obj.options.length && (opts = obj.options[oidx])); oidx++) {
 			var optionText = (opts.optionText||"").dec();
 			po.push("<option value=\"" + opts.optionValue + "\"");
-			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+			if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
 		}
 		iobj.empty();
 		iobj.append(po.join(''));
 
+		//this.bindSelectChangeValue(objID, obj.config.setValue);
 		this.alignAnchor(objID, objSeq);
 
 		return obj.options;
@@ -15215,7 +15281,7 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 		for (var opts, oidx = 0; (oidx < obj.options.length && (opts = obj.options[oidx])); oidx++) {
 			var optionText = (opts.optionText||"").dec();
 			po.push("<option value=\"" + opts.optionValue + "\"");
-			if (obj.config.setValue == opts.optionValue || obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
+			if (obj.selectedIndex == oidx) po.push(" selected=\"selected\"");
 			po.push(">" + optionText + "</option>");
 		}
 		iobj.empty();
@@ -15329,6 +15395,7 @@ mySelect.bindSelectRemoveOptions("objID", [{optionValue:"1", optionText:"액시�
 		}
 
 		this.alignAnchor(objID, objSeq);
+		iobj.css({opacity:0});
 
 		return this;
 	}
