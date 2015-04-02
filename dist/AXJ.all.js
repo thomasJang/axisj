@@ -17813,7 +17813,8 @@ var AXGrid = Class.create(AXJ, {
         // 1 셀정보 수집
         var rows = [];
         var typn = typ=='f' ? 'fix' : 'n';
-        for(var tri = this.virtualScroll.startIndex;tri < this.virtualScroll.endIndex;tri++){
+        // 마지막 한줄이 빠지는 경우 발생됨.
+        for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
             var row = [];
             if(this.list[tri]) {
                 for (var tdi = 0; tdi < cfg.colGroup.length; tdi++) {
