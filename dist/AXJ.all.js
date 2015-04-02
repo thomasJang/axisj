@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-01 
+AXJ - v1.0.14 - 2015-04-02 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-01 
+AXJ - v1.0.14 - 2015-04-02 
 */
 
 if(!window.AXConfig){
@@ -16342,7 +16342,7 @@ var AXGrid = Class.create(AXJ, {
      */
     editCell: function(r, c, ii, times){
         this.setFocus(ii);
-
+        var get_editor;
         var _this = this, cfg = this.config, CG = cfg.colGroup[c],
             po = [], that = {item:this.list[ii], index:ii, CG:CG, r:r, c:c};
 
@@ -16424,6 +16424,8 @@ var AXGrid = Class.create(AXJ, {
             else
             if(CG.editor.type == "calendar") {
                 AXBindConfig.expand = true;
+                jQuery.extend(AXBindConfig, CG.editor.config, true);
+                //AXBindConfig.separator = CG.editor.separator;
                 AXBindConfig.onchange = function(){
                     _this.updateItem(r, c, ii, this.value);
                 };
@@ -16434,10 +16436,9 @@ var AXGrid = Class.create(AXJ, {
                 //inline_editor.find("select").bindSelect(AXBindConfig);
                 inline_editor.find("select").bind("change", function(){
 	                var sdom = inline_editor.find("select").get(0);
-	                var obj = {
-		                optionValue: sdom.options[sdom.selectedIndex].value,
-		                optionText: sdom.options[sdom.selectedIndex].text
-	                }
+                    var obj = {};
+                    obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+                    obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
                     _this.updateItem(r, c, ii, obj);
                 });
 				setTimeout(function(){
@@ -16539,7 +16540,7 @@ var AXGrid = Class.create(AXJ, {
 	        }
         }, 10);
 
-        function get_editor(cond, val){
+        get_editor = function(cond, val){
             if(typeof val == "undefined") val = "";
             // text, number, money, calendar, select, selector, switch, segment, slider, finder
             var po = [];
@@ -16547,10 +16548,13 @@ var AXGrid = Class.create(AXJ, {
                 // 조금 있다가..
                 po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'">');
                 for(var oi=0;oi<cond.options.length;oi++){
-                    var value = (typeof cond.options[oi].value == "undefined") ? cond.options[oi].optionValue : cond.options[oi].value,
-                        text = (typeof cond.options[oi].text == "undefined") ? cond.options[oi].optionText : cond.options[oi].text;
+                    var value, text;
+                    value = cond.options[oi][cond.optionValue||"optionValue"],
+                    text = cond.options[oi][cond.optionText||"optionText"];
+                    //obj[cond.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+
                     po.push('<option value="'+ value +'"');
-                    if(value == val.optionValue){
+                    if(value == val[cond.optionValue||"optionValue"]){
                         po.push(' selected="selected"');
                     }
                     po.push('>' + text + '</option>');
@@ -16678,11 +16682,11 @@ var AXGrid = Class.create(AXJ, {
                                 return false;
                             }
                         });
-                        wCH = cfg.body.rows[r][wc];
-                        //console.log(v, wCH, wc);
-                        _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(
-                            _this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc)
-                        );
+                        if(wc) {
+                            wCH = cfg.body.rows[r][wc];
+                            //console.log(v, wCH, r, wc);
+                            _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(_this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc));
+                        }
                     }
                 }
             }

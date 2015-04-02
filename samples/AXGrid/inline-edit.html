@@ -200,13 +200,15 @@ colGroup : [
 			            {
 				            key:"combobox", label:"combobox", width:"100",
 				            formatter: function(val){
-					            return this.value.optionText;
+					            return this.value.NM;
 				            },
 				            editor: {
 					            type: "select",
+					            optionValue: "CD",
+					            optionText: "NM",
 					            options:[
-						            {optionValue:1, optionText:"김기영"},
-						            {optionValue:2, optionText:"장기영"}
+						            {CD:1, NM:"김기영"},
+						            {CD:2, NM:"장기영"}
 					            ],
 					            beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
 						            // 선택된 값은 
@@ -222,7 +224,10 @@ colGroup : [
 			            {
 				            key:"date", label:"date", width:"105", align:"center",
 				            editor: {
-					            type: "calendar"
+					            type: "calendar",
+					            config: {
+						            separator: "/"
+					            }
 				            }
 			            },
 			            {
@@ -230,7 +235,7 @@ colGroup : [
 				            formatter:"money",
 				            editor: {
 					            type: "money",
-					            updateWith: ["cost"]
+					            updateWith: ["number"]
 				            }
 			            },
 			            {
@@ -238,7 +243,7 @@ colGroup : [
 				            formatter:"money",
 				            editor: {
 					            type: "number",
-					            updateWith: ["cost"]
+					            updateWith: ["money"]
 				            }
 			            },
 			            {
@@ -286,7 +291,7 @@ colGroup : [
 		            {
 			            no:1,
 			            string: "AXGrid 첫번째 줄 입니다.",
-			            combobox: {optionValue:1, optionText:"김기영"},
+			            combobox: {CD:1, NM:"김기영"},
 			            date: "2013-01-18",
 			            money: 1709401,
 			            number: 10,
@@ -297,7 +302,7 @@ colGroup : [
 		            {
 			            no:2,
 			            string: "AXGrid 첫번째 줄 입니다.",
-			            combobox: {optionValue:1, optionText:"김기영"},
+			            combobox: {CD:2, NM:"장기영"},
 			            date: "2013-01-18",
 			            money: 1709401,
 			            number: 10,
@@ -308,7 +313,7 @@ colGroup : [
 		            {
 			            no:3,
 			            string: "AXGrid 첫번째 줄 입니다.",
-			            combobox: {optionValue:1, optionText:"김기영"},
+			            combobox: {CD:1, NM:"김기영"},
 			            date: "2013-01-18",
 			            money: 1709401,
 			            number: 10,
