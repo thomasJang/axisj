@@ -21,6 +21,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXCore.js"></script>
 	<script type="text/javascript" src="../../lib/AXUpload5.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
@@ -38,7 +39,6 @@
 	
 	var fnObj = {
 		pageStart: function(){
-
 			fnObj.upload.init();
 		},
 		upload: {
@@ -59,7 +59,6 @@
                     flash_file_types_description:"image",
 					// --------- e
 					onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
-						//trace(this);
 						window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
 					},
 					
@@ -73,6 +72,7 @@
 					buttonTxt:"파일올리기",
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+						id:"id",
 						name:"name",
 						type:"type",
 						saveName:"saveName",
@@ -136,9 +136,9 @@
 				trace(list);
 				toast.push(Object.toJSON(list));
 			}
-		}		
+		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">

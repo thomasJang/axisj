@@ -122,7 +122,7 @@
 			myTree.setTree({ajaxUrl:"loadTree.php", ajaxPars:"param1=1&param2=2"});			
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">

@@ -93,7 +93,7 @@
             $("#AXInputDate").bindDate({align:"right", valign:"top", separator:"/", onChange:function(){toast.push(Object.toJSON(this));}});
         }
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
