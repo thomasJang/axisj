@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-02 
+AXJ - v1.0.14 - 2015-04-03 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-02 
+AXJ - v1.0.14 - 2015-04-03 
 */
 
 if(!window.AXConfig){
@@ -12778,7 +12778,6 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config, _this = this, sendObj;
         var _list = this.list;
 
-
         if (typeof itemIndex === "undefined") {
             this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
                 this.checked = checked;
@@ -12794,7 +12793,19 @@ var AXGrid = Class.create(AXJ, {
             for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
                 if(typeof item.___disabled == "undefined") item.___disabled = {};
                 if(typeof item.___checked == "undefined") item.___checked = {};
-                item.___checked[colSeq] = checked;
+                //cfg.colGroup[colSeq].checked.call({})
+                var disabled = false;
+                if(cfg.colGroup[colSeq].disabled) {
+                    disabled = cfg.colGroup[colSeq].disabled.call({
+                        index: itemIndex,
+                        list: this.list,
+                        item: item,
+                        page: this.page,
+                        key: cfg.colGroup[colSeq].key,
+                        value: item[cfg.colGroup[colSeq].key]
+                    });
+                }
+                if(!disabled) item.___checked[colSeq] = checked;
             }
             if (cfg.colGroup[colSeq].oncheck) {
                 sendObj = {
@@ -13664,7 +13675,7 @@ var AXGrid = Class.create(AXJ, {
 
         if (axdom(eventTarget).hasClass("colHeadTdCheck")) {
             this.colHeadCheckBoxClick(event);
-            return;
+            return this;
             /* checkbox block click */
         }
         if (axdom(eventTarget).hasClass("gridCheckBox")) return;
