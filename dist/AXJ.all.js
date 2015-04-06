@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-03 
+AXJ - v1.0.14 - 2015-04-06 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-03 
+AXJ - v1.0.14 - 2015-04-06 
 */
 
 if(!window.AXConfig){
@@ -16679,7 +16679,7 @@ var AXGrid = Class.create(AXJ, {
             _this.list[itemIndex]._CUD = "U";
         }
 
-        if(this.inline_edit) {
+        if(this.inline_edit && CG.editor) {
             function cellUpdate() {
                 _this.inline_edit.cell.html(_this.getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, c));
                 if (CG.editor.updateWith) {
@@ -41185,7 +41185,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.37
+ * @version v1.38
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -41214,6 +41214,7 @@ var swfobject;
  "2015-02-07 tom : single 모드에서 fileDisplayHide: true 속성 추가"
  "2015-03-28 tom : https://github.com/axisj-com/axisj/issues/501 삭제후 리스트가 비었을 때 onDeleteAll 호출"
  "2015-04-01 tom : fileKeys 에 id 값 정의 기능 추가"
+ "2015-04-06 tom : fileKeys 기본 맵핑방식 수정"
 
  * @description
  *
@@ -41315,7 +41316,7 @@ var AXUpload5 = Class.create(AXJ, {
 			AXConfig.AXUpload5 = {buttonTxt:"Upload files"};
 		}
 		this.config.buttonTxt = AXConfig.AXUpload5.buttonTxt;
-		this.config.fileKeys = { // 서버에서 리턴하는 json key 정의 (id 는 예약어 입니다.)
+		this.fileKeys = { // 서버에서 리턴하는 json key 정의 (id 는 예약어 입니다.)
 			id:"id",
 			name:"name",
 			type:"type",
@@ -41332,6 +41333,10 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	init: function(reset){
 		var cfg = this.config;
+		// 파일키 덮어쓰기 빠진 키 초기값으로 정의
+		for(k in this.fileKeys){
+			if(typeof this.config.fileKeys[k] === "undefined") this.config.fileKeys[k] = this.fileKeys[k];
+		}
 		if(reset == undefined){
 			if(!this.supportHtml5){
 				if(cfg.onError) cfg.onError("html5Support");
@@ -42491,9 +42496,10 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			if(cfg.queueBoxID){
 				var quebox = axdom("#" + cfg.queueBoxID);
 				axdom.each(this.uploadedList, function(fidx, f){
+					console.log(cfg.fileKeys);
 					if(f[cfg.fileKeys.id] == undefined){
 						trace([cfg.fileKeys.id] + " key는 필수 항목 입니다.");
-						return false;	
+						return false;
 					}
 					var itemID = f[cfg.fileKeys.id], itembox;
 					var uf = {
