@@ -144,6 +144,7 @@
 			}
 		}
 	});
+
 	//grunt.loadTasks('tasks');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');

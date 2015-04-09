@@ -104,9 +104,8 @@
                             ],
 							AXBind:{
 								type:"select", config:{
-									onChange:function(){
-										//toast.push(Object.toJSON(this));
-										
+									onchange:function(){
+										toast.push(Object.toJSON(this));
 									}
 								}
 							}
@@ -124,7 +123,10 @@
 						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"읽기전용",
 							onclick: function(){
 
-								mySearch.reset();
+
+								//mySearch.setItemValue("selectbox", "open");
+
+								//mySearch.reset();
 
 								//mySearch.getItemId("inputText2");
                                 axdom("#" + mySearch.getItemId("inputText2")).attr("readonly", "readonly");
@@ -249,7 +251,7 @@
 			trace(pars);
 		}	
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">

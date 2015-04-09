@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-03-31 
+AXJ - v1.0.14 - 2015-04-09 
 */
 /*! 
-AXJ - v1.0.14 - 2015-03-31 
+AXJ - v1.0.14 - 2015-04-09 
 */
 
 if(!window.AXConfig){
@@ -480,18 +480,19 @@ trace(axf.timeKey()); // A004222760
 		var cons = [
 			{ c: "ㄱ", re: "[가-깋]" }, { c: "ㄲ", re: "[까-낗]" }, { c: "ㄴ", re: "[나-닣]" }, { c: "ㄷ", re: "[다-딯]" }, { c: "ㄸ", re: "[따-띻]" }, { c: "ㄹ", re: "[라-맇]" },
 			{ c: "ㅁ", re: "[마-밓]" }, { c: "ㅂ", re: "[바-빟]" }, { c: "ㅃ", re: "[빠-삫]" }, { c: "ㅅ", re: "[사-싷]" }, { c: "ㅆ", re: "[싸-앃]" }, { c: "ㅇ", re: "[아-잏]" }, { c: "ㅈ", re: "[자-짛]" },
-			{ c: "ㅉ", re: "[짜-찧]" }, { c: "ㅊ", re: "[차-칳]" }, { c: "ㅋ", re: "[카-킿]" }, { c: "ㅌ", re: "[타-팋]" }, { c: "ㅍ", re: "[파-핗]" }, { c: "ㅎ", re: "[하-힣]" }
+			{ c: "ㅉ", re: "[짜-찧]" }, { c: "ㅊ", re: "[차-칳]" }, { c: "ㅋ", re: "[카-킿]" }, { c: "ㅌ", re: "[타-팋]" }, { c: "ㅍ", re: "[파-핗]" }, { c: "ㅎ", re: "[하-힣]" },
+			{ c: "(", re:"\\(" }, { c: ")", re:"\\)" }, { c: "[", re:"\\[" }, { c: "]", re:"\\]" }
 		];
 		var rword = "";
 		var cwords = cword.split("");
-		AXUtil.each(cwords, function (i, n) {
+		for(var i= 0,l=cwords.length;i<l;i++){
 			var fos = cons.searchObject(function () {
-				return this.item.c == n;
+				return this.item.c == cwords[i];
 			});
 			var fo = fos.first();
 			if (fo) rword += fo.re;
-			else rword += n;
-		});
+			else rword += cwords[i];
+		}
 		return rword;
 	},
 /**
@@ -5124,13 +5125,14 @@ var AXCalendar = Class.create(AXJ, {
  * @class AXMultiSelect
  * @classdesc 박스안에 아이템들중에 약속된 Class를 가진 아이템에 대해 다중선택를 할 수 있도록 지원합니다.
  * @extends AXJ
- * @version v1.8
+ * @version v1.9
  * @author tom@axisj.com
  * @logs
  "2013-01-31 오후 5:01:12",
  "2013-11-12 오전 9:19:09 - tom : 버그픽스",
  "2013-11-12 오전 11:59:38 - tom : body relative 버그 픽스, 스크롤바 마우스 선택 문제 해결",
  "2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
+ "2015-04-01 tom : 드래그 셀렉트 버그 픽스"
  * @example
  ```js
  var multiSelector = new AXMultiSelect();
@@ -5230,6 +5232,9 @@ var AXMultiSelect = Class.create(AXJ, {
     /* ------------------------------------------------------------------------------------------------------------------ */
     /* observe method ~~~~~~ */
     onmouseClick: function (element, event) {
+        if (this.helperAppened){
+            return this;
+        }
         var cfg = this.config;
         var eid = event.target.id.split(/_AX_/g);
         var eventTarget = event.target;
@@ -5238,7 +5243,7 @@ var AXMultiSelect = Class.create(AXJ, {
             until: function (evt, evtIDs) { return (AXgetId(evt.parentNode) == AXgetId(cfg.selectStage)) ? true : false; },
             find: function (evt, evtIDs) { return (axdom(evt).hasClass(cfg.selectClassName)) ? true : false; }
         });
-        //trace("click");
+
         if (myTarget) {
             var selectElement = myTarget;
             if (selectElement) {
@@ -5251,10 +5256,9 @@ var AXMultiSelect = Class.create(AXJ, {
                 }
             }
         } else {
-
             if (event.target.id == cfg.selectStage && AXUtil.browser.name != "ie") this.clearSelects();
-            return;
         }
+        return this;
     },
     /* ------------------------------------------------------------------------------------------------------------------ */
     /* class method ~~~~~~ */
@@ -5379,7 +5383,6 @@ var AXMultiSelect = Class.create(AXJ, {
         axdom(document.body).bind("mousemove.AXMultiSelect", this.mousemove.bind(this));
         axdom(document.body).bind("mouseup.AXMultiSelect", this.mouseup.bind(this));
         axdom(document.body).bind("mouseleave.AXMultiSelect", this.mouseup.bind(this));
-
         axdom(document.body).attr("onselectstart", "return false");
         //axdom(document.body).addClass("AXUserSelectNone");
 
@@ -5394,7 +5397,7 @@ var AXMultiSelect = Class.create(AXJ, {
         if (this.moveSens == this.config.moveSens) this.selectorHelperMove(event);
     },
     mouseup: function (event) {
-        var cfg = this.config;
+        var cfg = this.config, _this = this;
 
         this.helperAppenedReady = false;
         this.moveSens = 0;
@@ -5407,8 +5410,11 @@ var AXMultiSelect = Class.create(AXJ, {
         //axdom(document.body).removeClass("AXUserSelectNone");
 
         if (this.helperAppened) {
-            this.helperAppened = false;
-            this.helper.remove();
+            setTimeout(function(){
+                _this.helperAppened = false;
+                _this.helper.remove();
+            }, 100);
+
 
             /* selected change */
             this._selectTargets.each(function () {
@@ -5419,9 +5425,12 @@ var AXMultiSelect = Class.create(AXJ, {
                         selectTarget.selecting = false;
                         selectTarget.jQueryelement.addClass(cfg.beselectClassName);
                         selectTarget.selected = true;
-                    } else if (selectTarget.selected) {
+                    }
+                    /*
+                    else if (selectTarget.selected) {
 
                     }
+                    */
                 }
             });
         }
@@ -12769,7 +12778,6 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config, _this = this, sendObj;
         var _list = this.list;
 
-
         if (typeof itemIndex === "undefined") {
             this.colHead.find(".gridCheckBox_colHead_colSeq" + colSeq).each(function () {
                 this.checked = checked;
@@ -12785,7 +12793,19 @@ var AXGrid = Class.create(AXJ, {
             for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
                 if(typeof item.___disabled == "undefined") item.___disabled = {};
                 if(typeof item.___checked == "undefined") item.___checked = {};
-                item.___checked[colSeq] = checked;
+                //cfg.colGroup[colSeq].checked.call({})
+                var disabled = false;
+                if(cfg.colGroup[colSeq].disabled) {
+                    disabled = cfg.colGroup[colSeq].disabled.call({
+                        index: itemIndex,
+                        list: this.list,
+                        item: item,
+                        page: this.page,
+                        key: cfg.colGroup[colSeq].key,
+                        value: item[cfg.colGroup[colSeq].key]
+                    });
+                }
+                if(!disabled) item.___checked[colSeq] = checked;
             }
             if (cfg.colGroup[colSeq].oncheck) {
                 sendObj = {
@@ -13655,7 +13675,7 @@ var AXGrid = Class.create(AXJ, {
 
         if (axdom(eventTarget).hasClass("colHeadTdCheck")) {
             this.colHeadCheckBoxClick(event);
-            return;
+            return this;
             /* checkbox block click */
         }
         if (axdom(eventTarget).hasClass("gridCheckBox")) return;
@@ -15513,17 +15533,11 @@ var AXGrid = Class.create(AXJ, {
         } 
         else 
         {
-
             for (var li = 0; li < pushData.length; li++) {
                 this.list.push(pushData[li]);
             }
-
-            // 스크롤이 되지 않는 상황이면...
-            if(this.body.height() >= this.scrollContent.height()){
-                this.printList();
-            }
-
-            this.bigDataSyncApply();
+            this.printList();
+            //this.bigDataSyncApply();
             this.contentScrollResize(false);
             //this.setFocus(this.list.length-1); insertIndex 가 없으면 focus 실행 안함.
         }
@@ -16339,7 +16353,7 @@ var AXGrid = Class.create(AXJ, {
      */
     editCell: function(r, c, ii, times){
         this.setFocus(ii);
-
+        var get_editor;
         var _this = this, cfg = this.config, CG = cfg.colGroup[c],
             po = [], that = {item:this.list[ii], index:ii, CG:CG, r:r, c:c};
 
@@ -16421,6 +16435,8 @@ var AXGrid = Class.create(AXJ, {
             else
             if(CG.editor.type == "calendar") {
                 AXBindConfig.expand = true;
+                jQuery.extend(AXBindConfig, CG.editor.config, true);
+                //AXBindConfig.separator = CG.editor.separator;
                 AXBindConfig.onchange = function(){
                     _this.updateItem(r, c, ii, this.value);
                 };
@@ -16431,10 +16447,9 @@ var AXGrid = Class.create(AXJ, {
                 //inline_editor.find("select").bindSelect(AXBindConfig);
                 inline_editor.find("select").bind("change", function(){
 	                var sdom = inline_editor.find("select").get(0);
-	                var obj = {
-		                optionValue: sdom.options[sdom.selectedIndex].value,
-		                optionText: sdom.options[sdom.selectedIndex].text
-	                }
+                    var obj = {};
+                    obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+                    obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
                     _this.updateItem(r, c, ii, obj);
                 });
 				setTimeout(function(){
@@ -16536,7 +16551,7 @@ var AXGrid = Class.create(AXJ, {
 	        }
         }, 10);
 
-        function get_editor(cond, val){
+        get_editor = function(cond, val){
             if(typeof val == "undefined") val = "";
             // text, number, money, calendar, select, selector, switch, segment, slider, finder
             var po = [];
@@ -16544,10 +16559,13 @@ var AXGrid = Class.create(AXJ, {
                 // 조금 있다가..
                 po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'">');
                 for(var oi=0;oi<cond.options.length;oi++){
-                    var value = (typeof cond.options[oi].value == "undefined") ? cond.options[oi].optionValue : cond.options[oi].value,
-                        text = (typeof cond.options[oi].text == "undefined") ? cond.options[oi].optionText : cond.options[oi].text;
+                    var value, text;
+                    value = cond.options[oi][cond.optionValue||"optionValue"],
+                    text = cond.options[oi][cond.optionText||"optionText"];
+                    //obj[cond.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+
                     po.push('<option value="'+ value +'"');
-                    if(value == val.optionValue){
+                    if(value == val[cond.optionValue||"optionValue"]){
                         po.push(' selected="selected"');
                     }
                     po.push('>' + text + '</option>');
@@ -16661,7 +16679,7 @@ var AXGrid = Class.create(AXJ, {
             _this.list[itemIndex]._CUD = "U";
         }
 
-        if(this.inline_edit) {
+        if(this.inline_edit && CG.editor) {
             function cellUpdate() {
                 _this.inline_edit.cell.html(_this.getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, c));
                 if (CG.editor.updateWith) {
@@ -16675,11 +16693,11 @@ var AXGrid = Class.create(AXJ, {
                                 return false;
                             }
                         });
-                        wCH = cfg.body.rows[r][wc];
-                        //console.log(v, wCH, wc);
-                        _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(
-                            _this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc)
-                        );
+                        if(wc) {
+                            wCH = cfg.body.rows[r][wc];
+                            //console.log(v, wCH, r, wc);
+                            _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(_this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc));
+                        }
                     }
                 }
             }
@@ -17806,7 +17824,8 @@ var AXGrid = Class.create(AXJ, {
         // 1 셀정보 수집
         var rows = [];
         var typn = typ=='f' ? 'fix' : 'n';
-        for(var tri = this.virtualScroll.startIndex;tri < this.virtualScroll.endIndex;tri++){
+        // 마지막 한줄이 빠지는 경우 발생됨.
+        for(var tri = this.virtualScroll.startIndex;tri <= this.virtualScroll.endIndex;tri++){
             var row = [];
             if(this.list[tri]) {
                 for (var tdi = 0; tdi < cfg.colGroup.length; tdi++) {
@@ -21566,8 +21585,8 @@ var AXInputConverter = Class.create(AXJ, {
 		}
 		kword = kword.replace(/\//g, "\\\/");
 		var sw = AXUtil.consonantKR((kword || "").dec());
-		//trace(sw);
-		eval("var reAt= /^" + sw + ".*/i");
+		var reAt = new RegExp("^" + sw + ".*", "i");
+
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
 			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || ""))) {
@@ -29472,7 +29491,7 @@ myProgress.close();
  * AXSearch
  * @class AXSearch
  * @extends AXJ
- * @version v1.24
+ * @version v1.25
  * @author tom@axisj.com
  * @logs
  "2013-06-04 오후 2:00:44 - tom@axisj.com",
@@ -29485,6 +29504,7 @@ myProgress.close();
  "2014-10-30 - tom : type:button tag변경"
  "2014-11-11 - root : axdom 독립 우회 코드 변경"
  "2014-12-23 tom : 메소드 reset 추가"
+ "2015-04-09 tom : AXSearch.setItemValue("selectbox", "open") 처럼 selectbox에 값을 부여 했을 때 버그 픽스"
  *
  * @description
  *
@@ -30206,7 +30226,19 @@ mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 �
 			    			AXgetId(itemID).checked = isCheck;
 			    			itemID = null;
 			    		});
-					}else{
+					}
+					else
+					if(item.type == "selectBox"){
+						var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
+						var item_dom = axdom("#"+itemID);
+						if(item_dom.attr("data-axbind")){
+							item_dom.bindSelectSetValue((value||""));
+						}else{
+							item_dom.val((value||""));
+						}
+					}
+					else
+					{
 						var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
 						axdom("#"+itemID).val((value||""));
 						itemID = null;
@@ -41166,7 +41198,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.36
+ * @version v1.38
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -41194,6 +41226,8 @@ var swfobject;
  "2015-02-06 John : getItemTag : openMode (view 모드 추가) list 모드 css 적용"
  "2015-02-07 tom : single 모드에서 fileDisplayHide: true 속성 추가"
  "2015-03-28 tom : https://github.com/axisj-com/axisj/issues/501 삭제후 리스트가 비었을 때 onDeleteAll 호출"
+ "2015-04-01 tom : fileKeys 에 id 값 정의 기능 추가"
+ "2015-04-06 tom : fileKeys 기본 맵핑방식 수정"
 
  * @description
  *
@@ -41233,6 +41267,7 @@ myUpload.setConfig({
 	deleteUrl:"deleteFile.asp",         //{String} - 서버전송 URL
 	deletePars:{userID:"tom", userName:"액시스"},  //[JSObject] - 서버전송 URL 파라미터
 	fileKeys:{                          //[JSObject] - 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+		id:"id",
 		name:"name",
 		type:"type",
 		saveName:"saveName",
@@ -41294,7 +41329,8 @@ var AXUpload5 = Class.create(AXJ, {
 			AXConfig.AXUpload5 = {buttonTxt:"Upload files"};
 		}
 		this.config.buttonTxt = AXConfig.AXUpload5.buttonTxt;
-		this.config.fileKeys = { // 서버에서 리턴하는 json key 정의 (id 는 예약어 입니다.)
+		this.fileKeys = { // 서버에서 리턴하는 json key 정의 (id 는 예약어 입니다.)
+			id:"id",
 			name:"name",
 			type:"type",
 			saveName:"saveName",
@@ -41310,6 +41346,10 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	init: function(reset){
 		var cfg = this.config;
+		// 파일키 덮어쓰기 빠진 키 초기값으로 정의
+		for(k in this.fileKeys){
+			if(typeof this.config.fileKeys[k] === "undefined") this.config.fileKeys[k] = this.fileKeys[k];
+		}
 		if(reset == undefined){
 			if(!this.supportHtml5){
 				if(cfg.onError) cfg.onError("html5Support");
@@ -41489,7 +41529,8 @@ var AXUpload5 = Class.create(AXJ, {
 				this.multiSelector.setConfig({
 					selectStage       : cfg.queueBoxID,
 					selectClassName   : "readyselect",
-					beselectClassName : "beSelected"
+					beselectClassName : "beSelected",
+					selectingClassName: "AX_selecting"
 				});
 			}
 		}
@@ -41545,7 +41586,7 @@ var AXUpload5 = Class.create(AXJ, {
 						this.cancelUpload();
 					};
 					var uploadFn = function(){
-						var itemID = 'AX_'+ file.id;
+						var itemID = 'AX_'+ file[cfg.fileKeys.id];
 						this.queue.push({id:itemID, file:file});
 						axdom("#" + cfg.targetID+'_AX_display').empty();
 						axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, file));
@@ -41553,7 +41594,7 @@ var AXUpload5 = Class.create(AXJ, {
 					this.deleteFile(myFile, uploadFn.bind(this));
 					return;
 				}else{
-					var itemID = 'AX_'+ file.id;
+					var itemID = 'AX_'+ file[cfg.fileKeys.id];
 					this.queue.push({id:itemID, file:file});
 					axdom("#" + cfg.targetID+'_AX_display').empty();
 					axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, file));
@@ -41570,7 +41611,7 @@ var AXUpload5 = Class.create(AXJ, {
 				
 				//trace(file);
 				//{"filestatus":-1, "name":"20130708175735_1.jpg", "type":".jpg", "id":"SWFUpload_0_0", "index":0, "modificationdate":"2013-10-04T08:51:27Z", "uploadtype":0, "post":{}, "size":891324, "creationdate":"2013-10-04T08:52:02Z"} 
-				var itemID = 'AX_'+ file.id;
+				var itemID = 'AX_'+ file[cfg.fileKeys.id];
 				this.queue.push({id:itemID, file:file});
 				//큐박스에 아이템 추가
 				if(cfg.queueBoxAppendType == "prepend") axdom("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, file));
@@ -41629,7 +41670,7 @@ var AXUpload5 = Class.create(AXJ, {
 		var upload_start_handler_bind = upload_start_handler.bind(this);
 		//--
 		var upload_progress_handler = function(file, bytesLoaded, bytesTotal){
-			var itemID = 'AX_'+ file.id;
+			var itemID = 'AX_'+ file[cfg.fileKeys.id];
 			if(cfg.isSingleUpload){
 				axdom("#"+itemID).find(".AXUploadProcessBar").width( ((bytesLoaded / bytesTotal) * 100).round(2)+"%" );
 			}else{
@@ -41639,7 +41680,7 @@ var AXUpload5 = Class.create(AXJ, {
 		var upload_progress_handler_bind = upload_progress_handler.bind(this);
 		//--
 		var upload_success_handler = function(file, res){
-			var itemID = 'AX_'+ file.id;
+			var itemID = 'AX_'+ file[cfg.fileKeys.id];
 			
 			try{if(typeof res == "string") res = res.object();}catch(e){trace(e);}
 			if(cfg.isSingleUpload){
@@ -42098,7 +42139,9 @@ var AXUpload5 = Class.create(AXJ, {
 	},
 	uploadSuccess: function(file, itemID, res){ // 업로드 아이템별 이벤트
 		var cfg = this.config;
-		var uploadedItem = {id:itemID};
+		var uploadedItem = {};
+		uploadedItem[cfg.fileKeys.id] = itemID;
+
 		var _res = (Object.isArray(res)) ? res[0] : res; /* Array 타입 예외처리 */
 		axdom.each(_res, function(k, v){
 			uploadedItem[k] = v;
@@ -42186,7 +42229,7 @@ var AXUpload5 = Class.create(AXJ, {
 		if(cfg.isSingleUpload){
 			var myFile;
 			axdom.each(this.uploadedList, function(){
-				if(this.id == itemID){
+				if(this[cfg.fileKeys.id] == itemID){
 					myFile = this;
 					return false;
 				}
@@ -42200,7 +42243,7 @@ var AXUpload5 = Class.create(AXJ, {
 		}else{
 			var myFile;
 			axdom.each(this.uploadedList, function(){
-				if(this.id == itemID){
+				if(this[cfg.fileKeys.id] == itemID){
 					myFile = this;
 					return false;
 				}
@@ -42219,10 +42262,9 @@ var AXUpload5 = Class.create(AXJ, {
 		var cfg = this.config;
 		//trace(itemID);
 		if(cfg.onClickUploadedItem){
-			
 			var myFile;
 			axdom.each(this.uploadedList, function(){
-				if(this.id == itemID){
+				if(this[cfg.fileKeys.id] == itemID){
 					myFile = this;
 					return false;
 				}
@@ -42243,11 +42285,11 @@ var AXUpload5 = Class.create(AXJ, {
 				if(cfg.isSingleUpload){
 					axdom('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
 				}else{
-					axdom("#"+file.id).hide(function(){
+					axdom("#"+file[cfg.fileKeys.id]).hide(function(){
 						axdom(this).remove();
 					});
 				}
-				removeUploadedList(file.id);	
+				removeUploadedList(file[cfg.fileKeys.id]);
 				if(cfg.onDelete) cfg.onDelete.call({file:file, response:withOutServer}, file);
 				if(onEnd) onEnd();
 				return;	
@@ -42269,9 +42311,9 @@ var AXUpload5 = Class.create(AXJ, {
 			}
 
 			if(cfg.isSingleUpload){
-				axdom("#"+file.id+" .AXUploadBtns").hide();
+				axdom("#"+file[cfg.fileKeys.id]+" .AXUploadBtns").hide();
 			}else{
-				axdom("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").hide();
+				axdom("#" + cfg.queueBoxID).find("#"+file[cfg.fileKeys.id]+" .AXUploadBtns").hide();
 			}
 			
 			new AXReq(cfg.deleteUrl, {
@@ -42284,26 +42326,26 @@ var AXUpload5 = Class.create(AXJ, {
 						if(cfg.isSingleUpload){
 							axdom('#'+cfg.targetID+'_AX_display').html(AXConfig.AXUpload5.uploadSelectTxt);
 						}else{
-							axdom("#"+file.id).hide(function(){
+							axdom("#"+file[cfg.fileKeys.id]).hide(function(){
 								axdom(this).remove();
 							});
 						}
 						if(cfg.onDelete) cfg.onDelete.call({file:file, response:res}, file);
-						removeUploadedList(file.id);
+						removeUploadedList(file[cfg.fileKeys.id]);
 
 					}else{
 						if(cfg.isSingleUpload){
-							axdom("#"+file.id+" .AXUploadBtns").show();
+							axdom("#"+file[cfg.fileKeys.id]+" .AXUploadBtns").show();
 						}else{
-							axdom("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
+							axdom("#" + cfg.queueBoxID).find("#"+file[cfg.fileKeys.id]+" .AXUploadBtns").show();
 						}
 					}
 				},
 				onerr: function(){
 					if(cfg.isSingleUpload){
-						axdom("#"+file.id+" .AXUploadBtns").show();
+						axdom("#"+file[cfg.fileKeys.id]+" .AXUploadBtns").show();
 					}else{
-						axdom("#" + cfg.queueBoxID).find("#"+file.id+" .AXUploadBtns").show();
+						axdom("#" + cfg.queueBoxID).find("#"+file[cfg.fileKeys.id]+" .AXUploadBtns").show();
 					}
 				}
 			});
@@ -42313,10 +42355,11 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 	},
 	deleteSelect: function(arg, withOutServer){
+		var cfg = this.config;
 		if(arg == "all"){
 			var deleteQueue = [];
 			axdom.each(this.uploadedList, function(){
-				deleteQueue.push(this.id);
+				deleteQueue.push(this[cfg.fileKeys.id]);
 			});
 			this.ccDelete(deleteQueue, 0, withOutServer);
 			deleteQueue = null;
@@ -42336,10 +42379,11 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 	},
 	ccDelete: function(deleteQueue, index, withOutServer){
+		var cfg = this.config;
 		if(deleteQueue.length > index){
 			var myFile;
 			axdom.each(this.uploadedList, function(){
-				if(this.id == deleteQueue[index]){
+				if(this[cfg.fileKeys.id] == deleteQueue[index]){
 					myFile = this;
 					return false;
 				}
@@ -42351,9 +42395,10 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 	},
 	removeUploadedList: function(fid){
+		var cfg = this.config;
 		var newUploadedList = [];
 		axdom.each(this.uploadedList, function(){
-			if(this.id != fid) newUploadedList.push(this);
+			if(this[cfg.fileKeys.id] != fid) newUploadedList.push(this);
 		});
 		this.uploadedList = newUploadedList;
 		newUploadedList = null;
@@ -42418,11 +42463,11 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 				}
 			}
 			if(!f) return;
-			if(!f.id) return;
+			if(!f[cfg.fileKeys.id]) return;
 			
 			this.uploadedList.push(f);
 			
-			var itemID = f.id, itembox;
+			var itemID = f[cfg.fileKeys.id], itembox;
 			
 			var uf = {
 				id:itemID,
@@ -42460,17 +42505,16 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 				if(this) uploadedList.push(this);
 			});
 			this.uploadedList = uploadedList;
-			//trace(this.uploadedList);
-
 
 			if(cfg.queueBoxID){
 				var quebox = axdom("#" + cfg.queueBoxID);
 				axdom.each(this.uploadedList, function(fidx, f){
-					if(f.id == undefined){
-						trace("id key는 필수 항목 입니다.");
-						return false;	
+					console.log(cfg.fileKeys);
+					if(f[cfg.fileKeys.id] == undefined){
+						trace([cfg.fileKeys.id] + " key는 필수 항목 입니다.");
+						return false;
 					}
-					var itemID = f.id, itembox;
+					var itemID = f[cfg.fileKeys.id], itembox;
 					var uf = {
 						id:itemID,
 						name:f[cfg.fileKeys.name],
@@ -42582,7 +42626,7 @@ toast.push(Object.toJSON(list));
 	setUploadedFile: function(file){
 		
 		if(!file) return;
-		if(!file.id) return;
+		if(!file[this.config.fileKeys.id]) return;
 		
 		this.uploadedList = [];
 		this.uploadedList.push(file);

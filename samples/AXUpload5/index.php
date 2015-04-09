@@ -138,7 +138,7 @@
 			}
 		}		
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">

@@ -40,7 +40,7 @@
 			$('input[type=radio]').bindChecked();
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -252,7 +252,15 @@
                                 </label>
                             </div>
                         </form>
-							
+
+						<div class="H10"></div>
+
+						<h2>AXTextarea</h2>
+						<textarea class="AXTextarea W200">Normal</textarea>
+						<textarea class="AXTextarea W200" readonly="readonly">ReadOnly</textarea>
+						<textarea class="AXTextarea W200" disabled="disabled">Disabled</textarea>
+						<textarea class="AXTextarea W200" placeholder="Placeholder"></textarea>
+
 					</div>	
 				</div>								
 				<div class="ax-clear"></div>
