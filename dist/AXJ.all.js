@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-06 
+AXJ - v1.0.14 - 2015-04-09 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-06 
+AXJ - v1.0.14 - 2015-04-09 
 */
 
 if(!window.AXConfig){
@@ -29491,7 +29491,7 @@ myProgress.close();
  * AXSearch
  * @class AXSearch
  * @extends AXJ
- * @version v1.24
+ * @version v1.25
  * @author tom@axisj.com
  * @logs
  "2013-06-04 오후 2:00:44 - tom@axisj.com",
@@ -29504,6 +29504,7 @@ myProgress.close();
  "2014-10-30 - tom : type:button tag변경"
  "2014-11-11 - root : axdom 독립 우회 코드 변경"
  "2014-12-23 tom : 메소드 reset 추가"
+ "2015-04-09 tom : AXSearch.setItemValue("selectbox", "open") 처럼 selectbox에 값을 부여 했을 때 버그 픽스"
  *
  * @description
  *
@@ -30225,7 +30226,19 @@ mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 �
 			    			AXgetId(itemID).checked = isCheck;
 			    			itemID = null;
 			    		});
-					}else{
+					}
+					else
+					if(item.type == "selectBox"){
+						var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
+						var item_dom = axdom("#"+itemID);
+						if(item_dom.attr("data-axbind")){
+							item_dom.bindSelectSetValue((value||""));
+						}else{
+							item_dom.val((value||""));
+						}
+					}
+					else
+					{
 						var itemID = cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key;
 						axdom("#"+itemID).val((value||""));
 						itemID = null;
