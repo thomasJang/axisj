@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-09 
+AXJ - v1.0.14 - 2015-04-10 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-09 
+AXJ - v1.0.14 - 2015-04-10 
 */
 
 if(!window.AXConfig){
@@ -15940,20 +15940,6 @@ var AXGrid = Class.create(AXJ, {
         }
         else
         {
-            /*
-             var myTarget = this.getEventTarget({
-             evt: eventTarget, evtIDs: eid,
-             until: function (evt, evtIDs) {
-             var edom = axdom(evt);
-             return (axdom(evt.parentNode).hasClass("AXGridBody") || edom.hasClass("buttonGroupItem"));
-             },
-             find: function (evt, evtIDs) {
-             var edom = axdom(evt);
-             return ((edom.hasClass("bodyTd") || edom.hasClass("bodyViewIcon") || edom.hasClass("bodyViewMobile")) && !edom.hasClass("buttonGroupItem"));
-             }
-             });
-             */
-            // 새로운 이벤트 타켓 캡춰 테스트
             var myTarget = axf.get_event_target(eventTarget, function(el){
                 var edom = axdom(el);
                 return (!edom.hasClass("buttonGroupItem") && (edom.hasClass("bodyTd") || edom.hasClass("bodyViewIcon") || edom.hasClass("bodyViewMobile")));
@@ -15969,9 +15955,10 @@ var AXGrid = Class.create(AXJ, {
                         itemIndex = targetID.split(/_AX_/g).last(),
                         ids = targetID.split(/_AX_/g),
                         len = this.selectedRow.length, _selectedRow = [], hasItem = false,
-                        r = ids[ids.length - 3], c = ids[ids.length - 2], CG = cfg.colGroup[c],
+                        r = ids[ids.length - 3], c = ids[ids.length - 2], CG = cfg.colGroup[ (cfg.body.rowsEmpty) ? c : (cfg.body.rows[r][c].colSeq||c) ],
                         i = 0;
-    
+
+
                     this._focusedItemIndex = itemIndex;
                     
                     if(CG.editor){
@@ -16354,7 +16341,8 @@ var AXGrid = Class.create(AXJ, {
     editCell: function(r, c, ii, times){
         this.setFocus(ii);
         var get_editor;
-        var _this = this, cfg = this.config, CG = cfg.colGroup[c],
+        // todo : 바디아이템으로 부터 colGroup 정확히 구하기
+        var _this = this, cfg = this.config, CG = cfg.colGroup[ (cfg.body.rowsEmpty) ? c : (cfg.body.rows[r][c].colSeq||c) ],
             po = [], that = {item:this.list[ii], index:ii, CG:CG, r:r, c:c};
 
         //td : div 의 부모TD 태그, parent_type : nbody|fixedbody 로 결정되어 위치를 판단하는데 쓰임.

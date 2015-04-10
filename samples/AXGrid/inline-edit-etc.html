@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGrid - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXGrid.css" />
+
+    <style type="text/css">
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+	<link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+
+    <!-- js block -->
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+
+            <div id="grid0">
+                <h2>AXGrid</h2>
+                <div id="AXGridTarget" style="height:300px;"></div>
+                <div style="padding:10px;">
+                    <input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
+
+	                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
+	                <input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.grid.remove();" />
+                </div>
+            </div>
+
+            <div id="printout"></div>
+
+<pre class="prettyprint linenums">
+...
+// 그리드의 cloGrop에 editor 속성을 추가 하여 인라인 에디팅을 지원하는 방식
+colGroup : [
+    {
+        key:"no", label:"번호", width:"50", align:"right"
+    },
+    {
+        key:"title", label:"제목", width:"200",
+        tooltip:function(){
+            return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
+        },
+        editor: {
+            type: "finder", // type finder는 input옆에 돋보기 아이콘이 내장되고 아이콘을 누르는 이벤트는 finder.onclick에서 연결
+            finder: {
+                onclick: function(){
+                    var val = window.prompt("값 입력해주세요.");
+                    jQuery("#" + this.id).val(val).setCaret();
+                }
+            }
+        }
+    },
+    {
+        key:"writer", label:"작성자", width:"100",
+        editor: {
+            formatter: "dec",
+            type: "select",
+            options:[
+                {value:1, optionText:"옵션1"},
+                {value:2, text:"옵션2"}
+            ],
+            beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+                return val.replace(/\./g, "") + "."; // 업데이트 되는 value를 연산 처리 할 수 있습니다.
+            },
+            afterUpdate: function(val){ // 수정이 처리된 후
+                // 수정이 된 후 액션.
+                console.log(this);
+            }
+        }
+    },
+    {
+        key:"regDate", label:"작성일", width:"105", align:"center",
+        editor: {
+            type: "calendar"
+        }
+    },
+    {
+        key:"price", label:"가격", width:"100", align:"right",
+        formatter:"money",
+        editor: {
+            type: "money",
+            updateWith: ["cost"]
+        }
+    },
+    {
+        key:"amount", label:"수량", width:"80", align:"right",
+        formatter:"money",
+        editor: {
+            type: "number",
+            updateWith: ["cost"]
+        }
+    },
+    {
+        key:"cost", label:"금액", width:"100", align:"right",
+        formatter:function(){
+            return (this.item.price.number() * this.item.amount.number()).money();
+        }
+    },
+    {
+        key:"desc", label:"비고", width:"200",
+        editor: {
+            formatter: "dec",
+            type: "text"
+        }
+    },
+	{
+	    key:"chk", label:"체크", width:"50", align:"center",
+	    editor: {
+	        type: "checkbox"
+	    }
+	},
+	{
+	    key:"rad", label:"라디오", width:"50", align:"center",
+	    editor: {
+	        type: "radio"
+	    }
+	}
+],
+</pre>
+
+		</div>
+	</div>
+
+</div>
+
+<script>
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based		: jQuery
+     * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelect.css
+     */
+    var pageID = "inline-edit";
+    var fnObj = {
+        pageStart: function(){
+            fnObj.grid.bind();
+            prettyPrint();
+        },
+        grid: {
+            target: new AXGrid(),
+            bind: function(){
+                window.myGrid = fnObj.grid.target;
+
+	            myGrid.setConfig({
+		            targetID : "AXGridTarget",
+		            sort:false,
+		            //fitToWidth:true, // 너비에 자동 맞춤
+		            passiveMode:true,
+		            passiveRemoveHide:false,
+
+		            colGroup : [
+			            {key:"no", label:"번호", width:"50", align:"center", formatter:"checkbox"},
+			            {
+				            key:"_CUD", label:"상태", width:"50", align:"center"
+			            },
+			            {
+				            key:"string", label:"String", width:"200",
+				            editor: {
+					            type: "text",
+					            updateWith: ["_CUD"]
+				            }
+			            },
+			            {
+				            key:"combobox", label:"combobox", width:"100",
+				            formatter: function(val){
+					            return this.value.NM;
+				            },
+				            editor: {
+					            type: "select",
+					            optionValue: "CD",
+					            optionText: "NM",
+					            options:[
+						            {CD:1, NM:"김기영"},
+						            {CD:2, NM:"장기영"}
+					            ],
+					            beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+						            // 선택된 값은 
+						            console.log(val);
+						            return val;
+					            },
+					            afterUpdate: function(val){ // 수정이 처리된 후
+						            // 수정이 된 후 액션.
+						            console.log(this);
+					            }
+				            }
+			            },
+			            {
+				            key:"date", label:"date", width:"105", align:"center",
+				            editor: {
+					            type: "calendar",
+					            config: {
+						            separator: "/"
+					            }
+				            }
+			            },
+			            {
+				            key:"money", label:"money", width:"100", align:"right",
+				            formatter:"money",
+				            editor: {
+					            type: "money",
+					            updateWith: ["number"]
+				            }
+			            },
+			            {
+				            key:"number", label:"number", width:"80", align:"right",
+				            formatter:"money",
+				            editor: {
+					            type: "number",
+					            updateWith: ["money"]
+				            }
+			            },
+			            {
+				            key:"checkbox", label:"checkbox", width:"50", align:"center",
+				            editor: {
+					            type: "checkbox",
+					            beforeUpdate: function(val){
+						            return (val == true) ? "Y" : "N";
+					            }
+				            }
+			            },
+			            {
+				            key:"radio", label:"radio", width:"50", align:"center",
+				            editor: {
+					            type: "radio"
+				            }
+			            },
+			            {
+				            key:"finder", label:"finder", width:"100", align:"center",
+				            editor: {
+					            type: "finder",
+					            formatter: function(){
+						            return (this.item.finder || "");
+					            },
+					            finder: {
+						            onclick: function(){
+							            alert("새창 열기");
+						            }
+					            }
+				            }
+			            }
+		            ],
+		            colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+		            body : {
+			            rows: [
+				            [
+					            {key:"no", rowspan:2, align:"center"},
+					            {colSeq:null, colspan:3, formatter:function(){
+						            return "합";
+					            }, align:"center", addClass:""},
+					            {key:"date", rowspan:2, valign:"bottom", align:"left"},
+					            {key:"money", rowspan:2, valign:"middle"},
+					            {key:"number", rowspan:2, valign:"middle"},
+					            {key:"checkbox", rowspan:2, valign:"middle"},
+					            {key:"radio", rowspan:2, valign:"middle"},
+					            {key:"finder", rowspan:2, valign:"middle"}
+				            ],
+				            [
+					            {key:"_CUD"},
+					            {key:"string"},
+					            {key:"combobox"}
+				            ]
+			            ],
+			            onclick: function(){
+				            //trace(this.index);
+			            }
+		            },
+		            page: {
+			            paging: false
+		            }
+	            });
+
+	            var list = [
+		            {
+			            no:1,
+			            string: "AXGrid 첫번째 줄 입니다.",
+			            combobox: {CD:1, NM:"김기영"},
+			            date: "2013-01-18",
+			            money: 1709401,
+			            number: 10,
+			            checkbox: 1,
+			            radio: 1,
+			           finder: "선택"
+		            },
+		            {
+			            no:2,
+			            string: "AXGrid 첫번째 줄 입니다.",
+			            combobox: {CD:2, NM:"장기영"},
+			            date: "2013-01-18",
+			            money: 1709401,
+			            number: 10,
+			            checkbox: 1,
+			            radio: 1,
+			            finder: "선택"
+		            },
+		            {
+			            no:3,
+			            string: "AXGrid 첫번째 줄 입니다.",
+			            combobox: {CD:1, NM:"김기영"},
+			            date: "2013-01-18",
+			            money: 1709401,
+			            number: 10,
+			            checkbox: 1,
+			            radio: 1,
+			            finder: "선택"
+		            }
+	            ];
+                myGrid.setList(list);
+                //trace(myGrid.getSortParam());
+
+            },
+            getExcel: function(type){
+                var obj = myGrid.getExcelFormat(type);
+                trace(obj);
+                $("#printout").html(Object.toJSON(obj));
+            },
+            getSelectedItem: function(){
+                trace( this.target.getSelectedItem() );
+                toast.push('콘솔창에 데이터를 출력하였습니다.');
+            },
+	        append: function(){
+		        this.target.pushList(
+			        {
+				        no:this.target.list.length,
+				        string: "AXGrid 첫번째 줄 입니다.",
+				        combobox: {optionValue:1, optionText:"김기영"},
+				        date: "2013-01-18",
+				        money: 1709401,
+				        number: 10,
+				        checkbox: 1,
+				        radio: 1,
+				        finder: "선택"
+			        }
+		        );
+		        this.target.setFocus(this.target.list.length-1);
+	        },
+	        remove: function(){
+		        var checkedList = myGrid.getCheckedListWithIndex(0);// colSeq
+		        if(checkedList.length == 0){
+			        alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");
+			        return;
+		        }
+		        this.target.removeListIndex(checkedList);
+		        // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+	        }
+        }
+    };
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
+
+</script>
+
+</body>
+</html>		
