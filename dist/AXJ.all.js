@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-10 
+AXJ - v1.0.14 - 2015-04-13 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-10 
+AXJ - v1.0.14 - 2015-04-13 
 */
 
 if(!window.AXConfig){
@@ -12950,6 +12950,7 @@ var AXGrid = Class.create(AXJ, {
         if (this.editorOpend) return;
         if (this.inline_edit) return;
 
+        if(event.target) if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT") return;
 
         var _this = this,  cfg = this.config, body = this.body,
 			li, r, c;
