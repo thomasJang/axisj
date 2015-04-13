@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-13 
+AXJ - v1.0.14 - 2015-04-14 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-13 
+AXJ - v1.0.14 - 2015-04-14 
 */
 
 if(!window.AXConfig){
@@ -14988,12 +14988,9 @@ var AXGrid = Class.create(AXJ, {
         var getItem = this.getItem.bind(this);
         var getItemMarker = this.getItemMarker.bind(this);
         var getMarkerDisplay = this.getMarkerDisplay.bind(this);
-
         if (this.editorOpend) this.cancelEditor();
-
         var getIconItem = this.getIconItem.bind(this);
         // --------------------------- icon view
-
         var getMobileItem = this.getMobileItem.bind(this);
         // --------------------------- mobile view
 
@@ -15036,7 +15033,6 @@ var AXGrid = Class.create(AXJ, {
 
             this.cachedDom.tbody.empty();
             this.cachedDom.tbody.append(po.join(''));
-
 
             if (this.hasFixed) {
                 po = [];
@@ -15198,24 +15194,23 @@ var AXGrid = Class.create(AXJ, {
                     this.body.find(".gridBodyTr_" + item).addClass("selected");
                 }
                 var itemIndex = this.selectedRow.last();
-                try {
-                    var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-                    var scrollHeight = this.scrollContent.height();
-                    var bodyHeight = this.body.height();
-                    if (trTop.number() + trHeight.number() > bodyHeight) {
-                        var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
+
+                var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
+                var scrollHeight = this.scrollContent.height();
+                var bodyHeight = this.body.height();
+                var trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
+                if (trTop.number() + trHeight.number() > bodyHeight) {
+                    var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
+                    this.scrollContent.css({ top: scrollTop });
+                    this.contentScrollContentSync({ top: scrollTop });
+                } else {
+                    if (trTop.number() == 0) {
+                        var scrollTop = 0;
                         this.scrollContent.css({ top: scrollTop });
                         this.contentScrollContentSync({ top: scrollTop });
-                    } else {
-                        if (trTop.number() == 0) {
-                            var scrollTop = 0;
-                            this.scrollContent.css({ top: scrollTop });
-                            this.contentScrollContentSync({ top: scrollTop });
-                        }
                     }
-                } catch (e) {
-
                 }
+
             }
 
             // printList then body.onchangeScroll
