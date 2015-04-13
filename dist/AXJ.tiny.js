@@ -1473,7 +1473,9 @@ Object.extend(String.prototype, (function () {
 		function local_date(yy, mm, dd, hh, mi, ss){
 			var utc_d, local_d;
 			local_d = new Date();
-			utc_d = new Date(Date.UTC(yy, mm, dd||1, hh||23, mi||59, ss||0));
+			if(typeof hh === "undefined") hh = 23;
+			if(typeof mi === "undefined") mi = 59;
+			utc_d = new Date(Date.UTC(yy, mm, dd||1, hh, mi, ss||0));
 
 			if(mm == 0 && dd == 1 && utc_d.getUTCHours() + (utc_d.getTimezoneOffset()/60) < 0){
 				utc_d.setUTCHours(0);
@@ -5088,9 +5090,9 @@ var AXCalendar = Class.create(AXJ, {
 	    apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
         if(apm == "PM"){
 	        //hh += 12;
-            if(hh > 11){
-                axdom("#" + cfg.targetID + "_AX_hour").val(11);
-                axdom("#" + cfg.targetID + "_AX_hour").setValueInput(11);
+            if(hh > 12){
+                axdom("#" + cfg.targetID + "_AX_hour").val(12);
+                axdom("#" + cfg.targetID + "_AX_hour").setValueInput(12);
             }
         }
         mytime = hh.setDigit(2) + ":" + mi.setDigit(2) + " " + apm;
@@ -5114,7 +5116,7 @@ var AXCalendar = Class.create(AXJ, {
         var hh = (axdom("#" + cfg.targetID + "_AX_hour").val()||0).number();
         var mi = (axdom("#" + cfg.targetID + "_AX_minute").val()||0).number();
         var apm = axdom("#" + cfg.targetID + "_AX_AMPM").val();
-        if (apm == "PM") hh += 12;
+        if (apm == "PM" && hh < 12) hh += 12;
         return hh.setDigit(2) + ":" + mi.setDigit(2);
     }
 });
@@ -10520,7 +10522,12 @@ var AXInputConverter = Class.create(AXJ, {
 			var myTimes = myDate.print("hh:mi").split(":");
 			var myHH = myTimes[0].number();
 			var myMI = myTimes[1];
-			if (myHH > 12) {
+
+
+			if (myHH == 12 && myMI > 0){
+				apm = "PM";
+			}
+			else if (myHH > 12) {
 				apm = "PM";
 				myHH -= 12;
 			}
@@ -10762,7 +10769,11 @@ var AXInputConverter = Class.create(AXJ, {
 			var myTimes = myDate.print("hh:mi").split(":");
 			var myHH = myTimes[0].number();
 			var myMI = myTimes[1];
-			if (myHH > 12) {
+
+			if (myHH == 12 && myMI > 0){
+				apm = "PM";
+			}
+			else if (myHH > 12) {
 				apm = "PM";
 				myHH -= 12;
 			}
