@@ -78,7 +78,7 @@ var fnObj = {
 				sort:false,
 				control_lock_status: 0,  // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
 				reserveKeys: {
-					parent_key: "pno", child_key: "no"
+					parent_key: "pno", child_key: "no", collapse_key: "collapse"
 				},
 				colGroup : [
 					{key:"no", label:"번호", width:"50", align:"right"},
@@ -208,13 +208,13 @@ var fnObj = {
 					{no:12, pno:2, title:"axj.tiny.js"},
 
 				{no:3, pno:0, title:"ui"},
-					{no:13, pno:3, title:"arongi"},
-						{no:17, pno:13, title:"file1"},
-						{no:18, pno:13, title:"file2"},
+					{no:13, pno:3, title:"arongi", collapse:true},
+						{no:18, pno:13, title:"file1"},
+						{no:19, pno:13, title:"file2"},
 					{no:14, pno:3, title:"bulldog"},
 					{no:15, pno:3, title:"cocker"},
 					{no:16, pno:3, title:"flybasket"},
-					{no:16, pno:3, title:"kakao"},
+					{no:17, pno:3, title:"kakao"},
 
 				{no:4, pno:0, title:"samples"}
 			];
