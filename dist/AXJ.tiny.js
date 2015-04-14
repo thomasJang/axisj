@@ -3474,7 +3474,7 @@ axdom.fn.mask = function (configs) {
  * AXNotification
  * @class AXNotification
  * @extends AXJ
- * @version v1.6
+ * @version v1.7
  * @author tom@axisj.com
  * @logs
  "2012-10-30 오후 12:01:10",
@@ -3485,6 +3485,7 @@ axdom.fn.mask = function (configs) {
  "2014-08-25 tom : dialog body에서 \n -> <br/> auto replace 예외처리 "
  "2015-01-12 tom : ie7,8 fadeOut error fix https://github.com/axisj-com/axisj/issues/386"
  "2015-01-19 tom : https://github.com/axisj-com/axisj/issues/392 dialog에 onConfirm 추가"
+ "2015-04-14 tom : https://github.com/axisj-com/axisj/issues/532 dialog에 onclose 추가"
  */
 var AXNotification = Class.create(AXJ, {
     initialize: function (AXJ_super) {
@@ -3595,8 +3596,6 @@ var AXNotification = Class.create(AXJ, {
             if (!AXgetId(config.targetID)) axdom(document.body).append(this.dialogTray);
             this.dialogTray.prepend(po.join(''));
 
-
-
             var bodyWidth = (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth;
             //var l = bodyWidth / 2 - this.dialogTray.width() / 2;
 	        if(obj.top != undefined){
@@ -3648,7 +3647,7 @@ var AXNotification = Class.create(AXJ, {
                     axdom("#bread_AX_" + breadID).fadeOut({
                         duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
                             axdom("#bread_AX_" + breadID).remove();
-                            endCheck(breadID);
+                            endCheck(breadID, obj);
                         }
                     });
                 }
@@ -3704,11 +3703,14 @@ var AXNotification = Class.create(AXJ, {
         this.busy = false;
         this.insertBread();
     },
-    endCheck: function (breadID) {
+    endCheck: function (breadID, obj) {
         if (axdom("#" + this.config.targetID).html() == "") {
             this.lasBreadSeq = 0;
             if (this.config.type == "dialog") {
-                if(breadID) axdom(document.body).unbind("keyup."+breadID);
+                if(breadID) {
+                    axdom(document.body).unbind("keyup." + breadID);
+                    if(obj && obj.onclose) obj.onclose.call(obj, obj);
+                }
             }
         }
     }

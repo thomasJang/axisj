@@ -91,7 +91,7 @@
 					<div class="ax-unit">
 						<h2>Dialog</h2>
 						<button type="button" class="AXButton" onclick="dialog.push('<b>Alert</b>\n Application Call dialog push');" ><i class="fa fa-microphone fa-lg"></i> Alert</button>
-						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning'});" ><i class="fa fa-microphone fa-lg"></i> Alert Warning</button>
+						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning', onclose:function(){alert('close');}});" ><i class="fa fa-microphone fa-lg"></i> Alert Warning</button>
 						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" ><i class="fa fa-microphone fa-lg"></i> Alert Caution</button>
 						
 						<button type="button" class="AXButton" onclick="dialog.push({
