@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-14 
+AXJ - v1.0.14 - 2015-04-15 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-14 
+AXJ - v1.0.14 - 2015-04-15 
 */
 
 if(!window.AXConfig){
@@ -12752,7 +12752,8 @@ var AXGrid = Class.create(AXJ, {
             this.gridTargetSetSize(true);
             this.contentScrollResize();
             this.setBody(undefined, true);
-        }else{
+        }
+        else{
             this.contentScrollResize();
         }
 
@@ -14072,9 +14073,10 @@ var AXGrid = Class.create(AXJ, {
 
         if (this.list.length > 0) {
             var _this = this;
-            if(list == undefined){
-                _this.setList(_this.list);
-            }else{
+            if(typeof list === "undefined"){
+                _this.setList(_this.list, "reload");
+            }
+            else{
                 setTimeout(function(){
                     _this.setList(_this.list);
                 }, 100);
@@ -14089,9 +14091,6 @@ var AXGrid = Class.create(AXJ, {
             this.scrollXHandle.unbind("mousedown").bind("mousedown", this.contentScrollScrollReady.bind(this));
             /* scroll event bind ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         }
-
-
-
     },
     /**
      * @method AXGrid.listLoadingDisplay
@@ -14233,11 +14232,11 @@ var AXGrid = Class.create(AXJ, {
         }
         else
         {
-
             if (axdom.isArray(obj)) {
                 if (sortDisable || !cfg.sort) {
                     this.list = obj;
-                } else {
+                }
+                else {
                     if (nowSortHeadID) {
                         this.list = this.sortList(nowSortHeadObj.sort, nowSortHeadObj, obj);
                     } else {
