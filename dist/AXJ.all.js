@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-15 
+AXJ - v1.0.14 - 2015-04-17 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-15 
+AXJ - v1.0.14 - 2015-04-17 
 */
 
 if(!window.AXConfig){
@@ -16542,9 +16542,14 @@ var AXGrid = Class.create(AXJ, {
         get_editor = function(cond, val){
             if(typeof val == "undefined") val = "";
             // text, number, money, calendar, select, selector, switch, segment, slider, finder
-            var po = [];
+            var po = [], _val;
             if(cond.type === "select"){
-                // 조금 있다가..
+
+                if(typeof val === "string" || typeof val === "number"){
+                    _val = val;
+                }else{
+                    _val = val[cond.optionValue||"optionValue"];
+                }
                 po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'">');
                 for(var oi=0;oi<cond.options.length;oi++){
                     var value, text;
@@ -16553,7 +16558,7 @@ var AXGrid = Class.create(AXJ, {
                     //obj[cond.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
 
                     po.push('<option value="'+ value +'"');
-                    if(value == val[cond.optionValue||"optionValue"]){
+                    if(value == _val){
                         po.push(' selected="selected"');
                     }
                     po.push('>' + text + '</option>');
