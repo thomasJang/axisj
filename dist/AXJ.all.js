@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-17 
+AXJ - v1.0.14 - 2015-04-19 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-17 
+AXJ - v1.0.14 - 2015-04-19 
 */
 
 if(!window.AXConfig){
@@ -367,6 +367,8 @@ axf.each({a:1, b:2, c:3}, function(k, v){
 	},
 /**
  * 브라우저의 이름과 버전 모바일여부
+ *
+ * @see IE11 https://msdn.microsoft.com/ko-kr/library/ie/hh869301(v=vs.85).aspx
  * @member {Object} axf.browser
  * @example
  ```
@@ -389,18 +391,24 @@ axf.each({a:1, b:2, c:3}, function(k, v){
 			var browserVersion = (match[2] || "0");
 			return { name: "android", version: browserVersion, mobile: mobile }
 		} else {
-			var browserName = "";
-			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+			var match = /(msie) ([\w.]+)/.exec(ua) ||
+				/(trident)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+				/(opera|opr)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+				/(chrome)[ \/]([\w.]+)/.exec(ua) ||
 				/(webkit)[ \/]([\w.]+)/.exec(ua) ||
-				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
-				/(msie) ([\w.]+)/.exec(ua) ||
 				ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
 				[];
 
 			var browser = (match[1] || "");
 			var browserVersion = (match[2] || "0");
 
-			if (browser == "msie") browser = "ie";
+			var browserName = {
+				"msie"   : "ie",
+				"trident": "ie",
+				"opr"    : "opera"
+			};
+			if (browser in browserName) browser = browserName[browser];
+
 			return {
 				name: browser,
 				version: browserVersion,
@@ -12955,7 +12963,9 @@ var AXGrid = Class.create(AXJ, {
         if (this.editorOpend) return;
         if (this.inline_edit) return;
 
-        if(event.target) if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT") return;
+        if(event.target){
+            if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT" || event.target.tagName == "BUTTON" || event.target.tagName == "A") return;
+        }
 
         var _this = this,  cfg = this.config, body = this.body,
 			li, r, c;
@@ -13936,14 +13946,14 @@ var AXGrid = Class.create(AXJ, {
                         key: myColHead.key,
                         value: item[myColHead.key]
                     };
-                    result = myColHead.formatter.call(sendObj, itemIndex, item);
+                    result = myColHead.formatter.call(sendObj, itemIndex, item) || "";
                     //result 값이 money 형식인지 체크 합니다.
                     var moneyCheck = (Object.isString(result)) ? result.replace(/,/g, "") : result;
                     if (axdom.isNumeric(moneyCheck)) result = result.number();
                 }
                 return result;
             } else {
-                return item[myColHead.key];
+                return item[myColHead.key] || "";
             }
         };
 
@@ -30461,8 +30471,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		po.push("<a " + obj.config.href + " class=\"selectedTextBox\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox\" style=\"height:" + (h - (borderT+borderB)) + "px;\"");
 		if(tabIndex != undefined) po.push(" tabindex=\""+tabIndex+"\"");
 		po.push(">");
-		po.push("	<span class=\"selectedText\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectText\" style=\"line-height:" + (h - (borderT+borderB)) + "px;padding:0px 4px;font-size:" + fontSize + "px;\"></span>");
-		po.push("	<span class=\"selectBoxArrow\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow\" style=\"height:" + h + "px;\"></span>");
+		po.push("	<div class=\"selectedText\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectText\" style=\"line-height:" + (h - (borderT+borderB)) + "px;padding:0px 4px;font-size:" + fontSize + "px;\"></div>");
+		po.push("	<div class=\"selectBoxArrow\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow\" style=\"height:" + h + "px;\"></div>");
 		po.push("</a>");
 		po.push("</div>");
 
