@@ -30525,7 +30525,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			//AXUtil.alert(obj.options);
 
 			// PC 브라우저인 경우
-			iobj.css({opacity:0});
+			iobj.css({visibility:"hidden"});
 			var bindSelectExpand = this.bindSelectExpand.bind(this);
 			var bindSelectClose = this.bindSelectClose.bind(this);
 
