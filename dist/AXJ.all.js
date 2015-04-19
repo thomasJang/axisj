@@ -3332,12 +3332,13 @@ var AXReq = Class.create({
 /* -- AXMask ---------------------------------------------- */
 /**
  * @class AXMask
- * @version v1.2
+ * @version v1.3
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * append 메소드 추가
  * 2014-09-17 hyunjun19 : 지정한 대상의 영역만 masking 하도록 style 추가
+ * 2015-04-19 tom : body.data에 마스크상태값 저장
  * @description 웹페이지 전체에 사용자 입력을 막기위한 마스크를 추가하는데 사용
  * ```js
  mask.open();
@@ -3359,6 +3360,7 @@ var AXMask = Class.create(AXJ, {
     },
     open: function (configs) {
         axdom(document.body).append(this.mask);
+        axdom(document.body).data("masked", "true");
         var bodyHeight = 0;
         (AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
 
@@ -3385,6 +3387,7 @@ var AXMask = Class.create(AXJ, {
         if (!delay) {
             this.mask.unbind("click.AXMask");
             this.mask.remove();
+            axdom(document.body).data("masked", null);
         } else {
             var maskHide = this.hide.bind(this);
             setTimeout(maskHide, delay);
@@ -3394,6 +3397,7 @@ var AXMask = Class.create(AXJ, {
     hide: function () {
         this.mask.unbind("click.AXMask");
         this.mask.remove();
+        axdom(document.body).data("masked", null);
         this.blinkTrack.clear();
     },
     setCSS: function (CSS) {
@@ -12959,12 +12963,14 @@ var AXGrid = Class.create(AXJ, {
  * @description  Grid 내부에서 감지되는 이벤트에 대한 처리를 합니다.(방향키로 포커스 이동등..)
  */
     onKeydown: function (event) {
-        if( this.selectedRow.length == 0 ) return;
-        if (this.editorOpend) return;
-        if (this.inline_edit) return;
+        if( this.selectedRow.length == 0 ) return this;
+        if (this.editorOpend) return this;
+        if (this.inline_edit) return this;
+
+        if(axdom(document.body).data("masked") === "true") return this;
 
         if(event.target){
-            if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT" || event.target.tagName == "BUTTON" || event.target.tagName == "A") return;
+            if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT" || event.target.tagName == "BUTTON" || event.target.tagName == "A") return this;
         }
 
         var _this = this,  cfg = this.config, body = this.body,
