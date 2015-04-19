@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-19 
+AXJ - v1.0.14 - 2015-04-20 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-19 
+AXJ - v1.0.14 - 2015-04-20 
 */
 
 if(!window.AXConfig){
@@ -16417,7 +16417,9 @@ var AXGrid = Class.create(AXJ, {
             po.push(get_editor(CG.editor, td_val));
             po.push('</div>');
             div.after(po.join(''));
+
             inline_editor = jQuery("#" + inline_editor_id);
+
             inline_css = div.position();
             inline_css.width = div.width();
             inline_editor.css(inline_css).find("input, select, textarea").select();
@@ -16426,6 +16428,10 @@ var AXGrid = Class.create(AXJ, {
             // AXBind 연결
             AXBindConfig = {};
             jQuery.extend(AXBindConfig, CG.editor.config);
+
+            var cfg_key_value = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionValue||"optionValue") : "optionValue",
+                cfg_key_text = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionText||"optionText") : "optionText";
+
             if(CG.editor.type == "number"){
                 inline_editor.find("input").bindNumber(AXBindConfig).select();
             }
@@ -16448,7 +16454,7 @@ var AXGrid = Class.create(AXJ, {
             }
             else
             if(CG.editor.type == "select") {
-                //inline_editor.find("select").bindSelect(AXBindConfig);
+
                 inline_editor.find("select").bind("change", function(){
 	                var sdom = inline_editor.find("select").get(0);
                     var obj = {};
@@ -16460,8 +16466,24 @@ var AXGrid = Class.create(AXJ, {
 					inline_editor.find("select").focus();
 				}, 100);
             }
+            else
+            if(CG.editor.type == "AXSelect"){
+                // todo : inline_editor.config에 onchange함수 재 정의
+                AXBindConfig.onchange = function(){
+                    var obj = {};
+                        obj[cfg_key_value] = this.value,
+                        obj[cfg_key_text] = this.text;
+                    setTimeout(function(){
+                        _this.updateItem(r, c, ii, obj);
+                    }, 100);
+                };
+                AXBindConfig.setValue = td_val[cfg_key_value];
+                inline_editor.find("select").bindSelect(AXBindConfig);
+                setTimeout(function(){
+                    inline_editor.find("select").focus();
+                }, 100);
+            }
 
-            // todo : 에디팅 셀 이벤트 연결
             inline_editor.bind("keydown", function(e){
                 setTimeout(function(){
                     if(
@@ -16544,22 +16566,49 @@ var AXGrid = Class.create(AXJ, {
 			        var target = axf.get_event_target(e.target, {id: inline_editor_id});
 			        if (!target) {
 				        var sdom = inline_editor.find("select").get(0);
-				        var obj = {
-					        optionValue: sdom.options[sdom.selectedIndex].value,
-					        optionText: sdom.options[sdom.selectedIndex].text
-				        }
-				        _this.updateItem(r, c, ii, obj);
+                        if(sdom.options[sdom.selectedIndex]) {
+                            var obj = {
+                                optionValue: sdom.options[sdom.selectedIndex].value,
+                                optionText : sdom.options[sdom.selectedIndex].text
+                            }
+                            _this.updateItem(r, c, ii, obj);
+                        }else{
+                            _this.editCellClear();
+                        }
 				        jQuery(document.body).unbind("click.axgrid");
 			        }
 		        });
 	        }
+            else
+            if(CG.editor.type == "AXSelect"){
+                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+                    var select_id = (cfg.targetID + '_inline_editor').lcase();
+                    var target = axf.get_event_target(e.target, function(el){
+                        if(!el.id) return false;
+                        return ((el.id.split(/_AX_/g)[1]||"").lcase() == select_id);
+                    });
+                    if (!target) {
+                        var sdom = inline_editor.find("select").get(0);
+                        if(sdom.options[sdom.selectedIndex]) {
+                            var obj = {};
+                                obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value,
+                                obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text
+
+                            _this.updateItem(r, c, ii, obj);
+                        }else{
+                            _this.editCellClear();
+                        }
+                        jQuery(document.body).unbind("click.axgrid");
+                    }
+                });
+            }
         }, 10);
 
         get_editor = function(cond, val){
             if(typeof val == "undefined") val = "";
             // text, number, money, calendar, select, selector, switch, segment, slider, finder
             var po = [], _val;
-            if(cond.type === "select"){
+            if(cond.type === "select" || cond.type === "AXSelect"){
 
                 if(typeof val === "string" || typeof val === "number"){
                     _val = val;
@@ -16567,17 +16616,18 @@ var AXGrid = Class.create(AXJ, {
                     _val = val[cond.optionValue||"optionValue"];
                 }
                 po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select '+cond.type+'">');
-                for(var oi=0;oi<cond.options.length;oi++){
-                    var value, text;
-                    value = cond.options[oi][cond.optionValue||"optionValue"],
-                    text = cond.options[oi][cond.optionText||"optionText"];
-                    //obj[cond.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+                if(cond.options) {
+                    for (var oi = 0; oi < cond.options.length; oi++) {
+                        var value, text;
+                        value = cond.options[oi][cond.optionValue || "optionValue"], text = cond.options[oi][cond.optionText || "optionText"];
+                        //obj[cond.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
 
-                    po.push('<option value="'+ value +'"');
-                    if(value == _val){
-                        po.push(' selected="selected"');
+                        po.push('<option value="' + value + '"');
+                        if (value == _val) {
+                            po.push(' selected="selected"');
+                        }
+                        po.push('>' + text + '</option>');
                     }
-                    po.push('>' + text + '</option>');
                 }
                 po.push('</select>');
             }

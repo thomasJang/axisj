@@ -227,6 +227,40 @@ colGroup : [
 				            }
 			            },
 			            {
+				            key:"combobox2", label:"combobox2", width:"100",
+				            formatter: function(val){
+					            if(Object.isObject(this.value)){
+						            return this.value.NM;
+					            }else{
+						            return this.value;
+					            }
+				            },
+				            editor: {
+					            type: "AXSelect",
+					            config: {
+						            reserveKeys: {
+							            options: "list",
+							            optionValue: "CD",
+							            optionText: "NM"
+						            },
+						            ajaxUrl: "selectData-01.php",
+						            ajaxPars: "",
+						            onchange: function(){
+							            // inline editor 에 선언한 onchange함수는 AXGrid내부에서 사용하는 onchange 함수로 변경되어 사용할 수 없습니다.
+						            }
+					            },
+					            beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+						            // 선택된 값은
+						            console.log(val);
+						            return val;
+					            },
+					            afterUpdate: function(val){ // 수정이 처리된 후
+						            // 수정이 된 후 액션.
+						            //console.log(this);
+					            }
+				            }
+			            },
+			            {
 				            key:"date", label:"date", width:"105", align:"center",
 				            editor: {
 					            type: "calendar",
@@ -298,6 +332,7 @@ colGroup : [
 			            no:1,
 			            string: "AXGrid 첫번째 줄 입니다.",
 			            combobox: {CD:1, NM:"김기영"},
+			            combobox2: {CD:1, NM:"김기영"},
 			            date: "2013-01-18",
 			            money: 1709401,
 			            number: 10,
@@ -309,6 +344,7 @@ colGroup : [
 			            no:2,
 			            string: "AXGrid 첫번째 줄 입니다.",
 			            combobox: 2,
+			            combobox2: {CD:1, NM:"김기영"},
 			            date: "2013-01-18",
 			            money: 1709401,
 			            number: 10,
@@ -320,6 +356,7 @@ colGroup : [
 			            no:3,
 			            string: "AXGrid 첫번째 줄 입니다.",
 			            combobox: 3,
+			            combobox2: {CD:1, NM:"김기영"},
 			            date: "2013-01-18",
 			            money: 1709401,
 			            number: 10,
