@@ -14908,7 +14908,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		var isSelectorClick = false;
 		var eid = event.target.id.split(/_AX_/g);
 		var tgid = event.target.id;
-		//trace(tgid.substr(eid[0].length, objID.length)+"///"+objID);
+
 		if (event.target.id == "") isSelectorClick = false;
 		else {
 			if (event.target.id == objID || (eid[0] == cfg.targetID && tgid.substr(eid[0].length + 4, objID.length) == objID)) {
