@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.14 - 2015-04-20 
+AXJ - v1.0.14 - 2015-04-21 
 */
 /*! 
-AXJ - v1.0.14 - 2015-04-20 
+AXJ - v1.0.14 - 2015-04-21 
 */
 
 if(!window.AXConfig){
@@ -15976,14 +15976,8 @@ var AXGrid = Class.create(AXJ, {
 
 
                     this._focusedItemIndex = itemIndex;
-                    
-                    if(CG.editor){
-                        if(this.editCellClear(r, c, itemIndex) === false){
-                            return this; // 현재 에디팅 중인 셀이 클릭 되었을 때는 아무런 클릭 이벤트를 발생 시키지 않습니다.
-                        }
-                    }
-                    else{
-                        this.editCellClear();
+                    if(this.editCellClear(r, c, itemIndex) === false){
+                        if(CG.editor) return this; // 현재 에디팅 중인 셀이 클릭 되었을 때는 아무런 클릭 이벤트를 발생 시키지 않습니다.
                     }
 
                     if (event.shiftKey) {
