@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGridTree - AXISJ</title>
+
+	<link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+	<link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+	<link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+	<meta property="og:image" content="/samples/_img/axisj_sns.png" />
+	<meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+	<meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+	<link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css" />
+
+	<link rel="stylesheet" type="text/css" href="AXGridTree.css" />
+
+	<script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../page.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+
+	<script type="text/javascript" src="../../lib/AXCore.js"></script>
+	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
+	<script type="text/javascript" src="../../lib/AXToolBar.js"></script>
+	<script type="text/javascript" src="../../lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../lib/AXGridTree.js"></script>
+	<style type="text/css">
+		/* 트리 스타일 사용자 정의 */
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.file {
+			width: 2.0em;
+			text-align: right;
+			padding-right: 0.5em;
+		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.file:before {
+			content: "\e829";
+		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder {
+			width: 2.2em;
+		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder:before {
+			content: "\f0d7  \e841";
+		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder.collapse:before {
+			content: "\f0da  \e840";
+		}
+	</style>
+</head>
+<body>
+<div id="AXPage">
+	<div id="AXPageBody">
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+			<h1>GridTree</h1>
+			<div id="grid-tree-target" style="height:500px;"></div>
+			<div class="AXHspace10"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var pageID = "grid-tree";
+var fnObj = {
+	pageStart: function(){
+		this.grid_tree.init();
+	},
+	grid_tree: {
+		target: new AXGridTree(),
+		init: function(){
+			var target = this.target;
+			target.setConfig({
+				targetID : "grid-tree-target",
+				sort:false,
+				control_lock_status: 0,  // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
+				reserveKeys: {
+					parent_key: "pno", child_key: "no", collapse_key: "collapse"
+				},
+				colGroup : [
+					{key:"no", label:"번호", width:"50", align:"right"},
+					{
+						key:"title", label:"제목", width:"300",
+						formatter: "tree_control",
+						editor:{
+							formatter: "dec",
+							type: "text"
+							/*
+							todo : editor type options [text, number, calendar, select, selector, switch, segment, slider, finder]
+							 */
+						}
+					}
+				],
+				colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+				body : {
+					onclick: function(){
+
+					}
+				},
+				page: {
+					paging: false
+				},
+				contextMenu: {
+					theme:"AXContextMenu", // 선택항목
+					width:"200", // 선택항목
+					menu:[
+						{
+							need_data:false, label: "<i class='axi axi-plus-square'></i> 추가",
+							onclick: function () {
+								var result = target.append({activity_nm:"새로운 이름"});
+								fnObj.grid_tree.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-plus-square'></i> 자식 추가",
+							onclick: function () {
+								var result = target.append({activity_nm:"새로운 이름"}, ((this.sendObj) ? this.sendObj.index : undefined));
+								fnObj.grid_tree.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-minus-square'></i> 삭제",
+							onclick: function () {
+								var result = target.remove(target.getSelectedItem().index);
+								fnObj.grid_tree.printError(result);
+							},
+							underLine:true
+						},
+						{
+							need_data:true, label: "<i class='axi axi-keyboard-arrow-up'></i> 순서변경(위로)", shotCut:"ctrl + ↑",
+							onclick: function (event) {
+								var result = target.moveUp(target.getSelectedItem().index);
+								fnObj.grid_tree.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-keyboard-arrow-down'></i> 순서변경(아래로)", shotCut:"ctrl + ↓",
+							onclick: function () {
+								var result = target.moveDown(target.getSelectedItem().index);
+								fnObj.grid_tree.printError(result);
+							},
+							underLine:true
+						},
+						{
+							need_data:true, label: "<i class='axi axi-keyboard-arrow-right'></i> 한 단계 아래로", shotCut:"ctrl + →",
+							onclick: function () {
+								var result = target.indent(target.getSelectedItem().index);
+								fnObj.grid_tree.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-keyboard-arrow-left'></i> 한 단계 위로", shotCut:"ctrl + ←",
+							onclick: function () {
+								var result = target.outdent(target.getSelectedItem().index);
+								fnObj.grid_tree.printError(result);
+							},
+							underLine: true
+						},
+						{
+							need_data:true, label: "<i class='axi axi-content-copy'></i> 복사하기", shotCut:"ctrl + C",
+							onclick: function () {
+								var result = target.copy(target.getSelectedItem().index);
+								fnObj.gridWBS.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-content-cut'></i> 잘라내기", shotCut:"ctrl + X",
+							onclick: function () {
+								var result = target.cut(target.getSelectedItem().index);
+								fnObj.gridWBS.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-clipboard2'></i> 붙여넣기", shotCut:"ctrl + V",
+							onclick: function () {
+								var result = target.paste();
+								fnObj.gridWBS.printError(result);
+							}
+						},
+						{
+							need_data:true, label: "<i class='axi axi-clipboard2'></i> 자식으로 붙여넣기", shotCut:"ctrl + alt + V",
+							onclick: function () {
+								var result = target.paste(target.getSelectedItem().index);
+								fnObj.grid_tree.printError(result);
+							}
+						}
+					],
+					filter:function(){
+						return (this.sendObj) ? true : !this.menu.need_data;
+					}
+				}
+			});
+
+			var data = [
+				{no:1, pno:0, title:"dist"},
+					{no:5, pno:1, title:"axj.js"}, // 출력순서를 맞춰주지 않으면 정상적인 트리출력이 되지 않습니다.
+					{no:6, pno:1, title:"axj.core.js"},
+					{no:7, pno:1, title:"axj.min.js"},
+					{no:8, pno:1, title:"axj.tiny.js"},
+
+				{no:2, pno:0, title:"lib"},
+					{no:9, pno:2, title:"axj.js"}, // 출력순서를 맞춰주지 않으면 정상적인 트리출력이 되지 않습니다.
+					{no:10, pno:2, title:"axj.core.js"},
+					{no:11, pno:2, title:"axj.min.js"},
+					{no:12, pno:2, title:"axj.tiny.js"},
+
+				{no:3, pno:0, title:"ui"},
+					{no:13, pno:3, title:"arongi", collapse:true},
+						{no:18, pno:13, title:"file1"},
+						{no:19, pno:13, title:"file2"},
+					{no:14, pno:3, title:"bulldog"},
+					{no:15, pno:3, title:"cocker"},
+					{no:16, pno:3, title:"flybasket"},
+					{no:17, pno:3, title:"kakao"},
+
+				{no:4, pno:0, title:"samples"}
+			];
+
+			target.setData({list:data});
+		},
+		printError: function(){
+
+		}
+	}
+};
+$(document.body).ready(function() {
+	fnObj.pageStart();
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,67 @@
+.AXGrid {
+	.AXgridScrollBody {
+		.AXGridBody {
+			.gridBodyTable {
+				.node-indent{
+					color: #404752;
+					display: inline-block;
+					vertical-align: middle;
+					font-size:14px;
+					font-family: 'axicon';
+					text-align: center;
+					padding: 2px;
+					box-sizing: content-box;
+					width:1em;height:1em;line-height:1em;
+					cursor: pointer;
+
+					&.file {
+						width:2.0em;
+						text-align: right;
+						padding-right: 0.5em;
+						&:before {
+							content: "\e829";
+						}
+					}
+
+					&.folder{
+						width:2.2em;
+						&:before {
+							content: "\f0d7  \e841";
+						}
+						&.collapse {
+							&:before {
+								content: "\f0da  \e840";
+							}
+						}
+						&:hover{
+							color:#000;
+							//border-radius: 50%;border:1px solid;
+						}
+					}
+				}
+				.node-indent-0{}
+				.generate-node-indent(100);
+				.generate-node-indent(@n, @i: 1) when (@i =< @n) {
+					.node-indent-@{i} {
+						margin-left: 1em * @i;
+					}
+					.generate-node-indent(@n, (@i + 1));
+				}
+				tbody {
+					tr{
+						&.copied {
+							td {
+								background-color: #fff3da;
+							}
+							&.selected {
+								td {
+									background-color: #ebf4db;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

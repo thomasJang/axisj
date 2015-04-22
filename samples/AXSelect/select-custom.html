@@ -46,11 +46,11 @@
 
 				<h2>options, optionsValue, optionText 키값 사용자 정의</h2>
 
-				<select name="" class="AXSelect" id="ax-select-01"></select>
+				<select name="" class="AXSelect" id="ax-select1-01"></select>
 				&nbsp;
-				<select name="" class="AXSelect" id="ax-select-02"></select>
+				<select name="" class="AXSelect" id="ax-select11-02"></select>
 				&nbsp;
-				<select name="" class="AXSelect" id="ax-select-03"></select>
+				<select name="" class="AXSelect" id="ax-select111-03"></select>
 
 <!-- 소스코드 -->
 <pre class="prettyprint linenums">
@@ -116,7 +116,6 @@ jQuery(document.body).ready(function(){
 	prettyPrint();
 });
 </pre>
-
 				<h2>selectData-01.php</h2>
 <pre class="prettyprint linenums">
 {
@@ -211,7 +210,7 @@ var fnObj = {
 
 
 		// 예약어 설정 안하고 AXConfig 속성 사용
-		$("#ax-select-01").bindSelect({
+		$("#ax-select1-01").bindSelect({
 			ajaxUrl: "selectData-01.php",
 			ajaxPars: "",
 			onchange: function(){
@@ -220,7 +219,7 @@ var fnObj = {
 		});
 
 		// 예약어 설정
-		$("#ax-select-02").bindSelect({
+		$("#ax-select11-02").bindSelect({
 			reserveKeys: {
 				options: "lists",
 				optionValue: "value",
@@ -234,7 +233,7 @@ var fnObj = {
 		});
 
 		// 예약어 다르게 설정
-		$("#ax-select-03").bindSelect({
+		$("#ax-select111-03").bindSelect({
 			reserveKeys: {
 				options: "options",
 				optionValue: "CD",
