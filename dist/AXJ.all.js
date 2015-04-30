@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-04-29 
+AXJ - v1.0.15 - 2015-04-30 
 */
 /*! 
-AXJ - v1.0.15 - 2015-04-29 
+AXJ - v1.0.15 - 2015-04-30 
 */
 
 if(!window.AXConfig){
@@ -11208,6 +11208,8 @@ var AXSplit = Class.create(AXJ, {
 var AXGrid = Class.create(AXJ, {
     initialize: function (AXJ_super) {
         AXJ_super();
+
+
         this.Observer = null;
         this.list = [];
         this.removedList = [];
@@ -11254,6 +11256,8 @@ var AXGrid = Class.create(AXJ, {
         };
 
         this.mobileContextMenu = new AXContextMenuClass();
+
+        if(window.AXGrid_instances) window.AXGrid_instances.push(this);
     },
     /* 공통 영역 */
     defineConfig: function (rewrite) {
@@ -34847,6 +34851,8 @@ var AXTree = Class.create(AXJ, {
         this.config.persistSelected  = (AXConfig.AXTree.persistSelected || false);
         this.config.cookiePrefix     = (AXConfig.AXTree.cookiePrefix || "axtree-");
         this.config.cookieExpiredays = (AXConfig.AXTree.cookieExpiredays || 7);
+
+		if(window.AXTree_instances) window.AXTree_instances.push(this);
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
