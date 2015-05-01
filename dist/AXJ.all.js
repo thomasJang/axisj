@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-04-30 
+AXJ - v1.0.15 - 2015-05-01 
 */
 /*! 
-AXJ - v1.0.15 - 2015-04-30 
+AXJ - v1.0.15 - 2015-05-01 
 */
 
 if(!window.AXConfig){
@@ -15217,23 +15217,24 @@ var AXGrid = Class.create(AXJ, {
                     this.body.find(".gridBodyTr_" + item).addClass("selected");
                 }
                 var itemIndex = this.selectedRow.last();
-
-                var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
-                var scrollHeight = this.scrollContent.height();
-                var bodyHeight = this.body.height();
-                var trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
-                if (trTop.number() + trHeight.number() > bodyHeight) {
-                    var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
-                    this.scrollContent.css({ top: scrollTop });
-                    this.contentScrollContentSync({ top: scrollTop });
-                } else {
-                    if (trTop.number() == 0) {
-                        var scrollTop = 0;
+                var itemDom = this.body.find(".gridBodyTr_" + itemIndex);
+                if(itemDom[0]){
+                    var trTop = itemDom.position().top;
+                    var scrollHeight = this.scrollContent.height();
+                    var bodyHeight = this.body.height();
+                    var trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
+                    if (trTop.number() + trHeight.number() > bodyHeight) {
+                        var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
                         this.scrollContent.css({ top: scrollTop });
                         this.contentScrollContentSync({ top: scrollTop });
+                    } else {
+                        if (trTop.number() == 0) {
+                            var scrollTop = 0;
+                            this.scrollContent.css({ top: scrollTop });
+                            this.contentScrollContentSync({ top: scrollTop });
+                        }
                     }
                 }
-
             }
 
             // printList then body.onchangeScroll
@@ -16610,7 +16611,7 @@ var AXGrid = Class.create(AXJ, {
             var po = [], _val;
             if(cond.type === "select" || cond.type === "AXSelect"){
 
-                if(typeof val === "string" || typeof val === "number"){
+                if(typeof val === "string" || typeof val === "number" || typeof val === "boolean"){
                     _val = val;
                 }else{
                     _val = val[cond.optionValue||"optionValue"];
@@ -17711,6 +17712,7 @@ var AXGrid = Class.create(AXJ, {
 
                             if (trTop.number() + trHeight.number() > bodyHeight) {
                                 scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+                                if(itemIndex == _this.list.length-1) scrollTop -= 10;
                                 _this.scrollContent.css({ top: scrollTop });
                                 _this.contentScrollContentSync({ top: scrollTop }, "direct");
                             } else {
@@ -34753,69 +34755,6 @@ myMenu.setTree(Tree);
 	}
 });
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
-
-/**
- * AXTree
- * @class AXTree
- * @extends AXJ
- * @version v1.59.3
- * @author tom@axisj.com
- * @logs
- "2013-02-14 오후 2:36:35",
- "2013-04-19 ajax setList 버그픽스 - tom",
- "2013-06-02 updateList 버그픽스 - tom",
- "2013-06-04 오전 11:26:31 headCheck 버그픽스 - tom",
- "2013-06-20 오전 12:49:55 control method 수정 및 버그 픽스 - tom",
- "2013-06-21 오전 10:41:47 fitToWidth 속성 추가 - tom",
- "2013-07-04 오후 1:12:05 tooltip 속성 추가 - tom",
- "2013-07-08 오전 9:13:19 스크롤 버그 / appendTree 버그픽스 - tom",
- "2013-07-14 오전 1:53:59 appenTree 기능 개선 - tom ",
- "2013-07-15 오전 10:36:15 contentScrollScrollWheel 버그 픽스 - tom",
- "2013-08-29 오후 2:35:13 width : auto 지원",
- "2013-09-02 오후 2:03:10 scroll 중 마우스 오버 아웃 버그 픽스 - tom ",
- "2013-09-04 오후 2:49:54 AXConfig에서 설정값 바인딩 구조로 변경 처리 - tom",
- "2013-09-04 오후 9:46:17 checkboxRelationFixed 속성 추가 / 체크 박스 부모자식 관계 처리 - tom ",
- "2013-10-03 오후 9:24:42 AXTreeSplit 속성 추가 ui 클래스 포함 - tom",
- "2013-10-18 오전 8:30:50 dblclick 이벤트 개선 / click(index) 메서드 추가 - tom",
- "2013-11-26 오후 1:48:19 tom : appendTree 버그픽스",
- "2013-11-26 오후 2:07:40 tom : body.oncontract 기능 추가",
- "2014-02-06 오후 8:43:42 tom : jQuery 독립을 위한 문자열 변경",
- "2014-05-02 tom : colGroup width * 지원",
- "2014-05-12 tom : item nodeName 에 formatter 를 이용하여 <span> 태그를 삽입 했을 때 click 이벤트가 발생하도록 픽스",
- "2014-05 25 tom : resetHeight 함수 개선, emptyListMSG 설정 기능 추가"
- "2014-05-27 tom : ajax 옵션 추가 확장 지원 "
- "2014-06-02 tom : change ajax data protocol check result or error key in data"
- "2014-06-10 tom : bugfix, method:clearFocus"
- "2014-06-11 tom : bugfix, method:removeTree - remove child node then parent node not update"
- "2014-06-13 tom : bugfix, method:updateTree sync data list & tree"
- "2014-07-04 tom : bugfix, parentKey value is not '0' display error"
- "2010-07-14 tom : bugfix, reserveKeys.subTree not match code"
- "2014-08-04 tom : 'modify add' relationFixedSync arguments define"
- "2014-08-13 tom : window.resize 이벤트시 selectedRow 유지, expandAll 메소드 뎁스 아규먼트 추가"
- "2014-09-01 tom : tree key event로 커서 이동 밑 트리 열기 닫기 지원"
- "2014-09-22 tom : positioningHashList 버그 픽스"
- "2014-10-14 tom : removeTree 버그 픽스 / list에 _CUD = [C|U|D] 속성 추가"
- "2014-10-14 tom : positioningHashList childKey, parentKey값이 문자열인 경우 버그 픽스"
- "2014-10-15 tom : setList사용하고 childKey가 숫자이면 생기는 버그 픽스"
- "2014-10-23 tom : expandToggleList 버그 픽스"
- "2014-10-29 tom : updateList body.addClass 함수 적용 구문 추가"
- "2015-12-05 tom : gridBodyClickAct 이벤트 버블링 버그 픽스"
- "2015-12-29 tom : AXTree.pageHeight 옵션 적용"
- "2015-01-23 tom : 최소 높이 400 제거"
- "2015-02-03 john : gridCheckClick, checkedColSeq : itemIndex 추가 현재 선택한 col checked옵션"
- "2015-02-03 tom : checkbox click 버그 픽스 "
- "2015-03-05 HJ.Park : expand 메서드, persistExpanded, persistSelected 옵션 추가"
- "2015-03-19 KimJM : https://github.com/axisj-com/axisj/issues/461 관련 수정"
- *
- * @description
- *
- ```js
- var myTree = new AXTree();
- myTree.setConfig(classConfig:JSObject);
- ```
- */
-
 var AXTree = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
 		AXJ_super();
@@ -36888,19 +36827,8 @@ myTree.setConfig({
 					//return;
 				}
 
-				if (positioning == undefined) {
-
+				if (typeof positioning === "undefined") {
 					this.list = this.positioningHashList(obj);
-					/*
-                     this.list = this.list.sort(function (prevItem, nowItem) {
-                     var v1 = prevItem[cfg.reserveKeys.hashKey];
-                     var v2 = nowItem[cfg.reserveKeys.hashKey];
-                     if (v1 < v2) return -1;
-                     else if (v1 > v2) return 1;
-                     else if (v1 == v2) return 0;
-                     });
-                     */
-
 				} else {
 					this.list = obj;
 				}
@@ -39970,6 +39898,11 @@ myTree.setConfig({
 				pItem.__subTreeLength++;
 			}
 		}
+
+		// hash 값대로 정렬을 합니다.
+		List.sort(function(p, n){
+			return (p[reserveKeys.hashKey] < n[reserveKeys.hashKey]) ? -1 : (p[reserveKeys.hashKey] > n[reserveKeys.hashKey]) ? 1 : 0;
+		});
 
 		if(cfg.showConnectionLine){
 			this.tree = tree;

@@ -349,6 +349,7 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tfoot tr td .bodyTdText {
   position: relative;
   line-height: 20px;
+  min-height: 20px;
   padding: 5px 8px;
   color: #3b3b3b;
   text-shadow: 0px 1px 0px #fff;
@@ -404,6 +405,7 @@
 .AXGrid .AXgridScrollBody .AXGridBody .gridFixedBodyTable tfoot tr td .bodyTdText {
   position: relative;
   line-height: 20px;
+  min-height: 20px;
   padding: 5px 8px;
   color: #3b3b3b;
   text-shadow: 0px 1px 0px #fff;
@@ -781,6 +783,7 @@
 .AXGrid .AXgridEditor .gridBodyTable tfoot tr td .bodyTdText {
   position: relative;
   line-height: 20px;
+  min-height: 20px;
   padding: 5px 8px;
   color: #3b3b3b;
   text-shadow: 0px 1px 0px #fff;
@@ -849,6 +852,7 @@
 .AXGrid .AXgridEditor .gridFixedBodyTable tfoot tr td .bodyTdText {
   position: relative;
   line-height: 20px;
+  min-height: 20px;
   padding: 5px 8px;
   color: #3b3b3b;
   text-shadow: 0px 1px 0px #fff;
