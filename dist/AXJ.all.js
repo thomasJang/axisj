@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-01 
+AXJ - v1.0.15 - 2015-05-03 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-01 
+AXJ - v1.0.15 - 2015-05-03 
 */
 
 if(!window.AXConfig){
@@ -25652,8 +25652,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
 			if(obj.config.pattern == "custom"){
-				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue || ""), "keyup");
-
+				if(typeof obj.originalValue === "undefined") obj.originalValue = event.target.value;
+				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue), "keyup");
 			}
 		});
 
@@ -35770,7 +35770,7 @@ myTree.setConfig({
 		var targetInnerHeight = axdom("#" + cfg.targetID).innerHeight();
 		//if (targetInnerHeight == 0) targetInnerHeight = 400;
 		cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
-
+		this.gridBody.css({height:targetInnerHeight-2});
 		this.redrawGrid("");
 	},
 	getColGroup: function (suffix) {

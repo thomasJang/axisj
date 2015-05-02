@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-01 
+AXJ - v1.0.15 - 2015-05-03 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-01 
+AXJ - v1.0.15 - 2015-05-03 
 */
 
 if(!window.AXConfig){
@@ -13423,8 +13423,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
 			if(obj.config.pattern == "custom"){
-				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue || ""), "keyup");
-
+				if(typeof obj.originalValue === "undefined") obj.originalValue = event.target.value;
+				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue), "keyup");
 			}
 		});
 

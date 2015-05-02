@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+
     <script type="text/javascript" src="../../lib/AXInputPro.js"></script>
 
     <script type="text/javascript" src="../page.js"></script>
@@ -280,9 +281,15 @@
             $("#ax-bind-pattern-date01-target").bindPattern({pattern: "date(/)"});
             $("#ax-bind-pattern-date02-target").bindPattern({pattern: "datetime(년월일)"});
 
+            /*
             $("#ax-bind-pattern-etc-target").bindPattern({
                 pattern: "custom", patternString:"99-XX-999.99,9"
             });
+            */
+
+            $("#ax-bind-pattern-etc-target").bindPattern({pattern: "custom", max_length: 14, patternString:"999999-9999999"}); // 법인
+            $("#ax-bind-pattern-etc-target").val("5874595329347");
+
 
             $("#ax-bind-pattern-bizno-target").bindPattern({
                 pattern: "bizno"
