@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-04 
+AXJ - v1.0.15 - 2015-05-05 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-04 
+AXJ - v1.0.15 - 2015-05-05 
 */
 
 if(!window.AXConfig){
@@ -2780,7 +2780,7 @@ Object.extend(Array.prototype, (function () {
 			if (!L.isRoot) {
 				pointer[L[childKey]] = idx;
 
-				if (L[parentKey].number() == 0) {
+				if (typeof L[parentKey] === "undefined" || L[parentKey] == "" || L[parentKey].number() == 0) {
 					L["subTree"] = [];
 					L.__subTreeLength = 0;
 					L["pHash"] = "0".setDigit(hashDigit);
@@ -16423,7 +16423,7 @@ var AXGrid = Class.create(AXJ, {
 
             inline_css = div.position();
             inline_css.width = div.width();
-            inline_editor.css(inline_css).find("input, select, textarea").select();
+            inline_editor.css(inline_css).find("input").select();
             _this.inline_edit = {editor:inline_editor, r:r,  c:c,  ii:ii, cell:div};
 
             // AXBind 연결
