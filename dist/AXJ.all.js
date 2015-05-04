@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-03 
+AXJ - v1.0.15 - 2015-05-04 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-03 
+AXJ - v1.0.15 - 2015-05-04 
 */
 
 if(!window.AXConfig){
@@ -30695,8 +30695,6 @@ var AXSelectConverter = Class.create(AXJ, {
 				onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						
-						
 						var po = [], adj = 0;
 						//obj.config.options = res.options;
 						obj.config.options = res[obj.config.reserveKeys.options];
@@ -30769,9 +30767,11 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 
 			for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
-				var optionText = (opts.optionText||"").dec();
-				po.push("<option value=\"" + opts.optionValue + "\"");
-				if (obj.config.setValue == opts.optionValue || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
+				//[obj.config.reserveKeys.optionValue]
+				//[obj.config.reserveKeys.optionText]
+				var optionText = (opts[obj.config.reserveKeys.optionText]||"").dec();
+				po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\"");
+				if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
 				po.push(">" + optionText + "</option>");
 			}
 			iobj.html(po.join(''));
