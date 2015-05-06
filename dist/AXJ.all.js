@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-05 
+AXJ - v1.0.15 - 2015-05-06 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-05 
+AXJ - v1.0.15 - 2015-05-06 
 */
 
 if(!window.AXConfig){
@@ -16608,7 +16608,9 @@ var AXGrid = Class.create(AXJ, {
         get_editor = function(cond, val){
             if(typeof val == "undefined") val = "";
             // text, number, money, calendar, select, selector, switch, segment, slider, finder
-            var po = [], _val;
+            var po = [], _val, maxLength = "";
+            if(cond.maxLength) maxLength = ' maxLength="' + cond.maxLength + '"';
+
             if(cond.type === "select" || cond.type === "AXSelect"){
 
                 if(typeof val === "string" || typeof val === "number" || typeof val === "boolean"){
@@ -16635,18 +16637,22 @@ var AXGrid = Class.create(AXJ, {
             else
             {
                 if(cond.type == "finder"){
-                    po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + val + '" ');
+                    po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor"' + maxLength + ' value="' + val + '" ');
 
                     if(cond.readonly){
                         po.push(' class="inline_editor_input '+cond.type+'" ');
                         po.push(' readonly="readonly" ');
-                    }else{
+                    }
+                    else
+                    {
                         po.push(' class="inline_editor_input '+cond.type+'" ');
                     }
                     po.push(' />');
                     po.push('<a class="finder-handle"></a>');
-                }else{
-                    po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + val + '" class="inline_editor_input '+cond.type+'" ' + (cond.readonly?'readonly="readonly"':'') + ' />');
+                }
+                else
+                {
+                    po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor"' + maxLength + ' value="' + val + '" class="inline_editor_input '+cond.type+'" ' + (cond.readonly?'readonly="readonly"':'') + ' />');
                 }
             }
             return po.join('');
@@ -17644,7 +17650,6 @@ var AXGrid = Class.create(AXJ, {
             //console.log(this.virtualScroll.startIndex, this.virtualScroll.endIndex, itemIndex);
             this._focusedItemIndex = itemIndex;
             if(this.virtualScroll.startIndex <= itemIndex && this.virtualScroll.endIndex >= itemIndex){
-
                 this.selectedRow.clear();
 				
                 this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");

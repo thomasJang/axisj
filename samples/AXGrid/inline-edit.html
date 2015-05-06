@@ -194,6 +194,7 @@ colGroup : [
 				            key:"string", label:"String", width:"200",
 				            editor: {
 					            type: "text",
+					            maxLength: 5,
 					            updateWith: ["_CUD"]
 				            }
 			            },
@@ -365,7 +366,7 @@ colGroup : [
 			            finder: "선택"
 		            }
 	            ];
-                myGrid.setList(list);
+                myGrid.setList([list[0]]);
                 //trace(myGrid.getSortParam());
 
             },
