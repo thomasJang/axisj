@@ -16486,6 +16486,16 @@ var AXGrid = Class.create(AXJ, {
             }
 
             inline_editor.bind("keydown", function(e){
+                if (!e) e = window.event;
+                if ((e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB) && (!e.altKey)){
+                    try {
+                        if (e.preventDefault) event.preventDefault();
+                        if (e.stopPropagation) event.stopPropagation();
+                        e.cancelBubble = true;
+                    } catch (err) {
+
+                    }
+                }
                 setTimeout(function(){
                     if(
 	                    (
