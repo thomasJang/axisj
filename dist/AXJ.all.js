@@ -24067,6 +24067,11 @@ var AXInputConverter = Class.create(AXJ, {
 			css.top = offset.top;
 		}
 
+        if (obj.config.customPos != undefined) {
+            css.top = css.top + obj.config.customPos.top;
+            css.left = css.left + obj.config.customPos.left;
+        }
+
 		var pElement = expandBox.offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
 
@@ -26492,7 +26497,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 				if(obj.blurTimer) clearTimeout(obj.blurTimer);
 				obj.blurTimer = setTimeout(function(){
 					_this.bindTagSelector_onclick(e||window.event, objID, objSeq);
-				}, 100);
+				}, 700);
 			}).bind(this));
 		}
 		this.bindTagSelector_setOptions(objID, objSeq, obj.bindTarget.val());
@@ -26579,9 +26584,19 @@ var AXInputConverterPro = Class.create(AXJ, {
 				O.desc = (O.desc ? O.desc.dec() : "");
 				O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
 
-				var descStr = O.desc || O.optionDesc;
+				var descStr = O.desc || O.optionDesc, styles;
 				if (descStr != "") descStr = "<span>" + descStr + "</span>";
-				npo.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + i + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText] + descStr + "</a>");
+
+				styles = "";
+				for(var ti=0,tl=obj.tagList.length, tag;ti<tl;ti++) {
+					tag = obj.tagList[ti];
+					//trace(tag[cfg.reserveKeys.optionValue] == O[cfg.reserveKeys.optionValue]);
+					if(tag[cfg.reserveKeys.optionValue] == O[cfg.reserveKeys.optionValue]){
+						styles = ' style="text-decoration: line-through;"';
+					}
+				}
+				npo.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + i + "_AX_option\" class=\"bindSelectorNodes\" "+ styles +">"
+				+ O[cfg.reserveKeys.optionText] + descStr + "</a>");
 			}
 			return npo;
 		}
