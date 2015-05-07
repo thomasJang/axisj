@@ -14267,9 +14267,9 @@ var AXGrid = Class.create(AXJ, {
 
                 this.printList();
                 this.scrollTop(0);
+                this.setStatus(this.list.length);
 
                 if (!cfg.page.paging) {
-                    this.setStatus(this.list.length);
                     this.pagingUnit.hide();
                     this.pageActive = false;
                 }
