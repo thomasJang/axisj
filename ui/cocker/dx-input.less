@@ -614,4 +614,41 @@
 	}
 }
 
-	
+
+// 2015-05-07 tom TagSelector 추가
+.AXTag-selector-tagcontainer{
+	display:inline-block;
+	float:left;
+	overflow:auto;
+	padding:4px 0px;
+	.AXTag-selector-tagitem{
+		position:relative;
+		display: block;
+		float:left;
+		margin: 0px 0px 4px 4px;
+		background:#eee;
+		//border:1px solid #ccc;
+		border-radius: 3px;
+		line-height:20px;padding:0px 3px;
+		height:20px;
+		box-sizing: border-box;
+		padding-right:15px;
+
+		.AXTag-selector-tagitem-remove{
+			position:absolute;
+			right:0px;
+			top:0px;
+			width:15px;height:20px;line-height: inherit;
+			text-align: center;
+			line-height: inherit;
+			font-family: 'axicon';
+			cursor: pointer;
+			&:before{
+				content: '\f00d';
+			}
+			&:hover{
+				color: #ff5d26;
+			}
+		}
+	}
+}

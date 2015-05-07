@@ -825,3 +825,39 @@
   color: #828f9e;
   font-family: Arial;
 }
+.AXTag-selector-tagcontainer {
+  display: inline-block;
+  float: left;
+  overflow: auto;
+  padding: 4px 0px;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0px 0px 4px 4px;
+  background: #eee;
+  border-radius: 3px;
+  line-height: 20px;
+  padding: 0px 3px;
+  height: 20px;
+  box-sizing: border-box;
+  padding-right: 15px;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 15px;
+  height: 20px;
+  text-align: center;
+  line-height: inherit;
+  font-family: 'axicon';
+  cursor: pointer;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove:before {
+  content: '\f00d';
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove:hover {
+  color: #ff3300;
+}

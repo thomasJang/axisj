@@ -41,8 +41,17 @@
 		<div class="ax-wrap AXdemoPageContent">
 
 			<div class="title"><h1>AXTagSelector</h1></div>
-			<input type="text" name="" id="ax-tag-selector" class="AXInput W300" />
-	
+
+			<form name="send-form" onsubmit="return fnObj.form.submit();">
+				<h2>Script</h2>
+				<input type="text" name="tags" id="ax-tag-selector" class="AXInput W200" />
+
+				<h2>AJAX</h2>
+				<input type="text" name="tags2" id="ax-tag-selector-02" class="AXInput W200" />
+
+				<div class="H20"></div>
+				<button class="AXButton">Submit</button>
+			</form>
 		</div>
 		<div class="H20"></div>		
 	</div>
@@ -61,6 +70,15 @@
 
 			$("#ax-tag-selector").bindTagSelector({
 				selectorWidth: false, //selectorWidth 값이 없으면 인풋의 너비를 이용.
+				optionValue_inputName: "tagValue", // 태그가 추가될 때 생성되는 optionValue input hidden name값
+				optionText_inputName: "tagText", // 태그가 추가될 때 생성되는 optionText input hidden name값
+				/*
+				reserveKeys: {
+					options: "options", // ajax 를 이용해서 options 리스트 구성할 때. 사용
+					optionValue: "optionValue",
+					optionText: "optionText"
+				},
+				*/
 				options: [
 					{optionValue:1, optionText:"Seoul"},
 					{optionValue:2, optionText:"대구"},
@@ -79,6 +97,27 @@
 				]
 			});
 
+			$("#ax-tag-selector-02").bindTagSelector({
+				/*
+				reserveKeys: {
+					options: "list",
+					optionValue: "value",
+					optionText: "optionText"
+				},
+				*/
+				direction: "bottom",
+				appendable:false,
+				ajaxUrl:"selectorData.php",
+				ajaxPars:""
+			});
+
+		},
+		form: {
+			submit: function(){
+				var frm = document["send-form"];
+				dialog.push( $(frm).serialize() );
+				return false;
+			}
 		}
 	};
 	jQuery(document.body).ready(function(){fnObj.pageStart()});
