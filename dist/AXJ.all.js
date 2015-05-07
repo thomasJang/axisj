@@ -26396,6 +26396,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 					if(obj.ready_backspace){
 						this.bindTagSelector_removeItem(objID, objSeq, obj.tagList.length - 1);
 						this.bindTagSelector_close(objID, objSeq);
+						obj.config.focusedIndex = undefined;
 						delete obj.ready_backspace;
 					}else{
 						obj.ready_backspace = true;
@@ -26411,10 +26412,12 @@ var AXInputConverterPro = Class.create(AXJ, {
 				e.keyCode == axf.Event.KEY_DOWN ||
 				e.keyCode == axf.Event.KEY_UP
 			) {
+				if (!AXgetId(obj.tagExpandBoxId)) return this;
 				if(e.keyCode == axf.Event.KEY_RETURN) {
 					if(typeof obj.config.focusedIndex !== "undefined"){
 						this.bindTagSelector_addItem(objID, objSeq, obj.config.focusedIndex);
 						this.bindTagSelector_close(objID, objSeq);
+						obj.config.focusedIndex = undefined;
 					}
 				}
 				else
