@@ -42,7 +42,7 @@
 
 			<div class="title"><h1>AXTagSelector</h1></div>
 
-			<form name="send-form" onsubmit="return fnObj.form.submit();">
+			<form name="send-form" onsubmit="return false;">
 				<h2>Script</h2>
 				<input type="text" name="tags" id="ax-tag-selector" class="AXInput W200" />
 
@@ -50,7 +50,7 @@
 				<input type="text" name="tags2" id="ax-tag-selector-02" class="AXInput W200" />
 
 				<div class="H20"></div>
-				<button class="AXButton">Submit</button>
+				<button class="AXButton" type="button" onclick="fnObj.form.submit();">Submit</button>
 			</form>
 		</div>
 		<div class="H20"></div>		
