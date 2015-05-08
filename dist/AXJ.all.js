@@ -15666,7 +15666,11 @@ var AXGrid = Class.create(AXJ, {
             this.list = collect;
         }
 
-        this.printList();
+        if (cfg.viewMode == "grid" && cfg.height != "auto") {
+            this.bigDataSync(true);
+        } else {
+            this.printList();
+        }
         this.setStatus(this.list.length);
         this.redrawDataSet();
     },
@@ -15737,7 +15741,12 @@ var AXGrid = Class.create(AXJ, {
         this.selectedCells.clear();
         this.selectedRow.clear();
 
-        this.printList();
+        if (cfg.viewMode == "grid" && cfg.height != "auto") {
+            this.bigDataSync(true);
+        } else {
+            this.printList();
+        }
+
         this.setStatus(this.list.length);
         this.redrawDataSet();
     },
@@ -15785,34 +15794,13 @@ var AXGrid = Class.create(AXJ, {
                 collect.push(l);
             }
         }
-        /*
-         axf.each(_list, function (lidx, l) {
-         var isDel = false;
-
-         axf.each(restoreList, function (ridx, r) {
-         axf.each(r, function (k, v) {
-         if (l[k] == v) {
-         isDel = true;
-         } else {
-         isDel = false;
-         return false;
-         }
-         });
-         });
-
-         if (isDel) {
-         if (l._CUD == "D") {
-         l._CUD = "";
-         }
-         //collect.push(l);
-         } else {
-         collect.push(l);
-         }
-         });
-         */
 
         this.list = collect;
-        this.printList();
+        if (cfg.viewMode == "grid" && cfg.height != "auto") {
+            this.bigDataSync(true);
+        } else {
+            this.printList();
+        }
         this.setStatus(this.list.length);
         this.redrawDataSet();
     },
@@ -27767,6 +27755,7 @@ myMobileMenu.setConfig({
  "2014-11-16 tom : openDiv 메소드에 verticalAlign 속성 확장"
  "2015-03-25 root : 각 open 메소드에 closeButton 속성 확장"
  "2015-04-22 root : axdom 독립 우회 코드 변경"
+ "2015-05-08 tom : loaded 메소드 추가"
 
  */
 var AXModal = Class.create(AXJ, {
