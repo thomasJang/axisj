@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-08 
+AXJ - v1.0.15 - 2015-05-09 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-08 
+AXJ - v1.0.15 - 2015-05-09 
 */
 
 if(!window.AXConfig){
@@ -23158,13 +23158,13 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "m") {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd));
 					//obj.modal.close();
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "d");
 				}
 			} else if (act == "year") {
@@ -23172,13 +23172,13 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "y") {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd));
 					//obj.modal.close();
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "m");
 				}
 			}
@@ -23385,7 +23385,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy < 1000) yy += 2000;
 					var mm = nDate.getMonth();
 					var dd = nDate.getDate();
-					obj.nDate = new Date(yy, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 
@@ -23402,7 +23402,7 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
-					obj.nDate = new Date(yy, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
 
@@ -23429,7 +23429,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
 
-					obj.nDate = new Date(yy, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
 
 					 //trace(obj.nDate.getFullYear() != yy.number());
 					 //trace(obj.nDate.getMonth() != mm.number());
@@ -23635,12 +23635,12 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "m") {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd, 12));
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd, 12));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "d");
 				}
 			} else if (ename == "year") {
@@ -23648,12 +23648,12 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "y") {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd, 12));
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd, 12));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "m");
 				}
 			}
@@ -24315,7 +24315,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.selectType == "m") {
 						var yy = nDate1.getFullYear();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(yy, myMonth, dd);
+						obj.nDate1 = new Date(Date.UTC(yy, myMonth, dd));
 						var printDate = obj.nDate1.print("yyyy" + separator + "mm");
 						axdom("#" + obj.config.startTargetID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -24323,7 +24323,7 @@ var AXInputConverter = Class.create(AXJ, {
 					} else {
 						var yy = nDate1.getFullYear();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(yy, myMonth, dd);
+						obj.nDate1 = new Date(Date.UTC(yy, myMonth, dd));
 						//trace("start ----");
 						this.bindTwinDateChangePage(objID, objSeq, 1, obj.nDate1, "d");
 					}
@@ -24331,14 +24331,14 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.selectType == "m") {
 						var yy = nDate2.getFullYear();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(yy, myMonth, dd);
+						obj.nDate2 = new Date(Date.UTC(yy, myMonth, dd));
 						var printDate = obj.nDate2.print("yyyy" + separator + "mm");
 						axdom("#" + objID).val(printDate);
 						obj.mycalendar2.monthPageSetMonth(obj.nDate2);
 					} else {
 						var yy = nDate2.getFullYear();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(yy, myMonth, dd);
+						obj.nDate2 = new Date(Date.UTC(yy, myMonth, dd));
 						this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "d");
 					}
 				}
@@ -24360,7 +24360,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.selectType == "y") {
 						var mm = nDate1.getMonth();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(myYear, mm, dd);
+						obj.nDate1 = new Date(Date.UTC(myYear, mm, dd));
 						var printDate = obj.nDate1.print("yyyy");
 						axdom("#" + obj.config.startTargetID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -24368,14 +24368,14 @@ var AXInputConverter = Class.create(AXJ, {
 					} else {
 						var mm = nDate1.getMonth();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(myYear, mm, dd);
+						obj.nDate1 = new Date(Date.UTC(myYear, mm, dd));
 						this.bindTwinDateChangePage(objID, objSeq, 1, obj.nDate1, "m");
 					}
 				} else {
 					if (obj.config.selectType == "y") {
 						var mm = nDate2.getMonth();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(myYear, mm, dd);
+						obj.nDate2 = new Date(Date.UTC(myYear, mm, dd));
 						var printDate = obj.nDate2.print("yyyy");
 						axdom("#" + objID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -24383,7 +24383,7 @@ var AXInputConverter = Class.create(AXJ, {
 					} else {
 						var mm = nDate2.getMonth();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(myYear, mm, dd);
+						obj.nDate2 = new Date(Date.UTC(myYear, mm, dd));
 						this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "m");
 					}
 				}
@@ -24526,7 +24526,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy < 1000) yy += 2000;
 					var mm = nDate.getMonth();
 					var dd = nDate.getDate();
-					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
+					obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy"));
 
@@ -24546,7 +24546,7 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
-					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
+					obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy" + separator + "mm"));
 
@@ -24584,7 +24584,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
-					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
+					obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
 
 					if (obj["nDate" + seq].getFullYear() != yy.number()
 						|| obj["nDate" + seq].getMonth() != mm.number()
@@ -24622,7 +24622,7 @@ var AXInputConverter = Class.create(AXJ, {
 							if (yy == 0) needAlert = true;
 							if (yy == 0) yy = nDate.getFullYear();
 							if (yy < 1000) yy += 2000;
-							obj.nDate1 = new Date(yy, mm, dd, 12);
+							obj.nDate1 = new Date(Date.UTC(yy, mm, dd, 12));
 						}
 					}
 					if (obj.nDate2 == undefined) {
