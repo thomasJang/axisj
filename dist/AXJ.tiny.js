@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-08 
+AXJ - v1.0.15 - 2015-05-09 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-08 
+AXJ - v1.0.15 - 2015-05-09 
 */
 
 if(!window.AXConfig){
@@ -11640,12 +11640,12 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		} else if (obj.config.selectType == "m") {
 			if (objVal1 != "") {
-				objVal1 = objVal1 + separator + "01";
+				objVal1 = objVal1 + separator + "02";
 			} else {
 				objVal1Empty = true;
 			}
 			if (objVal2 != "") {
-				objVal2 = objVal2 + separator + "01";
+				objVal2 = objVal2 + separator + "02";
 			}
 		}
 		if (AXUtil.isEmpty(objVal1)) {
