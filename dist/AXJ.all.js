@@ -11221,7 +11221,7 @@ var AXGrid = Class.create(AXJ, {
         this.config.moveSens = 1;
         this.config.formPaddingRight = "11px";
         this.config.sort = true;
-	    this.config.colHeadTool = true;
+        this.config.colHeadTool = true;
         this.config.xscroll = true;
         this.config.fitToWidth = (AXConfig.AXGrid.fitToWidth || false);
         this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 10);
@@ -11330,8 +11330,8 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
             /* width * 예외처리 구문 ------------ e */
-        } 
-        else 
+        }
+        else
         {
             for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
                 if (CG.display && CG.widthAstric) {
@@ -11358,8 +11358,8 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
                 this.colWidth = colWidth;
-            } 
-            else 
+            }
+            else
             {
 
                 colWidth = 0;
@@ -11489,8 +11489,8 @@ var AXGrid = Class.create(AXJ, {
             }
             /*console.log(cfg.colHead._maps);  //_maps check */
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-        } 
-        else 
+        }
+        else
         {
             // colHeadRow 정해지지 않은 경우
             cfg.colHead._maps = [
@@ -11509,7 +11509,7 @@ var AXGrid = Class.create(AXJ, {
                     rowspan: 1, colspan: 1,
                     valign: "bottom", isLastCell: true, display: CG.display, formatter: CG.formatter, formatterLabel:CG.formatterLabel, checked: CG.checked, disabled: CG.disabled,
                     sort: CG.sort,
-	                colHeadTool: ((typeof CG.colHeadTool == "undefined") ? cfg.colHeadTool : CG.colHeadTool ),
+                    colHeadTool: ((typeof CG.colHeadTool == "undefined") ? cfg.colHeadTool : CG.colHeadTool ),
                     tooltip: CG.tooltip,
                     displayLabel: (CG.displayLabel || false),
                     addClass: CG.addClass
@@ -11615,8 +11615,8 @@ var AXGrid = Class.create(AXJ, {
             }
 
             /* bodyRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-        } 
-        else 
+        }
+        else
         {
             /* bodyRow 정해지지 않은 경우 */
             cfg.body._maps = [
@@ -12128,13 +12128,13 @@ var AXGrid = Class.create(AXJ, {
             this.fixedColWidth = fixedColWidth;
         }
     },
-/**
- * @method AXGrid.setConfig
- * @param {Object} config - gridConfig
- * @description 선언된 클래스를 사용하기 위해 속성을 정의합니다.
- * @example
- * ```js
- * myGrid.setConfig({
+    /**
+     * @method AXGrid.setConfig
+     * @param {Object} config - gridConfig
+     * @description 선언된 클래스를 사용하기 위해 속성을 정의합니다.
+     * @example
+     * ```js
+     * myGrid.setConfig({
  *     targetID    : "AXGridTarget", // {String} -- 그리드 div ID
  *     theme       : "AXGrid",       // {String} [AXGrid] -- CSS Class 이름
  *     fixedColSeq : 0,              // {Number} -- 컬럼고정 기능을 사용합니다. 고정할 마지막 컬럼의 인덱스 값입니다. 예제) http://dev.axisj.com/samples/AXGrid/fixedColSeq.html
@@ -12257,8 +12257,8 @@ var AXGrid = Class.create(AXJ, {
  *     },
  *     contextMenu: {} // API와 예제를 참고하세요. API) http://jdoc.axisj.com/AXContextMenu.html 예제) http://dev.axisj.com/samples/AXCore/AXContextMenu.html
  * });
- *
- * function formatter(itemIndex, item) {
+     *
+     * function formatter(itemIndex, item) {
  *     //this.index
  *     //this.list
  *     //this.item
@@ -12266,8 +12266,8 @@ var AXGrid = Class.create(AXJ, {
  *     //this.key
  *     //this.value
  * }
- *
- * function disabled | checked() {
+     *
+     * function disabled | checked() {
  *     //index: itemIndex,
  *     //list: this.list,
  *     //item: item,
@@ -12275,8 +12275,8 @@ var AXGrid = Class.create(AXJ, {
  *     //key: key,
  *     //value: value
  * }
- *
- * function display() {
+     *
+     * function display() {
  *     //this.index
  *     //this.list
  *     //this.item
@@ -12284,8 +12284,8 @@ var AXGrid = Class.create(AXJ, {
  *
  *     return true | false;
  * }
- *
- * function onclick | ondblclick() {
+     *
+     * function onclick | ondblclick() {
  *     //this.index
  *     //this.r
  *     //this.c
@@ -12293,8 +12293,8 @@ var AXGrid = Class.create(AXJ, {
  *     //this.colHead
  *     //this.page
  * }
- *
- * function addClass() {
+     *
+     * function addClass() {
  *     //this.index
  *     //this.item
  *     //this.list
@@ -12302,8 +12302,8 @@ var AXGrid = Class.create(AXJ, {
  *
  *     return "red"|"green"|"blue"|"yellow"|"white"|"gray"; // 별도의 색상별 CSS를 추가로 정의해서 사용할 수 있습니다.
  * }
- *
- * function oncheck() {
+     *
+     * function oncheck() {
  *     //this.index
  *     //this.checked
  *     //this.r
@@ -12311,29 +12311,29 @@ var AXGrid = Class.create(AXJ, {
  *     //this.list
  *     //this.page
  * }
- *
- * function onchangeScroll(virtualScroll) {}
- *
- * function onscrollend() {
+     *
+     * function onchangeScroll(virtualScroll) {}
+     *
+     * function onscrollend() {
  *     //this.list
  *     //this.page
  * }
- *
- * function formOnClick | formOnBlur | formOnFocus() {
+     *
+     * function formOnClick | formOnBlur | formOnFocus() {
  *     //this.key
  *     //this.position
  *     //this.value
  * }
- *
- * function formValue(key, value) {
+     *
+     * function formValue(key, value) {
  *     //this.key
  *     //this.value
  *     //this.list
  *     //this.page
  * }
- *
- * ```
- */
+     *
+     * ```
+     */
     init: function () {
         var cfg = this.config, _this = this;
 
@@ -12346,8 +12346,8 @@ var AXGrid = Class.create(AXJ, {
             return;
         }
 
-		this.config.reserveKeys = Object.extend(this.reserveKeys, cfg.reserveKeys, true);
-	
+        this.config.reserveKeys = Object.extend(this.reserveKeys, cfg.reserveKeys, true);
+
         if (typeof cfg.colHeadAlign == "undefined") {
             cfg.colHeadAlign = AXConfig.AXGrid.colHeadAlign;
         }
@@ -12567,8 +12567,8 @@ var AXGrid = Class.create(AXJ, {
             this.pageBody.hide();
             this.setPaging();
 
-        } 
-        else 
+        }
+        else
         {
 
             /*page setting */
@@ -12605,8 +12605,8 @@ var AXGrid = Class.create(AXJ, {
                 /*colhead + body height */
                 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
                 /* body Height */
-            } 
-            else 
+            }
+            else
             {
 
                 if (cfg.height) this.gridBody.css({height: cfg.height});
@@ -12635,7 +12635,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (cfg.height) this.gridBody.css({height: cfg.height});
             this.redrawGrid();
-			this.onevent_grid({type:"resetHeight"})
+            this.onevent_grid({type:"resetHeight"})
             /*
              var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
              if (cfg.page.display == false) pageBodyHeight = 0;
@@ -12962,11 +12962,11 @@ var AXGrid = Class.create(AXJ, {
         }
         return collect;
     },
-/**
- * @method AXGrid.onKeydown
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid 내부에서 감지되는 이벤트에 대한 처리를 합니다.(방향키로 포커스 이동등..)
- */
+    /**
+     * @method AXGrid.onKeydown
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid 내부에서 감지되는 이벤트에 대한 처리를 합니다.(방향키로 포커스 이동등..)
+     */
     onKeydown: function (event) {
         if( this.selectedRow.length == 0 ) return this;
         if (this.editorOpend) return this;
@@ -12979,27 +12979,27 @@ var AXGrid = Class.create(AXJ, {
         }
 
         var _this = this,  cfg = this.config, body = this.body,
-			li, r, c;
+            li, r, c;
 
         if (event.keyCode == 67 && event.ctrlKey) {
             // this.copyData();
         }
 
         if(event.keyCode == axf.Event.KEY_ESC){
-			this.selectClear();
+            this.selectClear();
         }
         else
-		if(event.keyCode == axf.Event.KEY_RETURN){
-			li = this.selectedRow.first();
-			c = this.selectedCells.first();
-			if(cfg.colGroup[c].editor && cfg.control_lock_status < 1) {
-				this.editCell(0, c, li);
-				this.stopEvent(event);
-			}
-		}
-		else
+        if(event.keyCode == axf.Event.KEY_RETURN){
+            li = this.selectedRow.first();
+            c = this.selectedCells.first();
+            if(cfg.colGroup[c].editor && cfg.control_lock_status < 1) {
+                this.editCell(0, c, li);
+                this.stopEvent(event);
+            }
+        }
+        else
         if (event.keyCode == 65 && (event.ctrlKey || event.metaKey)) {
-			
+
         }
         else
         if(!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
@@ -13009,12 +13009,12 @@ var AXGrid = Class.create(AXJ, {
             else if (event.keyCode == axf.Event.KEY_DOWN) { /* */
                 this.focusMove(1, event);
             }
-			else if (event.keyCode == axf.Event.KEY_LEFT) { /* */
-				this.focusMove("L", event);
-			}
-			else if (event.keyCode == axf.Event.KEY_RIGHT) { /* */
-				this.focusMove("R", event);
-			}
+            else if (event.keyCode == axf.Event.KEY_LEFT) { /* */
+                this.focusMove("L", event);
+            }
+            else if (event.keyCode == axf.Event.KEY_RIGHT) { /* */
+                this.focusMove("R", event);
+            }
         }
         else
         if(event.shiftKey){
@@ -13026,15 +13026,15 @@ var AXGrid = Class.create(AXJ, {
             }
         }
     },
-/**
- * @method AXGrid.onContextmenu
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  setConfig에서 설정된 contextMenu에 대한 처리를 합니다.
- * @returns {AXContextMenu}
- * @example // 마우스 오른쪽 버튼 클릭시 메뉴를 호출 합니다.(추가,삭제,수정)
- ```
- var myGrid = new AXGrid();
- myGrid.setConfig({
+    /**
+     * @method AXGrid.onContextmenu
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  setConfig에서 설정된 contextMenu에 대한 처리를 합니다.
+     * @returns {AXContextMenu}
+     * @example // 마우스 오른쪽 버튼 클릭시 메뉴를 호출 합니다.(추가,삭제,수정)
+     ```
+     var myGrid = new AXGrid();
+     myGrid.setConfig({
     targetID : "AXGridTarget",
     theme : "AXGrid",
     mediaQuery: {
@@ -13055,8 +13055,8 @@ var AXGrid = Class.create(AXJ, {
 		]
 	}
 });
- ```
- */
+     ```
+     */
 
     onContextmenu: function (event) {
         var cfg = this.config, body = this.body;
@@ -13152,47 +13152,47 @@ var AXGrid = Class.create(AXJ, {
     /* 공통 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
     /* colHead 영역  */
-/**
- * @method AXGrid.getHeadMousePosition
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head에서 event를 일으킨 마우스의 위치를 캡쳐 합니다.
- * @returns {Object} -(x좌표,y좌표)
- */
+    /**
+     * @method AXGrid.getHeadMousePosition
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head에서 event를 일으킨 마우스의 위치를 캡쳐 합니다.
+     * @returns {Object} -(x좌표,y좌표)
+     */
     getHeadMousePosition: function (event) {
         var pos = this.colHead.offset();
         var x = (event.pageX - pos.left);
         var y = (event.pageY - pos.top);
         return { x: x, y: y };
     },
-/**
- * @method AXGrid.getColHeadTd
- * @param {Object} arg
- * @description  Grid head를 위한 html을 생성합니다.
- * @returns {String}
- * @example
- ```
- // arg
- {
-	valign: " valign=\"bottom\"",    - td valign option string
-	rowspan: " rowspan=\"2\"",  - rowspan option string
-	colspan: " colspan=\"2\"",  - colspan option string
-	bottomClass: "",  - border-bottom 관련 후처리
-	r: 0, - colhead row index
-	CHidx: 0, -colhead cell index
-	align: "right", - align option string
-	colSeq: 0, - config 에서 지정된 colGroup 내 순서
-	formatter: "checkbox", - html 표시중 checkbox 등 특정 요소 렌더링
-	formatterLabel: "" - checkbox 등 특정 요소를 감쌀 label 태그 내부 출력 내용,
-	sort: "desc", -정렬옵션
-	tdHtml: "blah", - config colGroup 의 label 로 지정된 string
-	ghost: false,  - true 시 비어있는 dummy cell 이 생성됨.
-	displayLabel: false - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
-}
- ```
- */
+    /**
+     * @method AXGrid.getColHeadTd
+     * @param {Object} arg
+     * @description  Grid head를 위한 html을 생성합니다.
+     * @returns {String}
+     * @example
+     ```
+     // arg
+     {
+		valign: " valign=\"bottom\"",    - td valign option string
+		rowspan: " rowspan=\"2\"",  - rowspan option string
+		colspan: " colspan=\"2\"",  - colspan option string
+		bottomClass: "",  - border-bottom 관련 후처리
+		r: 0, - colhead row index
+		CHidx: 0, -colhead cell index
+		align: "right", - align option string
+		colSeq: 0, - config 에서 지정된 colGroup 내 순서
+		formatter: "checkbox", - html 표시중 checkbox 등 특정 요소 렌더링
+		formatterLabel: "" - checkbox 등 특정 요소를 감쌀 label 태그 내부 출력 내용,
+		sort: "desc", -정렬옵션
+		tdHtml: "blah", - config colGroup 의 label 로 지정된 string
+		ghost: false,  - true 시 비어있는 dummy cell 이 생성됨.
+		displayLabel: false - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
+	}
+     ```
+     */
     getColHeadTd: function (arg) {
         var cfg = this.config, po = [], colHeadTdText = " colHeadTdText",
-	        toolUse = true, sortClass = "";
+            toolUse = true, sortClass = "";
 
         if (arg.formatter == "html" || arg.formatter == "checkbox") {
             if (!arg.displayLabel) {
@@ -13209,18 +13209,18 @@ var AXGrid = Class.create(AXJ, {
         }
 
         if (arg.sort) sortClass = (arg.sort == "desc") ? " sortDesc" : " sortAsc";
-		if(toolUse) toolUse = arg.colHeadTool;
+        if(toolUse) toolUse = arg.colHeadTool;
         po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " ");
-		if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
-		po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
+        if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+        po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
         po.push("<div class=\"tdRelBlock\">");
         po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" ");
-		if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
-		po.push(">");
+        if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+        po.push(">");
         po.push(arg.tdHtml);
         po.push("</div>");
         if (!arg.ghost && toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
-		if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
+        if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
         po.push("</div>");
         po.push("</td>");
 
@@ -13234,11 +13234,11 @@ var AXGrid = Class.create(AXJ, {
 
         return po.join('');
     },
-/**
- * @method AXGrid.setColHead
- * @description  Grid head를 디바이스(보기설정)에 맞춰 렌더링 합니다.(grid,icon,mobile)
- * @returns {String}
- */
+    /**
+     * @method AXGrid.setColHead
+     * @description  Grid head를 디바이스(보기설정)에 맞춰 렌더링 합니다.(grid,icon,mobile)
+     * @returns {String}
+     */
     setColHead: function () {
         var cfg = this.config;
         var po = [];
@@ -13272,10 +13272,10 @@ var AXGrid = Class.create(AXJ, {
 
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
-	                            sort: CH.sort,
-	                            colHeadTool: CH.colHeadTool,
-	                            tdHtml: tdHtml,
+                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel,
+                                sort: CH.sort,
+                                colHeadTool: CH.colHeadTool,
+                                tdHtml: tdHtml,
                                 ghost: false, displayLabel: CH.displayLabel
                             }));
                         }
@@ -13306,20 +13306,20 @@ var AXGrid = Class.create(AXJ, {
                             var valign = " valign=\"" + CH.valign + "\"";
                             var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
 
-/*
-                             po.push(getColHeadTd({
-                             valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                             align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
-                             ghost: (colCount < (cfg.fixedColSeq + 1))
-                             }));
-*/
+                            /*
+														 po.push(getColHeadTd({
+														 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
+														 align: CH.align, colSeq: CH.colSeq, formatter: CH.formatter, sort: CH.sort, tdHtml: tdHtml,
+														 ghost: (colCount < (cfg.fixedColSeq + 1))
+														 }));
+							*/
 
                             po.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, 
-	                            sort: CH.sort,
-	                            colHeadTool: CH.colHeadTool,
-	                            tdHtml: tdHtml,
+                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter,
+                                sort: CH.sort,
+                                colHeadTool: CH.colHeadTool,
+                                tdHtml: tdHtml,
                                 ghost: (colCount < (cfg.fixedColSeq + 1))
                             }));
 
@@ -13353,10 +13353,10 @@ var AXGrid = Class.create(AXJ, {
 
                             fpo.push(getColHeadTd({
                                 valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel, 
-	                            sort: CH.sort,
-	                            colHeadTool: CH.colHeadTool,
-	                            tdHtml: tdHtml,
+                                align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel,
+                                sort: CH.sort,
+                                colHeadTool: CH.colHeadTool,
+                                tdHtml: tdHtml,
                                 ghost: false
                             }));
                         }
@@ -13373,13 +13373,13 @@ var AXGrid = Class.create(AXJ, {
             this.colHead.html(po.join(''));
             axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
             if (fpo) this.colHead.after(fpo.join(''));
-	        var _tdHeight;
-	        
+            var _tdHeight;
+
             /*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
             /*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
             this.colHead.find(".colHeadResizer").each(function () {
                 var resizerID = this.id;
-	            
+
                 var tdID = resizerID.replace("colHeadResizer", "colHead");
                 var txtID = resizerID.replace("colHeadResizer", "colHeadText");
                 var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
@@ -13387,16 +13387,16 @@ var AXGrid = Class.create(AXJ, {
                 var rowspan = axdom("#" + tdID).attr("rowspan");
                 var valign = axdom("#" + tdID).attr("valign");
                 if (!rowspan) rowspan = 1;
-	            if(typeof _tdHeight === "undefined") {
-		            _tdHeight = axdom("#" + tdID).height() / rowspan;
-	            }
-	            var tdHeight = _tdHeight * rowspan;
-	            if(rowspan > 1) {
-		            for (var a = 0; a < rowspan; a++) {
-						tdHeight += 1;
-		            }
-	            }
-	            
+                if(typeof _tdHeight === "undefined") {
+                    _tdHeight = axdom("#" + tdID).height() / rowspan;
+                }
+                var tdHeight = _tdHeight * rowspan;
+                if(rowspan > 1) {
+                    for (var a = 0; a < rowspan; a++) {
+                        tdHeight += 1;
+                    }
+                }
+
                 axdom(this).css({ height: tdHeight });
                 axdom(this).parent().css({ height: tdHeight });
                 if (rowspan > 1) {
@@ -13407,9 +13407,9 @@ var AXGrid = Class.create(AXJ, {
                     axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
                 }
             });
-	        
-	        //AXGridTarget_AX_colHead_AX_0_AX_2
-	        //AXGridTarget_AX_colHead_AX_0_AX_0
+
+            //AXGridTarget_AX_colHead_AX_0_AX_2
+            //AXGridTarget_AX_colHead_AX_0_AX_0
 
             this.colHead.bind("mouseover", this.colHeadMouseOver.bind(this));
             this.colHead.bind("mouseout", this.colHeadMouseOut.bind(this));
@@ -13431,13 +13431,13 @@ var AXGrid = Class.create(AXJ, {
                     var rowspan = axdom("#" + tdID).attr("rowspan");
                     var valign = axdom("#" + tdID).attr("valign");
                     if (!rowspan) rowspan = 1;
-	                var tdHeight = _tdHeight * rowspan;
-	                if(rowspan > 1) {
-		                for (var a = 0; a < rowspan; a++) {
-			                tdHeight += 1;
-		                }
-	                }
-	                
+                    var tdHeight = _tdHeight * rowspan;
+                    if(rowspan > 1) {
+                        for (var a = 0; a < rowspan; a++) {
+                            tdHeight += 1;
+                        }
+                    }
+
                     axdom(this).css({ height: tdHeight });
                     axdom(this).parent().css({ height: tdHeight });
                     if (rowspan > 1) {
@@ -13469,11 +13469,11 @@ var AXGrid = Class.create(AXJ, {
         }
     },
     /* colHead events */
-/**
- * @method AXGrid.colHeadMouseOver
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head에 마우스를 올렸을때 후처리를 합니다.(툴 박스 표시등)
- */
+    /**
+     * @method AXGrid.colHeadMouseOver
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head에 마우스를 올렸을때 후처리를 합니다.(툴 박스 표시등)
+     */
     colHeadMouseOver: function (event) {
         var cfg = this.config;
         /* event target search - */
@@ -13498,11 +13498,11 @@ var AXGrid = Class.create(AXJ, {
             axdom("#" + toolID).addClass("readyTool");
         }
     },
-/**
- * @method AXGrid.colHeadMouseOut
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head가 마우스 포커스를 잃었을때의 처리를 합니다.
- */
+    /**
+     * @method AXGrid.colHeadMouseOut
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head가 마우스 포커스를 잃었을때의 처리를 합니다.
+     */
     colHeadMouseOut: function (event) {
         var cfg = this.config;
         /* event target search - */
@@ -13527,11 +13527,11 @@ var AXGrid = Class.create(AXJ, {
             axdom("#" + toolID).removeClass("readyTool");
         }
     },
-/**
- * @method AXGrid.colHeadResizerMouseDown
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head의 크기 조절 바 (|)를 마우스로 down(누른상태) 했을때의 처리를 합니다.
- */
+    /**
+     * @method AXGrid.colHeadResizerMouseDown
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head의 크기 조절 바 (|)를 마우스로 down(누른상태) 했을때의 처리를 합니다.
+     */
     colHeadResizerMouseDown: function (event) {
         var cfg = this.config;
         if (event.target.id == "") return;
@@ -13579,22 +13579,22 @@ var AXGrid = Class.create(AXJ, {
             this.editCellClear();
         }
     },
-/**
- * @method AXGrid.colHeadResizerMouseMove
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag(누른상태) 했을때 마우스 감도 처리를 합니다.
- */
+    /**
+     * @method AXGrid.colHeadResizerMouseMove
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag(누른상태) 했을때 마우스 감도 처리를 합니다.
+     */
     colHeadResizerMouseMove: function (event) {
         if (!event.pageX) return;
         /*드래그 감도 적용 */
         if (this.config.moveSens > this.moveSens) this.moveSens++;
         if (this.moveSens == this.config.moveSens) this.colHeadResizerMove(event);
     },
-/**
- * @method AXGrid.colHeadResizerMove
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag(누른상태) 했을때의 처리를 합니다.
- */
+    /**
+     * @method AXGrid.colHeadResizerMove
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag(누른상태) 했을때의 처리를 합니다.
+     */
     colHeadResizerMove: function (event) {
         var cfg = this.config;
         var mouse = this.getHeadMousePosition(event);
@@ -13656,11 +13656,11 @@ var AXGrid = Class.create(AXJ, {
         this.colHead.find(".colHeadTable").css({ "width": newColWidth + "px" });
         /*this.body.find(".gridBodyTable").css({"width":newColWidth+"px"}); */
     },
-/**
- * @method AXGrid.colHeadResizerMouseUp
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag 상태가 해제 되었을때의 처리를 합니다.
- */
+    /**
+     * @method AXGrid.colHeadResizerMouseUp
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag 상태가 해제 되었을때의 처리를 합니다.
+     */
     colHeadResizerMouseUp: function (event) {
         if (this.colResizeTarget.blockWidth != this.colResizeTarget.newWidth) {
             this.colWidth = this.colWidth - (this.colResizeTarget.blockWidth - this.colResizeTarget.newWidth);
@@ -13668,11 +13668,11 @@ var AXGrid = Class.create(AXJ, {
         this.colHeadResizerEnd();
         this.contentScrollResize(false);
     },
-/**
- * @method AXGrid.colHeadResizerEnd
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag 상태가 해제 되었을때의 처리를 합니다.
- */
+    /**
+     * @method AXGrid.colHeadResizerEnd
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head의 크기 조절 바 (|)를 마우스로 drag 상태가 해제 되었을때의 처리를 합니다.
+     */
     colHeadResizerEnd: function () {
         this.moveSens = 0;
         this.colResizing = false;
@@ -13683,11 +13683,11 @@ var AXGrid = Class.create(AXJ, {
         axdom(document.body).removeAttr("onselectstart");
         //axdom(document.body).removeClass("AXUserSelectNone");
     },
-/**
- * @method AXGrid.colHeadNodeClick
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head를 클릭 했을때의 처리를 합니다(체크박스처리,정렬등).
- */
+    /**
+     * @method AXGrid.colHeadNodeClick
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head를 클릭 했을때의 처리를 합니다(체크박스처리,정렬등).
+     */
     colHeadNodeClick: function (event) {
         var cfg = this.config;
         if (event.target.id == "") return;
@@ -13782,12 +13782,12 @@ var AXGrid = Class.create(AXJ, {
         }
 
     },
-/**
- * @method AXGrid.colHeadToolClick
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  Grid head 우측의 도구 박스를 클릭 했을때의 처리를 합니다(ColGroupListBox 팝업).
- * @returns {String}
- */
+    /**
+     * @method AXGrid.colHeadToolClick
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  Grid head 우측의 도구 박스를 클릭 했을때의 처리를 합니다(ColGroupListBox 팝업).
+     * @returns {String}
+     */
     colHeadToolClick: function (event) {
         var cfg = this.config;
         if (event.target.id == "") return;
@@ -13835,12 +13835,12 @@ var AXGrid = Class.create(AXJ, {
         axdom(document).bind("keydown", this.colGroupListClickBind);
         /* colGroup click bind ~~~~~~~~~~~~~~~~~~~ */
     },
-/**
- * @method AXGrid.colGroupListClick
- * @param {Event} - Grid 내부에서 감지되는 이벤트
- * @description  colHeadToolClick 에서 호출된 ColGroupListBox의 아이템을 클릭했을때의 처리를 합니다.
- * @returns {String}
- */
+    /**
+     * @method AXGrid.colGroupListClick
+     * @param {Event} - Grid 내부에서 감지되는 이벤트
+     * @description  colHeadToolClick 에서 호출된 ColGroupListBox의 아이템을 클릭했을때의 처리를 합니다.
+     * @returns {String}
+     */
     colGroupListClick: function (event) {
         var cfg = this.config;
 
@@ -13876,7 +13876,7 @@ var AXGrid = Class.create(AXJ, {
             }
             if(cfg.editor){
                 for (var r = 0; r < cfg.editor.rows.length; r++) {
-                     cfg.editor.rows[r][colSeq].display = !cfg.editor.rows[r][colSeq].display;
+                    cfg.editor.rows[r][colSeq].display = !cfg.editor.rows[r][colSeq].display;
                 }
             }
             //redraw grid
@@ -13926,13 +13926,13 @@ var AXGrid = Class.create(AXJ, {
      * @description  그리드의 리스트를 정렬 합니다.
      * @returns {Object}  - Grid list
      * @example
-```
+     ```
      var myGrid = new AXGrid();
      // Array
      myGrid.setList({Array});
      ...
      myGrid.sortList("desc",myGrid.cfg.colHead.rows[0][0],myGrid.list);
-```
+     ```
      */
     sortList: function (nsort, myColHead, list) {
         var cfg = this.config;
@@ -14157,12 +14157,12 @@ var AXGrid = Class.create(AXJ, {
      * @param exts
      * @description 그리드에 데이터를 선언하거나 AJAX url 속성을 정의합니다.
      * @example
-```
- // Array
- myGrid.setList({Array});
+     ```
+     // Array
+     myGrid.setList({Array});
 
- // AJAX url 속성
- myGrid.setList({
+     // AJAX url 속성
+     myGrid.setList({
 	//method :
 	//contentType :
 	//responseType :
@@ -14177,7 +14177,7 @@ var AXGrid = Class.create(AXJ, {
 	
 	}
 });
-```
+     ```
      */
     setList: function (obj, sortDisable, rewrite, exts) {
         var cfg = this.config, _this = this;
@@ -14280,13 +14280,13 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.reloadList
      * @description 그리드리스트를 새로 고침 합니다.(ajax를 통할 경우 다시 가져 옵니다).
      * @example
-```
- myGrid.setList({
+     ```
+     myGrid.setList({
 	ajaxUrl:"loadGrid.php",
 	ajaxPars:"param1=1&param2=2"
  });
      myGrid.reloadList();
-```
+     ```
      */
     reloadList: function () {
         var cfg = this.config;
@@ -14391,8 +14391,8 @@ var AXGrid = Class.create(AXJ, {
      * @param gridData {JSObject} object of grid
      * @description <ko>그리드 데이터를 페이지까지 포함하여 정의해 줍니다. (ajax를 사용하지 않는 방법)</ko>
      * @example
-```
- var gridData = {
+     ```
+     var gridData = {
 	list: _obj.document_list,
 	page:{
 		pageNo: _obj.page_navigation.cur_page,
@@ -14406,7 +14406,7 @@ var AXGrid = Class.create(AXJ, {
 	}
 };
      myGrid.setData(gridData);
-```
+     ```
      */
     setData: function (res) {
         var cfg = this.config;
@@ -14444,31 +14444,31 @@ var AXGrid = Class.create(AXJ, {
     getFormatterValue: function (formatter, item, itemIndex, value, key, CH, CHidx) {
         var cfg = this.config;
         var result;
-	    if(CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio")){
-		    // 
-		    // editCell 처리
-		    var checkedStr = "", disabled = "", 
-			    that = {
-				    index: itemIndex,
-				    list: this.list,
-				    item: item,
-				    page: this.page,
-				    key: key,
-				    value: value
-			    };
-		    
-		    if(value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
-		    if(CH.editor.disabled){
-			    if(CH.editor.disabled.call(that)){
-				    disabled = ' disabled="disabled"';
-			    }
-		    }
-		    
-		    result = '<input type="'+CH.editor.type+'" name="'+ key +'" data-editor-key="'+itemIndex+','+CHidx+'" class="inline-editor-checkbox" ' +
-		    checkedStr + disabled + ' onfocus="this.blur();" />';
-			    //"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
-	    }
-	    else
+        if(CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio")){
+            //
+            // editCell 처리
+            var checkedStr = "", disabled = "",
+                that = {
+                    index: itemIndex,
+                    list: this.list,
+                    item: item,
+                    page: this.page,
+                    key: key,
+                    value: value
+                };
+
+            if(value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
+            if(CH.editor.disabled){
+                if(CH.editor.disabled.call(that)){
+                    disabled = ' disabled="disabled"';
+                }
+            }
+
+            result = '<input type="'+CH.editor.type+'" name="'+ key +'" data-editor-key="'+itemIndex+','+CHidx+'" class="inline-editor-checkbox" ' +
+            checkedStr + disabled + ' onfocus="this.blur();" />';
+            //"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+        }
+        else
         if (formatter == "money") {
             if (value == "" || value == "null" || value == null || value == undefined) {
                 result = "0";
@@ -14527,7 +14527,7 @@ var AXGrid = Class.create(AXJ, {
                 };
                 result = formatter.call(sendObj, itemIndex, item);
             } else {
-                result = value;
+                result = ((String(value) == "null") ? "" : value);
             }
         }
         return result;
@@ -14682,7 +14682,7 @@ var AXGrid = Class.create(AXJ, {
             var colCount = 0, CH, CHidx = 0, CG, CHLen = cfg.body.rows[r].length;
             for (;CHidx < cfg.body.rows[r].length; CHidx++) {
                 CH = cfg.body.rows[r][CHidx];
-	            CG = cfg.colGroup[CHidx];
+                CG = cfg.colGroup[CHidx];
                 if (CH.display && CH.colspan > 0) {
                     var printOk = false;
                     if (isfix == "n") printOk = true;
@@ -14718,16 +14718,16 @@ var AXGrid = Class.create(AXJ, {
                         " title=\"" + tooltipValue + "\">");
                         if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
                             if (CH.formatter) {
-	                            tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, CHidx));
+                                tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, CHidx));
                             }
-	                        else
+                            else
                             if(CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio"))
                             {
-	                            tpo.push(getFormatterValue("", item, itemIndex, item[CG.key], CH.key, CH, CHidx));
-                            } 
-                            else 
-	                        {
-                                tpo.push(item[CH.key]);
+                                tpo.push(getFormatterValue("", item, itemIndex, item[CG.key], CH.key, CH, CHidx));
+                            }
+                            else
+                            {
+                                tpo.push((String(item[CH.key]) == "null") ? "" : item[CH.key]);
                             }
                         } else {
                             tpo.push("&nbsp;");
@@ -14756,15 +14756,15 @@ var AXGrid = Class.create(AXJ, {
      * @returns {String}
      * @description config 의 viewMode가 icon 일때의 리스트를 구성 합니다.
      * @example
-```
- cssObj = {
+     ```
+     cssObj = {
 	box: "width: ,height:",   - 기타 사용자 지정 스타일 추가 가능
 	img:  "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	label: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	description: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 	buttons: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
 };
-```
+     ```
      */
     getIconItem: function (itemIndex, item, viewIconObj, cssObj) {
         var cfg = this.config;
@@ -15150,7 +15150,7 @@ var AXGrid = Class.create(AXJ, {
             }
             else
             if(cfg.height == "auto" && this.list.length > 0) {
-	            
+
                 this.virtualScroll = {
                     startIndex : 0,
                     endIndex : this.list.length,
@@ -15531,12 +15531,12 @@ var AXGrid = Class.create(AXJ, {
                 newList.push(L);
             }
 
-	        if (listIndex == itemIndex) {
-		        for (var li = 0; li < pushData.length; li++) {
-			        newList.push(pushData[li]);
-		        }
-	        }
-	        
+            if (listIndex == itemIndex) {
+                for (var li = 0; li < pushData.length; li++) {
+                    newList.push(pushData[li]);
+                }
+            }
+
             this.list = newList;
 
             /*
@@ -15552,8 +15552,8 @@ var AXGrid = Class.create(AXJ, {
             this.contentScrollResize(false);
             this.setFocus(itemIndex);
 
-        } 
-        else 
+        }
+        else
         {
             for (var li = 0; li < pushData.length; li++) {
                 this.list.push(pushData[li]);
@@ -15604,14 +15604,14 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description removeList의 전달된 키값 과 일치하는 대상을 삭제 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
      * @example
-```
- var checkedList = myGrid.getCheckedList(0);// colSeq
- var removeList = [];
- $.each(checkedList, function(){
+     ```
+     var checkedList = myGrid.getCheckedList(0);// colSeq
+     var removeList = [];
+     $.each(checkedList, function(){
 	removeList.push({no:this.no});
  });
- myGrid.removeList(removeList);
-```
+     myGrid.removeList(removeList);
+     ```
      */
     removeList: function (removeList) {
         var cfg = this.config;
@@ -15747,7 +15747,7 @@ var AXGrid = Class.create(AXJ, {
      * @returns {AXGrid}
      * @description restoreList 전달된 키값 과 일치하는 대상의 삭제 표시를 제거 합니다.이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.(passive)
      * @example
-```
+     ```
      var myGrid = new AXGrid();
      myGrid.setConfig({passiveMode:true});
      var checkedList = myGrid.getCheckedList(0);// colSeq
@@ -15756,7 +15756,7 @@ var AXGrid = Class.create(AXJ, {
 	removeList.push({no:this.no});
  });
      myGrid.restoreList(removeList);
-```
+     ```
      */
     restoreList: function (restoreList) {
         var cfg = this.config;
@@ -15832,8 +15832,8 @@ var AXGrid = Class.create(AXJ, {
             this.body.find(".gridBodyTr_" + itemIndex).addClass("hover");
             this.overedItemIndex = itemIndex;
         }
-	    
-	    this.onevent_grid({type:"grid-list-over"});
+
+        this.onevent_grid({type:"grid-list-over"});
     },
     /**
      * @method AXGrid.gridBodyOut
@@ -15988,12 +15988,12 @@ var AXGrid = Class.create(AXJ, {
                     }
 
                     if (event.shiftKey) {
-						if (this.selectedCells.length > 0) { // 셀선택 클리어
-							axf.each(this.selectedCells, function () {
-								body.find(".bodyTd_" + this).removeClass("selected");
-							});
-							this.selectedCells.clear();
-						}
+                        if (this.selectedCells.length > 0) { // 셀선택 클리어
+                            axf.each(this.selectedCells, function () {
+                                body.find(".bodyTd_" + this).removeClass("selected");
+                            });
+                            this.selectedCells.clear();
+                        }
 
                         if(len > 0){
                             var l_itemIndex = this.selectedRow.last().number(), itemIndex = itemIndex.number(), st_index, ed_index;
@@ -16027,13 +16027,13 @@ var AXGrid = Class.create(AXJ, {
                     }
                     else if (event.metaKey || event.ctrlKey)
                     {
-						if (this.selectedCells.length > 0) { // 셀선택 클리어
-							axf.each(this.selectedCells, function () {
-								body.find(".bodyTd_" + this).removeClass("selected");
-							});
-							this.selectedCells.clear();
-						}
-						
+                        if (this.selectedCells.length > 0) { // 셀선택 클리어
+                            axf.each(this.selectedCells, function () {
+                                body.find(".bodyTd_" + this).removeClass("selected");
+                            });
+                            this.selectedCells.clear();
+                        }
+
                         for(;i<len;i++){
                             if(this.selectedRow[i] == itemIndex.number()) {
                                 body.find(".gridBodyTr_" + itemIndex).removeClass("selected");
@@ -16075,18 +16075,18 @@ var AXGrid = Class.create(AXJ, {
                     }
                     else
                     {
-                         if (this.selectedCells.length > 0) { // 셀선택 클리어
-							 axf.each(this.selectedCells, function () {
-								 body.find(".bodyTd_" + this).removeClass("selected");
-							 });
-							 this.selectedCells.clear();
-                         }
-	
-	                    if(CG.editor && (CG.editor.type == "checkbox"||CG.editor.type == "radio")) {
-		                    this.editCell(r, c, itemIndex);
-	                    }
-	                    else
-                        if (this.selectedRow.length > 0) 
+                        if (this.selectedCells.length > 0) { // 셀선택 클리어
+                            axf.each(this.selectedCells, function () {
+                                body.find(".bodyTd_" + this).removeClass("selected");
+                            });
+                            this.selectedCells.clear();
+                        }
+
+                        if(CG.editor && (CG.editor.type == "checkbox"||CG.editor.type == "radio")) {
+                            this.editCell(r, c, itemIndex);
+                        }
+                        else
+                        if (this.selectedRow.length > 0)
                         {
                             // colGroup 에 editor이 있는지 파악
 
@@ -16112,8 +16112,8 @@ var AXGrid = Class.create(AXJ, {
                         this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
                         this.selectedRow.push(itemIndex.number());
 
-						this.body.find(".gridBodyTr_" + itemIndex).find(".bodyTd_" + c + ".bodyTdr_" + r).addClass("selected");
-						this.selectedCells.push(c);
+                        this.body.find(".gridBodyTr_" + itemIndex).find(".bodyTd_" + c + ".bodyTdr_" + r).addClass("selected");
+                        this.selectedCells.push(c);
 
                         var item = this.list[itemIndex];
 
@@ -16374,16 +16374,16 @@ var AXGrid = Class.create(AXJ, {
         }
 
         this.editCellClear();
-	
-	    if(CG.editor.type == "checkbox" || CG.editor.type == "radio") {
-		    if(CG.editor.type == "radio"){
-			    var _i = 0, _l = this.list.length;
-			    for(;_i<_l;_i++) this.list[_i][CG.key] = false;
-		    }
-		    _this.updateItem(r, c, ii, _this.body.find('[data-editor-key="' + ii + ',' + c + '"]').get(0).checked);
-			return this;
-	    }
-			    
+
+        if(CG.editor.type == "checkbox" || CG.editor.type == "radio") {
+            if(CG.editor.type == "radio"){
+                var _i = 0, _l = this.list.length;
+                for(;_i<_l;_i++) this.list[_i][CG.key] = false;
+            }
+            _this.updateItem(r, c, ii, _this.body.find('[data-editor-key="' + ii + ',' + c + '"]').get(0).checked);
+            return this;
+        }
+
         // 타입이 finder 이면 토스~
         if(CG.editor.type == "finder") {
             CG.editor.finder.onclick.call({
@@ -16457,22 +16457,22 @@ var AXGrid = Class.create(AXJ, {
             if(CG.editor.type == "select") {
 
                 inline_editor.find("select").bind("change", function(){
-	                var sdom = inline_editor.find("select").get(0);
+                    var sdom = inline_editor.find("select").get(0);
                     var obj = {};
                     obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
                     obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
                     _this.updateItem(r, c, ii, obj);
                 });
-				setTimeout(function(){
-					inline_editor.find("select").focus();
-				}, 100);
+                setTimeout(function(){
+                    inline_editor.find("select").focus();
+                }, 100);
             }
             else
             if(CG.editor.type == "AXSelect"){
                 // todo : inline_editor.config에 onchange함수 재 정의
                 AXBindConfig.onchange = function(){
                     var obj = {};
-                        obj[cfg_key_value] = this.value,
+                    obj[cfg_key_value] = this.value,
                         obj[cfg_key_text] = this.text;
                     setTimeout(function(){
                         _this.updateItem(r, c, ii, obj);
@@ -16498,10 +16498,10 @@ var AXGrid = Class.create(AXJ, {
                 }
                 setTimeout(function(){
                     if(
-	                    (
-	                    e.keyCode == axf.Event.KEY_DOWN || e.keyCode == axf.Event.KEY_UP ||
+                        (
+                        e.keyCode == axf.Event.KEY_DOWN || e.keyCode == axf.Event.KEY_UP ||
                         e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB
-	                    ) && (!e.altKey)
+                        ) && (!e.altKey)
                     ) {
                         if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB) {
                             _this.updateItem(r, c, ii, e.target.value);
@@ -16554,7 +16554,7 @@ var AXGrid = Class.create(AXJ, {
                             }
                             _this.editCell(r, new_c, ii);
                         }
-	                    _this.stopEvent(e);
+                        _this.stopEvent(e);
                     }
                     else
                     if(e.keyCode == axf.Event.KEY_ESC){
@@ -16562,21 +16562,21 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }, 10);
             });
-		
-	        if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
-		        jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
-			        var target = axf.get_event_target(e.target, {id: inline_editor_id});
-			        if (!target) {
-				        _this.updateItem(r, c, ii, inline_editor.find("input").val());
-				        jQuery(document.body).unbind("click.axgrid");
-			        }
-		        });
-	        }
-	        if(CG.editor.type == "select"){
-		        jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
-			        var target = axf.get_event_target(e.target, {id: inline_editor_id});
-			        if (!target) {
-				        var sdom = inline_editor.find("select").get(0);
+
+            if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
+                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+                    var target = axf.get_event_target(e.target, {id: inline_editor_id});
+                    if (!target) {
+                        _this.updateItem(r, c, ii, inline_editor.find("input").val());
+                        jQuery(document.body).unbind("click.axgrid");
+                    }
+                });
+            }
+            if(CG.editor.type == "select"){
+                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+                    var target = axf.get_event_target(e.target, {id: inline_editor_id});
+                    if (!target) {
+                        var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
                             var obj = {
                                 optionValue: sdom.options[sdom.selectedIndex].value,
@@ -16586,10 +16586,10 @@ var AXGrid = Class.create(AXJ, {
                         }else{
                             _this.editCellClear();
                         }
-				        jQuery(document.body).unbind("click.axgrid");
-			        }
-		        });
-	        }
+                        jQuery(document.body).unbind("click.axgrid");
+                    }
+                });
+            }
             else
             if(CG.editor.type == "AXSelect"){
                 jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
@@ -16602,7 +16602,7 @@ var AXGrid = Class.create(AXJ, {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
                             var obj = {};
-                                obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value,
+                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value,
                                 obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text
 
                             _this.updateItem(r, c, ii, obj);
@@ -16677,33 +16677,33 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} [itemIndex] - index of data
      * @returns {AXGrid|false}
      * @example
-```
- mygrid.editCellClear(); // 셀 에디트 상태 해제
- mygrid.editCellClear(0, 1, 1); // 셀 에디트 해제 하려는 위치가 값을 현재 위치와 비교 하여 false가 리턴되면 현재 위치
-```
+     ```
+     mygrid.editCellClear(); // 셀 에디트 상태 해제
+     mygrid.editCellClear(0, 1, 1); // 셀 에디트 해제 하려는 위치가 값을 현재 위치와 비교 하여 false가 리턴되면 현재 위치
+     ```
      */
     editCellClear: function(){
         if(this.inline_edit){
             if(this.inline_edit.r == arguments[0] && this.inline_edit.c == arguments[1] && this.inline_edit.ii == arguments[2]) {
-	            return false;
+                return false;
             }
-            else 
+            else
             if( typeof arguments[2] != "undefined" && this.inline_edit && this.inline_edit.editor.find("input").get(0) ){
-		            var ids = this.inline_edit.editor.get(0).id.split(/_AX_/g);
-		            var r, c, ii;
-		            r = ids[ids.length-3], c = ids[ids.length-2], ii = ids[ids.length-1];
-		            this.updateItem(r, c, ii, this.inline_edit.editor.find("input").val());
+                var ids = this.inline_edit.editor.get(0).id.split(/_AX_/g);
+                var r, c, ii;
+                r = ids[ids.length-3], c = ids[ids.length-2], ii = ids[ids.length-1];
+                this.updateItem(r, c, ii, this.inline_edit.editor.find("input").val());
             }
-            else 
+            else
             {
-	            try{
-		            this.inline_edit.editor.find("input").unbindInput();
-	            }catch(e){}
-	            this.inline_edit.editor.remove();
+                try{
+                    this.inline_edit.editor.find("input").unbindInput();
+                }catch(e){}
+                this.inline_edit.editor.remove();
                 this.inline_edit = null;
             }
         }
-	    jQuery(document.body).unbind("click.axgrid");
+        jQuery(document.body).unbind("click.axgrid");
         return this;
     },
     /**
@@ -16712,9 +16712,9 @@ var AXGrid = Class.create(AXJ, {
      * @param {String} val
      * @returns {AXGrid}
      * @example
-```
- mygrid.setEditCellValue("123");
-```
+     ```
+     mygrid.setEditCellValue("123");
+     ```
      */
     setEditCellValue: function(val){
         if(this.inline_edit) {
@@ -16731,9 +16731,9 @@ var AXGrid = Class.create(AXJ, {
      * @param {String|Number} value - 변경하려는 값
      * @returns {AXGrid}
      * @example
-	 * ```
-	 * myGrid.updateItem(0, 2, 1, "AXISJ");
-	 * ```
+     * ```
+     * myGrid.updateItem(0, 2, 1, "AXISJ");
+     * ```
      */
     updateItem: function(r, c, itemIndex, value){
         var _this = this,  cfg = this.config,
@@ -16785,7 +16785,7 @@ var AXGrid = Class.create(AXJ, {
         }
         else
         {
-	        //console.log("bigDataSyncApply");
+            //console.log("bigDataSyncApply");
             this.bigDataSyncApply("reload");
         }
         return this;
@@ -16795,10 +16795,10 @@ var AXGrid = Class.create(AXJ, {
      * @param resetLeft {Boolean} - false 시 가로 스크롤은 초기화 하지 않습니다.
      * @description  Grid의 화면에 맞게 스크롤을 생성 합니다.
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.contentScrollResize(false);
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.contentScrollResize(false);
+     ```
      */
     contentScrollResize: function (resetLeft) {
         var cfg = this.config, _this = this;
@@ -16885,7 +16885,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
 
-	        _this.onevent_grid({type:"scroll-resize"});
+            _this.onevent_grid({type:"scroll-resize"});
         }, 100);
     },
     /**
@@ -16893,10 +16893,10 @@ var AXGrid = Class.create(AXJ, {
      * @param pos {Object} - top, left.
      * @description  top, left에 맞게 스크롤을 이동 합니다.
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.contentScrollScrollSync({left: myGrid.scrollXHandle.position().left});
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.contentScrollScrollSync({left: myGrid.scrollXHandle.position().left});
+     ```
      */
     contentScrollScrollSync: function (pos) {
         var cfg = this.config;
@@ -16949,10 +16949,10 @@ var AXGrid = Class.create(AXJ, {
      * @param touch {String} - "touch"
      * @description  top, left에 맞게 그리드 내용을 이동 합니다.
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.contentScrollContentSync({top: 0}, "touch");
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.contentScrollContentSync({top: 0}, "touch");
+     ```
      */
     contentScrollContentSync: function (pos, touch) {
 
@@ -17132,7 +17132,7 @@ var AXGrid = Class.create(AXJ, {
             }
             this.scrollYHandle.css({ top: handleTop });
             this.scrollYHandle.data("top", handleTop);
-	        this.contentScrollScrollSync({ top: handleTop });
+            this.contentScrollScrollSync({ top: handleTop });
             this.contentScrollTipOverMove(handleTop);
         } else {
             handleLeft = pos.x + this.contentScrollAttrs.x;
@@ -17142,7 +17142,7 @@ var AXGrid = Class.create(AXJ, {
             // 스크롤 X 예외 처리
             this.contentScrollScrollSync({ left: handleLeft });
         }
-	    this.onevent_grid({type:"onscroll"});
+        this.onevent_grid({type:"onscroll"});
     },
     /**
      * @method AXGrid.contentScrollScrollEnd
@@ -17161,7 +17161,7 @@ var AXGrid = Class.create(AXJ, {
         this.contentScrollScrolling = false;
 
         if(this.contentScrollAttrs.handleName == "scrollYHandle"){
-	        this.contentScrollScrollSync({ top: this.scrollYHandle.position().top });
+            this.contentScrollScrollSync({ top: this.scrollYHandle.position().top });
             if(this.contentScrollAttrs.trackHeight - this.contentScrollAttrs.handleHeight == this.scrollYHandle.data("top")){
                 this.contentScrollEnd();
             }
@@ -17238,14 +17238,14 @@ var AXGrid = Class.create(AXJ, {
             }
             this.scrollContent.css({ top: scrollTop, left: scrollLeft });
             this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
-	        this.onevent_grid({type:"onscroll"});
+            this.onevent_grid({type:"onscroll"});
             //console.log({ top: scrollTop, left: scrollLeft });
             //this.scrollContent.css({ top: scrollTop });
             //this.contentScrollContentSync({ top: scrollTop });
         }else{
             this.scrollContent.css({ top: scrollTop });
             this.contentScrollContentSync({ top: scrollTop });
-	        this.onevent_grid({type:"onscroll"});
+            this.onevent_grid({type:"onscroll"});
         }
 
 
@@ -17471,10 +17471,10 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 데이터를 조작후 그리드에 현재 위치된 아이템을 다시 생성합니다.
      * @returns {AXGrid}
      * @example
-```
- myGrid.list[0].id = 12;
- myGrid.dataSync();
-```
+     ```
+     myGrid.list[0].id = 12;
+     myGrid.dataSync();
+     ```
      */
     dataSync: function(){
         this.bigDataSync(true);
@@ -17506,14 +17506,18 @@ var AXGrid = Class.create(AXJ, {
         var getMarkerDisplay = this.getMarkerDisplay.bind(this);
         // bigDataSyncApply
         var scrollContentScrollTop, VS = this.virtualScroll, po = [], item;
+
         if(VS.scrollTop != (scrollContentScrollTop = this.scrollContent.position().top) || reload){
+
             var newStartIndex = (scrollContentScrollTop.abs() / VS.itemTrHeight).ceil() - 6;
+
             if(newStartIndex < 0) newStartIndex = 0;
             var newEndIndex = newStartIndex + VS.printListCount;
             if(newEndIndex > this.list.length) {
                 newEndIndex = this.list.length;
-                newStartIndex = newEndIndex - VS.printListCount - 6;
+                //newStartIndex = newEndIndex - VS.printListCount - 6; 스크롤 이상발생 포인트
             }
+
             if(VS.startIndex != newStartIndex || reload) {
                 //그리드 내용 다시 구성
                 po = [];
@@ -17527,10 +17531,10 @@ var AXGrid = Class.create(AXJ, {
                 this.cachedDom.tbody.empty();
                 this.cachedDom.tbody.append(po.join(''));
 
-	            // 현재 표시할 아이템 범위 설정
-	            VS.startIndex = newStartIndex;
-	            VS.endIndex = newEndIndex;
-	            VS.scrollTop = scrollContentScrollTop;
+                // 현재 표시할 아이템 범위 설정
+                VS.startIndex = newStartIndex;
+                VS.endIndex = newEndIndex;
+                VS.scrollTop = scrollContentScrollTop;
 
                 // 셀머지
                 if (cfg.mergeCells) {
@@ -17558,6 +17562,7 @@ var AXGrid = Class.create(AXJ, {
 
                 var tfpaddingHeight = cfg.scrollContentBottomMargin.number() + (this.list.length - newEndIndex - 1) * (VS.itemTrHeight);
                 if(tfpaddingHeight < cfg.scrollContentBottomMargin.number()) tfpaddingHeight = cfg.scrollContentBottomMargin.number();
+
                 this.cachedDom.tfpadding.css({ height: tfpaddingHeight });
                 if (this.hasFixed) {
                     this.cachedDom.fthpadding.css({ height: (newStartIndex) * VS.itemTrHeight }); // 상단패딩증가
@@ -17574,7 +17579,7 @@ var AXGrid = Class.create(AXJ, {
                     var body = this.body;
                     for(var ri = 0;ri < this.selectedRow.length;ri++){
                         body.find(".gridBodyTr_" + this.selectedRow[ri]).addClass("selected");
-						//body.find(".gridBodyTr_" + this.selectedRow[ri]).find(".bodyTd_" + this.selectedCells[0]).addClass("selected");
+                        //body.find(".gridBodyTr_" + this.selectedRow[ri]).find(".bodyTd_" + this.selectedCells[0]).addClass("selected");
                         body.find(".gridBodyTr_" + this.selectedRow[ri]).find(".bodyTd_" + this.selectedCells[0] + ".bodyTdr_0").addClass("selected");
                     }
                 }
@@ -17594,10 +17599,10 @@ var AXGrid = Class.create(AXJ, {
      * @param itemIndex {Number} - 스크롤될 아이템 인덱스
      * @description - itemIndex에 스크롤을 이동시킵니다.
      * @example
-```
+     ```
      var myGrid = new AXGrid();
      myGrid.scrollTop(0);
-```
+     ```
      */
     scrollTop: function (itemIndex) {
         var cfg = this.config;
@@ -17635,25 +17640,25 @@ var AXGrid = Class.create(AXJ, {
      * @param itemIndex {Number} - 선택될 아이템 인덱스
      * @description - itemIndex에 해당하는 열을 선택 합니다..
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.setFocus(0);
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.setFocus(0);
+     ```
      */
     setFocus: function (itemIndex) {
         var cfg = this.config, _this = this;
 
         if (cfg.viewMode == "grid") {
-			var c_index = this.selectedCells.first();
+            var c_index = this.selectedCells.first();
             if (this.selectedRow.length > 0) {
                 var body = this.body;
                 axf.each(this.selectedRow, function (ridx, Row) {
                     body.find(".gridBodyTr_" + Row).removeClass("selected");
-					if (_this.selectedCells.length > 0) {
-						axf.each(_this.selectedCells, function () {
-							body.find(".gridBodyTr_" + Row).find(".bodyTd_" + this).removeClass("selected");
-						});
-					}
+                    if (_this.selectedCells.length > 0) {
+                        axf.each(_this.selectedCells, function () {
+                            body.find(".gridBodyTr_" + Row).find(".bodyTd_" + this).removeClass("selected");
+                        });
+                    }
                 });
             }
 
@@ -17661,10 +17666,10 @@ var AXGrid = Class.create(AXJ, {
             this._focusedItemIndex = itemIndex;
             if(this.virtualScroll.startIndex <= itemIndex && this.virtualScroll.endIndex >= itemIndex){
                 this.selectedRow.clear();
-				
+
                 this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
                 this.selectedRow.push(itemIndex);
-				this.body.find(".gridBodyTr_" + itemIndex).find(".bodyTd_" + c_index + ".bodyTdr_0").addClass("selected");
+                this.body.find(".gridBodyTr_" + itemIndex).find(".bodyTd_" + c_index + ".bodyTdr_0").addClass("selected");
 
                 var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top,
                     trHeight = this.body.find(".gridBodyTr_" + itemIndex).height(),
@@ -17740,7 +17745,7 @@ var AXGrid = Class.create(AXJ, {
                         }
                     });
 
-                } 
+                }
                 else {
                     //console.log("out of index");
                     this._focusedItemIndex = undefined;
@@ -17785,51 +17790,51 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config, body = this.body;
         var myIndex, my_c, itemIndex;
 
-		if(direction == "L" || direction == "R"){
-			if (this.selectedCells.length > 0) {
-				myIndex = this.selectedRow.first();
-				my_c = this.selectedCells.first();
+        if(direction == "L" || direction == "R"){
+            if (this.selectedCells.length > 0) {
+                myIndex = this.selectedRow.first();
+                my_c = this.selectedCells.first();
 
-				if (direction == "L") {
-					my_c = my_c - 1;
-					if (my_c < 0) my_c = 0;
-				} else {
-					my_c = my_c.number() + 1;
-					if (my_c >= cfg.colGroup.length) my_c = cfg.colGroup.length - 1;
-				}
+                if (direction == "L") {
+                    my_c = my_c - 1;
+                    if (my_c < 0) my_c = 0;
+                } else {
+                    my_c = my_c.number() + 1;
+                    if (my_c >= cfg.colGroup.length) my_c = cfg.colGroup.length - 1;
+                }
 
-				axf.each(this.selectedCells, function () {
-					body.find(".gridBodyTr_"+ myIndex).find(".bodyTd_" + this).removeClass("selected");
-				});
-				this.selectedCells.clear();
+                axf.each(this.selectedCells, function () {
+                    body.find(".gridBodyTr_"+ myIndex).find(".bodyTd_" + this).removeClass("selected");
+                });
+                this.selectedCells.clear();
 
-				this.body.find(".gridBodyTr_"+ myIndex).find(".bodyTd_" + my_c + ".bodyTdr_0").addClass("selected");
-				this.selectedCells.push(my_c);
+                this.body.find(".gridBodyTr_"+ myIndex).find(".bodyTd_" + my_c + ".bodyTdr_0").addClass("selected");
+                this.selectedCells.push(my_c);
 
-				this.stopEvent(event);
-			}
-		}
-		else
-		{
-			myIndex = this.selectedRow.first();
-			itemIndex = myIndex.number() + direction;
-			if(itemIndex < 0) itemIndex = this.list.length - 1;
-			else if(itemIndex > this.list.length-1) itemIndex = 0;
-			// 사용 할 수 있는 itemIndex를 찾아라
+                this.stopEvent(event);
+            }
+        }
+        else
+        {
+            myIndex = this.selectedRow.first();
+            itemIndex = myIndex.number() + direction;
+            if(itemIndex < 0) itemIndex = this.list.length - 1;
+            else if(itemIndex > this.list.length-1) itemIndex = 0;
+            // 사용 할 수 있는 itemIndex를 찾아라
 
-			while(this.list[itemIndex][cfg.reserveKeys.hidden]){
-				if(direction < 0) {
-					itemIndex--;
-					if(itemIndex < 0) itemIndex = this.list.length - 1;
-				}else{
-					itemIndex++;
-					if(itemIndex > this.list.length-1) itemIndex = 0;
-				}
-			}
+            while(this.list[itemIndex][cfg.reserveKeys.hidden]){
+                if(direction < 0) {
+                    itemIndex--;
+                    if(itemIndex < 0) itemIndex = this.list.length - 1;
+                }else{
+                    itemIndex++;
+                    if(itemIndex > this.list.length-1) itemIndex = 0;
+                }
+            }
 
-			this.setFocus(itemIndex);
-			this.stopEvent(event);
-		}
+            this.setFocus(itemIndex);
+            this.stopEvent(event);
+        }
         return false;
     },
     /**
@@ -17865,7 +17870,7 @@ var AXGrid = Class.create(AXJ, {
      * @example
      * ```
      * var myGrid = new AXGrid();
-     * myGrid.click(0); 
+     * myGrid.click(0);
      * ```
      */
     click: function (itemIndex) {
@@ -17926,7 +17931,7 @@ var AXGrid = Class.create(AXJ, {
                 rows.push(row);
             }
         }
-	    var _val = {};
+        var _val = {};
         if(Object.isArray(cfg.mergeCells)){
             for(var tri = 0;tri < rows.length;tri++){
                 var isMerge = true;
@@ -18003,13 +18008,13 @@ var AXGrid = Class.create(AXJ, {
                     else{
                         rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
                         if(tdi > 0 || cfg.fixedColSeq == 0)
-	                    rows[tri][tdi].tdom.css({height: (this.virtualScroll.itemTrHeight) * rows[tri][tdi].rowspan - 1});
+                            rows[tri][tdi].tdom.css({height: (this.virtualScroll.itemTrHeight) * rows[tri][tdi].rowspan - 1});
                     }
                 }
             }
         }
         rows = null;
-	    return this;
+        return this;
     },
     // body 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -18200,11 +18205,11 @@ var AXGrid = Class.create(AXJ, {
      * @param {Object} obj - ({key:value})
      * @description - head, foot 속성을 정의한 경우 head, foot 에 값을 표시합니다. 비어있는 객체를 전달할 경우 formatter 연결된 함수에 의해 값이 계산됩니다.
      * @example
-	 * ```
+     * ```
      *  var myGrid = new AXGrid();
      *  myGrid.setDataSet({price:123000, amount:10});
      *  myGrid.setDataSet({});
-	 * ```
+     * ```
      */
     setDataSet: function (obj) {
         var cfg = this.config;
@@ -18223,11 +18228,11 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.redrawDataSet
      * @description - setDataSet애 의해 dataSet 객체가 변경된 경우 header나 footer를 다시 렌더링 합니다.
      * @example
-	 * ```
+     * ```
      * var myGrid = new AXGrid();
      * myGrid.setDataSet({price:123000, amount:10});
      * myGrid.redrawDataSet();
-	 * ```
+     * ```
      */
     redrawDataSet: function () {
         var cfg = this.config;
@@ -18240,11 +18245,11 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.printHead
      * @description - grid의 header를 구성합니다 . (getDataSet)
      * @example
-	 * ```
+     * ```
      * var myGrid = new AXGrid();
      * myGrid.setDataSet({price:123000, amount:10});
      * myGrid.printHead();
-	 * ```
+     * ```
      */
     printHead: function () {
         var cfg = this.config;
@@ -18262,11 +18267,11 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.printFoot
      * @description - grid의 footer를 구성합니다 . (getDataSet)
      * @example
-	 * ```
-	 * var myGrid = new AXGrid();
-	 * myGrid.setDataSet({price:123000, amount:10});
-	 * myGrid.printFoot();
-	 * ```
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.setDataSet({price:123000, amount:10});
+     * myGrid.printFoot();
+     * ```
      */
     printFoot: function () {
         var cfg = this.config;
@@ -18367,7 +18372,7 @@ var AXGrid = Class.create(AXJ, {
                     return value.dec();
                 }
                 else{
-	                return value;
+                    return value;
                 }
             } else if (axdom.isFunction(formvalue)) {
                 var sendObj = {
@@ -18524,11 +18529,11 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} insertIndex - 에디터가 삽입될 위치 인덱스
      * @description - 해당하는 인덱스에 에디터를 활성화 합니다.config 내에 editor 관련 항목이 없다면 작동하지 않습니다.
      * @example
-	 * ```
-	 *  var myGrid = new AXGrid();
-	 *  myGrid.setEditor({}, 1);
-	 *  myGrid.setEditor(null, null, 1);
-	 * ```
+     * ```
+     *  var myGrid = new AXGrid();
+     *  myGrid.setEditor({}, 1);
+     *  myGrid.setEditor(null, null, 1);
+     * ```
      */
     setEditor: function (item, itemIndex, insertIndex) {
         var cfg = this.config, _this = this, itemTrHeight;
@@ -18848,7 +18853,7 @@ var AXGrid = Class.create(AXJ, {
      * @param {Object} obj - 삽입될 아이템 데이터
      * @description - 활성화된 에디터에 특정 값을 전달 합니다.
      * @example
-```
+     ```
      var obj = {
 	key : , colgroup 컬럼 key
 	position :, 적용될 대상의 배열 순서 [0,0]
@@ -18861,7 +18866,7 @@ var AXGrid = Class.create(AXJ, {
 	position:[0,2],
 	value:"가나다라"
 });
-```
+     ```
      */
     setEditorForm: function (obj) {
         var cfg = this.config;
@@ -18874,10 +18879,10 @@ var AXGrid = Class.create(AXJ, {
      * @param {String} key - colgroup 컬럼 key
      * @description - 활성화된 에디터의 특정 key 값과 매칭되는 요소를 활성화 합니다.
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.focusEditorForm("regDate");
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.focusEditorForm("regDate");
+     ```
      */
     focusEditorForm: function (key) { /* editor 활성화 된 폼의 특정 요소에 포커스 주기 */
         var cfg = this.config;
@@ -18892,10 +18897,10 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.saveEditor
      * @description - 에디터의 내용을 저장하고 리스트에 반영 합니다.
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.saveEditor();
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.saveEditor();
+     ```
      */
     saveEditor: function () {
         var cfg = this.config;
@@ -19157,10 +19162,10 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.cancelEditor
      * @description - 활성화된 에디터를 해제 합니다.
      * @example
-```
+     ```
      var myGrid = new AXGrid();
      myGrid.cancelEditor();
-```
+     ```
      */
     cancelEditor: function () {
         this.editor.hide();
@@ -19171,10 +19176,10 @@ var AXGrid = Class.create(AXJ, {
      * @method AXGrid.unbindAXbind
      * @description - 에디터내부 요소에 부여된 특성을 해제 합니다.
      * @example
-```
- var myGrid = new AXGrid();
- myGrid.unbindAXbind();
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.unbindAXbind();
+     ```
      */
     unbindAXbind: function () {
         var cfg = this.config;
@@ -19223,13 +19228,13 @@ var AXGrid = Class.create(AXJ, {
      * @param {Number} insertIndex - 삽입 대상 index
      * @description - 그리드에 신규 데이터를 삽입하기 위해 삽입용 에디터를 활성화 하여 줍니다.
      * @example
-```
-var myGrid = new AXGrid();
-var item = {};
-myGrid.appendList(item);
-myGrid.appendList(item, 3);
-```
-*/
+     ```
+     var myGrid = new AXGrid();
+     var item = {};
+     myGrid.appendList(item);
+     myGrid.appendList(item, 3);
+     ```
+     */
     appendList: function (item, insertIndex) {
         if(insertIndex >= this.list.length) insertIndex = this.list.length;
         this.setEditor(item, undefined, insertIndex);
@@ -19299,7 +19304,7 @@ myGrid.appendList(item, 3);
                     axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNo").html("");
                     axdom("#" + cfg.targetID + "_AX_gridToolBottomPageNoDisplay").html(pageNo);
                     var mySelectBottom = axf.getId(cfg.targetID + "_AX_gridToolBottomPageNo");
-	                var oi = 0;
+                    var oi = 0;
                     for (var p = 1; p < pgCount + 1; p++) {
                         mySelect.options[oi] = new Option(p, p.money());
                         mySelectBottom.options[oi] = new Option(p, p.money());
@@ -19307,7 +19312,7 @@ myGrid.appendList(item, 3);
                             mySelect.options[oi].selected = true;
                             mySelectBottom.options[oi].selected = true;
                         }
-	                    oi++;
+                        oi++;
                     }
                 }
 
@@ -19355,7 +19360,7 @@ myGrid.appendList(item, 3);
             axdom("#" + cfg.targetID + "_AX_gridToolGroupTop").empty();
             axdom("#" + cfg.targetID + "_AX_gridToolGroupBottom").empty();
         }
-	    
+
         /* apply page vars */
         var pageNos = axf.getId(cfg.targetID + "_AX_gridPageNo");
         var pgCount = this.page.pageCount.number();
@@ -19380,11 +19385,11 @@ myGrid.appendList(item, 3);
                     oi++;
                 }
             } else {
-	            var oi = 0;
+                var oi = 0;
                 for (var p = 1; p < pgCount + 1; p++) {
                     mySelect.options[oi] = new Option(p, p.money());
                     if (pageNo == p) mySelect.options[oi].selected = true;
-	                oi++;
+                    oi++;
                 }
             }
             /*alert(axf.getId(cfg.targetID + "_AX_gridPageNo").options[axf.getId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
@@ -19412,10 +19417,10 @@ myGrid.appendList(item, 3);
      * @param pageAdd {Number} - 이동할 페이지 증/감(-) 수
      * @description - pageAdd 만큼 페이지를 이동합니다.
      * @example
-```
-var myGrid = new AXGrid();
-myGrid.goPageMove(-1);
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.goPageMove(-1);
+     ```
      */
     goPageMove: function (pageAdd) {
         var cfg = this.config;
@@ -19485,10 +19490,10 @@ myGrid.goPageMove(-1);
      * @description - 그리드 리스트 아이템 갯수(length)를 표시 합니다.
      * @returns {String}
      * @example
-```
-var myGrid = new AXGrid();
-myGrid.setStatus(myGrid.list.length);
-```
+     ```
+     var myGrid = new AXGrid();
+     myGrid.setStatus(myGrid.list.length);
+     ```
      */
     setStatus: function (listLength) {
         var cfg = this.config, listCount;
@@ -19509,16 +19514,16 @@ myGrid.setStatus(myGrid.list.length);
      * @description - 정렬옵션을 반환 합니다.
      * @returns {String|Object}
      * @example
-```
-var myGrid = new AXGrid();
-myGrid.getSortParam();
+     ```
+     var myGrid = new AXGrid();
+     myGrid.getSortParam();
 
-// return value
-{
-sortKey:"" , -  정렬 기준 key
-sortWay:""   -  정렬 방법 "asc" or "desc"
-}
-```
+     // return value
+     {
+	 sortKey:"" , -  정렬 기준 key
+	 sortWay:""   -  정렬 방법 "asc" or "desc"
+	 }
+     ```
      */
     getSortParam: function (ty) {
         var cfg = this.config;
@@ -19539,8 +19544,8 @@ sortWay:""   -  정렬 방법 "asc" or "desc"
      * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 컬럼 해더를 생성 합니다.
      * @returns {String}
      * @example
-```
-var arg = {
+     ```
+     var arg = {
 	valign,  - valign 옵션
 	rowspan, - rowspan 옵션
 	colspan, - colspan 옵션
@@ -19551,7 +19556,7 @@ var arg = {
 	tdHtml, - config colgroup 지정된 label
 	displayLabel - Label이 지정된 경우 출력 여부. 기본적으로 사용시 false 로 셋팅됨. colgroup 에서 따로 지정하지 않기 때문에,,
 }
-```
+     ```
      */
     getExcelColHeadTd: function (arg) {
         var cfg = this.config;
@@ -19773,10 +19778,10 @@ var arg = {
      * @description -  format에 맞춰 그리드의 내용을 엑셀 포맷으로 변환 합니다.
      * @returns {String|Object}
      * @example
-```
- var txt = myGrid.getExcelFormat("html");
- var json = myGrid.getExcelFormat("json");
-```
+     ```
+     var txt = myGrid.getExcelFormat("html");
+     var json = myGrid.getExcelFormat("json");
+     ```
      */
     getExcelFormat: function (format) {
         var cfg = this.config;
@@ -19853,11 +19858,11 @@ var arg = {
      * @param {JSONObject} obj
      * @description - 그리드의 뷰모드를 체인지 합니다.
      * @example
-```
- myGrid.changeGridView({
+     ```
+     myGrid.changeGridView({
 	viewMode:"grid"
  });
- myGrid.changeGridView({
+     myGrid.changeGridView({
 	viewMode:"icon",
 	view: {
 		width:"200", // icon width
@@ -19885,10 +19890,10 @@ var arg = {
 		}
 	}
 });
- myGrid.changeGridView({
+     myGrid.changeGridView({
 	viewMode:"mobile"
 });
-```
+     ```
      */
     changeGridView: function (JSObject) {
         var cfg = this.config;
@@ -20005,52 +20010,52 @@ var arg = {
     selectClear: function(){
         var body = this.body;
 
-		if (this.selectedCells.length > 0) { // 셀선택 클리어
-			axf.each(this.selectedCells, function () {
-				body.find(".bodyTd_" + this).removeClass("selected");
-			});
-			this.selectedCells.clear();
-		}
-		if (this.selectedRow.length > 0) { // 로우선택 클리어
-			axf.each(this.selectedRow, function () {
-				body.find(".gridBodyTr_" + this).removeClass("selected");
-			});
-			this.selectedRow.clear();
-		}
-		if (this.copiedRow.length > 0) {
-			axf.each(this.copiedRow, function () {
-				body.find(".gridBodyTr_" + this).removeClass("copied");
-			});
-			this.copiedRow.clear();
-		}
-		this.clipBoard.type = "";
-		this.clipBoard.list = [];
-		
+        if (this.selectedCells.length > 0) { // 셀선택 클리어
+            axf.each(this.selectedCells, function () {
+                body.find(".bodyTd_" + this).removeClass("selected");
+            });
+            this.selectedCells.clear();
+        }
+        if (this.selectedRow.length > 0) { // 로우선택 클리어
+            axf.each(this.selectedRow, function () {
+                body.find(".gridBodyTr_" + this).removeClass("selected");
+            });
+            this.selectedRow.clear();
+        }
+        if (this.copiedRow.length > 0) {
+            axf.each(this.copiedRow, function () {
+                body.find(".gridBodyTr_" + this).removeClass("copied");
+            });
+            this.copiedRow.clear();
+        }
+        this.clipBoard.type = "";
+        this.clipBoard.list = [];
+
         return this;
     },
-	
-	/**
+
+    /**
      * AXGrid의 checked 값을 jQuery.param 메서드에서 사용 가능한 배열로 반환합니다.
-	 * @method AXGrid.getCheckedParams
+     * @method AXGrid.getCheckedParams
      * @param colSeq {Number} -대상 체크박스(formatter:"checkbox" 로 선언된 항목의 순서)
      * @param traditional {Boolean} [false] 반환 형태 지정
      * @return {Array} traditional[false]: [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ], traditional[true]: [ { 'no': 1 }, { 'no': 2 } ]
-	 * @example
+     * @example
      * ```
      * var myGrid = new AXGrid();
      * myGrid.getCheckedParams(0); // -> [ { name: 'no', value: 1 }, { name: 'no', value: 2 } ]
      * myGrid.getCheckedParams(0); // -> [ { 'no': 1 }, { 'no': 2 } ]
      * ```
      */
-	getCheckedParams: function(colSeq, traditional){
-		var colName     = this.config.colGroup[colSeq].key;
+    getCheckedParams: function(colSeq, traditional){
+        var colName     = this.config.colGroup[colSeq].key;
         var checkedList = this.getCheckedList(colSeq);
         var params      = [];
 
-		if (!colName) {
-			console.log("colSeq invalid. Please check the colSeq value.");
-			return params;
-		}
+        if (!colName) {
+            console.log("colSeq invalid. Please check the colSeq value.");
+            return params;
+        }
         if (!checkedList || checkedList.length === 0) { return params; }
 
         $.each(checkedList, function(idx, item){
@@ -20064,68 +20069,68 @@ var arg = {
         });
 
         return params;
-	},
+    },
 
-	/**
-	 * 그리드의 데이터를 조건에 따라 반환하며 clone 옵션을 사용해서 복사된 값을 받을 수 있다.
-	 * @method AXGrid.getList
-	 * @param filter {String|Function|Boolean} [undefined] - String: "C,U,D" 추가,수정,삭제. Function: true/false를 반환하는 함수를 사용한다. Boolean: filter 조건을 생략하고 바로 clone 옵션을 사용할 수 있다.
-	 * @param clone {Boolean} [false] true: referance 데이터를 반환 받는다. false: clone 데이터를 반환받는다.
-	 * @returns {Array}
-	 * @example
-	 * ```
-	 * var myGrid = new AXGrid();
-	 * myGrid.getList(); // 전체 데이터(referance) 배열 반환
-	 * myGrid.getList(true); // 전체 데이터(clone) 배열 반환
-	 * myGrid.getList("C,U"); // 추가,수정된 데이터(referance) 배열 반환
-	 * myGrid.getList("C,U", true); // 추가,수정된 데이터(clone) 배열 반환
-	 * function fnFilter(idx, item) { return (idx % 2) === 0; }
-	 * myGrid.getList(fnFilter); // 함수에서 true를 반환한 데이터(referance) 배열 반환
-	 * myGrid.getList(fnFilter, true); // 함수에서 true를 반환한 데이터(clone) 배열 반환
-	 * ```
-	 */
-	getList: function(filter, clone) {
-		var filteredList = [];
-		if (filter === false || Object.isUndefined(filter)) {
-			filteredList = this.list;
-			clone = false;
-		} else if (filter === true) {
-			filteredList = this.list;
-			clone = true;
-		} else if (Object.isString(filter)) {
-			axf.each(this.list, function(idx, item) {
+    /**
+     * 그리드의 데이터를 조건에 따라 반환하며 clone 옵션을 사용해서 복사된 값을 받을 수 있다.
+     * @method AXGrid.getList
+     * @param filter {String|Function|Boolean} [undefined] - String: "C,U,D" 추가,수정,삭제. Function: true/false를 반환하는 함수를 사용한다. Boolean: filter 조건을 생략하고 바로 clone 옵션을 사용할 수 있다.
+     * @param clone {Boolean} [false] true: referance 데이터를 반환 받는다. false: clone 데이터를 반환받는다.
+     * @returns {Array}
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.getList(); // 전체 데이터(referance) 배열 반환
+     * myGrid.getList(true); // 전체 데이터(clone) 배열 반환
+     * myGrid.getList("C,U"); // 추가,수정된 데이터(referance) 배열 반환
+     * myGrid.getList("C,U", true); // 추가,수정된 데이터(clone) 배열 반환
+     * function fnFilter(idx, item) { return (idx % 2) === 0; }
+     * myGrid.getList(fnFilter); // 함수에서 true를 반환한 데이터(referance) 배열 반환
+     * myGrid.getList(fnFilter, true); // 함수에서 true를 반환한 데이터(clone) 배열 반환
+     * ```
+     */
+    getList: function(filter, clone) {
+        var filteredList = [];
+        if (filter === false || Object.isUndefined(filter)) {
+            filteredList = this.list;
+            clone = false;
+        } else if (filter === true) {
+            filteredList = this.list;
+            clone = true;
+        } else if (Object.isString(filter)) {
+            axf.each(this.list, function(idx, item) {
                 if (filter.indexOf(item._CUD) > -1) {
                     filteredList.push(item);
-				}
-			});
+                }
+            });
             if (this.config.passiveRemoveHide && filter.indexOf("D") > -1) {
                 axf.each(this.removedList, function(idx, item) {
                     filteredList.push(item);
                 });
             }
-		} else if (Object.isFunction(filter)) {
-			var fnFilter = filter.bind(this);
-			axf.each(this.list, function(idx, item){
-				if (fnFilter(idx, item)) {
-					filteredList.push(item);
-				}
-			});
-		}
+        } else if (Object.isFunction(filter)) {
+            var fnFilter = filter.bind(this);
+            axf.each(this.list, function(idx, item){
+                if (fnFilter(idx, item)) {
+                    filteredList.push(item);
+                }
+            });
+        }
 
-		if (clone) {
-			var clonedList = [];
-			axf.each(filteredList, function(idx, item){
-				clonedList.push(Object.clone(item));
-			});
-			return clonedList;
-		} else {
-			return filteredList;
-		}
-	},
-	onevent_grid: function(){
-		
-		
-	}
+        if (clone) {
+            var clonedList = [];
+            axf.each(filteredList, function(idx, item){
+                clonedList.push(Object.clone(item));
+            });
+            return clonedList;
+        } else {
+            return filteredList;
+        }
+    },
+    onevent_grid: function(){
+
+
+    }
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
