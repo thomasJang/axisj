@@ -27980,6 +27980,7 @@ var AXModal = Class.create(AXJ, {
 
         document[_frmID].submit();
         var keydown = this.keydown.bind(this);
+
         axdom("#" + this.winID).bind("load", function () {
             var myIframe = window[_winID];
 
@@ -27996,6 +27997,7 @@ var AXModal = Class.create(AXJ, {
                 axdom(myIframe.document.body).bind("keydown.AXModal", keydown);
             }
         });
+
         axdom("#" + this.config.windowID + "_close").bind("click", this.close.bind(this));
 
         if (http.closeByEscKey) {
@@ -28431,10 +28433,10 @@ var AXModal = Class.create(AXJ, {
      * @method AXModal.resize
      * @description 열려진 iframe modal 의 높이를 iframe 창의 높이 만큼 리사이즈 합니다. contentDivClass 가 정의된 경우 contentDivClass 높이값으로 resize 합니다.
      * @example
-     ```js
-     myModal.resize();
-     parent.myModal.resize(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
-     ```
+     * ```js
+     * myModal.resize();
+     * parent.myModal.resize(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+     * ```
      */
     resize: function (event) {
         var cfg = this.config;
@@ -28540,6 +28542,29 @@ var AXModal = Class.create(AXJ, {
             }
         }
 
+    },
+    /**
+     * @method AXModal.loaded
+     * @description 모달의 로딩중 상태를 강제로 로드 완료 처리 합니다.
+     * @example
+     * ```js
+     * myModal.loaded();
+     * parent.myModal.loaded(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+     * ```
+     */
+    loaded: function () {
+        var cfg = this.config, _winID = this.winID;
+        var loadingID = this.config.windowID + "_loading";
+        var myIframe = window[this.winID];
+
+        var bodyHeight = axdom(myIframe.document).innerHeight();
+        if (axdom(myIframe.document.body).find("." + cfg.contentDivClass).get(0)) {
+            bodyHeight = axdom(myIframe.document.body).find("." + cfg.contentDivClass).outerHeight();
+        }
+        axdom(this).css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+        axdom("#" + _winID + "_box").css({ height: (bodyHeight) }, cfg.animateDuration, "cubicInOut");
+        if (cfg.displayLoading) axdom("#" + loadingID).fadeOut("slow");
+        axdom("#" + _winID).addClass("loaded");
     }
 });
 /* ---------------------------- */
