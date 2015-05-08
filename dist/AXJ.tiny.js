@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-07 
+AXJ - v1.0.15 - 2015-05-08 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-07 
+AXJ - v1.0.15 - 2015-05-08 
 */
 
 if(!window.AXConfig){
@@ -14522,8 +14522,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 		var _this = this, cfg = this.config,
 			obj = this.objects[objSeq], po, objName = obj.bindTarget.attr("name");;
 
-		obj.tagContainer.find('[data-tag-index="'+tagIndex+'"]').remove();
-		obj.tagList.splice(tagIndex, 1);
+		if(typeof tagIndex !== "undefined") {
+			obj.tagContainer.find('[data-tag-index="' + tagIndex + '"]').remove();
+			obj.tagList.splice(tagIndex, 1);
+		}
 
 		po = [];
 		for(var i=0,l=obj.tagList.length, tag;i<l;i++) {
@@ -14546,6 +14548,26 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		obj.bindAnchorTarget.data("height", obj.bindTarget.outerHeight());
 		axdom(window).resize();
+	},
+	bindTagSelector_setItem: function(objID, tags){
+		var cfg = this.config,
+			objSeq = null, obj;
+		for(var i=0, l=this.objects.length;i<l;i++){
+			if(this.objects[i].id === objID) {objSeq = i;break;}
+		}
+		obj = this.objects[objSeq];
+
+		if(Object.isArray(tags)){
+			obj.tagList = [];
+			for(var i=0, l=tags.length, tag;i<l;i++){
+				var tag = tags[i];
+				if(typeof tag[cfg.reserveKeys.optionValue] === "undefined") tag[cfg.reserveKeys.optionValue] = tag.toString();
+				if(typeof tag[cfg.reserveKeys.optionText] === "undefined") tag[cfg.reserveKeys.optionText] = tag.toString();
+				obj.tagList.push(tag);
+			}
+			this.bindTagSelector_removeItem(objID, objSeq);
+		}
+		return this;
 	}
 });
 
@@ -14701,6 +14723,29 @@ axdom.fn.bindTagSelector = function(config){
 	});
 	return this;
 };
+
+/**
+ * @method jQueryFns.bindTagSelector_setItem
+ * @param config {JSObject} bindConfig
+ * @returns jQueryObject
+ * @description
+ * @example
+ * ```js
+ * //sample
+ * $("#ax-bind-pattern-custom-target").bindTagSelector_setItem([
+ *  {optionValue:1, optionText:"Seoul"},
+ *  {optionValue:2, optionText:"대구"}
+ * ]);
+ * ```
+ */
+axdom.fn.bindTagSelector_setItem = function(list){
+	axf.each(this, function () {
+		AXInputPro.bindTagSelector_setItem(this.id, list);
+	});
+	return this;
+};
+
+
 /* ---------------------------- */
 var AXSelectConverter = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
