@@ -10485,7 +10485,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		} else if (obj.config.selectType == "m") {
 			if (objVal != "") {
-				objVal = objVal + separator + "01";
+				objVal = objVal + separator + "02";
 			}
 		}
 
@@ -11645,7 +11645,7 @@ var AXInputConverter = Class.create(AXJ, {
 				objVal1Empty = true;
 			}
 			if (objVal2 != "") {
-				objVal2 = objVal2 + separator + "02";
+				objVal2 = objVal2 + separator + "01";
 			}
 		}
 		if (AXUtil.isEmpty(objVal1)) {
