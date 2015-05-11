@@ -12776,10 +12776,10 @@ var AXGrid = Class.create(AXJ, {
         }
 
         if (cfg.viewMode == "grid") {
-            if (this.list.length > 0) {
-                if (cfg.head) this.printHead();
-                if (cfg.foot) this.printFoot();
-            }
+            //if (this.list.length > 0) {
+            if (cfg.head) this.printHead();
+            if (cfg.foot) this.printFoot();
+            //}
         }
         /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
     },
