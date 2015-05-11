@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-09 
+AXJ - v1.0.15 - 2015-05-11 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-09 
+AXJ - v1.0.15 - 2015-05-11 
 */
 
 if(!window.AXConfig){
@@ -11487,6 +11487,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
             }
+            //trace(cfg.colHead.rows);
             /*console.log(cfg.colHead._maps);  //_maps check */
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         }
@@ -13438,8 +13439,8 @@ var AXGrid = Class.create(AXJ, {
                         }
                     }
 
-                    axdom(this).css({ height: tdHeight });
-                    axdom(this).parent().css({ height: tdHeight });
+                    axdom(this).css({ height: tdHeight-1 });
+                    axdom(this).parent().css({ height: tdHeight-1 });
                     if (rowspan > 1) {
                         var cellMarginTop = 0;
                         if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
@@ -14038,7 +14039,10 @@ var AXGrid = Class.create(AXJ, {
         }
         po.push("</div>");
 
-        if (cfg.viewMode == "grid" && this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
+        //trace(cfg.viewMode == "grid", this.hasFixed, (rewrite && this.list.length > 0), rewrite);
+
+        //if (cfg.viewMode == "grid" && this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
+        if (cfg.viewMode == "grid" && this.hasFixed && rewrite) {
             po.push("<div id=\"" + cfg.targetID + "_AX_fixedScrollContent\" class=\"gridFixedScrollContent\" style=\"width:" + this.fixedColWidth + "px;\">");
             po.push("<table cellpadding=\"0\" cellspacing=\"0\" class=\"gridFixedBodyTable\" style=\"width:" + this.fixedColWidth + "px;\">");
             po.push(this.getColGroup("FB"));
@@ -14381,7 +14385,6 @@ var AXGrid = Class.create(AXJ, {
         axf.overwriteObject(this.page, res.page, true);
 
         this.printList();
-
         this.scrollTop(0);
         this.setPaging();
     },
