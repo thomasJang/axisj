@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-11 
+AXJ - v1.0.15 - 2015-05-12 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-11 
+AXJ - v1.0.15 - 2015-05-12 
 */
 
 if(!window.AXConfig){
@@ -19550,10 +19550,13 @@ var AXGrid = Class.create(AXJ, {
 }
      ```
      */
-    getExcelColHeadTd: function (arg) {
+    getExcelColHeadTd: function (arg, filter) {
         var cfg = this.config;
         var po = [];
 
+        if(filter){
+            if(!filter.call(cfg.colGroup[arg.colSeq])) return '';
+        }
         if (arg.formatter == "html" || arg.formatter == "checkbox") {
             if (!arg.displayLabel) {
                 colHeadTdText = " colHeadTdHtml";
@@ -19578,7 +19581,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 리스트 데이터를 변환 합니다.
      * @returns {String}
      */
-    getExcelItem: function (itemIndex, item) {
+    getExcelItem: function (itemIndex, item, filter) {
         var cfg = this.config;
         var tpo = [];
         var evenClassName = "line" + (itemIndex % 2);
@@ -19587,32 +19590,32 @@ var AXGrid = Class.create(AXJ, {
         var trAddClass = "";
 
         for (var r = 0; r < cfg.body.rows.length; r++) {
-
             tpo.push("<tr>");
-            var colCount = 0;
             axf.each(cfg.body.rows[r], function (CHidx, CH) {
                 if (CH.display && CH.colspan > 0) {
+                    if(filter && !filter.call(CH)){
 
-                    colCount += CH.colspan;
-                    /*radio, check exception */
-                    var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-                    var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-                    var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
-
-                    var bodyNodeClass = "";
-
-                    var tooltipValue = "";
-                    if (CH.tooltip) {
-                        tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
-                    }
-
-                    tpo.push("<td" + valign + rowspan + colspan + ">");
-                    if (CH.formatter) {
-                        tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
                     } else {
-                        tpo.push(item[CH.key]);
+                        /*radio, check exception */
+                        var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+                        var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+                        var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+
+                        var bodyNodeClass = "";
+
+                        var tooltipValue = "";
+                        if (CH.tooltip) {
+                            tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
+                        }
+
+                        tpo.push("<td" + valign + rowspan + colspan + ">");
+                        if (CH.formatter) {
+                            tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
+                        } else {
+                            tpo.push(item[CH.key]);
+                        }
+                        tpo.push("</td>");
                     }
-                    tpo.push("</td>");
                 }
             });
             tpo.push("</tr>");
@@ -19636,25 +19639,24 @@ var AXGrid = Class.create(AXJ, {
         for (var r = 0; r < cfg.body.marker.rows.length; r++) {
             var isLastTR = (cfg.body.marker.rows.length - 1 == r);
             tpo.push("<tr>");
-            var colCount = 0;
             axf.each(cfg.body.marker.rows[r], function (CHidx, CH) {
                 if (CH.display && CH.colspan > 0) {
+                    if(filter && !filter.call(CH)){
 
-                    colCount += CH.colspan;
-
-                    /*radio, check exception */
-                    var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-                    var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-                    var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
-
-                    tpo.push("<td" + valign + rowspan + colspan + ">");
-                    if (CH.formatter) {
-                        tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
                     } else {
-                        tpo.push(item[CH.key]);
-                    }
-                    tpo.push("</td>");
+                        /*radio, check exception */
+                        var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+                        var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+                        var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
 
+                        tpo.push("<td" + valign + rowspan + colspan + ">");
+                        if (CH.formatter) {
+                            tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
+                        } else {
+                            tpo.push(item[CH.key]);
+                        }
+                        tpo.push("</td>");
+                    }
                 }
             });
             tpo.push("</tr>");
@@ -19687,25 +19689,25 @@ var AXGrid = Class.create(AXJ, {
 
             axf.each(cfg.head.rows[r], function (CHidx, CH) {
                 if (CH.display && CH.colspan > 0) {
+                    if(filter && !filter.call(CH)){
 
-                    colCount += CH.colspan;
-
-                    /*radio, check exception */
-                    var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-                    var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-                    var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
-
-                    var bodyNodeClass = "";
-                    if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
-                    else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
-
-                    tpo.push("<td" + valign + rowspan + colspan + ">");
-                    if (CH.formatter) {
-                        tpo.push(getDataSetFormatterValue(CH.formatter, dataSet, dataSet[CH.key], CH.key, CH));
                     } else {
-                        tpo.push(dataSet[CH.key]);
+                        /*radio, check exception */
+                        var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+                        var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+                        var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+
+                        var bodyNodeClass = "";
+                        if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox"; else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
+
+                        tpo.push("<td" + valign + rowspan + colspan + ">");
+                        if (CH.formatter) {
+                            tpo.push(getDataSetFormatterValue(CH.formatter, dataSet, dataSet[CH.key], CH.key, CH));
+                        } else {
+                            tpo.push(dataSet[CH.key]);
+                        }
+                        tpo.push("</td>");
                     }
-                    tpo.push("</td>");
                 }
             });
             tpo.push("</tr>");
@@ -19734,30 +19736,29 @@ var AXGrid = Class.create(AXJ, {
         for (var r = 0; r < cfg.foot.rows.length; r++) {
             var isLastTR = (cfg.foot.rows.length - 1 == r);
             tpo.push("<tr>");
-            var colCount = 0;
-
             axf.each(cfg.foot.rows[r], function (CHidx, CH) {
                 if (CH.display && CH.colspan > 0) {
-                    colCount += CH.colspan;
+                    if(filter && !filter.call(CH)){
 
-                    /*radio, check exception */
-                    var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-                    var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-                    var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
-                    var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
-                    var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
-
-                    var bodyNodeClass = "";
-                    if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
-                    else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
-
-                    tpo.push("<td" + valign + rowspan + colspan + ">");
-                    if (CH.formatter) {
-                        tpo.push(getDataSetFormatterValue(CH.formatter, dataSet, dataSet[CH.key], CH.key, CH));
                     } else {
-                        tpo.push(dataSet[CH.key]);
+                        /*radio, check exception */
+                        var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+                        var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+                        var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+                        var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
+                        var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
+
+                        var bodyNodeClass = "";
+                        if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox"; else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
+
+                        tpo.push("<td" + valign + rowspan + colspan + ">");
+                        if (CH.formatter) {
+                            tpo.push(getDataSetFormatterValue(CH.formatter, dataSet, dataSet[CH.key], CH.key, CH));
+                        } else {
+                            tpo.push(dataSet[CH.key]);
+                        }
+                        tpo.push("</td>");
                     }
-                    tpo.push("</td>");
                 }
             });
             tpo.push("</tr>");
@@ -19767,15 +19768,20 @@ var AXGrid = Class.create(AXJ, {
     /**
      * @method AXGrid.getExcelFormat
      * @param {String} format - "html","json" 변환 옵션
+     * @param {Function} [filter] - "html" 인 경우 filter 옵션으로 표현하고 싶은 열을 선택할 수 있습니다.
      * @description -  format에 맞춰 그리드의 내용을 엑셀 포맷으로 변환 합니다.
      * @returns {String|Object}
      * @example
-     ```
-     var txt = myGrid.getExcelFormat("html");
-     var json = myGrid.getExcelFormat("json");
-     ```
+     * ```
+     * var txt = myGrid.getExcelFormat("html");
+     * var txt = myGrid.getExcelFormat("html", function(){
+     *  // colGroup item => this
+     *  return this.key != 'no'; // key가 no가 아님 컬럼만 출력
+     * );
+     * var json = myGrid.getExcelFormat("json");
+     * ```
      */
-    getExcelFormat: function (format) {
+    getExcelFormat: function (format, filter) {
         var cfg = this.config;
         var getExcelColHeadTd = this.getExcelColHeadTd.bind(this);
 
@@ -19797,6 +19803,7 @@ var AXGrid = Class.create(AXJ, {
                 po.push("<tr>");
                 axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
                     if (CH.display && CH.colspan > 0) {
+
                         var tdHtml = CH.label || "untitle";
                         var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
                         var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
@@ -19812,7 +19819,7 @@ var AXGrid = Class.create(AXJ, {
                             sort: CH.sort,
                             tdHtml: tdHtml,
                             displayLabel: CH.displayLabel
-                        }));
+                        }, filter));
                     }
                 });
                 po.push("</tr>");
@@ -19823,13 +19830,13 @@ var AXGrid = Class.create(AXJ, {
             if (cfg.head) po.push(getHeadDataSet(this.dataSet));
 
             axf.each(this.list, function (itemIndex, item) {
-                po.push(getExcelItem(itemIndex, item));
+                po.push(getExcelItem(itemIndex, item, filter));
                 if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                    po.push(getExcelItemMarker(itemIndex, item));
+                    po.push(getExcelItemMarker(itemIndex, item, filter));
                 }
             });
 
-            if (cfg.foot) po.push(getFootDataSet(this.dataSet));
+            if (cfg.foot) po.push(getFootDataSet(this.dataSet, filter));
 
             po.push("	</tbody>");
             po.push("</table>");

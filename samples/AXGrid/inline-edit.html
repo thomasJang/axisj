@@ -60,6 +60,9 @@
 	                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
 	                <input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.grid.remove();" />
                 </div>
+	            <div style="padding:10px;">
+		            <input type="button" value="forExcel html with filter" class="AXButton" onclick="fnObj.grid.getExcel('html');" />
+	            </div>
 
             </div>
 
@@ -371,9 +374,10 @@ colGroup : [
 
             },
             getExcel: function(type){
-                var obj = myGrid.getExcelFormat(type);
-                trace(obj);
-                $("#printout").html(Object.toJSON(obj));
+                var obj = myGrid.getExcelFormat(type, function(){
+	                return this.key != "no" && this.key != "finder";
+                });
+                $("#printout").html(obj);
             },
             getSelectedItem: function(){
                 trace( this.target.getSelectedItem() );
