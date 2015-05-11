@@ -1,3 +1,5 @@
 *.bak
+Thumbs.db
 .idea/
 node_modules/
+AXWBS/

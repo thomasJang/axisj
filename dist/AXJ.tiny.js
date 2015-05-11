@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-04-22 
+AXJ - v1.0.15 - 2015-05-12 
 */
 /*! 
-AXJ - v1.0.15 - 2015-04-22 
+AXJ - v1.0.15 - 2015-05-12 
 */
 
 if(!window.AXConfig){
@@ -1055,7 +1055,8 @@ var Class = (function () {
 });
  ```
  */
-	function create() { var parent = null, properties = AX_A(arguments); if (Object.isFunction(properties[0])) parent = properties.shift(); function klass() { this.initialize.apply(this, arguments); } Object.extend(klass, Class.Methods); klass.superclass = parent; klass.subclasses = []; if (parent) { subclass.prototype = parent.prototype; klass.prototype = new subclass; parent.subclasses.push(klass); } for (var i = 0; i < properties.length; i++) klass.addMethods(properties[i]); if (!klass.prototype.initialize) klass.prototype.initialize = Prototype.emptyFunction; klass.prototype.constructor = klass; return klass; }
+	function create() { var parent = null, properties = AX_A(arguments); if (Object.isFunction(properties[0])) parent = properties.shift();
+	function klass() { this.initialize.apply(this, arguments); } Object.extend(klass, Class.Methods); klass.superclass = parent; klass.subclasses = []; if (parent) { subclass.prototype = parent.prototype; klass.prototype = new subclass; parent.subclasses.push(klass); } for (var i = 0; i < properties.length; i++) klass.addMethods(properties[i]); if (!klass.prototype.initialize) klass.prototype.initialize = Prototype.emptyFunction; klass.prototype.constructor = klass; return klass; }
 	function addMethods(source) { var ancestor = this.superclass && this.superclass.prototype; var properties = Object.keys(source); if (!Object.keys({ toString: true }).length) { if (source.toString != Object.prototype.toString) properties.push("toString"); if (source.valueOf != Object.prototype.valueOf) properties.push("valueOf"); } for (var i = 0, length = properties.length; i < length; i++) { var property = properties[i], value = source[property]; if (ancestor && Object.isFunction(value) && value.argumentNames().first() == "AXJ_super") { var method = value; value = (function (m) { return function () { return ancestor[m].apply(this, arguments); }; })(property).wrap(method); value.valueOf = method.valueOf.bind(method); value.toString = method.toString.bind(method); } this.prototype[property] = value; } return this; }
 	return { create: create, Methods: { addMethods: addMethods } };
 })();
@@ -2779,7 +2780,7 @@ Object.extend(Array.prototype, (function () {
 			if (!L.isRoot) {
 				pointer[L[childKey]] = idx;
 
-				if (L[parentKey].number() == 0) {
+				if (typeof L[parentKey] === "undefined" || L[parentKey] == "" || L[parentKey].number() == 0) {
 					L["subTree"] = [];
 					L.__subTreeLength = 0;
 					L["pHash"] = "0".setDigit(hashDigit);
@@ -10484,7 +10485,7 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		} else if (obj.config.selectType == "m") {
 			if (objVal != "") {
-				objVal = objVal + separator + "01";
+				objVal = objVal + separator + "02";
 			}
 		}
 
@@ -10920,13 +10921,13 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "m") {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd));
 					//obj.modal.close();
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "d");
 				}
 			} else if (act == "year") {
@@ -10934,13 +10935,13 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "y") {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd));
 					//obj.modal.close();
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "m");
 				}
 			}
@@ -11147,7 +11148,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy < 1000) yy += 2000;
 					var mm = nDate.getMonth();
 					var dd = nDate.getDate();
-					obj.nDate = new Date(yy, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 
@@ -11164,7 +11165,7 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
-					obj.nDate = new Date(yy, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
 
@@ -11191,7 +11192,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
 
-					obj.nDate = new Date(yy, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
 
 					 //trace(obj.nDate.getFullYear() != yy.number());
 					 //trace(obj.nDate.getMonth() != mm.number());
@@ -11397,12 +11398,12 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "m") {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd, 12));
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var yy = nDate.getFullYear();
 					var dd = 1;
-					obj.nDate = new Date(yy, myMonth, dd, 12);
+					obj.nDate = new Date(Date.UTC(yy, myMonth, dd, 12));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "d");
 				}
 			} else if (ename == "year") {
@@ -11410,12 +11411,12 @@ var AXInputConverter = Class.create(AXJ, {
 				if (obj.config.selectType == "y") {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd, 12));
 					this.bindDateExpandClose(objID, objSeq, event);
 				} else {
 					var mm = 0;
 					var dd = 1;
-					obj.nDate = new Date(myYear, mm, dd, 12);
+					obj.nDate = new Date(Date.UTC(myYear, mm, dd, 12));
 					this.bindDateChangePage(objID, objSeq, obj.nDate, "m");
 				}
 			}
@@ -11639,12 +11640,12 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 		} else if (obj.config.selectType == "m") {
 			if (objVal1 != "") {
-				objVal1 = objVal1 + separator + "01";
+				objVal1 = objVal1 + separator + "02";
 			} else {
 				objVal1Empty = true;
 			}
 			if (objVal2 != "") {
-				objVal2 = objVal2 + separator + "01";
+				objVal2 = objVal2 + separator + "02";
 			}
 		}
 		if (AXUtil.isEmpty(objVal1)) {
@@ -11821,6 +11822,11 @@ var AXInputConverter = Class.create(AXJ, {
 		} else {
 			css.top = offset.top;
 		}
+
+        if (obj.config.customPos != undefined) {
+            css.top = css.top + obj.config.customPos.top;
+            css.left = css.left + obj.config.customPos.left;
+        }
 
 		var pElement = expandBox.offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
@@ -12072,7 +12078,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.selectType == "m") {
 						var yy = nDate1.getFullYear();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(yy, myMonth, dd);
+						obj.nDate1 = new Date(Date.UTC(yy, myMonth, dd));
 						var printDate = obj.nDate1.print("yyyy" + separator + "mm");
 						axdom("#" + obj.config.startTargetID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -12080,7 +12086,7 @@ var AXInputConverter = Class.create(AXJ, {
 					} else {
 						var yy = nDate1.getFullYear();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(yy, myMonth, dd);
+						obj.nDate1 = new Date(Date.UTC(yy, myMonth, dd));
 						//trace("start ----");
 						this.bindTwinDateChangePage(objID, objSeq, 1, obj.nDate1, "d");
 					}
@@ -12088,14 +12094,14 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.selectType == "m") {
 						var yy = nDate2.getFullYear();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(yy, myMonth, dd);
+						obj.nDate2 = new Date(Date.UTC(yy, myMonth, dd));
 						var printDate = obj.nDate2.print("yyyy" + separator + "mm");
 						axdom("#" + objID).val(printDate);
 						obj.mycalendar2.monthPageSetMonth(obj.nDate2);
 					} else {
 						var yy = nDate2.getFullYear();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(yy, myMonth, dd);
+						obj.nDate2 = new Date(Date.UTC(yy, myMonth, dd));
 						this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "d");
 					}
 				}
@@ -12117,7 +12123,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (obj.config.selectType == "y") {
 						var mm = nDate1.getMonth();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(myYear, mm, dd);
+						obj.nDate1 = new Date(Date.UTC(myYear, mm, dd));
 						var printDate = obj.nDate1.print("yyyy");
 						axdom("#" + obj.config.startTargetID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -12125,14 +12131,14 @@ var AXInputConverter = Class.create(AXJ, {
 					} else {
 						var mm = nDate1.getMonth();
 						var dd = nDate1.getDate();
-						obj.nDate1 = new Date(myYear, mm, dd);
+						obj.nDate1 = new Date(Date.UTC(myYear, mm, dd));
 						this.bindTwinDateChangePage(objID, objSeq, 1, obj.nDate1, "m");
 					}
 				} else {
 					if (obj.config.selectType == "y") {
 						var mm = nDate2.getMonth();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(myYear, mm, dd);
+						obj.nDate2 = new Date(Date.UTC(myYear, mm, dd));
 						var printDate = obj.nDate2.print("yyyy");
 						axdom("#" + objID).val(printDate);
 						//this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -12140,7 +12146,7 @@ var AXInputConverter = Class.create(AXJ, {
 					} else {
 						var mm = nDate2.getMonth();
 						var dd = nDate2.getDate();
-						obj.nDate2 = new Date(myYear, mm, dd);
+						obj.nDate2 = new Date(Date.UTC(myYear, mm, dd));
 						this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "m");
 					}
 				}
@@ -12283,7 +12289,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy < 1000) yy += 2000;
 					var mm = nDate.getMonth();
 					var dd = nDate.getDate();
-					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
+					obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy"));
 
@@ -12303,7 +12309,7 @@ var AXInputConverter = Class.create(AXJ, {
 					}
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
-					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
+					obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
 
 					axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy" + separator + "mm"));
 
@@ -12341,7 +12347,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if (yy == 0) needAlert = true;
 					if (yy == 0) yy = nDate.getFullYear();
 					if (yy < 1000) yy += 2000;
-					obj["nDate" + seq] = new Date(yy, mm, dd, 12);
+					obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
 
 					if (obj["nDate" + seq].getFullYear() != yy.number()
 						|| obj["nDate" + seq].getMonth() != mm.number()
@@ -12379,7 +12385,7 @@ var AXInputConverter = Class.create(AXJ, {
 							if (yy == 0) needAlert = true;
 							if (yy == 0) yy = nDate.getFullYear();
 							if (yy < 1000) yy += 2000;
-							obj.nDate1 = new Date(yy, mm, dd, 12);
+							obj.nDate1 = new Date(Date.UTC(yy, mm, dd, 12));
 						}
 					}
 					if (obj.nDate2 == undefined) {
@@ -13029,14 +13035,24 @@ var AXInputConverterPro = Class.create(AXJ, {
 		AXJ_super();
 		this.objects = [];
 		this.inputTypes = [
-			{ type: "pattern" }
+			{ type: "pattern", type: "tagSelector" }
 		];
 		this.config.anchorClassName = "AXanchor";
+		this.config.anchorSelectorExpandBoxClassName = "AXanchorSelectorExpandBox";
+		this.config.anchorSelectorExpandScrollClassName = "AXanchorSelectorExpandScroll"
+
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
+
+		// 예약어 초기화
+		this.config.reserveKeys = {
+			options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
+			optionValue: (AXConfig.AXInput && AXConfig.AXInput.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText"
+		};
 	},
 	windowResize: function () {
 		// 사용안함
@@ -13111,6 +13127,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		} else if (obj.bindType == "pattern") {
 			this.bindPattern(objID, objSeq);
+		} else if (obj.bindType == "tagSelector") {
+			this.bindTagSelector(objID, objSeq);
 		}
 	},
 	unbind: function (obj) {
@@ -13187,7 +13205,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		var _this = this;
 		setTimeout(function () {
 			_this.alignAnchor(objID, objSeq);
-		}, 500);
+		}, 10);
 	},
 	alignAnchor: function (objID, objSeq) {
 		var cfg = this.config;
@@ -13422,8 +13440,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
 			if(obj.config.pattern == "custom"){
-				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue || ""), "keyup");
-
+				if(typeof obj.originalValue === "undefined") obj.originalValue = event.target.value;
+				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue), "keyup");
 			}
 		});
 
@@ -14052,6 +14070,504 @@ var AXInputConverterPro = Class.create(AXJ, {
 		if(!Object.isNumber(objSeq)) return;
 		var obj = this.objects[objSeq];
 		obj.bindTarget.val( this.bindPatternGetValue(objID, objSeq, val, "blur") );
+	},
+
+	/**
+	 * bindTagSelector
+	 */
+	bindTagSelector: function(objID, objSeq){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq], po, h;
+
+		if (!obj.config.onchange) obj.config.onchange = obj.config.onChange;
+		if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
+		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+
+		if(!obj.bindTarget_paddingTop) obj.bindTarget_paddingTop = obj.bindTarget.css("padding-top");
+
+		// 저장된 태그 리스트
+		obj.tagList = [];
+
+		obj.bindAnchorTarget.show();
+		h = obj.bindAnchorTarget.data("height") - 2;
+
+		po = [];
+		po.push('<div id="'+ cfg.targetID + '_AX_' + objID + '_AX_tagContainer" class="AXTag-selector-tagcontainer">');
+		po.push('</div>');
+		obj.bindAnchorTarget.html(po.join(''));
+		obj.tagContainer = obj.bindAnchorTarget.find('#' + cfg.targetID + '_AX_' + objID +'_AX_tagContainer');
+
+		// 태그 컨테이너 클릭 이벤트 연결
+
+		obj.tagContainer.bind("click", (function(e){
+			var event_type = "";
+			e = e || window.event;
+			var target = axf.get_event_target(e.target, function(el){
+				if(axdom(el).hasClass("AXTag-selector-tagitem-remove")){
+					event_type = "remove";
+					return true;
+				}
+				else
+				if(axdom(el).hasClass("AXTag-selector-tagitem")){
+					event_type = "item";
+					return true;
+				}
+			});
+
+			if(target && event_type == "remove") {
+				this.bindTagSelector_removeItem(objID, objSeq, axdom(target).attr("data-tag-index"));
+			}
+			else
+			if(!target) obj.bindTarget.focus();
+
+		}).bind(this));
+
+		// 옵션 박스 패널
+		obj.tagExpandBoxId = cfg.targetID + "_AX_" + objID + "_AX_expandBox";
+
+		obj.bindTarget.unbind("focus.AXTagSelector").bind("focus.AXTagSelector", function(event) {
+			if(obj.keydownTimer) clearTimeout(obj.keydownTimer);
+			obj.keydownTimer = setTimeout((function(event){
+				_this.bindTagSelector_onkeydown(event, objID, objSeq);
+			}).bind(_this, event), 100);
+		});
+		obj.bindTarget.unbind("keydown.AXTagSelector").bind("keydown.AXTagSelector", function(event){
+			if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") return false;
+
+			if(obj.keydownTimer) clearTimeout(obj.keydownTimer);
+			obj.keydownTimer = setTimeout((function(event){
+				_this.bindTagSelector_onkeydown(event, objID, objSeq);
+			}).bind(_this, event), 100);
+		});
+
+	},
+	bindTagSelector_onkeydown: function(e, objID, objSeq){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq], po,
+			anchorWidth, anchorHeight, styles, focusedIndex;
+
+		if(e.type == "keydown"){
+			if(e.keyCode == axf.Event.KEY_BACKSPACE){
+				if(obj.tagList.length > 0) {
+					if(obj.ready_backspace){
+						this.bindTagSelector_removeItem(objID, objSeq, obj.tagList.length - 1);
+						this.bindTagSelector_close(objID, objSeq);
+						obj.config.focusedIndex = undefined;
+						delete obj.ready_backspace;
+					}else{
+						obj.ready_backspace = true;
+					}
+				}
+				return this;
+			}else{
+				delete obj.ready_backspace;
+			}
+
+			if(
+				e.keyCode == axf.Event.KEY_RETURN ||
+				e.keyCode == axf.Event.KEY_DOWN ||
+				e.keyCode == axf.Event.KEY_UP
+			) {
+				if (!AXgetId(obj.tagExpandBoxId)) return this;
+				if(e.keyCode == axf.Event.KEY_RETURN) {
+					if(typeof obj.config.focusedIndex !== "undefined"){
+						this.bindTagSelector_addItem(objID, objSeq, obj.config.focusedIndex);
+						this.bindTagSelector_close(objID, objSeq);
+						obj.config.focusedIndex = undefined;
+					}
+				}
+				else
+				if(e.keyCode == axf.Event.KEY_DOWN) {
+					focusedIndex = 0;
+					if (typeof obj.config.focusedIndex !== "undefined") {
+						axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
+						focusedIndex = Number(obj.config.focusedIndex) + 1;
+						if(obj.config.options.length <= focusedIndex) focusedIndex = obj.config.options.length-1;
+					}
+					axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + focusedIndex + "_AX_option").addClass("on");
+					obj.config.focusedIndex = focusedIndex;
+					obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + focusedIndex + "_AX_option"); //focus
+				}
+				else
+				if(e.keyCode == axf.Event.KEY_UP) {
+					focusedIndex = 0;
+					if (typeof obj.config.focusedIndex !== "undefined") {
+						axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
+						focusedIndex = Number(obj.config.focusedIndex) - 1;
+						if(0 > focusedIndex) focusedIndex = 0;
+					}
+					axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + focusedIndex + "_AX_option").addClass("on");
+					obj.config.focusedIndex = focusedIndex;
+					obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + focusedIndex + "_AX_option"); //focus
+				}
+				return this;
+			}
+		}
+
+		//console.log(e);
+		if (!AXgetId(obj.tagExpandBoxId)) {
+			//Expand Box 생성 구문 작성
+			anchorWidth = obj.bindAnchorTarget.width() - 2; // anchor width
+			anchorHeight = obj.bindAnchorTarget.data("height") - 1;
+			styles = [];
+
+			styles.push("top:" + anchorHeight + "px");
+			styles.push("width:" + (obj.config.selectorWidth || anchorWidth) + "px");
+			styles.push("z-index:10000");
+
+			po = [];
+			po.push("<div id=\"" + obj.tagExpandBoxId + "\" class=\"bindSelectorNodes " + cfg.anchorSelectorExpandBoxClassName + "\" style=\"" + styles.join(";") + "\">");
+			po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll\" class=\"bindSelectorNodes " + cfg.anchorSelectorExpandScrollClassName + "\">");
+			po.push("	<div class=\"AXLoadingSmall bindSelectorNodes\"></div>");
+			po.push("</div>");
+			po.push("</div>");
+			axdom(document.body).append(po.join(''));
+
+			obj.tagExpandBox = axdom("#" + obj.tagExpandBoxId);
+			obj.tagExpandBoxScroll = obj.tagExpandBox.find("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll");
+			if (obj.config.positionFixed) {
+				obj.tagExpandBox.css({ "position": "fixed" });
+			}
+			var expBoxHeight = obj.tagExpandBox.outerHeight();
+			var offset = (obj.config.positionFixed) ? obj.bindAnchorTarget.position() : obj.bindAnchorTarget.offset();
+			if (obj.config.position) {
+				offset = obj.bindAnchorTarget.offset();
+				if (obj.config.position.top != undefined) {
+					offset.top = obj.config.position.top;
+				}
+			}
+			var css = {};
+			css.top = offset.top + anchorHeight;
+			if (obj.config.direction == "bottom") {
+				css.top -= obj.tagExpandBox.outerHeight();
+			}
+
+			css.left = offset.left;
+			obj.tagExpandBox.css(css);
+
+			// 다른 영역을 클릭했는가?
+			axdom(document.body).unbind("click.AXTagSelector").bind("click.AXTagSelector", (function(e){
+				if(obj.blurTimer) clearTimeout(obj.blurTimer);
+				obj.blurTimer = setTimeout(function(){
+					_this.bindTagSelector_onclick(e||window.event, objID, objSeq);
+				}, 100);
+			}).bind(this));
+			obj.bindTarget.unbind("blur.AXTagSelector").bind("blur.AXTagSelector", (function(e) {
+				if(obj.blurTimer) clearTimeout(obj.blurTimer);
+				obj.blurTimer = setTimeout(function(){
+					_this.bindTagSelector_onclick(e||window.event, objID, objSeq);
+				}, 700);
+			}).bind(this));
+		}
+		this.bindTagSelector_setOptions(objID, objSeq, obj.bindTarget.val());
+	},
+	bindTagSelector_setOptions: function(objID, objSeq, kword){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq], po,
+			maxHeight = obj.config.maxHeight || 130,
+			next_fn;
+
+		next_fn = function() {
+			if (po.length == 0) {
+				var selectorOptionEmpty = "";
+				if (AXConfig.AXInput) selectorOptionEmpty = (AXConfig.AXInput.selectorOptionEmpty || "empty options");
+				po.push("<div class=\"empty\">" + selectorOptionEmpty + "</div>");
+			}
+			obj.tagExpandBoxScroll.html(po.join(''));
+
+			var expandScrollHeight = obj.tagExpandBoxScroll.outerHeight();
+			if (expandScrollHeight > maxHeight) expandScrollHeight = maxHeight;
+			obj.tagExpandBox.css({height: expandScrollHeight + "px"});
+
+			if (obj.myUIScroll) obj.myUIScroll.unbind();
+			obj.myUIScroll = new AXScroll();
+			obj.myUIScroll.setConfig({
+				CT_className  : "AXScrollSmall",
+				targetID      : cfg.targetID + "_AX_" + objID + "_AX_expandBox",
+				scrollID      : cfg.targetID + "_AX_" + objID + "_AX_expandScroll",
+				touchDirection: false
+			});
+			obj.myUIScroll.scrollTop(0);
+
+			if (obj.config.selectedIndex != undefined) {
+				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
+				obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option"); //focus
+				obj.config.focusedIndex = obj.config.selectedIndex;
+			}
+
+			if (obj.config.direction == "bottom") {
+				var offset = (obj.config.positionFixed) ? obj.bindAnchorTarget.position() : obj.bindAnchorTarget.offset();
+				if (obj.config.position) {
+					offset = obj.bindAnchorTarget.offset();
+					if (obj.config.position.top != undefined) {
+						offset.top = obj.config.position.top;
+					}
+				}
+				obj.tagExpandBox.css({top: offset.top - obj.tagExpandBox.outerHeight()});
+			}
+
+			// focus item
+			if (typeof kword !== "undefined" && kword != "") {
+				kword = kword.replace(/\//g, "\\\/");
+				var sw = axf.consonantKR((kword || "").dec());
+				var reAt = new RegExp("^" + sw + ".*", "i");
+
+				var ix = null;
+				for (var i = 0, l = obj.config.options.length; i < l; i++) {
+					if (reAt.test((obj.config.options[i][cfg.reserveKeys.optionText] || ""))) {
+						ix = i;
+						break;
+					}
+				}
+				if (ix != null) {
+					if (typeof obj.config.focusedIndex !== "undefined") {
+						axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
+					}
+					axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + ix + "_AX_option").addClass("on");
+					obj.config.focusedIndex = ix;
+					obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + ix + "_AX_option"); //focus
+				}
+			} else {
+				if (obj.config.focusedIndex != undefined) {
+					axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
+				}
+			}
+		}
+
+		var get_options = function(options){
+			var npo = [];
+			for(var i=0,l=options.length;i<l;i++){
+				var O =options[i];
+				// options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
+				O[cfg.reserveKeys.optionText] = (O[cfg.reserveKeys.optionText] ? O[cfg.reserveKeys.optionText].dec() : "");
+				O.desc = (O.desc ? O.desc.dec() : "");
+				O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
+
+				var descStr = O.desc || O.optionDesc, styles;
+				if (descStr != "") descStr = "<span>" + descStr + "</span>";
+
+				styles = "";
+				for(var ti=0,tl=obj.tagList.length, tag;ti<tl;ti++) {
+					tag = obj.tagList[ti];
+					//trace(tag[cfg.reserveKeys.optionValue] == O[cfg.reserveKeys.optionValue]);
+					if(tag[cfg.reserveKeys.optionValue] == O[cfg.reserveKeys.optionValue]){
+						styles = ' style="text-decoration: line-through;"';
+					}
+				}
+				npo.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + i + "_AX_option\" class=\"bindSelectorNodes\" "+ styles +">"
+				+ O[cfg.reserveKeys.optionText] + descStr + "</a>");
+			}
+			return npo;
+		}
+
+		if(obj.config.ajaxUrl){
+
+			obj.inProgress = true; //진행중 상태 변경
+			var url = obj.config.ajaxUrl;
+			var pars = obj.config.ajaxPars || {};
+			var _method = "post";
+			var _headers = {};
+			var _contentType = AXConfig.AXReq.contentType;
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+			var _async = AXConfig.AXReq.async;
+
+			// ajax 옵션 확장
+			if (obj.config.method) _method = obj.config.method;
+			if (obj.config.headers) _headers = obj.config.headers;
+			if (obj.config.contentType) _contentType = obj.config.contentType;
+			if (obj.config.responseType) _responseType = obj.config.responseType;
+			if (obj.config.dataType) _dataType = obj.config.dataType;
+			if (obj.config.ajaxAsync) _async = obj.config.ajaxAsync;
+
+			var selectorName = obj.config.selectorName || obj.bindTarget.attr("name");
+			if (pars == "") {
+				pars = selectorName + "=" + (kword||"").enc();
+			} else if ((typeof pars).toLowerCase() == "string") {
+				pars += "&" + selectorName + "=" + kword.enc();
+			} else if ((typeof pars).toLowerCase() == "object") {
+				pars[selectorName] = kword.enc();
+			}
+
+			new AXReq(url, {
+				type: _method,
+				headers: _headers,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				async: _async,
+				debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
+				pars: pars,
+				onsucc: function (res) {
+					if (!res.error) {
+
+						obj.config.options = (res[cfg.reserveKeys.options] || []);
+						obj.config.focusedIndex = undefined;
+						po = get_options(obj.config.options);
+						next_fn.call(_this);
+
+					} else {
+						axf.alert(res.error);
+					}
+					obj.inProgress = false;
+				}
+			});
+
+
+		}
+		else
+		{
+			//var optionPrintLength = obj.config.optionPrintLength || 100;
+			if (!obj.config.options){
+				console.log("config.options is not defined");
+				return this;
+			}
+
+			po = get_options(obj.config.options);
+
+			//  옵션리스트 구성완료 후 처리
+			next_fn.call(this);
+		}
+	},
+	bindTagSelector_onclick: function(e, objID, objSeq){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq];
+
+		if(e.type == "blur"){
+			this.bindTagSelector_close(objID, objSeq);
+		}
+		else
+		if(e.type == "click"){
+			var click_type = "";
+			var target = axf.get_event_target(e.target, function(el){
+				if(axdom(el).hasClass("bindSelectorNodes")){
+					click_type = "option";
+					return true;
+				}
+				else
+				if(el.id == objID){
+					click_type = "input";
+					return true;
+				}
+			});
+
+			if(target){
+				//console.log(target, click_type);
+				if(click_type == "option") {
+					// get option index
+					var ids = target.id.split(/_AX_/g);
+					var optionIndex = ids[ids.length-2];
+					this.bindTagSelector_addItem(objID, objSeq, optionIndex);
+					this.bindTagSelector_close(objID, objSeq);
+				}
+				else
+				if(click_type == "input") {
+					// 입풋을 누르다니..
+				}
+			}
+			else
+			{
+				this.bindTagSelector_close(objID, objSeq);
+			}
+		}
+		//trace(e.type);
+		//trace(objID, objSeq);
+	},
+	bindTagSelector_close: function(objID, objSeq){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq];
+
+		obj.tagExpandBox.remove();
+		axdom(document.body).unbind("click.AXTagSelector");
+		obj.bindTarget.unbind("blur.AXTagSelector");
+	},
+	bindTagSelector_addItem: function(objID, objSeq, optionIndex){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq], objName, po, addOption, pass_add;
+
+		if(isNaN(Number(optionIndex))) {
+			console.log("optionIndex is NaN");
+			return this;
+		}
+
+		//obj.tagList 태그저장리스트
+		addOption = obj.config.options[optionIndex];
+		pass_add = true; // 등록 허용
+		for(var i=0,l=obj.tagList.length, tag;i<l;i++){
+			tag = obj.tagList[i];
+			if(tag[cfg.reserveKeys.optionValue] == addOption[cfg.reserveKeys.optionValue]){
+				pass_add = false; // 이미 등록된 값이 존재함.
+				break;
+			}
+		}
+		if(pass_add){
+			objName = obj.bindTarget.attr("name");
+			po = [];
+			if(!obj.config.optionValue_inputName) obj.config.optionValue_inputName = objName;
+			po.push('<span class="AXTag-selector-tagitem" data-option-value="' + addOption[cfg.reserveKeys.optionValue] + '">');
+				if(obj.config.optionValue_inputName) po.push('<input type="hidden" name="' + obj.config.optionValue_inputName + '" value="' + addOption[cfg.reserveKeys.optionValue] + '" />');
+				if(obj.config.optionText_inputName) po.push('<input type="hidden" name="' + obj.config.optionText_inputName + '" value="' + addOption[cfg.reserveKeys.optionText] + '" />');
+				po.push( addOption[cfg.reserveKeys.optionText] );
+				po.push('<span class="AXTag-selector-tagitem-remove" data-tag-index="'+ obj.tagList.length +'"></span>');
+			po.push('</span>');
+			obj.tagContainer.append( po.join('') );
+			obj.tagList.push(addOption);
+			//
+			obj.bindTarget.css({"padding-top":obj.tagContainer.height()}).val('');
+			obj.bindAnchorTarget.data("height", obj.bindTarget.outerHeight());
+			axdom(window).resize();
+		}
+	},
+	bindTagSelector_removeItem: function(objID, objSeq, tagIndex){
+		var _this = this, cfg = this.config,
+			obj = this.objects[objSeq], po, objName = obj.bindTarget.attr("name");;
+
+		if(typeof tagIndex !== "undefined") {
+			obj.tagContainer.find('[data-tag-index="' + tagIndex + '"]').remove();
+			obj.tagList.splice(tagIndex, 1);
+		}
+
+		po = [];
+		for(var i=0,l=obj.tagList.length, tag;i<l;i++) {
+			tag = obj.tagList[i];
+			po.push('<span class="AXTag-selector-tagitem" data-option-value="' + tag[cfg.reserveKeys.optionValue] + '">');
+			po.push('<input type="hidden" name="' + objName + '" value="' + tag[cfg.reserveKeys.optionValue] + '" />');
+			po.push( tag[cfg.reserveKeys.optionText] );
+			po.push('<span class="AXTag-selector-tagitem-remove" data-tag-index="'+ i +'"></span>');
+			po.push('</span>');
+		}
+		obj.tagContainer.html( po.join('') );
+
+		if(obj.tagList.length == 0){
+			obj.bindTarget.css({"padding-top": obj.bindTarget_paddingTop}).val('');
+		}
+		else
+		{
+			obj.bindTarget.css({"padding-top": obj.tagContainer.height()}).val('');
+		}
+
+		obj.bindAnchorTarget.data("height", obj.bindTarget.outerHeight());
+		axdom(window).resize();
+	},
+	bindTagSelector_setItem: function(objID, tags){
+		var cfg = this.config,
+			objSeq = null, obj;
+		for(var i=0, l=this.objects.length;i<l;i++){
+			if(this.objects[i].id === objID) {objSeq = i;break;}
+		}
+		obj = this.objects[objSeq];
+
+		if(Object.isArray(tags)){
+			obj.tagList = [];
+			for(var i=0, l=tags.length, tag;i<l;i++){
+				var tag = tags[i];
+				if(typeof tag[cfg.reserveKeys.optionValue] === "undefined") tag[cfg.reserveKeys.optionValue] = tag.toString();
+				if(typeof tag[cfg.reserveKeys.optionText] === "undefined") tag[cfg.reserveKeys.optionText] = tag.toString();
+				obj.tagList.push(tag);
+			}
+			this.bindTagSelector_removeItem(objID, objSeq);
+		}
+		return this;
 	}
 });
 
@@ -14182,6 +14698,54 @@ axdom.fn.bindPatternGetDisplayText = function(){
 	});
 	return returnVals;
 };
+
+
+
+
+/**
+ * @method jQueryFns.bindTagSelector
+ * @param config {JSObject} bindConfig
+ * @returns jQueryObject
+ * @description
+ * @example
+ * ```js
+ * //sample
+ * $("#ax-bind-pattern-custom-target").bindTagSelector({
+ *
+ * });
+ * ```
+ */
+axdom.fn.bindTagSelector = function(config){
+	axf.each(this, function () {
+		config = config || {}; config.id = this.id;
+		config.bindType = "tagSelector";
+		AXInputPro.bind(config);
+	});
+	return this;
+};
+
+/**
+ * @method jQueryFns.bindTagSelector_setItem
+ * @param config {JSObject} bindConfig
+ * @returns jQueryObject
+ * @description
+ * @example
+ * ```js
+ * //sample
+ * $("#ax-bind-pattern-custom-target").bindTagSelector_setItem([
+ *  {optionValue:1, optionText:"Seoul"},
+ *  {optionValue:2, optionText:"대구"}
+ * ]);
+ * ```
+ */
+axdom.fn.bindTagSelector_setItem = function(list){
+	axf.each(this, function () {
+		AXInputPro.bindTagSelector_setItem(this.id, list);
+	});
+	return this;
+};
+
+
 /* ---------------------------- */
 var AXSelectConverter = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
@@ -14510,8 +15074,6 @@ var AXSelectConverter = Class.create(AXJ, {
 				onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
-						
-						
 						var po = [], adj = 0;
 						//obj.config.options = res.options;
 						obj.config.options = res[obj.config.reserveKeys.options];
@@ -14584,9 +15146,11 @@ var AXSelectConverter = Class.create(AXJ, {
 			}
 
 			for (var opts, oidx = 0; (oidx < obj.config.options.length && (opts = obj.config.options[oidx])); oidx++) {
-				var optionText = (opts.optionText||"").dec();
-				po.push("<option value=\"" + opts.optionValue + "\"");
-				if (obj.config.setValue == opts.optionValue || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
+				//[obj.config.reserveKeys.optionValue]
+				//[obj.config.reserveKeys.optionText]
+				var optionText = (opts[obj.config.reserveKeys.optionText]||"").dec();
+				po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\"");
+				if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || obj.selectedIndex.number()+adj == oidx) po.push(" selected=\"selected\"");
 				po.push(">" + optionText + "</option>");
 			}
 			iobj.html(po.join(''));
