@@ -1241,6 +1241,7 @@
   min-height: 30px;
   display: none;
   background-color: #FFFFEC;
+  border-bottom: 1px solid #cecece;
   border-left: 1px solid #cecece;
   border-right: 1px solid #cecece;
 }
@@ -1272,6 +1273,9 @@
 .AXGrid .AXGridFoot .gridFootTable tbody tr td.selected {
   background-color: #D2D9DF;
   box-shadow: inset 0px 0px 2px #000;
+}
+.AXGrid .AXGridFoot .gridFootTable tbody tr:last-child td {
+  border-bottom: none;
 }
 .AXGrid .AXGridFoot .gridFootTable tbody tr.noListTr td {
   vertical-align: middle;

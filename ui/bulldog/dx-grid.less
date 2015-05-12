@@ -1030,7 +1030,7 @@
 		display:none;
 		//.util-gradient(top, @bgcolor-c, @bgcolor-c);
 		background-color: #FFFFEC;
-		//border-bottom:@border;
+		border-bottom:@border;
 		border-left:@border;border-right:@border;
 
 		.gridFootContent{
@@ -1064,6 +1064,9 @@
 					td.selected{
 						background-color:#D2D9DF;box-shadow:inset 0px 0px 2px #000;
 					}
+				}
+				tr:last-child td{
+					border-bottom: none;
 				}
 				tr.noListTr td{
 					vertical-align:middle;
