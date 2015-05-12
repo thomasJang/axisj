@@ -12412,6 +12412,7 @@ var AXGrid = Class.create(AXJ, {
         ol.push("		<div class=\"AXGridToolGroup bottom\" id=\"" + cfg.targetID + "_AX_gridToolGroupBottom\"></div>");
         ol.push("	</div>");
         ol.push("   <div class=\"AXgridEditor\" id=\"" + cfg.targetID + "_AX_gridEditor\" style=\"z-index:2;\"></div>");
+        ol.push("   <div class=\"AXGridFoot\" id=\"" + cfg.targetID + "_AX_gridFoot\"></div>")
         ol.push("	<div class=\"AXgridPageBody\" id=\"" + cfg.targetID + "_AX_gridPageBody\" style=\"z-index:1;\">");
         ol.push("		<div class=\"AXgridPagingUnit\" id=\"" + cfg.targetID + "_AX_gridPagingUnit\">");
         ol.push("			<a class=\"AXgridPagingPrev\">PREV</a>");
@@ -12433,13 +12434,13 @@ var AXGrid = Class.create(AXJ, {
         this.colHead = axdom("#" + cfg.targetID + "_AX_gridColHead");
         this.body = axdom("#" + cfg.targetID + "_AX_gridBody");
         this.editor = axdom("#" + cfg.targetID + "_AX_gridEditor");
+        this.gridFoot = axdom("#" + cfg.targetID + "_AX_gridFoot");
 
         this.pageBody = axdom("#" + cfg.targetID + "_AX_gridPageBody");
         this.pageBody.data("display", "show");
         this.pagingUnit = axdom("#" + cfg.targetID + "_AX_gridPagingUnit");
         this.status = axdom("#" + cfg.targetID + "_AX_gridStatus");
         //this.scroller = axdom("#" + cfg.targetID + "_AX_gridScroller");
-
 
         /* define part --------------------------------- */
         this.defineConfig();
@@ -12608,18 +12609,20 @@ var AXGrid = Class.create(AXJ, {
             }
             else
             {
-
                 if (cfg.height) this.gridBody.css({height: cfg.height});
-
-                var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
+                var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0,
+                    gridFootHeight = this.gridFoot.outerHeight();
                 if (cfg.page.display == false) pageBodyHeight = 0;
-                var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2;
+
+                var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2 - gridFootHeight;
                 this.scrollBody.css({ height: scrollBodyHeight });
                 /*colhead + body height */
                 var colHeadHeight = this.colHead.outerHeight();
                 if (colHeadHeight == 1) colHeadHeight = 0;
+
                 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) });
                 /* body Height */
+
             }
             if (react) this.contentScrollResize(false);
         }
@@ -13057,7 +13060,6 @@ var AXGrid = Class.create(AXJ, {
      * });
      * ```
      */
-
     onContextmenu: function (event) {
         var cfg = this.config, body = this.body;
 
@@ -15140,10 +15142,10 @@ var AXGrid = Class.create(AXJ, {
                 }
 
                 this.cachedDom.thpadding.css({ height: 0 });
-                this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
+                this.cachedDom.tfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount) * (itemTrHeight) });
                 if (this.hasFixed) {
                     this.cachedDom.fthpadding.css({ height: 0 });
-                    this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount - 1) * (itemTrHeight) });
+                    this.cachedDom.ftfpadding.css({ height: cfg.scrollContentBottomMargin.number() + (this.list.length - printListCount) * (itemTrHeight) });
                 }
 
                 // 스크롤 y 포지션 초기화
@@ -16906,7 +16908,11 @@ var AXGrid = Class.create(AXJ, {
 
             var L = (this.contentScrollXAttr.scrollWidth * (pos.left) / this.contentScrollXAttr.scrollTrackXWidth).round(0);
             this.scrollContent.css({ left: -L });
-            axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: -L });
+            this.colHead.css({ left: -L });
+
+            if (this.hasFoot) {
+                this.gridFoot_content.css({ left: -L });
+            }
             if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
 
         } else {
@@ -16922,7 +16928,6 @@ var AXGrid = Class.create(AXJ, {
                 // scrollContent height update
                 this.contentScrollYAttr.scrollHeight = this.scrollContent.height();
             }
-
 
             //var T = (this.contentScrollYAttr.scrollHeight * (pos.top) / this.contentScrollYAttr.scrollTrackYHeight).floor();
             var T = (this.contentScrollYAttr.scrollHeight - this.contentScrollYAttr.bodyHeight) * ( (pos.top) / (this.contentScrollYAttr.scrollTrackYHeight - this.contentScrollYAttr.scrollYHandleHeight) ).number();
@@ -16948,7 +16953,7 @@ var AXGrid = Class.create(AXJ, {
     contentScrollContentSync: function (pos, touch) {
 
         var cfg = this.config;
-        if (pos.left != undefined) {
+        if (typeof pos.left !== "undefined") {
 
             if (!this.contentScrollXAttr) {
                 var scrollWidth = (this.colWidth > this.body.width()) ? this.colWidth : this.body.width();
@@ -16962,11 +16967,16 @@ var AXGrid = Class.create(AXJ, {
 
             var L = (this.contentScrollXAttr.scrollTrackXWidth - this.contentScrollXAttr.scrollXHandleWidth) * ((pos.left) / (this.contentScrollXAttr.scrollWidth - this.contentScrollXAttr.bodyWidth));
             this.scrollXHandle.css({ left: -L });
-            axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: pos.left });
-            if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: pos.left });
+            this.colHead.css({ left: pos.left });
+
+            if (this.hasFoot) {
+                this.gridFoot_content.css({ left: pos.left });
+            }
+            if (this.hasEditor) {
+                axdom("#" + cfg.targetID + "_AX_editorContent").css({left: pos.left});
+            }
 
         } else {
-
             if (cfg.height == "auto") return;
             if (!this.contentScrollYAttr) {
                 this.contentScrollYAttr = {
@@ -17501,6 +17511,7 @@ var AXGrid = Class.create(AXJ, {
             }
 
             if(VS.startIndex != newStartIndex || reload) {
+
                 //그리드 내용 다시 구성
                 po = [];
                 for (var itemIndex = newStartIndex; itemIndex < newEndIndex; itemIndex++) {
@@ -18256,15 +18267,46 @@ var AXGrid = Class.create(AXJ, {
      * ```
      */
     printFoot: function () {
-        var cfg = this.config;
+        // todo : foot 출력 방식 변경
+        var cfg = this.config,
+            tableWidth = this.colWidth;
         var getDataSet = this.getFootDataSet.bind(this);
+        this.hasFoot = true;
         var po = [];
+        /*
         po.push(getDataSet(this.dataSet));
         axdom("#" + cfg.targetID + "_AX_tfoot").html(po.join(''));
         if (this.hasFixed) {
             po = [];
             po.push(getDataSet(this.dataSet, "fix"));
             axdom("#" + cfg.targetID + "_AX_fixedTfoot").html(po.join(''));
+        }
+        */
+        po.push('<div class="gridFootContent">');
+        po.push('<table cellpadding="0" cellspacing="0" class="gridFootTable" style="width:', tableWidth, 'px;">');
+            po.push(this.getColGroup("CH"));
+            po.push('<tbody>');
+            po.push(getDataSet(this.dataSet));
+            po.push('</tbody>');
+        po.push('</table>');
+        po.push('</div>');
+        if (this.hasFixed) {
+            po.push('<div class="gridFootfixedContent" style="width:' + this.fixedColWidth + '">');
+            po.push('<table cellpadding="0" cellspacing="0" class="gridFootTable" style="width:', this.fixedColWidth, 'px;">');
+            po.push(this.getColGroup("FC"));
+            po.push('<tbody>');
+            po.push(getDataSet(this.dataSet, "fix"));
+            po.push('</tbody>');
+            po.push('</table>');
+            po.push('</div>');
+        }
+
+        this.gridFoot.html( po.join('') );
+        this.gridFoot.show(); // cfg.foot 활성화
+        this.gridFoot_content = this.gridFoot.find(".gridFootContent");
+        this.gridFoot.css( {height: this.gridFoot_content.height()} );
+        if(this.gridFoot_content.height() > 30){
+            this.gridTargetSetSize();
         }
     },
     /* head & foot 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
