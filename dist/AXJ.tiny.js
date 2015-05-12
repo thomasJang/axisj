@@ -368,7 +368,6 @@ axf.each({a:1, b:2, c:3}, function(k, v){
 /**
  * 브라우저의 이름과 버전 모바일여부
  *
- * @see IE11 https://msdn.microsoft.com/ko-kr/library/ie/hh869301(v=vs.85).aspx
  * @member {Object} axf.browser
  * @example
  ```
