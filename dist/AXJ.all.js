@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-12 
+AXJ - v1.0.15 - 2015-05-13 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-12 
+AXJ - v1.0.15 - 2015-05-13 
 */
 
 if(!window.AXConfig){
@@ -33674,7 +33674,6 @@ $("#myTab01").addTabs([
 		obj.tabContainer.find(".AXTabClose").bind("click", function(event){
 			var tabIndex = obj.tabContainer.find(".AXTab").index(axdom(event.target).parent());
 			if (tabIndex === -1) { return; }
-
 			closeTab(objID, tabIndex, event);
 		});
 	},
@@ -33693,8 +33692,15 @@ $("#myTab01").closeTab("optionValue");
 	closeTab: function(objID, tabIndex, event) {
 		var objSeq = axdom("#" + objID).data("objSeq");
 		var obj    = this.objects[objSeq];
-		var tabs   = obj.tabContainer.find(".AXTab");
+		if (!obj.config.options) { return; }
+		tabIndex = (tabIndex === undefined ? (obj.config.options.length - 1) : tabIndex);
+		obj.config.options.splice(tabIndex, 1)[0]; // remove and store target optoin
+		this.initTab(objID, objSeq);
+		return this;
 
+
+		// 구 코드
+		var tabs   = obj.tabContainer.find(".AXTab");
 		if (!obj.config.options) { return; }
 
 		tabIndex = (tabIndex === undefined ? (tabs.length - 1) : tabIndex);
@@ -33781,7 +33787,7 @@ $("#myTab01").closeTab("optionValue");
 		    //trace(obj.config.options[itemIndex]);
 
 		    var selectedObject = obj.config.options[itemIndex];
-		    if(obj.config.value != selectedObject.optionValue){
+		    if(selectedObject && obj.config.value != selectedObject.optionValue){
 
 			    axdom("#" + objID + "_AX_Tabs_AX_"+obj.config.selectedIndex).removeClass("on");
 			    axdom("#" + objID + "_AX_Tabs_AX_"+itemIndex).addClass("on");
