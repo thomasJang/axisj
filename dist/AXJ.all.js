@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-14 
+AXJ - v1.0.15 - 2015-05-15 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-14 
+AXJ - v1.0.15 - 2015-05-15 
 */
 
 if(!window.AXConfig){
@@ -15993,7 +15993,7 @@ var AXGrid = Class.create(AXJ, {
                         if(len > 0){
                             var l_itemIndex = this.selectedRow.last().number(), itemIndex = itemIndex.number(), st_index, ed_index;
                             if(l_itemIndex < itemIndex){
-                                st_index = l_itemIndex;
+                                st_index = l_itemIndex + 1;
                                 ed_index = itemIndex;
                             }else{
                                 st_index = itemIndex;
@@ -17850,7 +17850,7 @@ var AXGrid = Class.create(AXJ, {
             }else{
                 var selectedList = [], len = this.selectedRow.length;
                 for(var i=0;i<len;i++){
-                    selectedList.push( this.list[i] )
+                    selectedList.push( this.list[this.selectedRow[i]] );
                 }
                 return { index: this.selectedRow, item: selectedList };
             }
