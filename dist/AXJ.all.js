@@ -41968,7 +41968,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.38
+ * @version v1.39
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -41998,6 +41998,7 @@ var swfobject;
  "2015-03-28 tom : https://github.com/axisj-com/axisj/issues/501 삭제후 리스트가 비었을 때 onDeleteAll 호출"
  "2015-04-01 tom : fileKeys 에 id 값 정의 기능 추가"
  "2015-04-06 tom : fileKeys 기본 맵핑방식 수정"
+ "2015-05-14 HJ.Park : SWFUpload 모드에서 파일 사이즈 초과시 onError 메서드 호출하도록 수정 https://github.com/axisj-com/axisj/issues/559"
 
  * @description
  *
@@ -42449,6 +42450,17 @@ var AXUpload5 = Class.create(AXJ, {
 		};
 		var upload_progress_handler_bind = upload_progress_handler.bind(this);
 		//--
+		var upload_error_handler = function(file, errorCode, message){
+			if(cfg.onError) {
+				if (errorCode == SWFUpload.UPLOAD_ERROR.HTTP_ERROR && message == 413) {
+					errorCode = "fileSize";
+				}
+
+				cfg.onError(errorCode, file);
+			}
+		};
+		var upload_error_handler_bind = upload_error_handler.bind(this);
+		//--
 		var upload_success_handler = function(file, res){
 			var itemID = 'AX_'+ file[cfg.fileKeys.id];
 			
@@ -42557,7 +42569,7 @@ var AXUpload5 = Class.create(AXJ, {
 			file_dialog_complete_handler : file_dialog_complete_handler_bind,
 			upload_start_handler : upload_start_handler_bind,
 			upload_progress_handler : upload_progress_handler_bind,
-			upload_error_handler : function(){},
+			upload_error_handler : upload_error_handler_bind,
 			upload_success_handler : upload_success_handler_bind,
 			upload_complete_handler : upload_complete_handler_bind,
 			queue_complete_handler : queue_complete_handler_bind	// Queue plugin event
