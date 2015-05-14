@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-13 
+AXJ - v1.0.15 - 2015-05-14 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-13 
+AXJ - v1.0.15 - 2015-05-14 
 */
 
 if(!window.AXConfig){
@@ -13862,6 +13862,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 							nval.push( arguments[2] );
 						}else if(arguments[2].length < 8){
 							nval.push( arguments[2].substring(0, 3) + "-" + arguments[2].substr(3) );
+						}else if(arguments[2].length > 8){
+							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) + ", " + arguments[2].substr(8) );
 						}else{
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) );
 						}
@@ -13874,9 +13876,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 					if(arguments[2]) {
 						if(arguments[2].length < 4) {
 							nval.push( arguments[2] );
-						}else if(arguments[2].length < 9) {
+						}else if(arguments[2].length < 8) {
 							nval.push(arguments[2].substring(0, 3) + "-" + arguments[2].substr(3));
-						}else if(arguments[2].length > 9){
+						}else if(arguments[2].length > 8){
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) + ", " + arguments[2].substr(8) );
 						}else{
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) );

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-13 
+AXJ - v1.0.15 - 2015-05-14 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-13 
+AXJ - v1.0.15 - 2015-05-14 
 */
 
 if(!window.AXConfig){
@@ -11261,6 +11261,7 @@ var AXGrid = Class.create(AXJ, {
     /* 공통 영역 */
     defineConfig: function (rewrite) {
         var cfg = this.config;
+        if(!cfg.colGroup) return;
         if (cfg.colGroup.length == 0) {
             console.log("colGrpup is empty)");
             return;
@@ -12611,7 +12612,7 @@ var AXGrid = Class.create(AXJ, {
             {
                 if (cfg.height) this.gridBody.css({height: cfg.height});
                 var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0,
-                    gridFootHeight = this.gridFoot.outerHeight();
+                    gridFootHeight = (cfg.foot) ? this.gridFoot.outerHeight() : 0;
                 if (cfg.page.display == false) pageBodyHeight = 0;
 
                 var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2 - gridFootHeight;
@@ -12636,7 +12637,7 @@ var AXGrid = Class.create(AXJ, {
             if (targetInnerHeight == 0) targetInnerHeight = 400;
             cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
 
-            if (cfg.height) this.gridBody.css({height: cfg.height});
+            if (cfg.height && this.gridBody) this.gridBody.css({height: cfg.height});
             this.redrawGrid();
             this.onevent_grid({type:"resetHeight"})
             /*
@@ -13401,6 +13402,7 @@ var AXGrid = Class.create(AXJ, {
 
                 axdom(this).css({ height: tdHeight });
                 axdom(this).parent().css({ height: tdHeight });
+
                 if (rowspan > 1) {
                     var cellMarginTop = 0;
                     if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
@@ -20195,7 +20197,44 @@ var AXGrid = Class.create(AXJ, {
     onevent_grid: function(){
 
 
+    },
+
+    /**
+     * @method AXGrid.clearSort
+     * @description - 그리드의 소트관련 설정 데이터 및 소트표현 클래스를 삭제합니다.
+     * @example
+     * ```
+     * var myGrid = new AXGrid();
+     * myGrid.clearSort();
+     * ```
+     */
+    clearSort: function(){
+        var cfg = this.config
+            , _this = this
+            , rows = cfg.colHead.rows
+            , sort = ""
+            , removeTg = "";
+
+        $.each(rows, function(idx, o){
+            $.each(o, function(idx_idx, o_o){
+                if (o_o.sort != undefined){
+                    sort = o_o.sort;
+                    delete o_o.sort;
+                }
+            });
+        });
+
+        if (sort == 'desc'){
+            removeTg = 'sortDesc';
+        }else  if (sort == 'asc'){
+            removeTg = 'sortAsc';
+        }
+
+        document.getElementById(this.nowSortHeadID).classList.remove(removeTg);
+        this.nowSortHeadObj = undefined;
+        this.nowSortHeadID = undefined;
     }
+
 });
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
@@ -26177,6 +26216,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 							nval.push( arguments[2] );
 						}else if(arguments[2].length < 8){
 							nval.push( arguments[2].substring(0, 3) + "-" + arguments[2].substr(3) );
+						}else if(arguments[2].length > 8){
+							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) + ", " + arguments[2].substr(8) );
 						}else{
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) );
 						}
@@ -26189,9 +26230,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 					if(arguments[2]) {
 						if(arguments[2].length < 4) {
 							nval.push( arguments[2] );
-						}else if(arguments[2].length < 9) {
+						}else if(arguments[2].length < 8) {
 							nval.push(arguments[2].substring(0, 3) + "-" + arguments[2].substr(3));
-						}else if(arguments[2].length > 9){
+						}else if(arguments[2].length > 8){
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) + ", " + arguments[2].substr(8) );
 						}else{
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) );
