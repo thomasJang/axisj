@@ -12496,6 +12496,7 @@ var AXGrid = Class.create(AXJ, {
         //this.target.bind("keydown", this.onKeydown.bind(this));
         //keydown 이벤트 방식 변경
         this.target.bind("click.axgrid", (function(event){
+            if (this.inline_edit) return;
             this.gridFocus.focus();
         }).bind(this));
         this.gridFocus.unbind("keydown.axgrid").bind("keydown.axgrid", this.onKeydown.bind(this));
