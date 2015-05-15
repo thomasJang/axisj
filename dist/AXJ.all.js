@@ -14260,7 +14260,7 @@ var AXGrid = Class.create(AXJ, {
                 },
                 onerr: function(res){
                     if (obj.onError) obj.onError.call(res);
-                    else axf.alert(res.statusText);
+                    //else axf.alert(res.statusText);
                 }
             });
 
@@ -18620,7 +18620,7 @@ var AXGrid = Class.create(AXJ, {
         po.push("</div>");
         this.editor.html(po.join(''));
 
-        if (typeof itemIndex != "undefined")
+        if (typeof itemIndex !== "undefined")
         {
 
             var scrollTop = this.scrollContent.position().top, list = this.list;
@@ -18660,7 +18660,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (
                 editorTop + scrollTop + this.body.position().top > this.body.height() - this.body.position().top &&
-                ( this.scrollContent.height() > this.body.height() ) &&
+                ( this.scrollContent.height() + this.editor.height() > this.body.height() ) &&
                 this.list.length != 0
             )
             {
@@ -18671,7 +18671,7 @@ var AXGrid = Class.create(AXJ, {
 
         }
         else
-        if (typeof insertIndex != "undefined")
+        if (typeof insertIndex !== "undefined")
         {
 
             var scrollTop = this.scrollContent.position().top, list = this.list;;
@@ -18712,7 +18712,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (
                 trTop.abs() + this.body.height() > this.scrollContent.height() &&
-                (this.scrollContent.height() > this.body.height()) &&
+                (this.scrollContent.height() + this.editor.height() > this.body.height()) &&
                 this.list.length > 0
             )
             {
