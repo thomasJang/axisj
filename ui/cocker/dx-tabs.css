@@ -168,7 +168,17 @@
 }
 .axtabs-event-normal.on {
   text-shadow: none;
-  background: #fff;
+  background: #ffffff;
+  background: -webkit-linear-gradient(#ffffff, #ffffff);
+  /* For Safari */
+  background: -o-linear-gradient(#ffffff, #ffffff);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#ffffff, #ffffff);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#ffffff, #ffffff);
+  /* Standard syntax */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-classic {
@@ -497,7 +507,17 @@
 }
 .AXTabs .AXTabsTray .AXTab.on {
   text-shadow: none;
-  background: #fff;
+  background: #ffffff;
+  background: -webkit-linear-gradient(#ffffff, #ffffff);
+  /* For Safari */
+  background: -o-linear-gradient(#ffffff, #ffffff);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#ffffff, #ffffff);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#ffffff, #ffffff);
+  /* Standard syntax */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab:first-child {
@@ -892,7 +912,17 @@
 }
 .AXTabsLarge .AXTabsTray .AXTab.on {
   text-shadow: none;
-  background: #fff;
+  background: #ffffff;
+  background: -webkit-linear-gradient(#ffffff, #ffffff);
+  /* For Safari */
+  background: -o-linear-gradient(#ffffff, #ffffff);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#ffffff, #ffffff);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#ffffff, #ffffff);
+  /* Standard syntax */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab:first-child {
@@ -1287,7 +1317,17 @@
 }
 .AXTabsSmall .AXTabsTray .AXTab.on {
   text-shadow: none;
-  background: #fff;
+  background: #ffffff;
+  background: -webkit-linear-gradient(#ffffff, #ffffff);
+  /* For Safari */
+  background: -o-linear-gradient(#ffffff, #ffffff);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#ffffff, #ffffff);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#ffffff, #ffffff);
+  /* Standard syntax */
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab:first-child {
