@@ -12405,6 +12405,7 @@ var AXGrid = Class.create(AXJ, {
 
         /* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
         var ol = [];
+        ol.push("<a id=\"" + cfg.targetID + "_AX_grid_focus\" href=\"#axtree\" ></a>");
         ol.push("<div class=\"" + theme + "\" id=\"" + cfg.targetID + "_AX_grid\" style=\"" + gridCss.join('') + "\">");
         ol.push("	<div class=\"AXgridScrollBody\" id=\"" + cfg.targetID + "_AX_gridScrollBody\" style=\"z-index:2;\">");
         ol.push("		<div class=\"AXGridColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_gridColHead\" onselectstart=\"return false;\"></div>");
@@ -12430,6 +12431,7 @@ var AXGrid = Class.create(AXJ, {
         /* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
 
         /* 주요 타깃 설정 */
+        this.gridFocus = axdom("#" + cfg.targetID + "_AX_grid_focus");
         this.gridBody = axdom("#" + cfg.targetID + "_AX_grid");
         this.scrollBody = axdom("#" + cfg.targetID + "_AX_gridScrollBody");
         this.colHead = axdom("#" + cfg.targetID + "_AX_gridColHead");
@@ -12493,7 +12495,10 @@ var AXGrid = Class.create(AXJ, {
 
         //this.target.bind("keydown", this.onKeydown.bind(this));
         //keydown 이벤트 방식 변경
-        $(window).bind("keydown.axgrid", this.onKeydown.bind(this));
+        this.target.bind("click.axgrid", (function(event){
+            this.gridFocus.focus();
+        }).bind(this));
+        this.gridFocus.unbind("keydown.axgrid").bind("keydown.axgrid", this.onKeydown.bind(this));
 
         if (cfg.contextMenu) {
             AXContextMenu.bind({
@@ -12972,14 +12977,15 @@ var AXGrid = Class.create(AXJ, {
      * @description  Grid 내부에서 감지되는 이벤트에 대한 처리를 합니다.(방향키로 포커스 이동등..)
      */
     onKeydown: function (event) {
+
         if( this.selectedRow.length == 0 ) return this;
         if (this.editorOpend) return this;
         if (this.inline_edit) return this;
 
         if(axdom(document.body).data("masked") === "true") return this;
-
         if(event.target){
-            if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT" || event.target.tagName == "BUTTON" || event.target.tagName == "A") return this;
+            if(event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA" || event.target.tagName == "SELECT" || event.target.tagName == "BUTTON") return this;
+            if(event.target.id != this.config.targetID + "_AX_grid_focus" && event.target.tagName == "A") return this;
         }
 
         var _this = this,  cfg = this.config, body = this.body,
@@ -16500,6 +16506,7 @@ var AXGrid = Class.create(AXJ, {
                     ) {
                         if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_TAB) {
                             _this.updateItem(r, c, ii, e.target.value);
+                            _this.gridFocus.focus();
                         }
 
                         if (e.keyCode == axf.Event.KEY_RETURN || e.keyCode == axf.Event.KEY_UP || e.keyCode == axf.Event.KEY_DOWN) {
@@ -16564,6 +16571,7 @@ var AXGrid = Class.create(AXJ, {
                     if (!target) {
                         _this.updateItem(r, c, ii, inline_editor.find("input").val());
                         jQuery(document.body).unbind("click.axgrid");
+                        _this.gridFocus.focus();
                     }
                 });
             }
@@ -16581,6 +16589,7 @@ var AXGrid = Class.create(AXJ, {
                         }else{
                             _this.editCellClear();
                         }
+                        _this.gridFocus.focus();
                         jQuery(document.body).unbind("click.axgrid");
                     }
                 });
@@ -16604,6 +16613,7 @@ var AXGrid = Class.create(AXJ, {
                         }else{
                             _this.editCellClear();
                         }
+                        _this.gridFocus.focus();
                         jQuery(document.body).unbind("click.axgrid");
                     }
                 });
@@ -36297,7 +36307,7 @@ var AXTree = Class.create(AXJ, {
 
 		// tree 뼈대 그리기 -----------------------------------------------------------------------------------------------------
 		var ol = [];
-		ol.push("<a id=\"" + cfg.targetID + "_AX_tree_focus\" href=\"#axtree\" ></a>")
+		ol.push("<a id=\"" + cfg.targetID + "_AX_tree_focus\" href=\"#axtree\" ></a>");
 		ol.push("<div class=\"" + theme + "\" id=\"" + cfg.targetID + "_AX_tree\" style=\"" + treeCss.join('') + "\">");
 		ol.push("	<div class=\"AXTreeScrollBody\" id=\"" + cfg.targetID + "_AX_treeScrollBody\" style=\"z-index:2;\">");
 		ol.push("		<div class=\"AXTreeColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_treeColHead\" onselectstart=\"return false;\"></div>");
