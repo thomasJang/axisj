@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-15 
+AXJ - v1.0.15 - 2015-05-16 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-15 
+AXJ - v1.0.15 - 2015-05-16 
 */
 
 if(!window.AXConfig){
@@ -3332,13 +3332,14 @@ var AXReq = Class.create({
 /* -- AXMask ---------------------------------------------- */
 /**
  * @class AXMask
- * @version v1.3
+ * @version v1.4
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * append 메소드 추가
  * 2014-09-17 hyunjun19 : 지정한 대상의 영역만 masking 하도록 style 추가
  * 2015-04-19 tom : body.data에 마스크상태값 저장
+ * 2015-05-16 tom : mask.close(delay) 중 open 되면 예외처리, open상태에서 다시 open 도 예외처리
  * @description 웹페이지 전체에 사용자 입력을 막기위한 마스크를 추가하는데 사용
  * ```js
  mask.open();
@@ -3359,10 +3360,25 @@ var AXMask = Class.create(AXJ, {
         this.mask = axdom("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
     },
     open: function (configs) {
-        axdom(document.body).append(this.mask);
-        axdom(document.body).data("masked", "true");
-        var bodyHeight = 0;
-        (AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
+        if(this.maskDelay) clearTimeout(this.maskDelay);
+        if(axdom(document.body).data("masked") != "true"){
+            axdom(document.body).append(this.mask);
+            axdom(document.body).data("masked", "true");
+            var bodyHeight = 0;
+            (AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
+
+            if (configs) {
+                if (!configs.onclick) configs.onclick = configs.onClick;
+                if (configs.onclick) {
+                    this.mask.bind("click.AXMask", configs.onclick);
+                }
+            }
+        }
+    },
+    append: function (targetID, configs) {
+        var target = axdom("#"+targetID);
+        if (target.css("position") == "static") { target.css("position", "relative") }
+        target.append(this.mask.css({ 'position': 'absolute', 'top': 0, 'left': 0 }));
 
         if(configs){
             if(!configs.onclick) configs.onclick = configs.onClick;
@@ -3371,18 +3387,6 @@ var AXMask = Class.create(AXJ, {
             }
         }
     },
-	append: function (targetID, configs) {
-		var target = axdom("#"+targetID);
-		if (target.css("position") == "static") { target.css("position", "relative") }
-		target.append(this.mask.css({ 'position': 'absolute', 'top': 0, 'left': 0 }));
-
-		if(configs){
-			if(!configs.onclick) configs.onclick = configs.onClick;
-			if(configs.onclick){
-				this.mask.bind("click.AXMask", configs.onclick);
-			}
-		}
-	},
     close: function (delay) {
         if (!delay) {
             this.mask.unbind("click.AXMask");
@@ -3390,7 +3394,8 @@ var AXMask = Class.create(AXJ, {
             axdom(document.body).data("masked", null);
         } else {
             var maskHide = this.hide.bind(this);
-            setTimeout(maskHide, delay);
+            if(this.maskDelay) clearTimeout(this.maskDelay);
+            this.maskDelay = setTimeout(maskHide, delay);
         }
         this.blinkTrack.clear();
     },
@@ -3426,18 +3431,18 @@ var AXMask = Class.create(AXJ, {
             });
         }
     },
-	setContent: function(content){
-		var po = [];
-		if(Object.isString(content)){
-			po.push(content);
-		}else{
-			var po = [];
-			po.push("<div style='width: "+content.width+"px;height:"+content.height+"px;position: absolute;left:50%;top:50%;text-align: center;margin-left: -"+ (content.width/2) +"px;margin-top:-"+ (content.height/2) +"px;'>");
-			po.push(content.html);
-			po.push("</div>")
-		}
-		this.mask.html(po.join(''));
-	}
+    setContent: function(content){
+        var po = [];
+        if(Object.isString(content)){
+            po.push(content);
+        }else{
+            var po = [];
+            po.push("<div style='width: "+content.width+"px;height:"+content.height+"px;position: absolute;left:50%;top:50%;text-align: center;margin-left: -"+ (content.width/2) +"px;margin-top:-"+ (content.height/2) +"px;'>");
+            po.push(content.html);
+            po.push("</div>")
+        }
+        this.mask.html(po.join(''));
+    }
 });
 var mask = new AXMask();
 mask.setConfig();
@@ -14764,7 +14769,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.config.reserveKeys = {
 			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
 			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
-			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText"
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText",
+			optionData: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionData) || "optionData"
 		};
 	},
 	windowResize: function () {
@@ -15087,7 +15093,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						}
 						for (var opts, oidx = 0; (oidx < res[obj.config.reserveKeys.options].length && (opts = res[obj.config.reserveKeys.options][oidx])); oidx++) {
 							//trace(opts);
-							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts.optionData + "\" ");
+							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts[obj.config.reserveKeys.optionData] + "\" ");
 							if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
 							po.push(">" + opts[obj.config.reserveKeys.optionText].dec() + "</option>");
 						}
