@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXCore.js"></script>
     <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
@@ -44,9 +45,16 @@
 			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){
                 toast.push(Object.toJSON(this));
             }});
-			$("#AXInputDateRight").bindDate({align:"right", valign:"top", onChange:function(){
-                toast.push(Object.toJSON(this));
-            }, defaultDate:"2013-05-01"});
+			$("#AXInputDateRight").bindDate({
+                align:"right",
+                valign:"top",
+                onChange:function(){
+                    toast.push(Object.toJSON(this));
+                },
+                minDate:"2013-05-10",
+                maxDate:"2013-05-20",
+                defaultDate:"2013-05-15"
+            });
 			
 			$("#AXInputDate2").bindDate({separator:"/", selectType:"m"});
 			$("#AXInputDate3").bindDate({selectType:"y"});
@@ -56,10 +64,23 @@
 					//toast.push(Object.toJSON(this));
 				}
 			});
-			
-			$("#AXInputDateED").bindTwinDate({handleLeft:25, align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){
-                //toast.push(Object.toJSON(this));
-            }});
+
+            $("#AXInputDateED").bindTwinDate({
+                startTargetID: "AXInputDateST",
+                handleLeft: 25,
+                align: "right",
+                valign: "bottom",
+                separator: "/",
+                buttonText: "선택",
+                onChange: function () {
+                    //toast.push(Object.toJSON(this));
+                },
+                onBeforeShowDay: function (date) {
+                    if (date.getDay() == 3) {
+                        return { isEnable: false, title: "수요일 선택불가", class: "", style: "" };
+                    }
+                }
+            });
 			
 			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){
                 //toast.push(Object.toJSON(this));

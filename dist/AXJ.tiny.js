@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-16 
+AXJ - v1.0.15 - 2015-05-17 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-16 
+AXJ - v1.0.15 - 2015-05-17 
 */
 
 if(!window.AXConfig){
@@ -4869,16 +4869,39 @@ var AXCalendar = Class.create(AXJ, {
         po.push("</tr>");
         po.push("</thead>");
         po.push("<tbody>");
+
+        var minTime = -1;
+        var maxTime = -1;
+        var onBeforeShowDay;
         var roopDate = calendarStartDate;
+        if (cfg.minDate) { minTime = cfg.minDate.date().getTime(); }
+        if (cfg.maxDate) { maxTime = cfg.maxDate.date().getTime(); }
+        if (cfg.onBeforeShowDay) { onBeforeShowDay = cfg.onBeforeShowDay.bind(this); }
         var i = 0; while (i < 6) {
             po.push("<tr>");
             var k = 0; while (k < 7) {
+                var roopTime = roopDate.getTime();
                 var dayValue = roopDate.print(this.config.printFormat);
                 var addClass = [];
+                var addStyle = "";
                 var tdClass = [];
+                var printTitle = roopDate.print(this.config.titleFormat);
+                var isEnable = true;
+                if (onBeforeShowDay) {
+                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+                    if (addData) {
+                        if (addData.class) { addClass.push(addData.class); }
+                        if (addData.style) { addStyle = addData.style; }
+                        if (addData.title) { printTitle = addData.title; }
+                        if (addData.isEnable === false) { isEnable = false; }
+                    }
+                }
+                if (isEnable && minTime > -1) { isEnable = !(roopTime < minTime); }
+                if (isEnable && maxTime > -1) { isEnable = !(roopTime > maxTime); }
                 if (roopDate.getMonth() != monthStartDate.getMonth()) addClass.push("notThisMonth");
                 if (setDate.diff(roopDate, "D") == 0) tdClass.push("setDate");
-                po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue.number() + "</a></td>");
+                if (!isEnable) { addClass.push("disabled"); }
+                po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + printTitle + "\">" + dayValue.number() + "</a></td>");
                 k++;
                 roopDate = roopDate.add(1);
             }
@@ -10524,7 +10547,10 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox",
 			basicDate: myDate,
-			href: obj.config.href
+			href: obj.config.href,
+            minDate: obj.config.minDate,
+            maxDate: obj.config.maxDate,
+            onBeforeShowDay: obj.config.onBeforeShowDay
 		});
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
 			obj.nDate = myDate;
@@ -11360,6 +11386,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!isDateClick) {
 			this.bindDateExpandClose(objID, objSeq, event);
 		} else {
+            if (axdom(myTarget).hasClass("disabled")) { return; } // disabled 대상은 선택 불가
 
 			var ids = myTarget.id.split(/_AX_/g);
 			var ename = ids.last();
@@ -11597,6 +11624,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindTwinDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
+        var obj = this.objects[objSeq];
 
 		for (var OO, oidx = 0, __arr = this.objects; (oidx < __arr.length && (OO = __arr[oidx])); oidx++) {
 			if(OO.expandBox_axdom){
@@ -11664,6 +11692,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var myYear2 = myDate2.getFullYear();
 		var myMonth1 = (myDate1.getMonth() + 1).setDigit(2);
 		var myMonth2 = (myDate2.getMonth() + 1).setDigit(2);
+		var buttonText = obj.config.buttonText || "OK";
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindTwinDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
 		po.push("	<div>");
@@ -11701,7 +11730,7 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("		</table>");
 		po.push("	</div>");
 		po.push("	<div style=\"padding-top:5px;\" align=\"center\">");
-		po.push("		<input type=\"button\" value=\"OK\" class=\"AXButton Classic W70\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_closeButton\">");
+		po.push("		<input type=\"button\" value=\"" + buttonText + "\" class=\"AXButton Classic W70\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_closeButton\">");
 		po.push("	</div>");
 		po.push("</div>");
 		axdom(document.body).append(po.join('')); // bindDateExpandBox append
@@ -11712,14 +11741,20 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar1 = new AXCalendar();
 		obj.mycalendar1.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox1",
-			basicDate: myDate1
+			basicDate: myDate1,
+            minDate: obj.config.minDate,
+            maxDate: obj.config.maxDate,
+            onBeforeShowDay: obj.config.onBeforeShowDay
 		});
 
 		obj.nDate2 = myDate2;
 		obj.mycalendar2 = new AXCalendar();
 		obj.mycalendar2.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox2",
-			basicDate: myDate2
+			basicDate: myDate2,
+            minDate: obj.config.minDate,
+            maxDate: obj.config.maxDate,
+            onBeforeShowDay: obj.config.onBeforeShowDay
 		});
 
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
@@ -11987,6 +12022,8 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!isDateClick) {
 			this.bindTwinDateExpandClose(objID, objSeq, event);
 		} else {
+            if (axdom(myTarget).hasClass("disabled")) { return; } // disabled 대상은 선택 불가
+
 			var ids = myTarget.id.split(/_AX_/g);
 			var ename = ids.last();
 			var boxType = ids[ids.length - 3];
@@ -12817,6 +12854,9 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -12865,6 +12905,9 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -12897,6 +12940,10 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    buttonText       : "OK"    // {String} ["OK"] - 선택 버튼 텍스트 설정
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -12928,6 +12975,10 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    buttonText       : "OK"    // {String} ["OK"] - 선택 버튼 텍스트 설정
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }

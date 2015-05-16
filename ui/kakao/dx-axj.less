@@ -360,7 +360,7 @@
 
 // AXCalendar //////////////////////////////////////////////////////////////
 .AXCalendar{
-	.dx-axcalenter-preset();
+	.dx-axcalender-preset();
 	position:relative;
 	table{
 		&.calendarPage{
@@ -410,6 +410,7 @@
 							}
 							&:active	{background:@bgcolor-g;color:@color-d;box-shadow:inset 0px 0px 4px #3d84bc;}
 							&.selected	{background:@bgcolor-h;color:@color-e;box-shadow:inset 0px 0px 4px #3d84bc;}
+                            &.disabled	{color:@color-disabled !important;;}
 						}
 					}
 					&.bodyCol_0{
