@@ -354,10 +354,13 @@ button:hover {
   font-size: 12px;
   height: 26px;
   line-height: 26px;
+  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
+}
+.AXButton {
   background: #fdfdfd;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
@@ -549,10 +552,13 @@ button:hover {
   font-size: 11px;
   height: 20px;
   line-height: 20px;
+  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
+}
+.AXButtonSmall {
   background: #fdfdfd;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
@@ -744,10 +750,13 @@ button:hover {
   font-size: 12px;
   height: 46px;
   line-height: 46px;
+  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
+}
+.AXButtonLarge {
   background: #fdfdfd;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);

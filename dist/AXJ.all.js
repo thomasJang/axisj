@@ -31230,6 +31230,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			var objDom = axdom("#" + obj.id), objAnchorDom = axdom("#" + removeAnchorId);
 			this.objects[removeIdx].isDel = true;
 			objDom.removeAttr("data-axbind");
+			objDom.css({visibility:"visible"});
+
 			if (this.isMobile) {
 				objAnchorDom.before(axdom("#" + obj.id));
 				objAnchorDom.remove();
