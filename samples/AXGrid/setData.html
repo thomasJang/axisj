@@ -16,7 +16,6 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
     <!-- css block -->
@@ -61,7 +60,7 @@
                     {key:"nick_name", label:"작성자", width:"100", align:"center"},
                     {key:"regdate", label:"작성일", width:"100", align:"center",
                         formatter:function(){
-                            return this.value.left(8).date().print("YYYY/MM/DD");
+                            return this.value.left(8).date().print("yyyy/mm/dd");
                         }
                     }
                 ],
