@@ -70,7 +70,7 @@
                         return this.item.___checked && this.item.___checked["2"];
                     }},
                     {key:"title", label:"제목", width:"200", formatter: function(){
-                        return this.item.no + "." + this.item.title + "/" + this.key;
+                        return '<input type="text" name="" id="title_'+this.index+'" class="AXInput" value="'+ this.value +'" style="width:100%;box-sizing:border-box;height:23px;" />';
                     }},
                     {key:"writer", label:"작성자", width:"100", align:"center", display:false},
                     {key:"regDate", label:"작성일", width:"130", align:"center", formatter:function(){
