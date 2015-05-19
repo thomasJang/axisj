@@ -19706,7 +19706,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 maker 데이터가 존재시 처리 합니다.
      * @returns {String}
      */
-    getExcelItemMarker: function (itemIndex, item, isfix) {
+    getExcelItemMarker: function (itemIndex, item, isfix, filter) {
         var cfg = this.config;
         var tpo = [];
         var evenClassName = "gridBodyMarker";
@@ -19747,7 +19747,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 header 데이터가 존재시 처리 합니다.
      * @returns {String}
      */
-    getExcelHeadDataSet: function (dataSet, isfix) {
+    getExcelHeadDataSet: function (dataSet, isfix, filter) {
         var cfg = this.config;
         if (dataSet == undefined) return;
         var tpo = [];
@@ -19797,7 +19797,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - 그리드 내용을 엑셀 포맷(html)으로 변환시 footer 데이터가 존재시 처리 합니다.
      * @returns {String}
      */
-    getExcelFootDataSet: function (dataSet, isfix) {
+    getExcelFootDataSet: function (dataSet, isfix, filter) {
         var cfg = this.config;
         if (dataSet == undefined) return;
         var tpo = [];
@@ -42229,7 +42229,7 @@ var AXUpload5 = Class.create(AXJ, {
 		var cfg = this.config;
 		// 파일키 덮어쓰기 빠진 키 초기값으로 정의
 		for(k in this.fileKeys){
-			if(typeof this.config.fileKeys[k] === "undefined") this.config.fileKeys[k] = this.fileKeys[k];
+			if(typeof this.config.fileKeys === "undefined" || typeof this.config.fileKeys[k] === "undefined") this.config.fileKeys[k] = this.fileKeys[k];
 		}
 		if(reset == undefined){
 			if(!this.supportHtml5){
