@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-19 
+AXJ - v1.0.15 - 2015-05-20 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-19 
+AXJ - v1.0.15 - 2015-05-20 
 */
 
 if(!window.AXConfig){
@@ -17251,7 +17251,7 @@ var AXGrid = Class.create(AXJ, {
         if(deltaY.abs() > deltaX.abs() && deltaY.abs() > 0) {
             if (attr.scrollHeight < attr.bodyHeight) return;
             scrollTop += deltaY;
-            //console.log(scrollTop.abs() + bodyHeight, scrollHeight);
+
             if (scrollTop > 0) {
                 scrollTop = 0;
                 eventCancle = true;
@@ -17262,12 +17262,14 @@ var AXGrid = Class.create(AXJ, {
                 scrollTop = 0;
                 eventCancle = true;
             }
+            this.scrollContent.css({ top: scrollTop });
+            this.contentScrollContentSync({ top: scrollTop });
+            this.onevent_grid({type:"onscroll"});
         }
         else
         if(deltaX.abs() > deltaY.abs() && deltaX.abs() > 0) {
             scrollLeft += deltaX;
 
-            //console.log(scrollTop.abs() + bodyHeight, scrollHeight);
             if (scrollLeft > 0) {
                 scrollLeft = 0;
                 eventCancle = true;
@@ -17278,8 +17280,8 @@ var AXGrid = Class.create(AXJ, {
                 scrollLeft = 0;
                 eventCancle = true;
             }
-            this.scrollContent.css({ top: scrollTop, left: scrollLeft });
-            this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
+            this.scrollContent.css({ left: scrollLeft });
+            this.contentScrollContentSync({ left: scrollLeft });
             this.onevent_grid({type:"onscroll"});
         }
 
