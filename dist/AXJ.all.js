@@ -12502,18 +12502,24 @@ var AXGrid = Class.create(AXJ, {
         this.contentScrollTouchstartBind = function (event) {
             contentScrollTouchstart(event);
         };
+        /*
         var contentScrollScrollWheel = this.contentScrollScrollWheel.bind(this);
         this.contentScrollScrollWheelBind = function (event) {
             contentScrollScrollWheel(event);
         };
+        */
 
         var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
         if (document.attachEvent) { /*if IE (and Opera depending on user setting) */
             /*axf.getId(cfg.targetID+"_AX_gridBody").detachEvent("on"+mousewheelevt, this.contentScrollScrollWheelBind); */
-            if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").attachEvent("on" + mousewheelevt, contentScrollScrollWheel);
+            if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").attachEvent("on" + mousewheelevt, (function(e){
+                this.contentScrollScrollWheel(e||window.event);
+            }).bind(this));
         } else if (document.addEventListener) { /*WC3 browsers */
             /*axf.getId(cfg.targetID+"_AX_gridBody").removeEventListener(mousewheelevt, this.contentScrollScrollWheelBind, false); */
-            if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener(mousewheelevt, contentScrollScrollWheel, false);
+            if (axf.getId(cfg.targetID + "_AX_gridBody")) axf.getId(cfg.targetID + "_AX_gridBody").addEventListener(mousewheelevt, (function(e){
+                this.contentScrollScrollWheel(e||window.event);
+            }).bind(this), false);
         }
 
         if (document.addEventListener) {
@@ -17216,7 +17222,7 @@ var AXGrid = Class.create(AXJ, {
             scrollTop = this.scrollContent.position().top,
             scrollLeft = this.scrollContent.position().left,
             eventCancle = false,
-            event = window.event || e, deltaX = 0, deltaY = 0, attr;
+            event = e || window.event, deltaX = 0, deltaY = 0, attr;
 
         if (cfg.height == "auto") return;
 
@@ -17231,7 +17237,7 @@ var AXGrid = Class.create(AXJ, {
         attr.scrollTrackYWidth = this.scrollTrackY.width();
         attr.scrollYHandleWidth = this.scrollYHandle.outerWidth();
 
-        if (event.wheelDeltaX) {
+        if (event.wheelDeltaX.abs()) {
             deltaX = (event.wheelDeltaX / 2).ceil();
             deltaY = (event.wheelDeltaY / 2).ceil();
         } else {
@@ -17242,7 +17248,7 @@ var AXGrid = Class.create(AXJ, {
         // 아무일도 하지 말기
         if(deltaX == 0 && deltaY == 0) return true;
 
-        if(deltaY.abs() > 0) {
+        if(deltaY.abs() > deltaX.abs() && deltaY.abs() > 0) {
             if (attr.scrollHeight < attr.bodyHeight) return;
             scrollTop += deltaY;
             //console.log(scrollTop.abs() + bodyHeight, scrollHeight);
@@ -17257,8 +17263,8 @@ var AXGrid = Class.create(AXJ, {
                 eventCancle = true;
             }
         }
-
-        if(attr.scrollWidth > attr.bodyWidth && deltaX.abs() > 0) {
+        else
+        if(deltaX.abs() > deltaY.abs() && deltaX.abs() > 0) {
             scrollLeft += deltaX;
 
             //console.log(scrollTop.abs() + bodyHeight, scrollHeight);
@@ -17275,15 +17281,7 @@ var AXGrid = Class.create(AXJ, {
             this.scrollContent.css({ top: scrollTop, left: scrollLeft });
             this.contentScrollContentSync({ top: scrollTop, left: scrollLeft });
             this.onevent_grid({type:"onscroll"});
-            //console.log({ top: scrollTop, left: scrollLeft });
-            //this.scrollContent.css({ top: scrollTop });
-            //this.contentScrollContentSync({ top: scrollTop });
-        }else{
-            this.scrollContent.css({ top: scrollTop });
-            this.contentScrollContentSync({ top: scrollTop });
-            this.onevent_grid({type:"onscroll"});
         }
-
 
         if (!eventCancle) {
             if (event.preventDefault) event.preventDefault();
@@ -18328,10 +18326,10 @@ var AXGrid = Class.create(AXJ, {
         */
         po.push('<div class="gridFootContent">');
         po.push('<table cellpadding="0" cellspacing="0" class="gridFootTable" style="width:', tableWidth, 'px;">');
-            po.push(this.getColGroup("CH"));
-            po.push('<tbody>');
-            po.push(getDataSet(this.dataSet));
-            po.push('</tbody>');
+        po.push(this.getColGroup("CH"));
+        po.push('<tbody>');
+        po.push(getDataSet(this.dataSet));
+        po.push('</tbody>');
         po.push('</table>');
         po.push('</div>');
         if (this.hasFixed) {
