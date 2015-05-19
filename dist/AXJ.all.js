@@ -17237,7 +17237,7 @@ var AXGrid = Class.create(AXJ, {
         attr.scrollTrackYWidth = this.scrollTrackY.width();
         attr.scrollYHandleWidth = this.scrollYHandle.outerWidth();
 
-        if (event.wheelDeltaX.abs()) {
+        if (event.wheelDeltaX) {
             deltaX = (event.wheelDeltaX / 2).ceil();
             deltaY = (event.wheelDeltaY / 2).ceil();
         } else {
@@ -17526,7 +17526,7 @@ var AXGrid = Class.create(AXJ, {
             if(this.bigDataSyncObserver) clearTimeout(this.bigDataSyncObserver);
             this.bigDataSyncObserver = setTimeout(function(){
                 _this.bigDataSyncApply(reload);
-            });
+            }, 10);
         }
     },
     /**
