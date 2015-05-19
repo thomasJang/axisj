@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-17 
+AXJ - v1.0.15 - 2015-05-19 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-17 
+AXJ - v1.0.15 - 2015-05-19 
 */
 
 if(!window.AXConfig){
@@ -20254,27 +20254,33 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config
             , _this = this
             , rows = cfg.colHead.rows
-            , sort = ""
-            , removeTg = "";
+            , sort = ''
+            , removeTg = '';
 
         $.each(rows, function(idx, o){
-            $.each(o, function(idx_idx, o_o){
-                if (o_o.sort != undefined){
-                    sort = o_o.sort;
-                    delete o_o.sort;
-                }
-            });
+            if (sort == ''){
+                $.each(o, function(idx_idx, o_o){
+                    if (o_o.sort != undefined){
+                        sort = o_o.sort;
+                        delete o_o.sort;
+
+                        return false;
+                    }
+                });
+            }
         });
 
-        if (sort == 'desc'){
-            removeTg = 'sortDesc';
-        }else  if (sort == 'asc'){
-            removeTg = 'sortAsc';
-        }
+        if (sort != ''){
+            if (sort == 'desc'){
+                removeTg = 'sortDesc';
+            }else if (sort == 'asc'){
+                removeTg = 'sortAsc';
+            }
 
-        document.getElementById(this.nowSortHeadID).classList.remove(removeTg);
-        this.nowSortHeadObj = undefined;
-        this.nowSortHeadID = undefined;
+            document.getElementById(this.nowSortHeadID).classList.remove(removeTg);
+            this.nowSortHeadObj = undefined;
+            this.nowSortHeadID = undefined;
+        }
     }
 
 });
@@ -20513,7 +20519,13 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
-		
+
+		this.config.reserveKeys = {
+			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
+			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText",
+			optionData: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionData) || "optionData"
+		};
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
@@ -21282,6 +21294,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 		obj.bindTarget.data("val", obj.bindTarget.val());
 
+
+		var reserveKeys = jQuery.extend({}, cfg.reserveKeys);
+		if(typeof obj.config.reserveKeys == "undefined") obj.config.reserveKeys = {};
+		obj.config.reserveKeys = jQuery.extend(reserveKeys, obj.config.reserveKeys, true);
+
 		var h = obj.bindAnchorTarget.data("height") - 2;
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleContainerClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">");
@@ -21354,6 +21371,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		var reserveKeys = obj.config.reserveKeys;
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
 		}
@@ -21461,6 +21479,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorClose: function (objID, objSeq, event, originChangeCall) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		var reserveKeys = obj.config.reserveKeys;
 		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
 		if(obj.inProgress) AXReqAbort(); // AJAX 호출 중지 하기
@@ -21487,7 +21506,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 				var myVal = "";
 				if (obj.config.selectedObject) {
-					myVal = obj.config.selectedObject.optionText;
+					myVal = obj.config.selectedObject[reserveKeys.optionText];
 				}
 
 				if (obj.config.appendable) {
@@ -21524,6 +21543,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSetOptions: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		var maxHeight = obj.config.maxHeight || 130;
 		var optionPrintLength = obj.config.optionPrintLength || 100;
 		if (!obj.config.options) return;
@@ -21537,13 +21557,13 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 
             // options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
-            O[cfg.reserveKeys.optionText] = (O[cfg.reserveKeys.optionText] ? O[cfg.reserveKeys.optionText].dec() : "");
+            O[reserveKeys.optionText] = (O[reserveKeys.optionText] ? O[reserveKeys.optionText].dec() : "");
             O.desc = (O.desc ? O.desc.dec() : "");
             O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
 
 			var descStr = O.desc || O.optionDesc;
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText] + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[reserveKeys.optionText] + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -21599,7 +21619,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-
+		var reserveKeys = obj.config.reserveKeys;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
@@ -21637,7 +21657,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorKeyup: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq], _this = this;
 		var cfg = this.config;
-
+		var reserveKeys = obj.config.reserveKeys;
 		if (obj.inProgress) {
 			obj.inProgressReACT = true;
 			return;
@@ -21680,7 +21700,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
 				obj.config.selectedIndex = obj.config.focusedIndex;
 				obj.config.isChangedSelect = true;
-				axdom("#" + objID).val(obj.config.selectedObject.optionText);
+				axdom("#" + objID).val(obj.config.selectedObject[reserveKeys.optionText]);
 				/*axdom("#" + objID).blur();*/
 				_this.bindSelectorClose(objID, objSeq, event, "bindTarget_onchange"); // 닫기
 			}
@@ -21697,26 +21717,35 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorKeyupChargingUp: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-
+		var reserveKeys = obj.config.reserveKeys;
 		var objVal = axdom("#" + objID).val();
 		var bindSelectorSearch = this.bindSelectorSearch.bind(this);
 
 		if (obj.config.onsearch) {
 
-			var res = obj.config.onsearch.call({
-				id: objID,
-				value: objVal
-			}, objID, objVal);
+			var res = obj.config.onsearch.call(
+				{
+					id: objID,
+					value: objVal
+				},
+				objID,
+				objVal,
+				(function(res){
+					obj.config.options = res.options;
+					obj.config.focusedIndex = null;
+					this.bindSelectorSetOptions(objID, objSeq);
+				}).bind(this)
+			);
 
-			if (!res) {
-				res = { options: [] };
+			/*
+			callBack 함수를 이용하는 경우와 return 하는 두 가지 경우가 존재 하겠다. 아래는 obj.config.onsearch 에서 return 한 경우이고 위의 함수는 callBack 함수인 경우이다.
+			*/
+			if (res) {
+				res.options = res.options || [];
+				obj.config.options = res.options;
+				obj.config.focusedIndex = null;
+				this.bindSelectorSetOptions(objID, objSeq);
 			}
-			obj.config.options = res.options;
-			//obj.config.selectedIndex = null;
-			obj.config.focusedIndex = null;
-			//obj.config.selectedObject = null;
-			//obj.config.isChangedSelect = true;
-			this.bindSelectorSetOptions(objID, objSeq);
 
 		} else if (obj.config.ajaxUrl) {
 			// AJAX호출
@@ -21744,7 +21773,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						//obj.config.options = (res.options || []);
-						obj.config.options = (res[cfg.reserveKeys.options] || []);
+						obj.config.options = (res[reserveKeys.options] || []);
 						obj.config.focusedIndex = null;
 
 						bindSelectorSetOptions(objID, objSeq);
@@ -21769,7 +21798,8 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorInputChange: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		if (axdom("#" + objID).val() != obj.config.selectedObject.optionText) {
+		var reserveKeys = obj.config.reserveKeys;
+		if (axdom("#" + objID).val() != obj.config.selectedObject[reserveKeys.optionText]) {
 			if (!obj.config.appendable) axdom("#" + objID).val("");
 			obj.config.selectedObject = null;
 			obj.config.selectedIndex = null;
@@ -21782,19 +21812,20 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSetValue: function (objID, objSeq, value) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 
 		if (!obj.config.options) return;
 
 		var selectedIndex = null;
 		axf.each(obj.config.options, function (oidx, opt) {
-			if (opt[cfg.reserveKeys.optionValue] == value) selectedIndex = oidx;
+			if (opt[reserveKeys.optionValue] == value) selectedIndex = oidx;
 		});
 
 		if (selectedIndex != null) {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText]);
+			axdom("#" + objID).val(obj.config.selectedObject[reserveKeys.optionText]);
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -21802,7 +21833,7 @@ var AXInputConverter = Class.create(AXJ, {
 					options: obj.config.options,
 					selectedIndex: obj.config.selectedIndex,
 					selectedOption: obj.config.selectedObject
-				}
+				};
 				if (obj.config.onChange) obj.config.onChange.call(sendObj);
 				else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 			}
@@ -21811,6 +21842,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSearch: function (objID, objSeq, kword) { // 입력된 값으로 검색 하기
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		if (kword == "") {
 			this.bindSelectorSelectClear(objID, objSeq);
 			return;
@@ -21821,7 +21853,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || ""))) {
+			if (reAt.test((obj.config.options[a][reserveKeys.optionText] || ""))) {
 				ix = a;
 				break;
 			}
@@ -21835,6 +21867,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSelect: function (objID, objSeq, index, changeValue) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		if (obj.config.focusedIndex != undefined) {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
 		}
@@ -21848,6 +21881,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSelectClear: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		if (obj.config.selectedIndex != undefined) {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").removeClass("on");
 		}
@@ -21856,6 +21890,8 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.config.selectedObject = null;
 		obj.config.isChangedSelect = true;
 	},
+
+
 
 	// slider
 	bindSlider: function (objID, objSeq) {
@@ -25033,7 +25069,7 @@ var config = {
     onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
         trace(this);
     },
-    onsearch     : function(objID, objVal) {               // {Function} - 값 변경시 options 변경 구현 함수(optional) ※ 주의: ajaxUrl과 중복 사용할 수 없습니다. 만약 두 옵션이 같이 선언되면 onsearch가 적용되고 ajaxUrl은 무시됩니다.
+    onsearch     : function(objID, objVal, callBack) {               // {Function} - 값 변경시 options 변경 구현 함수(optional) ※ 주의: ajaxUrl과 중복 사용할 수 없습니다. 만약 두 옵션이 같이 선언되면 onsearch가 적용되고 ajaxUrl은 무시됩니다.
         // this = { id: objID, value: objVal }
         // 아래와 같은 형식으로 options 값을 반환해야 합니다.
         return {
@@ -25042,6 +25078,7 @@ var config = {
                 ...
             ]
         }
+        // 또는 callBack 함수를 호출합니다.
     }
     finder: {
         onclick: function() { // {Function} - 파인더 버튼 클릭 이벤트 콜백함수 (optional)
