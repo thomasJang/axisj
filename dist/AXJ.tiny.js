@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-20 
+AXJ - v1.0.16 - 2015-05-21 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-20 
+AXJ - v1.0.16 - 2015-05-21 
 */
 
 if(!window.AXConfig){
@@ -4888,7 +4888,7 @@ var AXCalendar = Class.create(AXJ, {
                 var printTitle = roopDate.print(this.config.titleFormat);
                 var isEnable = true;
                 if (onBeforeShowDay) {
-                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', className: 'holyday', style: 'color:red' }
                     if (addData) {
                         if (addData.className) { addClass.push(addData.className); } // ie7 이하에서 class 예약어라 사용안됨
                         if (addData.style) { addStyle = addData.style; }
@@ -12887,7 +12887,7 @@ var config = {
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
     minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
     maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
-    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { isEnable: true|false, title:'성탄절', className: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }

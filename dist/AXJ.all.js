@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-20 
+AXJ - v1.0.16 - 2015-05-21 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-20 
+AXJ - v1.0.16 - 2015-05-21 
 */
 
 if(!window.AXConfig){
@@ -4888,7 +4888,7 @@ var AXCalendar = Class.create(AXJ, {
                 var printTitle = roopDate.print(this.config.titleFormat);
                 var isEnable = true;
                 if (onBeforeShowDay) {
-                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', className: 'holyday', style: 'color:red' }
                     if (addData) {
                         if (addData.className) { addClass.push(addData.className); } // ie7 이하에서 class 예약어라 사용안됨
                         if (addData.style) { addStyle = addData.style; }
@@ -25261,7 +25261,7 @@ var config = {
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
     minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
     maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
-    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { isEnable: true|false, title:'성탄절', className: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -42078,7 +42078,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.39
+ * @version v1.4
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -42109,7 +42109,7 @@ var swfobject;
  "2015-04-01 tom : fileKeys 에 id 값 정의 기능 추가"
  "2015-04-06 tom : fileKeys 기본 맵핑방식 수정"
  "2015-05-14 HJ.Park : SWFUpload 모드에서 파일 사이즈 초과시 onError 메서드 호출하도록 수정 https://github.com/axisj-com/axisj/issues/559"
-
+ "2015-05-21 tom : singleUpload setUploadedList 버그픽스 https://github.com/axisj-com/axisj/issues/580"
  * @description
  *
  ```js
@@ -42285,7 +42285,7 @@ var AXUpload5 = Class.create(AXJ, {
 		
 		var po = [];
 		po.push('<div style="position:relative;">');
-		po.push('	<table style="table-layout:fixed;width:100%;"><tbody><tr><td id="'+cfg.targetID+'_AX_selectorTD">');
+		po.push('	<table style=""><tbody><tr><td id="'+cfg.targetID+'_AX_selectorTD">');
 		po.push('	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />');
 		po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(cfg.buttonTxt)+'</span></button>');
 		po.push('	</td>');
@@ -42700,11 +42700,11 @@ var AXUpload5 = Class.create(AXJ, {
 		var po = [];
 
         if(cfg.isSingleUpload){
-            po.push('<div class="AXUploadItem ' + cfg.openMode +'" id="'+itemID+'">');
+            po.push('<div class="AXUploadItem ' + (cfg.openMode || "") +'" id="'+itemID+'">');
             po.push('	<div class="AXUploadBtns" style="display:none;">');
             po.push('		<a href="#AXExecption" class="AXUploadBtnsA" id="'+itemID+'_AXUploadBtns_deleteFile">del</a>');
             po.push('	</div>');
-            po.push('	<div class="AXUploadLabel ' + cfg.openMode +'" style="display:none;">');
+            po.push('	<div class="AXUploadLabel ' + (cfg.openMode || "") +'" style="display:none;">');
             if(cfg.openMode != "view") po.push('		<a href="#AXExecption" id="'+itemID+'_AXUploadLabel_download" class="AXUploadDownload">download</a>');
             po.push('	</div>');
             po.push('	<div class="AXUploadProcess">');
@@ -43346,8 +43346,8 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 			this.uploadedList = [];
 			var f;
 			if(axdom.isArray(files)){
-				if( axdom.isArray(files.first()) ){
-					f = files.first();	
+				if (Object.isObject(files[0]) ){
+					f = files[0];
 				}
 			}else{
 				if (Object.isObject(files) ){
@@ -43366,11 +43366,10 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 				name:f[cfg.fileKeys.name],
 				size:f[cfg.fileKeys.fileSize]
 			};
-			
-			axdom("#" + cfg.targetID+'_AX_display').empty();
-			axdom("#" + cfg.targetID+'_AX_display').append(this.getItemTag(itemID, uf));
 
-			itembox = axdom("#" + cfg.queueBoxID).find("#"+itemID);
+			itembox = axdom("#" + cfg.targetID+'_AX_display');
+			itembox.empty().append(this.getItemTag(itemID, uf));
+
 			itembox.find(".AXUploadBtns").show();
 			itembox.find(".AXUploadLabel").show();
 			itembox.find(".AXUploadTit").show();
