@@ -1019,3 +1019,100 @@
 		}
 	}
 }
+
+
+// 2015-05-12 - tom foot 하단 고정
+.AXGrid {
+	.dx-axgrid-preset();
+	.AXGridFoot{
+		position:relative;
+		min-height:30px;
+		display:none;
+		//.util-gradient(top, @bgcolor-c, @bgcolor-c);
+		background-color: #FFFFEC;
+		border-bottom:@border;
+		border-left:@border;border-right:@border;
+
+		.gridFootContent{
+			position:relative;left:0px;top:0px;
+			width:auto;
+		}
+		.gridFootfixedContent{
+			position:absolute;left:0px;top:0px;
+			width:auto;
+			background-color:  @bgcolor-r;
+
+			box-shadow:0px 0px 3px #ccc;
+		}
+		.gridFootTable{
+			table-layout:fixed;
+
+			//background:url('images/dx-grid-head-bg.png') repeat-x 0px 0px #fff;
+			//.util-gradient(top, @bgcolor-a, @bgcolor-b);
+			tbody{
+
+				tr{
+					td{
+						padding:0px;
+						background:url('images/dx-grid-body-border.png') repeat-y 100% 0px;
+						vertical-align:top;
+						border-bottom:@border;
+					}
+					td.fixedLine{
+						background:url('images/dx-grid-fixed-body-border.png') repeat-y 100% 0px;
+					}
+					td.selected{
+						background-color:#D2D9DF;box-shadow:inset 0px 0px 2px #000;
+					}
+				}
+				tr:last-child td{
+					border-bottom: none;
+				}
+				tr.noListTr td{
+					vertical-align:middle;
+					height:100px;
+					background:@bgcolor-i;
+				}
+				tr.line0 td{
+					background-color:@bgcolor-s;
+				}
+				tr.line1 td{
+					background-color:@bgcolor-t;
+				}
+				tr.selected td{
+					background-color:@bgcolor-w;
+				}
+				tr.hover td{
+					background-color:@bgcolor-u;
+				}
+
+				tr{
+
+					td.bodyNullTd{
+						background-image:none;
+					}
+					td{
+						.bodyNode{
+							position:relative;
+							padding:0px;
+						}
+						.bodyTdText{
+							position:relative;
+							line-height:20px;min-height:20px;
+							padding:5px 8px;
+							color:@color-a;text-shadow:0px 1px 0px #fff;
+							.util-text-ellipsis();
+						}
+						.bodyTdHtml{
+							padding:0px 1px 0px 0px;
+						}
+						.bodyTdCheckBox{
+							line-height:20px;height:20px;
+							padding:5px 1px 5px 0px;
+						}
+					}
+				}
+			}
+		}
+	}
+}

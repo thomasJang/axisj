@@ -190,6 +190,38 @@
                 }
             });
 
+
+			$("#ax-input-selector-onsearch").bindSelector({
+				reserveKeys: {
+					optionValue: "CD",
+					optionText: "NM"
+				},
+				appendable:false,
+				onsearch     : function(objID, objVal, callBack) {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
+					console.log(arguments);
+					setTimeout(function(){
+						callBack({
+							options:[
+								{CD:1, NM:"Seoul", desc:"ABCD"},
+								{CD:2, NM:"대구"},
+								{CD:3, NM:"대전"},
+								{CD:4, NM:"(창원"},
+								{CD:5, NM:"[마산"},
+								{CD:6, NM:"구례"},
+								{CD:7, NM:"제주도"},
+								{CD:8, NM:"전주"},
+								{CD:4, NM:"창원"},
+								{CD:5, NM:"마산"},
+								{CD:6, NM:"구례"},
+								{CD:7, NM:"제주도"},
+								{CD:8, NM:"전주"},
+								{CD:9, NM:"Gwangju"}
+							]
+						});
+					}, 500);
+				}
+			});
+
 		},
 		setValue: function(){
 			jQuery("#AXInputSelector").setValueInput(9);
@@ -270,6 +302,11 @@
 
 
                         <input type="text" name="inputSelector_text" id="AXInputSelector_text" value="" class="AXInput" />
+
+
+						<h2>AXInput bind Selector(onsearch)</h2>
+
+						<input type="text" name="inputSelector_onsearch" id="ax-input-selector-onsearch" value="" class="AXInput" />
 						
 					</div>	
 				</div>

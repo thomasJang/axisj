@@ -781,6 +781,9 @@
   color: #ffffff;
   box-shadow: inset 0px 0px 4px #3d84bc;
 }
+.AXCalendar table.calendarPage tbody td A.calendarDate.disabled {
+  color: #949494 !important;
+}
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate {
   color: #c78b82;
 }

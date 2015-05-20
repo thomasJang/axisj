@@ -42,7 +42,6 @@
      */    
     var pageID = "marker";
     var myGrid = new AXGrid();
-    var itemSum = 0;
     var gridExtData = {};
     
     var fnObj = {
@@ -71,8 +70,7 @@
                             {key:"no", rowspan:2, align:"center"},
                             {colSeq:null, colspan:3, formatter:function(){
                                 var mul = (this.index * this.item.no);
-                                itemSum += this.item.no;
-                                return "index * no = " + mul + ", no 누적합은 = " + itemSum;
+                                return "index * no = " + mul;
                             }, align:"center", addClass:""}, 
                             {key:"price", rowspan:2, valign:"bottom", align:"left"},
                             {key:"amount", rowspan:2, valign:"middle"},
@@ -87,46 +85,21 @@
                     ],
                     marker: {
                         display: function(){
-                            //gridExtData
-                            var pitem = this.item.writer;
-                            var nitem = null;
-                            if(this.list.length-1 > this.index){
-                                nitem = this.list[this.index.number()+1].writer;    
-                            }
-                            if(pitem != nitem){
-                                gridExtData.subTotalPrice += this.item.price.number();
-                                gridExtData.subTotalAmount += this.item.amount.number();
-                                
-                                gridExtData.subTotalName = pitem.dec() + " 소계";
-                                gridExtData.subTotalClear = true;
-                                return true;
-                            }else{
-                                if(!gridExtData.subTotalPrice) gridExtData.subTotalPrice = 0;
-                                if(!gridExtData.subTotalAmount) gridExtData.subTotalAmount = 0;
-                                
-                                if(gridExtData.subTotalClear){
-                                    gridExtData.subTotalPrice = 0;
-                                    gridExtData.subTotalAmount = 0;
-                                    gridExtData.subTotalClear = false;
-                                }
-                                
-                                gridExtData.subTotalPrice += this.item.price.number();
-                                gridExtData.subTotalAmount += this.item.amount.number();
-                            }
+                            return this.item.subTotal ? true : false;
                         },
                         rows: [
                             [
                                 {colSeq:null, colspan:4, formatter:function(){
-                                    return gridExtData.subTotalName;    
+                                    return this.item.subTotal.name;
                                 }, align:"center"}, 
                                 {colSeq:4, formatter:function(){
-                                    return gridExtData.subTotalPrice.money();
+                                    return this.item.subTotal.price.money();
                                 }},
                                 {colSeq:5, formatter:function(){
-                                    return gridExtData.subTotalAmount.money();
+                                    return this.item.subTotal.amount.money();
                                 }},
                                 {colSeq:6, formatter:function(){
-                                    return (gridExtData.subTotalPrice * gridExtData.subTotalAmount).money();
+                                    return (this.item.subTotal.price * this.item.subTotal.amount).money();
                                 }},
                                 {colSeq:7, formatter:function(){
                                     return "";    
@@ -153,14 +126,14 @@
             var list = [
                 {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10}, // item
                 {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
-                {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+                {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5, subTotal:{name:"장기영 소계", price:147300, amount:22}},
                 {no:4, title:"AXGrid 세번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
                 {no:5, title:"AXGrid 세번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
                 {no:6, title:"AXGrid 세번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
                 {no:7, title:"AXGrid 세번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
                 {no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
                 {no:9, title:"AXGrid 두번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
-                {no:10, title:"AXGrid 세번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+                {no:10, title:"AXGrid 세번째 줄 입니다.", writer:"장기영1", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5, subTotal:{name:"장기영1 소계", price:415800, amount:32}},
                 {no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
                 {no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
                 {no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
@@ -170,7 +143,7 @@
                 {no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
                 {no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
                 {no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
-                {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
+                {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영2", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1, subTotal:{name:"장기영2 소계", price:561300, amount:32}}
             ];
             myGrid.setList(list);
         }

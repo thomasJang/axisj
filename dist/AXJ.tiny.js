@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-12 
+AXJ - v1.0.15 - 2015-05-20 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-12 
+AXJ - v1.0.15 - 2015-05-20 
 */
 
 if(!window.AXConfig){
@@ -368,7 +368,6 @@ axf.each({a:1, b:2, c:3}, function(k, v){
 /**
  * 브라우저의 이름과 버전 모바일여부
  *
- * @see IE11 https://msdn.microsoft.com/ko-kr/library/ie/hh869301(v=vs.85).aspx
  * @member {Object} axf.browser
  * @example
  ```
@@ -3333,13 +3332,14 @@ var AXReq = Class.create({
 /* -- AXMask ---------------------------------------------- */
 /**
  * @class AXMask
- * @version v1.3
+ * @version v1.4
  * @author tom@axisj.com
  * @logs
  * 2012-09-28 오후 2:58:32 - 시작
  * append 메소드 추가
  * 2014-09-17 hyunjun19 : 지정한 대상의 영역만 masking 하도록 style 추가
  * 2015-04-19 tom : body.data에 마스크상태값 저장
+ * 2015-05-16 tom : mask.close(delay) 중 open 되면 예외처리, open상태에서 다시 open 도 예외처리
  * @description 웹페이지 전체에 사용자 입력을 막기위한 마스크를 추가하는데 사용
  * ```js
  mask.open();
@@ -3360,10 +3360,25 @@ var AXMask = Class.create(AXJ, {
         this.mask = axdom("<div class=\"" + this.config.maskClassName + "\" style=\"z_index:" + this.config.maskZindex + "\"></div>");
     },
     open: function (configs) {
-        axdom(document.body).append(this.mask);
-        axdom(document.body).data("masked", "true");
-        var bodyHeight = 0;
-        (AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
+        if(this.maskDelay) clearTimeout(this.maskDelay);
+        if(axdom(document.body).data("masked") != "true"){
+            axdom(document.body).append(this.mask);
+            axdom(document.body).data("masked", "true");
+            var bodyHeight = 0;
+            (AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
+
+            if (configs) {
+                if (!configs.onclick) configs.onclick = configs.onClick;
+                if (configs.onclick) {
+                    this.mask.bind("click.AXMask", configs.onclick);
+                }
+            }
+        }
+    },
+    append: function (targetID, configs) {
+        var target = axdom("#"+targetID);
+        if (target.css("position") == "static") { target.css("position", "relative") }
+        target.append(this.mask.css({ 'position': 'absolute', 'top': 0, 'left': 0 }));
 
         if(configs){
             if(!configs.onclick) configs.onclick = configs.onClick;
@@ -3372,18 +3387,6 @@ var AXMask = Class.create(AXJ, {
             }
         }
     },
-	append: function (targetID, configs) {
-		var target = axdom("#"+targetID);
-		if (target.css("position") == "static") { target.css("position", "relative") }
-		target.append(this.mask.css({ 'position': 'absolute', 'top': 0, 'left': 0 }));
-
-		if(configs){
-			if(!configs.onclick) configs.onclick = configs.onClick;
-			if(configs.onclick){
-				this.mask.bind("click.AXMask", configs.onclick);
-			}
-		}
-	},
     close: function (delay) {
         if (!delay) {
             this.mask.unbind("click.AXMask");
@@ -3391,7 +3394,8 @@ var AXMask = Class.create(AXJ, {
             axdom(document.body).data("masked", null);
         } else {
             var maskHide = this.hide.bind(this);
-            setTimeout(maskHide, delay);
+            if(this.maskDelay) clearTimeout(this.maskDelay);
+            this.maskDelay = setTimeout(maskHide, delay);
         }
         this.blinkTrack.clear();
     },
@@ -3427,18 +3431,18 @@ var AXMask = Class.create(AXJ, {
             });
         }
     },
-	setContent: function(content){
-		var po = [];
-		if(Object.isString(content)){
-			po.push(content);
-		}else{
-			var po = [];
-			po.push("<div style='width: "+content.width+"px;height:"+content.height+"px;position: absolute;left:50%;top:50%;text-align: center;margin-left: -"+ (content.width/2) +"px;margin-top:-"+ (content.height/2) +"px;'>");
-			po.push(content.html);
-			po.push("</div>")
-		}
-		this.mask.html(po.join(''));
-	}
+    setContent: function(content){
+        var po = [];
+        if(Object.isString(content)){
+            po.push(content);
+        }else{
+            var po = [];
+            po.push("<div style='width: "+content.width+"px;height:"+content.height+"px;position: absolute;left:50%;top:50%;text-align: center;margin-left: -"+ (content.width/2) +"px;margin-top:-"+ (content.height/2) +"px;'>");
+            po.push(content.html);
+            po.push("</div>")
+        }
+        this.mask.html(po.join(''));
+    }
 });
 var mask = new AXMask();
 mask.setConfig();
@@ -4865,16 +4869,39 @@ var AXCalendar = Class.create(AXJ, {
         po.push("</tr>");
         po.push("</thead>");
         po.push("<tbody>");
+
+        var minTime = -1;
+        var maxTime = -1;
+        var onBeforeShowDay;
         var roopDate = calendarStartDate;
+        if (cfg.minDate) { minTime = cfg.minDate.date().getTime(); }
+        if (cfg.maxDate) { maxTime = cfg.maxDate.date().getTime(); }
+        if (cfg.onBeforeShowDay) { onBeforeShowDay = cfg.onBeforeShowDay.bind(this); }
         var i = 0; while (i < 6) {
             po.push("<tr>");
             var k = 0; while (k < 7) {
+                var roopTime = roopDate.getTime();
                 var dayValue = roopDate.print(this.config.printFormat);
                 var addClass = [];
+                var addStyle = "";
                 var tdClass = [];
+                var printTitle = roopDate.print(this.config.titleFormat);
+                var isEnable = true;
+                if (onBeforeShowDay) {
+                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+                    if (addData) {
+                        if (addData.className) { addClass.push(addData.className); } // ie7 이하에서 class 예약어라 사용안됨
+                        if (addData.style) { addStyle = addData.style; }
+                        if (addData.title) { printTitle = addData.title; }
+                        if (addData.isEnable === false) { isEnable = false; }
+                    }
+                }
+                if (isEnable && minTime > -1) { isEnable = !(roopTime < minTime); }
+                if (isEnable && maxTime > -1) { isEnable = !(roopTime > maxTime); }
                 if (roopDate.getMonth() != monthStartDate.getMonth()) addClass.push("notThisMonth");
                 if (setDate.diff(roopDate, "D") == 0) tdClass.push("setDate");
-                po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + roopDate.print(this.config.titleFormat) + "\">" + dayValue.number() + "</a></td>");
+                if (!isEnable) { addClass.push("disabled"); }
+                po.push("<td class=\"bodyCol_" + k + " bodyRow_" + i + " " + tdClass.join(" ") + "\"><a " + cfg.href + " class=\"calendarDate " + addClass.join(" ") + "\" id=\"" + cfg.targetID + "_AX_" + roopDate.print(this.config.valueFormat) + "_AX_date\" title=\"" + printTitle + "\">" + dayValue.number() + "</a></td>");
                 k++;
                 roopDate = roopDate.add(1);
             }
@@ -8118,7 +8145,13 @@ var AXInputConverter = Class.create(AXJ, {
 		this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
 		/* 모바일 반응 너비 */
 		this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
-		
+
+		this.config.reserveKeys = {
+			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
+			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText",
+			optionData: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionData) || "optionData"
+		};
 	},
 	init: function () {
 		axdom(window).resize(this.alignAllAnchor.bind(this));
@@ -8887,6 +8920,11 @@ var AXInputConverter = Class.create(AXJ, {
 
 		obj.bindTarget.data("val", obj.bindTarget.val());
 
+
+		var reserveKeys = jQuery.extend({}, cfg.reserveKeys);
+		if(typeof obj.config.reserveKeys == "undefined") obj.config.reserveKeys = {};
+		obj.config.reserveKeys = jQuery.extend(reserveKeys, obj.config.reserveKeys, true);
+
 		var h = obj.bindAnchorTarget.data("height") - 2;
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleContainerClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">");
@@ -8959,6 +8997,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		var reserveKeys = obj.config.reserveKeys;
 		if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
 			return false;
 		}
@@ -9066,6 +9105,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorClose: function (objID, objSeq, event, originChangeCall) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
+		var reserveKeys = obj.config.reserveKeys;
 		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
 
 		if(obj.inProgress) AXReqAbort(); // AJAX 호출 중지 하기
@@ -9092,7 +9132,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 				var myVal = "";
 				if (obj.config.selectedObject) {
-					myVal = obj.config.selectedObject.optionText;
+					myVal = obj.config.selectedObject[reserveKeys.optionText];
 				}
 
 				if (obj.config.appendable) {
@@ -9129,6 +9169,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSetOptions: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		var maxHeight = obj.config.maxHeight || 130;
 		var optionPrintLength = obj.config.optionPrintLength || 100;
 		if (!obj.config.options) return;
@@ -9142,13 +9183,13 @@ var AXInputConverter = Class.create(AXJ, {
 			}
 
             // options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
-            O[cfg.reserveKeys.optionText] = (O[cfg.reserveKeys.optionText] ? O[cfg.reserveKeys.optionText].dec() : "");
+            O[reserveKeys.optionText] = (O[reserveKeys.optionText] ? O[reserveKeys.optionText].dec() : "");
             O.desc = (O.desc ? O.desc.dec() : "");
             O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
 
 			var descStr = O.desc || O.optionDesc;
 			if (descStr != "") descStr = "<span>" + descStr + "</span>";
-			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[cfg.reserveKeys.optionText] + descStr + "</a>");
+			po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[reserveKeys.optionText] + descStr + "</a>");
 		});
 		if (po.length == 0) {
 			var selectorOptionEmpty = "";
@@ -9204,7 +9245,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorOptionsClick: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-
+		var reserveKeys = obj.config.reserveKeys;
 		var eid = event.target.id.split(/_AX_/g);
 		var eventTarget = event.target;
 
@@ -9242,7 +9283,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorKeyup: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq], _this = this;
 		var cfg = this.config;
-
+		var reserveKeys = obj.config.reserveKeys;
 		if (obj.inProgress) {
 			obj.inProgressReACT = true;
 			return;
@@ -9285,7 +9326,7 @@ var AXInputConverter = Class.create(AXJ, {
 				obj.config.selectedObject = obj.config.options[obj.config.focusedIndex];
 				obj.config.selectedIndex = obj.config.focusedIndex;
 				obj.config.isChangedSelect = true;
-				axdom("#" + objID).val(obj.config.selectedObject.optionText);
+				axdom("#" + objID).val(obj.config.selectedObject[reserveKeys.optionText]);
 				/*axdom("#" + objID).blur();*/
 				_this.bindSelectorClose(objID, objSeq, event, "bindTarget_onchange"); // 닫기
 			}
@@ -9302,26 +9343,35 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorKeyupChargingUp: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-
+		var reserveKeys = obj.config.reserveKeys;
 		var objVal = axdom("#" + objID).val();
 		var bindSelectorSearch = this.bindSelectorSearch.bind(this);
 
 		if (obj.config.onsearch) {
 
-			var res = obj.config.onsearch.call({
-				id: objID,
-				value: objVal
-			}, objID, objVal);
+			var res = obj.config.onsearch.call(
+				{
+					id: objID,
+					value: objVal
+				},
+				objID,
+				objVal,
+				(function(res){
+					obj.config.options = res.options;
+					obj.config.focusedIndex = null;
+					this.bindSelectorSetOptions(objID, objSeq);
+				}).bind(this)
+			);
 
-			if (!res) {
-				res = { options: [] };
+			/*
+			callBack 함수를 이용하는 경우와 return 하는 두 가지 경우가 존재 하겠다. 아래는 obj.config.onsearch 에서 return 한 경우이고 위의 함수는 callBack 함수인 경우이다.
+			*/
+			if (res) {
+				res.options = res.options || [];
+				obj.config.options = res.options;
+				obj.config.focusedIndex = null;
+				this.bindSelectorSetOptions(objID, objSeq);
 			}
-			obj.config.options = res.options;
-			//obj.config.selectedIndex = null;
-			obj.config.focusedIndex = null;
-			//obj.config.selectedObject = null;
-			//obj.config.isChangedSelect = true;
-			this.bindSelectorSetOptions(objID, objSeq);
 
 		} else if (obj.config.ajaxUrl) {
 			// AJAX호출
@@ -9349,7 +9399,7 @@ var AXInputConverter = Class.create(AXJ, {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						//obj.config.options = (res.options || []);
-						obj.config.options = (res[cfg.reserveKeys.options] || []);
+						obj.config.options = (res[reserveKeys.options] || []);
 						obj.config.focusedIndex = null;
 
 						bindSelectorSetOptions(objID, objSeq);
@@ -9374,7 +9424,8 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorInputChange: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		if (axdom("#" + objID).val() != obj.config.selectedObject.optionText) {
+		var reserveKeys = obj.config.reserveKeys;
+		if (axdom("#" + objID).val() != obj.config.selectedObject[reserveKeys.optionText]) {
 			if (!obj.config.appendable) axdom("#" + objID).val("");
 			obj.config.selectedObject = null;
 			obj.config.selectedIndex = null;
@@ -9387,19 +9438,20 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSetValue: function (objID, objSeq, value) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 
 		if (!obj.config.options) return;
 
 		var selectedIndex = null;
 		axf.each(obj.config.options, function (oidx, opt) {
-			if (opt[cfg.reserveKeys.optionValue] == value) selectedIndex = oidx;
+			if (opt[reserveKeys.optionValue] == value) selectedIndex = oidx;
 		});
 
 		if (selectedIndex != null) {
 			obj.config.focusedIndex = selectedIndex;
 			obj.config.selectedObject = obj.config.options[selectedIndex];
 			obj.config.isChangedSelect = true;
-			axdom("#" + objID).val(obj.config.selectedObject[cfg.reserveKeys.optionText]);
+			axdom("#" + objID).val(obj.config.selectedObject[reserveKeys.optionText]);
 
 			if (obj.config.onChange || obj.config.onchange) {
 				var sendObj = {
@@ -9407,7 +9459,7 @@ var AXInputConverter = Class.create(AXJ, {
 					options: obj.config.options,
 					selectedIndex: obj.config.selectedIndex,
 					selectedOption: obj.config.selectedObject
-				}
+				};
 				if (obj.config.onChange) obj.config.onChange.call(sendObj);
 				else if (obj.config.onchange) obj.config.onchange.call(sendObj);
 			}
@@ -9416,6 +9468,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSearch: function (objID, objSeq, kword) { // 입력된 값으로 검색 하기
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		if (kword == "") {
 			this.bindSelectorSelectClear(objID, objSeq);
 			return;
@@ -9426,7 +9479,7 @@ var AXInputConverter = Class.create(AXJ, {
 
 		var ix = null;
 		for (var a = 0; a < obj.config.options.length; a++) {
-			if (reAt.test((obj.config.options[a][cfg.reserveKeys.optionText] || ""))) {
+			if (reAt.test((obj.config.options[a][reserveKeys.optionText] || ""))) {
 				ix = a;
 				break;
 			}
@@ -9440,6 +9493,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSelect: function (objID, objSeq, index, changeValue) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		if (obj.config.focusedIndex != undefined) {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
 		}
@@ -9453,6 +9507,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindSelectorSelectClear: function (objID, objSeq) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
+		var reserveKeys = obj.config.reserveKeys;
 		if (obj.config.selectedIndex != undefined) {
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").removeClass("on");
 		}
@@ -9461,6 +9516,8 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.config.selectedObject = null;
 		obj.config.isChangedSelect = true;
 	},
+
+
 
 	// slider
 	bindSlider: function (objID, objSeq) {
@@ -10520,7 +10577,10 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox",
 			basicDate: myDate,
-			href: obj.config.href
+			href: obj.config.href,
+            minDate: obj.config.minDate,
+            maxDate: obj.config.maxDate,
+            onBeforeShowDay: obj.config.onBeforeShowDay
 		});
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
 			obj.nDate = myDate;
@@ -11356,6 +11416,7 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!isDateClick) {
 			this.bindDateExpandClose(objID, objSeq, event);
 		} else {
+            if (axdom(myTarget).hasClass("disabled")) { return; } // disabled 대상은 선택 불가
 
 			var ids = myTarget.id.split(/_AX_/g);
 			var ename = ids.last();
@@ -11593,6 +11654,7 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bindTwinDateExpand: function (objID, objSeq, isToggle, event) {
 		var cfg = this.config;
+        var obj = this.objects[objSeq];
 
 		for (var OO, oidx = 0, __arr = this.objects; (oidx < __arr.length && (OO = __arr[oidx])); oidx++) {
 			if(OO.expandBox_axdom){
@@ -11660,6 +11722,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var myYear2 = myDate2.getFullYear();
 		var myMonth1 = (myDate1.getMonth() + 1).setDigit(2);
 		var myMonth2 = (myDate2.getMonth() + 1).setDigit(2);
+		var buttonText = obj.config.buttonText || "OK";
 		var po = [];
 		po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindTwinDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
 		po.push("	<div>");
@@ -11697,7 +11760,7 @@ var AXInputConverter = Class.create(AXJ, {
 		po.push("		</table>");
 		po.push("	</div>");
 		po.push("	<div style=\"padding-top:5px;\" align=\"center\">");
-		po.push("		<input type=\"button\" value=\"OK\" class=\"AXButton Classic W70\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_closeButton\">");
+		po.push("		<input type=\"button\" value=\"" + buttonText + "\" class=\"AXButton Classic W70\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_closeButton\">");
 		po.push("	</div>");
 		po.push("</div>");
 		axdom(document.body).append(po.join('')); // bindDateExpandBox append
@@ -11708,14 +11771,20 @@ var AXInputConverter = Class.create(AXJ, {
 		obj.mycalendar1 = new AXCalendar();
 		obj.mycalendar1.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox1",
-			basicDate: myDate1
+			basicDate: myDate1,
+            minDate: obj.config.minDate,
+            maxDate: obj.config.maxDate,
+            onBeforeShowDay: obj.config.onBeforeShowDay
 		});
 
 		obj.nDate2 = myDate2;
 		obj.mycalendar2 = new AXCalendar();
 		obj.mycalendar2.setConfig({
 			targetID: cfg.targetID + "_AX_" + objID + "_AX_displayBox2",
-			basicDate: myDate2
+			basicDate: myDate2,
+            minDate: obj.config.minDate,
+            maxDate: obj.config.maxDate,
+            onBeforeShowDay: obj.config.onBeforeShowDay
 		});
 
 		if (obj.config.expandTime) { //시간 선택 기능 확장시
@@ -11983,6 +12052,8 @@ var AXInputConverter = Class.create(AXJ, {
 		if (!isDateClick) {
 			this.bindTwinDateExpandClose(objID, objSeq, event);
 		} else {
+            if (axdom(myTarget).hasClass("disabled")) { return; } // disabled 대상은 선택 불가
+
 			var ids = myTarget.id.split(/_AX_/g);
 			var ename = ids.last();
 			var boxType = ids[ids.length - 3];
@@ -12624,7 +12695,7 @@ var config = {
     onchange     : function() {                            // {Function} - 값 변경 이벤트 콜백함수 (optional)
         trace(this);
     },
-    onsearch     : function(objID, objVal) {               // {Function} - 값 변경시 options 변경 구현 함수(optional) ※ 주의: ajaxUrl과 중복 사용할 수 없습니다. 만약 두 옵션이 같이 선언되면 onsearch가 적용되고 ajaxUrl은 무시됩니다.
+    onsearch     : function(objID, objVal, callBack) {               // {Function} - 값 변경시 options 변경 구현 함수(optional) ※ 주의: ajaxUrl과 중복 사용할 수 없습니다. 만약 두 옵션이 같이 선언되면 onsearch가 적용되고 ajaxUrl은 무시됩니다.
         // this = { id: objID, value: objVal }
         // 아래와 같은 형식으로 options 값을 반환해야 합니다.
         return {
@@ -12633,6 +12704,7 @@ var config = {
                 ...
             ]
         }
+        // 또는 callBack 함수를 호출합니다.
     }
     finder: {
         onclick: function() { // {Function} - 파인더 버튼 클릭 이벤트 콜백함수 (optional)
@@ -12813,6 +12885,9 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -12861,6 +12936,9 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -12893,6 +12971,10 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    buttonText       : "OK"    // {String} ["OK"] - 선택 버튼 텍스트 설정
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -12924,6 +13006,10 @@ var config = {
     selectType       : "d",    // {String} ("y"|"m"|"d") 날짜선택범위 y 를 지정하면 년도만 선택됩니다.
     defaultSelectType: "d",    // {String} ("y"|"m"|"d") 달력컨트롤의 년월일 선택도구 중에 먼저 보이는 도구타입
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
+    minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
+    maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
+    buttonText       : "OK"    // {String} ["OK"] - 선택 버튼 텍스트 설정
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -13863,6 +13949,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 							nval.push( arguments[2] );
 						}else if(arguments[2].length < 8){
 							nval.push( arguments[2].substring(0, 3) + "-" + arguments[2].substr(3) );
+						}else if(arguments[2].length > 8){
+							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) + ", " + arguments[2].substr(8) );
 						}else{
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) );
 						}
@@ -13875,9 +13963,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 					if(arguments[2]) {
 						if(arguments[2].length < 4) {
 							nval.push( arguments[2] );
-						}else if(arguments[2].length < 9) {
+						}else if(arguments[2].length < 8) {
 							nval.push(arguments[2].substring(0, 3) + "-" + arguments[2].substr(3));
-						}else if(arguments[2].length > 9){
+						}else if(arguments[2].length > 8){
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) + ", " + arguments[2].substr(8) );
 						}else{
 							nval.push( arguments[2].substring(0, 4) + "-" + arguments[2].substr(4, 4) );
@@ -14763,7 +14851,8 @@ var AXSelectConverter = Class.create(AXJ, {
 		this.config.reserveKeys = {
 			options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
 			optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
-			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText"
+			optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText",
+			optionData: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionData) || "optionData"
 		};
 	},
 	windowResize: function () {
@@ -14823,6 +14912,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			var objDom = axdom("#" + obj.id), objAnchorDom = axdom("#" + removeAnchorId);
 			this.objects[removeIdx].isDel = true;
 			objDom.removeAttr("data-axbind");
+			objDom.css({visibility:"visible"});
+
 			if (this.isMobile) {
 				objAnchorDom.before(axdom("#" + obj.id));
 				objAnchorDom.remove();
@@ -15086,7 +15177,7 @@ var AXSelectConverter = Class.create(AXJ, {
 						}
 						for (var opts, oidx = 0; (oidx < res[obj.config.reserveKeys.options].length && (opts = res[obj.config.reserveKeys.options][oidx])); oidx++) {
 							//trace(opts);
-							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts.optionData + "\" ");
+							po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts[obj.config.reserveKeys.optionData] + "\" ");
 							if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
 							po.push(">" + opts[obj.config.reserveKeys.optionText].dec() + "</option>");
 						}
