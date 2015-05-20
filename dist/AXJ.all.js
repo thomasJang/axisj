@@ -4890,7 +4890,7 @@ var AXCalendar = Class.create(AXJ, {
                 if (onBeforeShowDay) {
                     var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
                     if (addData) {
-                        if (addData.class) { addClass.push(addData.class); }
+                        if (addData.className) { addClass.push(addData.className); } // ie7 이하에서 class 예약어라 사용안됨
                         if (addData.style) { addStyle = addData.style; }
                         if (addData.title) { printTitle = addData.title; }
                         if (addData.isEnable === false) { isEnable = false; }
