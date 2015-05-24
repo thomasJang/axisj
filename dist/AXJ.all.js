@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-05-21 
+AXJ - v1.0.16 - 2015-05-24 
 */
 /*! 
-AXJ - v1.0.16 - 2015-05-21 
+AXJ - v1.0.16 - 2015-05-24 
 */
 
 if(!window.AXConfig){
@@ -11433,7 +11433,7 @@ var AXGrid = Class.create(AXJ, {
                         }
                     }
                     if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
-                    if (cfg.colHeadAlign) CH.align = cfg.colHeadAlign; // 고정값 아닌 설정 값 가져오기
+                    if (typeof CH.align == "undefined" && cfg.colHeadAlign) CH.align = cfg.colHeadAlign; // 고정값 아닌 설정 값 가져오기
                     colLen += (CH.colspan||0).number();
                 }
                 if (colMaxLen < colLen) colMaxLen = colLen;
@@ -13649,10 +13649,14 @@ var AXGrid = Class.create(AXJ, {
         var mouse = this.getHeadMousePosition(event);
         var newWidth = (this.colResizeTarget.leftPosition - mouse.x).abs();
         if (newWidth < 31) return;
+
         /* colHead/colBody colGroup width 조정 */
         axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CH").attr("width", newWidth);
         axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_CB").attr("width", newWidth);
         axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_EB").attr("width", newWidth);
+        if(cfg.foot){
+            axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FH").attr("width", newWidth);
+        }
 
         cfg.colGroup[this.colResizeTarget.colSeq].width = newWidth;
         if (!cfg.colGroup[this.colResizeTarget.colSeq].widthAstric) {
@@ -13665,6 +13669,9 @@ var AXGrid = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FC").attr("width", newWidth);
             axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FB").attr("width", newWidth);
             axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FE").attr("width", newWidth);
+            if(cfg.foot){
+                axdom("#" + cfg.targetID + "_AX_col_AX_" + this.colResizeTarget.colSeq + "_AX_FF").attr("width", newWidth);
+            }
 
             /*if(this.colResizeTarget.colSeq < fixedColSeq+1){ */
 
@@ -18328,16 +18335,16 @@ var AXGrid = Class.create(AXJ, {
         */
         po.push('<div class="gridFootContent">');
         po.push('<table cellpadding="0" cellspacing="0" class="gridFootTable" style="width:', tableWidth, 'px;">');
-        po.push(this.getColGroup("CH"));
+        po.push(this.getColGroup("FH"));
         po.push('<tbody>');
         po.push(getDataSet(this.dataSet));
         po.push('</tbody>');
         po.push('</table>');
         po.push('</div>');
         if (this.hasFixed) {
-            po.push('<div class="gridFootfixedContent" style="width:' + this.fixedColWidth + '">');
+            po.push('<div class="gridFootfixedContent" style="width:' + this.fixedColWidth + 'px;">');
             po.push('<table cellpadding="0" cellspacing="0" class="gridFootTable" style="width:', this.fixedColWidth, 'px;">');
-            po.push(this.getColGroup("FC"));
+            po.push(this.getColGroup("FF"));
             po.push('<tbody>');
             po.push(getDataSet(this.dataSet, "fix"));
             po.push('</tbody>');
