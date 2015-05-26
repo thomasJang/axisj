@@ -88,6 +88,10 @@
                 onchange: function(event){
                     trace("change : " + event.target.tagName);
                 },
+                focus_check_classname:"sc-focus",
+                onfocus: function(event){
+                    trace("focus : " + event.target.tagName);
+                },
                 return_check_classname:"sc-enter",
                 onreturn: function(event){
                     trace("return : " + event.target.tagName);
@@ -299,7 +303,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">기사명</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter" />
+                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter sc-focus" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-driver"><i class="axi axi-search2"></i>기사명</button>
                             </span>
                         </div>
