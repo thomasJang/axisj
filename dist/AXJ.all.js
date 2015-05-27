@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-05-24 
+AXJ - v1.0.16 - 2015-05-27 
 */
 /*! 
-AXJ - v1.0.16 - 2015-05-24 
+AXJ - v1.0.16 - 2015-05-27 
 */
 
 if(!window.AXConfig){
@@ -11052,6 +11052,8 @@ var AXSplit = Class.create(AXJ, {
 		if(!cfg.onsplitresize) cfg.onsplitresize = cfg.onSplitResize;
 		if(!cfg.onsplitresizeend) cfg.onsplitresizeend = cfg.onSplitResizeEnd;
 
+        $("html, body").css("overflow", "hidden"); // resize 이벤트 발생시 스크롤이 순간적으로 발생하는 현상을 막기위해 필수!
+
 		this.target = axdom("#"+cfg.targetID);
 		this.target.attr("ondragstart", "return false");
 		this.initChild(this.target);
@@ -11089,14 +11091,16 @@ var AXSplit = Class.create(AXJ, {
 
 		var calcWidth = 0, calcHeight = 0, uncolCount = 0, unrowCount = 0, colindex = 1, rowindex = 1;
 		var moreFindTarget = [];
+        var getPixelValueBind = this.getPixelValue.bind(this);
+
+        // data-width, data-height 속성이 선언된 element 길이 설정
 		parent.children().each(function(){
 			var dom_this = axdom(this);
 			if(dom_this.hasClass("AXSplit-cols")){
 				if(dom_this.attr("data-width")) {
-					calcWidth += dom_this.attr("data-width").number();
-					if (!dom_this.attr("data-axsplit-colindex")){
-						dom_this.css({width: dom_this.attr("data-width")});
-					}
+                    var width = getPixelValueBind(dom_this.attr("data-width"), parentWidth);
+					calcWidth += width;
+                    dom_this.css("width", width);
 				}else{
 					uncolCount++;
 				}
@@ -11108,10 +11112,9 @@ var AXSplit = Class.create(AXJ, {
 				colindex++;
 			}else if(dom_this.hasClass("AXSplit-rows")){
 				if(dom_this.attr("data-height")){
-					calcHeight += dom_this.attr("data-height").number();
-					if(!dom_this.attr("data-axsplit-rowindex")) {
-						dom_this.css({height: dom_this.attr("data-height")});
-					}
+                    var height = getPixelValueBind(dom_this.attr("data-height"), parentHeight);
+					calcHeight += height;
+                    dom_this.css("height", height);
 				}else{
 					unrowCount++;
 				}
@@ -11124,23 +11127,46 @@ var AXSplit = Class.create(AXJ, {
 			}
 		});
 
-		parent.children().each(function(){
+        /**
+         * min/max, width/height 설정
+         * @param dom
+         * @param type "width"|"height"
+         */
+        function setMinMaxLength(dom, type) {
+            var min = dom.attr("data-min-" + type);
+            var max = dom.attr("data-max-" + type);
+            var parentLength = (type == "height" ? parentHeight : parentWidth);
+            if(min) {
+                var minValue = getPixelValueBind(min, parentLength);
+                dom.css("min-" + type, minValue);
+            }
+            if (max) {
+                var maxValue = getPixelValueBind(max, parentLength);
+                dom.css("max-" + type, maxValue);
+            }
+        }
+
+        // data-width, data-height 속성이 없는 element 길이 설정
+        parent.children().each(function(){
 			var dom_this = axdom(this);
 			if(dom_this.hasClass("AXSplit-cols")){
 				if(!dom_this.attr("data-width")){
 					dom_this.css({width: (parentWidth - calcWidth) / uncolCount});
 				}
+                setMinMaxLength(dom_this, "width");
 			}else if(dom_this.hasClass("AXSplit-rows")){
-				if(!dom_this.attr("data-height")){
-					dom_this.css({height: (parentHeight - calcHeight) / unrowCount});
-				}
-			}
+                if(!dom_this.attr("data-height")){
+                    dom_this.css({height: (parentHeight - calcHeight) / unrowCount});
+                }
+                setMinMaxLength(dom_this, "height");
+            }
 
 			if( dom_this.find(".AXSplit-rows, .AXSplit-cols").length > 0 ){
 				moreFindTarget.push(dom_this);
 			}
 		});
 
+        // inner split을 처리하기 위한 재귀호출
 		for(var i=0;i<moreFindTarget.length;i++){
 			this.initChild(moreFindTarget[i]);
 		}
@@ -11157,18 +11183,22 @@ var AXSplit = Class.create(AXJ, {
 		this.resizeHandle_data = {
 			parentDom: handleDom.parent(),
 			dom: handleDom,
-			direction: handleDom.hasClass("AXSplit-row-handle")
+			isRowHandle: handleDom.hasClass("AXSplit-row-handle")
 		};
 		this.resizeHandle_data.dom.addClass("on");
 
-		if(this.resizeHandle_data.direction){
+		if(this.resizeHandle_data.isRowHandle){
 			//rows
 			this.resizeHandle_data.top = event.pageY;
 			this.resizeHandle_data.hindex = this.resizeHandle_data.dom.attr("data-axsplit-rowindex").number();
 			this.resizeHandle_data.pitem_dom = this.resizeHandle_data.parentDom.find(".AXSplit-rows[data-axsplit-rowindex="+ (this.resizeHandle_data.hindex-1) +"]");
 			this.resizeHandle_data.nitem_dom = this.resizeHandle_data.parentDom.find(".AXSplit-rows[data-axsplit-rowindex="+ (this.resizeHandle_data.hindex+1) +"]");
 			this.resizeHandle_data.pitem_dom_height = this.resizeHandle_data.pitem_dom.height().number();
+			this.resizeHandle_data.pitem_dom_min_height = this.resizeHandle_data.pitem_dom.css("min-height").number();
+			this.resizeHandle_data.pitem_dom_max_height = this.resizeHandle_data.pitem_dom.css("max-height").number();
 			this.resizeHandle_data.nitem_dom_height = this.resizeHandle_data.nitem_dom.height().number();
+			this.resizeHandle_data.nitem_dom_min_height = this.resizeHandle_data.nitem_dom.css("min-height").number();
+			this.resizeHandle_data.nitem_dom_max_height = this.resizeHandle_data.nitem_dom.css("max-height").number();
 		}else{
 			//cols
 			this.resizeHandle_data.left = event.pageX;
@@ -11176,7 +11206,11 @@ var AXSplit = Class.create(AXJ, {
 			this.resizeHandle_data.pitem_dom = this.resizeHandle_data.parentDom.find(".AXSplit-cols[data-axsplit-colindex="+ (this.resizeHandle_data.hindex-1) +"]");
 			this.resizeHandle_data.nitem_dom = this.resizeHandle_data.parentDom.find(".AXSplit-cols[data-axsplit-colindex="+ (this.resizeHandle_data.hindex+1) +"]");
 			this.resizeHandle_data.pitem_dom_width = this.resizeHandle_data.pitem_dom.width().number();
+			this.resizeHandle_data.pitem_dom_min_width = this.resizeHandle_data.pitem_dom.css("min-width").number();
+			this.resizeHandle_data.pitem_dom_max_width = this.resizeHandle_data.pitem_dom.css("max-width").number();
 			this.resizeHandle_data.nitem_dom_width = this.resizeHandle_data.nitem_dom.width().number();
+			this.resizeHandle_data.nitem_dom_min_width = this.resizeHandle_data.nitem_dom.css("min-width").number();
+			this.resizeHandle_data.nitem_dom_max_width = this.resizeHandle_data.nitem_dom.css("max-width").number();
 		}
 
 		axdom(document.body).bind("mousemove.axsplit", this.splitResize.bind(this));
@@ -11186,17 +11220,25 @@ var AXSplit = Class.create(AXJ, {
 		var cfg = this.config, _this = this;
 		var rdata = this.resizeHandle_data;
 
-		if(rdata.direction){
+		if(rdata.isRowHandle){
 			var dy = event.pageY - rdata.top;
 
 			var pitem_dom_height = rdata.pitem_dom_height + dy;
+
+            if (rdata.pitem_dom_min_height > 0 && rdata.pitem_dom_min_height > pitem_dom_height) { return; }
+            if (rdata.pitem_dom_max_height > 0 && rdata.pitem_dom_max_height < pitem_dom_height) { return; }
+
 			rdata.pitem_dom.css({height:pitem_dom_height});
 			if(rdata.pitem_dom.attr("data-height")){
 				rdata.pitem_dom.attr("data-height", pitem_dom_height);
 			}
 
 			var nitem_dom_height = rdata.nitem_dom_height - dy;
-			rdata.nitem_dom.css({height:nitem_dom_height});
+
+            if (rdata.nitem_dom_min_height > 0 && rdata.nitem_dom_min_height > nitem_dom_height) { return; }
+            if (rdata.nitem_dom_max_height > 0 && rdata.nitem_dom_max_height < nitem_dom_height) { return; }
+
+            rdata.nitem_dom.css({height:nitem_dom_height});
 			if(rdata.nitem_dom.attr("data-height")){
 				rdata.nitem_dom.attr("data-height", nitem_dom_height);
 			}
@@ -11204,12 +11246,20 @@ var AXSplit = Class.create(AXJ, {
 			var dx = event.pageX - rdata.left;
 
 			var pitem_dom_width = rdata.pitem_dom_width + dx;
+
+            if (rdata.pitem_dom_min_width > 0 && rdata.pitem_dom_min_width > pitem_dom_width) { return; }
+            if (rdata.pitem_dom_max_width > 0 && rdata.pitem_dom_max_width < pitem_dom_width) { return; }
+
 			rdata.pitem_dom.css({width:pitem_dom_width});
 			if(rdata.pitem_dom.attr("data-width")){
 				rdata.pitem_dom.attr("data-width", pitem_dom_width);
 			}
 
 			var nitem_dom_width = rdata.nitem_dom_width - dx;
+
+            if (rdata.nitem_dom_min_width > 0 && rdata.nitem_dom_min_width > nitem_dom_width) { return; }
+            if (rdata.nitem_dom_max_width > 0 && rdata.nitem_dom_max_width < nitem_dom_width) { return; }
+
 			rdata.nitem_dom.css({width:nitem_dom_width});
 			if(rdata.nitem_dom.attr("data-width")){
 				rdata.nitem_dom.attr("data-width", nitem_dom_width);
@@ -11229,7 +11279,23 @@ var AXSplit = Class.create(AXJ, {
 		if(cfg.onsplitresizeend){
 			cfg.onsplitresizeend.call({});
 		}
-	}
+	},
+    /**
+     * '10%', '20px', '30' 등의 길이 표현을 픽셀단위의 number 값으로 변환한다.
+     * @param value {String} - '10%', '20px', '30' 등의 길이 표현
+     */
+    getPixelValue: function(value, parentLength){
+        if (typeof value !== "string" || value === "") { return 0; }
+
+        if (value.indexOf("%") > -1) {
+            var percent = value.number();
+            var pixelValue = parentLength * (percent / 100);
+
+            return pixelValue;
+        } else {
+            return value.number();
+        }
+    }
 });
 /* ---------------------------- */
 var AXGrid = Class.create(AXJ, {
@@ -23061,6 +23127,11 @@ var AXInputConverter = Class.create(AXJ, {
 			css.top = offset.top;
 		}
 
+        if (obj.config.customPos != undefined) {
+            css.top = css.top + obj.config.customPos.top;
+            css.left = css.left + obj.config.customPos.left;
+        }
+
 		var pElement = expandBox.offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
 
@@ -26211,6 +26282,36 @@ var AXInputConverterPro = Class.create(AXJ, {
 			__val = null;
 			return _val;
 		};
+		var getFormatterTime = function(_val, _pattern, tnt){
+			var returnValue = "";
+			if(_val == ""){
+
+			}else if(eventType == "blur") { // 타이핑 완료
+				var nDate = new Date(), needAlert = false;
+				if (_val.length > 2) {
+					var hh = _val.substr(0, 2).number();
+					var mi = _val.substr(2, 2).number();
+				} else if (_val.length > 0) {
+					var hh = _val.substr(0, 2).number();
+					var mi = 0;
+				} else {
+					var hh = 0;
+					var mi = 0;
+				}
+
+				if(hh > 23) hh = 23;
+				if(mi > 59) mi = 59;
+
+				returnValue = hh.setDigit(2) + tnt + mi.setDigit(2);
+			}else{ // 타이핑 중
+				if(_val.length < 3){
+					returnValue = _val;
+				}else{
+					returnValue = _val.substr(0, 2) + tnt + _val.substr(2, 2);
+				}
+			}
+			return returnValue;
+		};
 
 		if(
 			obj.config.pattern == "money" ||
@@ -26391,6 +26492,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 			val = val.replace(/\D/g, "");
 			returnValue = getFormatterDate(val, obj.config.pattern, "년", "월", "일", "시");
 		}
+		else if( obj.config.pattern == "time" ){
+			val = val.replace(/\D/g, "");
+			returnValue = getFormatterTime(val, obj.config.pattern, ":");
+		}
 		else if( obj.config.pattern == "custom" ){
 			// Z, 9, X
 			val = val.replace(/[^0-9^a-z^A-Z]/g, "");
@@ -26484,6 +26589,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 		}else if(obj.config.pattern == "date" || obj.config.pattern == "date(/)" || obj.config.pattern == "date(년월일)"){
 			returnValue = val.replace(/\D/g, "");
 		}else if(obj.config.pattern == "datetime" || obj.config.pattern == "datetime(/)" || obj.config.pattern == "datetime(년월일)"){
+			returnValue = val.replace(/\D/g, "");
+		}else if(obj.config.pattern == "time"){
 			returnValue = val.replace(/\D/g, "");
 		}else if( obj.config.pattern == "custom" ){
 			returnValue = obj.originalValue;
@@ -30420,7 +30527,7 @@ myProgress.close();
  * AXSearch
  * @class AXSearch
  * @extends AXJ
- * @version v1.27
+ * @version v1.28
  * @author tom@axisj.com
  * @logs
  "2013-06-04 오후 2:00:44 - tom@axisj.com",
@@ -30436,6 +30543,8 @@ myProgress.close();
  "2015-04-09 tom : AXSearch.setItemValue("selectbox", "open") 처럼 selectbox에 값을 부여 했을 때 버그 픽스"
  "2015-04-22 root : getItemHtml중 inputText, selectBox에 사용자 정의속성 추가할수 있게 수정 "
  "2015-05-03 tom : button 에 tag입력시 버그 픽스"
+ "2015-05-26 root : inputText 타입에 사용자 클래스 추가 버그 픽스"
+ "2015-05-26 root : inputText 타입에 onFocus event 추가"
  *
  * @description
  *
@@ -30601,6 +30710,20 @@ var AXSearch = Class.create(AXJ, {
                 {
                     this.target.find("input, select, textarea").bind("change.axsearch", function(event){
                         cfg.onchange(event);
+                    });
+                }
+            }
+            // onfocus 연결
+            if(cfg.onfocus){
+                if(cfg.focus_check_classname){
+                    this.target.find("."+cfg.focus_check_classname).bind("focus.axsearch", function (event) {
+                        cfg.onfocus(event);
+                    });
+                }
+                else
+                {
+                    this.target.find("input, select, textarea").bind("focus.axsearch", function(event){
+                        cfg.onfocus(event);
                     });
                 }
             }
@@ -30797,7 +30920,7 @@ var AXSearch = Class.create(AXJ, {
             }
             po.push("<span class=\"td inputText\" style=\"",(item.valueBoxStyle||""),"\" title=\"", (item.title||""),"\">");
             var inputWidth = (item.width||100).number();
-            po.push("				<input type=\"text\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" placeholder=\""+ (item.placeholder||"") +"\" value=\"", item.value,"\" class=\"AXInput searchInputTextItem", itemAddClass.join(" "),"\" style=\"width:", inputWidth,"px;\" "+poAttr.join(' ')+" />");
+            po.push("				<input type=\"text\" name=\"", item.key,"\" id=\"", cfg.targetID + "_AX_" + gr + "_AX_" + itemIndex + "_AX_" + item.key, "\" title=\"", (item.title||""),"\" placeholder=\""+ (item.placeholder||"") +"\" value=\"", item.value,"\" class=\"AXInput searchInputTextItem ", itemAddClass.join(" "),"\" style=\"width:", inputWidth,"px;\" "+poAttr.join(' ')+" />");
             po.push("</span>");
             po.push("</label>");
             po.push("</div>");
@@ -30877,6 +31000,8 @@ var AXSearch = Class.create(AXJ, {
         this.target.find(".searchSelectboxItem").bind("change", this.onChangeSelect.bind(this));
         this.target.find(".searchInputTextItem").bind("change", this.onChangeInput.bind(this));
         this.target.find(".searchButtonItem").bind("click", this.onclickButton.bind(this));
+
+        this.target.find(".searchInputTextItem").bind("focus", this.onFocusInput.bind(this));
 
         this.AXBinds = AXBinds;
 
@@ -31050,9 +31175,22 @@ var AXSearch = Class.create(AXJ, {
             item.onChange.call(item, changeValue);
         }
     },
+    onFocusInput: function(event){
+        var cfg = this.config;
+        var ids = (event.target.id).split(/_AX_/g);
+        var gr = ids[ids.length-3];
+        var itemIndex = ids[ids.length-2];
+        var item = cfg.rows[gr].list[itemIndex];
+
+        var frm = document[cfg.targetID+"_AX_form"];
+        var focusValue = frm[item.key].value;
+
+        if(item.onFocus){
+            item.onFocus.call(item, focusValue, frm[item.key]);
+        }
+    },
     onclickButton: function(event){
         var cfg = this.config;
-
         var target = axf.get_event_target(event.target, function(el){
             if((el.tagName||"").ucase() == "BUTTON"){
                 return true;
@@ -31067,6 +31205,7 @@ var AXSearch = Class.create(AXJ, {
             if(item.onclick){
                 item.onclick.call(item);
             }
+
         }
     },
     /**

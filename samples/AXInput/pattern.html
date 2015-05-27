@@ -160,6 +160,22 @@
                         >setText</button>
             </label>
 
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>시간</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-time-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-time-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-time-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-time-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
             <div class="H20"></div>
             <label class="AXInputLabel">
                 <div>날짜 (/)</div>
@@ -277,6 +293,7 @@
 
             $("#ax-bind-pattern-date-target").bindPattern({pattern: "date"});
             $("#ax-bind-pattern-datetime-target").bindPattern({pattern: "datetime"});
+            $("#ax-bind-pattern-time-target").bindPattern({pattern: "time"});
 
             $("#ax-bind-pattern-date01-target").bindPattern({pattern: "date(/)"});
             $("#ax-bind-pattern-date02-target").bindPattern({pattern: "datetime(년월일)"});

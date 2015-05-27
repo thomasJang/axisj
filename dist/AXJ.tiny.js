@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-05-24 
+AXJ - v1.0.16 - 2015-05-27 
 */
 /*! 
-AXJ - v1.0.16 - 2015-05-24 
+AXJ - v1.0.16 - 2015-05-27 
 */
 
 if(!window.AXConfig){
@@ -10680,6 +10680,11 @@ var AXInputConverter = Class.create(AXJ, {
 			css.top = offset.top;
 		}
 
+        if (obj.config.customPos != undefined) {
+            css.top = css.top + obj.config.customPos.top;
+            css.left = css.left + obj.config.customPos.left;
+        }
+
 		var pElement = expandBox.offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
 
@@ -13830,6 +13835,36 @@ var AXInputConverterPro = Class.create(AXJ, {
 			__val = null;
 			return _val;
 		};
+		var getFormatterTime = function(_val, _pattern, tnt){
+			var returnValue = "";
+			if(_val == ""){
+
+			}else if(eventType == "blur") { // 타이핑 완료
+				var nDate = new Date(), needAlert = false;
+				if (_val.length > 2) {
+					var hh = _val.substr(0, 2).number();
+					var mi = _val.substr(2, 2).number();
+				} else if (_val.length > 0) {
+					var hh = _val.substr(0, 2).number();
+					var mi = 0;
+				} else {
+					var hh = 0;
+					var mi = 0;
+				}
+
+				if(hh > 23) hh = 23;
+				if(mi > 59) mi = 59;
+
+				returnValue = hh.setDigit(2) + tnt + mi.setDigit(2);
+			}else{ // 타이핑 중
+				if(_val.length < 3){
+					returnValue = _val;
+				}else{
+					returnValue = _val.substr(0, 2) + tnt + _val.substr(2, 2);
+				}
+			}
+			return returnValue;
+		};
 
 		if(
 			obj.config.pattern == "money" ||
@@ -14010,6 +14045,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 			val = val.replace(/\D/g, "");
 			returnValue = getFormatterDate(val, obj.config.pattern, "년", "월", "일", "시");
 		}
+		else if( obj.config.pattern == "time" ){
+			val = val.replace(/\D/g, "");
+			returnValue = getFormatterTime(val, obj.config.pattern, ":");
+		}
 		else if( obj.config.pattern == "custom" ){
 			// Z, 9, X
 			val = val.replace(/[^0-9^a-z^A-Z]/g, "");
@@ -14103,6 +14142,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 		}else if(obj.config.pattern == "date" || obj.config.pattern == "date(/)" || obj.config.pattern == "date(년월일)"){
 			returnValue = val.replace(/\D/g, "");
 		}else if(obj.config.pattern == "datetime" || obj.config.pattern == "datetime(/)" || obj.config.pattern == "datetime(년월일)"){
+			returnValue = val.replace(/\D/g, "");
+		}else if(obj.config.pattern == "time"){
 			returnValue = val.replace(/\D/g, "");
 		}else if( obj.config.pattern == "custom" ){
 			returnValue = obj.originalValue;
