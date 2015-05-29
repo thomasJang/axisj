@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-05-27 
+AXJ - v1.0.16 - 2015-05-29 
 */
 /*! 
-AXJ - v1.0.16 - 2015-05-27 
+AXJ - v1.0.16 - 2015-05-29 
 */
 
 if(!window.AXConfig){
@@ -11312,7 +11312,7 @@ var AXGrid = Class.create(AXJ, {
         this.moveSens = 0;
         this.config.viewMode = "grid"; // icon, mobile
         this.config.moveSens = 1;
-        this.config.formPaddingRight = "11px";
+        this.config.formPaddingRight = "11px";ㄴ
         this.config.sort = true;
         this.config.colHeadTool = true;
         this.config.xscroll = true;
@@ -19976,7 +19976,7 @@ var AXGrid = Class.create(AXJ, {
             po.push("	</thead>");
             po.push("	<tbody>");
 
-            if (cfg.head) po.push(getHeadDataSet(this.dataSet));
+            if (cfg.head) po.push(getHeadDataSet(this.dataSet, false, filter));
 
             axf.each(this.list, function (itemIndex, item) {
                 po.push(getExcelItem(itemIndex, item, filter));
@@ -19985,7 +19985,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             });
 
-            if (cfg.foot) po.push(getFootDataSet(this.dataSet, filter));
+            if (cfg.foot) po.push(getFootDataSet(this.dataSet, false, filter));
 
             po.push("	</tbody>");
             po.push("</table>");
