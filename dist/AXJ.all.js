@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-05-29 
+AXJ - v1.0.16 - 2015-05-30 
 */
 /*! 
-AXJ - v1.0.16 - 2015-05-29 
+AXJ - v1.0.16 - 2015-05-30 
 */
 
 if(!window.AXConfig){
@@ -21834,8 +21834,25 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.inProgress = true; //진행중 상태 변경
 			var bindSelectorSetOptions = this.bindSelectorSetOptions.bind(this);
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
+
 			var url = obj.config.ajaxUrl;
 			var pars = obj.config.ajaxPars || {};
+			var _method = "post";
+			var _headers = {};
+			var _contentType = AXConfig.AXReq.contentType;
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+			var _async = AXConfig.AXReq.async;
+
+			// ajax 옵션 확장
+			if (obj.config.method) _method = obj.config.method;
+			if (obj.config.headers) _headers = obj.config.headers;
+			if (obj.config.contentType) _contentType = obj.config.contentType;
+			if (obj.config.responseType) _responseType = obj.config.responseType;
+			if (obj.config.dataType) _dataType = obj.config.dataType;
+			if (obj.config.ajaxAsync) _async = obj.config.ajaxAsync;
+
+
 			var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
 			if (pars == "") {
 				pars = selectorName + "=" + (objVal||"").enc();
@@ -21847,7 +21864,15 @@ var AXInputConverter = Class.create(AXJ, {
 
 			var msgAlert = this.msgAlert.bind(this);
 			new AXReq(url, {
-				debug: false, pars: pars, onsucc: function (res) {
+				type: _method,
+				headers: _headers,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				async: _async,
+				debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
+				pars: pars,
+				onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						//obj.config.options = (res.options || []);
@@ -26663,8 +26688,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 		if (!obj.config.onchange) obj.config.onchange = obj.config.onChange;
 		if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
 		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-
 		if(!obj.bindTarget_paddingTop) obj.bindTarget_paddingTop = obj.bindTarget.css("padding-top");
+
+		obj.bindTarget.css({"box-sizing":"content-box","padding":obj.bindTarget_paddingTop});
 
 		// 저장된 태그 리스트
 		obj.tagList = [];
