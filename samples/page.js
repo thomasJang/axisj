@@ -186,7 +186,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 
             axdom("#devCentermobileMenu").bind("click", function(){
                 sampleMobileMenu.open();
-            })
+            });
 
 
         },

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-05-30 
+AXJ - v1.0.16 - 2015-06-01 
 */
 /*! 
-AXJ - v1.0.16 - 2015-05-30 
+AXJ - v1.0.16 - 2015-06-01 
 */
 
 if(!window.AXConfig){
@@ -12631,6 +12631,7 @@ var AXGrid = Class.create(AXJ, {
         axdom(window).bind("resize", this.windowResizeApply.bind(this));
 
         //this.printList();  printList는 setBody 에서 자동 실행 됨
+	    //this.prev_colWidth = this.colWidth;
     },
     windowResize: function () {
         var windowResizeApply = this.windowResizeApply.bind(this);
@@ -12733,6 +12734,7 @@ var AXGrid = Class.create(AXJ, {
                 if (colHeadHeight == 1) colHeadHeight = 0;
 
                 this.body.css({ top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight) });
+	            //this.body.data("height", (scrollBodyHeight - colHeadHeight));
                 /* body Height */
 
             }
@@ -16926,86 +16928,85 @@ var AXGrid = Class.create(AXJ, {
         if (cfg.viewMode == "mobile") return; // 모바일이면 scroll이 없음.
         if (this.contentScrollResize_timer) clearTimeout(this.contentScrollResize_timer);
         this.contentScrollResize_timer = setTimeout(function () {
-            //console.log("contentScrollResize_timer");
-            var bodyHeight = _this.body.height();
-            var scrollHeight = _this.scrollContent.height();
-
             var bodyWidth = _this.body.width();
-            var _colWidth = (_this.colWidth.number() + cfg.fitToWidthRightMargin);
-            var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
+	        var bodyHeight = _this.body.height();
+	        var scrollHeight = _this.scrollContent.height();
+	        var _colWidth = (_this.colWidth.number() + cfg.fitToWidthRightMargin);
+	        var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
+	        if(_this.colWidth != _this.prev_colWidth) _this.prev_colWidth = _this.colWidth; // 이전 너비 변수에 추가
 
-            _this.scrollContent.css({ width: scrollWidth });
-            _this.colHead.css({ width: scrollWidth });
-            /* colHead width 재정의 */
+	        _this.scrollContent.css({ width: scrollWidth });
+	        _this.colHead.css({ width: scrollWidth });
+	        /* colHead width 재정의 */
 
-            if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
+	        if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
 
-            if (resetLeft != false) {
-                _this.scrollContent.css({ left: 0 });
-                axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-                _this.scrollXHandle.css({ left: 0 });
-                if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
-            } else {
-                if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
-                    _this.scrollContent.css({ left: 0 });
-                    axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-                    _this.scrollXHandle.css({ left: 0 });
-                }
-            }
+	        if (resetLeft != false) {
+		        _this.scrollContent.css({ left: 0 });
+		        axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+		        _this.scrollXHandle.css({ left: 0 });
+		        if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+	        } else {
+		        if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
+			        _this.scrollContent.css({ left: 0 });
+			        axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+			        _this.scrollXHandle.css({ left: 0 });
+		        }
+	        }
 
-            if (bodyHeight < scrollHeight && cfg.height != "auto") {
-                //_this.scrollTrackXY.show();
-                _this.scrollTrackY.show();
+	        if (bodyHeight < scrollHeight && cfg.height != "auto") {
+		        //_this.scrollTrackXY.show();
+		        _this.scrollTrackY.show();
 
-                var scrollTrackYHeight = bodyHeight;
-                _this.scrollTrackY.css({ height: scrollTrackYHeight });
+				var scrollTrackYHeight = bodyHeight;
+				_this.scrollTrackY.css({height: scrollTrackYHeight});
 
-                var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
-                // scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
-                _this.scrollYHandle.data("height", scrollYHandleHeight);
-                if(scrollYHandleHeight < 30) scrollYHandleHeight = 30;
-                _this.scrollYHandle.css({ height: scrollYHandleHeight });
-            } else {
-                //_this.scrollTrackXY.hide();
-                _this.scrollTrackY.hide();
-            }
+				var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
+				// scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
+				_this.scrollYHandle.data("height", scrollYHandleHeight);
+				if (scrollYHandleHeight < 30) scrollYHandleHeight = 30;
+				_this.scrollYHandle.css({height: scrollYHandleHeight});
 
-            if (scrollWidth > (bodyWidth+4) && cfg.xscroll) {
-                _this.show_scrollTrackX = true;
+	        } else {
+		        //_this.scrollTrackXY.hide();
+		        _this.scrollTrackY.hide();
+	        }
 
-                //_this.scrollTrackXY.show();
-                _this.scrollTrackX.show();
+	        if (scrollWidth > (bodyWidth+4) && cfg.xscroll) {
+		        _this.show_scrollTrackX = true;
 
-                var scrollTrackXWidth = bodyWidth;
-                _this.scrollTrackX.css({ width: scrollTrackXWidth });
-                var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
-                _this.scrollXHandle.data("width", scrollXHandleWidth);
-                if(scrollXHandleWidth < 30) scrollXHandleWidth = 30;
-                _this.scrollXHandle.css({ width: scrollXHandleWidth });
+		        //_this.scrollTrackXY.show();
+		        _this.scrollTrackX.show();
 
-                /* cfg.height == "auto" 길이 늘이기 */
-                if (cfg.height == "auto") {
-                    var colHeadHeight = _this.colHead.outerHeight();
-                    var scrollBodyHeight = _this.scrollContent.height();
-                    //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
-                    _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
-                    _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
-                }
-            } else {
-                _this.show_scrollTrackX = false;
-                _this.scrollTrackX.hide();
-                //if (cfg.height == "auto") _this.scrollTrackXY.hide();
+		        var scrollTrackXWidth = bodyWidth;
+		        _this.scrollTrackX.css({ width: scrollTrackXWidth });
+		        var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
+		        _this.scrollXHandle.data("width", scrollXHandleWidth);
+		        if(scrollXHandleWidth < 30) scrollXHandleWidth = 30;
+		        _this.scrollXHandle.css({ width: scrollXHandleWidth });
 
-                if (cfg.height == "auto") {
-                    var colHeadHeight = _this.colHead.outerHeight();
-                    var scrollBodyHeight = _this.scrollContent.height();
-                    _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
-                    //colhead + body height
-                    _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
-                    //body Height
-                }
-            }
+		        /* cfg.height == "auto" 길이 늘이기 */
+		        if (cfg.height == "auto") {
+			        var colHeadHeight = _this.colHead.outerHeight();
+			        var scrollBodyHeight = _this.scrollContent.height();
+			        //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
+			        _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
+			        _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
+		        }
+	        } else {
+		        _this.show_scrollTrackX = false;
+		        _this.scrollTrackX.hide();
+		        //if (cfg.height == "auto") _this.scrollTrackXY.hide();
 
+		        if (cfg.height == "auto") {
+			        var colHeadHeight = _this.colHead.outerHeight();
+			        var scrollBodyHeight = _this.scrollContent.height();
+			        _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
+			        //colhead + body height
+			        _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
+			        //body Height
+		        }
+	        }
             _this.onevent_grid({type:"scroll-resize"});
         }, 100);
     },
@@ -17021,6 +17022,7 @@ var AXGrid = Class.create(AXJ, {
      */
     contentScrollScrollSync: function (pos) {
         var cfg = this.config;
+	    if(_this.colWidth != _this.prev_colWidth) return;
 
         if (pos.left != undefined) {
 
@@ -17044,6 +17046,7 @@ var AXGrid = Class.create(AXJ, {
             if (this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: -L });
 
         } else {
+
             if (cfg.height == "auto") return;
             if (!this.contentScrollYAttr) {
                 this.contentScrollYAttr = {
@@ -30553,38 +30556,6 @@ myProgress.close();
 	}
 });
 /* ---------------------------- */
-/* http://www.axisj.com, license : http://www.axisj.com/license */
-/**
- * AXSearch
- * @class AXSearch
- * @extends AXJ
- * @version v1.28
- * @author tom@axisj.com
- * @logs
- "2013-06-04 오후 2:00:44 - tom@axisj.com",
- "2013-07-29 오전 9:35:19 - expandToggle 버그픽스 - tom",
- "2013-09-16 오후 9:59:52 - inputBox 의 경우 엔터 작동 - tom",
- "2013-11-12 오후 6:13:03 - tom : setItemValue bugFix",
- "2013-12-27 오후 4:55:15 - tom : Checkbox, radio onchange 버그픽스",
- "2014-05-21 - tom : mobile view mode 추가"
- "2014-10-20 - tom : tagBind event(keydown, keyup, change) 함수 연결기능 추가"
- "2014-10-30 - tom : type:button tag변경"
- "2014-11-11 - root : axdom 독립 우회 코드 변경"
- "2014-12-23 tom : 메소드 reset 추가"
- "2015-04-09 tom : AXSearch.setItemValue("selectbox", "open") 처럼 selectbox에 값을 부여 했을 때 버그 픽스"
- "2015-04-22 root : getItemHtml중 inputText, selectBox에 사용자 정의속성 추가할수 있게 수정 "
- "2015-05-03 tom : button 에 tag입력시 버그 픽스"
- "2015-05-26 root : inputText 타입에 사용자 클래스 추가 버그 픽스"
- "2015-05-26 root : inputText 타입에 onFocus event 추가"
- *
- * @description
- *
- ```js
- var mySearch = new AXSearch();
- myTree.setConfig(classConfig:JSObject);
- ```
- */
-
 /**
  * @method AXSearch.setConig
  * @param {Object} config - gridConfig
@@ -31236,7 +31207,6 @@ var AXSearch = Class.create(AXJ, {
             if(item.onclick){
                 item.onclick.call(item);
             }
-
         }
     },
     /**
@@ -31280,10 +31250,10 @@ var AXSearch = Class.create(AXJ, {
      * @param {String} key - item key name
      * @description AXSearch내 엘리먼트 id를 반환합니다.
      * @example
-     ```
-     mySearch.getItemId("type");
-     // element id;
-     ```
+     * ```
+     * mySearch.getItemId("type");
+     * // element id;
+     * ```
      */
     getItemId: function(key, value){
         var cfg = this.config;
@@ -31313,11 +31283,11 @@ var AXSearch = Class.create(AXJ, {
      * @param {String|Array} value - item key name
      * @description 단일 속성인 대상에는 String, 다중 속성인 대상에는 Array 로 값을 지정할 수 있습니다. value 가 지정되지 않은 경우 빈 값으로 처리합니다.
      * @example
-     ```
-     mySearch.setItemValue("checkbox", ["all","open"]);
-     mySearch.setItemValue("radiobox");
-     mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 값을 지울 수 있습니다.
-     ```
+     * ```
+     * mySearch.setItemValue("checkbox", ["all","open"]);
+     * mySearch.setItemValue("radiobox");
+     * mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 값을 지울 수 있습니다.
+     * ```
      */
     setItemValue: function(key, value){
         var cfg = this.config;
@@ -31362,9 +31332,16 @@ var AXSearch = Class.create(AXJ, {
             });
             gr++;
         }
-    }
-    //todo : reset 메소드 추가 필요
+    },
 
+	/**
+	 * @method AXSearch.submit
+	 */
+	submit: function(){
+		var cfg = this.config;
+		if(cfg.onsubmit) cfg.onsubmit();
+		return this;
+	}
 });
 /* ---------------------------- */
 var AXSelectConverter = Class.create(AXJ, {
