@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-01 
+AXJ - v1.0.16 - 2015-06-02 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-01 
+AXJ - v1.0.16 - 2015-06-02 
 */
 
 if(!window.AXConfig){
@@ -15426,6 +15426,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		}
 	},
 	bindSelectExpand: function (objID, objSeq, isToggle, event) {
+		var _this = this;
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		var jqueryTargetObjID = axdom("#"+ cfg.targetID + "_AX_" + objID);
@@ -15499,7 +15500,38 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		expandBox.css(css);
 
-		this.bindSelectSetOptions(objID, objSeq);
+		// onexpand 함수가 존재 한다면
+		if(obj.config.onexpand){
+			obj.config.onexpand.call({
+				obj: obj,
+				objID: objID,
+				objSeq: objSeq
+			}, function(args){
+				if(typeof args != "undefined") {
+					obj.options = obj.config.options = axf.copyObject(args.options);
+
+					var po = [], adj = 0;
+					if (obj.config.isspace) {
+						po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
+						if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+						po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+						adj =-1;
+					}
+					for (var opts, oidx = 0; oidx < obj.options.length; oidx++) {
+						var opts = obj.options[oidx];
+						po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts[obj.config.reserveKeys.optionData] + "\" ");
+						if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+						po.push(">" + opts[obj.config.reserveKeys.optionText].dec() + "</option>");
+					}
+					axdom("#" + objID).html( po.join('') );
+
+					_this.bindSelectSetOptions(objID, objSeq);
+					_this.alignAnchor(objID, objSeq);
+				}
+			});
+		}else{
+			this.bindSelectSetOptions(objID, objSeq);
+		}
 	},
 	bindSelectClose: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq], options, sendObj;
