@@ -1,0 +1,126 @@
+#AXPage .cx-wrap {
+  padding: 10px;
+}
+.AXSplit .AXSplit-col-handle {
+  border-radius: 5px;
+}
+.AXSplit .AXSplit-row-handle {
+  border-radius: 5px;
+}
+.AXSplit .cx-panel {
+  background: #fff;
+  height: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 7px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.AXSplit .cx-panel .p-line {
+  line-height: 1px;
+  font-size: 1px;
+  height: 1px;
+  background: #d9d9d9;
+}
+.AXSplit .cx-panel .p-title {
+  position: relative;
+  background: #f3f3f3;
+  border-bottom: 1px solid #d9d9d9;
+}
+.AXSplit .cx-panel .p-title .tit {
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 10px;
+  font-size: 15px;
+  color: #222;
+  font-weight: 800;
+}
+.AXSplit .cx-panel .p-title .tabs {
+  padding-top: 5px;
+  height: 35px;
+}
+.AXSplit .cx-panel .p-title .tabs.small {
+  padding-top: 5px;
+  height: 29px;
+}
+.AXSplit .cx-panel .p-title .tabs.small .AXTabs .AXTabsTray {
+  background: none;
+}
+.AXSplit .cx-panel .p-title .tabs.small .AXTabs .AXTabsTray .AXTab {
+  height: 26px;
+  line-height: 26px;
+  border-color: #d9d9d9;
+}
+.AXSplit .cx-panel .p-title .tabs.small .AXTabs .AXTabsTray .AXTab.on {
+  border-bottom-color: #fff;
+}
+.AXSplit .cx-panel .p-title .tabs .AXTabs .AXTabsTray {
+  background: none;
+}
+.AXSplit .cx-panel .p-title .tabs .AXTabs .AXTabsTray .AXTab {
+  height: 32px;
+  line-height: 32px;
+  border-color: #d9d9d9;
+}
+.AXSplit .cx-panel .p-title .tabs .AXTabs .AXTabsTray .AXTab.on {
+  border-bottom-color: #fff;
+}
+.AXSplit .cx-panel .p-title .btns {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+.AXSplit .cx-panel .p-content {
+  overflow: auto;
+}
+.AXSplit .cx-panel .p-content table {
+  border-collapse: collapse;
+  border: 0px none;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 12px;
+}
+.AXSplit .cx-panel .p-content table th {
+  color: #468ec8;
+}
+.AXSplit .cx-panel .p-content table.padding10 {
+  border-spacing: 10px;
+  border-collapse: separate;
+}
+.AXSplit .cx-panel .p-content table.padding5 {
+  border-spacing: 5px;
+  border-collapse: separate;
+}
+.AXSplit .cx-panel .p-content table.padding15 {
+  border-spacing: 15px;
+  border-collapse: separate;
+}
+.AXSplit .cx-panel .p-content table.padding20 {
+  border-spacing: 20px;
+  border-collapse: separate;
+}
+.AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup.top {
+  border-top: 0px none;
+}
+.AXGrid.AXGridMobile .AXgridScrollBody .gridBodyDiv .bodyViewMobile.selected {
+  background-color: #e8f2ff !important;
+}
+/* 페이지 검색바 */
+.ax-search {
+  border-top: 0px solid;
+  margin: 3px 3px 10px 3px;
+}
+/* 페이지 버튼그룹 */
+.ax-button-group {
+  margin: 10px 3px;
+}
+/* 페이지 그리드 */
+.ax-grid,
+.ax-tree,
+.ax-form,
+.ax-section {
+  margin: 10px 3px 3px 3px;
+}
+/* 페이지 트리 */
+.AXTree_none .AXTreeScrollBody {
+  border-top: 0px none;
+}
