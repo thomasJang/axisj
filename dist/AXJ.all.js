@@ -11056,8 +11056,15 @@ var AXSplit = Class.create(AXJ, {
 
         $("html, body").css("overflow", "hidden"); // resize 이벤트 발생시 스크롤이 순간적으로 발생하는 현상을 막기위해 필수!
 
+
 		this.target = axdom("#"+cfg.targetID);
 		this.target.attr("ondragstart", "return false");
+
+        if (typeof cfg.setTargetHeight === "function") {
+            var targetHeight = cfg.setTargetHeight.call(this);
+            this.target.height(targetHeight);
+        }
+
 		this.initChild(this.target);
 		this.initEvent();
 		axdom(window).resize(this.windowResize.bind(this));
@@ -11081,6 +11088,7 @@ var AXSplit = Class.create(AXJ, {
 		var cfg = this.config;
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.initChild(this.target);
+        this.resizeInstances();
 		//axdom(window).resize();
 		if(cfg.onwindowresize){
 			cfg.onwindowresize.call({});
@@ -11297,6 +11305,28 @@ var AXSplit = Class.create(AXJ, {
         } else {
             return value.number();
         }
+    },
+    /**
+     * AXGrid_instances, AXTree_instances 중에 fill: true 설정된 인스턴스 resize
+     */
+    resizeInstances: function(){
+        var axGrids = window.AXGrid_instances;
+        if (axGrids && typeof axGrids.length === "number") {
+            axf.each(axGrids, function(gi, grid) {
+                if (grid.config.fill === true) {
+                    // todo set grid height
+                }
+            });
+        }
+
+        var axTree = window.AXTree_instances;
+        if (axTree && typeof axTree.length === "number") {
+            axf.each(axTree, function(ti, tree){
+                if (tree.config.fill === true) {
+                    // todo set tree height
+                }
+            });
+        }
     }
 });
 /* ---------------------------- */
@@ -11352,7 +11382,8 @@ var AXGrid = Class.create(AXJ, {
 
         this.mobileContextMenu = new AXContextMenuClass();
 
-        if(window.AXGrid_instances) window.AXGrid_instances.push(this);
+        window.AXGrid_instances = window.AXGrid_instances || [];
+        window.AXGrid_instances.push(this);
     },
     /* 공통 영역 */
     defineConfig: function (rewrite) {
@@ -34029,68 +34060,38 @@ $("#myTab01").closeTab("optionValue");
 	closeTab: function(objID, tabIndex, event) {
 		var objSeq = axdom("#" + objID).data("objSeq");
 		var obj    = this.objects[objSeq];
-		if (!obj.config.options) { return; }
-		tabIndex = (tabIndex === undefined ? (obj.config.options.length - 1) : tabIndex);
-		obj.config.options.splice(tabIndex, 1)[0]; // remove and store target optoin
+
+        if (!obj.config.options) { return; }
+
+        tabIndex = (tabIndex === undefined ? (obj.config.options.length - 1) : tabIndex);
+        var removeTargetOption = obj.config.options.splice(tabIndex, 1)[0]; // remove and store target optoin
+
+        // selected tab update
+        if(obj.config.selectedIndex == tabIndex){
+            var selectedIndex = tabIndex - 1;
+            if (selectedIndex > -1) {
+                this.setValueTab(objID, obj.config.options[selectedIndex].optionValue);
+            } else {
+                this.setValueTab(objID, obj.config.options[0].optionValue);
+            }
+        }else if(obj.config.selectedIndex > tabIndex){
+            var selectedIndex = obj.config.selectedIndex - 1;
+            if (selectedIndex > -1) {
+                obj.config.selectedIndex = selectedIndex;
+            }
+        }
+
+        // reinit tabs
 		this.initTab(objID, objSeq);
-		return this;
 
-
-		// 구 코드
-		var tabs   = obj.tabContainer.find(".AXTab");
-		if (!obj.config.options) { return; }
-
-		tabIndex = (tabIndex === undefined ? (tabs.length - 1) : tabIndex);
-		// find tabIndex by optionValue
-		if (typeof(tabIndex) != "number") {
-			axdom.each(obj.config.options, function(oidx, O){
-				if (O.optionValue === tabIndex) {
-					tabIndex = oidx;
-					return false;
-				}
-			});
-		}
-
-		var removeTarget = tabs.eq(tabIndex);
-		var removeTargetOption = obj.config.options.splice(tabIndex, 1)[0]; // remove and store target optoin
-
-		// context menu remove
-		var tabMoreID = objID + "_AX_tabMore";
-		axdom.each(AXContextMenu.objects, function(oidx, O){
-			if(O.id == tabMoreID){
-				O.menu.splice(tabIndex, 1);
-				return false; // break;
-			}
-		});
-
-		// remove tab element
-		removeTarget
-			.next().remove() // <span class="AXTabSplit"></span> remove
-			.end().remove(); // <a href="javascript:;" id="myTab01_AX_Tabs_AX_... remove
-
-		if (axdom.isFunction(obj.config.onclose)) {
-			obj.config.onclose.call({
-				options:obj.config.options,
-				item:removeTargetOption,
-				index:tabIndex
-			}, removeTargetOption, removeTargetOption.optionValue);
-		}
-
-		// selected tab update
-		if(obj.config.selectedIndex === tabIndex){
-			var selectedIndex = tabIndex - 1;
-			if (selectedIndex > -1) {
-				this.setValueTab(objID, obj.config.options[selectedIndex].optionValue);
-			} else {
-				this.setValueTab(objID, obj.config.options[0].optionValue);
-			}
-		}else if(obj.config.selectedIndex > tabIndex){
-			var selectedIndex = obj.config.selectedIndex - 1;
-			if (selectedIndex > -1) {
-				obj.config.selectedIndex = selectedIndex;
-			}
-		}
-
+        // fire onclose event
+        if (axdom.isFunction(obj.config.onclose)) {
+            obj.config.onclose.call({
+                options:obj.config.options,
+                item:removeTargetOption,
+                index:tabIndex
+            }, removeTargetOption, removeTargetOption.optionValue);
+        }
 	},
     /**
      * @method AXTabClass.bindTabClick
@@ -35817,7 +35818,8 @@ var AXTree = Class.create(AXJ, {
         this.config.cookiePrefix     = (AXConfig.AXTree.cookiePrefix || "axtree-");
         this.config.cookieExpiredays = (AXConfig.AXTree.cookieExpiredays || 7);
 
-		if(window.AXTree_instances) window.AXTree_instances.push(this);
+        window.AXTree_instances = window.AXTree_instances || [];
+		window.AXTree_instances.push(this);
 	},
 	/* 공통 영역 */
 	defineConfig: function (rewrite) {
