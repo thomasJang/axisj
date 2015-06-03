@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-02 
+AXJ - v1.0.16 - 2015-06-03 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-02 
+AXJ - v1.0.16 - 2015-06-03 
 */
 
 if(!window.AXConfig){
@@ -12501,7 +12501,7 @@ var AXGrid = Class.create(AXJ, {
 
         /* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
         var ol = [];
-        ol.push("<a id=\"" + cfg.targetID + "_AX_grid_focus\" href=\"#axtree\" ></a>");
+        ol.push("<a id=\"" + cfg.targetID + "_AX_grid_focus\" href=\"#axgrid\" ></a>");
         ol.push("<div class=\"" + theme + "\" id=\"" + cfg.targetID + "_AX_grid\" style=\"" + gridCss.join('') + "\">");
         ol.push("	<div class=\"AXgridScrollBody\" id=\"" + cfg.targetID + "_AX_gridScrollBody\" style=\"z-index:2;\">");
         ol.push("		<div class=\"AXGridColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_gridColHead\" onselectstart=\"return false;\"></div>");
