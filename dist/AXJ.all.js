@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-03 
+AXJ - v1.0.16 - 2015-06-04 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-03 
+AXJ - v1.0.16 - 2015-06-04 
 */
 
 if(!window.AXConfig){
@@ -16730,10 +16730,10 @@ var AXGrid = Class.create(AXJ, {
                     if (!target) {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
-                            var obj = {
-                                optionValue: sdom.options[sdom.selectedIndex].value,
-                                optionText : sdom.options[sdom.selectedIndex].text
-                            }
+                            var obj = {};
+                            obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+                            obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
+
                             _this.updateItem(r, c, ii, obj);
                         }else{
                             _this.editCellClear();
@@ -16755,8 +16755,8 @@ var AXGrid = Class.create(AXJ, {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
                             var obj = {};
-                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value,
-                                obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text
+                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value;
+                            obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text;
 
                             _this.updateItem(r, c, ii, obj);
                         }else{
