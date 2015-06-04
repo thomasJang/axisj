@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-04 
+AXJ - v1.0.16 - 2015-06-05 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-04 
+AXJ - v1.0.16 - 2015-06-05 
 */
 
 if(!window.AXConfig){
@@ -34064,6 +34064,16 @@ $("#myTab01").closeTab("optionValue");
         if (!obj.config.options) { return; }
 
         tabIndex = (tabIndex === undefined ? (obj.config.options.length - 1) : tabIndex);
+        // find tabIndex by optionValue
+        if (typeof(tabIndex) != "number") {
+            axdom.each(obj.config.options, function(oidx, O){
+                if (O.optionValue === tabIndex) {
+                    tabIndex = oidx;
+                    return false;
+                }
+            });
+        }
+
         var removeTargetOption = obj.config.options.splice(tabIndex, 1)[0]; // remove and store target optoin
 
         // selected tab update
@@ -34801,9 +34811,9 @@ axdom.fn.addTabs = function (options) {
  $("#" + tabID).closeTab(tabValue);
  ```
  **/
-axdom.fn.closeTab = function(tabIndex) {
+axdom.fn.closeTab = function(tabValue) {
 	axdom.each(this, function () {
-		AXTab.closeTab(this.id, tabIndex);
+		AXTab.closeTab(this.id, tabValue);
 	});
 	return this;
 };
