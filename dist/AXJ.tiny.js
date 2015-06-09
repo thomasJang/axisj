@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.15 - 2015-05-20 
+AXJ - v1.0.16 - 2015-06-08 
 */
 /*! 
-AXJ - v1.0.15 - 2015-05-20 
+AXJ - v1.0.16 - 2015-06-08 
 */
 
 if(!window.AXConfig){
@@ -1630,6 +1630,8 @@ Object.extend(String.prototype, (function () {
 				try {
 					if (character in String.specialChar) return String.specialChar[character];
 				} catch (e) { }
+				if(character.charCodeAt() == 13) return "\\r";
+				if(character.charCodeAt() == 10) return "\\n";
 				return '\\u00' + character.charCodeAt()
 			}
 		);
@@ -4888,7 +4890,7 @@ var AXCalendar = Class.create(AXJ, {
                 var printTitle = roopDate.print(this.config.titleFormat);
                 var isEnable = true;
                 if (onBeforeShowDay) {
-                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+                    var addData = onBeforeShowDay(roopDate); // addData -> { isEnable: true|false, title:'성탄절', className: 'holyday', style: 'color:red' }
                     if (addData) {
                         if (addData.className) { addClass.push(addData.className); } // ie7 이하에서 class 예약어라 사용안됨
                         if (addData.style) { addStyle = addData.style; }
@@ -9382,8 +9384,25 @@ var AXInputConverter = Class.create(AXJ, {
 			obj.inProgress = true; //진행중 상태 변경
 			var bindSelectorSetOptions = this.bindSelectorSetOptions.bind(this);
 			var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
+
 			var url = obj.config.ajaxUrl;
 			var pars = obj.config.ajaxPars || {};
+			var _method = "post";
+			var _headers = {};
+			var _contentType = AXConfig.AXReq.contentType;
+			var _responseType = AXConfig.AXReq.responseType;
+			var _dataType = AXConfig.AXReq.dataType;
+			var _async = AXConfig.AXReq.async;
+
+			// ajax 옵션 확장
+			if (obj.config.method) _method = obj.config.method;
+			if (obj.config.headers) _headers = obj.config.headers;
+			if (obj.config.contentType) _contentType = obj.config.contentType;
+			if (obj.config.responseType) _responseType = obj.config.responseType;
+			if (obj.config.dataType) _dataType = obj.config.dataType;
+			if (obj.config.ajaxAsync) _async = obj.config.ajaxAsync;
+
+
 			var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
 			if (pars == "") {
 				pars = selectorName + "=" + (objVal||"").enc();
@@ -9395,7 +9414,15 @@ var AXInputConverter = Class.create(AXJ, {
 
 			var msgAlert = this.msgAlert.bind(this);
 			new AXReq(url, {
-				debug: false, pars: pars, onsucc: function (res) {
+				type: _method,
+				headers: _headers,
+				contentType: _contentType,
+				responseType: _responseType,
+				dataType: _dataType,
+				async: _async,
+				debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
+				pars: pars,
+				onsucc: function (res) {
 					if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
 
 						//obj.config.options = (res.options || []);
@@ -10679,6 +10706,11 @@ var AXInputConverter = Class.create(AXJ, {
 		} else {
 			css.top = offset.top;
 		}
+
+        if (obj.config.customPos != undefined) {
+            css.top = css.top + obj.config.customPos.top;
+            css.left = css.left + obj.config.customPos.left;
+        }
 
 		var pElement = expandBox.offsetParent();
 		var pBox = { width: pElement.width(), height: pElement.height() };
@@ -12887,7 +12919,7 @@ var config = {
     defaultDate      : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 빈값의 달력 기준일을 설정합니다. 지정하지 않으면 시스템달력의 오늘을 기준으로 합니다.
     minDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최소일을 설정합니다.
     maxDate          : "",     // {String} ("yyyy[separator]mm[separator]dd") 날짜 형식의 문자열로 선택할 수 있는 최대일을 설정합니다.
-    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { enable: true|false, title:'성탄절', class: 'holyday', style: 'color:red' }
+    onBeforeShowDay  : {}      // {Function} 날짜를 보여주기 전에 호출하는 함수. date를 파라미터로 받으며 다음과 같은 형식의 Object를 반환해야 한다. { isEnable: true|false, title:'성탄절', className: 'holyday', style: 'color:red' }
     onchange: function(){      // {Function} 값이 변경되었을 때 발생하는 이벤트 콜백함수
         trace(this);
     }
@@ -13830,6 +13862,36 @@ var AXInputConverterPro = Class.create(AXJ, {
 			__val = null;
 			return _val;
 		};
+		var getFormatterTime = function(_val, _pattern, tnt){
+			var returnValue = "";
+			if(_val == ""){
+
+			}else if(eventType == "blur") { // 타이핑 완료
+				var nDate = new Date(), needAlert = false;
+				if (_val.length > 2) {
+					var hh = _val.substr(0, 2).number();
+					var mi = _val.substr(2, 2).number();
+				} else if (_val.length > 0) {
+					var hh = _val.substr(0, 2).number();
+					var mi = 0;
+				} else {
+					var hh = 0;
+					var mi = 0;
+				}
+
+				if(hh > 23) hh = 23;
+				if(mi > 59) mi = 59;
+
+				returnValue = hh.setDigit(2) + tnt + mi.setDigit(2);
+			}else{ // 타이핑 중
+				if(_val.length < 3){
+					returnValue = _val;
+				}else{
+					returnValue = _val.substr(0, 2) + tnt + _val.substr(2, 2);
+				}
+			}
+			return returnValue;
+		};
 
 		if(
 			obj.config.pattern == "money" ||
@@ -14010,6 +14072,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 			val = val.replace(/\D/g, "");
 			returnValue = getFormatterDate(val, obj.config.pattern, "년", "월", "일", "시");
 		}
+		else if( obj.config.pattern == "time" ){
+			val = val.replace(/\D/g, "");
+			returnValue = getFormatterTime(val, obj.config.pattern, ":");
+		}
 		else if( obj.config.pattern == "custom" ){
 			// Z, 9, X
 			val = val.replace(/[^0-9^a-z^A-Z]/g, "");
@@ -14104,6 +14170,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 			returnValue = val.replace(/\D/g, "");
 		}else if(obj.config.pattern == "datetime" || obj.config.pattern == "datetime(/)" || obj.config.pattern == "datetime(년월일)"){
 			returnValue = val.replace(/\D/g, "");
+		}else if(obj.config.pattern == "time"){
+			returnValue = val.replace(/\D/g, "");
 		}else if( obj.config.pattern == "custom" ){
 			returnValue = obj.originalValue;
 		}else if(Object.isFunction(obj.config.depattern)){
@@ -14170,8 +14238,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 		if (!obj.config.onchange) obj.config.onchange = obj.config.onChange;
 		if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
 		if(!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-
 		if(!obj.bindTarget_paddingTop) obj.bindTarget_paddingTop = obj.bindTarget.css("padding-top");
+
+		obj.bindTarget.css({"box-sizing":"content-box","padding":obj.bindTarget_paddingTop});
 
 		// 저장된 태그 리스트
 		obj.tagList = [];
@@ -15357,6 +15426,7 @@ var AXSelectConverter = Class.create(AXJ, {
 		}
 	},
 	bindSelectExpand: function (objID, objSeq, isToggle, event) {
+		var _this = this;
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
 		var jqueryTargetObjID = axdom("#"+ cfg.targetID + "_AX_" + objID);
@@ -15430,7 +15500,38 @@ var AXSelectConverter = Class.create(AXJ, {
 
 		expandBox.css(css);
 
-		this.bindSelectSetOptions(objID, objSeq);
+		// onexpand 함수가 존재 한다면
+		if(obj.config.onexpand){
+			obj.config.onexpand.call({
+				obj: obj,
+				objID: objID,
+				objSeq: objSeq
+			}, function(args){
+				if(typeof args != "undefined") {
+					obj.options = obj.config.options = axf.copyObject(args.options);
+
+					var po = [], adj = 0;
+					if (obj.config.isspace) {
+						po.push("<option value='"+(obj.config.isspaceValue||"")+"'");
+						if (obj.selectedIndex == 0) po.push(" selected=\"selected\"");
+						po.push(">" + (obj.config.isspaceTitle||"&nbsp;") + "</option>");
+						adj =-1;
+					}
+					for (var opts, oidx = 0; oidx < obj.options.length; oidx++) {
+						var opts = obj.options[oidx];
+						po.push("<option value=\"" + opts[obj.config.reserveKeys.optionValue] + "\" data-option=\"" + opts[obj.config.reserveKeys.optionData] + "\" ");
+						if (obj.config.setValue == opts[obj.config.reserveKeys.optionValue] || opts.selected || (obj.selectedIndex||0).number()+adj == oidx) po.push(" selected=\"selected\"");
+						po.push(">" + opts[obj.config.reserveKeys.optionText].dec() + "</option>");
+					}
+					axdom("#" + objID).html( po.join('') );
+
+					_this.bindSelectSetOptions(objID, objSeq);
+					_this.alignAnchor(objID, objSeq);
+				}
+			});
+		}else{
+			this.bindSelectSetOptions(objID, objSeq);
+		}
 	},
 	bindSelectClose: function (objID, objSeq, event) {
 		var obj = this.objects[objSeq], options, sendObj;

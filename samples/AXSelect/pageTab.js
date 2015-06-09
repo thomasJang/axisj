@@ -1,7 +1,8 @@
 ﻿var myTabOption = [
 	{optionValue:"AXSelect", optionText:"AXSelect", addClass:"", url:"index.html"},
 	{optionValue:"AXSelectControl", optionText:"AXSelectControl", addClass:"", url:"selectControl.html"},
-	{optionValue:"AXSelect-custom", optionText:"AXSelect-custom", addClass:"", url:"select-custom.html"}
+	{optionValue:"AXSelect-custom", optionText:"AXSelect-custom", addClass:"", url:"select-custom.html"},
+	{optionValue:"AXSelect-onexpand", optionText:"AXSelect-onexpand", addClass:"", url:"select-onexpand.html"},
 ];
 
 var pageTabChange = function(selectedObject, value){

@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXSplit - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="http://cdn.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSplit.css">
+    <link rel="stylesheet" type="text/css" href="./split.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSplit.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+        .disqus_target { display:none; }
+	</style>
+	<!-- css block -->
+
+	<script type="text/javascript">
+	var pageID = "AXSplit";
+	var mySplit = new AXSplit(); // 인스턴스 선언
+	var fnObj = {
+		pageStart: function(){
+            mySplit.setConfig({
+                targetID:"AXSplitTarget",
+                setTargetHeight: function(){
+                    return $(document).innerHeight() - 111/*header*/ - 35/*tab*/ - 31/*footer*/ - 20/*AXHspace10*/;
+                },
+                onwindowresize: function(){
+
+                },
+                onready: function(){
+                    fnObj.grid.bind();
+                    fnObj.tree.bind();
+                },
+                onsplitresize: function(){
+
+                },
+                onsplitresizeend: function(){
+
+                }
+            });
+		},
+        grid: {
+            target: new AXGrid(),
+            bind: function () {
+                window.myGrid = fnObj.grid.target;
+
+                var getColGroup = function () {
+                    return [
+                        {key: "no", label: "번호", width: "50", align: "right"},
+                        {
+                            key: "title", label: "제목", width: "200",
+                            tooltip: function () {
+                                return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
+                            },
+                            colHeadTool: false,
+                            sort: false
+                        },
+                        {key: "writer", label: "작성자", width: "100"},
+                        {key: "regDate", label: "작성일", width: "100"},
+                        {key: "price", label: "가격", width: "100", align: "right", formatter: "money"},
+                        {key: "amount", label: "수량", width: "80", align: "right", formatter: "money"},
+                        {
+                            key: "cost", label: "금액", width: "100", align: "right",
+                            formatter: function () {
+                                return (this.item.price.number() * this.item.amount.number()).money();
+                            }
+                        },
+                        {key: "desc", label: "비고", width: "200"}
+                    ];
+                };
+
+                myGrid.setConfig({
+                    targetID: "AXGridTarget",
+                    fill: true, // 그리드를 컨테이너의 크기에 꽉 차도록 한다.
+                    sort: true, //정렬을 원하지 않을 경우 (tip
+                    colHeadTool: true, // column tool use
+                    fitToWidth: true, // 너비에 자동 맞춤
+                    colGroup: getColGroup(),
+                    colHeadAlign: "center", // 헤드의 기본 정렬 값. colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+                    body: {
+                        addClass: function () {
+                            return (this.index % 2 == 0 ? "gray" : "white"); // red, green, blue, yellow, white, gray
+                        }
+                    },
+                    page: {
+                        display: false,
+                        paging: false
+                    }
+                });
+
+                var list = [
+                    {no:1, title:"AXGrid 첫번째 줄 입니다.", writer:"김기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:1709401, amount:10}, // item
+                    {no:2, title:"AXGrid 두번째 줄 입니다.", writer:"정기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300.00, amount:7},
+                    {no:3, title:"AXGrid 세번째 줄 입니다.", writer:"한기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+                    {no:4, title:"AXGrid 세번째 줄 입니다.", writer:"박기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+                    {no:5, title:"AXGrid 세번째 줄 입니다.", writer:"곽기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+                    {no:6, title:"AXGrid 세번째 줄 입니다.", writer:"문기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+                    {no:7, title:"AXGrid 세번째 줄 입니다.", writer:"소기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+                    {no:8, title:"AXGrid 첫번째 줄 입니다.", writer:"재기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+                    {no:9, title:"AXGrid 두번째 줄 입니다.", writer:"원기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+                    {no:10, title:"AXGrid 세번째 줄 입니다.", writer:"고기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+                    {no:11, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+                    {no:12, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+                    {no:13, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+                    {no:14, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+                    {no:15, title:"AXGrid 두번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+                    {no:16, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+                    {no:17, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+                    {no:18, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+                    {no:19, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+                    {no:20, title:"AXGrid 세번째 줄 입니다.", writer:"장기영", regDate:"2013-01-18", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
+                ];
+                myGrid.setList(list);
+            }
+        },
+        tree: {
+            target: new AXTree(),
+            bind: function(){
+                window.myTree = fnObj.tree.target;
+
+                myTree.setConfig({
+                    targetID : "AXTreeTarget",
+                    theme: "AXTree_none",
+                    fill: true,
+                    xscroll:true,
+                    relation:{
+                        parentKey:"pno",
+                        childKey:"no"
+                    },
+                    colGroup: [
+                        {
+                            key:"nodeName",
+                            label:"제목",
+                            width:"800", align:"left",
+                            indent:true,
+                            getIconClass: function(){
+                                var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+                                var iconName = "";
+                                if(this.item.type) iconName = iconNames[this.item.type];
+                                return iconName;
+                            },
+                            formatter:function(){
+                                return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+                            }
+                        }
+                    ],
+                    body: {
+                        onclick:function(idx, item){
+                            toast.push(Object.toJSON(item));
+                        }
+                    }
+                });
+
+                var List = [
+                    {no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", pno:0},
+                    {no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", pno:0},
+                    {no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
+                    {no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0", pno:1},
+                    {no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0", pno:2},
+                    {no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
+                    {no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0", pno:24},
+                    {no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
+                    {no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
+                    {no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
+                ];
+                myTree.setList(List);
+            }
+        }
+	};
+	
+	$(document.body).ready(function(){
+//		setTimeout(fnObj.pageStart, 1);
+        fnObj.pageStart();
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+            <div class="AXHspace10"></div>
+            <div class="AXSplit" id="AXSplitTarget" style="height:500px;">
+                <div class="AXSplit-cols cx-panel" data-width="30%" data-min-width="20%" data-max-width="50%">
+                    <div class="p-title">
+                        <div class="tit">left</div>
+                        <div class="btns">
+                            <button type="button" class="AXButton Classic" data-btn="model-search"><i class="axi axi-search3"></i> 찾기</button>
+                            <button type="button" class="AXButton Classic"><i class="axi axi-add-circle"></i> 추가</button>
+                        </div>
+                    </div>
+                    <div id="AXTreeTarget" style="height:400px;"></div>
+                </div>
+                <a href="javascript:;" class="AXSplit-col-handle"></a>
+                <div class="AXSplit-cols">
+                    <div class="AXSplit-rows cx-panel" data-height="400" data-min-height="350" data-max-height="500">
+                        <div class="p-title">
+                            <div class="tit">list</div>
+                            <div class="btns">
+                                <button type="button" class="AXButton Classic" data-btn="model-search"><i class="axi axi-search3"></i> 찾기</button>
+                                <button type="button" class="AXButton Classic"><i class="axi axi-add-circle"></i> 추가</button>
+                            </div>
+                        </div>
+                        <div id="AXGridTarget"></div>
+                    </div>
+                    <a href="javascript:;" class="AXSplit-row-handle"></a>
+                    <div class="AXSplit-rows cx-panel">
+                    </div>
+                </div>
+                <div class="ax-clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
