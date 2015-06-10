@@ -319,8 +319,6 @@
   text-align: center;
   text-decoration: none;
   outline: none;
-}
-.AXTabs .AXTabsTray .AXTab {
   background: #99847d;
   color: #ccc2be;
   border: 1px solid #593629;
@@ -628,8 +626,6 @@
   text-align: center;
   text-decoration: none;
   outline: none;
-}
-.AXTabsLarge .AXTabsTray .AXTab {
   background: #99847d;
   color: #ccc2be;
   border: 1px solid #593629;
@@ -937,8 +933,6 @@
   text-align: center;
   text-decoration: none;
   outline: none;
-}
-.AXTabsSmall .AXTabsTray .AXTab {
   background: #99847d;
   color: #ccc2be;
   border: 1px solid #593629;

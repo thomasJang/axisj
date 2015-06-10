@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-08 
+AXJ - v1.0.16 - 2015-06-10 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-08 
+AXJ - v1.0.16 - 2015-06-10 
 */
 
 if(!window.AXConfig){
@@ -11334,7 +11334,6 @@ var AXGrid = Class.create(AXJ, {
     initialize: function (AXJ_super) {
         AXJ_super();
 
-
         this.Observer = null;
         this.list = [];
         this.removedList = [];
@@ -11614,7 +11613,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
             }
-            //trace(cfg.colHead.rows);
+            //console.log(cfg.colHead.rows);
             /*console.log(cfg.colHead._maps);  //_maps check */
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         }
@@ -14195,7 +14194,7 @@ var AXGrid = Class.create(AXJ, {
         }
         po.push("</div>");
 
-        // trace(cfg.viewMode == "grid", this.hasFixed, (rewrite && this.list.length > 0), rewrite);
+        // console.log(cfg.viewMode == "grid", this.hasFixed, (rewrite && this.list.length > 0), rewrite);
 
         //if (cfg.viewMode == "grid" && this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
         if (cfg.viewMode == "grid" && this.hasFixed && (rewrite || typeof rewrite === "undefined")) {
@@ -17052,7 +17051,7 @@ var AXGrid = Class.create(AXJ, {
      * ```
      */
     contentScrollScrollSync: function (pos) {
-        var cfg = this.config;
+        var cfg = this.config, _this = this;
 	    if(_this.colWidth != _this.prev_colWidth) return;
 
         if (pos.left != undefined) {

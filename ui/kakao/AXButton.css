@@ -186,13 +186,10 @@ button:hover {
   font-size: 12px;
   height: 26px;
   line-height: 26px;
-  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
-}
-.AXButton {
   background: #ffea00;
   color: #493334;
   text-align: center;
@@ -306,13 +303,10 @@ button:hover {
   font-size: 11px;
   height: 20px;
   line-height: 20px;
-  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
-}
-.AXButtonSmall {
   background: #ffea00;
   color: #493334;
   text-align: center;
@@ -426,13 +420,10 @@ button:hover {
   font-size: 12px;
   height: 46px;
   line-height: 46px;
-  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
-}
-.AXButtonLarge {
   background: #ffea00;
   color: #493334;
   text-align: center;
