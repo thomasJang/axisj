@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-08 
+AXJ - v1.0.16 - 2015-06-10 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-08 
+AXJ - v1.0.16 - 2015-06-10 
 */
 
 if(!window.AXConfig){
@@ -11072,6 +11072,8 @@ var AXSplit = Class.create(AXJ, {
 		if(cfg.onready){
 			cfg.onready.call({});
 		}
+
+        this.resizeInstances();
 	},
 	windowResize: function () {
 		this.windowResizeApply();
@@ -11180,8 +11182,7 @@ var AXSplit = Class.create(AXJ, {
 		for(var i=0;i<moreFindTarget.length;i++){
 			this.initChild(moreFindTarget[i]);
 		}
-
-	},
+    },
 	initEvent: function(){
 		var cfg = this.config, _this = this;
 		this.target.find(".AXSplit-col-handle, .AXSplit-row-handle").bind("mousedown", function(event){
@@ -11279,6 +11280,8 @@ var AXSplit = Class.create(AXJ, {
 		if(cfg.onsplitresize){
 			cfg.onsplitresize.call(this.resizeHandle_data);
 		}
+
+        this.resizeInstances();
 	},
 	splitResizeEnd: function(){
 		var cfg = this.config, _this = this;
@@ -11307,14 +11310,25 @@ var AXSplit = Class.create(AXJ, {
         }
     },
     /**
-     * AXGrid_instances, AXTree_instances 중에 fill: true 설정된 인스턴스 resize
+     * AXGrid_instances, AXTree_instances 중에 fill: true 설정된 인스턴스를 컨테이너에 꽉차게 만든다.
      */
     resizeInstances: function(){
         var axGrids = window.AXGrid_instances;
         if (axGrids && typeof axGrids.length === "number") {
             axf.each(axGrids, function(gi, grid) {
                 if (grid.config.fill === true) {
-                    // todo set grid height
+                    grid.scrollBody.css("border", "none");
+
+                    var ph = grid.target.parent().innerHeight();
+                    var siblingsHeight = 0;
+                    grid.target.siblings().each(function(si, sibling){
+                        var s = $(sibling);
+                        if (s.height() === 0) { return; }
+
+                        siblingsHeight += s.outerHeight(true);
+                    });
+
+                    grid.setHeight(ph - siblingsHeight);
                 }
             });
         }
@@ -11323,7 +11337,19 @@ var AXSplit = Class.create(AXJ, {
         if (axTree && typeof axTree.length === "number") {
             axf.each(axTree, function(ti, tree){
                 if (tree.config.fill === true) {
-                    // todo set tree height
+                    tree.scrollBody.css("border", "none");
+
+                    var ph = tree.target.parent().innerHeight();
+                    var siblingsHeight = 0;
+                    tree.target.siblings().each(function(si, sibling){
+                        var s = $(sibling);
+                        if (s.height() === 0) { return; }
+
+                        siblingsHeight += s.outerHeight(true);
+                    });
+
+                    tree.target.height(ph - siblingsHeight);
+                    tree.resetHeight();
                 }
             });
         }
@@ -11333,7 +11359,6 @@ var AXSplit = Class.create(AXJ, {
 var AXGrid = Class.create(AXJ, {
     initialize: function (AXJ_super) {
         AXJ_super();
-
 
         this.Observer = null;
         this.list = [];
@@ -11614,7 +11639,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
             }
-            //trace(cfg.colHead.rows);
+            //console.log(cfg.colHead.rows);
             /*console.log(cfg.colHead._maps);  //_maps check */
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         }
@@ -14195,7 +14220,7 @@ var AXGrid = Class.create(AXJ, {
         }
         po.push("</div>");
 
-        // trace(cfg.viewMode == "grid", this.hasFixed, (rewrite && this.list.length > 0), rewrite);
+        // console.log(cfg.viewMode == "grid", this.hasFixed, (rewrite && this.list.length > 0), rewrite);
 
         //if (cfg.viewMode == "grid" && this.hasFixed && ((rewrite && this.list.length > 0) || !rewrite)) {
         if (cfg.viewMode == "grid" && this.hasFixed && (rewrite || typeof rewrite === "undefined")) {
@@ -17052,7 +17077,7 @@ var AXGrid = Class.create(AXJ, {
      * ```
      */
     contentScrollScrollSync: function (pos) {
-        var cfg = this.config;
+        var cfg = this.config, _this = this;
 	    if(_this.colWidth != _this.prev_colWidth) return;
 
         if (pos.left != undefined) {
@@ -34689,7 +34714,56 @@ $("#myTab01").closeTab("optionValue");
 	cancelEvent: function (event) {
 		event.stopPropagation(); // disable  event
 		return false;
-	}
+	},
+	/**
+	 * @method AXTabClass.updateTabOption
+	 * @description 입력된 value값과 같은 optionValue를 가진탭의 option 을 입력된 option으로 대체합니다. 
+	 * @param {String} objID - 탭 대상 ID
+	 * @param {String} value - 대상 탭 값
+	 * @param {String} option  - 변경될 option 
+	 * @returns {AXTab}
+	 * @example
+	 ```
+		AXTab.updateTabOption('myTab01','F',{optionText:"신여성",addClass:"Classic"});
+	 ```
+	 */
+	updateTabOption: function(objID, value, option){
+    	//trace({objID:objID, value:value});
+		var cfg = this.config;
+		var objSeq = null;
+		axdom.each(this.objects, function(index, O){
+			if(O.id == objID){
+				objSeq = index;
+				return false;
+			}
+		});
+		if(objSeq == null){
+			//trace("바인드 된 오브젝트를 찾을 수 없습니다.");
+			return;
+		}else{
+
+			var obj = this.objects[objSeq];
+
+			var itemIndex = null;
+			axdom.each(obj.config.options, function(oidx, O){
+				if(O.optionValue == value){
+					itemIndex = oidx;
+					return false;
+				}
+			});
+
+			if(itemIndex == null) return;
+
+			var OriginalOption = obj.config.options[itemIndex];
+			
+			for(var idx in option){
+				OriginalOption[idx]=option[idx];
+			}
+			
+			this.initTab(objID, objSeq);
+						
+		}
+    }
 });
 
 var AXTab = new AXTabClass();
@@ -34850,6 +34924,36 @@ axdom.fn.updateTabs = function (options) {
 	return this;
 };
 
+axdom.fn.updateTabOption = function (value,option) {
+	axdom.each(this, function () {
+		AXTab.updateTabOption(this.id, value, option);
+	});
+	return this;
+};
+
+/**
+ * @method AXTabClass.getOptions
+ * @param {String} objID - 탭 대상 ID
+ * @returns {AXTab.options}
+ * @example
+ ```
+	AXTab.getOptions('myTab01');
+ ```
+ */
+axdom.fn.getOptions = function (){
+	var returnValue = null;
+	axdom.each(this, function(){
+		var objSeq = axdom("#" + this.id).data("objSeq");
+		if(objSeq == null){
+			return;
+		}
+
+		var obj = AXTab.objects[objSeq];
+		//obj.config.options = obj.config.options.concat(options);
+		returnValue = obj.config.options;
+	})
+	return returnValue;
+};
 /* ---------------------------- */
 var AXToolBar = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
@@ -40065,7 +40169,7 @@ myTree.setConfig({
 			});
 
 			//tree[cfg.reserveKeys.subTree] =
-			tree[reserveKeys.openKey] = true;
+			//tree[reserveKeys.openKey] = true;
 			axf.each(subTree, function () {
 				this._CUD = "C";
 				tree[reserveKeys.subTree].push(this);
