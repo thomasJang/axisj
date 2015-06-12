@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-12 
+AXJ - v1.0.16 - 2015-06-13 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-12 
+AXJ - v1.0.16 - 2015-06-13 
 */
 
 if(!window.AXConfig){
@@ -11410,7 +11410,8 @@ var AXGrid = Class.create(AXJ, {
 
         this.mobileContextMenu = new AXContextMenuClass();
 
-        if(window.AXGrid_instances) window.AXGrid_instances.push(this);
+        window.AXGrid_instances = window.AXGrid_instances || [];
+        window.AXGrid_instances.push(this);
     },
     /* 공통 영역 */
     defineConfig: function (rewrite) {
@@ -14613,7 +14614,10 @@ var AXGrid = Class.create(AXJ, {
 
         this.printList();
         this.scrollTop(0);
-        this.setPaging();
+        this.setStatus(this.list.length);
+        if (cfg.page.paging) {
+            this.setPaging();
+        }
     },
     /**
      * @method AXGrid.getFormatterValue
@@ -16818,13 +16822,6 @@ var AXGrid = Class.create(AXJ, {
                     if (!target) {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
-                        	// bug 이전 버전 
-                            var obj = {
-                                optionValue: sdom.options[sdom.selectedIndex].value,
-                                optionText : sdom.options[sdom.selectedIndex].text
-                            }
-                            
-                            // 수정된 버전. 2015-06-05
                             var obj = {};
                             obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
                             obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
@@ -16850,8 +16847,8 @@ var AXGrid = Class.create(AXJ, {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
                             var obj = {};
-                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value,
-                                obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text
+                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value;
+                            obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text;
 
                             _this.updateItem(r, c, ii, obj);
                         }else{
@@ -17156,7 +17153,8 @@ var AXGrid = Class.create(AXJ, {
      * ```
      */
     contentScrollScrollSync: function (pos) {
-        var cfg = this.config;
+        var cfg = this.config, _this = this;
+        if(_this.colWidth != _this.prev_colWidth) return;
 
         if (pos.left != undefined) {
 
@@ -19780,7 +19778,7 @@ var AXGrid = Class.create(AXJ, {
     setStatus: function (listLength) {
         var cfg = this.config, listCount;
 
-        if (typeof listLength != "undefined") {
+        if (typeof listLength !== "undefined") {
             listCount = listLength;
         } else {
             var page;
@@ -20117,7 +20115,7 @@ var AXGrid = Class.create(AXJ, {
             po.push("	</thead>");
             po.push("	<tbody>");
 
-            if (cfg.head) po.push(getHeadDataSet(this.dataSet));
+            if (cfg.head) po.push(getHeadDataSet(this.dataSet, false, filter));
 
             axf.each(this.list, function (itemIndex, item) {
                 po.push(getExcelItem(itemIndex, item, filter));
@@ -20126,7 +20124,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             });
 
-            if (cfg.foot) po.push(getFootDataSet(this.dataSet, filter));
+            if (cfg.foot) po.push(getFootDataSet(this.dataSet, false, filter));
 
             po.push("	</tbody>");
             po.push("</table>");
