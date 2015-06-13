@@ -17156,7 +17156,7 @@ var AXGrid = Class.create(AXJ, {
      */
     contentScrollScrollSync: function (pos) {
         var cfg = this.config, _this = this;
-        if(_this.colWidth != _this.prev_colWidth) return;
+        if(_this.colWidth != _this.prev_colWidth) return; // 이전스크롤과 비교
 
         if (pos.left != undefined) {
 
