@@ -11090,7 +11090,6 @@ var AXSplit = Class.create(AXJ, {
 		var cfg = this.config;
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.initChild(this.target);
-        this.resizeInstances();
 		//axdom(window).resize();
 		if(cfg.onwindowresize){
 			cfg.onwindowresize.call({});
@@ -11277,11 +11276,12 @@ var AXSplit = Class.create(AXJ, {
 			}
 		}
 
-		if(cfg.onsplitresize){
-			cfg.onsplitresize.call(this.resizeHandle_data);
-		}
+        // 브라우저 부하로 인해 리사이즈 액션이 끊기는 문제가 있어서 일단 주석 처리함
+        //this.resizeInstances();
 
-        this.resizeInstances();
+        if(cfg.onsplitresize){
+            cfg.onsplitresize.call(this.resizeHandle_data);
+        }
 	},
 	splitResizeEnd: function(){
 		var cfg = this.config, _this = this;
@@ -11292,6 +11292,8 @@ var AXSplit = Class.create(AXJ, {
 		if(cfg.onsplitresizeend){
 			cfg.onsplitresizeend.call({});
 		}
+
+        this.resizeInstances();
 	},
     /**
      * '10%', '20px', '30' 등의 길이 표현을 픽셀단위의 number 값으로 변환한다.
@@ -11328,7 +11330,7 @@ var AXSplit = Class.create(AXJ, {
                         siblingsHeight += s.outerHeight(true);
                     });
 
-                    grid.setHeight(ph - siblingsHeight);
+                    grid.setHeight(ph - siblingsHeight + 2/*border none size*/);
                 }
             });
         }
