@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-12 
+AXJ - v1.0.16 - 2015-06-14 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-12 
+AXJ - v1.0.16 - 2015-06-14 
 */
 
 if(!window.AXConfig){
@@ -11090,7 +11090,6 @@ var AXSplit = Class.create(AXJ, {
 		var cfg = this.config;
 		if (this.windowResizeObserver) clearTimeout(this.windowResizeObserver);
 		this.initChild(this.target);
-        this.resizeInstances();
 		//axdom(window).resize();
 		if(cfg.onwindowresize){
 			cfg.onwindowresize.call({});
@@ -11277,11 +11276,12 @@ var AXSplit = Class.create(AXJ, {
 			}
 		}
 
-		if(cfg.onsplitresize){
-			cfg.onsplitresize.call(this.resizeHandle_data);
-		}
+        // 브라우저 부하로 인해 리사이즈 액션이 끊기는 문제가 있어서 일단 주석 처리함
+        //this.resizeInstances();
 
-        this.resizeInstances();
+        if(cfg.onsplitresize){
+            cfg.onsplitresize.call(this.resizeHandle_data);
+        }
 	},
 	splitResizeEnd: function(){
 		var cfg = this.config, _this = this;
@@ -11292,6 +11292,8 @@ var AXSplit = Class.create(AXJ, {
 		if(cfg.onsplitresizeend){
 			cfg.onsplitresizeend.call({});
 		}
+
+        this.resizeInstances();
 	},
     /**
      * '10%', '20px', '30' 등의 길이 표현을 픽셀단위의 number 값으로 변환한다.
@@ -11328,7 +11330,7 @@ var AXSplit = Class.create(AXJ, {
                         siblingsHeight += s.outerHeight(true);
                     });
 
-                    grid.setHeight(ph - siblingsHeight);
+                    grid.setHeight(ph - siblingsHeight + 2/*border none size*/);
                 }
             });
         }
@@ -11410,7 +11412,8 @@ var AXGrid = Class.create(AXJ, {
 
         this.mobileContextMenu = new AXContextMenuClass();
 
-        if(window.AXGrid_instances) window.AXGrid_instances.push(this);
+        window.AXGrid_instances = window.AXGrid_instances || [];
+        window.AXGrid_instances.push(this);
     },
     /* 공통 영역 */
     defineConfig: function (rewrite) {
@@ -14613,7 +14616,10 @@ var AXGrid = Class.create(AXJ, {
 
         this.printList();
         this.scrollTop(0);
-        this.setPaging();
+        this.setStatus(this.list.length);
+        if (cfg.page.paging) {
+            this.setPaging();
+        }
     },
     /**
      * @method AXGrid.getFormatterValue
@@ -16818,13 +16824,6 @@ var AXGrid = Class.create(AXJ, {
                     if (!target) {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
-                        	// bug 이전 버전 
-                            var obj = {
-                                optionValue: sdom.options[sdom.selectedIndex].value,
-                                optionText : sdom.options[sdom.selectedIndex].text
-                            }
-                            
-                            // 수정된 버전. 2015-06-05
                             var obj = {};
                             obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
                             obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
@@ -16850,8 +16849,8 @@ var AXGrid = Class.create(AXJ, {
                         var sdom = inline_editor.find("select").get(0);
                         if(sdom.options[sdom.selectedIndex]) {
                             var obj = {};
-                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value,
-                                obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text
+                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value;
+                            obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text;
 
                             _this.updateItem(r, c, ii, obj);
                         }else{
@@ -17156,7 +17155,8 @@ var AXGrid = Class.create(AXJ, {
      * ```
      */
     contentScrollScrollSync: function (pos) {
-        var cfg = this.config;
+        var cfg = this.config, _this = this;
+        // if(_this.colWidth != _this.prev_colWidth) return; // 이전스크롤과 비교
 
         if (pos.left != undefined) {
 
@@ -19780,7 +19780,7 @@ var AXGrid = Class.create(AXJ, {
     setStatus: function (listLength) {
         var cfg = this.config, listCount;
 
-        if (typeof listLength != "undefined") {
+        if (typeof listLength !== "undefined") {
             listCount = listLength;
         } else {
             var page;
@@ -20117,7 +20117,7 @@ var AXGrid = Class.create(AXJ, {
             po.push("	</thead>");
             po.push("	<tbody>");
 
-            if (cfg.head) po.push(getHeadDataSet(this.dataSet));
+            if (cfg.head) po.push(getHeadDataSet(this.dataSet, false, filter));
 
             axf.each(this.list, function (itemIndex, item) {
                 po.push(getExcelItem(itemIndex, item, filter));
@@ -20126,7 +20126,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             });
 
-            if (cfg.foot) po.push(getFootDataSet(this.dataSet, filter));
+            if (cfg.foot) po.push(getFootDataSet(this.dataSet, false, filter));
 
             po.push("	</tbody>");
             po.push("</table>");
