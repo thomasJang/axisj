@@ -33,10 +33,13 @@
     <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
 
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
     <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
     <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
-	<link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <!-- prettify block -->
 	<script id="jscode">
 	/**
 	 * Require Files for AXISJ UI Component...
@@ -48,7 +51,6 @@
 	var fnObj = {
 		pageStart: function(){
 			fnObj.grid.bind();
-			prettyPrint();
 		},
 		grid: {
 			target: new AXGrid(),
@@ -288,11 +290,6 @@
 		fnObj.pageStart();
 	});
 	</script>
-    <!-- js block -->
-	<style type="text/css">
-	
-	</style>
-
 </head>
 	
 <body>
@@ -318,8 +315,6 @@
             </div>
 
 			<pre id="pretty" class="prettyprint linenums"></pre>
-
-            <div id="printout"></div>
 
 		</div>
 	</div>
