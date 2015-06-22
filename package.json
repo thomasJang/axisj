@@ -1,6 +1,6 @@
 ﻿{
   "name": "AXJ",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "devDependencies": {
 	  "grunt": "~0.4.5",
 	  "grunt-contrib-jshint": "~0.10.0",

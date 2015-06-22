@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.16 - 2015-06-14 
+AXJ - v1.0.17 - 2015-06-22 
 */
 /*! 
-AXJ - v1.0.16 - 2015-06-14 
+AXJ - v1.0.17 - 2015-06-22 
 */
 
 if(!window.AXConfig){
@@ -17018,7 +17018,7 @@ var AXGrid = Class.create(AXJ, {
                                 return false;
                             }
                         });
-                        if(wc) {
+                        if(typeof(wc) === "number") {
                             wCH = cfg.body.rows[r][wc];
                             //console.log(v, wCH, r, wc);
                             _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + wc + "_AX_" + itemIndex).html(_this.getFormatterValue(wCH.formatter, item, itemIndex, item[v], v, wCH, wc));
