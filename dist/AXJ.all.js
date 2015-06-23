@@ -20495,7 +20495,7 @@ var AXGrid = Class.create(AXJ, {
                     filteredList.push(item);
                 }
             });
-            if (this.config.passiveRemoveHide && filter.indexOf("D") > -1) {
+            if (filter.indexOf("D") > -1) {
                 axf.each(this.removedList, function(idx, item) {
                     filteredList.push(item);
                 });
