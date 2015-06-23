@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-22 
+AXJ - v1.0.17 - 2015-06-23 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-22 
+AXJ - v1.0.17 - 2015-06-23 
 */
 
 if(!window.AXConfig){
@@ -285,11 +285,80 @@ if(!window.AXConfig){
  ```json
  AXTab: {
 	closable : false
-}
+ }
  ```
  */
 		AXTab: {
 			closable : false
+		},
+	/**
+	 * AXValidator default config
+	 * @memberof AXConfig
+	 * @example
+	 * ```json
+	 * AXValidator: {
+	 *	validateErrMessage: {
+	 *		required: "[{label}](은)는 필수입력 사항입니다.",
+	 *		requiredstring: "반드시 {required}(으)로 입력하셔야 하는 사항입니다.",
+	 *		match: "[{label}](은)는 입력된 내용이 일치하지 않습니다.",
+	 *		invalid: "[{label}](은)는 입력된 내용이 올바르지 않습니다.",
+	 *		min: "[{label}](은)는 {min} 이상의 값을 입력해주세요.",
+	 *		max: "[{label}](은)는 {max} 이하의 값을 입력해주세요.",
+	 *		minbyte: "[{label}]의 입력된 내용의 길이가 {minbyte}Byte 이상이어야 합니다.",
+	 *		maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
+	 *		minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
+	 *		maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
+	 *
+	 *		number: "숫자로만 입력하셔야 합니다.",
+	 *		email: "이메일 형식이 올바르지 않습니다.",
+	 *		hangul: "한글로만 입력하셔야 합니다.",
+	 *		engonly: "영문으로만 입력하셔야 합니다.",
+	 *		residentno: "주민등록번호 형식이 올바르지 않습니다.",
+	 *		foreignerno: "외국인등록번호 형식이 올바르지 않습니다.",
+	 *		bizno: "사업자등록번호 형식이 올바르지 않습니다.",
+	 *		phone: "전화번호 형식이 올바르지 않습니다.",
+	 *		isdate: "날짜 형식이 올바르지 않습니다.",
+	 *		zip: "우편번호 형식이 올바르지 않습니다.",
+	 *		money: "화폐형식으로만 입력하셔야 합니다.",
+	 *		earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
+	 *		laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
+	 *
+	 *		exception: "not found errmessage"
+	 *	}
+	 *}
+	 * ```
+ 	 */
+		AXValidator: {
+			validateErrMessage: {
+				/* for element */
+				required: "[{label}](은)는 필수입력 사항입니다.",
+				requiredstring: "반드시 {required}(으)로 입력하셔야 하는 사항입니다.",
+				match: "[{label}](은)는 입력된 내용이 일치하지 않습니다.",
+				invalid: "[{label}](은)는 입력된 내용이 올바르지 않습니다.",
+				min: "[{label}](은)는 {min} 이상의 값을 입력해주세요.",
+				max: "[{label}](은)는 {max} 이하의 값을 입력해주세요.",
+				minbyte: "[{label}]의 입력된 내용의 길이가 {minbyte}Byte 이상이어야 합니다.",
+				maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
+				minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
+				maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
+
+				/* for format */
+				number: "숫자로만 입력하셔야 합니다.",
+				email: "이메일 형식이 올바르지 않습니다.",
+				hangul: "한글로만 입력하셔야 합니다.",
+				engonly: "영문으로만 입력하셔야 합니다.",
+				residentno: "주민등록번호 형식이 올바르지 않습니다.",
+				foreignerno: "외국인등록번호 형식이 올바르지 않습니다.",
+				bizno: "사업자등록번호 형식이 올바르지 않습니다.",
+				phone: "전화번호 형식이 올바르지 않습니다.",
+				isdate: "날짜 형식이 올바르지 않습니다.",
+				zip: "우편번호 형식이 올바르지 않습니다.",
+				money: "화폐형식으로만 입력하셔야 합니다.",
+				earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
+				laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
+
+				exception: "not found errmessage"
+			}
 		}
 	};
 }

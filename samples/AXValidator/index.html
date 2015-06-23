@@ -34,6 +34,8 @@
 		<script type="text/javascript">
 		var pageID = "AXValidator";
 
+		AXConfig.AXValidator.validateErrMessage.required = "[{label}] is required";
+
 		var myValidator = new AXValidator(); // Validator 선언
 		var fnObj = {
 			pageStart: function(){

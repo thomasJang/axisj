@@ -74,7 +74,10 @@
                                 return (this.item.price.number() * this.item.amount.number()).money();
                             }
                         },
-                        {key:"desc", label:"비고", width:"200"}
+                        {key:"desc", label:"비고", width:"200", formatter: function(){
+	                        return this.index;
+
+                        }}
                     ];
                 };
 
