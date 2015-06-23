@@ -11450,6 +11450,7 @@ var AXGrid = Class.create(AXJ, {
         this.config.passiveMode = AXConfig.AXGrid.passiveMode;
         this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
         this.config.scrollContentBottomMargin = "10";
+	    this.config.listCountMargin = 12;
 
         this.config.mergeCells = false; // cells merge option
         this.config.control_lock_status = 0; // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
@@ -15356,7 +15357,7 @@ var AXGrid = Class.create(AXJ, {
                 po = [];
                 var printListCount = (this.body.height() / itemTrHeight).ceil();
 
-                if (this.list.length > (printListCount + 12)) printListCount += 12;
+                if (this.list.length > (printListCount + cfg.listCountMargin)) printListCount += cfg.listCountMargin;
                 else printListCount = this.list.length;
                 for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
                     po.push(getItem(itemIndex, item, "n"));
