@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-23 
+AXJ - v1.0.17 - 2015-06-25 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-23 
+AXJ - v1.0.17 - 2015-06-25 
 */
 
 if(!window.AXConfig){
@@ -8788,11 +8788,12 @@ SSelection = function(win){
 		this._document = this._window.document;
 	};
 	this.init(win);
-	
-	if(AXUtil.browser.name == "ie")
-		SSelectionImpl_IE.apply(this);
-	else
+
+	if('getSelection' in win){
 		SSelectionImpl_FF.apply(this);
+	}else{
+		SSelectionImpl_IE.apply(this);
+	}
 
 	this.selectRange = function(oRng){
 		this.selectNone();
