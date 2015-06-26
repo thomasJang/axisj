@@ -15227,15 +15227,15 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		}
-		else 
-		{
+		} else {
 			//AXUtil.alert(obj.options);
 
 			// PC 브라우저인 경우
 			iobj.css({visibility:"hidden"});
 			var bindSelectExpand = this.bindSelectExpand.bind(this);
 			var bindSelectClose = this.bindSelectClose.bind(this);
+			var bindSelectFocus = this.bindSelectFocus.bind(this);
+			var bindSelectBlur = this.bindSelectBlur.bind(this);
 
 			objDom_selectTextBox.bind("click.AXSelect", function (event) {
 				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
@@ -15258,6 +15258,14 @@ var AXSelectConverter = Class.create(AXJ, {
 					_this.selectTextBox_onkeydown(objID, objSeq, event);
 				}, 300);
 			});
+
+            objDom_selectTextBox.bind("focus.AXSelect", function (event) {
+                bindSelectFocus(objID);
+            });
+
+            objDom_selectTextBox.bind("blur.AXSelect", function (event) {
+                bindSelectBlur(objID);
+            });
 		}
 
 		if (obj.config.ajaxUrl) {

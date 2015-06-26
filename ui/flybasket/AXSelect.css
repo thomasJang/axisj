@@ -101,6 +101,7 @@
 }
 .AXanchorSelect .selectedTextBox:focus {
   outline: none;
+  background: #ffffff;
 }
 .AXanchorSelect .selectedTextBox:active {
   box-shadow: none;
