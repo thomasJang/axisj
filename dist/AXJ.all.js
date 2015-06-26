@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-25 
+AXJ - v1.0.17 - 2015-06-26 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-25 
+AXJ - v1.0.17 - 2015-06-26 
 */
 
 if(!window.AXConfig){
@@ -40755,7 +40755,7 @@ myTree.setConfig({
 
 		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 		var myTree = this.tree;
-		var nowChildIndex;
+		var nowChildIndex, changeChildIndex;
 		var parentHashs = [];
 
 		for (var hidx = 1; hidx < hashs.length - 1; hidx++) {
@@ -40779,22 +40779,34 @@ myTree.setConfig({
 			//이동불가
 			toast.push("순서의 처음입니다.");
 		} else {
+			changeChildIndex = nowChildIndex - 1;
 
 			try {
 				if (isRootControl) {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (nowChildIndex - 1).setDigit(cfg.hashDigit);
+					while (myTree[changeChildIndex]._isDel) {
+						changeChildIndex--;
+						if (changeChildIndex == 0) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[nowChildIndex]);
-					myTree[nowChildIndex] = AXUtil.copyObject(myTree[nowChildIndex - 1]);
-					myTree[nowChildIndex - 1] = tempObj;
+
+					myTree[nowChildIndex] = AXUtil.copyObject(myTree[changeChildIndex]);
+					myTree[changeChildIndex] = tempObj;
 					if(typeof myTree[nowChildIndex]._CUD == "undefined") myTree[nowChildIndex]._CUD = "U";
-					if(typeof myTree[nowChildIndex - 1]._CUD == "undefined") myTree[nowChildIndex - 1]._CUD = "U";
+					if(typeof myTree[changeChildIndex]._CUD == "undefined") myTree[changeChildIndex]._CUD = "U";
 				} else {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (nowChildIndex - 1).setDigit(cfg.hashDigit);
+					while (myTree[cfg.reserveKeys.subTree][changeChildIndex]._isDel) {
+						changeChildIndex--;
+						if (changeChildIndex == 0) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex - 1] = tempObj;
+					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][changeChildIndex]);
+					myTree[cfg.reserveKeys.subTree][changeChildIndex] = tempObj;
 					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD = "U";
-					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]._CUD = "U";
+					if(typeof myTree[cfg.reserveKeys.subTree][changeChildIndex]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][changeChildIndex]._CUD = "U";
 				}
 			} catch (e) {
 				trace(e);
@@ -40835,7 +40847,7 @@ myTree.setConfig({
 		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 
 		var myTree = this.tree;
-		var nowChildIndex;
+		var nowChildIndex, changeChildIndex;
 		var parentHashs = [];
 		for (var hidx = 1; hidx < hashs.length - 1; hidx++) {
 			if (hidx == 1) {
@@ -40864,20 +40876,31 @@ myTree.setConfig({
 			//이동불가
 			toast.push("순서의 마지막입니다.");
 		} else {
+			changeChildIndex = nowChildIndex.number() + 1;
 
 			try {
 				if (isRootControl) {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (nowChildIndex.number() + 1).setDigit(cfg.hashDigit);
+					while(myTree[changeChildIndex]._isDel){
+						changeChildIndex++;
+						if(changeChildIndex == myTree.length-1) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[nowChildIndex]);
-					myTree[nowChildIndex] = AXUtil.copyObject(myTree[nowChildIndex.number() + 1]);
-					myTree[nowChildIndex.number() + 1] = tempObj;
+					myTree[nowChildIndex] = AXUtil.copyObject(myTree[changeChildIndex]);
+					myTree[changeChildIndex] = tempObj;
 					if(typeof myTree[nowChildIndex]._CUD == "undefined") myTree[nowChildIndex]._CUD = "U";
 					if(typeof myTree[nowChildIndex + 1]._CUD == "undefined") myTree[nowChildIndex + 1]._CUD = "U";
 				} else {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (nowChildIndex.number() + 1).setDigit(cfg.hashDigit);
+					while(myTree[cfg.reserveKeys.subTree][changeChildIndex]._isDel){
+						changeChildIndex++;
+						if(changeChildIndex == myTree[cfg.reserveKeys.subTree].length-1) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex.number() + 1]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex.number() + 1] = tempObj;
+					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][changeChildIndex]);
+					myTree[cfg.reserveKeys.subTree][changeChildIndex] = tempObj;
 					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD = "U";
 					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex + 1]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex + 1]._CUD = "U";
 				}
