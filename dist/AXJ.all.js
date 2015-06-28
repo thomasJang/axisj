@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-26 
+AXJ - v1.0.17 - 2015-06-28 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-26 
+AXJ - v1.0.17 - 2015-06-28 
 */
 
 if(!window.AXConfig){
@@ -17130,90 +17130,87 @@ var AXGrid = Class.create(AXJ, {
     contentScrollResize: function (resetLeft) {
         var cfg = this.config, _this = this;
         if (cfg.viewMode == "mobile") return; // 모바일이면 scroll이 없음.
-        if (this.contentScrollResize_timer) clearTimeout(this.contentScrollResize_timer);
-        this.contentScrollResize_timer = setTimeout(function () {
-            //console.log("contentScrollResize_timer");
-            var bodyHeight = _this.body.height();
-            var scrollHeight = _this.scrollContent.height();
 
-            var bodyWidth = _this.body.width();
-            var _colWidth = (_this.colWidth.number() + cfg.fitToWidthRightMargin);
-            var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
+        var bodyHeight = _this.body.height();
+        var scrollHeight = _this.scrollContent.height();
 
-            _this.scrollContent.css({ width: scrollWidth });
-            _this.colHead.css({ width: scrollWidth });
-            /* colHead width 재정의 */
+        var bodyWidth = _this.body.width();
+        var _colWidth = (_this.colWidth.number() + cfg.fitToWidthRightMargin);
+        var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
 
-            if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
+        _this.scrollContent.css({ width: scrollWidth });
+        _this.colHead.css({ width: scrollWidth });
+        /* colHead width 재정의 */
 
-            if (resetLeft != false) {
+        if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
+
+        if (resetLeft != false) {
+            _this.scrollContent.css({ left: 0 });
+            axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+            _this.scrollXHandle.css({ left: 0 });
+            if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+        } else {
+            if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
                 _this.scrollContent.css({ left: 0 });
                 axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
                 _this.scrollXHandle.css({ left: 0 });
-                if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
-            } else {
-                if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
-                    _this.scrollContent.css({ left: 0 });
-                    axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-                    _this.scrollXHandle.css({ left: 0 });
-                }
             }
+        }
 
-            if (bodyHeight < scrollHeight && cfg.height != "auto") {
-                //_this.scrollTrackXY.show();
-                _this.scrollTrackY.show();
+        if (bodyHeight < scrollHeight && cfg.height != "auto") {
+            //_this.scrollTrackXY.show();
+            _this.scrollTrackY.show();
 
-                var scrollTrackYHeight = bodyHeight;
-                _this.scrollTrackY.css({ height: scrollTrackYHeight });
+            var scrollTrackYHeight = bodyHeight;
+            _this.scrollTrackY.css({ height: scrollTrackYHeight });
 
-                var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
-                // scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
-                _this.scrollYHandle.data("height", scrollYHandleHeight);
-                if(scrollYHandleHeight < 30) scrollYHandleHeight = 30;
-                _this.scrollYHandle.css({ height: scrollYHandleHeight });
-            } else {
-                //_this.scrollTrackXY.hide();
-                _this.scrollTrackY.hide();
+            var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
+            // scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
+            _this.scrollYHandle.data("height", scrollYHandleHeight);
+            if(scrollYHandleHeight < 30) scrollYHandleHeight = 30;
+            _this.scrollYHandle.css({ height: scrollYHandleHeight });
+        } else {
+            //_this.scrollTrackXY.hide();
+            _this.scrollTrackY.hide();
+        }
+
+        if (scrollWidth > (bodyWidth+4) && cfg.xscroll) {
+            _this.show_scrollTrackX = true;
+
+            //_this.scrollTrackXY.show();
+            _this.scrollTrackX.show();
+
+            var scrollTrackXWidth = bodyWidth;
+            _this.scrollTrackX.css({ width: scrollTrackXWidth });
+            var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
+            _this.scrollXHandle.data("width", scrollXHandleWidth);
+            if(scrollXHandleWidth < 30) scrollXHandleWidth = 30;
+            _this.scrollXHandle.css({ width: scrollXHandleWidth });
+
+            /* cfg.height == "auto" 길이 늘이기 */
+            if (cfg.height == "auto") {
+                var colHeadHeight = _this.colHead.outerHeight();
+                var scrollBodyHeight = _this.scrollContent.height();
+                //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
+                _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
+                _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
             }
+        } else {
+            _this.show_scrollTrackX = false;
+            _this.scrollTrackX.hide();
+            //if (cfg.height == "auto") _this.scrollTrackXY.hide();
 
-            if (scrollWidth > (bodyWidth+4) && cfg.xscroll) {
-                _this.show_scrollTrackX = true;
-
-                //_this.scrollTrackXY.show();
-                _this.scrollTrackX.show();
-
-                var scrollTrackXWidth = bodyWidth;
-                _this.scrollTrackX.css({ width: scrollTrackXWidth });
-                var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
-                _this.scrollXHandle.data("width", scrollXHandleWidth);
-                if(scrollXHandleWidth < 30) scrollXHandleWidth = 30;
-                _this.scrollXHandle.css({ width: scrollXHandleWidth });
-
-                /* cfg.height == "auto" 길이 늘이기 */
-                if (cfg.height == "auto") {
-                    var colHeadHeight = _this.colHead.outerHeight();
-                    var scrollBodyHeight = _this.scrollContent.height();
-                    //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
-                    _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
-                    _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
-                }
-            } else {
-                _this.show_scrollTrackX = false;
-                _this.scrollTrackX.hide();
-                //if (cfg.height == "auto") _this.scrollTrackXY.hide();
-
-                if (cfg.height == "auto") {
-                    var colHeadHeight = _this.colHead.outerHeight();
-                    var scrollBodyHeight = _this.scrollContent.height();
-                    _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
-                    //colhead + body height
-                    _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
-                    //body Height
-                }
+            if (cfg.height == "auto") {
+                var colHeadHeight = _this.colHead.outerHeight();
+                var scrollBodyHeight = _this.scrollContent.height();
+                _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
+                //colhead + body height
+                _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
+                //body Height
             }
+        }
 
-            _this.onevent_grid({type:"scroll-resize"});
-        }, 100);
+        _this.onevent_grid({type:"scroll-resize"});
     },
     /**
      * @method AXGrid.contentScrollScrollSync
