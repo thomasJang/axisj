@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-28 
+AXJ - v1.0.17 - 2015-06-29 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-28 
+AXJ - v1.0.17 - 2015-06-29 
 */
 
 if(!window.AXConfig){
@@ -15977,9 +15977,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				findIndex = index;
 				break;
 			}
-		};
+		}
 		if(findIndex != null){
-			AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").addClass("focus");
 		}
 	},
 	bindSelectBlur: function(objID){
@@ -15990,9 +15990,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				findIndex = index;
 				break;
 			}
-		};
+		}
 		if(findIndex != null){
-			this.bindSelectClose(objID, findIndex);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").removeClass("focus");
 		}
 	},
 	bindSelectGetAnchorObject: function(objID){
