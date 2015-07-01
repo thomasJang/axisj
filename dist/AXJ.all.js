@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-29 
+AXJ - v1.0.17 - 2015-07-01 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-29 
+AXJ - v1.0.17 - 2015-07-01 
 */
 
 if(!window.AXConfig){
@@ -14012,11 +14012,12 @@ var AXGrid = Class.create(AXJ, {
 
             var ai = this.ajaxInfo;
             if (ai && cfg.remoteSort) {
-                if (ai.ajaxPars) {
-                    var parsObj = $.extend(ai.ajaxPars.queryToObject(), this.getSortParam("one").queryToObject());
-                    ai.ajaxPars = axdom.param(parsObj);
-                } else {
+                if (!ai.ajaxPars) {
                     ai.ajaxPars = this.getSortParam("one");
+                } else if (Object.isString(ai.ajaxPars)) {
+                    ai.ajaxPars = $.extend(ai.ajaxPars.dec().queryToObject(), this.getSortParam("one").queryToObject());
+                } else if (Object.isObject(ai.ajaxPars)) {
+                    ai.ajaxPars = $.extend(ai.ajaxPars, this.getSortParam("one").queryToObject());
                 }
 
                 this.reloadList();
@@ -14434,7 +14435,9 @@ var AXGrid = Class.create(AXJ, {
 	 *  //ajaxPars :
 	 *  //onLoad :
 	 *  //onError :
-	 *  ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+	 *  ajaxUrl:"loadGrid.php",
+	 *  ajaxPars:"param1=1&param2=2", // {String|Object}
+	 *  onLoad:function(){
 	 *
 	 *  }
      * });
@@ -14470,7 +14473,12 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
 
-            var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
+            if (Object.isString(obj.ajaxPars)) {
+                appendPars.push(obj.ajaxPars);
+            } else if (Object.isObject(obj.ajaxPars)) {
+                appendPars.push(axdom.param(obj.ajaxPars));
+            }
+            var pars = appendPars.join('&');
 
             var _method = "post";
             var _contentType = AXConfig.AXReq.contentType;
@@ -14569,7 +14577,12 @@ var AXGrid = Class.create(AXJ, {
                 "pageNo=" + this.page.pageNo,
                 "pageSize=" + this.page.pageSize
             ];
-            var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
+            if (Object.isString(obj.ajaxPars)) {
+                appendPars.push(obj.ajaxPars);
+            } else if (Object.isObject(obj.ajaxPars)) {
+                appendPars.push(axdom.param(obj.ajaxPars));
+            }
+            var pars = appendPars.join('&');
             var _method = "post";
             var _contentType = AXConfig.AXReq.contentType;
             var _headers = {};
@@ -19389,7 +19402,12 @@ var AXGrid = Class.create(AXJ, {
             axf.each(editorFormItem, function (k, v) {
                 formPars.push(k + "=" + v.enc());
             });
-            var pars = (ajax.ajaxPars) ? ajax.ajaxPars + "&" + formPars.join('&') : formPars.join('&');
+            if (Object.isString(obj.ajaxPars)) {
+                formPars.push(obj.ajaxPars);
+            } else if (Object.isObject(obj.ajaxPars)) {
+                formPars.push(axdom.param(obj.ajaxPars));
+            }
+            var pars = formPars.join('&');
 
             var _method = "post";
             var _contentType = AXConfig.AXReq.contentType;
