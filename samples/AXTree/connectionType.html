@@ -79,6 +79,18 @@
 						//trace(myTree.list);
 						//toast.push(Object.toJSON(item));
 						//myTree.setEditor(this.item, this.index);
+					},
+					// 같은 레벨에서는 하나의 노드만 펼쳐져 있도록 하는 기능
+					onexpand: function(idx, item) {
+						var list = myTree.list;
+						var selLvl  = item.hash.split('_').length;
+						for(var i = 0; i < list.length; i++) {
+							var node = list[i];
+							if (selLvl !== node.hash.split('_').length) { continue; }
+							if (item.hash === node.hash) { continue; }
+
+							myTree.expandToggleList(i, node, false);
+						}
 					}
 				}
 			});
