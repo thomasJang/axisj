@@ -166,9 +166,15 @@
             });
 
             myGrid.setList({
-                //ajaxUrl:"gridData.json", ajaxPars:"param1=1&param2=2", onLoad:function(){
-                ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+                ajaxUrl : "loadGrid.php",
+                ajaxPars: {
+                    "param1": "액시스제이",
+                    "param2": "AXU4J"
+                },
+                onLoad  : function(){
                     //trace(this);
+
+		            //myGrid.setFocus(this.list.length - 1);
                 }
             });
 

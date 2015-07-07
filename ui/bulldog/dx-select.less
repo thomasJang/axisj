@@ -67,12 +67,14 @@
 			.util-text-shadow-white();
 		}
 		&:focus{
-	        outline:none;
-		}
+            outline:none;
+        }
 		&:active{
 			box-shadow: none;
 		}			
-		
+		&.focus{
+		  	background:@bgcolor;
+		}
 	}
 	&.disable{
 		.selectedTextBox{

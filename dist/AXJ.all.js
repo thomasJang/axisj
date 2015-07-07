@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-06-22 
+AXJ - v1.0.17 - 2015-07-05 
 */
 /*! 
-AXJ - v1.0.17 - 2015-06-22 
+AXJ - v1.0.17 - 2015-07-05 
 */
 
 if(!window.AXConfig){
@@ -285,11 +285,80 @@ if(!window.AXConfig){
  ```json
  AXTab: {
 	closable : false
-}
+ }
  ```
  */
 		AXTab: {
 			closable : false
+		},
+	/**
+	 * AXValidator default config
+	 * @memberof AXConfig
+	 * @example
+	 * ```json
+	 * AXValidator: {
+	 *	validateErrMessage: {
+	 *		required: "[{label}](은)는 필수입력 사항입니다.",
+	 *		requiredstring: "반드시 {required}(으)로 입력하셔야 하는 사항입니다.",
+	 *		match: "[{label}](은)는 입력된 내용이 일치하지 않습니다.",
+	 *		invalid: "[{label}](은)는 입력된 내용이 올바르지 않습니다.",
+	 *		min: "[{label}](은)는 {min} 이상의 값을 입력해주세요.",
+	 *		max: "[{label}](은)는 {max} 이하의 값을 입력해주세요.",
+	 *		minbyte: "[{label}]의 입력된 내용의 길이가 {minbyte}Byte 이상이어야 합니다.",
+	 *		maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
+	 *		minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
+	 *		maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
+	 *
+	 *		number: "숫자로만 입력하셔야 합니다.",
+	 *		email: "이메일 형식이 올바르지 않습니다.",
+	 *		hangul: "한글로만 입력하셔야 합니다.",
+	 *		engonly: "영문으로만 입력하셔야 합니다.",
+	 *		residentno: "주민등록번호 형식이 올바르지 않습니다.",
+	 *		foreignerno: "외국인등록번호 형식이 올바르지 않습니다.",
+	 *		bizno: "사업자등록번호 형식이 올바르지 않습니다.",
+	 *		phone: "전화번호 형식이 올바르지 않습니다.",
+	 *		isdate: "날짜 형식이 올바르지 않습니다.",
+	 *		zip: "우편번호 형식이 올바르지 않습니다.",
+	 *		money: "화폐형식으로만 입력하셔야 합니다.",
+	 *		earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
+	 *		laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
+	 *
+	 *		exception: "not found errmessage"
+	 *	}
+	 *}
+	 * ```
+ 	 */
+		AXValidator: {
+			validateErrMessage: {
+				/* for element */
+				required: "[{label}](은)는 필수입력 사항입니다.",
+				requiredstring: "반드시 {required}(으)로 입력하셔야 하는 사항입니다.",
+				match: "[{label}](은)는 입력된 내용이 일치하지 않습니다.",
+				invalid: "[{label}](은)는 입력된 내용이 올바르지 않습니다.",
+				min: "[{label}](은)는 {min} 이상의 값을 입력해주세요.",
+				max: "[{label}](은)는 {max} 이하의 값을 입력해주세요.",
+				minbyte: "[{label}]의 입력된 내용의 길이가 {minbyte}Byte 이상이어야 합니다.",
+				maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
+				minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
+				maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
+
+				/* for format */
+				number: "숫자로만 입력하셔야 합니다.",
+				email: "이메일 형식이 올바르지 않습니다.",
+				hangul: "한글로만 입력하셔야 합니다.",
+				engonly: "영문으로만 입력하셔야 합니다.",
+				residentno: "주민등록번호 형식이 올바르지 않습니다.",
+				foreignerno: "외국인등록번호 형식이 올바르지 않습니다.",
+				bizno: "사업자등록번호 형식이 올바르지 않습니다.",
+				phone: "전화번호 형식이 올바르지 않습니다.",
+				isdate: "날짜 형식이 올바르지 않습니다.",
+				zip: "우편번호 형식이 올바르지 않습니다.",
+				money: "화폐형식으로만 입력하셔야 합니다.",
+				earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
+				laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
+
+				exception: "not found errmessage"
+			}
 		}
 	};
 }
@@ -305,47 +374,48 @@ var axf = AXUtil = {
 
 	uniqueSeq: 0,
 
-/**
- * 현재페이지에서 고유한 순번을 반환합니다.
- * @method axf.getUniqueId
- * @returns {Number} uniqueSeq
- * @example
- ```
- trace( axf.getUniqueId() );
- ```
- */
-
+	/**
+	 * 현재페이지에서 고유한 순번을 반환합니다.
+	 * @method axf.getUniqueId
+	 * @returns {Number} uniqueSeq
+	 * @example
+	 * ```js
+	 * trace( axf.getUniqueId() );
+	 * ```
+	 */
 	getUniqueId: function(){ return (axf.uniqueSeq += 1); },
-/**
- * document.getElementById(id) 와 같습니다. 아이디가 같은 엘리먼트를 반환합니다.
- * @method axf.getId
- * @param {String} id
- * @returns {HtmlElement}
- * @example
- ```
- if(axf.getId("myele_id")){
-    $("#myele_id").css({...});
- }
- ```
- */
+
+	/**
+	 * document.getElementById(id) 와 같습니다. 아이디가 같은 엘리먼트를 반환합니다.
+	 * @method axf.getId
+	 * @param {String} id
+	 * @returns {HtmlElement}
+	 * @example
+	 * ```js
+	 * if(axf.getId("myele_id")){
+	 *    $("#myele_id").css({...});
+	 * }
+	 * ```
+	 */
 	getId: function(id) { return document.getElementById(id);  },
-/**
- * @method axf.each
- * @param {Array|Object} obj
- * @param {Function} callback
- * @description Array 또는 Object의 아이템만큰 callback 함수를 call합니다.
- * @example
-```
-var new_array = [];
-axf.each([0, 1, 2], function(){
-	new_array.push(this*2);
-});
-var new_object = {};
-axf.each({a:1, b:2, c:3}, function(k, v){
-	new_object[k] = v*2;
-});
-```
- */
+
+	/**
+	 * @method axf.each
+	 * @param {Array|Object} obj
+	 * @param {Function} callback
+	 * @description Array 또는 Object의 아이템만큰 callback 함수를 call합니다.
+	 * @example
+	 * ```js
+	 * var new_array = [];
+	 * axf.each([0, 1, 2], function(){
+	 * 	new_array.push(this*2);
+	 * });
+	 * var new_object = {};
+	 * axf.each({a:1, b:2, c:3}, function(k, v){
+	 * 	new_object[k] = v*2;
+	 * });
+	 * ```
+	 */
 	each:  function(obj, callback){
 		if(obj){
 			var name, i = 0, length = obj.length,
@@ -365,19 +435,19 @@ axf.each({a:1, b:2, c:3}, function(k, v){
 			}
 		}
 	},
-/**
- * 브라우저의 이름과 버전 모바일여부
- *
- * @member {Object} axf.browser
- * @example
- ```
-{
-	name: {String} - bowserName (ie|chrome|webkit|oprea),
-	version: {Number} - browserVersion,
-	mobile: {Boolean}
-}
- ```
- */
+    /**
+     * 브라우저의 이름과 버전 모바일여부
+     *
+     * @member {Object} axf.browser
+     * @example
+     * ```js
+     *{
+     *	name: {String} - bowserName (ie|chrome|webkit|oprea),
+     *	version: {Number} - browserVersion,
+     *	mobile: {Boolean}
+     *}
+     * ```
+     */
 	browser: (function () {
 		var ua = navigator.userAgent.toLowerCase();
 		var mobile = (ua.search(/mobile/g) != -1);
@@ -415,47 +485,47 @@ axf.each({a:1, b:2, c:3}, function(k, v){
 			}
 		}
 	})(),
-/**
- * 호환성보기 여부
- * @member {String} axf.docTD
- * @example
- ```
- axf.docTD = (Q|S)
- ```
- */
+	/**
+	 * 호환성보기 여부
+	 * @member {String} axf.docTD
+	 * @example
+	 * ```js
+	 * axf.docTD = (Q|S)
+	 * ```
+	 */
 	docTD: (function () {
 		if (!document.compatMode || document.compatMode == 'BackCompat') return "Q";
 		else return "S";
 	})(),
-/**
- * @method axf.timekey
- * @returns {String} timeKey
- * @description 밀리세컨드까지 조합한 문자열을 반환합니다.
- * @example
-```js
-trace(axf.timeKey()); // A004222760
-```
- */
+	/**
+	 * @method axf.timekey
+	 * @returns {String} timeKey
+	 * @description 밀리세컨드까지 조합한 문자열을 반환합니다.
+	 * @example
+	 * ```js
+	 * trace(axf.timeKey()); // A004222760
+	 * ```
+	 */
 	timekey: function () {
 		var d = new Date();
 		return ("A" + d.getHours().setDigit(2) + d.getMinutes().setDigit(2) + d.getSeconds().setDigit(2) + d.getMilliseconds());
 	},
-/**
- * @method axf.overwriteObject
- * @param {Object} tg - 덮어쓰기 대상 오브젝트
- * @param {Object} obj - 덮어쓰기 할 오브젝트
- * @param {Boolean} [rewirte=false] - 덮어쓰기 모드
- * @returns {Object} 덮어쓰기된 tg
- * @description 덮어쓰기 대상 오브젝트에 덮어쓰기 할 오브젝트를 덮어쓰기 합니다.
- * @example
- ```js
- axf.overwriteObject({a:1}, {b:1});
- // {a:1, b:1}
- axf.overwriteObject({a:1}, {a:2}, true);
- // {a:2}
- // rewirte : false 이면 {a:1} 로 유지 됩니다. 대상오브젝트에 키가 없는 경우에만 덮어쓰기 합니다.
- ```
- */
+	/**
+	 * @method axf.overwriteObject
+	 * @param {Object} tg - 덮어쓰기 대상 오브젝트
+	 * @param {Object} obj - 덮어쓰기 할 오브젝트
+	 * @param {Boolean} [rewirte=false] - 덮어쓰기 모드
+	 * @returns {Object} 덮어쓰기된 tg
+	 * @description 덮어쓰기 대상 오브젝트에 덮어쓰기 할 오브젝트를 덮어쓰기 합니다.
+	 * @example
+	 * ```js
+	 * axf.overwriteObject({a:1}, {b:1});
+	 * // {a:1, b:1}
+	 * axf.overwriteObject({a:1}, {a:2}, true);
+	 * // {a:2}
+	 * // rewirte : false 이면 {a:1} 로 유지 됩니다. 대상오브젝트에 키가 없는 경우에만 덮어쓰기 합니다.
+	 * ```
+	 */
 	overwriteObject: function (tg, obj, rewrite) {
 		if (rewrite == undefined) rewrite = true;
 		//trace(tg[k]);
@@ -468,17 +538,17 @@ trace(axf.timeKey()); // A004222760
 		});
 		return tg;
 	},
-/**
- * @method axf.copyObject
- * @param {Object} obj - 복제할 오브젝트
- * @returns {Object} 복제된 오브젝트
- * @description 오브젝트를 복제하여 새로운 참조를 리턴합니다.
- * @example
- ```js
- axf.copyObject({a:1});
- // 내부코드가 Object.toJSON(obj).object(); 이므로 상황에 맞게 사용해야 합니다.
- ```
- */
+	/**
+	 * @method axf.copyObject
+	 * @param {Object} obj - 복제할 오브젝트
+	 * @returns {Object} 복제된 오브젝트
+	 * @description 오브젝트를 복제하여 새로운 참조를 리턴합니다.
+	 * @example
+	 * ```js
+	 * axf.copyObject({a:1});
+	 * // 내부코드가 Object.toJSON(obj).object(); 이므로 상황에 맞게 사용해야 합니다.
+	 * ```
+	 */
 	copyObject: function (obj) {
 		//return Object.clone(obj);
 		return Object.toJSON(obj).object();
@@ -502,22 +572,22 @@ trace(axf.timeKey()); // A004222760
 		}
 		return rword;
 	},
-/**
- * @method axf.setCookie
- * @param {String} name
- * @param {String} value
- * @param {Number} [expiredays]
- * @param {Object} options
- * @description 쿠키에 값을 지정합니다.
- * @example
-```js
-axf.setCookie("myname", "tomas", 10, {
-    path  : "/",             // {String} [현재 페이지의 path]
-    domain: "www.axisj.com", // {String} [현재 사이트의 domain]
-    secure: true             // {Boolean} [false]
-});
-```
- */
+	/**
+	 * @method axf.setCookie
+	 * @param {String} name
+	 * @param {String} value
+	 * @param {Number} [expiredays]
+	 * @param {Object} options
+	 * @description 쿠키에 값을 지정합니다.
+	 * @example
+	 * ```js
+	 * axf.setCookie("myname", "tomas", 10, {
+	 *     path  : "/",             // {String} [현재 페이지의 path]
+	 *     domain: "www.axisj.com", // {String} [현재 사이트의 domain]
+	 *     secure: true             // {Boolean} [false]
+	 * });
+	 * ```
+	 */
 	setCookie: function (name, value, expiredays, options) {
         var expireDate;
         if (typeof expiredays === "number") {
@@ -535,16 +605,16 @@ axf.setCookie("myname", "tomas", 10, {
             options.secure  ? "; secure" : ""
         ].join(""));
     },
-/**
- * @method axf.getCookie
- * @param {String} name
- * @description 쿠키에서 값을 읽어들입니다
- * @example
- ```js
- trace( axf.getCookie("myname") );
- // tomas
- ```
- */
+	/**
+	 * @method axf.getCookie
+	 * @param {String} name
+	 * @description 쿠키에서 값을 읽어들입니다
+	 * @example
+	 * ```js
+	 * trace( axf.getCookie("myname") );
+	 * // tomas
+	 * ```
+	 */
 	getCookie: function (name) {
         var nameOfCookie = name + "=";
         var x = 0;
@@ -560,59 +630,59 @@ axf.setCookie("myname", "tomas", 10, {
         return "";
     },
 	JSONFilter: /^\/\*-secure-([\s\S]*)\*\/\s*$/,
-/**
- * @method axf.dayLen
- * @param {Number} year
- * @param {Number} month
- * @returns {Number} end of daynum
- * @description 지정한 년도와 월의 날자수를 반환합니다.
- * @example
-```js
- trace( axf.dayLen(2013, 1) );
- // 28
- // 주의 Data.getMonth() 의 반환값을 그대로 사용 하므로 1월은 0 으로 전달 해야 합니다. 0~11 까지의 값을 사용할 수 있습니다.
-```
- */
+	/**
+	 * @method axf.dayLen
+	 * @param {Number} year
+	 * @param {Number} month
+	 * @returns {Number} end of daynum
+	 * @description 지정한 년도와 월의 날자수를 반환합니다.
+	 * @example
+	 * ```js
+	 * trace( axf.dayLen(2013, 1) );
+	 * // 28
+	 * // 주의 Data.getMonth() 의 반환값을 그대로 사용 하므로 1월은 0 으로 전달 해야 합니다. 0~11 까지의 값을 사용할 수 있습니다.
+	 * ```
+	 */
 	dayLen: function (y, m) { if ([3, 5, 8, 10].has(function () { return this.item == m; })) { return 30; } else if (m == 1) { return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)) ? 29 : 28; } else { return 31; } },
-/**
- * @method  axf.clientHeight
- * @returns {Number} clientHeight
- * @description 브라우저 clientHeight 반환합니다. window 창 높이와 같습니다.
- * @example
-```js
- axf.clientHeight();
-```
- */
+	/**
+	 * @method  axf.clientHeight
+	 * @returns {Number} clientHeight
+	 * @description 브라우저 clientHeight 반환합니다. window 창 높이와 같습니다.
+	 * @example
+	 * ```js
+	 * axf.clientHeight();
+	 * ```
+	 */
 	clientHeight: function () { return (AXUtil.docTD == "Q") ? document.body.clientHeight : document.documentElement.clientHeight; },
-/**
- * @method  axf.scrollHeight
- * @returns {Number} scrollHeight
- * @description HTML scrollHeight 반환합니다.
- * @example
- ```js
- axf.scrollHeight();
- ```
- */
+	/**
+	 * @method  axf.scrollHeight
+	 * @returns {Number} scrollHeight
+	 * @description HTML scrollHeight 반환합니다.
+	 * @example
+	 * ```js
+	 * axf.scrollHeight();
+	 * ```
+	 */
 	scrollHeight: function () { return (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight; },
-/**
- * @method  axf.clientWidth
- * @returns {Number} clientWidth
- * @description 브라우저 clientWidth 반환합니다. window 창 너비와 같습니다.
- * @example
- ```js
- axf.clientWidth();
- ```
- */
+	/**
+	 * @method  axf.clientWidth
+	 * @returns {Number} clientWidth
+	 * @description 브라우저 clientWidth 반환합니다. window 창 너비와 같습니다.
+	 * @example
+	 * ```js
+	 * axf.clientWidth();
+	 * ```
+	 */
 	clientWidth: function () { return (AXUtil.docTD == "Q") ? document.body.clientWidth : document.documentElement.clientWidth; },
-/**
- * @method  axf.scrollWidth
- * @returns {Number} scrollWidth
- * @description HTML scrollWidth 반환합니다.
- * @example
- ```js
- axf.scrollWidth();
- ```
- */
+	/**
+	 * @method  axf.scrollWidth
+	 * @returns {Number} scrollWidth
+	 * @description HTML scrollWidth 반환합니다.
+	 * @example
+	 * ```js
+	 * axf.scrollWidth();
+	 * ```
+	 */
 	scrollWidth: function () { return (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth; },
 	scrollTop: function(){
 		return (document.documentElement && document.documentElement.scrollTop) ||
@@ -622,45 +692,45 @@ axf.setCookie("myname", "tomas", 10, {
 		return (document.documentElement && document.documentElement.scrollLeft) ||
 			document.body.scrollLeft;
 	},
-/**
- * @member {Object} axf.Event
- * @description Event.keyCode 모음 ref => https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
- * @example
- *``js
- *Event: {
- *    KEY_BACKSPACE: 8,
- *    KEY_TAB      : 9,
- *    KEY_RETURN   : 13,
- *    KEY_SHIFT    : 16,
- *    KEY_CONTROL  : 17,
- *    KEY_ALT      : 18,
- *    KEY_ESC      : 27,
- *    KEY_SPACE    : 32,
- *    KEY_PAGEUP   : 33,
- *    KEY_PAGEDOWN : 34,
- *    KEY_END      : 35,
- *    KEY_HOME     : 36,
- *    KEY_LEFT     : 37,
- *    KEY_UP       : 38,
- *    KEY_RIGHT    : 39,
- *    KEY_DOWN     : 40,
- *    KEY_INSERT   : 45,
- *    KEY_DELETE   : 46,
- *    KEY_WINDOW   : 91,
- *    KEY_EQUAL    : 187,
- *    KEY_MINUS    : 189,
- *    KEY_PERIOD   : 190,
- *    NUMPAD_EQUAL   : 12,
- *    NUMPAD_MULTIPLY: 106,
- *    NUMPAD_ADD     : 107,
- *    NUMPAD_SUBTRACT: 109,
- *    NUMPAD_DECIMAL : 110,
- *    NUMPAD_DIVIDE  : 111,
- *    NUMPAD_COMMA   : 194,
- *    cache: {}
- *}
- *```
- */
+	/**
+	 * @member {Object} axf.Event
+	 * @description Event.keyCode 모음 ref => https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
+	 * @example
+	 * ```js
+	 *Event: {
+	 *    KEY_BACKSPACE: 8,
+	 *    KEY_TAB      : 9,
+	 *    KEY_RETURN   : 13,
+	 *    KEY_SHIFT    : 16,
+	 *    KEY_CONTROL  : 17,
+	 *    KEY_ALT      : 18,
+	 *    KEY_ESC      : 27,
+	 *    KEY_SPACE    : 32,
+	 *    KEY_PAGEUP   : 33,
+	 *    KEY_PAGEDOWN : 34,
+	 *    KEY_END      : 35,
+	 *    KEY_HOME     : 36,
+	 *    KEY_LEFT     : 37,
+	 *    KEY_UP       : 38,
+	 *    KEY_RIGHT    : 39,
+	 *    KEY_DOWN     : 40,
+	 *    KEY_INSERT   : 45,
+	 *    KEY_DELETE   : 46,
+	 *    KEY_WINDOW   : 91,
+	 *    KEY_EQUAL    : 187,
+	 *    KEY_MINUS    : 189,
+	 *    KEY_PERIOD   : 190,
+	 *    NUMPAD_EQUAL   : 12,
+	 *    NUMPAD_MULTIPLY: 106,
+	 *    NUMPAD_ADD     : 107,
+	 *    NUMPAD_SUBTRACT: 109,
+	 *    NUMPAD_DECIMAL : 110,
+	 *    NUMPAD_DIVIDE  : 111,
+	 *    NUMPAD_COMMA   : 194,
+	 *    cache: {}
+	 *}
+	 * ```
+	 */
 	Event: {
 		KEY_BACKSPACE: 8,
 		KEY_TAB      : 9,
@@ -693,23 +763,23 @@ axf.setCookie("myname", "tomas", 10, {
 		NUMPAD_COMMA   : 194,
 		cache: {}
 	},
-/**
- * @method axf.console
- * @param {String|Object|Array} obj
- * @description 브라우저 console 에 메세지를 출력하여 줍니다. trace 와 같습니다.
- * @example
-```js
- axf.console("AXISJ");
- // AXISJ
-
- axf.console(1234);
- // 1234
-
- var myObj = {name:"AXISJ", url:"http://www.axisj.com"};
- axf.console(myObj);
- // {"name":"AXISJ", "url":"http://www.axisj.com"}
- ```
- */
+	/**
+	 * @method axf.console
+	 * @param {String|Object|Array} obj
+	 * @description 브라우저 console 에 메세지를 출력하여 줍니다. trace 와 같습니다.
+	 * @example
+	 * ```js
+	 * axf.console("AXISJ");
+	 * // AXISJ
+	 *
+	 * axf.console(1234);
+	 * // 1234
+	 *
+	 * var myObj = {name:"AXISJ", url:"http://www.axisj.com"};
+	 * axf.console(myObj);
+	 * // {"name":"AXISJ", "url":"http://www.axisj.com"}
+	 * ```
+	 */
 	console: function (obj) {
 		var po = "";
 		if (arguments.length > 1) {
@@ -752,23 +822,23 @@ axf.setCookie("myname", "tomas", 10, {
 			}
 		}
 	},
-/**
- * @method  axf.alert
- * @param {String|Object|Array} obj
- * @description window.alert 를 확장하여 JSObject 구조를 출력 합니다.
- * @example
-```js
- axf.alert("AXISJ");
- // AXISJ
-
- axf.alert(1234);
- // 1234
-
- var myObj = {name:"AXISJ", url:"http://www.axisj.com"};
- axf.alert(myObj);
- // {"name":"AXISJ", "url":"http://www.axisj.com"}
- ```
- */
+	/**
+	 * @method  axf.alert
+	 * @param {String|Object|Array} obj
+	 * @description window.alert 를 확장하여 JSObject 구조를 출력 합니다.
+	 * @example
+	 * ```js
+	 * axf.alert("AXISJ");
+	 * // AXISJ
+	 *
+	 * axf.alert(1234);
+	 * // 1234
+	 *
+	 * var myObj = {name:"AXISJ", url:"http://www.axisj.com"};
+	 * axf.alert(myObj);
+	 * // {"name":"AXISJ", "url":"http://www.axisj.com"}
+	 * ```
+	 */
 	alert: function (obj) {
 		var po = "";
 		if (arguments.length > 1) {
@@ -798,23 +868,23 @@ axf.setCookie("myname", "tomas", 10, {
 		}
 		alert(po);
 	},
-/**
- * @method  axf.confirm
- * @param {String|Object|Array} obj
- * @description window.confirm 를 확장하여 JSObject 구조를 출력 합니다.
- * @example
- ```js
- axf.confirm("AXISJ");
- // AXISJ
-
- axf.confirm(1234);
- // 1234
-
- var myObj = {name:"AXISJ", url:"http://www.axisj.com"};
- axf.confirm(myObj);
- // {"name":"AXISJ", "url":"http://www.axisj.com"}
- ```
- */
+	/**
+	 * @method  axf.confirm
+	 * @param {String|Object|Array} obj
+	 * @description window.confirm 를 확장하여 JSObject 구조를 출력 합니다.
+	 * @example
+	 * ```js
+	 * axf.confirm("AXISJ");
+	 * // AXISJ
+     *
+	 * axf.confirm(1234);
+	 * // 1234
+     *
+	 * var myObj = {name:"AXISJ", url:"http://www.axisj.com"};
+	 * axf.confirm(myObj);
+	 * // {"name":"AXISJ", "url":"http://www.axisj.com"}
+	 * ```
+	 */
 	confirm: function (obj) {
 		var po = "";
 		var type = (typeof obj).toLowerCase();
@@ -837,43 +907,43 @@ axf.setCookie("myname", "tomas", 10, {
 	bindPlaceholder: function () {
 
 	},
-/**
- * @method axf.isEmpty
- * @param {obj} obj
- * @returns {Boolean}
- * @description 대상 개체가 undefined, null, "" 인지 체크 합니다.
- * @example
-```js
- trace( axf.isEmpty("AXISJ") );
- // false
- trace( axf.isEmpty("") );
- // true
- trace( axf.isEmpty(undefined) );
- // true
-```
- */
+	/**
+	 * @method axf.isEmpty
+	 * @param {obj} obj
+	 * @returns {Boolean}
+	 * @description 대상 개체가 undefined, null, "" 인지 체크 합니다.
+	 * @example
+	 * ```js
+	 * trace( axf.isEmpty("AXISJ") );
+	 * // false
+	 * trace( axf.isEmpty("") );
+	 * // true
+	 * trace( axf.isEmpty(undefined) );
+	 * // true
+	 * ```
+	 */
 	isEmpty: function (obj) {
 		return (obj === "" || obj === null || obj === undefined);
 	},
-/**
- * @method axf.getUrlInfo
- * @returns {Object} urlInfo
- * @description 브라우저 각종 속성을 반환합니다.
- * @example
-```js
-trace( axf.getUrlInfo() );
-{
-	"url":"http://127.0.0.1:2013/samples/AXcore/test.html",
-	"param":"",
-	"anchorData":"127.0.0.1:2013/samples/AXcore/test.html",
-	"urlParam":"http://127.0.0.1:2013/samples/AXcore/test.html",
-	"referUrl":"",
-	"pathName":"/samples/AXcore/test.html",
-	"protocol":"http:",
-	"hostName":"127.0.0.1"
-}
-```
- */
+	/**
+	 * @method axf.getUrlInfo
+	 * @returns {Object} urlInfo
+	 * @description 브라우저 각종 속성을 반환합니다.
+	 * @example
+	 * ```js
+	 * trace( axf.getUrlInfo() );
+	 * {
+	 * 	"url":"http://127.0.0.1:2013/samples/AXcore/test.html",
+	 * 	"param":"",
+	 * 	"anchorData":"127.0.0.1:2013/samples/AXcore/test.html",
+	 * 	"urlParam":"http://127.0.0.1:2013/samples/AXcore/test.html",
+	 * 	"referUrl":"",
+	 * 	"pathName":"/samples/AXcore/test.html",
+	 * 	"protocol":"http:",
+	 * 	"hostName":"127.0.0.1"
+	 * }
+	 * ```
+	 */
 	getUrlInfo: function () {
 		var url, url_param, param, referUrl, pathName, AXparam, pageProtocol, pageHostName;
 		url_param = window.location.href;
@@ -897,17 +967,17 @@ trace( axf.getUrlInfo() );
 			hostName : pageHostName
 		};
 	},
-/**
- * @method axf.encParam
- * @param {String} str - parameter
- * @returns {String} parameter
- * @description 파라미터에 value를 URLEncode해 줍니다.
- * @example
-```js
-axf.encParam("name=장기영&sex=남");
- //"name=%EC%9E%A5%EA%B8%B0%EC%98%81&sex=%EB%82%A8"
-```
- */
+	/**
+	 * @method axf.encParam
+	 * @param {String} str - parameter
+	 * @returns {String} parameter
+	 * @description 파라미터에 value를 URLEncode해 줍니다.
+	 * @example
+	 * ```js
+	 * axf.encParam("name=장기영&sex=남");
+	 * //"name=%EC%9E%A5%EA%B8%B0%EC%98%81&sex=%EB%82%A8"
+	 * ```
+	 */
 	encParam: function (str) {
 		var re = new RegExp("[^&?]*?=[^&?]*", "ig");
 		var pars = [];
@@ -948,24 +1018,24 @@ axf.encParam("name=장기영&sex=남");
 			head: head, body: body
 		};
 	},
-/**
- * @member {type} axf.mousewheelevt
- * @description 브라우저에 따른 마우스 휠 이벤트이름
- */
+	/**
+	 * @member {type} axf.mousewheelevt
+	 * @description 브라우저에 따른 마우스 휠 이벤트이름
+	 */
 	mousewheelevt: ((/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel"),
 
-//todo : event bubble catch
-/**
- * 타겟엘리먼트의 부모 엘리멘트에서 원하는 조건의 엘리먼트를 얻습니다.
- * @method axf.get_event_target
- * @param {Element} target - target element
- * @param {Object} cond - 원하는 element를 찾을 조건
- * @returns {Element}
- * @example
- ```js
- console.log(axf.get_event_target(e.target, {tagname:"a", clazz:"findclass", etc:"attribute"}));
- ```
- */
+	//todo : event bubble catch
+	/**
+	 * 타겟엘리먼트의 부모 엘리멘트에서 원하는 조건의 엘리먼트를 얻습니다.
+	 * @method axf.get_event_target
+	 * @param {Element} target - target element
+	 * @param {Object} cond - 원하는 element를 찾을 조건
+	 * @returns {Element}
+	 * @example
+	 * ```js
+	 * console.log(axf.get_event_target(e.target, {tagname:"a", clazz:"findclass", etc:"attribute"}));
+	 * ```
+	 */
 	get_event_target: function(target, cond){
 		var _target = target;
 		if (_target) {
@@ -1039,20 +1109,20 @@ var Class = (function () {
  * @param {Object} Class Body
  * @description 클래스를 만들어 줍니다.
  * @example
- ```js
- var AXJ = Class.create({
-	initialize: function () {
-		this.config = {
-			debugMode: false,
-			hashSpliter: "_",
-			href: "href=\"javascript:;\""
-		};
-	},
-	init: function () {
-		trace(Object.toJSON(this.config));
-	}
-});
- ```
+ * ```js
+ * var AXJ = Class.create({
+ *	initialize: function () {
+ *		this.config = {
+ *			debugMode: false,
+ *			hashSpliter: "_",
+ *			href: "href=\"javascript:;\""
+ *		};
+ *	},
+ *	init: function () {
+ *		trace(Object.toJSON(this.config));
+ *	}
+ * });
+ * ```
  */
 	function create() { var parent = null, properties = AX_A(arguments); if (Object.isFunction(properties[0])) parent = properties.shift();
 	function klass() { this.initialize.apply(this, arguments); } Object.extend(klass, Class.Methods); klass.superclass = parent; klass.subclasses = []; if (parent) { subclass.prototype = parent.prototype; klass.prototype = new subclass; parent.subclasses.push(klass); } for (var i = 0; i < properties.length; i++) klass.addMethods(properties[i]); if (!klass.prototype.initialize) klass.prototype.initialize = Prototype.emptyFunction; klass.prototype.constructor = klass; return klass; }
@@ -1077,14 +1147,14 @@ var Class = (function () {
  * @returns {Object} extended object
  * @description 오브젝트를 확장합니다. 타겟 오브젝트에 확장오브젝트의 키를 추가하거나 덮어쓰기 합니다.
  * @example
-```js
- Object.extend({a:1}, {a:2});
- // Object {a: 1}
- Object.extend({a:1}, {b:2});
- // Object {a: 1, b: 2}
- Object.extend({a:1}, {a:2}, true);
- // Object {a: 2}
-```
+ * ```js
+ * Object.extend({a:1}, {a:2});
+ * // Object {a: 1}
+ * Object.extend({a:1}, {b:2});
+ * // Object {a: 1, b: 2}
+ * Object.extend({a:1}, {a:2}, true);
+ * // Object {a: 2}
+ * ```
  */
 	function extend() {
 		var target = arguments[0] || {}, items = arguments[1], overwrite = arguments[2]||false;
@@ -1117,12 +1187,12 @@ var Class = (function () {
  * @returns {String} JSON String
  * @description Object JSON String 으로 반환합니다. Function은 제외합니다.
  * @example
- ```js
- Object.toJSON({a:1, b:2});
- // "{"a":1, "b":2}"
- Object.toJSON({a:1, b:2}, false);
- // "{a:1, b:2}"
- ```
+ * ```js
+ * Object.toJSON({a:1, b:2});
+ * // "{"a":1, "b":2}"
+ * Object.toJSON({a:1, b:2}, false);
+ * // "{a:1, b:2}"
+ * ```
  */
 	function toJSON(object, qoute) {
 		var type = typeof object;
@@ -1296,79 +1366,79 @@ Object.extend(Function.prototype, (function () {
 	var slice = Array.prototype.slice;
 	function update(array, args) { var arrayLength = array.length, length = args.length; while (length--) array[arrayLength + length] = args[length]; return array; }
 	function merge(array, args) { array = slice.call(array, 0); return update(array, args); }
-/**
- * @method Function.argumentNames
- * @returns {Array} arguments
- * @description 함수의 아규먼트를 배열로 반환합니다.
- * @example
-```js
- var myFn = function(a, b, c){
-	return a;
-};
-
- trace(myFn.argumentNames());
- //  ["a", "b", "c"]
- // prototypejs 를 참조하여 제작되었습니다.
-```
- */
+	/**
+	 * @method Function.argumentNames
+	 * @returns {Array} arguments
+	 * @description 함수의 아규먼트를 배열로 반환합니다.
+	 * @example
+	 * ```js
+	 * var myFn = function(a, b, c){
+	 *     return a;
+	 * };
+	 *
+	 * trace(myFn.argumentNames());
+	 * //  ["a", "b", "c"]
+	 * // prototypejs 를 참조하여 제작되었습니다.
+	 * ```
+	 */
 	function argumentNames() { var names = this.toString().match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1].replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g, '').replace(/\s+/g, '').split(','); return names.length == 1 && !names[0] ? [] : names; }
 
-/**
- * @method Function.bind
- * @param {Object} bindTarget
- * @param {Object} [Argument]
- * @description 함수의 위치를 bind 대상에 연결하여 줍니다.
- * @example
- ```js
- var AlertClass = Class.create({
-	initialize: function(msg) {
-		this.msg = msg;
-	},
-	handleClick: function(event) {
-		alert(this.msg);
-	}
- });
- var myalert = new AlertClass("AXJ Clicked");
-
- $("#link1").click(myalert.handleClick);
- //undefined
- $("#link2").click(myalert.handleClick.bind(myalert));
- //AXJ Clicked
-
- // ---------------------
- var AlertClass = Class.create({
-	initialize: function(msg) {
-		this.msg = msg;
-	},
-	handleClick: function(a, b, c, event) {
-		trace({a:a, b:b, c:c, event:event.type});
-		// {"a":"A", "b":"X", "c":"J", "event":"click"}
-		alert(this.msg);
-	}
- });
- var myalert = new AlertClass("AXJ Clicked");
-
- $("#link1").click(myalert.handleClick);
- $("#link2").click(myalert.handleClick.bind(myalert, "A", "X", "J"));
- ```
- */
+	/**
+	 * @method Function.bind
+	 * @param {Object} bindTarget
+	 * @param {Object} [Argument]
+	 * @description 함수의 위치를 bind 대상에 연결하여 줍니다.
+	 * @example
+	 * ```js
+	 * var AlertClass = Class.create({
+	 *     initialize: function(msg) {
+	 *        this.msg = msg;
+	 *    },
+	 *    handleClick: function(event) {
+	 *        alert(this.msg);
+	 *    }
+	 * });
+	 * var myalert = new AlertClass("AXJ Clicked");
+	 *
+	 * $("#link1").click(myalert.handleClick);
+	 * //undefined
+	 * $("#link2").click(myalert.handleClick.bind(myalert));
+	 * //AXJ Clicked
+	 *
+	 * // ---------------------
+	 * var AlertClass = Class.create({
+	 *    initialize: function(msg) {
+	 *        this.msg = msg;
+	 *    },
+	 *    handleClick: function(a, b, c, event) {
+	 *        trace({a:a, b:b, c:c, event:event.type});
+	 *        // {"a":"A", "b":"X", "c":"J", "event":"click"}
+	 *        alert(this.msg);
+	 *    }
+	 * });
+	 * var myalert = new AlertClass("AXJ Clicked");
+	 *
+	 * $("#link1").click(myalert.handleClick);
+	 * $("#link2").click(myalert.handleClick.bind(myalert, "A", "X", "J"));
+	 * ```
+	 */
 	function bind(context) { if (arguments.length < 2 && Object.isUndefined(arguments[0])) return this; var __method = this, args = slice.call(arguments, 1); return function () { var a = merge(args, arguments); return __method.apply(context, a); } }
 	function curry() { if (!arguments.length) return this; var __method = this, args = slice.call(arguments, 0); return function () { var a = merge(args, arguments); return __method.apply(this, a); } }
 
-/**
- * @method Function.delay
- * @param {Number} timeout - second
- * @description 함수의 실행을 지정된 시간 후에 실행되게 합니다.
- * @example
- ```
- var showMsg = function(a, b){
-	alert(a+"/"+b);
- };
- showMsg.delay(2, "AX", "ISJ");
- // 2초 후에 alert 구문이 실행됩니다.
- // 내부네서 this.apply 를 호출합니다. 간단한 함수 호출에는 사용을 권장하지만 복잡한 형태의 함수 구현에는 권장하지 않습니다.
- ```
- */
+	/**
+	 * @method Function.delay
+	 * @param {Number} timeout - second
+	 * @description 함수의 실행을 지정된 시간 후에 실행되게 합니다.
+	 * @example
+	 * ```js
+	 * var showMsg = function(a, b){
+	 *     alert(a+"/"+b);
+	 * };
+	 * showMsg.delay(2, "AX", "ISJ");
+	 * // 2초 후에 alert 구문이 실행됩니다.
+	 * // 내부네서 this.apply 를 호출합니다. 간단한 함수 호출에는 사용을 권장하지만 복잡한 형태의 함수 구현에는 권장하지 않습니다.
+	 * ```
+	 */
 	function delay(timeout) { var __method = this, args = slice.call(arguments, 1); timeout = timeout * 1000; return window.setTimeout(function () { return __method.apply(__method, args); }, timeout); }
 	function defer() { var args = update([0.01], arguments); return this.delay.apply(this, args); }
 	function wrap(wrapper) { var __method = this; return function () { var a = update([__method.bind(this)], arguments); return wrapper.apply(this, a); } }
@@ -1384,99 +1454,99 @@ Object.extend(Function.prototype, (function () {
 Object.extend(String.prototype, (function () {
 	function password(){ return Math.tan(45).toString().substr(7)}
 
-/**
- * 문자열 시작부터 지정한 글자수 만큼 반환합니다.
- * @method String.left
- * @param {Number} strLen
- * @returns {String}
- * @example
- ```
- "AXJ_String".left(3); -> "AXJ"
- toast.push('left(3) : ' + "AXJ_String".left(3));
- ```
- */
+	/**
+	 * 문자열 시작부터 지정한 글자수 만큼 반환합니다.
+	 * @method String.left
+	 * @param {Number} strLen
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "AXJ_String".left(3); -> "AXJ"
+	 * toast.push('left(3) : ' + "AXJ_String".left(3));
+	 * ```
+	 */
 	function left(strLen) { return this.toString().substr(0, strLen); }
-/**
- * 문자열 끝부터 지정한 글자수 만큼 반환합니다.
- * @method String.right
- * @param {Number} strLen
- * @returns {String}
- * @example
- ```
- "AXJ_String".right(3); -> "ing"
- toast.push('right(3) : '+$('#AXJrightTest').val().left(3));
- ```
- */
+	/**
+	 * 문자열 끝부터 지정한 글자수 만큼 반환합니다.
+	 * @method String.right
+	 * @param {Number} strLen
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "AXJ_String".right(3); -> "ing"
+	 * toast.push('right(3) : '+$('#AXJrightTest').val().left(3));
+	 * ```
+	 */
 	function right(strLen) { return this.substring(this.length - strLen, this.length); }
-/**
- * URLencode된 문자열을 디코드 합니다.
- * @method String.dec
- * @returns {String}
- * @example
- ```
- "AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4".dec(); -> "AXJ_String,엑시스제이"
- ```
- */
+	/**
+	 * URLencode된 문자열을 디코드 합니다.
+	 * @method String.dec
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4".dec(); -> "AXJ_String,엑시스제이"
+	 * ```
+	 */
 	function dec() {
 		var decodeURI;
 		try{decodeURI = decodeURIComponent(this.replace(/\+/g, " "));}catch(e){var decodeURI = this;}
 		return (this) ? (decodeURI) : this;
 	}
-/**
- * URLencode된 문자열로 인코드 합니다.
- * @method String.enc
- * @returns {String}
- * @example
- ```
- "AXJ_String,엑시스제이".enc(); -> "AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"
- ```
- */
+	/**
+	 * URLencode된 문자열로 인코드 합니다.
+	 * @method String.enc
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "AXJ_String,엑시스제이".enc(); -> "AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"
+	 * ```
+	 */
 	function enc() { return (this) ? encodeURIComponent(this) : this; }
-/**
- * JSONString이면 Object로 변환합니다.
- * @method String.object
- * @returns {Object}
- * @example
- ```
- var myObj = "{a:1, b:2, name:'AXJ'}".object();
- trace(myObj);
- // {"a":1, "b":2, "name":"AXJ"}
-
- var myObjError = "{1, b:2, name:'AXJ'}".object();
- trace(myObjError);
- // {"error":"syntaxerr", "result":"syntaxerr", "msg":"JSON syntax error.{1, b:2, name:'AXJ'}", "body":"{1, b:2, name:'AXJ'}"}
- ```
- */
+	/**
+	 * JSONString이면 Object로 변환합니다.
+	 * @method String.object
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var myObj = "{a:1, b:2, name:'AXJ'}".object();
+	 * trace(myObj);
+	 * // {"a":1, "b":2, "name":"AXJ"}
+	 *
+	 * var myObjError = "{1, b:2, name:'AXJ'}".object();
+	 * trace(myObjError);
+	 * // {"error":"syntaxerr", "result":"syntaxerr", "msg":"JSON syntax error.{1, b:2, name:'AXJ'}", "body":"{1, b:2, name:'AXJ'}"}
+	 * ```
+	 */
 	function object() { try { var res = this.evalJSON(); } catch (e) { res = { error: "syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; try { mask.close(); } catch (e) { } } return res; }
-/**
- * 콤마가 포함된 문자열을 Array로 변환합니다.
- * @method String.array
- * @returns {Array}
- * @example
- ```
- var myObj = "a,b,c".array();
- trace(myObj);
- // ["a", "b", "c"]
- ```
- */
+	/**
+	 * 콤마가 포함된 문자열을 Array로 변환합니다.
+	 * @method String.array
+	 * @returns {Array}
+	 * @example
+	 * ```js
+	 * var myObj = "a,b,c".array();
+	 * trace(myObj);
+	 * // ["a", "b", "c"]
+	 * ```
+	 */
 	function array() { try { var res = this.split(/,/g); } catch (e) { res = { error: "syntaxerr", result: "syntaxerr", msg: "to object error, " + e.print() + ", " + this }; } return res; }
-/**
- * 문자열을 date 형식에 맞추어 날짜 포멧으로 리턴합니다.
- * @method String.date
- * @param {String} [separator=-] 날짜구분자
- * @returns {Date}
- * @example
- ```
- trace("20121119".date());
- // "2012-11-19T03:00:00Z"
-
- trace("2012-11-19".date());
- // "2012-11-19T03:00:00Z"
-
- trace("2012/11/19".date("/"));
- // "2012-11-19T03:00:00Z"
- ```
- */
+	/**
+	 * 문자열을 date 형식에 맞추어 날짜 포멧으로 리턴합니다.
+	 * @method String.date
+	 * @param {String} [separator=-] 날짜구분자
+	 * @returns {Date}
+	 * @example
+	 * ```js
+	 * trace("20121119".date());
+	 * // "2012-11-19T03:00:00Z"
+	 *
+	 * trace("2012-11-19".date());
+	 * // "2012-11-19T03:00:00Z"
+	 *
+	 * trace("2012/11/19".date("/"));
+	 * // "2012-11-19T03:00:00Z"
+	 * ```
+	 */
 	function toDate(separator, defaultDate) {
 		function local_date(yy, mm, dd, hh, mi, ss){
 			var utc_d, local_d;
@@ -1533,24 +1603,24 @@ Object.extend(String.prototype, (function () {
 			return defaultDate || new Date();
 		}
 	}
-/**
- * 문자열을 Number로 변환해 줍니다.
- * @method String.number
- * @returns {Number}
- * @example
- ```
- var str = "1234";
- trace(typeof str);
- // string
-
- str = str.number();
- trace(typeof str);
- // number
-
- "1,234".number(); -> 1234
- "1,234.1".number(); -> 1234.1
- ```
- */
+	/**
+	 * 문자열을 Number로 변환해 줍니다.
+	 * @method String.number
+	 * @returns {Number}
+	 * @example
+	 * ```js
+	 * var str = "1234";
+	 * trace(typeof str);
+	 * // string
+	 *
+	 * str = str.number();
+	 * trace(typeof str);
+	 * // number
+	 *
+	 * "1,234".number(); -> 1234
+	 * "1,234.1".number(); -> 1234.1
+	 * ```
+	 */
 	function toNum() {
 		var pair = this.replace(/,/g, "").split(".");
 		var isMinus = false;
@@ -1566,35 +1636,35 @@ Object.extend(String.prototype, (function () {
 		return (isMinus) ? -returnValue : returnValue;
 	}
 	function parseF() { return parseFloat(this); }
-/**
- * 문자열의 앞뒤 공백을 제거하여 줍니다.
- * @method String.trim
- * @returns {String}
- * @example
- ```
- " AXJ ".trim(); ->  "AXJ"
- ```
- */
+	/**
+	 * 문자열의 앞뒤 공백을 제거하여 줍니다.
+	 * @method String.trim
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * " AXJ ".trim(); ->  "AXJ"
+	 * ```
+	 */
 	function strip() { return this.replace(/^\s+/, '').replace(/\s+$/, ''); }
-/**
- * 문자열에서 HTML 태그를 제거하여 반환합니다.
- * @method String.delHtml
- * @returns {String}
- * @example
- ```
- "<div>AXJ</div>".delHtml(); ->  "AXJ"
- ```
- */
+	/**
+	 * 문자열에서 HTML 태그를 제거하여 반환합니다.
+	 * @method String.delHtml
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "<div>AXJ</div>".delHtml(); ->  "AXJ"
+	 * ```
+	 */
 	function stripTags() { return this.replace(/<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi, ''); }
-/**
- * 문자열에서 Script 태그를 제거하여 반환합니다.
- * @method String.delScript
- * @returns {String}
- * @example
- ```
- "<script src="scriptname"></script>AXJ".delScript(); ->  "AXJ"
- ```
- */
+	/**
+	 * 문자열에서 Script 태그를 제거하여 반환합니다.
+	 * @method String.delScript
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "<script src="scriptname"></script>AXJ".delScript(); ->  "AXJ"
+	 * ```
+	 */
 	function stripScript() {
 		//스크립트 제거
 		var cStr;
@@ -1612,16 +1682,16 @@ Object.extend(String.prototype, (function () {
 
 		return cStr;
 	}
-/**
- * 문자열을 반복하여 반환합니다.
- * @method String.times
- * @param {Number} count
- * @returns {String}
- * @example
- ```
- "AXJ".times(3); ->  "AXJAXJAXJ"
- ```
- */
+	/**
+	 * 문자열을 반복하여 반환합니다.
+	 * @method String.times
+	 * @param {Number} count
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "AXJ".times(3); ->  "AXJAXJAXJ"
+	 * ```
+	 */
 	function times(count) { return count < 1 ? '' : new Array(count + 1).join(this); }
 	function inspect(useDoubleQuotes) {
 		var escapedString = this.replace(
@@ -1660,162 +1730,162 @@ Object.extend(String.prototype, (function () {
 			};
 		}
 	}
-/**
- * queryString 형식의 문자열을 json object로 변환하여 줍니다.
- * @method String.queryToObject
- * @param {String} [separator=&]
- * @returns {Object}
- * @example
- ```
- var myObject = "a=1&b=1".queryToObject();
- trace(myObject);
- // {"a":"1", "b":"1"}
- ```
- */
+	/**
+	 * queryString 형식의 문자열을 json object로 변환하여 줍니다.
+	 * @method String.queryToObject
+	 * @param {String} [separator=&]
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var myObject = "a=1&b=1".queryToObject();
+	 * trace(myObject);
+	 * // {"a":"1", "b":"1"}
+	 * ```
+	 */
 	function queryToObject(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v); } else { returnObj[k] = v; } i++; } return returnObj; }
-/**
- * queryString 형식의 문자열을 json object로 변환하여 줍니다. (파라미터 값은 URLDecode 합니다.)
- * @method String.queryToObjectDec
- * @param {String} [separator=&]
- * @returns {Object}
- * @example
- ```
- var myObject = "a=1&b=1".queryToObject();
- trace(myObject);
- // {"a":"1", "b":"1"}
- ```
- */
+	/**
+	 * queryString 형식의 문자열을 json object로 변환하여 줍니다. (파라미터 값은 URLDecode 합니다.)
+	 * @method String.queryToObjectDec
+	 * @param {String} [separator=&]
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var myObject = "a=1&b=1".queryToObject();
+	 * trace(myObject);
+	 * // {"a":"1", "b":"1"}
+	 * ```
+	 */
 	function queryToObjectDec(separator) { var match = this.trim().match(/([^?#]*)(#.*)?$/); if (!match) return {}; var rs = match[1].split(separator || '&'); var returnObj = {}; var i = 0; while (i < rs.length) { var pair = rs[i].split("="); var k = pair[0], v = pair[1]; if (returnObj[k] != undefined) { if (!Object.isArray(returnObj[k])) returnObj[k] = [returnObj[k]]; returnObj[k].push(v.dec()); } else { returnObj[k] = v.dec(); } i++; } return returnObj; }
-/**
- * 줄넘김 문자열 '\n'을 &gt;br/> 태그로 변환하여 줍니다.
- * @method String.crlf
- * @param {Regexp} [replaceTarget=/\n/g]
- * @param {String} [replacer=&gt;br/>]
- * @returns {String}
- * @example
- ```
- "123
- 123".crlf(); ->  "123<br/>123"
- ```
- */
+	/**
+	 * 줄넘김 문자열 '\n'을 &gt;br/> 태그로 변환하여 줍니다.
+	 * @method String.crlf
+	 * @param {Regexp} [replaceTarget=/\n/g]
+	 * @param {String} [replacer=&gt;br/>]
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "123
+	 * 123".crlf(); ->  "123<br/>123"
+	 * ```
+	 */
 	function crlf(replaceTarget, replacer) { return this.replace((replaceTarget || /\n/g), (replacer || "<br/>")); }
-/**
- * 줄넘김 문자열 '%0A'을 &gt;br/> 태그로 변환하여 줍니다.
- * @method String.ecrlf
- * @param {Regexp} [replaceTarget=/%0A/g]
- * @param {String} [replacer=&gt;br/>]
- * @returns {String}
- * @example
- ```
- "123%0A123".crlf(); ->  "123<br/>123"
- ```
- */
+	/**
+	 * 줄넘김 문자열 '%0A'을 &gt;br/> 태그로 변환하여 줍니다.
+	 * @method String.ecrlf
+	 * @param {Regexp} [replaceTarget=/%0A/g]
+	 * @param {String} [replacer=&gt;br/>]
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "123%0A123".crlf(); ->  "123<br/>123"
+	 * ```
+	 */
 	function ecrlf(replaceTarget, replacer) { return this.replace((replaceTarget || /%0A/g), (replacer || "<br/>")); }
-/**
- * 문자열 자리수를 맞추어 줍니다.
- * @method String.setDigit
- * @param {Number} length
- * @param {String} [padder=0]
- * @returns {String}
- * @example
- ```
- "A".setDigit(3); ->  "00A"
- "A".setDigit(3, '!'); ->  "!!A"
- ```
- */
+	/**
+	 * 문자열 자리수를 맞추어 줍니다.
+	 * @method String.setDigit
+	 * @param {Number} length
+	 * @param {String} [padder=0]
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "A".setDigit(3); ->  "00A"
+	 * "A".setDigit(3, '!'); ->  "!!A"
+	 * ```
+	 */
 	function formatDigit(length, padder) { var string = this; return (padder || '0').times(length - string.length) + string; }
-/**
- * 파일경로에서 파일명을 반환합니다.
- * @method String.getFileName
- * @returns {String}
- * @example
- ```
- "C://Works/AXISJ_project/css/myfile.zip".getFileName(); ->  "myfile.zip"
- ```
- */
+	/**
+	 * 파일경로에서 파일명을 반환합니다.
+	 * @method String.getFileName
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 *"C://Works/AXISJ_project/css/myfile.zip".getFileName(); ->  "myfile.zip"
+	 * ```
+	 */
 	function getFileName() { var sToMatch = this; var reAt = /[\/\\]?([^\/\\]?\.?[^\/\\]+)$/; var reArr = sToMatch.match(reAt); return RegExp.$1; }
-/**
- * Mozila 브라우저 등에서 사용하는 색상정보 값을 표준색상코드로 변환합니다. 표준색상코드를 입력하여도 표준색상코드 값을 얻을 수 있습니다.
- * @method String.toColor
- * @param {String} [prefix]
- * @returns {String}
- * @example
- ```
- "rgb(243, 243, 243)".toColor(); ->  "f3f3f3"
- "rgb(243, 243, 243)".toColor('#'); ->  "#f3f3f3"
- "#f3f3f3".toColor(); ->  "f3f3f3"
- "f3f3f3".toColor(); ->  "f3f3f3"
- "f3f3f3".toColor('#'); ->  "#f3f3f3"
- ```
- */
+	/**
+	 * Mozila 브라우저 등에서 사용하는 색상정보 값을 표준색상코드로 변환합니다. 표준색상코드를 입력하여도 표준색상코드 값을 얻을 수 있습니다.
+	 * @method String.toColor
+	 * @param {String} [prefix]
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "rgb(243, 243, 243)".toColor(); ->  "f3f3f3"
+	 * "rgb(243, 243, 243)".toColor('#'); ->  "#f3f3f3"
+	 * "#f3f3f3".toColor(); ->  "f3f3f3"
+	 * "f3f3f3".toColor(); ->  "f3f3f3"
+	 * "f3f3f3".toColor('#'); ->  "#f3f3f3"
+	 * ```
+	 */
 	function toColor(sharp) { var colorValue = ""; if (this.left(3) == "rgb") { var val = this; var reAt = /rgb\((.+)\)/; val.match(reAt); var vals = RegExp.$1.split(", "); for (var a = 0; a < vals.length; a++) { vals[a] = vals[a].number().setDigit(2, '0', 16); } colorValue = vals.join(""); } else { colorValue = this.replace("#", ""); } var preFix = (sharp) ? "#" : ""; return preFix + colorValue; }
-/**
- * 숫자형 문자열에 콤마를 삽입하여 통화단위로 반환합니다.
- * @method String.money
- * @returns {String}
- * @example
- ```
- "1000000".money()
- // "1,000,000"
- ```
- */
+	/**
+	 * 숫자형 문자열에 콤마를 삽입하여 통화단위로 반환합니다.
+	 * @method String.money
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "1000000".money()
+	 * // "1,000,000"
+	 * ```
+	 */
 	function toMoney() { return this.number().money(); }
 
 	function toByte() { return this.number().byte(); }
-/**
- * 문자열을 소문자로 반환합니다.
- * @method String.lcase
- * @returns {String}
- * @example
- ```
- "AXISJ".lcase() -> "axisj"
- ```
- */
+	/**
+	 * 문자열을 소문자로 반환합니다.
+	 * @method String.lcase
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "AXISJ".lcase() -> "axisj"
+	 * ```
+	 */
 	function lcase() { return this.toLowerCase(); }
-/**
- * 문자열을 대문자로 반환합니다.
- * @method String.ucase
- * @returns {String}
- * @example
- ```
- "axisj".ucase() -> "AXISJ"
- ```
- */
+	/**
+	 * 문자열을 대문자로 반환합니다.
+	 * @method String.ucase
+	 * @returns {String}
+	 * @example
+	 * ```
+	 * "axisj".ucase() -> "AXISJ"
+	 * ```
+	 */
 	function ucase() { return this.toUpperCase(); }
 
-/**
- * 문자열의 바이트 값을 계산하여 줍니다.
- * @method String.getByte
- * @returns {Number}
- * @example
- ```
- trace("장".getByte());
- // 2
- trace("a".getByte());
- // 1
- ```
- */
+	/**
+	 * 문자열의 바이트 값을 계산하여 줍니다.
+	 * @method String.getByte
+	 * @returns {Number}
+	 * @example
+	 * ```
+	 * trace("장".getByte());
+	 * // 2
+	 * trace("a".getByte());
+	 * // 1
+	 * ```
+	 */
 	function getByte() {
 		var valueByte = this.length;
 		for (i = 0, l = this.length; i < l; i++) if (this.charCodeAt(i) > 128) valueByte++;
 		return valueByte;
 	}
-/**
- * 문자열을 전화번호 형태로 반홥니다.
- * @method String.phone
- * @returns {String}
- * @example
- ```
- trace("장".phone());
- // 02
- trace("a".phone());
- // 02
- trace("88819123".phone());
- // 02-8881-9123
- trace("01088819123".phone());
- // 010-8881-9137
- ```
- */
+	/**
+	 * 문자열을 전화번호 형태로 반홥니다.
+	 * @method String.phone
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * trace("장".phone());
+	 * // 02
+	 * trace("a".phone());
+	 * // 02
+	 * trace("88819123".phone());
+	 * // 02-8881-9123
+	 * trace("01088819123".phone());
+	 * // 010-8881-9137
+	 * ```
+	 */
 	function toPhoneString() {
 		if (this == "") return this;
 		var _this = this.replace(/\D+/g, "");
@@ -1866,16 +1936,16 @@ Object.extend(String.prototype, (function () {
 		return returnString;
 
 	}
-/**
- * anchor 데이터를 반환합니다.
- * @method String.getAnchorData
- * @returns {String}
- * @example
- ```
- "http://jdoc.axisj.com/#{id:\"/API/Prototype/String/phone\"}".getAnchorData();
- "{id:"/API/Prototype/String/phone"}"
- ```
- */
+	/**
+	 * anchor 데이터를 반환합니다.
+	 * @method String.getAnchorData
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * "http://jdoc.axisj.com/#{id:\"/API/Prototype/String/phone\"}".getAnchorData();
+	 * "{id:"/API/Prototype/String/phone"}"
+	 * ```
+	 */
 	function getAnchorData() {
 		var idx = this.indexOf("#", 0);
 		if (idx < 0) return "";
@@ -1932,48 +2002,48 @@ Object.extend(String.prototype, (function () {
  * @namespace {Number} Number
  */
 Object.extend(Number.prototype, (function () {
-/**
- * 숫자를 문자열로 변환하고 시작부터 지정한 글자수 만큼 반환합니다.
- * @method Number.left
- * @param {Number} strLen
- * @returns {String}
- * @example
- ```
- (1234).left(3); -> "123"
- ```
- */
+	/**
+	 * 숫자를 문자열로 변환하고 시작부터 지정한 글자수 만큼 반환합니다.
+	 * @method Number.left
+	 * @param {Number} strLen
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * (1234).left(3); -> "123"
+	 * ```
+	 */
 	function left(strLen) { return this.toString().substr(0, strLen); }
-/**
- * 숫자를 문자열로 변환하고 마지막부터 지정한 글자수 만큼 반환합니다.
- * @method Number.right
- * @param {Number} strLen
- * @returns {String}
- * @example
- ```
- 1234.right(3); -> 234
- ```
- */
+	/**
+	 * 숫자를 문자열로 변환하고 마지막부터 지정한 글자수 만큼 반환합니다.
+	 * @method Number.right
+	 * @param {Number} strLen
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * 1234.right(3); -> 234
+	 * ```
+	 */
 	function right(strLen) { return this.toString().substring(this.toString().length - strLen, this.toString().length); }
-/**
- * 통화표현 단위로 변환된 문자열을 반환합니다.
- * @method Number.money
- * @returns {String}
- * @example
- ```
- trace((1234.9).money());
- //1,234.9
- trace((1234.1).money());
- //1,234.1
- trace((-1234.9).money());
- //-1,234.9
- trace((-1234.1).money());
- //-1,234.1
-
- (12345678).money(); -> "12,345,678"
- "12345678".money(); -> "12,345,678"
- // String 에서도 money 메소드를 직접 사용 할 수 있습니다.
- ```
- */
+	/**
+	 * 통화표현 단위로 변환된 문자열을 반환합니다.
+	 * @method Number.money
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * trace((1234.9).money());
+	 * //1,234.9
+	 * trace((1234.1).money());
+	 * //1,234.1
+	 * trace((-1234.9).money());
+	 * //-1,234.9
+	 * trace((-1234.1).money());
+	 * //-1,234.1
+	 *
+	 * (12345678).money(); -> "12,345,678"
+	 * "12345678".money(); -> "12,345,678"
+	 * // String 에서도 money 메소드를 직접 사용 할 수 있습니다.
+	 * ```
+	 */
 	function toMoney() {
 		var txtNumber = '' + this;
 		if (isNaN(txtNumber) || txtNumber == "") { return ""; }
@@ -1991,94 +2061,94 @@ Object.extend(Number.prototype, (function () {
 			}
 		}
 	}
-/**
- * 숫자값을 Byte로 인식하여 값에 크기에 따르 KB, MB, GB 의 형식으로 반환합니다.
- * @method Number.byte
- * @returns {String}
- * @example
- ```
- trace((1234567890).byte());
- // 1.1GB
- trace((12345678).byte());
- // 11.8MB
- trace((123456).byte());
- // 120.6KB
- trace((123).byte());
- // 0.1KB
- ```
- */
+	/**
+	 * 숫자값을 Byte로 인식하여 값에 크기에 따르 KB, MB, GB 의 형식으로 반환합니다.
+	 * @method Number.byte
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * trace((1234567890).byte());
+	 * // 1.1GB
+	 * trace((12345678).byte());
+	 * // 11.8MB
+	 * trace((123456).byte());
+	 * // 120.6KB
+	 * trace((123).byte());
+	 * // 0.1KB
+	 * ```
+	 */
 	function toByte() { var n_unit = "KB"; var myByte = this / 1024; if (myByte / 1024 > 1) { n_unit = "MB"; myByte = myByte / 1024; } if (myByte / 1024 > 1) { n_unit = "GB"; myByte = myByte / 1024; } return myByte.round(1) + n_unit; }
-/**
- * 자신을 반환합니다.
- * @method Number.number
- * @returns {Number}
- */
+	/**
+	 * 자신을 반환합니다.
+	 * @method Number.number
+	 * @returns {Number}
+	 */
 	function toNum() { return this; }
-/**
- * 원하는 횟수 만큼 자릿수 맞춤 문자열을 포함한 문자열을 반환합니다.
- * @method Number.setDigit
- * @param {Number} length - 자릿수
- * @param {String} padder - 자릿수 맞춤 문자열
- * @param {Number} radix - 진수
- * @returns {String}
- * @example
- ```
- trace( (11).setDigit(3) );
- //011
- trace( (11).setDigit(3, '!') );
- //!11
- trace( (11).setDigit(3, 0, 16) );
- //00b
- trace( (25).setDigit(5, "X", 8) );
- //XXX31
- ```
- */
+	/**
+	 * 원하는 횟수 만큼 자릿수 맞춤 문자열을 포함한 문자열을 반환합니다.
+	 * @method Number.setDigit
+	 * @param {Number} length - 자릿수
+	 * @param {String} padder - 자릿수 맞춤 문자열
+	 * @param {Number} radix - 진수
+	 * @returns {String}
+	 * @example
+	 * ```js
+	 * trace( (11).setDigit(3) );
+	 * //011
+	 * trace( (11).setDigit(3, '!') );
+	 * //!11
+	 * trace( (11).setDigit(3, 0, 16) );
+	 * //00b
+	 * trace( (25).setDigit(5, "X", 8) );
+	 * //XXX31
+	 * ```
+	 */
 	function formatDigit(length, padder, radix) { var string = this.toString(radix || 10); return (padder || '0').times(length - string.length) + string; }
-/**
- * 인자값부터 원본까지 정수 단위로 이어진 배열을 리턴합니다.
- * @method Number.rangeFrom
- * @param {Number} start - 배열시작위치
- * @returns {Array}
- * @example
- ```
- (3).rangeFrom(0);
- [0, 1, 2, 3]
- ```
- */
+	/**
+	 * 인자값부터 원본까지 정수 단위로 이어진 배열을 리턴합니다.
+	 * @method Number.rangeFrom
+	 * @param {Number} start - 배열시작위치
+	 * @returns {Array}
+	 * @example
+	 * ```js
+	 * (3).rangeFrom(0);
+	 * [0, 1, 2, 3]
+	 * ```
+	 */
 	function range(start) { var ra = []; for (var a = (start || 0) ; a < this + 1; a++) ra.push(a); return ra; }
 	function axtoJSON() { return this; }
-/**
- * 절대값을 반환합니다.
- * @method Number.abs
- * @returns {Number}
- * @example
- ```
- trace((1234).abs());
- // 1234
- trace((-1234).abs());
- // 1234
- trace((1234.123).abs());
- // 1234.123
- trace((-1234.123).abs());
- // 1234.123
- ```
- */
+	/**
+	 * 절대값을 반환합니다.
+	 * @method Number.abs
+	 * @returns {Number}
+	 * @example
+	 * ```js
+	 * trace((1234).abs());
+	 * // 1234
+	 * trace((-1234).abs());
+	 * // 1234
+	 * trace((1234.123).abs());
+	 * // 1234.123
+	 * trace((-1234.123).abs());
+	 * // 1234.123
+	 * ```
+	 */
 	function abs() { return Math.abs(this); }
-/**
- * 반올림 위치에서부터 반올림 한 값을 반환합니다.
- * @method Number.round
- * @param {Number} digit
- * @returns {Number}
- * @example
- ```
- trace((1234.5678).round());
- //1235
- trace((1234.5678).round(1));
- //1234.6
- trace((1234.5678).round(2));
- //1234.57
- ```
- */
+	/**
+	 * 반올림 위치에서부터 반올림 한 값을 반환합니다.
+	 * @method Number.round
+	 * @param {Number} digit
+	 * @returns {Number}
+	 * @example
+	 * ```js
+	 * trace((1234.5678).round());
+	 * //1235
+	 * trace((1234.5678).round(1));
+	 * //1234.6
+	 * trace((1234.5678).round(2));
+	 * //1234.57
+	 * ```
+	 */
 	function round(digit) {
 		return (typeof digit == "undefined") ? Math.round(this): +(Math.round(this+"e+"+digit)+"e-"+digit);
 	}
@@ -2094,42 +2164,42 @@ Object.extend(Number.prototype, (function () {
 	 * @returns {Number}
 	 */
 	function floor() { return Math.floor(this); }
-/**
- * 숫자를 time값으로 이용하여 Date를 반환합니다.
- * @method Number.date
- * @returns {Date}
- * @example
- ```
- var ndate = new Date();
- ndate.getTime();
- // 1417253161813
- (1417253161813).date();
- // Sat Nov 29 2014 18:26:01 GMT+0900 (KST)
- ```
- */
+	/**
+	 * 숫자를 time값으로 이용하여 Date를 반환합니다.
+	 * @method Number.date
+	 * @returns {Date}
+	 * @example
+	 * ```js
+	 * var ndate = new Date();
+	 * ndate.getTime();
+	 * // 1417253161813
+	 * (1417253161813).date();
+	 * // Sat Nov 29 2014 18:26:01 GMT+0900 (KST)
+	 * ```
+	 */
 	function date() { return new Date(this); }
-/**
- * 나누기 연산 결과를 반환합니다. divisor 가 0인 경우 연산 결과는 오류 없이 0을 반환합니다.
- * @method Number.div
- * @param {Number} divisor - 나눔수
- * @returns {Number}
- * @example
- ```
- trace( (10).div(2); );
- // 5
- trace( (10).div(0); );
- // 0
- ```
- */
+	/**
+	 * 나누기 연산 결과를 반환합니다. divisor 가 0인 경우 연산 결과는 오류 없이 0을 반환합니다.
+	 * @method Number.div
+	 * @param {Number} divisor - 나눔수
+	 * @returns {Number}
+	 * @example
+	 * ```js
+	 * trace( (10).div(2); );
+	 * // 5
+	 * trace( (10).div(0); );
+	 * // 0
+	 * ```
+	 */
 	function div(divisor) { if (divisor != 0) { return this / divisor; } else { return 0; } }
 	function none() { return this; }
 
 	function times(count) { return count < 1 ? '' : new Array(count + 1).join(this.toString()); }
-/**
- * 숫자를 문자로 변환후 String.phone를 실행합니다.
- * @method Number.phone
- * @returns {String}
- */
+	/**
+	 * 숫자를 문자로 변환후 String.phone를 실행합니다.
+	 * @method Number.phone
+	 * @returns {String}
+	 */
 	function phone() {
 		var txtNumber = '' + this;
 		return txtNumber.phone();
@@ -2162,26 +2232,26 @@ Object.extend(Number.prototype, (function () {
  * @namespace {Date} Date
  */
 Object.extend(Date.prototype, (function () {
-/**
- * @method Data.add
- * @param {Number} daunum
- * @param {String} [interval=d] - y|m|d
- * @returns {Date}
- * @description 원본날짜에서 인자만큼 더해진 날짜 데이터를 반환합니다.
- * @example
-```js
- var myDate = new Date();
- trace(myDate.add(1));
- // 내일값이 나옵니다.
-
- trace("2013-05-05".date().add(3));
- // "2013-05-08T03:00:00Z"
- trace("2013-05-05".date().add(2, 'm'));
- //  "2013-07-05T03:00:00Z"
- trace("2013-05-05".date().add(2, 'y'));
- //  "2015-05-05T03:00:00Z"
- ```
- */
+	/**
+	 * @method Data.add
+	 * @param {Number} daunum
+	 * @param {String} [interval=d] - y|m|d
+	 * @returns {Date}
+	 * @description 원본날짜에서 인자만큼 더해진 날짜 데이터를 반환합니다.
+	 * @example
+	 * ```js
+	 * var myDate = new Date();
+	 * trace(myDate.add(1));
+	 * // 내일값이 나옵니다.
+	 *
+	 * trace("2013-05-05".date().add(3));
+	 * // "2013-05-08T03:00:00Z"
+	 * trace("2013-05-05".date().add(2, 'm'));
+	 * //  "2013-07-05T03:00:00Z"
+	 * trace("2013-05-05".date().add(2, 'y'));
+	 * //  "2015-05-05T03:00:00Z"
+	 * ```
+	 */
 	function dateAdd(daynum, interval) {
 		interval = interval || "d";
 		var interval = interval.toLowerCase();
@@ -2208,20 +2278,20 @@ Object.extend(Date.prototype, (function () {
 		}
 		return aDate;
 	}
-/**
- * @method Data.diff
- * @param {Date|String} edDate
- * @param {String} [type=d] - y|m|d
- * @returns {Number}
- * @description 날짜와 날짜 사이의 날짜 수를 반환합니다.
- * @example
- ```js
- trace( "2013-05-05".date().diff("2013-05-08") );
- // 3
- trace( "2013-05-05".date().diff("2013-05-08".date()) );
- // 3
- ```
- */
+	/**
+	 * @method Data.diff
+	 * @param {Date|String} edDate
+	 * @param {String} [type=d] - y|m|d
+	 * @returns {Number}
+	 * @description 날짜와 날짜 사이의 날짜 수를 반환합니다.
+	 * @example
+	 * ```js
+	 * trace( "2013-05-05".date().diff("2013-05-08") );
+	 * // 3
+	 * trace( "2013-05-05".date().diff("2013-05-08".date()) );
+	 * // 3
+	 * ```
+	 */
 	function dayDiff(edDate, tp) {
 		var DyMilli = ((1000 * 60) * 60) * 24;
 		//trace(this.print() +"/"+ edDate.print() + "//" + ((edDate.date() - this) / DyMilli) + "//" + ((edDate.date() - this) / DyMilli).floor());
@@ -2257,18 +2327,18 @@ Object.extend(Date.prototype, (function () {
 		return ((dd2.getTime() - dd1.getTime()) / DyMilli).floor();
 
 	}
-/**
- * @method  Date.print
- * @param {String} [format=yyyy-mm-dd]
- * @returns {type} name
- * @description yyyy:년도, mm:월, dd:일, hh:시, mi:분, ss:초, dw:요일 을 조합하여 format으로 지정하면 그에 맞는 날짜형식 문자열이 반환됩니다.
- * @example
-```js
- "2013-05-05".date().print(); -> "2013-05-05"
- "2013-05-05".date().print('yyyy년 mm월 dd일'); -> "2013년 05월 05일"
- "2013-05-05".date().print('yyyy년 mm월 dd일 (dw)'); -> "2013년 05월 05일 (일)"
-```
- */
+	/**
+	 * @method  Date.print
+	 * @param {String} [format=yyyy-mm-dd]
+	 * @returns {type} name
+	 * @description yyyy:년도, mm:월, dd:일, hh:시, mi:분, ss:초, dw:요일 을 조합하여 format으로 지정하면 그에 맞는 날짜형식 문자열이 반환됩니다.
+	 * @example
+	 * ```js
+	 * "2013-05-05".date().print(); -> "2013-05-05"
+	 * "2013-05-05".date().print('yyyy년 mm월 dd일'); -> "2013년 05월 05일"
+	 * "2013-05-05".date().print('yyyy년 mm월 dd일 (dw)'); -> "2013년 05월 05일 (일)"
+	 * ```
+	 */
 	function toString(format) {
 		if (format == undefined) {
 			var sSeper = "-";
@@ -2318,30 +2388,30 @@ Object.extend(Date.prototype, (function () {
 			return fStr;
 		}
 	}
-/**
- * @method  Date.getTimeAgo
- * @returns {String}
- * @description 현재와 날짜 데이터 간의 간격을 문자열로 반환합니다.
- * @example
- ```js
- var pDate = new Date();
- pDate.setTime(pDate.getTime()-1000*60);
- trace( pDate.getTimeAgo() );
- // 1분 전
-
- pDate.setTime(pDate.getTime()-1000*60*5);
- trace( pDate.getTimeAgo() );
- //  6분 전
-
- pDate.setTime(pDate.getTime()-1000*60*60);
- trace( pDate.getTimeAgo() );
- //  1시간 6분 전
-
- pDate.setTime(pDate.getTime()-1000*60*60*24);
- trace( pDate.getTimeAgo() );
- //  2013년 11월 19일 화
- ```
- */
+	/**
+	 * @method  Date.getTimeAgo
+	 * @returns {String}
+	 * @description 현재와 날짜 데이터 간의 간격을 문자열로 반환합니다.
+	 * @example
+	 * ```js
+	 * var pDate = new Date();
+	 * pDate.setTime(pDate.getTime()-1000*60);
+	 * trace( pDate.getTimeAgo() );
+	 * // 1분 전
+	 *
+	 * pDate.setTime(pDate.getTime()-1000*60*5);
+	 * trace( pDate.getTimeAgo() );
+	 * //  6분 전
+	 *
+	 * pDate.setTime(pDate.getTime()-1000*60*60);
+	 * trace( pDate.getTimeAgo() );
+	 * //  1시간 6분 전
+	 *
+	 * pDate.setTime(pDate.getTime()-1000*60*60*24);
+	 * trace( pDate.getTimeAgo() );
+	 * //  2013년 11월 19일 화
+	 * ```
+	 */
 	function getTimeAgo() {
 
 		var rtnStr = "";
@@ -2369,12 +2439,12 @@ Object.extend(Date.prototype, (function () {
 	}
 	function date() { return this; }
 	function axtoJSON() { return '"' + this.getUTCFullYear() + '-' + (this.getUTCMonth() + 1).setDigit(2) + '-' + this.getUTCDate().setDigit(2) + 'T' + this.getUTCHours().setDigit(2) + ':' + this.getUTCMinutes().setDigit(2) + ':' + this.getUTCSeconds().setDigit(2) + 'Z"'; }
-/**
- * @method  Date.axGetDay
- * @param {Number} [dayOfStart=0]
- * @returns {Number}
- * @description 요일의 시작인덱스를 변경한 요일인덱스를 반환합니다.
- */
+	/**
+	 * @method  Date.axGetDay
+	 * @param {Number} [dayOfStart=0]
+	 * @returns {Number}
+	 * @description 요일의 시작인덱스를 변경한 요일인덱스를 반환합니다.
+	 */
 	function axGetDay(dayOfStart){
 		if(dayOfStart == undefined) dayOfStart = 0;
 		var myDay = this.getDay() - dayOfStart;
@@ -2397,11 +2467,11 @@ Object.extend(Date.prototype, (function () {
  * @namespace {Error} Error
  */
 Object.extend(Error.prototype, (function () {
-/**
- * 에러넘버와 에러 객체를 리턴합니다.
- * @method Error.print
- * @returns {String}
- */
+	/**
+	 * 에러넘버와 에러 객체를 리턴합니다.
+	 * @method Error.print
+	 * @returns {String}
+	 */
 	function print() {
 		return (this.number & 0xFFFF) + " : " + this;
 	}
@@ -2415,85 +2485,85 @@ Object.extend(Error.prototype, (function () {
  * @namespace {Array} Array
  */
 Object.extend(Array.prototype, (function () {
-/**
- * @method Array.clear
- * @returns {Array}
- * @description Array를 빈 Array 로 변경합니다.
- * @example
-```js
- var a = [1,2,3];
- trace(a);
- // [1, 2, 3]
- trace(a.clear());
- // []
- trace(a);
- // []
-```
- */
+	/**
+	 * @method Array.clear
+	 * @returns {Array}
+	 * @description Array를 빈 Array 로 변경합니다.
+	 * @example
+	 * ```js
+	 * var a = [1,2,3];
+	 * trace(a);
+	 * // [1, 2, 3]
+	 * trace(a.clear());
+	 * // []
+	 * trace(a);
+	 * // []
+	 * ```
+	 */
 	function clear() {
 		this.length = 0;
 		return this;
 	}
-/**
- * @method Array.first
- * @returns {Object}
- * @description Array의 첫번째 아이템을 반환합니다.
- * @example
-```js
- var a = [1,2,3];
- trace(a.first());
- // 1
-
- var b = [{a:"액시스제이"}, 2, 3];
- trace(b.first());
- // {"a":"액시스제이"}
-
- var c = [[1,2,3], 2, 3];
- trace(c.first());
- // [1, 2, 3]
- ```
- */
+	/**
+	 * @method Array.first
+	 * @returns {Object}
+	 * @description Array의 첫번째 아이템을 반환합니다.
+	 * @example
+	 * ```js
+	 * var a = [1,2,3];
+	 * trace(a.first());
+	 * // 1
+	 *
+	 * var b = [{a:"액시스제이"}, 2, 3];
+	 * trace(b.first());
+	 * // {"a":"액시스제이"}
+	 *
+	 * var c = [[1,2,3], 2, 3];
+	 * trace(c.first());
+	 * // [1, 2, 3]
+	 * ```
+	 */
 	function first() {
 		return this[0];
 	}
-/**
- * @method Array.last
- * @returns {Object}
- * @description Array의 마지막 아이템을 반환합니다.
- * @example
- ```js
- var a = [1,2,3];
- trace(a.last());
- // 1
-
- var b = [1, 2, {a:"액시스제이"}];
- trace(b.last());
- // {"a":"액시스제이"}
-
- var c = [1, 2, [1,2,3]];
- trace(c.last());
- // [1, 2, 3]
- ```
- */
+	/**
+	 * @method Array.last
+	 * @returns {Object}
+	 * @description Array의 마지막 아이템을 반환합니다.
+	 * @example
+	 * ```js
+	 * var a = [1,2,3];
+	 * trace(a.last());
+	 * // 1
+	 *
+	 * var b = [1, 2, {a:"액시스제이"}];
+	 * trace(b.last());
+	 * // {"a":"액시스제이"}
+	 *
+	 * var c = [1, 2, [1,2,3]];
+	 * trace(c.last());
+	 * // [1, 2, 3]
+	 * ```
+	 */
 	function last() {
 		return this[this.length - 1];
 	}
-/**
- * 인자값에 해당하는 인덱스의 아이템을 반환합니다.
- * @method Array.getToSeq
- * @param {Number} seq
- * @returns {Object}
- * @example
-```js
- var a = [1,2,3];
- trace(a.getToSeq(1));
- // 2
-
- var a = [1,{a:2},3];
- trace(a.getToSeq(1));
- // {"a":2}
- ```
- */
+	/**
+	 * 인자값에 해당하는 인덱스의 아이템을 반환합니다.
+	 * @method Array.getToSeq
+	 * @param {Number} seq
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var a = [1,2,3];
+	 * trace(a.getToSeq(1));
+	 * // 2
+	 *
+	 * var a = [1,{a:2},3];
+	 * trace(a.getToSeq(1));
+	 * // {"a":2}
+	 * ```
+	 */
 	function getToSeq(seq) {
 		if (seq > (this.length - 1)) {
 			return null;
@@ -2511,32 +2581,31 @@ Object.extend(Array.prototype, (function () {
 		for (var i = 0; i < this.length; i++) results.push(Object.toJSONforMobile(this[i]));
 		return '[' + results.join(', ') + ']';
 	}
-/**
- * 사용자가 정의한 조건에 맞는 아이템을 제거한 Array 를 반환합니다.
- * @method Array.remove
- * @param {Function} callBack - remove 처리할 대상에 return true; 하면 true 인 대상이 제거 됩니다.
- * @returns {Array}
- * @example
-```js
- var a = [1,2,3,4];
- trace(a);
- // [1, 2, 3, 4]
- a = a.remove(function(idx, item){
-	return (item == 3);
-});
- trace(a);
- // [1, 2, 4]
-
- var b = [1,2,3,4];
- trace(b);
- // [1, 2, 3, 4]
- b = b.remove(function(){
-	return (this.item == 3 || this.index == 0);
-});
- trace(b);
- // [2, 4]
- ```
- */
+	/**
+	 * 사용자가 정의한 조건에 맞는 아이템을 제거한 Array 를 반환합니다.
+	 * @method Array.remove
+	 * @param {Function} callBack - remove 처리할 대상에 return true; 하면 true 인 대상이 제거 됩니다.
+	 * @returns {Array}
+	 * @example
+	 * ```js
+	 * var a = [1,2,3,4];
+	 * trace(a);
+	 * // [1, 2, 3, 4]
+	 * a = a.remove(function(idx, item){
+	 *     return (item == 3);
+	 * });
+	 * trace(a);
+	 * // [1, 2, 4]
+	 *  * var b = [1,2,3,4];
+	 * trace(b);
+	 * // [1, 2, 3, 4]
+	 * b = b.remove(function(){
+	 *     return (this.item == 3 || this.index == 0);
+	 * });
+	 * trace(b);
+	 * // [2, 4]
+	 * ```
+	 */
 	function remove(callBack) {
 		var _self = this;
 		var collect = [];
@@ -2545,22 +2614,22 @@ Object.extend(Array.prototype, (function () {
 		});
 		return collect;
 	}
-/**
- * 사용자가 정의한 조건에 맞는 아이템 갯수를 반환합니다.
- * @method Array.search
- * @param {Function} callBack
- * @returns {Number}
- * @example
-```js
- var a = [1,2,3,4];
- trace(a);
- // [1, 2, 3, 4]
- trace(a.search(function(idx, item){
-	return (item < 3);
-}));
- // 2
- ```
- */
+	/**
+	 * 사용자가 정의한 조건에 맞는 아이템 갯수를 반환합니다.
+	 * @method Array.search
+	 * @param {Function} callBack
+	 * @returns {Number}
+	 * @example
+	 * ```js
+	 * var a = [1,2,3,4];
+	 * trace(a);
+	 * // [1, 2, 3, 4]
+	 * trace(a.search(function(idx, item){
+	 *     return (item < 3);
+	 * }));
+	 * // 2
+	 * ```
+	 */
 	function search(callBack) {
 		var _self = this;
 		var collect = [];
@@ -2569,30 +2638,30 @@ Object.extend(Array.prototype, (function () {
 		});
 		return collect.length;
 	}
-/**
- * 사용자가 정의한 조건에 맞는 아이템을 모두 반환합니다.
- * @method Array.searchObject
- * @param {Function} callBack
- * @returns {Array}
- * @example
-```js
- var a = [1,2,3,4];
- trace(a);
- // [1, 2, 3, 4]
- trace(a.searchObject(function(idx, item){
-	return (item < 3);
-}));
- // [1, 2]
-
- var b = [1,2,3,4];
- trace(b);
- // [1, 2, 3, 4]
- trace(b.searchObject(function(idx, item){
-	return (this.item < 3);
-}));
- // [1, 2]
-```
- */
+	/**
+	 * 사용자가 정의한 조건에 맞는 아이템을 모두 반환합니다.
+	 * @method Array.searchObject
+	 * @param {Function} callBack
+	 * @returns {Array}
+	 * @example
+	 * ```js
+	 * var a = [1,2,3,4];
+	 * trace(a);
+	 * // [1, 2, 3, 4]
+	 * trace(a.searchObject(function(idx, item){
+	 *     return (item < 3);
+	 * }));
+	 * // [1, 2]
+	 *
+	 * var b = [1,2,3,4];
+	 * trace(b);
+	 * // [1, 2, 3, 4]
+	 * trace(b.searchObject(function(idx, item){
+	 *     return (this.item < 3);
+	 * }));
+	 * // [1, 2]
+	 * ```
+	 */
 	function getObject(callBack) {
 		var _self = this;
 		var collect = [];
@@ -2601,30 +2670,30 @@ Object.extend(Array.prototype, (function () {
 		});
 		return collect;
 	}
-/**
- * 사용자가 정의한 조건에 맞는 아이템을 한 개만 반환합니다.
- * @method Array.hasObject
- * @param {Function} callBack
- * @returns {Object}
- * @example
-```js
- var a = [1,2,3,4];
- trace(a);
- // [1, 2, 3, 4]
- trace(a.has(function(idx, item){
-	return (item == 3);
-}));
- // 3
-
- var b = [1,2,3,4];
- trace(b);
- // [1, 2, 3, 4]
- trace(b.has(function(idx, item){
-	return (this.item == 3);
-}));
- // 3
- ```
- */
+	/**
+	 * 사용자가 정의한 조건에 맞는 아이템을 한 개만 반환합니다.
+	 * @method Array.hasObject
+	 * @param {Function} callBack
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var a = [1,2,3,4];
+	 * trace(a);
+	 * // [1, 2, 3, 4]
+	 * trace(a.has(function(idx, item){
+	 *     return (item == 3);
+	 * }));
+	 * // 3
+	 *
+	 * var b = [1,2,3,4];
+	 * trace(b);
+	 * // [1, 2, 3, 4]
+	 * trace(b.has(function(idx, item){
+	 *     return (this.item == 3);
+	 * }));
+	 * // 3
+	 * ```
+	 */
 	function hasObject(callBack) {
 		var _self = this;
 		var collect = null;
@@ -2638,18 +2707,18 @@ Object.extend(Array.prototype, (function () {
 	}
 	/* 13-06-13 메소드 확장 */
 
-/**
- * Object Array의 키를 정렬한후 가장 작은 값을 반환합니다.
- * @method Array.getMinObject
- * @param {String} key
- * @returns {Object}
- * @example
-```js
- var myArray = [{a:99},{a:2},{a:1}];
- myArray.getMinObject("a");
- // Object {a: 1}
-```
- */
+	/**
+	 * Object Array의 키를 정렬한후 가장 작은 값을 반환합니다.
+	 * @method Array.getMinObject
+	 * @param {String} key
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var myArray = [{a:99},{a:2},{a:1}];
+	 * myArray.getMinObject("a");
+	 * // Object {a: 1}
+	 * ```
+	 */
 	function getMinObject(key) {
 		var tempArray = this.concat();
 		tempArray = tempArray.sort(function (pItem, nItem) {
@@ -2661,18 +2730,18 @@ Object.extend(Array.prototype, (function () {
 		});
 		return (tempArray.first() || {});
 	}
-/**
- * Object Array의 키를 정렬한후 가장 큰 값을 반환합니다.
- * @method Array.getMaxObject
- * @param {String} key
- * @returns {Object}
- * @example
- ```js
- var myArray = [{a:2},{a:99},{a:1}];
- myArray.getMaxObject("a");
- // Object {a: 99}
- ```
- */
+	/**
+	 * Object Array의 키를 정렬한후 가장 큰 값을 반환합니다.
+	 * @method Array.getMaxObject
+	 * @param {String} key
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var myArray = [{a:2},{a:99},{a:1}];
+	 * myArray.getMaxObject("a");
+	 * // Object {a: 99}
+	 * ```
+	 */
 	function getMaxObject(key) {
 		var tempArray = this.concat();
 		tempArray = tempArray.sort(function (pItem, nItem) {
@@ -2747,30 +2816,30 @@ Object.extend(Array.prototype, (function () {
 		}
 		return myselect;
 	}
-/**
- * 리스트형 데이터를 부모 참조키와 자식 참조키를 이용하여 트리형 데이터로 변환처리 합니다.
- * @method Array.convertTree
- * @param {String} parentKey
- * @param {String} childKey
- * @param {String} [hashDigit=3] - 트리의 주소값에 해당하는 hash 의 자릿수 단위 설정 (기본값 3)
- * @returns {Object}
- * @example
-```js
- var a = [
-	 {pno:0, no:1, name:"장기영"},
-	 {pno:1, no:2, name:"장기영"},
-	 {pno:1, no:3, name:"장기영"},
-	 {pno:3, no:4, name:"장기영"},
-	 {pno:3, no:5, name:"장기영"},
-	 {pno:5, no:6, name:"장기영"},
-	 {pno:5, no:7, name:"장기영"}
- ];
-
- var myTree = a.convertTree("pno", "no");
- trace(myTree);
- //[{"pno":0, "no":1, "name":"장기영", "subTree":[{"pno":1, "no":2, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000", "hash":"000_000_000"}, {"pno":1, "no":3, "name":"장기영", "__subTreeLength":2, "subTree":[{"pno":3, "no":4, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000_001", "hash":"000_000_001_000"}, {"pno":3, "no":5, "name":"장기영", "__subTreeLength":2, "subTree":[{"pno":5, "no":6, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000_001_001", "hash":"000_000_001_001_000"}, {"pno":5, "no":7, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000_001_001", "hash":"000_000_001_001_001"}], "pHash":"000_000_001", "hash":"000_000_001_001"}], "pHash":"000_000", "hash":"000_000_001"}], "__subTreeLength":2, "pHash":"000", "hash":"000_000"}]
- ```
- */
+	/**
+	 * 리스트형 데이터를 부모 참조키와 자식 참조키를 이용하여 트리형 데이터로 변환처리 합니다.
+	 * @method Array.convertTree
+	 * @param {String} parentKey
+	 * @param {String} childKey
+	 * @param {String} [hashDigit=3] - 트리의 주소값에 해당하는 hash 의 자릿수 단위 설정 (기본값 3)
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var a = [
+	 *     {pno:0, no:1, name:"장기영"},
+	 *     {pno:1, no:2, name:"장기영"},
+	 *     {pno:1, no:3, name:"장기영"},
+	 *     {pno:3, no:4, name:"장기영"},
+	 *     {pno:3, no:5, name:"장기영"},
+	 *     {pno:5, no:6, name:"장기영"},
+	 *     {pno:5, no:7, name:"장기영"}
+	 * ];
+	 *
+	 * var myTree = a.convertTree("pno", "no");
+	 * trace(myTree);
+	 * //[{"pno":0, "no":1, "name":"장기영", "subTree":[{"pno":1, "no":2, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000", "hash":"000_000_000"}, {"pno":1, "no":3, "name":"장기영", "__subTreeLength":2, "subTree":[{"pno":3, "no":4, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000_001", "hash":"000_000_001_000"}, {"pno":3, "no":5, "name":"장기영", "__subTreeLength":2, "subTree":[{"pno":5, "no":6, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000_001_001", "hash":"000_000_001_001_000"}, {"pno":5, "no":7, "name":"장기영", "__subTreeLength":0, "subTree":[], "pHash":"000_000_001_001", "hash":"000_000_001_001_001"}], "pHash":"000_000_001", "hash":"000_000_001_001"}], "pHash":"000_000", "hash":"000_000_001"}], "__subTreeLength":2, "pHash":"000", "hash":"000_000"}]
+	 * ```
+	 */
 	function convertTree(parentKey, childKey, hashDigit) {
 		var tree = [];
 		var pointer = {};
@@ -2820,22 +2889,22 @@ Object.extend(Array.prototype, (function () {
 		}
 		return tree;
 	}
-/**
- * 조건에 맞는 아이템을 index 값과 함께 반환합니다.
- * @method Array.getIndex
- * @param {Function} context
- * @returns {Object}
- * @example
-```js
- var b = [1,2,3,4];
- trace(b);
- // [1, 2, 3, 4]
- trace(b.getIndex(function(idx, item){
-	return (this.item >= 3);
- }));
- //  {"item":3, "index":2}
- ```
- */
+	/**
+	 * 조건에 맞는 아이템을 index 값과 함께 반환합니다.
+	 * @method Array.getIndex
+	 * @param {Function} context
+	 * @returns {Object}
+	 * @example
+	 * ```js
+	 * var b = [1,2,3,4];
+	 * trace(b);
+	 * // [1, 2, 3, 4]
+	 * trace(b.getIndex(function(idx, item){
+	 *     return (this.item >= 3);
+	 * }));
+	 * //  {"item":3, "index":2}
+	 * ```
+	 */
 	function getIndex(context) {
 		if (!Object.isFunction(context)) {
 			findObj = context;
@@ -3792,13 +3861,13 @@ dialog.setConfig({ targetID: "basicDialog", type: "dialog" });
  "2014-08-20 tom focusElement 버그픽스"
  "2014-08-28 tom setSBPosition 예외사항 exeception"
  * @example
-```js
-var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
-myUIScroll.setConfig({
-	targetID:"UIScrollContainer",
-	scrollID:"UIScrollTarget"
-});
- ```
+ *```js
+ * var myUIScroll = new AXScroll(); // 스크롤 인스턴스 선언
+ * myUIScroll.setConfig({
+ *     targetID:"UIScrollContainer",
+ *     scrollID:"UIScrollTarget"
+ * });
+ *```
  *
  */
 var AXScroll = Class.create(AXJ, {
@@ -3816,17 +3885,19 @@ var AXScroll = Class.create(AXJ, {
         this.minHeightSB = { TF: false, h: 0 };
         this.minWidthSB = { TF: false, w: 0 };
     },
-/**
- * @method AXScroll.setConfig
- * @param {Object} configs - 스크롤 속성 오브젝트
- * @description 스크롤 대상과 스크롤 컨테이너를 지정하여 스크롤UI를 구현합니다.
- * @example
-myUIScroll.setConfig({
-	targetID:"UIScrollContainer",
-	scrollID:"UIScrollTarget",
-	bounces:true
-});
- */
+    /**
+     * @method AXScroll.setConfig
+     * @param {Object} configs - 스크롤 속성 오브젝트
+     * @description 스크롤 대상과 스크롤 컨테이너를 지정하여 스크롤UI를 구현합니다.
+     * @example
+     *```js
+     * myUIScroll.setConfig({
+     *     targetID:"UIScrollContainer",
+     *     scrollID:"UIScrollTarget",
+     *     bounces:true
+     * });
+     *```
+     */
     init: function () {
         var config = this.config;
         if (Object.isUndefined(config.targetID)) {
@@ -3844,14 +3915,16 @@ myUIScroll.setConfig({
         this.initScroll();
         this.bindEvent();
     },
-/**
- * @method AXScroll.updateScroll
- * @returns {AXScroll}
- * @description 스크롤 처리 대상의 사이즈를 재정의 합니다. 스크롤 대상의 크기가 변경되었을 때 호출
- * @example
- myUIScroll.updateScroll();
- myUIScroll.resizeScroll(); // updateScroll과 동일한 기능
- */
+    /**
+     * @method AXScroll.updateScroll
+     * @returns {AXScroll}
+     * @description 스크롤 처리 대상의 사이즈를 재정의 합니다. 스크롤 대상의 크기가 변경되었을 때 호출
+     * @example
+     * ```js
+     * myUIScroll.updateScroll();
+     * myUIScroll.resizeScroll(); // updateScroll과 동일한 기능
+     * ```
+     */
     updateScroll: function () {
         this.initScroll();
 		return this;
@@ -4633,14 +4706,16 @@ myUIScroll.setConfig({
 
 	    }
     },
-/**
- * @method AXScroll.focusElement
- * @param {String} id - 포커스 할 대상 엘리먼트 아이디
- * @returns {AXScroll}
- * @description 스크롤 오브젝트 안에 엘리먼트를 포커스 합니다.
- * @example
- myUIScroll.focusElement("resizer01");
- */
+    /**
+     * @method AXScroll.focusElement
+     * @param {String} id - 포커스 할 대상 엘리먼트 아이디
+     * @returns {AXScroll}
+     * @description 스크롤 오브젝트 안에 엘리먼트를 포커스 합니다.
+     * @example
+     *```js
+     * myUIScroll.focusElement("resizer01");
+     *```
+     */
     focusElement: function (id) {
         var config = this.config;
         if (AXgetId(id)) {
@@ -4660,14 +4735,16 @@ myUIScroll.setConfig({
         }
 		return this;
     },
-/**
- * @method AXScroll.scrollTop
- * @param {Number} top - scrollTop position
- * @returns {AXScroll}
- * @description 스크롤 포지션을 원하는 포지션으로 이동합니다.
- * @example
- myUIScroll.scrollTop(0);
- */
+    /**
+     * @method AXScroll.scrollTop
+     * @param {Number} top - scrollTop position
+     * @returns {AXScroll}
+     * @description 스크롤 포지션을 원하는 포지션으로 이동합니다.
+     * @example
+     *```js
+     * myUIScroll.scrollTop(0);
+     *```
+     */
     scrollTop: function (top) {
         var myNewTop = top;
         var CTheight = this.scrollTargetID.innerHeight();
@@ -4680,16 +4757,17 @@ myUIScroll.setConfig({
         this.setSBPosition();
 		return this;
     },
-/**
- * @method AXScroll.moveTo
- * @param {Number} x - scrollTop position (optional)
- * @param {Number} y - scrollLeft position (optional)
- * @returns {AXScroll}
- * @description 스크롤위치를 이동시킵니다.
- * @example
- myUIScroll.moveTo();
- */
-
+    /**
+     * @method AXScroll.moveTo
+     * @param {Number} x - scrollTop position (optional)
+     * @param {Number} y - scrollLeft position (optional)
+     * @returns {AXScroll}
+     * @description 스크롤위치를 이동시킵니다.
+     * @example
+     *```js
+     * myUIScroll.moveTo();
+     *```
+     */
     moveTo: function (x, y) {
         var cfg = this.config;
         var css = {};
@@ -4709,13 +4787,15 @@ myUIScroll.setConfig({
         }
 		return this;
     },
-/**
- * @method AXScroll.unbind
- * @returns {AXScroll}
- * @description 스크롤을 UI를 제거합니다.
- * @example
- myUIScroll.unbind();
- */
+    /**
+     * @method AXScroll.unbind
+     * @returns {AXScroll}
+     * @description 스크롤을 UI를 제거합니다.
+     * @example
+     * ```js
+     * myUIScroll.unbind();
+     * ```
+     */
     unbind: function () {
         var config = this.config;
         this.scroll = false;
@@ -4759,28 +4839,28 @@ myUIScroll.setConfig({
  *
  */
 var AXCalendar = Class.create(AXJ, {
-/**
- * AXCalendar 기본속성
- * @member {Object} AXCalendar.config
- * @example
- ```js
- {
-	 CT_className : {String},
-	 weeks : {
-	    { name: "SUN" },
-	    { name: "MON" },
-	    { name: "TUE" },
-	    { name: "WED" },
-	    { name: "THU" },
-	    { name: "FRI" },
-	    { name: "SAT" }
-	 },
-	 printFormat : "dd",
-	 titleFormat : "yyyy/mm/dd",
-	 valueFormat : "yyyy-mm-dd"
- }
- ```
- */
+    /**
+     * AXCalendar 기본속성
+     * @member {Object} AXCalendar.config
+     * @example
+     *```js
+     * {
+     *     CT_className : {String},
+     *     weeks : {
+     *        { name: "SUN" },
+     *        { name: "MON" },
+     *        { name: "TUE" },
+     *        { name: "WED" },
+     *        { name: "THU" },
+     *        { name: "FRI" },
+     *        { name: "SAT" }
+     *     },
+     *     printFormat : "dd",
+     *     titleFormat : "yyyy/mm/dd",
+     *     valueFormat : "yyyy-mm-dd"
+     * }
+     *```
+     */
     initialize: function (AXJ_super) {
         AXJ_super();
         this.config.CT_className = "AXCalendar";
@@ -4798,23 +4878,23 @@ var AXCalendar = Class.create(AXJ, {
         this.config.titleFormat = "yyyy/mm/dd";
         this.config.valueFormat = "yyyy-mm-dd";
     },
-/**
- * @method AXCalendar.setConfig
- * @param {Object} config
- * @description 선언된 스크롤 클래스를 사용하기 위해 속성을 정의합니다.
- * @example
-```js
- mycalendar.setConfig(config);
-
- var config = {
-	 CT_className : {String},
-	 weeks : {Object} [{ { name: "SUN" }, { name: "MON" }, { name: "TUE" }, { name: "WED" }, { name: "THU" }, { name: "FRI" }, { name: "SAT" } }],
-	 printFormat : {String} [dd],
-	 titleFormat : {String} [yyyy/mm/dd],
-	 valueFormat : {String} [yyyy-mm-dd]
- };
-```
- */
+    /**
+     * @method AXCalendar.setConfig
+     * @param {Object} config
+     * @description 선언된 스크롤 클래스를 사용하기 위해 속성을 정의합니다.
+     * @example
+     *```js
+     * mycalendar.setConfig(config);
+     *
+     * var config = {
+     *     CT_className : {String},
+     *     weeks : {Object} [{ { name: "SUN" }, { name: "MON" }, { name: "TUE" }, { name: "WED" }, { name: "THU" }, { name: "FRI" }, { name: "SAT" } }],
+     *     printFormat : {String} [dd],
+     *     titleFormat : {String} [yyyy/mm/dd],
+     *     valueFormat : {String} [yyyy-mm-dd]
+     * };
+     *```
+     */
     init: function () {
 
     },
@@ -4836,16 +4916,16 @@ var AXCalendar = Class.create(AXJ, {
         calendarStartDate = monthStartDate.add(-calendarStartDateDay);
         return { calendarStartDate: calendarStartDate, monthStartDate: monthStartDate };
     },
-/**
- * @method AXCalendar.printDayPage
- * @param {String} [toDay]
- * @returns {AXCalendar}
- * @description 일자 캘린더를 targetID 안에 출력합니다
- * @example
-```js
- mycalendar.printDayPage("2014-11-01");
-```
- */
+    /**
+     * @method AXCalendar.printDayPage
+     * @param {String} [toDay]
+     * @returns {AXCalendar}
+     * @description 일자 캘린더를 targetID 안에 출력합니다
+     * @example
+     *```js
+     * mycalendar.printDayPage("2014-11-01");
+     *```
+     */
     printDayPage: function (date) {
         var cfg = this.config;
 
@@ -4916,34 +4996,34 @@ var AXCalendar = Class.create(AXJ, {
         axdom("#" + cfg.targetID).html(po.join(''));
 		return this;
     },
-/**
- * @method AXCalendar.dayPageSetDay
- * @param {Date} - 날짜
- * @returns {AXCalendar}
- * @description 일자달력의 표시 날짜를 변경합니다.
- * @example
-```js
- var myDate = new Date();
- // var myDate = "2014-11-01".date();
- mycalendar.dayPageSetDay(myDate);
-```
- */
+    /**
+     * @method AXCalendar.dayPageSetDay
+     * @param {Date} - 날짜
+     * @returns {AXCalendar}
+     * @description 일자달력의 표시 날짜를 변경합니다.
+     * @example
+     *```js
+     * var myDate = new Date();
+     * // var myDate = "2014-11-01".date();
+     * mycalendar.dayPageSetDay(myDate);
+     *```
+     */
     dayPageSetDay: function (date) {
         var cfg = this.config;
         axdom("#" + cfg.targetID).find(".calendarDate").removeClass("selected");
         axdom("#" + cfg.targetID + "_AX_" + date.print(this.config.valueFormat) + "_AX_date").addClass("selected");
 		return this;
     },
-/**
- * @method AXCalendar.printMonthPage
- * @param {String} [toDay]
- * @returns {AXCalendar}
- * @description 월 선택 캘린더를 targetID 안에 출력합니다.
- * @example
- ```js
- mycalendar.printMonthPage("2014-11-01");
- ```
- */
+    /**
+     * @method AXCalendar.printMonthPage
+     * @param {String} [toDay]
+     * @returns {AXCalendar}
+     * @description 월 선택 캘린더를 targetID 안에 출력합니다.
+     * @example
+     *```js
+     * mycalendar.printMonthPage("2014-11-01");
+     *```
+     */
     printMonthPage: function (date) {
         var cfg = this.config;
         if (Object.isUndefined(cfg.targetID)) {
@@ -4976,34 +5056,34 @@ var AXCalendar = Class.create(AXJ, {
         axdom("#" + cfg.targetID).html(po.join(''));
 		return this;
     },
-/**
- * @method AXCalendar.monthPageSetMonth
- * @param {Date} - 날짜
- * @returns {AXCalendar}
- * @description 월달력의 표시 날짜를 변경합니다.
- * @example
- ```js
- var myDate = new Date();
- // var myDate = "2014-11-01".date();
- mycalendar.monthPageSetMonth(myDate);
- ```
- */
+    /**
+     * @method AXCalendar.monthPageSetMonth
+     * @param {Date} - 날짜
+     * @returns {AXCalendar}
+     * @description 월달력의 표시 날짜를 변경합니다.
+     * @example
+     *```js
+     * var myDate = new Date();
+     * // var myDate = "2014-11-01".date();
+     * mycalendar.monthPageSetMonth(myDate);
+     *```
+     */
     monthPageSetMonth: function (date) {
         var cfg = this.config;
         axdom("#" + cfg.targetID).find(".calendarMonth").removeClass("selected");
         axdom("#" + cfg.targetID + "_AX_" + (date.getMonth() + 1) + "_AX_month").addClass("selected");
     },
-/**
- * @method AXCalendar.printYearPage
- * @param {(String|Number)}
- * @returns {AXCalendar}
- * @description 년도 선택 캘린더를 targetID 안에 출력합니다.
- * @example
- ```js
- mycalendar.printYearPage("2014");
- mycalendar.printYearPage(2014);
- ```
- */
+    /**
+     * @method AXCalendar.printYearPage
+     * @param {(String|Number)}
+     * @returns {AXCalendar}
+     * @description 년도 선택 캘린더를 targetID 안에 출력합니다.
+     * @example
+     *```js
+     * mycalendar.printYearPage("2014");
+     * mycalendar.printYearPage(2014);
+     *```
+     */
     printYearPage: function (year) {
         var cfg = this.config;
         if (Object.isUndefined(cfg.targetID)) {
@@ -5033,33 +5113,33 @@ var AXCalendar = Class.create(AXJ, {
         po.push("</div>");
         axdom("#" + cfg.targetID).html(po.join(''));
     },
-/**
- * @method AXCalendar.yearPageSetYear
- * @param {Date} - 날짜
- * @returns {AXCalendar}
- * @description 년도달력의 표시 날짜를 변경합니다.
- * @example
- ```js
- var myDate = new Date();
- // var myDate = "2014-11-01".date();
- mycalendar.yearPageSetYear(myDate);
- ```
- */
+    /**
+     * @method AXCalendar.yearPageSetYear
+     * @param {Date} - 날짜
+     * @returns {AXCalendar}
+     * @description 년도달력의 표시 날짜를 변경합니다.
+     * @example
+     *```js
+     * var myDate = new Date();
+     * // var myDate = "2014-11-01".date();
+     * mycalendar.yearPageSetYear(myDate);
+     *```
+     */
     yearPageSetYear: function (date) {
         var cfg = this.config;
         axdom("#" + cfg.targetID).find(".calendarMonth").removeClass("selected");
         axdom("#" + cfg.targetID + "_AX_" + date.print("yyyy") + "_AX_year").addClass("selected");
     },
-/**
- * @method AXCalendar.printTimePage
- * @param {String}
- * @returns {AXCalendar}
- * @description 시간 선택 캘린더를 targetID 안에 출력합니다.
- * @example
- ```js
- mycalendar.printTimePage("06:36 AM");
- ```
- */
+    /**
+     * @method AXCalendar.printTimePage
+     * @param {String}
+     * @returns {AXCalendar}
+     * @description 시간 선택 캘린더를 targetID 안에 출력합니다.
+     * @example
+     *```js
+     * mycalendar.printTimePage("06:36 AM");
+     *```
+     */
     printTimePage: function (displayTime) {
         var cfg = this.config;
         if (Object.isUndefined(cfg.targetID)) {
@@ -5145,16 +5225,16 @@ var AXCalendar = Class.create(AXJ, {
             cfg.onChange(hh.setDigit(2) + ":" + mi.setDigit(2));
         }
     },
-/**
- * @method AXCalendar.getTime
- * @returns {String} hh:mm
- * @description 현재 시간과 분을 리턴합니다.
- * @example
-```js
- myCalendar.getTime();
- // 09:20
-```
- */
+    /**
+     * @method AXCalendar.getTime
+     * @returns {String} hh:mm
+     * @description 현재 시간과 분을 리턴합니다.
+     * @example
+     *```js
+     * myCalendar.getTime();
+     * // 09:20
+     *```
+     */
     getTime: function () {
         var cfg = this.config;
         var hh = (axdom("#" + cfg.targetID + "_AX_hour").val()||0).number();
@@ -5180,25 +5260,24 @@ var AXCalendar = Class.create(AXJ, {
  "2013-11-13 오후 3:01:15 - tom : 모바일 터치 기능 지원"
  "2015-04-01 tom : 드래그 셀렉트 버그 픽스"
  * @example
- ```js
- var multiSelector = new AXMultiSelect();
- multiSelector.setConfig({
-	selectStage       : "selectStageBox", // 컨테이너 타겟 아이디
-	selectClassName   : "readyselect", // 셀렉트 대상
-	beselectClassName : "beSelected", // 셀렉트 되었을 때.
-	selectingClassName: "AX_selecting" // 셀렉트중일 때
- });
- ```
+ *```js
+ * var multiSelector = new AXMultiSelect();
+ * multiSelector.setConfig({
+ *     selectStage       : "selectStageBox", // 컨테이너 타겟 아이디
+ *     selectClassName   : "readyselect", // 셀렉트 대상
+ *     beselectClassName : "beSelected", // 셀렉트 되었을 때.
+ *     selectingClassName: "AX_selecting" // 셀렉트중일 때
+ * });
+ *```
  */
 var AXMultiSelect = Class.create(AXJ, {
     initialize: function (AXJ_super) {
         AXJ_super();
 
-/**
- * 선택된 아이템 <en>Array of selected Item.</en>
- * @member {Array} AXMultiSelect.selects
- */
-
+        /**
+         * 선택된 아이템 <en>Array of selected Item.</en>
+         * @member {Array} AXMultiSelect.selects
+         */
         this.selects = [];
 	    this.moveSens = 0;
 	    this.touchMode;
@@ -5209,23 +5288,23 @@ var AXMultiSelect = Class.create(AXJ, {
         this.config.moveSens = 5;
         this.config.useHelper = true;
     },
-/**
- * @method AXMultiSelect.setConfig
- * @param {Object} config
- * @description 멀티셀렉트
- * @example
-```js
- var config = {
-	selectStage: {String} - Element ID of select item container,
-	selectClassName: {String} [readySelect] - CSS Class Name of select item,
-	beselectClassName: {String} [beSelected] - CSS Class Name of selected item,
-	selectingClassName: {String} [AX_selecting] - CSS Class Name of selecting item,
-	moveSens: {Number} [5] - mouse position move of detect select,
-	useHelper: {Boolean} [true] - use mouse select box
- }
- multiSelector.setConfig(config);
-```
- */
+    /**
+     * @method AXMultiSelect.setConfig
+     * @param {Object} config
+     * @description 멀티셀렉트
+     * @example
+     *```js
+     * var config = {
+     *     selectStage: {String} - Element ID of select item container,
+     *     selectClassName: {String} [readySelect] - CSS Class Name of select item,
+     *     beselectClassName: {String} [beSelected] - CSS Class Name of selected item,
+     *     selectingClassName: {String} [AX_selecting] - CSS Class Name of selecting item,
+     *     moveSens: {Number} [5] - mouse position move of detect select,
+     *     useHelper: {Boolean} [true] - use mouse select box
+     * }
+     * multiSelector.setConfig(config);
+     *```
+     */
     init: function () {
 
         var mouseClick = this.onmouseClick.bind(this);
@@ -5308,16 +5387,16 @@ var AXMultiSelect = Class.create(AXJ, {
     },
     /* ------------------------------------------------------------------------------------------------------------------ */
     /* class method ~~~~~~ */
-/**
- * @method AXMultiSelect.collect
- * @returns {AXMultiSelect}
- * @description 컨테이너안에 셀렉트 아이템을 재정의 합니다.
- * @example
-```js
- multiSelector.collect();
- // 컨테이너안에 아이템의 변화가 생긴 경우 호출합니다.
-```
- */
+    /**
+     * @method AXMultiSelect.collect
+     * @returns {AXMultiSelect}
+     * @description 컨테이너안에 셀렉트 아이템을 재정의 합니다.
+     * @example
+     *```js
+     * multiSelector.collect();
+     * // 컨테이너안에 아이템의 변화가 생긴 경우 호출합니다.
+     *```
+     */
     collect: function () {
         var cfg = this.config;
         this._selectTargets = axdom("#" + cfg.selectStage + " ." + cfg.selectClassName);
@@ -5732,15 +5811,15 @@ var AXMultiSelect = Class.create(AXJ, {
             });
         }
     },
-/**
- * @method AXMultiSelect.getSelects
- * @returns {Array} selects
- * @description 셀렉트된 아이템 엘리먼트 배열을 반환합니다. Return Array of selected item element
- * @example
-```js
- multiSelector.getSelects();
-```
- */
+    /**
+     * @method AXMultiSelect.getSelects
+     * @returns {Array} selects
+     * @description 셀렉트된 아이템 엘리먼트 배열을 반환합니다. Return Array of selected item element
+     * @example
+     *```js
+     * multiSelector.getSelects();
+     *```
+     */
     getSelects: function () {
         var cfg = this.config;
         var selects = [];
@@ -8719,11 +8798,12 @@ SSelection = function(win){
 		this._document = this._window.document;
 	};
 	this.init(win);
-	
-	if(AXUtil.browser.name == "ie")
-		SSelectionImpl_IE.apply(this);
-	else
+
+	if('getSelection' in win){
 		SSelectionImpl_FF.apply(this);
+	}else{
+		SSelectionImpl_IE.apply(this);
+	}
 
 	this.selectRange = function(oRng){
 		this.selectNone();
@@ -10943,7 +11023,11 @@ var AXExcelConvert = Class.create(AXJ, {
 			alert("변환할 내용이 없습니다. 내용을 입력하세요.");
 			return;	
 		}
-		var codeR = tStr.split(/\n/g);
+
+		var iePattern2 = /["]/gi;   //"문자제거
+		var iePattern3 = / (?:\r\n|\r|\n)/g; //개행문자 바로 이전에 있는 공백 한개를 모두 제거
+		var sStr  = tStr.replace(iePattern3, "").replace(iePattern2, "");
+		var codeR = sStr.split(/\n/g);
 
 		for(var a=0;a<codeR.length;a++){
 			if(codeR[a].trim() != ""){
@@ -11381,6 +11465,7 @@ var AXGrid = Class.create(AXJ, {
         this.config.passiveMode = AXConfig.AXGrid.passiveMode;
         this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
         this.config.scrollContentBottomMargin = "10";
+	    this.config.listCountMargin = 12;
 
         this.config.mergeCells = false; // cells merge option
         this.config.control_lock_status = 0; // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
@@ -13941,11 +14026,12 @@ var AXGrid = Class.create(AXJ, {
 
             var ai = this.ajaxInfo;
             if (ai && cfg.remoteSort) {
-                if (ai.ajaxPars) {
-                    var parsObj = $.extend(ai.ajaxPars.queryToObject(), this.getSortParam("one").queryToObject());
-                    ai.ajaxPars = axdom.param(parsObj);
-                } else {
+                if (!ai.ajaxPars) {
                     ai.ajaxPars = this.getSortParam("one");
+                } else if (Object.isString(ai.ajaxPars)) {
+                    ai.ajaxPars = $.extend(ai.ajaxPars.dec().queryToObject(), this.getSortParam("one").queryToObject());
+                } else if (Object.isObject(ai.ajaxPars)) {
+                    ai.ajaxPars = $.extend(ai.ajaxPars, this.getSortParam("one").queryToObject());
                 }
 
                 this.reloadList();
@@ -14363,7 +14449,9 @@ var AXGrid = Class.create(AXJ, {
 	 *  //ajaxPars :
 	 *  //onLoad :
 	 *  //onError :
-	 *  ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+	 *  ajaxUrl:"loadGrid.php",
+	 *  ajaxPars:"param1=1&param2=2", // {String|Object}
+	 *  onLoad:function(){
 	 *
 	 *  }
      * });
@@ -14399,7 +14487,12 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
 
-            var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
+            if (Object.isString(obj.ajaxPars)) {
+                appendPars.push(obj.ajaxPars);
+            } else if (Object.isObject(obj.ajaxPars)) {
+                appendPars.push(axdom.param(obj.ajaxPars));
+            }
+            var pars = appendPars.join('&');
 
             var _method = "post";
             var _contentType = AXConfig.AXReq.contentType;
@@ -14498,7 +14591,12 @@ var AXGrid = Class.create(AXJ, {
                 "pageNo=" + this.page.pageNo,
                 "pageSize=" + this.page.pageSize
             ];
-            var pars = (obj.ajaxPars) ? obj.ajaxPars + "&" + appendPars.join('&') : appendPars.join('&');
+            if (Object.isString(obj.ajaxPars)) {
+                appendPars.push(obj.ajaxPars);
+            } else if (Object.isObject(obj.ajaxPars)) {
+                appendPars.push(axdom.param(obj.ajaxPars));
+            }
+            var pars = appendPars.join('&');
             var _method = "post";
             var _contentType = AXConfig.AXReq.contentType;
             var _headers = {};
@@ -14948,15 +15046,15 @@ var AXGrid = Class.create(AXJ, {
      * @returns {String}
      * @description config 의 viewMode가 icon 일때의 리스트를 구성 합니다.
      * @example
-     ```
-     cssObj = {
-	box: "width: ,height:",   - 기타 사용자 지정 스타일 추가 가능
-	img:  "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
-	label: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
-	description: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
-	buttons: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
-};
-     ```
+     * ```js
+     * cssObj = {
+     *     box: "width: ,height:",   - 기타 사용자 지정 스타일 추가 가능
+     *     img:  "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+     *     label: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+     *     description: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+     *     buttons: "left:, top: , width:, height:", - 기타 사용자 지정 스타일 추가 가능
+     * };
+     * ```
      */
     getIconItem: function (itemIndex, item, viewIconObj, cssObj) {
         var cfg = this.config;
@@ -15287,7 +15385,7 @@ var AXGrid = Class.create(AXJ, {
                 po = [];
                 var printListCount = (this.body.height() / itemTrHeight).ceil();
 
-                if (this.list.length > (printListCount + 12)) printListCount += 12;
+                if (this.list.length > (printListCount + cfg.listCountMargin)) printListCount += cfg.listCountMargin;
                 else printListCount = this.list.length;
                 for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
                     po.push(getItem(itemIndex, item, "n"));
@@ -17059,90 +17157,87 @@ var AXGrid = Class.create(AXJ, {
     contentScrollResize: function (resetLeft) {
         var cfg = this.config, _this = this;
         if (cfg.viewMode == "mobile") return; // 모바일이면 scroll이 없음.
-        if (this.contentScrollResize_timer) clearTimeout(this.contentScrollResize_timer);
-        this.contentScrollResize_timer = setTimeout(function () {
-            //console.log("contentScrollResize_timer");
-            var bodyHeight = _this.body.height();
-            var scrollHeight = _this.scrollContent.height();
 
-            var bodyWidth = _this.body.width();
-            var _colWidth = (_this.colWidth.number() + cfg.fitToWidthRightMargin);
-            var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
+        var bodyHeight = _this.body.height();
+        var scrollHeight = _this.scrollContent.height();
 
-            _this.scrollContent.css({ width: scrollWidth });
-            _this.colHead.css({ width: scrollWidth });
-            /* colHead width 재정의 */
+        var bodyWidth = _this.body.width();
+        var _colWidth = (_this.colWidth.number() + cfg.fitToWidthRightMargin);
+        var scrollWidth = (_colWidth > bodyWidth) ? _colWidth : bodyWidth;
 
-            if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
+        _this.scrollContent.css({ width: scrollWidth });
+        _this.colHead.css({ width: scrollWidth });
+        /* colHead width 재정의 */
 
-            if (resetLeft != false) {
+        if (_this.hasEditor) _this.editor.css({ width: bodyWidth });
+
+        if (resetLeft != false) {
+            _this.scrollContent.css({ left: 0 });
+            axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
+            _this.scrollXHandle.css({ left: 0 });
+            if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
+        } else {
+            if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
                 _this.scrollContent.css({ left: 0 });
                 axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
                 _this.scrollXHandle.css({ left: 0 });
-                if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({ left: 0 });
-            } else {
-                if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
-                    _this.scrollContent.css({ left: 0 });
-                    axdom("#" + cfg.targetID + "_AX_gridColHead").css({ left: 0 });
-                    _this.scrollXHandle.css({ left: 0 });
-                }
             }
+        }
 
-            if (bodyHeight < scrollHeight && cfg.height != "auto") {
-                //_this.scrollTrackXY.show();
-                _this.scrollTrackY.show();
+        if (bodyHeight < scrollHeight && cfg.height != "auto") {
+            //_this.scrollTrackXY.show();
+            _this.scrollTrackY.show();
 
-                var scrollTrackYHeight = bodyHeight;
-                _this.scrollTrackY.css({ height: scrollTrackYHeight });
+            var scrollTrackYHeight = bodyHeight;
+            _this.scrollTrackY.css({ height: scrollTrackYHeight });
 
-                var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
-                // scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
-                _this.scrollYHandle.data("height", scrollYHandleHeight);
-                if(scrollYHandleHeight < 30) scrollYHandleHeight = 30;
-                _this.scrollYHandle.css({ height: scrollYHandleHeight });
-            } else {
-                //_this.scrollTrackXY.hide();
-                _this.scrollTrackY.hide();
+            var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
+            // scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
+            _this.scrollYHandle.data("height", scrollYHandleHeight);
+            if(scrollYHandleHeight < 30) scrollYHandleHeight = 30;
+            _this.scrollYHandle.css({ height: scrollYHandleHeight });
+        } else {
+            //_this.scrollTrackXY.hide();
+            _this.scrollTrackY.hide();
+        }
+
+        if (scrollWidth > (bodyWidth+4) && cfg.xscroll) {
+            _this.show_scrollTrackX = true;
+
+            //_this.scrollTrackXY.show();
+            _this.scrollTrackX.show();
+
+            var scrollTrackXWidth = bodyWidth;
+            _this.scrollTrackX.css({ width: scrollTrackXWidth });
+            var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
+            _this.scrollXHandle.data("width", scrollXHandleWidth);
+            if(scrollXHandleWidth < 30) scrollXHandleWidth = 30;
+            _this.scrollXHandle.css({ width: scrollXHandleWidth });
+
+            /* cfg.height == "auto" 길이 늘이기 */
+            if (cfg.height == "auto") {
+                var colHeadHeight = _this.colHead.outerHeight();
+                var scrollBodyHeight = _this.scrollContent.height();
+                //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
+                _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
+                _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
             }
+        } else {
+            _this.show_scrollTrackX = false;
+            _this.scrollTrackX.hide();
+            //if (cfg.height == "auto") _this.scrollTrackXY.hide();
 
-            if (scrollWidth > (bodyWidth+4) && cfg.xscroll) {
-                _this.show_scrollTrackX = true;
-
-                //_this.scrollTrackXY.show();
-                _this.scrollTrackX.show();
-
-                var scrollTrackXWidth = bodyWidth;
-                _this.scrollTrackX.css({ width: scrollTrackXWidth });
-                var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
-                _this.scrollXHandle.data("width", scrollXHandleWidth);
-                if(scrollXHandleWidth < 30) scrollXHandleWidth = 30;
-                _this.scrollXHandle.css({ width: scrollXHandleWidth });
-
-                /* cfg.height == "auto" 길이 늘이기 */
-                if (cfg.height == "auto") {
-                    var colHeadHeight = _this.colHead.outerHeight();
-                    var scrollBodyHeight = _this.scrollContent.height();
-                    //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
-                    _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) });
-                    _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) });
-                }
-            } else {
-                _this.show_scrollTrackX = false;
-                _this.scrollTrackX.hide();
-                //if (cfg.height == "auto") _this.scrollTrackXY.hide();
-
-                if (cfg.height == "auto") {
-                    var colHeadHeight = _this.colHead.outerHeight();
-                    var scrollBodyHeight = _this.scrollContent.height();
-                    _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
-                    //colhead + body height
-                    _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
-                    //body Height
-                }
+            if (cfg.height == "auto") {
+                var colHeadHeight = _this.colHead.outerHeight();
+                var scrollBodyHeight = _this.scrollContent.height();
+                _this.scrollBody.css({ height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number() });
+                //colhead + body height
+                _this.body.css({ top: colHeadHeight, height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number() });
+                //body Height
             }
+        }
 
-            _this.onevent_grid({type:"scroll-resize"});
-        }, 100);
+        _this.onevent_grid({type:"scroll-resize"});
     },
     /**
      * @method AXGrid.contentScrollScrollSync
@@ -19257,14 +19352,14 @@ var AXGrid = Class.create(AXJ, {
                     var opt_formID = formID + "_AX_" + oidx;
                     if (axdom("#" + opt_formID).get(0).checked) checkedValues.push(axdom("#" + opt_formID).val());
                 });
-                value = checkedValue.join(",");
+                value = checkedValues.join(",");
             } else if (CH.form.type == "checkbox") {
                 axf.each(CH.form.options, function (oidx, opt) {
                     var opt_formID = formID + "_AX_" + oidx;
                     if (axdom("#" + opt_formID).get(0).checked) checkedValues.push(axdom("#" + opt_formID).val());
                     else checkedValues.push(CH.key + "=");
                 });
-                value = checkedValue.join(",");
+                value = checkedValues.join(",");
             } else if (CH.form.type == "select") {
                 if (CH.form.value == "itemText") {
                     value = axf.getId(formID).options[axf.getId(formID).options.selectedIndex].text;
@@ -19321,7 +19416,12 @@ var AXGrid = Class.create(AXJ, {
             axf.each(editorFormItem, function (k, v) {
                 formPars.push(k + "=" + v.enc());
             });
-            var pars = (ajax.ajaxPars) ? ajax.ajaxPars + "&" + formPars.join('&') : formPars.join('&');
+            if (Object.isString(obj.ajaxPars)) {
+                formPars.push(obj.ajaxPars);
+            } else if (Object.isObject(obj.ajaxPars)) {
+                formPars.push(axdom.param(obj.ajaxPars));
+            }
+            var pars = formPars.join('&');
 
             var _method = "post";
             var _contentType = AXConfig.AXReq.contentType;
@@ -20426,7 +20526,7 @@ var AXGrid = Class.create(AXJ, {
                     filteredList.push(item);
                 }
             });
-            if (this.config.passiveRemoveHide && filter.indexOf("D") > -1) {
+            if (filter.indexOf("D") > -1) {
                 axf.each(this.removedList, function(idx, item) {
                     filteredList.push(item);
                 });
@@ -28449,25 +28549,25 @@ var AXModal = Class.create(AXJ, {
      * @method AXModal.setConfig
      * @param {Object} modalConfig
      * @example
-     ```js
-     var myModal = new AXModal();
-     var modalConfig = {
-	animateDuration: {Number} [300],
-	contentDivClass: {String} ["bodyHeightDiv"] - iframe 모달의 창이 오픈된 경우 iframe 의 높이를 정확히 제어하기 위해 컨텐츠 전체를 감싸는 대상에 지정한 className 값,
-	defaultTop: {Number} [10] - 모달창 포지션 top,
-	displayLoading: {Boolean} [true] - 모달이 오픈될 때 로딩 표시 여부,
-	maskCss: "AXMask" - 배경 mask div의 css,
-	opendModalID: {String} - 모달 ID,
-	padding: {(String|Number)} ["0"] - 모달 padding 값,
-	viewMode: {String} ["dx"],
-	width: {(String|Number)} - 모달의 기본 너비,
-	windowBoxCss: {String} ["AXModalBox"] - 모달을 감싸는 제일 바깥쪽 div의 css,
-	windowID: {String} ["AXModal" + timekey] - 모달 식별 아이디,
-	onclose: {Function} - 모달창이 닫힐 때 이벤트,
-	closeButton: {Boolean} [true] - 모달창 닫기버튼의 노출 여부
-};
-     myModal.setConfig(modalConfig);
-     ```
+     * ```js
+     * var myModal = new AXModal();
+     * var modalConfig = {
+     *     animateDuration: {Number} [300],
+     *     contentDivClass: {String} ["bodyHeightDiv"] - iframe 모달의 창이 오픈된 경우 iframe 의 높이를 정확히 제어하기 위해 컨텐츠 전체를 감싸는 대상에 지정한 className 값,
+     *     defaultTop: {Number} [10] - 모달창 포지션 top,
+     *     displayLoading: {Boolean} [true] - 모달이 오픈될 때 로딩 표시 여부,
+     *     maskCss: "AXMask" - 배경 mask div의 css,
+     *     opendModalID: {String} - 모달 ID,
+     *     padding: {(String|Number)} ["0"] - 모달 padding 값,
+     *     viewMode: {String} ["dx"],
+     *     width: {(String|Number)} - 모달의 기본 너비,
+     *     windowBoxCss: {String} ["AXModalBox"] - 모달을 감싸는 제일 바깥쪽 div의 css,
+     *     windowID: {String} ["AXModal" + timekey] - 모달 식별 아이디,
+     *     onclose: {Function} - 모달창이 닫힐 때 이벤트,
+     *     closeButton: {Boolean} [true] - 모달창 닫기버튼의 노출 여부
+     * };
+     * myModal.setConfig(modalConfig);
+     * ```
      */
     init: function () {
         var cfg = this.config;
@@ -28501,10 +28601,10 @@ var AXModal = Class.create(AXJ, {
      * @param {(String|Number)} - 모달의 기본 너비 pixel({Number}) or percent({String})
      * @description 모달의 기본 너비 속성을 변경하고 창이 열려있는 상태이면 동적으로 창의 크기도 변경합니다. (단, openDIV 로 모달이 오픈된 경우는 해당사항 없음)
      * @example
-     ```js
-     myModal.setWidth(800);
-     myModal.setWidth("80%");
-     ```
+     * ```js
+     * myModal.setWidth(800);
+     * myModal.setWidth("80%");
+     * ```
      */
     setWidth: function (width) {
         var cfg = this.config;
@@ -28527,18 +28627,18 @@ var AXModal = Class.create(AXJ, {
      * @param {Object} - configs
      * @description iframe 을 내장하는 모달 창을 오픈합니다.
      * @example
-     ```js
-     var configs = {
-	url: {String} - 모달창의 URL,
-	pars: {(Object|Array)} - 모달창 URL 에 전달 될 파라미터,
-	method: {String} ["post"] -파라미터 전달방식,
-	top: {Number} [scrollTop + 100] - 모달창 포지션 top,
-	width: {(String|Number)} - 모달창 너비,
-	closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부,
-	closeButton: {Boolean} [true] - 모달창 닫기버튼의 노출 여부
-}
-     myModal.open(configs);
-     ```
+     * ```js
+     * var configs = {
+     *     url: {String} - 모달창의 URL,
+     *     pars: {(Object|Array)} - 모달창 URL 에 전달 될 파라미터,
+     *     method: {String} ["post"] -파라미터 전달방식,
+     *     top: {Number} [scrollTop + 100] - 모달창 포지션 top,
+     *     width: {(String|Number)} - 모달창 너비,
+     *     closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부,
+     *     closeButton: {Boolean} [true] - 모달창 닫기버튼의 노출 여부
+     * }
+     * myModal.open(configs);
+     * ```
      */
     open: function (http) {
         var cfg = this.config;
@@ -28814,18 +28914,18 @@ var AXModal = Class.create(AXJ, {
      * @param {Object} - configs
      * @description div 모달 창을 오픈합니다.
      * @example
-     ```js
-     var configs = {
-	modalID: {String} - 모달창의 식별자,
-	targetID: {String} - 모달창 타켓 엘리먼트 아이디,
-	top: {Number} [scrollTop + 100] - 모달창 포지션 top,
-	width: {(String|Number)} - 모달창 너비,
-	closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부,
-	verticalAlign: {Boolean} [false] - 모달창 가운데 표시 여부,
-	closeButton: {Boolean} [true] - 모달창 닫기버튼의 노출 여부
-}
-     myModal.openDiv(configs);
-     ```
+     * ```js
+     * var configs = {
+     *     modalID: {String} - 모달창의 식별자,
+     *     targetID: {String} - 모달창 타켓 엘리먼트 아이디,
+     *     top: {Number} [scrollTop + 100] - 모달창 포지션 top,
+     *     width: {(String|Number)} - 모달창 너비,
+     *     closeByEscKey: {Boolean} [false] - 모달창 닫기를 esc 키로 닫을 지 여부,
+     *     verticalAlign: {Boolean} [false] - 모달창 가운데 표시 여부,
+     *     closeButton: {Boolean} [true] - 모달창 닫기버튼의 노출 여부
+     * }
+     * myModal.openDiv(configs);
+     * ```
      */
     openDiv: function (args) {
         var cfg = this.config;
@@ -28953,15 +29053,15 @@ var AXModal = Class.create(AXJ, {
      * @param {Object} - configs
      * @description 새로운 창으로 모달 창을 오픈 합니다.
      * @example
-     ```js
-     var configs = {
-	url: {String} - 새창 오픈 URL,
-	pars: {(Object|Array)} - 새창 오픈 URL 전달 파라미터,
-	name: {String} ["mdw" + timekey]- 새창이름,
-	options: {String} - 새창 오픈 옵션 window.open 속성과 동일합니다.
-}
-     myModal.openNew(configs);
-     ```
+     * ```js
+     * var configs = {
+     *     url: {String} - 새창 오픈 URL,
+     *     pars: {(Object|Array)} - 새창 오픈 URL 전달 파라미터,
+     *     name: {String} ["mdw" + timekey]- 새창이름,
+     *     options: {String} - 새창 오픈 옵션 window.open 속성과 동일합니다.
+     * }
+     * myModal.openNew(configs);
+     * ```
      */
     openNew: function (http) {
         this.winID = "mdw" + AXUtil.timekey();
@@ -29013,10 +29113,10 @@ var AXModal = Class.create(AXJ, {
      * @param {String} - modalID
      * @description 오픈된 모달 창을 닫습니다.
      * @example
-     ```js
-     myModal.close("modalDiv01");
-     parent.myModal.close(); // iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
-     ```
+     * ```js
+     * myModal.close("modalDiv01");
+     * parent.myModal.close(); // iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+     * ```
      */
     close: function (event, modalID) {
         var cfg = this.config;
@@ -29068,10 +29168,10 @@ var AXModal = Class.create(AXJ, {
      * @method AXModal.remove
      * @description 오픈된 모달 창을 제거합니다.
      * @example
-     ```js
-     myModal.remove();
-     parent.myModal.remove(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
-     ```
+     * ```js
+     * myModal.remove();
+     * parent.myModal.remove(); //iframe 모달창을 오픈한 경우 열려진 iframe 안에서 호출 합니다.
+     * ```
      */
     remove: function (event) {
         var windowID = this.config.windowID;
@@ -30853,52 +30953,52 @@ myProgress.close();
 });
 /* ---------------------------- */
 /**
- * @method AXSearch.setConig
- * @param {Object} config - gridConfig
+ * @method AXSearch.setConfig
+ * @param {Object} config - searchConfig
  * @description
  * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
  * @example
- ```js
- var mySearch = new AXSearch();
- mySearch.setConfig({
-	targetID:"AXSearchTarget",  //{string} - AXSearch 클래스 코딩이 처리될 HTML 엘리먼트 타겟아이디
-	theme : "AXSearch",         //[string = "AXSearch"] - AXSearch 에 적용될 CSS Class 이름
-	onsubmit: function(){       //[fn] - Function AXSearch 가 onsubmit 이벤트 발생되었을 때 연결되는 콜백함수
-		fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
-	},
-	rows:[  //AXSearch 의 각 row는 배열로 정의합니다.
-            {
-                display:true,       //[boolean=true] - 해당 줄의 노출 여부. 숨겨진 row의 경우 사용자의 선택으로 활성화 처리할 수 있습니다.
-                addClass:"gray",    //[string] - row에 추가될 CSS 클래스
-                style:"",           //[string] - row에 추가될 CSS style
-                list:[
-                        {
-                            label:"공개설정",   //[string] - 아이템 라벨
-                            labelWidth:"100",   //[number] - 라벨너비
-                            type:"link",        //[string] - 아이템 타입 ( link | checkBox | radioBox | selectBox | inputText | button | submit )
-                            width:"",           //[number] - 아이템 너비
-                            key:"openType",     //[string] - 아이템 유니크 키
-                            addClass:"",        //[string] - 아이템 엘리먼트에 추가될 CSS 클래스
-                            valueBoxStyle:"",   //[string] - 아이템 엘리먼트에 추가될 CSS style
-                            value:"open",       //[string] - 아이템 value ( options 가 정의되는 아이템 link | checkBox | radioBox | selectBox 에는 정의할 수 없습니다 )
-                            options:[       //select options
-                                {optionValue:"all", optionText:"전체보기"},
-                                {optionValue:"open", optionText:"공개"},
-                                {optionValue:"close", optionText:"비공개"},
-                                {optionValue:"close2", optionText:"비공개2", display:false},
-                                {optionValue:"close3", optionText:"비공개3", display:false},
-                                {optionValue:"close4", optionText:"비공개4", display:false}
-                            ],
-                            onChange: function(selectedObject, value){  //[fn] - onchange 이벤트 바인드
-                            },
-                            onClcik: function(selectedObject, value){  //[fn] - onclick 이벤트 바인드
-                            }
-                        }
-                    ]
-            }
-	]
-});
- ````
+ * ```js
+ * var mySearch = new AXSearch();
+ * mySearch.setConfig({
+ *     targetID:"AXSearchTarget",  //{string} - AXSearch 클래스 코딩이 처리될 HTML 엘리먼트 타겟아이디
+ *     theme : "AXSearch",         //[string = "AXSearch"] - AXSearch 에 적용될 CSS Class 이름
+ *     onsubmit: function(){       //[fn] - Function AXSearch 가 onsubmit 이벤트 발생되었을 때 연결되는 콜백함수
+ *         fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
+ *     },
+ *     rows:[  //AXSearch 의 각 row는 배열로 정의합니다.
+ *         {
+ *             display:true,       //[boolean=true] - 해당 줄의 노출 여부. 숨겨진 row의 경우 사용자의 선택으로 활성화 처리할 수 있습니다.
+ *             addClass:"gray",    //[string] - row에 추가될 CSS 클래스
+ *             style:"",           //[string] - row에 추가될 CSS style
+ *             list:[
+ *                 {
+ *                     label:"공개설정",   //[string] - 아이템 라벨
+ *                     labelWidth:"100",   //[number] - 라벨너비
+ *                     type:"link",        //[string] - 아이템 타입 ( link | checkBox | radioBox | selectBox | inputText | button | submit )
+ *                     width:"",           //[number] - 아이템 너비
+ *                     key:"openType",     //[string] - 아이템 유니크 키
+ *                     addClass:"",        //[string] - 아이템 엘리먼트에 추가될 CSS 클래스
+ *                     valueBoxStyle:"",   //[string] - 아이템 엘리먼트에 추가될 CSS style
+ *                     value:"open",       //[string] - 아이템 value ( options 가 정의되는 아이템 link | checkBox | radioBox | selectBox 에는 정의할 수 없습니다 )
+ *                     options:[       //select options
+ *                         {optionValue:"all", optionText:"전체보기"},
+ *                         {optionValue:"open", optionText:"공개"},
+ *                         {optionValue:"close", optionText:"비공개"},
+ *                         {optionValue:"close2", optionText:"비공개2", display:false},
+ *                         {optionValue:"close3", optionText:"비공개3", display:false},
+ *                         {optionValue:"close4", optionText:"비공개4", display:false}
+ *                     ],
+ *                     onChange: function(selectedObject, value){  //[fn] - onchange 이벤트 바인드
+ *                     },
+ *                     onClcik: function(selectedObject, value){  //[fn] - onclick 이벤트 바인드
+ *                     }
+ *                 }
+ *             ]
+ *         }
+ *     ]
+ * });
+ * ```
  */
 
 var AXSearch = Class.create(AXJ, {
@@ -31510,11 +31610,11 @@ var AXSearch = Class.create(AXJ, {
      * @returns {string}
      * @description 파라미터 형태로 값을 반환합니다.
      * @example
-     ```
-     var pars = mySearch.getParam();
-     trace(pars);
-     // a=11&b=22&c=33
-     ```
+     * ```js
+     * var pars = mySearch.getParam();
+     * trace(pars);
+     * // a=11&b=22&c=33
+     * ```
      */
     getParam: function(){
         var cfg = this.config;
@@ -31526,9 +31626,9 @@ var AXSearch = Class.create(AXJ, {
      * @returns {AXSearch}
      * @description search폼 입력 정보를 리셋합니다.
      * @example
-     ```
-     mySearch.reset();
-     ```
+     * ```js
+     * mySearch.reset();
+     * ```
      */
     reset: function(){
         var cfg = this.config;
@@ -31546,7 +31646,7 @@ var AXSearch = Class.create(AXJ, {
      * @param {String} key - item key name
      * @description AXSearch내 엘리먼트 id를 반환합니다.
      * @example
-     * ```
+     * ```js
      * mySearch.getItemId("type");
      * // element id;
      * ```
@@ -31579,7 +31679,7 @@ var AXSearch = Class.create(AXJ, {
      * @param {String|Array} value - item key name
      * @description 단일 속성인 대상에는 String, 다중 속성인 대상에는 Array 로 값을 지정할 수 있습니다. value 가 지정되지 않은 경우 빈 값으로 처리합니다.
      * @example
-     * ```
+     * ```js
      * mySearch.setItemValue("checkbox", ["all","open"]);
      * mySearch.setItemValue("radiobox");
      * mySearch.setItemValue("inputText2"); // 빈값을 입력함으로써 입력된 값을 지울 수 있습니다.
@@ -31894,15 +31994,15 @@ var AXSelectConverter = Class.create(AXJ, {
 			iobj.addClass("rootSelectBox");
 			iobj.bind("change.AXSelect", obj.objOnChange);
 
-		}
-		else 
-		{
+		} else {
 			//AXUtil.alert(obj.options);
 
 			// PC 브라우저인 경우
 			iobj.css({visibility:"hidden"});
 			var bindSelectExpand = this.bindSelectExpand.bind(this);
 			var bindSelectClose = this.bindSelectClose.bind(this);
+			var bindSelectFocus = this.bindSelectFocus.bind(this);
+			var bindSelectBlur = this.bindSelectBlur.bind(this);
 
 			objDom_selectTextBox.bind("click.AXSelect", function (event) {
 				axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
@@ -31925,6 +32025,14 @@ var AXSelectConverter = Class.create(AXJ, {
 					_this.selectTextBox_onkeydown(objID, objSeq, event);
 				}, 300);
 			});
+
+            objDom_selectTextBox.bind("focus.AXSelect", function (event) {
+                bindSelectFocus(objID);
+            });
+
+            objDom_selectTextBox.bind("blur.AXSelect", function (event) {
+                bindSelectBlur(objID);
+            });
 		}
 
 		if (obj.config.ajaxUrl) {
@@ -32636,9 +32744,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				findIndex = index;
 				break;
 			}
-		};
+		}
 		if(findIndex != null){
-			AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").addClass("focus");
 		}
 	},
 	bindSelectBlur: function(objID){
@@ -32649,9 +32757,9 @@ var AXSelectConverter = Class.create(AXJ, {
 				findIndex = index;
 				break;
 			}
-		};
+		}
 		if(findIndex != null){
-			this.bindSelectClose(objID, findIndex);
+			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").removeClass("focus");
 		}
 	},
 	bindSelectGetAnchorObject: function(objID){
@@ -34000,7 +34108,7 @@ var AXTabClass = Class.create(AXJ, {
         this.config.handleWidth = 22;
         this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
         this.config.bounces = true;
-		this.config.closable = ( (AXConfig && AXConfig.AXTab && AXConfig.AXTab.closable) ? AXConfig.AXTab.closable : false );
+        this.config.closable = ( (AXConfig && AXConfig.AXTab && AXConfig.AXTab.closable) ? AXConfig.AXTab.closable : false );
     },
     init: function(){
         axdom(window).bind("resize", this.windowResize.bind(this));
@@ -34021,33 +34129,33 @@ var AXTabClass = Class.create(AXJ, {
      * @description 대상에 탭 속성을 부여 합니다.
      * @returns {AXTab}
      * @example
-	 ```
-			$("#myTab01").bindTab({
-				theme : "AXTabs",
-				value:"2",
-				closable: false,
-				options:[
-					{optionValue:"1", optionText:"1살", closable: true},
-					{optionValue:"2", optionText:"2살", closable: true},
-					{optionValue:"3", optionText:"3살", addClass:"Red"},
-					{optionValue:"4", optionText:"4살", addClass:"Blue"},
-					{optionValue:"5", optionText:"5살", addClass:"Green"},
-					{optionValue:"6", optionText:"6살", addClass:"Classic"},
-					{optionValue:"7", optionText:"7살"}
-				],
-				onchange: function(selectedObject, value){
-					//toast.push(Object.toJSON(this));
-					//toast.push(Object.toJSON(selectedObject));
-					toast.push(Object.toJSON(value));
-				},
-				onclose: function(selectedObject, value) {
-					//toast.push(Object.toJSON(this));
-					//toast.push(Object.toJSON(selectedObject));
-					toast.push(Object.toJSON(value));
-				}
-			});
-	 ```
-	*/
+     * ```js
+     * $("#myTab01").bindTab({
+     *     theme : "AXTabs",
+     *     value:"2",
+     *     closable: false,
+     *     options:[
+     *         {optionValue:"1", optionText:"1살", closable: true},
+     *         {optionValue:"2", optionText:"2살", closable: true},
+     *         {optionValue:"3", optionText:"3살", addClass:"Red"},
+     *         {optionValue:"4", optionText:"4살", addClass:"Blue"},
+     *         {optionValue:"5", optionText:"5살", addClass:"Green"},
+     *         {optionValue:"6", optionText:"6살", addClass:"Classic"},
+     *         {optionValue:"7", optionText:"7살"}
+     *     ],
+     *     onchange: function(selectedObject, value){
+     *         //toast.push(Object.toJSON(this));
+     *         //toast.push(Object.toJSON(selectedObject));
+     *         toast.push(Object.toJSON(value));
+     *     },
+     *     onclose: function(selectedObject, value) {
+     *         //toast.push(Object.toJSON(this));
+     *         //toast.push(Object.toJSON(selectedObject));
+     *         toast.push(Object.toJSON(value));
+     *     }
+     * });
+     * ```
+     */
     bind: function (obj) {
         var cfg = this.config;
 
@@ -34220,17 +34328,17 @@ var AXTabClass = Class.create(AXJ, {
 	 * @description 탭을 추가 합니다.
 	 * @returns {AXTab}
 	 * @example
-```js
-$("#myTab01").addTabs([
-	{optionValue:"1", optionText:"1살", closable: true},
-	{optionValue:"2", optionText:"2살", closable: true},
-	{optionValue:"3", optionText:"3살", addClass:"Red"},
-	{optionValue:"4", optionText:"4살", addClass:"Blue"},
-	{optionValue:"5", optionText:"5살", addClass:"Green"},
-	{optionValue:"6", optionText:"6살", addClass:"Classic"},
-	{optionValue:"7", optionText:"7살"}
-]);
-```
+	 * ```js
+	 * $("#myTab01").addTabs([
+	 *     {optionValue:"1", optionText:"1살", closable: true},
+	 *     {optionValue:"2", optionText:"2살", closable: true},
+	 *     {optionValue:"3", optionText:"3살", addClass:"Red"},
+	 *     {optionValue:"4", optionText:"4살", addClass:"Blue"},
+	 *     {optionValue:"5", optionText:"5살", addClass:"Green"},
+	 *     {optionValue:"6", optionText:"6살", addClass:"Classic"},
+	 *     {optionValue:"7", optionText:"7살"}
+	 * ]);
+	 * ```
 	 */
 	addTabs: function(objID, options){
 		var cfg = this.config;
@@ -34317,10 +34425,10 @@ $("#myTab01").addTabs([
 	 * @description 탭을 닫습니다.
 	 * @returns {AXTab}
 	 * @example
-```js
-$("#myTab01").closeTab(2);
-$("#myTab01").closeTab("optionValue");
-```
+ 	 * ```js
+ 	 * $("#myTab01").closeTab(2);
+ 	 * $("#myTab01").closeTab("optionValue");
+ 	 * ```
 	 */
 	closeTab: function(objID, tabIndex, event) {
 		var objSeq = axdom("#" + objID).data("objSeq");
@@ -34439,14 +34547,14 @@ $("#myTab01").closeTab("optionValue");
     /**
      * @method AXTabClass.setValueTab
      * @param {String} objID - 탭 대상 ID
-	 * @param {String} value - 값
+     * @param {String} value - 값
      * @description 탭의 선택값을 변경 합니다.
      * @returns {AXTab}
      * @example
-	 ```
-		AXTab.setValueTab('myTab01','F');
-	 ```
-	 */
+     * ```js
+     * AXTab.setValueTab('myTab01','F');
+     * ```
+     */
     setValueTab: function(objID, value){
     	//trace({objID:objID, value:value});
 		var cfg = this.config;
@@ -34963,9 +35071,9 @@ $("#myTab01").closeTab("optionValue");
 	 * @param {String} option  - 변경될 option 
 	 * @returns {AXTab}
 	 * @example
-	 ```
-		AXTab.updateTabOption('myTab01','F',{optionText:"신여성",addClass:"Classic"});
-	 ```
+	 * ```js
+	 * AXTab.updateTabOption('myTab01','F',{optionText:"신여성",addClass:"Classic"});
+	 * ```
 	 */
 	updateTabOption: function(objID, value, option){
     	//trace({objID:objID, value:value});
@@ -35015,9 +35123,9 @@ AXTab.setConfig({});
  * @returns {jQueryObject}
  * @description 탭을 언바인드 합니다.
  * @example
- ```js
- axdom("#myTab01").unbindTab();
- ```
+ * ```js
+ * axdom("#myTab01").unbindTab();
+ * ```
  **/
 axdom.fn.unbindTab = function (config) {
     axdom.each(this, function () {
@@ -35034,29 +35142,29 @@ axdom.fn.unbindTab = function (config) {
  * @returns {jQueryObject}
  * @description 탭을 바인드 합니다.
  * @example
- ```js
- $("#myTab01").bindTab({
-	theme : "AXTabs",
-	value:"",
-	overflow:"scroll", // "visible"
-	options:[
-		{optionValue:"M", optionText:"남성", closable:true},
-		{optionValue:"F", optionText:"여성", closable:true},
-		{optionValue:"N", optionText:"선택안함"},
-		{optionValue:"", optionText:"모두"}
-	],
-	onchange: function(selectedObject, value){
-		//toast.push(Object.toJSON(this));
-		//toast.push(Object.toJSON(selectedObject));
-		toast.push("onchange: "+Object.toJSON(value));
-	},
-	onclose: function(selectedObject, value){
-		//toast.push(Object.toJSON(this));
-		//toast.push(Object.toJSON(selectedObject));
-		toast.push("onclose: "+Object.toJSON(value));
-	}
-});
- ```
+ * ```js
+ * $("#myTab01").bindTab({
+ *    theme : "AXTabs",
+ *    value:"",
+ *    overflow:"scroll", // "visible"
+ *    options:[
+ *        {optionValue:"M", optionText:"남성", closable:true},
+ *        {optionValue:"F", optionText:"여성", closable:true},
+ *        {optionValue:"N", optionText:"선택안함"},
+ *        {optionValue:"", optionText:"모두"}
+ *    ],
+ *    onchange: function(selectedObject, value){
+ *        //toast.push(Object.toJSON(this));
+ *        //toast.push(Object.toJSON(selectedObject));
+ *        toast.push("onchange: "+Object.toJSON(value));
+ *    },
+ *    onclose: function(selectedObject, value){
+ *        //toast.push(Object.toJSON(this));
+ *        //toast.push(Object.toJSON(selectedObject));
+ *        toast.push("onclose: "+Object.toJSON(value));
+ *    }
+ * });
+ * ```
  **/
 axdom.fn.bindTab = function (config) {
     axdom.each(this, function () {
@@ -35073,9 +35181,9 @@ axdom.fn.bindTab = function (config) {
  * @returns {jQueryObject}
  * @description 탭의 value를 지정하고 지정된 value로 탭을 선택합니다.
  * @example
- ```js
- $("#"+tabID).setValueTab(tabValue);
- ```
+ * ```js
+ * $("#"+tabID).setValueTab(tabValue);
+ * ```
  **/
 axdom.fn.setValueTab = function (value) {
     axdom.each(this, function () {
@@ -35094,8 +35202,8 @@ axdom.fn.setValueTab = function (value) {
  * var options = [];
  * var index;
  * for(var i = 0; i < addCount; i++){
- * 	index = "0" + (i + 1);
- * 	options.push({optionText: "add " + index, optionValue: index, closable:true});
+ *     index = "0" + (i + 1);
+ *     options.push({optionText: "add " + index, optionValue: index, closable:true});
  * }
  * $("#" + tabID).addTabs(options);
  * ```
@@ -35121,9 +35229,9 @@ axdom.fn.addTabs = function (options) {
  * @returns {jQueryObject}
  * @description 탭 아이템을 제거합니다.
  * @example
- ```js
- $("#" + tabID).closeTab(tabValue);
- ```
+ * ```js
+ * $("#" + tabID).closeTab(tabValue);
+ * ```
  **/
 axdom.fn.closeTab = function(tabValue) {
 	axdom.each(this, function () {
@@ -35142,8 +35250,8 @@ axdom.fn.closeTab = function(tabValue) {
  * var options = [];
  * var index;
  * for(var i = 0; i < addCount; i++){
- * 	index = "0" + (i + 1);
- * 	options.push({optionText: "O " + index, optionValue: index, closable:true});
+ *     index = "0" + (i + 1);
+ *     options.push({optionText: "O " + index, optionValue: index, closable:true});
  * }
  * $("#" + tabID).updateTabs(options);
  * ```
@@ -35176,9 +35284,9 @@ axdom.fn.updateTabOption = function (value,option) {
  * @param {String} objID - 탭 대상 ID
  * @returns {AXTab.options}
  * @example
- ```
-	AXTab.getOptions('myTab01');
- ```
+ * ```js
+ * AXTab.getOptions('myTab01');
+ * ```
  */
 axdom.fn.getOptions = function (){
 	var returnValue = null;
@@ -37040,58 +37148,58 @@ var AXTree = Class.create(AXJ, {
 	 * @description
 	 * 선언된 클래스를 사용하기 위해 속성을 정의합니다.
 	 * @example
-	 ```js
-var myTree = new AXTree();
-myTree.setConfig({
-    targetID : "AXTreeTarget",  //{String} - HTML 엘리먼트 타겟아이디
-    theme: "AXTree_none",   //[String] - ("AXTree","AXTree_none") CSS Class 이름
-    relation:{  //무보자식 키 정의
-        parentKey:"pno",    //부모아이디 키
-        childKey:"no"   //자식아이디 키
-    },
-    persistExpanded: true, // 쿠키를 이용해서 트리의 확장된 상태를 유지합니다.
-    persistSelected: true, // 쿠키를 이용해서 트리의 선택된 상태를 유지합니다.
-    colGroup: [ //트리 헤드정의
-        {
-            key:"nodeName", //{String} - 컬럼에 매치될 item 의 키
-            label:"제목", //{String} - 컬럼에 표시할 라벨
-            width:"100%",   //[Number["px", "%"] = "auto"] - "100%", "500px", "auto"지정하면 트리의 너비만큼 단일 컬럼의 너비가 자동 맞춤 처리됩니다.
-            align:"left",   //[String = "left"[left, center, right]] - 정렬방식 지정
-            indent:true,    //[Boolean = true]
-            getIconClass: function(){   // [Function] - indent 속성 정의된 대상에 아이콘을 지정할 수 있습니다.
-                var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
-                var iconName = "";
-                if(this.item.type) iconName = iconNames[this.item.type];
-                return iconName;
-            },
-            formatter:function(){   // [Function] - 컬럼값의 표현형식 각각 화폐표현식, urlDecode, input.Checkbox, input.radioBox, 사용자 정의 함수
-                return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
-            }
-        }
-    ],
-    body: {
-        onclick:function(idx, item){ //[Function] 바디 클릭 이벤트 콜백함수
-            toast.push(Object.toJSON(item));
-        },
-        ondblclick:function(idx, item){ //[Function] 바디 더블클릭 이벤트 콜백함수
-            toast.push(Object.toJSON(item));
-        },
-        oncheck:function(idx, item){ //[Function] 트리 체크박스클릭시 함수연결
-            toast.push(Object.toJSON(item));
-        },
-        onexpand:function(idx, item){ //[Function] 트리 아이템 확장 이벤트 콜백함수
-            toast.push(Object.toJSON(item));
-        },
-        oncontract:function(idx, item){ //[Function] 트리 아이템 축소 이벤트 콜백함수
-            toast.push(Object.toJSON(item));
-        },
-        addClass:function(idx, item){ //[Function] 트리 아이템에 사용자 CSS 클래스를 추가할 수 있는 사용자 함수 추가하려는 클래스명을 return 으로 반환하십시요
-            toast.push(Object.toJSON(item));
-        }
-    }
-});
-
-	 ```
+	 * ```js
+	 * var myTree = new AXTree();
+	 * myTree.setConfig({
+	 *     targetID : "AXTreeTarget",  //{String} - HTML 엘리먼트 타겟아이디
+	 *     theme: "AXTree_none",   //[String] - ("AXTree","AXTree_none") CSS Class 이름
+	 *     relation:{  //무보자식 키 정의
+	 *         parentKey:"pno",    //부모아이디 키
+	 *         childKey:"no"   //자식아이디 키
+	 *     },
+	 *     persistExpanded: true, // 쿠키를 이용해서 트리의 확장된 상태를 유지합니다.
+	 *     persistSelected: true, // 쿠키를 이용해서 트리의 선택된 상태를 유지합니다.
+	 *     colGroup: [ //트리 헤드정의
+	 *         {
+	 *             key:"nodeName", //{String} - 컬럼에 매치될 item 의 키
+	 *             label:"제목", //{String} - 컬럼에 표시할 라벨
+	 *             width:"100%",   //[Number["px", "%"] = "auto"] - "100%", "500px", "auto"지정하면 트리의 너비만큼 단일 컬럼의 너비가 자동 맞춤 처리됩니다.
+	 *             align:"left",   //[String = "left"[left, center, right]] - 정렬방식 지정
+	 *             indent:true,    //[Boolean = true]
+	 *             getIconClass: function(){   // [Function] - indent 속성 정의된 대상에 아이콘을 지정할 수 있습니다.
+	 *                 var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+	 *                 var iconName = "";
+	 *                 if(this.item.type) iconName = iconNames[this.item.type];
+	 *                 return iconName;
+	 *             },
+	 *             formatter:function(){   // [Function] - 컬럼값의 표현형식 각각 화폐표현식, urlDecode, input.Checkbox, input.radioBox, 사용자 정의 함수
+	 *                 return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+	 *             }
+	 *         }
+	 *     ],
+	 *     body: {
+	 *         onclick:function(idx, item){ //[Function] 바디 클릭 이벤트 콜백함수
+	 *             toast.push(Object.toJSON(item));
+	 *         },
+	 *         ondblclick:function(idx, item){ //[Function] 바디 더블클릭 이벤트 콜백함수
+	 *             toast.push(Object.toJSON(item));
+	 *         },
+	 *         oncheck:function(idx, item){ //[Function] 트리 체크박스클릭시 함수연결
+	 *             toast.push(Object.toJSON(item));
+	 *         },
+	 *         onexpand:function(idx, item){ //[Function] 트리 아이템 확장 이벤트 콜백함수
+	 *             toast.push(Object.toJSON(item));
+	 *         },
+	 *         oncontract:function(idx, item){ //[Function] 트리 아이템 축소 이벤트 콜백함수
+	 *             toast.push(Object.toJSON(item));
+	 *         },
+	 *         addClass:function(idx, item){ //[Function] 트리 아이템에 사용자 CSS 클래스를 추가할 수 있는 사용자 함수 추가하려는 클래스명을 return 으로 반환하십시요
+	 *             toast.push(Object.toJSON(item));
+	 *         }
+	 *     }
+	 * });
+	 *
+	 * ```
 	 */
 	windowResize: function () {
 		var windowResizeApply = this.windowResizeApply.bind(this);
@@ -38105,33 +38213,33 @@ myTree.setConfig({
 	 * @description
 	 * 트리에 데이터를 전달합니다. 비동기 방식의 경우 직접데이터를 전달하지 않고 데이터의 전달자 정보를 정의하여 처리합니다.
 	 * @example
-	 ```
-	 //Array - list Array setConfig 에서 정의한 relation 의 부모, 자식키 값을 이용하여 list형 데이터를 tree형 데이터로 변환하여 트리를 구성합니다.
-	 var List = [
-	 {no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", pno:0},
-	 {no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0", pno:1},
-	 {no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", pno:0},
-	 {no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0", pno:2},
-	 {no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
-	 {no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0", pno:24},
-	 {no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-	 {no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
-	 {no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
-	 {no:26, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
-	 {no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
-	 {no:11, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0}
-	 ];
-	 myTree.setList(List);
-
-	 var AJAXconfigs = {
-    ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
-    ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
-    onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
-    ...
-    }
-};
-	 myTree.setList(AJAXconfigs);
-	 ```
+	 * ```js
+	 * //Array - list Array setConfig 에서 정의한 relation 의 부모, 자식키 값을 이용하여 list형 데이터를 tree형 데이터로 변환하여 트리를 구성합니다.
+	 * var List = [
+	 * 	 {no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", pno:0},
+	 * 	 {no:11, nodeName:"LEVEL 1-1-1", writer:"tom", type:"0", pno:1},
+	 * 	 {no:2, nodeName:"LEVEL 2-1", writer:"tom", type:"0", pno:0},
+	 * 	 {no:21, nodeName:"LEVEL 2-1-1", writer:"tom", type:"0", pno:2},
+	 * 	 {no:24, nodeName:"LEVEL 2-1-4", writer:"tom", type:"0", pno:2},
+	 * 	 {no:241, nodeName:"LEVEL 2-1-4-1", writer:"tom", type:"0", pno:24},
+	 * 	 {no:2411, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
+	 * 	 {no:2412, nodeName:"LEVEL 2-1-4-1-1", writer:"tom", type:"0", pno:241},
+	 * 	 {no:25, nodeName:"LEVEL 2-1-2", writer:"tom", type:"0", pno:2},
+	 * 	 {no:26, nodeName:"LEVEL 2-1-3", writer:"tom", type:"0", pno:2},
+	 * 	 {no:3, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0},
+	 * 	 {no:11, nodeName:"LEVEL 3-1", writer:"tom", type:"0", pno:0}
+	 * 	 ];
+	 * 	 myTree.setList(List);
+	 *
+	 * 	 var AJAXconfigs = {
+	 *     ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
+	 *     ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
+	 *     onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
+	 *     ...
+	 *     }
+	 * };
+	 * myTree.setList(AJAXconfigs);
+	 * ```
 	 */
 	setList: function (obj, positioning) {
 		var cfg = this.config;
@@ -38813,12 +38921,12 @@ myTree.setConfig({
 	 * @description
 	 * 아이템의 확장/축소 상태를 토글처리 합니다.
 	 * @example
-	 ```
-	 var iwantItemIndex = 10;
-	 var myitem = myTree.list[iwantItemIndex];
-	 myTree.expandToggleList(iwantItemIndex, myitem);
-	 myTree.expandToggleList(iwantItemIndex, myitem, true); // 노드를 열린 상태로 바꾸어 줍니다.
-	 ```
+	 * ```js
+	 * var iwantItemIndex = 10;
+	 * var myitem = myTree.list[iwantItemIndex];
+	 * myTree.expandToggleList(iwantItemIndex, myitem);
+	 * myTree.expandToggleList(iwantItemIndex, myitem, true); // 노드를 열린 상태로 바꾸어 줍니다.
+	 * ```
 	 */
 	expandToggleList: function (itemIndex, item, expandStat) {
 		var cfg = this.config;
@@ -39896,9 +40004,9 @@ myTree.setConfig({
 	 * @description
 	 * index 위치로 트리바디의 포커스를 이동하고 선택된 상태로 변경합니다.
 	 * @example
-	 ```js
-	 myTree.setFocus(3);
-	 ```
+	 * ```js
+	 * myTree.setFocus(3);
+	 * ```
 	 */
 	setFocus: function (itemIndex) {
 		var cfg = this.config;
@@ -39958,18 +40066,18 @@ myTree.setConfig({
 	 * @description
 	 * 아이템인덱스의 아이템 선택, 확장, 클릭이벤트 발생 처리를 합니다.
 	 * @example
-	 ```
-	 var findIndex = null;
-	 $.each(List, function(jindex, J){
-    if(this.id == "findid"){
-        findIndex = jindex;
-        return false;
-    }
-});
-	 if(findIndex != null){
-    var focusItem = myTree.click(findIndex, "open", true); // 아이템 확장처리만 원함.
-}
-	 ```
+	 * ```js
+	 * var findIndex = null;
+	 * $.each(List, function(jindex, J){
+	 *    if(this.id == "findid"){
+	 *        findIndex = jindex;
+	 *        return false;
+	 *    }
+	 * });
+	 *	 if(findIndex != null){
+	 *    var focusItem = myTree.click(findIndex, "open", true); // 아이템 확장처리만 원함.
+	 * }
+	 * ```
 	 */
 	click: function (itemIndex, open, doNotCallBack) {
 		var cfg = this.config;
@@ -40252,30 +40360,30 @@ myTree.setConfig({
 	 * @description
 	 * 트리에 데이터를 전달합니다. 비동기 방식의 경우 직접데이터를 전달하지 않고 데이터의 전달자 정보를 정의하여 처리합니다.
 	 * @example
-	 ```
-	 //Array - JSObject(tree형)
-	 var Tree = [
-	 {no:"1", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[
-	    {no:"1.1", type:"phase", activity:"기획 및 설계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
-		    {no:"1.1.1", type:"process", activity:"기획단계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
-			    {no:"1.1.1.1", type:"activity", activity:"요구사항정의", desc:"M", charger:"최인석/PM", admin:"홍길동", docs:"[필수]요구사항정의서", open:false, subTree:[]},
-                {no:"1.1.1.2", type:"activity", activity:"업무분할", desc:"M", charger:"한승욱/기획", admin:"", docs:"[권고]요구사항정의서", open:false, subTree:[]}
-            ]}
-        ]}
-    ]},
-	 {no:"9", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[]}
-	 ];
-	 myTree.setTree(Tree);
-
-	 var AJAXconfigs = {
-    ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
-    ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
-    onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
-        ...
-    }
-};
-	 myTree.setTree(AJAXconfigs);
-	 ```
+     * ```js
+     * //Array - JSObject(tree형)
+     * var Tree = [
+     *	 {no:"1", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[
+     *	    {no:"1.1", type:"phase", activity:"기획 및 설계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
+     *		    {no:"1.1.1", type:"process", activity:"기획단계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
+     *			    {no:"1.1.1.1", type:"activity", activity:"요구사항정의", desc:"M", charger:"최인석/PM", admin:"홍길동", docs:"[필수]요구사항정의서", open:false, subTree:[]},
+     *                {no:"1.1.1.2", type:"activity", activity:"업무분할", desc:"M", charger:"한승욱/기획", admin:"", docs:"[권고]요구사항정의서", open:false, subTree:[]}
+     *            ]}
+     *        ]}
+     *    ]},
+     *	 {no:"9", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[]}
+     *	 ];
+     *	 myTree.setTree(Tree);
+     *
+     *	 var AJAXconfigs = {
+     *    ajaxUrl:"loadTree.php", //{String} - AJAX 호출 URL
+     *    ajaxPars:"param1=1&param2=2",   //{String} - AJAX 호출 URL 파라미터 (전송은 post 방식으로 이루어집니다.)
+     *    onLoad: function(){ //[Function] - AJAX 호출완료 이벤트 콜백함수
+     *        ...
+     *    }
+     *};
+     * myTree.setTree(AJAXconfigs);
+     * ```
 	 */
 	setTree: function (obj, sortDisable) {
 		var cfg = this.config;
@@ -40364,15 +40472,15 @@ myTree.setConfig({
 	 * @description
 	 * 원하는 아이템 하위에 아이템을 추가합니다.
 	 * @example
-	 ```
-	 // 선택아이템의 자식 추가하기
-	 var obj = myTree.getSelectedList();
-	 myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:obj.item.nodeID}]);
-
-	 // 선택아이템의 형제 추가하기
-	 var obj = myTree.getSelectedListParent();
-	 myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:(obj.item.nodeID|0)}]);
-	 ```
+	 * ```js
+	 * // 선택아이템의 자식 추가하기
+	 * var obj = myTree.getSelectedList();
+	 * myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:obj.item.nodeID}]);
+     *
+	 * // 선택아이템의 형제 추가하기
+	 * var obj = myTree.getSelectedListParent();
+	 * myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:"mondo", type:"file", parentcd:(obj.item.nodeID|0)}]);
+	 * ```
 	 */
 
 	appendTree: function (itemIndex, item, subTree) {
@@ -40524,11 +40632,11 @@ myTree.setConfig({
 	 * @description
 	 * 원하는 아이템의 데이터를 수정합니다.
 	 * @example
-	 ```
-	 var obj = myTree.getSelectedList();
-	 myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
-	 // 수정하려는 아이템의 일부 키만 전달 해도 수정이 가능합니다.
-	 ```
+	 * ```js
+	 * var obj = myTree.getSelectedList();
+	 * myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
+	 * // 수정하려는 아이템의 일부 키만 전달 해도 수정이 가능합니다.
+	 * ```
 	 */
 	updateTree: function (itemIndex, item, obj) {
 		var cfg = this.config;
@@ -40557,14 +40665,14 @@ myTree.setConfig({
 	 * @description
 	 * 원하는 아이템의 데이터를 수정합니다.
 	 * @example
-	 ```
-	 var obj = myTree.getSelectedList();
-	 if(obj.error){
-    alert("개체를 선택해 주세요");
-    return;
-}
-	 myTree.removeTree(obj.index, obj.item);
-	 ```
+     * ```
+     * var obj = myTree.getSelectedList();
+     * if(obj.error){
+     *     alert("개체를 선택해 주세요");
+     *     return;
+     * }
+     * myTree.removeTree(obj.index, obj.item);
+     * ```
 	 */
 	removeTree: function (itemIndex, item) {
 		var cfg = this.config, _this = this;
@@ -40684,7 +40792,7 @@ myTree.setConfig({
 
 		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 		var myTree = this.tree;
-		var nowChildIndex;
+		var nowChildIndex, changeChildIndex;
 		var parentHashs = [];
 
 		for (var hidx = 1; hidx < hashs.length - 1; hidx++) {
@@ -40708,22 +40816,34 @@ myTree.setConfig({
 			//이동불가
 			toast.push("순서의 처음입니다.");
 		} else {
+			changeChildIndex = nowChildIndex - 1;
 
 			try {
 				if (isRootControl) {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (nowChildIndex - 1).setDigit(cfg.hashDigit);
+					while (myTree[changeChildIndex]._isDel) {
+						changeChildIndex--;
+						if (changeChildIndex == 0) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[nowChildIndex]);
-					myTree[nowChildIndex] = AXUtil.copyObject(myTree[nowChildIndex - 1]);
-					myTree[nowChildIndex - 1] = tempObj;
+
+					myTree[nowChildIndex] = AXUtil.copyObject(myTree[changeChildIndex]);
+					myTree[changeChildIndex] = tempObj;
 					if(typeof myTree[nowChildIndex]._CUD == "undefined") myTree[nowChildIndex]._CUD = "U";
-					if(typeof myTree[nowChildIndex - 1]._CUD == "undefined") myTree[nowChildIndex - 1]._CUD = "U";
+					if(typeof myTree[changeChildIndex]._CUD == "undefined") myTree[changeChildIndex]._CUD = "U";
 				} else {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (nowChildIndex - 1).setDigit(cfg.hashDigit);
+					while (myTree[cfg.reserveKeys.subTree][changeChildIndex]._isDel) {
+						changeChildIndex--;
+						if (changeChildIndex == 0) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex - 1] = tempObj;
+					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][changeChildIndex]);
+					myTree[cfg.reserveKeys.subTree][changeChildIndex] = tempObj;
 					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD = "U";
-					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex - 1]._CUD = "U";
+					if(typeof myTree[cfg.reserveKeys.subTree][changeChildIndex]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][changeChildIndex]._CUD = "U";
 				}
 			} catch (e) {
 				trace(e);
@@ -40764,7 +40884,7 @@ myTree.setConfig({
 		var hashs = item[cfg.reserveKeys.hashKey].split(/_/g);
 
 		var myTree = this.tree;
-		var nowChildIndex;
+		var nowChildIndex, changeChildIndex;
 		var parentHashs = [];
 		for (var hidx = 1; hidx < hashs.length - 1; hidx++) {
 			if (hidx == 1) {
@@ -40793,20 +40913,31 @@ myTree.setConfig({
 			//이동불가
 			toast.push("순서의 마지막입니다.");
 		} else {
+			changeChildIndex = nowChildIndex.number() + 1;
 
 			try {
 				if (isRootControl) {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (nowChildIndex.number() + 1).setDigit(cfg.hashDigit);
+					while(myTree[changeChildIndex]._isDel){
+						changeChildIndex++;
+						if(changeChildIndex == myTree.length-1) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[nowChildIndex]);
-					myTree[nowChildIndex] = AXUtil.copyObject(myTree[nowChildIndex.number() + 1]);
-					myTree[nowChildIndex.number() + 1] = tempObj;
+					myTree[nowChildIndex] = AXUtil.copyObject(myTree[changeChildIndex]);
+					myTree[changeChildIndex] = tempObj;
 					if(typeof myTree[nowChildIndex]._CUD == "undefined") myTree[nowChildIndex]._CUD = "U";
 					if(typeof myTree[nowChildIndex + 1]._CUD == "undefined") myTree[nowChildIndex + 1]._CUD = "U";
 				} else {
-					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (nowChildIndex.number() + 1).setDigit(cfg.hashDigit);
+					while(myTree[cfg.reserveKeys.subTree][changeChildIndex]._isDel){
+						changeChildIndex++;
+						if(changeChildIndex == myTree[cfg.reserveKeys.subTree].length-1) break;
+					}
+
+					var newSelectedHash = "0".setDigit(cfg.hashDigit) + "_" + parentHashs.join("_") + "_" + (changeChildIndex).setDigit(cfg.hashDigit);
 					var tempObj = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][nowChildIndex.number() + 1]);
-					myTree[cfg.reserveKeys.subTree][nowChildIndex.number() + 1] = tempObj;
+					myTree[cfg.reserveKeys.subTree][nowChildIndex] = AXUtil.copyObject(myTree[cfg.reserveKeys.subTree][changeChildIndex]);
+					myTree[cfg.reserveKeys.subTree][changeChildIndex] = tempObj;
 					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex]._CUD = "U";
 					if(typeof myTree[cfg.reserveKeys.subTree][nowChildIndex + 1]._CUD == "undefined") myTree[cfg.reserveKeys.subTree][nowChildIndex + 1]._CUD = "U";
 				}
@@ -40841,36 +40972,36 @@ myTree.setConfig({
 	 * @description
 	 * 원하는 아이템의 위치를 수정합니다.
 	 * @example
-	 ```
-	 myTree.moveTree({
-    startMove: function(){      //moveTree가 발동 되었을 때 발생되는 콜백함수
-        myTree.addClassItem({
-            className:"disable",
-            addClass:function(){
-                return (this.nodeID == "N");
-            }
-        });
-    },
-    validate:function(){        //moveTree가 활성화 된 상태에서 사용자의 선택을 검증하는 콜백함수
-        //this.moveObj
-        //this.targetObj
-        if(this.targetObj.nodeID == "N"){
-            alert("이동할 수 없는 대상을 선택하셨습니다.");
-            return false;
-        }else{
-            return true;
-        }
-    },
-    endMove: function(){        //moveTree가 완료 되었을때 발생되는 콜백함수
-        myTree.removeClassItem({
-            className:"disable",
-            removeClass:function(){
-                return (this.nodeID == "N");
-            }
-        });
-    }
-});
-	 ```
+     * ```js
+     * myTree.moveTree({
+     *     startMove: function(){      //moveTree가 발동 되었을 때 발생되는 콜백함수
+     *         myTree.addClassItem({
+     *             className:"disable",
+     *             addClass:function(){
+     *                 return (this.nodeID == "N");
+     *             }
+     *         });
+     *     },
+     *     validate:function(){        //moveTree가 활성화 된 상태에서 사용자의 선택을 검증하는 콜백함수
+     *         //this.moveObj
+     *         //this.targetObj
+     *         if(this.targetObj.nodeID == "N"){
+     *             alert("이동할 수 없는 대상을 선택하셨습니다.");
+     *             return false;
+     *         }else{
+     *             return true;
+     *         }
+     *     },
+     *     endMove: function(){        //moveTree가 완료 되었을때 발생되는 콜백함수
+     *         myTree.removeClassItem({
+     *             className:"disable",
+     *             removeClass:function(){
+     *                 return (this.nodeID == "N");
+     *             }
+     *         });
+     *     }
+     * });
+     * ```
 	 */
 	moveTree: function (Option) {
 		var cfg = this.config;
@@ -41308,10 +41439,10 @@ myTree.setConfig({
 	 * (Number) index of Array 선택한 아이템들의 첫번째
 	 *
 	 * @example
-	 ```
-	 var SL = AXTree.getSelectedList();
-	 trace(SL);
-	 ```
+	 * ```js
+	 * var SL = AXTree.getSelectedList();
+	 * trace(SL);
+	 * ```
 	 */
 	getSelectedList: function () {
 		if (this.selectedRow != undefined && this.selectedRow != null && this.selectedRow.length > 0) {
@@ -41321,15 +41452,15 @@ myTree.setConfig({
 		}
 	},
 	/**
-	 * @method AXTree.getSelectedList
+	 * @method AXTree.getSelectedListParent
 	 * @returns {JSObject} - {index:1, item: {} }
 	 * @description
 	 * 현재 선택된 아이템의 부모 아이템을 반환합니다.
 	 * @example
-	 ```
-	 var SL = AXTree.getSelectedListParent();
-	 trace(SL)
-	 ```
+	 * ```js
+	 * var SL = AXTree.getSelectedListParent();
+	 * trace(SL)
+	 * ```
 	 */
 	getSelectedListParent: function () {
 		var cfg = this.config;
@@ -41367,10 +41498,10 @@ myTree.setConfig({
 	 * @returns changed item of list {Array}
 	 * @description 자식 항목에 체크된 경우 부모 값을 체크된 상태로 변경 해주는 메서드 입니다.
 	 * @example
-	 ```
-	 myTree.relationFixedSync();
-	 myTree.relationFixedSync({expandItem:true}); // 체크된 아이템을 확장상태로 변경합니다.
-	 ```
+	 * ```js
+	 * myTree.relationFixedSync();
+	 * myTree.relationFixedSync({expandItem:true}); // 체크된 아이템을 확장상태로 변경합니다.
+	 * ```
 	 */
 	relationFixedSync: function(options){
 		var cfg = this.config;
@@ -41391,10 +41522,10 @@ myTree.setConfig({
 	 * @param {(String|Null|Number)} [depth="all"} - 확장할 뎁스, 값을 주지 않거나 "all" 을 주면 전체 확장이됩니다.
 	 * @description 트리의 노드를 확장시켜 줍니다.
 	 * @example
-	 ```
-	 myTree.expandAll(); //모두확장
-	 myTree.expandAll(1); //1 뎁스까지만 확장
-	 ```
+	 * ```js
+	 * myTree.expandAll(); //모두확장
+	 * myTree.expandAll(1); //1 뎁스까지만 확장
+	 * ```
 	 */
 	expandAll: function(depth){
 		var cfg = this.config;
@@ -41420,9 +41551,9 @@ myTree.setConfig({
 	 * @description
 	 * 트리의 모든 아이템을 축소상태로 변경합니다.
 	 * @example
-	 ```
-	 myTree.collapseAll();
-	 ```
+	 * ```js
+	 * myTree.collapseAll();
+	 * ```
 	 */
 	collapseAll: function(){
 		var cfg = this.config;
@@ -44398,6 +44529,42 @@ var AXValidator = Class.create(AXJ, {
             targetID: null,
             clazz: "av-"
         };
+
+		if(AXConfig.AXValidator && AXConfig.AXValidator.validateErrMessage){
+			this.config.validateErrMessage = AXConfig.AXValidator.validateErrMessage;
+		}else{
+			this.config.validateErrMessage = {
+				/* for element */
+				required: "[{label}](은)는 필수입력 사항입니다.",
+				requiredstring: "반드시 {required}(으)로 입력하셔야 하는 사항입니다.",
+				match: "[{label}](은)는 입력된 내용이 일치하지 않습니다.",
+				invalid: "[{label}](은)는 입력된 내용이 올바르지 않습니다.",
+				min: "[{label}](은)는 {min} 이상의 값을 입력해주세요.",
+				max: "[{label}](은)는 {max} 이하의 값을 입력해주세요.",
+				minbyte: "[{label}]의 입력된 내용의 길이가 {minbyte}Byte 이상이어야 합니다.",
+				maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
+				minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
+				maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
+
+				/* for format */
+				number: "숫자로만 입력하셔야 합니다.",
+				email: "이메일 형식이 올바르지 않습니다.",
+				hangul: "한글로만 입력하셔야 합니다.",
+				engonly: "영문으로만 입력하셔야 합니다.",
+				residentno: "주민등록번호 형식이 올바르지 않습니다.",
+				foreignerno: "외국인등록번호 형식이 올바르지 않습니다.",
+				bizno: "사업자등록번호 형식이 올바르지 않습니다.",
+				phone: "전화번호 형식이 올바르지 않습니다.",
+				isdate: "날짜 형식이 올바르지 않습니다.",
+				zip: "우편번호 형식이 올바르지 않습니다.",
+				money: "화폐형식으로만 입력하셔야 합니다.",
+				earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
+				laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
+
+				exception: "not found errmessage"
+			};
+		}
+
     },
     init: function () {
         var cfg = this.config;
@@ -44970,7 +45137,7 @@ var validateResult = myValidator.validate();
         return returnObject;
     },
     messageConvert: function (elementObj, validateKey, validateVal) {
-        var validateErrMessage = this.validateErrMessage;
+        var validateErrMessage = this.config.validateErrMessage;
         var vKey = "exception";
         var vVal = "";
         if (validateKey != undefined) vKey = validateKey;
@@ -45007,36 +45174,6 @@ var validateResult = myValidator.validate();
         return message;
     },
     //-------------------- validate check - formatter - message Set [S] ----------------------
-    validateErrMessage: {
-        /* for element */
-        required: "[{label}](은)는 필수입력 사항입니다.",
-        requiredstring: "반드시 {required}(으)로 입력하셔야 하는 사항입니다.",
-        match: "[{label}](은)는 입력된 내용이 일치하지 않습니다.",
-        invalid: "[{label}](은)는 입력된 내용이 올바르지 않습니다.",
-        min: "[{label}](은)는 {min} 이상의 값을 입력해주세요.",
-        max: "[{label}](은)는 {max} 이하의 값을 입력해주세요.",
-        minbyte: "[{label}]의 입력된 내용의 길이가 {minbyte}Byte 이상이어야 합니다.",
-        maxbyte: "[{label}]의 입력된 내용의 길이가 {maxbyte}Byte를 초과할 수 없습니다.",
-        minlength: "[{label}]의 입력된 내용의 length가 {minlength} 이상이어야 합니다.",
-        maxlength: "[{label}]의 입력된 내용의 length가 {maxlength}을 초과할 수 없습니다.",
-
-        /* for format */
-        number: "숫자로만 입력하셔야 합니다.",
-        email: "이메일 형식이 올바르지 않습니다.",
-        hangul: "한글로만 입력하셔야 합니다.",
-        engonly: "영문으로만 입력하셔야 합니다.",
-        residentno: "주민등록번호 형식이 올바르지 않습니다.",
-        foreignerno: "외국인등록번호 형식이 올바르지 않습니다.",
-        bizno: "사업자등록번호 형식이 올바르지 않습니다.",
-        phone: "전화번호 형식이 올바르지 않습니다.",
-        isdate: "날짜 형식이 올바르지 않습니다.",
-        zip: "우편번호 형식이 올바르지 않습니다.",
-        money: "화폐형식으로만 입력하셔야 합니다.",
-        earlierThan: "[{label}] 보다 빠른 날짜를 입력해야 합니다.",
-        laterThan: "[{label}] 보다 느린 날짜를 입력해야 합니다.",
-
-        exception: "not found errmessage"
-    },
     validateCheckClass: {
         // element에서 클래스 검사 항목
         required: true,     //필수
@@ -45375,7 +45512,7 @@ if (!validateResult) {
             return false;
         }
         if (element == null) {
-            AXUtil.alert((elementObj.id || elementObj.name) + " 객체를 확인하세요");
+            AXUtil.alert((elementObj.id || elementObj.name) + " not found");
             return null;
         } else {
             return element;

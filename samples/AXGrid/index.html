@@ -16,7 +16,7 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css" />
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
 
@@ -58,6 +58,9 @@
                 var getColGroup = function(){
                     return [
                         {key:"no",    label:"번호", width:"50", align:"right"},
+                        {key:"btns",  label:"삭제", width:"40", align:"center", formatter: function(){
+                            return '<button type="button" name="delete" onclick="fnObj.grid.deleteItem(' + this.index + ');"><i class="axi axi-trash-o"></i></button>';
+                        }},
                         {key:"title", label:"제목", width:"200",
                             tooltip:function() {
                                 return this.item.no + "." + this.item.title + "/" + this.key + "/" + this.value;
@@ -74,7 +77,10 @@
                                 return (this.item.price.number() * this.item.amount.number()).money();
                             }
                         },
-                        {key:"desc", label:"비고", width:"200"}
+                        {key:"desc", label:"비고", width:"200", formatter: function(){
+	                        return this.index;
+
+                        }}
                     ];
                 };
 
@@ -130,6 +136,11 @@
                 myGrid.setList(list);
                 //trace(myGrid.getSortParam());
 
+            },
+            deleteItem: function(index) {
+                $.Event(event).stopPropagation(); // 버튼클릭 이벤트가 row click 이벤트를 발생시키지 않도록 합니다.
+                var item = myGrid.list[index];
+                toast.push('deleteItem: ' + $.param(item).dec());
             },
             getExcel: function(type){
                 var obj = myGrid.getExcelFormat(type);
