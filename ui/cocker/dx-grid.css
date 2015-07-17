@@ -554,7 +554,7 @@
 }
 .AXGrid .AXgridPageBody {
   position: relative;
-  height: 30px;
+  height: 29px;
   background: #f3f3f3;
   background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
@@ -589,6 +589,7 @@
   z-index: 3;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumber {
+  box-sizing: content-box;
   display: table-cell;
   float: left;
   padding: 4px 0px 0px 4px;
@@ -597,6 +598,7 @@
   color: #666666;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNo {
+  box-sizing: content-box;
   border: 0px none;
   height: 21px;
   padding: 0px 2px;
@@ -609,6 +611,7 @@
   background: #ffffff;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumberCount {
+  box-sizing: content-box;
   display: block;
   float: left;
   padding: 4px 10px 4px 5px;
@@ -619,6 +622,7 @@
   border-right: 1px solid #b1b1b1;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPagingPrev {
+  box-sizing: content-box;
   display: block;
   float: left;
   width: 29px;
@@ -632,6 +636,7 @@
   background: url('images/dx-left-arrows.png') no-repeat 0px -30px;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPagingNext {
+  box-sizing: content-box;
   display: block;
   float: left;
   width: 29px;

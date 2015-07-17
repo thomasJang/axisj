@@ -437,7 +437,7 @@
 	}
 	.AXgridPageBody{
 		position:relative;
-		height:30px;
+		height:29px;
 		background:url('images/dx-grid-page-bg.png') repeat-x;
 		border-bottom:@border;border-left:@border;border-right:@border;
 		.AXgridPagingUnit{
@@ -447,6 +447,7 @@
 			z-index:3;
 
             .AXgridPageNumber{
+				box-sizing: content-box;
               display:table-cell;padding:3px 0px 0px 5px;height: 26px;
               float:left;font-size:12px;color:@color-c;
             }
@@ -462,6 +463,7 @@
                 .selectBoxArrow{padding-top:2px;}
 			}
 			.AXgridPageNumberCount{
+				box-sizing: content-box;
 				display:block;
 				float:left;
 				padding:4px 10px 4px 5px;height:22px;line-height:22px;
@@ -469,6 +471,7 @@
 				border-right:@border;
 			}
 			.AXgridPagingPrev{
+				box-sizing: content-box;
 				display:block;
 				float:left;
 				width:29px;height:30px;border-right:@border;
@@ -479,6 +482,7 @@
 				background:url('images/dx-left-arrows.png') no-repeat 0px -30px;
 			}
 			.AXgridPagingNext{
+				box-sizing: content-box;
 				display:block;
 				float:left;
 				width:29px;height:30px;border-right:@border;
