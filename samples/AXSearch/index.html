@@ -202,6 +202,12 @@
 										toast.push(Object.toJSON(this));
 									}
 								}
+							},
+							onkeydown: function(e){
+								trace("keydown" + e.keyCode);
+							},
+							onkeyup: function(e){
+								trace("keyup" + e.keyCode);
 							}
 						}
 					]},

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-07-05 
+AXJ - v1.0.17 - 2015-07-22 
 */
 /*! 
-AXJ - v1.0.17 - 2015-07-05 
+AXJ - v1.0.17 - 2015-07-22 
 */
 
 if(!window.AXConfig){
@@ -31400,6 +31400,8 @@ var AXSearch = Class.create(AXJ, {
         this.target.find(".searchButtonItem").bind("click", this.onclickButton.bind(this));
 
         this.target.find(".searchInputTextItem").bind("focus", this.onFocusInput.bind(this));
+	    this.target.find(".searchInputTextItem").bind("keydown", this.onKeyDownInput.bind(this));
+	    this.target.find(".searchInputTextItem").bind("keyup", this.onKeyUpInput.bind(this));
 
         this.AXBinds = AXBinds;
 
@@ -31605,6 +31607,34 @@ var AXSearch = Class.create(AXJ, {
             }
         }
     },
+	onKeyDownInput: function(event){
+		var cfg = this.config;
+		var ids = (event.target.id).split(/_AX_/g);
+		var gr = ids[ids.length-3];
+		var itemIndex = ids[ids.length-2];
+		var item = cfg.rows[gr].list[itemIndex];
+
+		var frm = document[cfg.targetID+"_AX_form"];
+		var changeValue = frm[item.key].value;
+
+		if(item.onkeydown){
+			item.onkeydown.call(item, event, changeValue);
+		}
+	},
+	onKeyUpInput: function(event){
+		var cfg = this.config;
+		var ids = (event.target.id).split(/_AX_/g);
+		var gr = ids[ids.length-3];
+		var itemIndex = ids[ids.length-2];
+		var item = cfg.rows[gr].list[itemIndex];
+
+		var frm = document[cfg.targetID+"_AX_form"];
+		var changeValue = frm[item.key].value;
+
+		if(item.onkeyup){
+			item.onkeyup.call(item, event, changeValue);
+		}
+	},
     /**
      * @method AXSearch.getParam
      * @returns {string}
