@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-07-22 
+AXJ - v1.0.17 - 2015-07-23 
 */
 /*! 
-AXJ - v1.0.17 - 2015-07-22 
+AXJ - v1.0.17 - 2015-07-23 
 */
 
 if(!window.AXConfig){
@@ -11885,97 +11885,106 @@ var AXGrid = Class.create(AXJ, {
 
         /*marker 관련 데이터 정리 */
         if (cfg.body.marker) {
-            if (cfg.body.marker.rows) {
-                this.bodyHasMarker = true;
-                cfg.body.marker._maps = new Array(cfg.body.marker.rows.length);
-                colMaxLen = 0;
-                for (var r = 0; r < cfg.body.marker.rows.length; r++) {
-                    var colLen = 0;
-                    for (var CH, CHidx = 0, __arr = cfg.body.marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
-                        if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
-                        if (CH.colspan == undefined || CH.colspan == null) {
-                            CH.colspan = 1;
-                            CH._colspan = 1;
-                        } else {
-                            if (!rewrite) CH._colspan = CH.colspan;
-                            else CH.colspan = CH._colspan;
-                        }
-                        if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
-                        colLen += CH.colspan.number();
-                    }
-                    if (colMaxLen < colLen) colMaxLen = colLen;
-                }
-                for (var _m = 0; _m < cfg.body.marker._maps.length; _m++) {
-                    cfg.body.marker._maps[_m] = new Array(colMaxLen);
-                }
-                /* colEndPosition 관련 처리 함수 */
-                var appendPosToMarkerMap = function (r, c, posR, position) {
-                    var nC = position.c;
-                    /*시작 컬럼 위치 */
-                    var startPosition = null;
-                    for (var rr = posR; rr < (posR + r); rr++) {
-                        if (r > 1) if (rr > 0 && startPosition != null) nC = startPosition;
-                        var tC = c;
-                        /*컬럼 루프횟수 */
-                        var isWhile = true;
-                        /* 루프유지변수 */
-                        while (isWhile) {
-                            try {
-                                if (tC == 0) {
-                                    isWhile = false;
-                                } else {
-                                    if (cfg.body.marker._maps[rr][nC] == undefined) {
-                                        cfg.body.marker._maps[rr][nC] = position;
-                                        if (startPosition == null) startPosition = nC;
-                                        tC--;
-                                    } else {
-                                        nC++;
-                                    }
-                                }
-                            } catch (e) {
-                                isWhile = false;
-                            }
-                        }
-                    }
-                };
-                for (var r = 0; r < cfg.body.marker.rows.length; r++) {
-                    for (var CH, CHidx = 0, __arr = cfg.body.marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
-                        if (CH.colSeq != undefined) {
-                            var myCG = cfg.colGroup.getToSeq(CH.colSeq);
-                        } else {
-                            var myCG = cfg.colGroup.searchObject(function () {
-                                return this.item.key == CH.key;
-                            }).first();
-                        }
+	        cfg.body.marker = [].concat(cfg.body.marker);
+	        /* colEndPosition 관련 처리 함수 */
 
-                        if (myCG != null) {
-                            AXUtil.overwriteObject(CH, myCG, false);
-                        } else {
-                            AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
-                        }
-                        appendPosToMarkerMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx });
-                    }
+	        var appendPosToMarkerMap = function (r, c, posR, position, marker) {
+		        var nC = position.c;
+		        /*시작 컬럼 위치 */
+		        var startPosition = null;
+		        for (var rr = posR; rr < (posR + r); rr++) {
+			        if (r > 1) if (rr > 0 && startPosition != null) nC = startPosition;
+			        var tC = c;
+			        /*컬럼 루프횟수 */
+			        var isWhile = true;
+			        /* 루프유지변수 */
+			        while (isWhile) {
+				        try {
+					        if (tC == 0) {
+						        isWhile = false;
+					        } else {
+						        if (marker._maps[rr][nC] == undefined) {
+							        marker._maps[rr][nC] = position;
+							        if (startPosition == null) startPosition = nC;
+							        tC--;
+						        } else {
+							        nC++;
+						        }
+					        }
+				        } catch (e) {
+					        isWhile = false;
+				        }
+			        }
+		        }
+	        };
 
-                }
-                /*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
-                for (var m, midx = 0, __arr = cfg.body.marker._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
-                    if (m) cfg.body.marker.rows[m.r][m.c].isLastCell = true;
-                }
+	        for(var m=0, l=cfg.body.marker.length, marker;m<l;m++){
+	        	marker = cfg.body.marker[m];
+
+		        if (marker.rows) {
+			        this.bodyHasMarker = true;
+			        marker._maps = new Array(marker.rows.length);
+			        colMaxLen = 0;
+			        for (var r = 0; r < marker.rows.length; r++) {
+				        var colLen = 0;
+				        for (var CH, CHidx = 0, __arr = marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
+					        if (CH.rowspan == undefined || CH.rowspan == null) CH.rowspan = 1;
+					        if (CH.colspan == undefined || CH.colspan == null) {
+						        CH.colspan = 1;
+						        CH._colspan = 1;
+					        } else {
+						        if (!rewrite) CH._colspan = CH.colspan;
+						        else CH.colspan = CH._colspan;
+					        }
+					        if (CH.valign == undefined || CH.valign == null) CH.valign = "bottom";
+					        colLen += CH.colspan.number();
+				        }
+				        if (colMaxLen < colLen) colMaxLen = colLen;
+			        }
+			        for (var _m = 0; _m < marker._maps.length; _m++) {
+				        marker._maps[_m] = new Array(colMaxLen);
+			        }
+
+			        for (var r = 0; r < marker.rows.length; r++) {
+				        for (var CH, CHidx = 0, __arr = marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
+					        if (CH.colSeq != undefined) {
+						        var myCG = cfg.colGroup.getToSeq(CH.colSeq);
+					        } else {
+						        var myCG = cfg.colGroup.searchObject(function () {
+							        return this.item.key == CH.key;
+						        }).first();
+					        }
+
+					        if (myCG != null) {
+						        AXUtil.overwriteObject(CH, myCG, false);
+					        } else {
+						        AXUtil.overwriteObject(CH, { align: "left", valign: "bottom", display: true, rowspan: 1, colspan: 1 }, false);
+					        }
+					        appendPosToMarkerMap(CH.rowspan, CH.colspan, r, { r: r, c: CHidx }, marker);
+				        }
+
+			        }
+			        /*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
+
+			        for (var rm, midx = 0, __arr = marker._maps.last(); (midx < __arr.length && (rm = __arr[midx])); midx++) {
+				        if (rm) marker.rows[rm.r][rm.c].isLastCell = true;
+			        }
 
 
-                if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
-                    /* colspan 감소 시키기 */
-                    for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
-                        if (!CG.display) {
-                            for (var a = 0; a < cfg.body.marker._maps.length; a++) {
-                                var rowPosition = cfg.body.marker._maps[a][cidx];
-                                cfg.body.marker.rows[rowPosition.r][rowPosition.c].colspan--;
-                            }
-                        }
-                    }
+			        if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
+				        /* colspan 감소 시키기 */
+				        for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
+					        if (!CG.display) {
+						        for (var a = 0; a < marker._maps.length; a++) {
+							        var rowPosition = marker._maps[a][cidx];
+							        marker.rows[rowPosition.r][rowPosition.c].colspan--;
+						        }
+					        }
+				        }
+			        }
 
-                }
-            }
+		        }
+	        }
         }
         /*marker 관련 데이터 정리 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -15193,73 +15202,80 @@ var AXGrid = Class.create(AXJ, {
      * @returns {String}
      * @description body(list) 구성시 marker row 가 존재할경우 처리 합니다.
      */
-    getItemMarker: function (itemIndex, item, isfix) {
+    getItemMarker: function (itemIndex, item, isfix, markerIndexs) {
         var cfg = this.config;
         var tpo = [];
         var evenClassName = "gridBodyMarker";
         var getFormatterValue = this.getFormatterValue.bind(this);
         var hasFixed = this.hasFixed;
         var trAddClass = "";
-        if (cfg.body.marker.addClass) {
-            try {
-                trAddClass = cfg.body.marker.addClass.call({
-                    index: itemIndex,
-                    item: item,
-                    list: this.list,
-                    page: this.page
-                }) || "";
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        for (var r = 0; r < cfg.body.marker.rows.length; r++) {
-            var isLastTR = (cfg.body.marker.rows.length - 1 == r);
-            tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
-            var colCount = 0;
-            for (var CH, CHidx = 0, __arr = cfg.body.marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
-                if (CH.display && CH.colspan > 0) {
 
-                    if (isfix == "n" || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
+		for(var mi=0, l=markerIndexs.length, markerIndex;mi<l;mi++){
+			var marker = cfg.body.marker[markerIndexs[mi]];
+			if (marker.addClass) {
+				try {
+					trAddClass = marker.addClass.call({
+							index: itemIndex,
+							item: item,
+							list: this.list,
+							page: this.page
+						}) || "";
+				} catch (e) {
+					console.log(e);
+				}
+			}
+			for (var r = 0; r < marker.rows.length; r++) {
+				var isLastTR = (marker.rows.length - 1 == r);
+				tpo.push("<tr class=\"gridBodyTr gridBodyMarkerTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" id=\"" + cfg.targetID + "_AX_marker_" + r + "_AX_" + (isfix || "n") + "_AX_" + itemIndex + "\">");
+				var colCount = 0;
+				for (var CH, CHidx = 0, __arr = marker.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
+					if (CH.display && CH.colspan > 0) {
 
-                        colCount += CH.colspan;
+						if (isfix == "n" || (isfix != undefined && colCount < (cfg.fixedColSeq + 1))) {
 
-                        /*radio, check exception */
-                        var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-                        var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-                        var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
-                        var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
-                        var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
+							colCount += CH.colspan;
 
-                        /*console.log({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
+							/*radio, check exception */
+							var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
+							var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+							var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+							var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
+							var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
 
-                        var bodyNodeClass = "";
-                        if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
-                        else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
+							/*console.log({r:r, CHidx:CHifixedColSeq:cfg.fixedColSeq, colCount:colCount}); */
 
-                        tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "bodyMarker_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
-                        /*tpo.push("<div class=\"tdRelBlock\">");*/
-                        tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyMarkerText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\">");
-                        if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
-                            if (CH.formatter) {
-                                tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
-                            } else {
-                                tpo.push(item[CH.key]);
-                            }
-                        } else {
-                            tpo.push("&nbsp;");
-                        }
-                        tpo.push("</div>");
-                        /*tpo.push("</div>");*/
-                        tpo.push("</td>");
-                    }
-                }
-            }
-            ;
-            if (r == 0 && isfix == "n") {
-                tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_nullMarker_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.marker.rows.length + "\"><div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlockMarker_AX_" + itemIndex + "\">&nbsp;</div></td>");
-            }
-            tpo.push("</tr>");
-        }
+							var bodyNodeClass = "";
+							if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
+							else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
+
+							tpo.push("<td" + valign + rowspan + colspan + " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "bodyMarker_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" class=\"bodyTd" + bottomClass + fixedClass + "\">");
+							/*tpo.push("<div class=\"tdRelBlock\">");*/
+							tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + "\" align=\"" + CH.align + "\" id=\"" + cfg.targetID + "_AX_bodyMarkerText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\">");
+							if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
+								if (CH.formatter) {
+									tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH));
+								} else {
+									tpo.push(item[CH.key]);
+								}
+							} else {
+								tpo.push("&nbsp;");
+							}
+							tpo.push("</div>");
+							/*tpo.push("</div>");*/
+							tpo.push("</td>");
+						}
+					}
+				}
+				;
+				if (r == 0 && isfix == "n") {
+					tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_nullMarker_AX_" + itemIndex + "\" rowspan=\"" + marker.rows.length + "\"><div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlockMarker_AX_" + itemIndex + "\">&nbsp;</div></td>");
+				}
+				tpo.push("</tr>");
+			}
+
+		}
+
+
         return tpo.join('');
     },
     /**
@@ -15273,7 +15289,7 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config;
         var bodyHasMarker = this.bodyHasMarker;
 
-        if (!bodyHasMarker) return false;
+        if (!bodyHasMarker) return [];
         var sendObj = {
             index: itemIndex,
             list: this.list,
@@ -15281,9 +15297,14 @@ var AXGrid = Class.create(AXJ, {
             page: this.page
         };
 
-        var markerDisplay;
+        var markerDisplay = [];
         try {
-            markerDisplay = cfg.body.marker.display.call(sendObj, itemIndex, item);
+	        for(var m=0, l=cfg.body.marker.length, marker;m<l;m++){
+	        	 marker = cfg.body.marker[m];
+		        if(marker.display.call(sendObj, itemIndex, item)){
+			        markerDisplay.push(m);
+		        }
+	        }
         } catch (e) {
             console.log(e);
         }
@@ -15301,6 +15322,7 @@ var AXGrid = Class.create(AXJ, {
         var getItem = this.getItem.bind(this);
         var getItemMarker = this.getItemMarker.bind(this);
         var getMarkerDisplay = this.getMarkerDisplay.bind(this);
+	    var markerIndex;
         if (this.editorOpend) this.cancelEditor();
         var getIconItem = this.getIconItem.bind(this);
         // --------------------------- icon view
@@ -15313,8 +15335,8 @@ var AXGrid = Class.create(AXJ, {
             if(cfg.height == "auto"){
                 for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
                     po.push(getItem(itemIndex, item, "n"));
-                    if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                        po.push(getItemMarker(itemIndex, item, "n"));
+                    if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                        po.push(getItemMarker(itemIndex, item, "n", markerIndex));
                     }
                 }
             }
@@ -15352,8 +15374,8 @@ var AXGrid = Class.create(AXJ, {
                 if(cfg.height == "auto") {
                     for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
                         po.push(getItem(itemIndex, item, "fix"));
-                        if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                            po.push(getItemMarker(itemIndex, item, "fix"));
+                        if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                            po.push(getItemMarker(itemIndex, item, "fix", markerIndex));
                         }
                     }
                 }else{
@@ -15389,8 +15411,8 @@ var AXGrid = Class.create(AXJ, {
                 else printListCount = this.list.length;
                 for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
                     po.push(getItem(itemIndex, item, "n"));
-                    if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                        po.push(getItemMarker(itemIndex, item, "n"));
+                    if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                        po.push(getItemMarker(itemIndex, item, "n", markerIndex));
                     }
                 }
                 this.cachedDom.tbody.empty();
@@ -15400,8 +15422,8 @@ var AXGrid = Class.create(AXJ, {
                     po = [];
                     for (var item, itemIndex = 0, __arr = this.list; (itemIndex < printListCount && (item = __arr[itemIndex])); itemIndex++) {
                         po.push(getItem(itemIndex, item, "fix"));
-                        if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                            po.push(getItemMarker(itemIndex, item, "fix"));
+                        if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                            po.push(getItemMarker(itemIndex, item, "fix", markerIndex));
                         }
                     }
                     this.cachedDom.fixed_tbody.empty();
@@ -17849,6 +17871,7 @@ var AXGrid = Class.create(AXJ, {
         var getItem = this.getItem.bind(this);
         var getItemMarker = this.getItemMarker.bind(this);
         var getMarkerDisplay = this.getMarkerDisplay.bind(this);
+	    var markerIndex = 0;
         // bigDataSyncApply
         var scrollContentScrollTop, VS = this.virtualScroll, po = [], item;
 
@@ -17868,10 +17891,12 @@ var AXGrid = Class.create(AXJ, {
                 //그리드 내용 다시 구성
                 po = [];
                 for (var itemIndex = newStartIndex; itemIndex < newEndIndex; itemIndex++) {
+
                     item = this.list[itemIndex];
                     po.push(getItem(itemIndex, item, "n"));
-                    if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                        po.push(getItemMarker(itemIndex, item, "n"));
+
+                    if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                        po.push(getItemMarker(itemIndex, item, "n", markerIndex));
                     }
                 }
                 this.cachedDom.tbody.empty();
@@ -17892,8 +17917,8 @@ var AXGrid = Class.create(AXJ, {
                     for (var itemIndex = newStartIndex; itemIndex < newEndIndex; itemIndex++) {
                         item = this.list[itemIndex];
                         po.push(getItem(itemIndex, item, "fix"));
-                        if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                            po.push(getItemMarker(itemIndex, item, "fix"));
+                        if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                            po.push(getItemMarker(itemIndex, item, "fix", markerIndex));
                         }
                     }
                     this.cachedDom.fixed_tbody.empty();
@@ -20179,6 +20204,7 @@ var AXGrid = Class.create(AXJ, {
         var getExcelItem = this.getExcelItem.bind(this);
         var getExcelItemMarker = this.getExcelItemMarker.bind(this);
         var getMarkerDisplay = this.getMarkerDisplay.bind(this);
+	    var markerIndex;
         var getHeadDataSet = this.getExcelHeadDataSet.bind(this);
         var getFootDataSet = this.getExcelFootDataSet.bind(this);
 
@@ -20221,8 +20247,8 @@ var AXGrid = Class.create(AXJ, {
 
             axf.each(this.list, function (itemIndex, item) {
                 po.push(getExcelItem(itemIndex, item, filter));
-                if (bodyHasMarker && getMarkerDisplay(itemIndex, item)) {
-                    po.push(getExcelItemMarker(itemIndex, item, filter));
+                if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
+                    po.push(getExcelItemMarker(itemIndex, item, filter, markerIndex));
                 }
             });
 
