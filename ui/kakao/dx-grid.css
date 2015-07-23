@@ -538,7 +538,7 @@
 }
 .AXGrid .AXgridPageBody {
   position: relative;
-  height: 30px;
+  height: 29px;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#ffffff, #ededed);
   /* For Safari */
@@ -573,6 +573,7 @@
   z-index: 3;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumber {
+  box-sizing: content-box;
   display: table-cell;
   padding: 4px 0px 0px 5px;
   height: 26px;
@@ -581,6 +582,7 @@
   color: #666666;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNo {
+  box-sizing: content-box;
   border: 0px none;
   vertical-align: top;
   height: 21px;
@@ -589,10 +591,12 @@
   outline: none;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXanchorSelect .selectedTextBox {
+  box-sizing: content-box;
   box-shadow: inset 0px 1px 1px #e9eced;
   background: #ffffff;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPageNumberCount {
+  box-sizing: content-box;
   display: block;
   float: left;
   padding: 4px 10px 4px 5px;
@@ -603,6 +607,7 @@
   border-right: 1px solid #cecece;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPagingPrev {
+  box-sizing: content-box;
   display: block;
   float: left;
   width: 29px;
@@ -616,6 +621,7 @@
   background: url('images/dx-left-arrows.png') no-repeat 0px -30px;
 }
 .AXGrid .AXgridPageBody .AXgridPagingUnit .AXgridPagingNext {
+  box-sizing: content-box;
   display: block;
   float: left;
   width: 29px;
