@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.17 - 2015-07-23 
+AXJ - v1.0.18 - 2015-07-26 
 */
 /*! 
-AXJ - v1.0.17 - 2015-07-23 
+AXJ - v1.0.18 - 2015-07-26 
 */
 
 if(!window.AXConfig){
@@ -38449,52 +38449,106 @@ var AXTree = Class.create(AXJ, {
 		//AXUtil.overwriteObject(this.page, res.page, true);
 		this.printList();
 	},
-	getFormatterValue: function (formatter, item, itemIndex, value, key, CH) {
+	/**
+	 * @method AXTree.getFormatterValue
+	 * @param {String|Function} formatter - config 의 colGroup이나 colHead에서 지정된 formatter
+	 * @param {Object} item  - 대상 인덱스의 리스트 1개 열
+	 * @param {Number} itemIndex  - 대상 인덱스
+	 * @param {String} value - 표현 대상 값.
+	 * @param {Object} key - config 의 colGroup 내부 key 값
+	 * @param {Object} CH - 대상 그리드의 [열][행]
+	 * @param {Number} CHidx - 대상 그리드의 [열][행] 중 행의 index
+	 * @returns {String}
+	 * @description 지정된 표현 형식으로 데이터를 HTML String 으로 변환 시킵니다.
+	 */
+	getFormatterValue: function (formatter, item, itemIndex, value, key, CH, CHidx) {
 		var cfg = this.config;
 		var result;
-		if(typeof value == "undefined") value = "";
+		if(CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio")){
+			//
+			// editCell 처리
+			var checkedStr = "", disabled = "",
+				that = {
+					index: itemIndex,
+					list: this.list,
+					item: item,
+					page: this.page,
+					key: key,
+					value: value
+				};
+
+			if(value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
+			if(CH.editor.disabled){
+				if(CH.editor.disabled.call(that)){
+					disabled = ' disabled="disabled"';
+				}
+			}
+
+			result = '<input type="'+CH.editor.type+'" name="'+ key +'" data-editor-key="'+itemIndex+','+CHidx+'" class="inline-editor-checkbox" ' +
+				checkedStr + disabled + ' onfocus="this.blur();" />';
+			//"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+		}
+		else
 		if (formatter == "money") {
-			if (value == "" || value == "null") {
-				result = "";
+			if (value == "" || value == "null" || value == null || value == undefined) {
+				result = "0";
 			} else {
-				result = value.number().money();
+				result = (value || 0).number().money();
 			}
 		} else if (formatter == "dec") {
-			result = value.dec();
+			result = (value == undefined) ? "" : value.toString().dec();
 		} else if (formatter == "html") {
 			result = value;
-		} else if (formatter == "checkbox") {
-			var checked = "";
+		} else if (formatter == "checkbox" || formatter == "radio") {
+			var checkedStr = "";
 			var disabled = "";
 			var sendObj = {
 				index: itemIndex,
 				list: this.list,
-				item: item
-			}
-			if (CH.checked) {
-				var callCheckedResult = CH.checked.call(sendObj);
-				if (callCheckedResult) {
-					checked = " checked=\"checked\" ";
-					this.list[itemIndex].__checked = true;
-				} else {
-					this.list[itemIndex].__checked = false;
-				}
-			}
-			if (CH.disabled) {
-				var callDisabledResult = CH.disabled.call(sendObj);
-				if (callDisabledResult) {
-					disabled = " disabled=\"disabled\" ";
-				}
-			}
-			result = "<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"treeCheckBox_body treeCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checked + disabled + " />";
-		} else {
-			var sendObj = {
-				index: itemIndex,
-				list: this.list,
 				item: item,
-				page: this.page
+				page: this.page,
+				key: key,
+				value: value
 			};
-			result = formatter.call(sendObj);
+
+			if(this.list[itemIndex].___checked && this.list[itemIndex].___checked[CHidx]){
+				if(this.list[itemIndex].___checked[CHidx]) checkedStr = " checked=\"checked\" ";
+				//if(itemIndex == 0) console.log(this.list[itemIndex].___checked[CHidx], checkedStr);
+			}else if (Object.isFunction(CH.checked)) {
+				if (CH.checked.call(sendObj)) {
+					checkedStr = " checked=\"checked\" ";
+					if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
+					this.list[itemIndex].___checked[CHidx] = true;
+				}
+			}
+
+			if (CH.disabled) {
+				if (CH.disabled.call(sendObj)) {
+					disabled = " disabled=\"disabled\" ";
+					if(!this.list[itemIndex].___checked) this.list[itemIndex].___disabled = {};
+					this.list[itemIndex].___disabled[CHidx] = true;
+				}
+			}
+			/*
+			 result = "<label class=\"gridCheckboxLabel\">" +
+			 "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
+			 "</label>";
+			 */
+			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+		} else {
+			if(Object.isFunction(formatter)){
+				var sendObj = {
+					index: itemIndex,
+					list: this.list,
+					item: item,
+					page: this.page,
+					key: key,
+					value: value
+				};
+				result = formatter.call(sendObj, itemIndex, item);
+			} else {
+				result = ((String(value) == "null") ? "" : value);
+			}
 		}
 		return result;
 	},
