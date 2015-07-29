@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-07-26 
+AXJ - v1.0.18 - 2015-07-30 
 */
 /*! 
-AXJ - v1.0.18 - 2015-07-26 
+AXJ - v1.0.18 - 2015-07-30 
 */
 
 if(!window.AXConfig){
@@ -13696,6 +13696,7 @@ var AXGrid = Class.create(AXJ, {
 
             if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
                 this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
+	            _tdHeight = undefined;
                 this.fixedColHead.find(".colHeadResizer").each(function () {
                     var resizerID = this.id;
                     var tdID = resizerID.replace("colHeadResizer", "colHead");
@@ -13704,20 +13705,24 @@ var AXGrid = Class.create(AXJ, {
                     var rowspan = axdom("#" + tdID).attr("rowspan");
                     var valign = axdom("#" + tdID).attr("valign");
                     if (!rowspan) rowspan = 1;
+	                if(typeof _tdHeight === "undefined") {
+		                _tdHeight = axdom("#" + tdID).height() / rowspan;
+	                }
                     var tdHeight = _tdHeight * rowspan;
                     if(rowspan > 1) {
                         for (var a = 0; a < rowspan; a++) {
-                            tdHeight += 1;
+                            tdHeight -= 1;
                         }
                     }
                     if(_tdHeight < tdHeight) tdHeight -= 1;
 
                     axdom(this).css({ height: tdHeight });
                     axdom(this).parent().css({ height: tdHeight });
+
                     if (rowspan > 1) {
                         var cellMarginTop = 0;
-                        if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
-                        if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+                        if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).innerHeight()) + 5;
+                        if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).innerHeight()) / 2 + 5;
                         axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
                         axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
                     }
