@@ -17094,10 +17094,23 @@ var AXGrid = Class.create(AXJ, {
         if(CG.editor && CG.editor.beforeUpdate){
             value = CG.editor.beforeUpdate.call(that, value);
         }
+        var beforeValue = _this.list[itemIndex][CH.key];
         _this.list[itemIndex][CH.key] = value;
+        
         // ._CUD 값 조정
         if(_this.list[itemIndex]._CUD != "C" && _this.list[itemIndex]._CUD != "D"){
-            _this.list[itemIndex]._CUD = "U";
+            var isChanged = false;
+            if (Object.isObject(beforeValue)) {
+                 var beforeValueString = Object.values(beforeValue).join("_");
+                 var valueString = Object.values(value).join("_");
+                 isChanged = (beforeValueString != valueString);
+            } else {
+                isChanged = (beforeValue != value);
+            }
+            
+            if (isChanged) {
+                _this.list[itemIndex]._CUD = "U";
+            }
         }
 
         if(this.inline_edit && CG.editor) {
