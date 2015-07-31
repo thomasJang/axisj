@@ -97,9 +97,9 @@
                 foot : {
                     rows: [
                         [    
-                            {colSeq:null, rowspan:0, colspan:4, formatter:function(){
+                            {colSeq:null, rowspan:2, colspan:4, formatter:function(){
                                 return "계";    
-                            }, align:"center"}, 
+                            }, align:"center", valign:"middle"},
                             {colSeq:4, formatter:function(){
                                 var sum = 0;
                                 $.each(this.list, function(){
@@ -124,9 +124,11 @@
                             {colSeq:7}
                         ],
                         [
+		                        /*
                             {colSeq:null, colspan:4, formatter:function(){
                                 return "계";
                             }, align:"center"},
+		                        */
                             {colSeq:4, formatter:function(){
                                 var sum = 0;
                                 $.each(this.list, function(){
