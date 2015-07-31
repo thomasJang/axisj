@@ -14771,54 +14771,8 @@ var AXGrid = Class.create(AXJ, {
             result = '<input type="'+CH.editor.type+'" name="'+ key +'" data-editor-key="'+itemIndex+','+CHidx+'" class="inline-editor-checkbox" ' +
             checkedStr + disabled + ' onfocus="this.blur();" />';
             //"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
-        }
-        else
-        if (formatter == "money") {
-            if (value == "" || value == "null" || value == null || value == undefined) {
-                result = "0";
-            } else {
-                result = (value || 0).number().money();
-            }
-        } else if (formatter == "dec") {
-            result = (value == undefined) ? "" : value.toString().dec();
-        } else if (formatter == "html") {
-            result = value;
-        } else if (formatter == "checkbox" || formatter == "radio") {
-            var checkedStr = "";
-            var disabled = "";
-            var sendObj = {
-                index: itemIndex,
-                list: this.list,
-                item: item,
-                page: this.page,
-                key: key,
-                value: value
-            };
-
-            if(this.list[itemIndex].___checked && this.list[itemIndex].___checked[CHidx]){
-                if(this.list[itemIndex].___checked[CHidx]) checkedStr = " checked=\"checked\" ";
-                //if(itemIndex == 0) console.log(this.list[itemIndex].___checked[CHidx], checkedStr);
-            }else if (Object.isFunction(CH.checked)) {
-                if (CH.checked.call(sendObj)) {
-                    checkedStr = " checked=\"checked\" ";
-                    if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
-                    this.list[itemIndex].___checked[CHidx] = true;
-                }
-            }
-
-            if (CH.disabled) {
-                if (CH.disabled.call(sendObj)) {
-                    disabled = " disabled=\"disabled\" ";
-                    if(!this.list[itemIndex].___checked) this.list[itemIndex].___disabled = {};
-                    this.list[itemIndex].___disabled[CHidx] = true;
-                }
-            }
-            /*
-             result = "<label class=\"gridCheckboxLabel\">" +
-             "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
-             "</label>";
-             */
-            result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+        } else if (Object.isString(formatter) && (formatter in this.formatter)) {
+            result = this.formatter[formatter].call(this, formatter, item, itemIndex, value, key, CH, CHidx);
         } else {
             if(Object.isFunction(formatter)){
                 var sendObj = {
@@ -16293,7 +16247,6 @@ var AXGrid = Class.create(AXJ, {
                         r = ids[ids.length - 3], c = ids[ids.length - 2],
                         CG = cfg.colGroup[ (cfg.body.rowsEmpty) ? c : (cfg.body.rows[r][c].colSeq||c) ],
                         i = 0;
-
 
                     this._focusedItemIndex = itemIndex;
                     if(this.editCellClear(r, c, itemIndex) === false){
@@ -20845,6 +20798,79 @@ var AXGrid = Class.create(AXJ, {
     }
 
 });
+
+/**
+ * @method AXGrid.prototype.formatter
+ * @description - 그리드의 formatter 입니다. 사용자 정의 formatter를 추가할 수 있습니다.
+ * @example
+ * ```js
+ * Object.extend(AXGrid.prototype.formatter, {
+ *     link: function(formatter, item, itemIndex, value, key, CH, CHidx){
+ *         return '<a href="https://www.axisj.com">www.axisj.com</a>';
+ *     }
+ * });
+ * ```
+ */
+AXGrid.prototype.formatter = (function(){
+    // checkbox, radiobox formatter
+    function boxFormatter(formatter, item, itemIndex, value, key, CH, CHidx){
+        var cfg = this.config;
+        var checkedStr = "";
+        var disabled = "";
+        var sendObj = {
+            index: itemIndex,
+            list: this.list,
+            item: item,
+            page: this.page,
+            key: key,
+            value: value
+        };
+
+        if(this.list[itemIndex].___checked && this.list[itemIndex].___checked[CHidx]){
+            if(this.list[itemIndex].___checked[CHidx]) checkedStr = " checked=\"checked\" ";
+            //if(itemIndex == 0) console.log(this.list[itemIndex].___checked[CHidx], checkedStr);
+        }else if (Object.isFunction(CH.checked)) {
+            if (CH.checked.call(sendObj)) {
+                checkedStr = " checked=\"checked\" ";
+                if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
+                this.list[itemIndex].___checked[CHidx] = true;
+            }
+        }
+
+        if (CH.disabled) {
+            if (CH.disabled.call(sendObj)) {
+                disabled = " disabled=\"disabled\" ";
+                if(!this.list[itemIndex].___checked) this.list[itemIndex].___disabled = {};
+                this.list[itemIndex].___disabled[CHidx] = true;
+            }
+        }
+        /*
+         result = "<label class=\"gridCheckboxLabel\">" +
+         "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
+         "</label>";
+         */
+        result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+    }
+    
+    return {
+        "money": function(formatter, item, itemIndex, value, key, CH, CHidx){
+            if (value == "" || value == "null" || value == null || value == undefined) {
+                return "0";
+            } else {
+                return (value || 0).number().money();
+            }
+            return result;
+        },
+        "dec": function(formatter, item, itemIndex, value, key, CH, CHidx){
+            return (value == undefined) ? "" : value.toString().dec();
+        },
+        "html": function(formatter, item, itemIndex, value, key, CH, CHidx){
+            return value;
+        },
+        "checkbox": boxFormatter,
+        "radio"   : boxFormatter
+    };
+})();
 /* ---------------------------- */
 /* http://www.axisj.com, license : http://www.axisj.com/license */
  
