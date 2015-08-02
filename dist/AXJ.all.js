@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-07-31 
+AXJ - v1.0.18 - 2015-08-02 
 */
 /*! 
-AXJ - v1.0.18 - 2015-07-31 
+AXJ - v1.0.18 - 2015-08-02 
 */
 
 if(!window.AXConfig){
@@ -16293,7 +16293,6 @@ var AXGrid = Class.create(AXJ, {
                         r = ids[ids.length - 3], c = ids[ids.length - 2],
                         CG = cfg.colGroup[ (cfg.body.rowsEmpty) ? c : (cfg.body.rows[r][c].colSeq||c) ],
                         i = 0;
-
 
                     this._focusedItemIndex = itemIndex;
                     if(this.editCellClear(r, c, itemIndex) === false){
@@ -42919,7 +42918,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.4
+ * @version v1.4.1
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -42951,6 +42950,7 @@ var swfobject;
  "2015-04-06 tom : fileKeys 기본 맵핑방식 수정"
  "2015-05-14 HJ.Park : SWFUpload 모드에서 파일 사이즈 초과시 onError 메서드 호출하도록 수정 https://github.com/axisj-com/axisj/issues/559"
  "2015-05-21 tom : singleUpload setUploadedList 버그픽스 https://github.com/axisj-com/axisj/issues/580"
+ "2015-08-02 tom : 업로드 버튼 태그 수정 / 업로드 완료시에 엘리먼트 초기화 기능 보류"
  * @description
  *
  ```js
@@ -43125,6 +43125,7 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 		
 		var po = [];
+		/*
 		po.push('<div style="position:relative;">');
 		po.push('	<table style=""><tbody><tr><td id="'+cfg.targetID+'_AX_selectorTD">');
 		po.push('	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />');
@@ -43138,6 +43139,22 @@ var AXUpload5 = Class.create(AXJ, {
 		}
 		
 		po.push('	</tr></tbody></table>');
+		*/
+
+		po.push('<div style="position:relative;">');
+
+		po.push('   <div style="float:left;">');
+		po.push('	    <input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />');
+		po.push('	    <button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(cfg.buttonTxt)+'</span></button>');
+		po.push('   </div>');
+
+		if(cfg.isSingleUpload && cfg.fileDisplayHide != true){
+		po.push('   <div style="float:left;">');
+		po.push('       <div class="AXFileDisplay" style="padding:3px; 5px;" id="'+cfg.targetID+'_AX_display">'+AXConfig.AXUpload5.uploadSelectTxt+'</div>');
+		po.push('   </div>');
+		}
+		po.push('   <div style="clear:both;"></div>');
+
 		po.push('</div>');
 		this.target.empty();
 		this.target.append(po.join(''));
@@ -43903,8 +43920,8 @@ var AXUpload5 = Class.create(AXJ, {
 	uploadComplete: function(){
 		var cfg = this.config;
 		//trace("uploadComplete");
-		if(AXgetId(cfg.targetID+'_AX_files')){
-			
+		if(AXgetId(cfg.targetID+'_AX_files')){ // 2015-08-02 업로드 완료 방식 변경 체크중
+			/*
 			axdom('#'+cfg.targetID+'_AX_files').remove();
 			
 			var inputFileMultiple = 'multiple="multiple"';
@@ -43921,13 +43938,16 @@ var AXUpload5 = Class.create(AXJ, {
 			axdom('#'+cfg.targetID+'_AX_files').css({width:axdom('#'+cfg.targetID+'_AX_selector').outerWidth(),height:axdom('#'+cfg.targetID+'_AX_selector').outerHeight()});
 
 			var onFileSelect = this.onFileSelect.bind(this);
-			var fileSelector = document.getElementById(cfg.targetID+'_AX_files');
-			if(AXUtil.browser.name == "ie" && AXUtil.browser.version < 9){
-				
-			}else{
-				fileSelector.addEventListener('change', onFileSelect, false);
-			}
 
+			setTimeout(function(){
+				var fileSelector = document.getElementById(cfg.targetID+'_AX_files');
+				if(AXUtil.browser.name == "ie" && AXUtil.browser.version < 9){
+
+				}else{
+					fileSelector.addEventListener('change', onFileSelect, false);
+				}
+			}, 100);
+			*/
 		}
 		if(cfg.queueBoxID){
 			this.multiSelector.collect();
