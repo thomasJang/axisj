@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-02 
+AXJ - v1.0.18 - 2015-08-03 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-02 
+AXJ - v1.0.18 - 2015-08-03 
 */
 
 if(!window.AXConfig){
@@ -16746,10 +16746,9 @@ var AXGrid = Class.create(AXJ, {
             }
 
             td = div.parent(), td_ids = td.get(0).id.split(/_AX_/g),
-                td_val = _this.list[ii][CG.key],
-                parent_type = td_ids[td_ids.length-4],
-                inline_editor_id = cfg.targetID + "_AX_inline_editor_AX_" + r + "_AX_" + c + "_AX_" + ii,
-                inline_editor, inline_css;
+            td_val = _this.list[ii][CG.key],
+            parent_type = td_ids[td_ids.length-4],
+            inline_editor_id = cfg.targetID + "_AX_inline_editor_AX_" + r + "_AX_" + c + "_AX_" + ii;
 
             td_val = _this.getFormatterValue(CG.editor.formatter, _this.list[ii], ii, td_val, CG.key, {}, 0);
 
@@ -16765,12 +16764,28 @@ var AXGrid = Class.create(AXJ, {
             inline_editor.css(inline_css).find("input").select();
             _this.inline_edit = {editor:inline_editor, r:r,  c:c,  ii:ii, cell:div};
 
+
+            if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
+                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+                    var target = axf.get_event_target(e.target, {id: inline_editor_id});
+                    if (!target) {
+                        _this.updateItem(r, c, ii, inline_editor.find("input").val());
+                        jQuery(document.body).unbind("click.axgrid");
+                        _this.gridFocus.focus();
+                    }
+                });
+            }
+
             // AXBind 연결
-            AXBindConfig = {};
             jQuery.extend(AXBindConfig, CG.editor.config);
 
-            var cfg_key_value = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionValue||"optionValue") : "optionValue",
-                cfg_key_text = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionText||"optionText") : "optionText";
+            if (CG.editor.type in _this.inlineEditor) {
+                _this.inlineEditor[CG.editor.type].init.call(_this, inline_editor, AXBindConfig, CG, r, c, ii);
+            }
+            /**
+             * ################################################################
+             var cfg_key_value = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionValue||"optionValue") : "optionValue",
+             cfg_key_text = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionText||"optionText") : "optionText";
 
             if(CG.editor.type == "number"){
                 inline_editor.find("input").bindNumber(AXBindConfig).select();
@@ -16823,6 +16838,9 @@ var AXGrid = Class.create(AXJ, {
                     inline_editor.find("select").focus();
                 }, 100);
             }
+             * ################################################################
+             */
+
 
             inline_editor.bind("keydown", function(e){
                 if (!e) e = window.event;
@@ -16904,16 +16922,8 @@ var AXGrid = Class.create(AXJ, {
                 }, 10);
             });
 
-            if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
-                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
-                    var target = axf.get_event_target(e.target, {id: inline_editor_id});
-                    if (!target) {
-                        _this.updateItem(r, c, ii, inline_editor.find("input").val());
-                        jQuery(document.body).unbind("click.axgrid");
-                        _this.gridFocus.focus();
-                    }
-                });
-            }
+            /**
+             * ################################################################
             if(CG.editor.type == "select"){
                 jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
                     var target = axf.get_event_target(e.target, {id: inline_editor_id});
@@ -16957,6 +16967,11 @@ var AXGrid = Class.create(AXJ, {
                     }
                 });
             }
+             * ################################################################
+             */
+
+
+
         }, 10);
 
         get_editor = function(cond, val){
@@ -17089,12 +17104,19 @@ var AXGrid = Class.create(AXJ, {
         if(cfg.control_lock_status > 1) {
             return this;
         }
-        // 입력받은 값을 전환 하는 함수 체크 필요.
-        // CG.editor.beforeUpdate
-        if(CG.editor && CG.editor.beforeUpdate){
-            value = CG.editor.beforeUpdate.call(that, value);
-        }
+
         var beforeValue = _this.list[itemIndex][CH.key];
+
+        if(CG.editor){
+            if (CG.editor.type in _this.inlineEditor) {
+                value = _this.inlineEditor[CG.editor.type].getValue.call(that, value);
+            }
+
+            if (CG.editor.beforeUpdate) {
+                value = CG.editor.beforeUpdate.call(that, value);
+            }
+        }
+
         _this.list[itemIndex][CH.key] = value;
         
         // ._CUD 값 조정
@@ -20858,11 +20880,11 @@ AXGrid.prototype.formatter = (function(){
             }
         }
         /*
-         result = "<label class=\"gridCheckboxLabel\">" +
+         return "<label class=\"gridCheckboxLabel\">" +
          "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
          "</label>";
          */
-        result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+        return "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
     }
     
     return {
@@ -20882,6 +20904,148 @@ AXGrid.prototype.formatter = (function(){
         },
         "checkbox": boxFormatter,
         "radio"   : boxFormatter
+    };
+})();
+
+
+AXGrid.prototype.inlineEditor = (function(){
+
+    // getValue -> this: {item:item, index:itemIndex, CG:CG, r:r, c:c}
+    return {
+        "number": {
+            init: function(inline_editor, AXBindConfig, CG, r, c, ii) {
+                inline_editor.find("input").bindNumber(AXBindConfig).select();
+            },
+            getValue: function(val) {
+                return String(val || "").number();
+            }
+        },
+        "money": {
+            init: function(inline_editor, AXBindConfig, CG, r, c, ii) {
+                inline_editor.find("input").bindMoney(AXBindConfig);
+                setTimeout(function () {
+                    inline_editor.find("input").select();
+                }, 100);
+            },
+            getValue: function(val) {
+                return String(val || "").money();
+            }
+        },
+        "calendar": {
+            init: function(inline_editor, AXBindConfig, CG, r, c, ii) {
+                var _this = this;
+                AXBindConfig.expand = true;
+                jQuery.extend(AXBindConfig, CG.editor.config, true);
+
+                AXBindConfig.onchange = function(){
+                    _this.updateItem(r, c, ii, this.value);
+                };
+
+                inline_editor.find("input").bindDate(AXBindConfig);
+            },
+            getValue: function(val) {
+                return val || "";
+            }
+        },
+        "select": {
+            init: function(inline_editor, AXBindConfig, CG, r, c, ii) {
+                var _this = this;
+                inline_editor.find("select").bind("change", function(){
+                    var sdom = inline_editor.find("select").get(0);
+                    var obj = {};
+                    obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+                    obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
+                    _this.updateItem(r, c, ii, obj);
+                });
+                setTimeout(function(){
+                    inline_editor.find("select").focus();
+                }, 100);
+
+                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+                    var target = axf.get_event_target(e.target, {id: inline_editor.attr("id")});
+                    if (!target) {
+                        var sdom = inline_editor.find("select").get(0);
+                        if(sdom.options[sdom.selectedIndex]) {
+                            var obj = {};
+                            obj[CG.editor.optionValue||"optionValue"] = sdom.options[sdom.selectedIndex].value;
+                            obj[CG.editor.optionText||"optionText"] = sdom.options[sdom.selectedIndex].text;
+
+                            _this.updateItem(r, c, ii, obj);
+                        }else{
+                            _this.editCellClear();
+                        }
+                        _this.gridFocus.focus();
+                        jQuery(document.body).unbind("click.axgrid");
+                    }
+                });
+            },
+            getValue: function(val) {
+                // TODO 반환하는 값의 형식과 formatter, 그리고 list에 담을 값의 형태, option값 등을 고려해서 개선이 필요함. HJ.Park 2015-08-03
+                //var valKey = this.CG.editor.optionValue || AXConfig.AXInput.keyOptionValue;
+                //if(Object.isObject(val)){
+                //    return val[valKey] || "";
+                //}else{
+                //    return val || "";
+                //}
+                return val;
+            }
+        },
+        "AXSelect": {
+            init: function(inline_editor, AXBindConfig, CG, r, c, ii) {
+                var _this = this;
+                var cfg = this.config;
+                var cfg_key_value = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionValue||"optionValue") : "optionValue",
+                    cfg_key_text = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionText||"optionText") : "optionText";
+
+                // todo : inline_editor.config에 onchange함수 재 정의
+                AXBindConfig.onchange = function(){
+                    var obj = {};
+                    obj[cfg_key_value] = this.value;
+                    obj[cfg_key_text] = this.text;
+                    setTimeout(function(){
+                        _this.updateItem(r, c, ii, obj);
+                    }, 100);
+                };
+                var td_val = _this.list[ii][CG.key];
+                AXBindConfig.setValue = td_val[cfg_key_value];
+                inline_editor.find("select").bindSelect(AXBindConfig);
+                setTimeout(function(){
+                    inline_editor.find("select").focus();
+                }, 100);
+
+                jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
+                    var select_id = (cfg.targetID + '_inline_editor').lcase();
+                    var target = axf.get_event_target(e.target, function(el){
+                        if(!el.id) return false;
+                        return ((el.id.split(/_AX_/g)[1]||"").lcase() == select_id);
+                    });
+                    if (!target) {
+                        var sdom = inline_editor.find("select").get(0);
+                        if(sdom.options[sdom.selectedIndex]) {
+                            var obj = {};
+                            obj[cfg_key_value] = sdom.options[sdom.selectedIndex].value;
+                            obj[cfg_key_text] = sdom.options[sdom.selectedIndex].text;
+
+                            _this.updateItem(r, c, ii, obj);
+                        }else{
+                            _this.editCellClear();
+                        }
+                        _this.gridFocus.focus();
+                        jQuery(document.body).unbind("click.axgrid");
+                    }
+                });
+            },
+            getValue: function(val) {
+                // TODO 반환하는 값의 형식과 formatter, 그리고 list에 담을 값의 형태, option값 등을 고려해서 개선이 필요함. HJ.Park 2015-08-03
+                //var valKey = this.CG.editor.optionValue || AXConfig.AXInput.keyOptionValue;
+                //if(Object.isObject(val)){
+                //    return val[valKey] || "";
+                //}else{
+                //    return val || "";
+                //}
+                return val;
+            }
+        }
     };
 })();
 /* ---------------------------- */
@@ -23421,7 +23585,7 @@ var AXInputConverter = Class.create(AXJ, {
 			},1);
 		});
 
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 		//trace(obj.config);
 
@@ -23517,7 +23681,7 @@ var AXInputConverter = Class.create(AXJ, {
 			/* 클라이언트 너비가 모바일 너비이면 프로세스 중지 */
 		}
 		var obj = this.objects[objSeq];
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
@@ -23770,7 +23934,7 @@ var AXInputConverter = Class.create(AXJ, {
 	initBindDateMobileModal: function (objID, objSeq, modalObj) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 		//Expand Box 생성 구문 작성
 		var objVal = axdom("#" + objID).val();
@@ -23969,7 +24133,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var ids = myTarget.id.split(/_AX_/g);
 			var act = ids.last();
 			var nDate = obj.nDate;
-			var separator = (obj.config.separator) ? obj.config.separator : "-";
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 			if (act == "date") {
 				//trace(ids[ids.length-2]);
 				obj.nDate = ids[ids.length - 2].date();
@@ -24046,7 +24210,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (objVal == "") {
 
 			} else {
-				var separator = (obj.config.separator) ? obj.config.separator : "-";
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 				if (obj.config.selectType == "y") {
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
@@ -24112,7 +24276,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (objVal == "") {
 
 			} else {
-				var separator = (obj.config.separator) ? obj.config.separator : "-";
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 				if (obj.config.selectType == "y") {
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
@@ -24204,7 +24368,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (clearDate) {
 				axdom("#" + objID).val("");
 			} else {
-				var separator = (obj.config.separator) ? obj.config.separator : "-";
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 				if (obj.config.selectType == "y") {
 
 					var yy = va.left(4).number();
@@ -24387,7 +24551,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateTimeChange: function (objID, objSeq, myTime) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 		var printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
 		if (obj.config.expandTime) {
 			printDate += " " + obj.mycalendartime.getTime();
@@ -24426,7 +24590,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var ename = ids.last();
 
 			var nDate = obj.nDate;
-			var separator = (obj.config.separator) ? obj.config.separator : "-";
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 			if (ename == "expandPrev") {
 				if (obj.mycalendarPageType == "d") {
 					this.bindDateChangePage(objID, objSeq, nDate.add(-1, "m"), "d");
@@ -24501,7 +24665,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateChangePage: function (objID, objSeq, setDate, pageType) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 		if (pageType == "m") {
 			//alert(setDate);
@@ -24590,7 +24754,7 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 		axdom("#" + objID + ", #" + obj.config.startTargetID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			//alert(this.value);
 			if(event.keyCode == axf.Event.KEY_RETURN){
@@ -24673,7 +24837,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return false;
 		}
 
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
@@ -24956,14 +25120,14 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		if (seq == 1) {
-			var separator = (obj.config.separator) ? obj.config.separator : "-";
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 			var printDate = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime1.getTime();
 			}
 			axdom("#" + obj.config.startTargetID).val(printDate);
 		} else {
-			var separator = (obj.config.separator) ? obj.config.separator : "-";
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 			var printDate = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime2.getTime();
@@ -24981,7 +25145,7 @@ var AXInputConverter = Class.create(AXJ, {
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 			var objVal1 = axdom("#" + obj.config.startTargetID).val();
 			var objVal2 = axdom("#" + objID).val();
-			var separator = (obj.config.separator) ? obj.config.separator : "-";
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 			if (obj.config.selectType == "y") {
 				if (objVal1.length < 4) axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
@@ -25063,7 +25227,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var boxType = ids[ids.length - 3];
 			var nDate1 = obj.nDate1;
 			var nDate2 = obj.nDate2;
-			var separator = (obj.config.separator) ? obj.config.separator : "-";
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 			if (ename == "expandPrev1") {
 				if (obj.mycalendarPageType == "d") {
 					this.bindTwinDateChangePage(objID, objSeq, 1, nDate1.add(-1, "m"), "d");
@@ -25251,7 +25415,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindTwinDateChangePage: function (objID, objSeq, objType, setDate, pageType) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = (obj.config.separator) ? obj.config.separator : "-";
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 
 		if (pageType == "m") {
 			if (objType == 1) {
@@ -25356,7 +25520,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (clearDate) {
 				axdom("#" + targetObjID).val("");
 			} else {
-				var separator = (obj.config.separator) ? obj.config.separator : "-";
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
 				if (obj.config.selectType == "y") {
 
 					var yy = va.left(4).number();
