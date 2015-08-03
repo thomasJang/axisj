@@ -23585,7 +23585,7 @@ var AXInputConverter = Class.create(AXJ, {
 			},1);
 		});
 
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//trace(obj.config);
 
@@ -23681,7 +23681,7 @@ var AXInputConverter = Class.create(AXJ, {
 			/* 클라이언트 너비가 모바일 너비이면 프로세스 중지 */
 		}
 		var obj = this.objects[objSeq];
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
@@ -23760,7 +23760,6 @@ var AXInputConverter = Class.create(AXJ, {
 			var myTimes = myDate.print("hh:mi").split(":");
 			var myHH = myTimes[0].number();
 			var myMI = myTimes[1];
-
 
 			if (myHH == 12 && myMI > 0){
 				apm = "PM";
@@ -23934,7 +23933,7 @@ var AXInputConverter = Class.create(AXJ, {
 	initBindDateMobileModal: function (objID, objSeq, modalObj) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//Expand Box 생성 구문 작성
 		var objVal = axdom("#" + objID).val();
@@ -24133,7 +24132,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var ids = myTarget.id.split(/_AX_/g);
 			var act = ids.last();
 			var nDate = obj.nDate;
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			if (act == "date") {
 				//trace(ids[ids.length-2]);
 				obj.nDate = ids[ids.length - 2].date();
@@ -24210,7 +24209,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (objVal == "") {
 
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
@@ -24276,7 +24275,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (objVal == "") {
 
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
@@ -24368,7 +24367,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (clearDate) {
 				axdom("#" + objID).val("");
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 
 					var yy = va.left(4).number();
@@ -24551,7 +24550,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateTimeChange: function (objID, objSeq, myTime) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 		var printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
 		if (obj.config.expandTime) {
 			printDate += " " + obj.mycalendartime.getTime();
@@ -24590,7 +24589,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var ename = ids.last();
 
 			var nDate = obj.nDate;
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			if (ename == "expandPrev") {
 				if (obj.mycalendarPageType == "d") {
 					this.bindDateChangePage(objID, objSeq, nDate.add(-1, "m"), "d");
@@ -24665,7 +24664,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateChangePage: function (objID, objSeq, setDate, pageType) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		if (pageType == "m") {
 			//alert(setDate);
@@ -24754,7 +24753,7 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 		axdom("#" + objID + ", #" + obj.config.startTargetID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			//alert(this.value);
 			if(event.keyCode == axf.Event.KEY_RETURN){
@@ -24837,7 +24836,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return false;
 		}
 
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
@@ -25120,14 +25119,14 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		if (seq == 1) {
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			var printDate = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime1.getTime();
 			}
 			axdom("#" + obj.config.startTargetID).val(printDate);
 		} else {
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			var printDate = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime2.getTime();
@@ -25145,7 +25144,7 @@ var AXInputConverter = Class.create(AXJ, {
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 			var objVal1 = axdom("#" + obj.config.startTargetID).val();
 			var objVal2 = axdom("#" + objID).val();
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 			if (obj.config.selectType == "y") {
 				if (objVal1.length < 4) axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
@@ -25227,7 +25226,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var boxType = ids[ids.length - 3];
 			var nDate1 = obj.nDate1;
 			var nDate2 = obj.nDate2;
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			if (ename == "expandPrev1") {
 				if (obj.mycalendarPageType == "d") {
 					this.bindTwinDateChangePage(objID, objSeq, 1, nDate1.add(-1, "m"), "d");
@@ -25415,7 +25414,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindTwinDateChangePage: function (objID, objSeq, objType, setDate, pageType) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		if (pageType == "m") {
 			if (objType == 1) {
@@ -25520,7 +25519,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (clearDate) {
 				axdom("#" + targetObjID).val("");
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 
 					var yy = va.left(4).number();
@@ -27653,7 +27652,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 			return npo;
 		}
 
-		if(obj.config.ajaxUrl){
+		if(obj.config.ajaxUrl && kword != ""){
 
 			obj.inProgress = true; //진행중 상태 변경
 			var url = obj.config.ajaxUrl;
