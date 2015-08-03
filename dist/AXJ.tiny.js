@@ -14364,7 +14364,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		obj.bindTarget.unbind("focus.AXTagSelector").bind("focus.AXTagSelector", function(event) {
 			if(obj.keydownTimer) clearTimeout(obj.keydownTimer);
 			obj.keydownTimer = setTimeout((function(event){
-				_this.bindTagSelector_onkeydown(event, objID, objSeq);
+				if(event.target.value != "") _this.bindTagSelector_onkeydown(event, objID, objSeq);
 			}).bind(_this, event), 100);
 		});
 		obj.bindTarget.unbind("keydown.AXTagSelector").bind("keydown.AXTagSelector", function(event){
