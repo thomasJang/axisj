@@ -14322,6 +14322,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		// 저장된 태그 리스트
 		obj.tagList = [];
+		obj.deletedTagList = [];
 
 		obj.bindAnchorTarget.show();
 		h = obj.bindAnchorTarget.data("height") - 2;
@@ -14502,6 +14503,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		    maxHeight = obj.config.maxHeight || 130,
 		    next_fn;
 
+		obj.deletedTagList = [];
 		next_fn = function() {
 			if (po.length == 0) {
 				var selectorOptionEmpty = "";
@@ -14761,6 +14763,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		if(typeof tagIndex !== "undefined") {
 			obj.tagContainer.find('[data-tag-index="' + tagIndex + '"]').remove();
+			obj.deletedTagList.push(obj.tagList[tagIndex]);
 			obj.tagList.splice(tagIndex, 1);
 		}
 
@@ -14793,6 +14796,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 			if(this.objects[i].id === objID) {objSeq = i;break;}
 		}
 		obj = this.objects[objSeq];
+		obj.deletedTagList = [];
 
 		if(Object.isArray(tags)){
 			obj.tagList = [];
@@ -14813,7 +14817,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 			if(this.objects[i].id === objID) {objSeq = i;break;}
 		}
 		obj = this.objects[objSeq];
-		return obj.tagList;
+		return {list:obj.tagList, deletedList:obj.deletedTagList};
 	}
 });
 
@@ -14993,7 +14997,7 @@ axdom.fn.bindTagSelector_setItem = function(list){
 
 /**
  * @method jQueryFns.bindTagSelector_getItem
- * @returns Array
+ * @returns Object
  * @description
  * @example
  * ```js
