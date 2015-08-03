@@ -18058,6 +18058,7 @@ var AXGrid = Class.create(AXJ, {
             this._focusedItemIndex = itemIndex;
             if(this.virtualScroll.startIndex <= itemIndex && this.virtualScroll.endIndex >= itemIndex){
                 this.selectedRow.clear();
+	            if(itemIndex == 0) itemIndex = '' + itemIndex;
 
                 this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
                 this.selectedRow.push(itemIndex);
