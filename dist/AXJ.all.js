@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-03 
+AXJ - v1.0.18 - 2015-08-04 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-03 
+AXJ - v1.0.18 - 2015-08-04 
 */
 
 if(!window.AXConfig){
@@ -15484,8 +15484,9 @@ var AXGrid = Class.create(AXJ, {
             if (this.needBindDBLClick()) this.body.find(".gridBodyTr").bind("dblclick", this.gridBodyDBLClick.bind(this));
 
             if (this.selectedRow && this.selectedRow.length > 0) {
-                for (var item, itemIndex = 0, __arr = this.selectedRow; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
-                    this.body.find(".gridBodyTr_" + item).addClass("selected");
+                for (var itemIndex = 0, __arr = this.selectedRow; itemIndex < __arr.length; itemIndex++) {
+	                console.log(__arr[itemIndex]);
+                    this.body.find(".gridBodyTr_" + __arr[itemIndex]).addClass("selected");
                 }
                 var itemIndex = this.selectedRow.last();
                 var itemDom = this.body.find(".gridBodyTr_" + itemIndex);
@@ -18041,6 +18042,7 @@ var AXGrid = Class.create(AXJ, {
         var cfg = this.config, _this = this;
 
         if (cfg.viewMode == "grid") {
+
             var c_index = this.selectedCells.first();
             if (this.selectedRow.length > 0) {
                 var body = this.body;
