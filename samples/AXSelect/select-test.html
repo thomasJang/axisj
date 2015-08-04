@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindSelect - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+	<div id="AXPage">
+
+		<div id="AXPageBody" class="SampleAXSelect">
+	        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+			<div class="ax-wrap AXdemoPageContent">
+
+				<div class="title"><h1>AXSelect-test</h1></div>
+
+				<select name="select-name" id="select-00" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-01" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-02" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-03" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-04" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-05" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-06" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-07" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-08" class="AXSelect"></select>&nbsp;
+				<select name="select-name" id="select-09" class="AXSelect"></select>&nbsp;
+
+				<div style="padding:10px;">
+					<button type="button" class="AXButton Red" id="select-set-value">랜덤값 적용</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<script id="jscode">
+		/**
+		 * Require Files for AXISJ UI Component...
+		 * Based		: jQuery
+		 * Javascript 	: AXJ.js, AXInput.js, AXSelect.js
+		 * CSS			: AXJ.css, AXInput.css, AXSelect.css
+		 */
+		var pageID = "AXSelect-test";
+		var fnObj = {
+			pageStart: function(){
+
+				$(".AXSelect").each(function(){
+					$(this).bindSelect({
+						ajaxUrl: "select-test-data.php",
+						ajaxPars: "id=" + this.id
+					});
+				});
+
+				$("#select-set-value").click(function(){
+					var id = Math.floor(Math.random() * 10);
+					var v = Math.floor(Math.random() * 10);
+					jQuery("#select-" + id.setDigit(2)).setValueSelect(v);
+					toast.push("#select-" + id.setDigit(2) + " : " + v);
+				});
+			}
+		};
+		jQuery(document.body).ready(function(){
+			fnObj.pageStart();
+		});
+	</script>
+
+</body>
+</html>
