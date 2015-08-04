@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-03 
+AXJ - v1.0.18 - 2015-08-04 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-03 
+AXJ - v1.0.18 - 2015-08-04 
 */
 
 if(!window.AXConfig){
@@ -10528,7 +10528,7 @@ var AXInputConverter = Class.create(AXJ, {
 			},1);
 		});
 
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//trace(obj.config);
 
@@ -10624,7 +10624,7 @@ var AXInputConverter = Class.create(AXJ, {
 			/* 클라이언트 너비가 모바일 너비이면 프로세스 중지 */
 		}
 		var obj = this.objects[objSeq];
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
@@ -10703,7 +10703,6 @@ var AXInputConverter = Class.create(AXJ, {
 			var myTimes = myDate.print("hh:mi").split(":");
 			var myHH = myTimes[0].number();
 			var myMI = myTimes[1];
-
 
 			if (myHH == 12 && myMI > 0){
 				apm = "PM";
@@ -10877,7 +10876,7 @@ var AXInputConverter = Class.create(AXJ, {
 	initBindDateMobileModal: function (objID, objSeq, modalObj) {
 		var cfg = this.config;
 		var obj = this.objects[objSeq];
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//Expand Box 생성 구문 작성
 		var objVal = axdom("#" + objID).val();
@@ -11076,7 +11075,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var ids = myTarget.id.split(/_AX_/g);
 			var act = ids.last();
 			var nDate = obj.nDate;
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			if (act == "date") {
 				//trace(ids[ids.length-2]);
 				obj.nDate = ids[ids.length - 2].date();
@@ -11153,7 +11152,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (objVal == "") {
 
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
@@ -11219,7 +11218,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (objVal == "") {
 
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 					axdom("#" + objID).val(obj.nDate.print("yyyy"));
 				} else if (obj.config.selectType == "m") {
@@ -11311,7 +11310,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (clearDate) {
 				axdom("#" + objID).val("");
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 
 					var yy = va.left(4).number();
@@ -11494,7 +11493,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateTimeChange: function (objID, objSeq, myTime) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 		var printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
 		if (obj.config.expandTime) {
 			printDate += " " + obj.mycalendartime.getTime();
@@ -11533,7 +11532,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var ename = ids.last();
 
 			var nDate = obj.nDate;
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			if (ename == "expandPrev") {
 				if (obj.mycalendarPageType == "d") {
 					this.bindDateChangePage(objID, objSeq, nDate.add(-1, "m"), "d");
@@ -11608,7 +11607,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindDateChangePage: function (objID, objSeq, setDate, pageType) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		if (pageType == "m") {
 			//alert(setDate);
@@ -11697,7 +11696,7 @@ var AXInputConverter = Class.create(AXJ, {
 		});
 
 
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 		axdom("#" + objID + ", #" + obj.config.startTargetID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
 			//alert(this.value);
 			if(event.keyCode == axf.Event.KEY_RETURN){
@@ -11780,7 +11779,7 @@ var AXInputConverter = Class.create(AXJ, {
 			return false;
 		}
 
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		//Selector Option box Expand
 		if (isToggle) { // 활성화 여부가 토글 이면
@@ -12063,14 +12062,14 @@ var AXInputConverter = Class.create(AXJ, {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
 		if (seq == 1) {
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			var printDate = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime1.getTime();
 			}
 			axdom("#" + obj.config.startTargetID).val(printDate);
 		} else {
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			var printDate = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
 			if (obj.config.expandTime) {
 				printDate += " " + obj.mycalendartime2.getTime();
@@ -12088,7 +12087,7 @@ var AXInputConverter = Class.create(AXJ, {
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 			var objVal1 = axdom("#" + obj.config.startTargetID).val();
 			var objVal2 = axdom("#" + objID).val();
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 			if (obj.config.selectType == "y") {
 				if (objVal1.length < 4) axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
@@ -12170,7 +12169,7 @@ var AXInputConverter = Class.create(AXJ, {
 			var boxType = ids[ids.length - 3];
 			var nDate1 = obj.nDate1;
 			var nDate2 = obj.nDate2;
-			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+			var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 			if (ename == "expandPrev1") {
 				if (obj.mycalendarPageType == "d") {
 					this.bindTwinDateChangePage(objID, objSeq, 1, nDate1.add(-1, "m"), "d");
@@ -12358,7 +12357,7 @@ var AXInputConverter = Class.create(AXJ, {
 	bindTwinDateChangePage: function (objID, objSeq, objType, setDate, pageType) {
 		var obj = this.objects[objSeq];
 		var cfg = this.config;
-		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+		var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
 		if (pageType == "m") {
 			if (objType == 1) {
@@ -12463,7 +12462,7 @@ var AXInputConverter = Class.create(AXJ, {
 			if (clearDate) {
 				axdom("#" + targetObjID).val("");
 			} else {
-				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator;
+				var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 				if (obj.config.selectType == "y") {
 
 					var yy = va.left(4).number();
@@ -13433,8 +13432,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 	// TODO : pattern명 정의
 	/*
-	money, moneyint, date, datetime, bizno, phone, "USER String", [Function]
-	*/
+	 money, moneyint, date, datetime, bizno, phone, "USER String", [Function]
+	 */
 	// pattern
 	bindPattern: function(objID, objSeq){
 		var obj = this.objects[objSeq], cfg = this.config, _this = this;
@@ -13451,9 +13450,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 			//trace();
 			var inputCoverFont = obj.bindTarget.css("font-family");
 			po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_inputCover\" "+
-					"class=\"" + inputCoverClass + "\" "+
-					"style=\"background:transparent;cursor:text;font-family:"+ inputCoverFont +";white-space:nowrap;\""+
-					"></div>");
+				"class=\"" + inputCoverClass + "\" "+
+				"style=\"background:transparent;cursor:text;font-family:"+ inputCoverFont +";white-space:nowrap;\""+
+				"></div>");
 
 			obj.bindAnchorTarget.append(po.join(''));
 			obj.bindAnchorTarget.show();
@@ -13645,24 +13644,24 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
 			if (
-					event.which &&
-					(
-						event.which > 47 && event.which < 58  ||
-						event.which > 36 && event.which < 41  ||
-						event.which > 95 && event.which < 106 ||
-						event.which == axf.Event.KEY_BACKSPACE   ||
-						event.which == axf.Event.KEY_TAB         ||
-						event.which == axf.Event.KEY_RETURN      ||
-						event.which == axf.Event.KEY_DELETE      ||
-						event.which == axf.Event.NUMPAD_SUBTRACT ||
-						event.which == axf.Event.NUMPAD_DECIMAL  ||
-						event.which == axf.Event.KEY_MINUS       ||
-						event.which == axf.Event.KEY_EQUAL       ||
-						event.which == axf.Event.KEY_PERIOD      ||
-						event.which == axf.Event.KEY_HOME        ||
-						event.which == axf.Event.KEY_END
-					)
-				) {
+				event.which &&
+				(
+					event.which > 47 && event.which < 58  ||
+					event.which > 36 && event.which < 41  ||
+					event.which > 95 && event.which < 106 ||
+					event.which == axf.Event.KEY_BACKSPACE   ||
+					event.which == axf.Event.KEY_TAB         ||
+					event.which == axf.Event.KEY_RETURN      ||
+					event.which == axf.Event.KEY_DELETE      ||
+					event.which == axf.Event.NUMPAD_SUBTRACT ||
+					event.which == axf.Event.NUMPAD_DECIMAL  ||
+					event.which == axf.Event.KEY_MINUS       ||
+					event.which == axf.Event.KEY_EQUAL       ||
+					event.which == axf.Event.KEY_PERIOD      ||
+					event.which == axf.Event.KEY_HOME        ||
+					event.which == axf.Event.KEY_END
+				)
+			) {
 
 				// 패턴에 따라 제어 소수점 허용안되는 경우 블락
 				var isStop = false;
@@ -14201,10 +14200,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 				}
 			}
 			/*
-			for(var eidx = 0;eidx<ess.length;eidx++){
+			 for(var eidx = 0;eidx<ess.length;eidx++){
 
-			}
-			*/
+			 }
+			 */
 			return newText;
 
 
@@ -14222,13 +14221,13 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		if(!Object.isNumber(objSeq)) {
 			/*
-			axf.each(this.objects, function (index, O) {
-				if (O.id == objID) {
-					objSeq = index;
-					return false;
-				}
-			});
-			*/
+			 axf.each(this.objects, function (index, O) {
+			 if (O.id == objID) {
+			 objSeq = index;
+			 return false;
+			 }
+			 });
+			 */
 			for(var index = 0 ; index < this.objects.length ; index++){
 				if(this.objects[index].id == objID){ objSeq = index; break;}
 			}
@@ -14265,13 +14264,13 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		if(!Object.isNumber(objSeq)) {
 			/*
-			axf.each(this.objects, function (index, O) {
-				if (O.id == objID) {
-					objSeq = index;
-					return false;
-				}
-			});
-			*/
+			 axf.each(this.objects, function (index, O) {
+			 if (O.id == objID) {
+			 objSeq = index;
+			 return false;
+			 }
+			 });
+			 */
 			for(var index = 0 ; index < this.objects.length ; index++){
 				if(this.objects[index].id == objID){ objSeq = index; break; }
 			}
@@ -14291,13 +14290,13 @@ var AXInputConverterPro = Class.create(AXJ, {
 	bindPatternSetText: function(objID, objSeq, val){
 		if(!Object.isNumber(objSeq)) {
 			/*
-			axf.each(this.objects, function (index, O) {
-				if (O.id == objID) {
-					objSeq = index;
-					return false;
-				}
-			});
-			*/
+			 axf.each(this.objects, function (index, O) {
+			 if (O.id == objID) {
+			 objSeq = index;
+			 return false;
+			 }
+			 });
+			 */
 			for(var index = 0 ; index < this.objects.length ; index++){
 				if(this.objects[index].id == objID){ objSeq = index; break;}
 			}
@@ -14312,7 +14311,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 	 */
 	bindTagSelector: function(objID, objSeq){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq], po, h;
+		    obj = this.objects[objSeq], po, h;
 
 		if (!obj.config.onchange) obj.config.onchange = obj.config.onChange;
 		if(!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
@@ -14323,6 +14322,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		// 저장된 태그 리스트
 		obj.tagList = [];
+		obj.deletedTagList = [];
 
 		obj.bindAnchorTarget.show();
 		h = obj.bindAnchorTarget.data("height") - 2;
@@ -14364,7 +14364,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		obj.bindTarget.unbind("focus.AXTagSelector").bind("focus.AXTagSelector", function(event) {
 			if(obj.keydownTimer) clearTimeout(obj.keydownTimer);
 			obj.keydownTimer = setTimeout((function(event){
-				_this.bindTagSelector_onkeydown(event, objID, objSeq);
+				if(event.target.value != "") _this.bindTagSelector_onkeydown(event, objID, objSeq);
 			}).bind(_this, event), 100);
 		});
 		obj.bindTarget.unbind("keydown.AXTagSelector").bind("keydown.AXTagSelector", function(event){
@@ -14379,8 +14379,8 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_onkeydown: function(e, objID, objSeq){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq], po,
-			anchorWidth, anchorHeight, styles, focusedIndex;
+		    obj = this.objects[objSeq], po,
+		    anchorWidth, anchorHeight, styles, focusedIndex;
 
 		if(e.type == "keydown"){
 			if(e.keyCode == axf.Event.KEY_BACKSPACE){
@@ -14499,10 +14499,11 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_setOptions: function(objID, objSeq, kword){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq], po,
-			maxHeight = obj.config.maxHeight || 130,
-			next_fn;
+		    obj = this.objects[objSeq], po,
+		    maxHeight = obj.config.maxHeight || 130,
+		    next_fn;
 
+		obj.deletedTagList = [];
 		next_fn = function() {
 			if (po.length == 0) {
 				var selectorOptionEmpty = "";
@@ -14550,7 +14551,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 				var ix = null;
 				for (var i = 0, l = obj.config.options.length; i < l; i++) {
-					if (reAt.test((obj.config.options[i][cfg.reserveKeys.optionText] || ""))) {
+					if (reAt.test((obj.config.options[i][obj.config.reserveKeys.optionText] || ""))) {
 						ix = i;
 						break;
 					}
@@ -14568,14 +14569,14 @@ var AXInputConverterPro = Class.create(AXJ, {
 					axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.focusedIndex + "_AX_option").removeClass("on");
 				}
 			}
-		}
+		};
 
 		var get_options = function(options){
 			var npo = [];
 			for(var i=0,l=options.length;i<l;i++){
 				var O =options[i];
 				// options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
-				O[cfg.reserveKeys.optionText] = (O[cfg.reserveKeys.optionText] ? O[cfg.reserveKeys.optionText].dec() : "");
+				O[obj.config.reserveKeys.optionText] = (O[obj.config.reserveKeys.optionText] ? O[obj.config.reserveKeys.optionText].dec() : "");
 				O.desc = (O.desc ? O.desc.dec() : "");
 				O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
 
@@ -14585,18 +14586,18 @@ var AXInputConverterPro = Class.create(AXJ, {
 				styles = "";
 				for(var ti=0,tl=obj.tagList.length, tag;ti<tl;ti++) {
 					tag = obj.tagList[ti];
-					//trace(tag[cfg.reserveKeys.optionValue] == O[cfg.reserveKeys.optionValue]);
-					if(tag[cfg.reserveKeys.optionValue] == O[cfg.reserveKeys.optionValue]){
+					//trace(tag[obj.config.reserveKeys.optionValue] == O[obj.config.reserveKeys.optionValue]);
+					if(tag[obj.config.reserveKeys.optionValue] == O[obj.config.reserveKeys.optionValue]){
 						styles = ' style="text-decoration: line-through;"';
 					}
 				}
 				npo.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + i + "_AX_option\" class=\"bindSelectorNodes\" "+ styles +">"
-				+ O[cfg.reserveKeys.optionText] + descStr + "</a>");
+					+ O[obj.config.reserveKeys.optionText] + descStr + "</a>");
 			}
 			return npo;
-		}
+		};
 
-		if(obj.config.ajaxUrl){
+		if(obj.config.ajaxUrl && kword != ""){
 
 			obj.inProgress = true; //진행중 상태 변경
 			var url = obj.config.ajaxUrl;
@@ -14635,9 +14636,10 @@ var AXInputConverterPro = Class.create(AXJ, {
 				debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
 				pars: pars,
 				onsucc: function (res) {
+
 					if (!res.error) {
 
-						obj.config.options = (res[cfg.reserveKeys.options] || []);
+						obj.config.options = (res[obj.config.reserveKeys.options] || []);
 						obj.config.focusedIndex = undefined;
 						po = get_options(obj.config.options);
 						next_fn.call(_this);
@@ -14667,7 +14669,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_onclick: function(e, objID, objSeq){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq];
+		    obj = this.objects[objSeq];
 
 		if(e.type == "blur"){
 			this.bindTagSelector_close(objID, objSeq);
@@ -14711,7 +14713,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_close: function(objID, objSeq){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq];
+		    obj = this.objects[objSeq];
 
 		obj.tagExpandBox.remove();
 		axdom(document.body).unbind("click.AXTagSelector");
@@ -14719,7 +14721,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_addItem: function(objID, objSeq, optionIndex){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq], objName, po, addOption, pass_add;
+		    obj = this.objects[objSeq], objName, po, addOption, pass_add;
 
 		if(isNaN(Number(optionIndex))) {
 			console.log("optionIndex is NaN");
@@ -14731,7 +14733,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		pass_add = true; // 등록 허용
 		for(var i=0,l=obj.tagList.length, tag;i<l;i++){
 			tag = obj.tagList[i];
-			if(tag[cfg.reserveKeys.optionValue] == addOption[cfg.reserveKeys.optionValue]){
+			if(tag[obj.config.reserveKeys.optionValue] == addOption[obj.config.reserveKeys.optionValue]){
 				pass_add = false; // 이미 등록된 값이 존재함.
 				break;
 			}
@@ -14740,11 +14742,12 @@ var AXInputConverterPro = Class.create(AXJ, {
 			objName = obj.bindTarget.attr("name");
 			po = [];
 			if(!obj.config.optionValue_inputName) obj.config.optionValue_inputName = objName;
-			po.push('<span class="AXTag-selector-tagitem" data-option-value="' + addOption[cfg.reserveKeys.optionValue] + '">');
-				if(obj.config.optionValue_inputName) po.push('<input type="hidden" name="' + obj.config.optionValue_inputName + '" value="' + addOption[cfg.reserveKeys.optionValue] + '" />');
-				if(obj.config.optionText_inputName) po.push('<input type="hidden" name="' + obj.config.optionText_inputName + '" value="' + addOption[cfg.reserveKeys.optionText] + '" />');
-				po.push( addOption[cfg.reserveKeys.optionText] );
-				po.push('<span class="AXTag-selector-tagitem-remove" data-tag-index="'+ obj.tagList.length +'"></span>');
+			po.push('<span class="AXTag-selector-tagitem" data-option-value="' + addOption[obj.config.reserveKeys.optionValue] + '">');
+			if(obj.config.optionValue_inputName) po.push('<input type="hidden" name="' + obj.config.optionValue_inputName + '" value="' + addOption[obj.config.reserveKeys.optionValue] + '" />');
+			if(obj.config.optionText_inputName) po.push('<input type="hidden" name="' + obj.config.optionText_inputName + '" value="' + addOption[obj.config.reserveKeys.optionText] + '" />');
+
+			po.push( addOption[obj.config.reserveKeys.optionText] );
+			po.push('<span class="AXTag-selector-tagitem-remove" data-tag-index="'+ obj.tagList.length +'"></span>');
 			po.push('</span>');
 			obj.tagContainer.append( po.join('') );
 			obj.tagList.push(addOption);
@@ -14756,19 +14759,20 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_removeItem: function(objID, objSeq, tagIndex){
 		var _this = this, cfg = this.config,
-			obj = this.objects[objSeq], po, objName = obj.bindTarget.attr("name");;
+		    obj = this.objects[objSeq], po, objName = obj.bindTarget.attr("name");;
 
 		if(typeof tagIndex !== "undefined") {
 			obj.tagContainer.find('[data-tag-index="' + tagIndex + '"]').remove();
+			obj.deletedTagList.push(obj.tagList[tagIndex]);
 			obj.tagList.splice(tagIndex, 1);
 		}
 
 		po = [];
 		for(var i=0,l=obj.tagList.length, tag;i<l;i++) {
 			tag = obj.tagList[i];
-			po.push('<span class="AXTag-selector-tagitem" data-option-value="' + tag[cfg.reserveKeys.optionValue] + '">');
-			po.push('<input type="hidden" name="' + objName + '" value="' + tag[cfg.reserveKeys.optionValue] + '" />');
-			po.push( tag[cfg.reserveKeys.optionText] );
+			po.push('<span class="AXTag-selector-tagitem" data-option-value="' + tag[obj.config.reserveKeys.optionValue] + '">');
+			po.push('<input type="hidden" name="' + objName + '" value="' + tag[obj.config.reserveKeys.optionValue] + '" />');
+			po.push( tag[obj.config.reserveKeys.optionText] );
 			po.push('<span class="AXTag-selector-tagitem-remove" data-tag-index="'+ i +'"></span>');
 			po.push('</span>');
 		}
@@ -14787,23 +14791,33 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bindTagSelector_setItem: function(objID, tags){
 		var cfg = this.config,
-			objSeq = null, obj;
+		    objSeq = null, obj;
 		for(var i=0, l=this.objects.length;i<l;i++){
 			if(this.objects[i].id === objID) {objSeq = i;break;}
 		}
 		obj = this.objects[objSeq];
+		obj.deletedTagList = [];
 
 		if(Object.isArray(tags)){
 			obj.tagList = [];
 			for(var i=0, l=tags.length, tag;i<l;i++){
 				var tag = tags[i];
-				if(typeof tag[cfg.reserveKeys.optionValue] === "undefined") tag[cfg.reserveKeys.optionValue] = tag.toString();
-				if(typeof tag[cfg.reserveKeys.optionText] === "undefined") tag[cfg.reserveKeys.optionText] = tag.toString();
+				if(typeof tag[obj.config.reserveKeys.optionValue] === "undefined") tag[obj.config.reserveKeys.optionValue] = tag.toString();
+				if(typeof tag[obj.config.reserveKeys.optionText] === "undefined") tag[obj.config.reserveKeys.optionText] = tag.toString();
 				obj.tagList.push(tag);
 			}
 			this.bindTagSelector_removeItem(objID, objSeq);
 		}
 		return this;
+	},
+	bindTagSelector_getItem: function(objID){
+		var cfg = this.config,
+		    objSeq = null, obj;
+		for(var i=0, l=this.objects.length;i<l;i++){
+			if(this.objects[i].id === objID) {objSeq = i;break;}
+		}
+		obj = this.objects[objSeq];
+		return {list:obj.tagList, deletedList:obj.deletedTagList};
 	}
 });
 
@@ -14817,19 +14831,19 @@ AXInputPro.setConfig({ targetID: "inputBasic" });
  * @returns jQueryObject
  * @description
  * @example
-```
-$("#id").bindPattern({
+ ```
+ $("#id").bindPattern({
 	pattern:"money|bizno|{function}"
 });
 
-//sample
-$("#ax-bind-pattern-custom-target").bindPattern({
+ //sample
+ $("#ax-bind-pattern-custom-target").bindPattern({
     pattern: function(val){
         //trace(this); //전달된 this를 확인 할 수 있습니다.
         return val.ucase();
     }
 });
-```
+ ```
  */
 axdom.fn.bindPattern = function(config){
 	axf.each(this, function () {
@@ -14846,12 +14860,12 @@ axdom.fn.bindPattern = function(config){
  * @returns jQueryObject
  * @description
  * @example
-```
+ ```
  $("#id").bindPatternSetConfig({
     allow_minus: true,
 	max_length: 5
  });
-```
+ ```
  */
 axdom.fn.bindPatternSetConfig = function(config){
 	axf.each(this, function () {
@@ -14911,9 +14925,9 @@ axdom.fn.bindPatternSetText = function(val){
  * @returns String
  * @description 표시된 값 가져오는 함수
  * @example
-```
+ ```
  $("#id").bindPatternGetDisplayText();
-```
+ ```
  */
 
 axdom.fn.bindPatternGetDisplayText = function(){
@@ -14980,6 +14994,21 @@ axdom.fn.bindTagSelector_setItem = function(list){
 	});
 	return this;
 };
+
+/**
+ * @method jQueryFns.bindTagSelector_getItem
+ * @returns Object
+ * @description
+ * @example
+ * ```js
+ * //sample
+ * $("#ax-bind-pattern-custom-target").bindTagSelector_getItem();
+ * ```
+ */
+axdom.fn.bindTagSelector_getItem = function(){
+	if(this[0])
+		return AXInputPro.bindTagSelector_getItem(this[0].id);
+}
 
 
 /* ---------------------------- */
