@@ -43153,7 +43153,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.4.1
+ * @version v1.4.2
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -43186,6 +43186,7 @@ var swfobject;
  "2015-05-14 HJ.Park : SWFUpload 모드에서 파일 사이즈 초과시 onError 메서드 호출하도록 수정 https://github.com/axisj-com/axisj/issues/559"
  "2015-05-21 tom : singleUpload setUploadedList 버그픽스 https://github.com/axisj-com/axisj/issues/580"
  "2015-08-02 tom : 업로드 버튼 태그 수정 / 업로드 완료시에 엘리먼트 초기화 기능 보류"
+ "2015-08-03 tom : setUploadedList queue box clear"
  * @description
  *
  ```js
@@ -44495,6 +44496,7 @@ new AXReq(url, {pars:pars, onsucc:function(res){
 
 			if(cfg.queueBoxID){
 				var quebox = axdom("#" + cfg.queueBoxID);
+				quebox.empty();
 				axdom.each(this.uploadedList, function(fidx, f){
 					console.log(cfg.fileKeys);
 					if(f[cfg.fileKeys.id] == undefined){
