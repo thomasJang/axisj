@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-04 
+AXJ - v1.0.18 - 2015-08-05 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-04 
+AXJ - v1.0.18 - 2015-08-05 
 */
 
 if(!window.AXConfig){
@@ -107,6 +107,7 @@ if(!window.AXConfig){
 			fitToWidth: false,
 			pageSize: 10,
 			pageHeight: 400,
+			headTdHeight: 30,
 			keyResult: "result",
 			keyList: "list",
 			emptyListMSG: "empty of list",

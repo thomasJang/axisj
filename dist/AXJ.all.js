@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-04 
+AXJ - v1.0.18 - 2015-08-05 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-04 
+AXJ - v1.0.18 - 2015-08-05 
 */
 
 if(!window.AXConfig){
@@ -107,6 +107,7 @@ if(!window.AXConfig){
 			fitToWidth: false,
 			pageSize: 10,
 			pageHeight: 400,
+			headTdHeight: 30,
 			keyResult: "result",
 			keyList: "list",
 			emptyListMSG: "empty of list",
@@ -11466,6 +11467,7 @@ var AXGrid = Class.create(AXJ, {
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
 		this.config.scrollContentBottomMargin = "10";
 		this.config.listCountMargin = 12;
+		this.config.head_tdHeight = (AXConfig.AXGrid.headTdHeight || 30);
 		
 		this.config.mergeCells = false; // cells merge option
 		this.config.control_lock_status = 0; // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
@@ -13649,9 +13651,21 @@ var AXGrid = Class.create(AXJ, {
 			
 			/*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
 			/*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
-			if(!this._tdHeight) this._tdHeight = this.colHead.height() / cfg.colHead.rows.length;
+
+			//trace(this.colHead.height());
+
+			/*
+			if(!this._tdHeight) {
+				if(this.colHead.height() == 0){
+					this._tdHeight = 31;
+				}
+				else{
+					this._tdHeight = this.colHead.height() / cfg.colHead.rows.length;
+				}
+			}
+			*/
 			
-			var _tdHeight = this._tdHeight;
+			var _tdHeight = cfg.head_tdHeight; //this._tdHeight;
 			//console.log(_tdHeight, cfg.colHead.rows.length);
 			
 			this.colHead.find(".colHeadResizer").each(function () {
@@ -13681,8 +13695,8 @@ var AXGrid = Class.create(AXJ, {
 				
 				if (rowspan > 1) {
 					var cellMarginTop = 0;
-					if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) + 5;
-					if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).outerHeight()) / 2 + 5;
+					if (valign == "bottom") cellMarginTop = (tdHeight - _tdHeight) + 5;
+					if (valign == "middle") cellMarginTop = (tdHeight - _tdHeight) / 2 + 5;
 					axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
 					axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 				}
@@ -13718,7 +13732,7 @@ var AXGrid = Class.create(AXJ, {
 					 }
 					 */
 					var tdHeight = _tdHeight * rowspan;
-					console.log(_tdHeight * rowspan);
+					//console.log(_tdHeight * rowspan);
 					if(rowspan > 1) {
 						for (var a = 0; a < rowspan; a++) {
 							tdHeight += 1;
@@ -13731,8 +13745,8 @@ var AXGrid = Class.create(AXJ, {
 					
 					if (rowspan > 1) {
 						var cellMarginTop = 0;
-						if (valign == "bottom") cellMarginTop = (tdHeight - axdom("#" + txtID).innerHeight()) + 5;
-						if (valign == "middle") cellMarginTop = (tdHeight - axdom("#" + txtID).innerHeight()) / 2 + 5;
+						if (valign == "bottom") cellMarginTop = (tdHeight - _tdHeight) + 5;
+						if (valign == "middle") cellMarginTop = (tdHeight - _tdHeight) / 2 + 5;
 						axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
 						axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 					}
