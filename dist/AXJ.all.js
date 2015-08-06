@@ -11467,7 +11467,7 @@ var AXGrid = Class.create(AXJ, {
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
 		this.config.scrollContentBottomMargin = "10";
 		this.config.listCountMargin = 12;
-		this.config.head_tdHeight = (AXConfig.AXGrid.headTdHeight || 30);
+		this.config.headTdHeight = (AXConfig.AXGrid.headTdHeight || 30);
 		
 		this.config.mergeCells = false; // cells merge option
 		this.config.control_lock_status = 0; // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
@@ -13521,7 +13521,7 @@ var AXGrid = Class.create(AXJ, {
 		{
 			this.colHead.show();
 			var getColHeadTd = this.getColHeadTd.bind(this);
-			var _tdHeight = cfg.head_tdHeight;
+			var _tdHeight = cfg.headTdHeight;
 			
 			//console.log(cfg.colHead.rows);
 			
