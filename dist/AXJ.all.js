@@ -13561,7 +13561,7 @@ var AXGrid = Class.create(AXJ, {
 										return tdHeight;
 									}
 									else{
-										return _tdHeight * (CH.rowspan || 1);
+										return _tdHeight * (CH.rowspan || 1) + (CH.rowspan-1);
 									}
 								})()
 							}));
@@ -13617,7 +13617,7 @@ var AXGrid = Class.create(AXJ, {
 										return tdHeight;
 									}
 									else{
-										return _tdHeight * (CH.rowspan || 1);
+										return _tdHeight * (CH.rowspan || 1) + (CH.rowspan-1);
 									}
 								})()
 							}));
@@ -13666,7 +13666,7 @@ var AXGrid = Class.create(AXJ, {
 										return tdHeight;
 									}
 									else{
-										return _tdHeight * (CH.rowspan || 1);
+										return _tdHeight * (CH.rowspan || 1) + (CH.rowspan-1);
 									}
 								})()
 							}));
@@ -13721,12 +13721,6 @@ var AXGrid = Class.create(AXJ, {
 				if (valign == "middle") cellMarginTop = (tdHeight - txtHeight) / 2 + 5;
 				axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
 				axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
-
-				/*
-				if (rowspan > 1) {
-
-				}
-				*/
 			});
 			
 			//AXGridTarget_AX_colHead_AX_0_AX_2
@@ -13742,37 +13736,31 @@ var AXGrid = Class.create(AXJ, {
 			this.colHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
 			this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 
-			/*
+
 			if (this.hasFixed) { //fixedColHead에 대한 바인딩 및 처리
 				this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
 				this.fixedColHead.find(".colHeadResizer").each(function () {
+
 					var resizerID = this.id;
+
 					var tdID = resizerID.replace("colHeadResizer", "colHead");
 					var txtID = resizerID.replace("colHeadResizer", "colHeadText");
 					var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
+
 					var rowspan = axdom("#" + tdID).attr("rowspan");
 					var valign = axdom("#" + tdID).attr("valign");
 					if (!rowspan) rowspan = 1;
 
-					var tdHeight = _tdHeight * rowspan;
-					//console.log(_tdHeight * rowspan);
-					if(rowspan > 1) {
-						for (var a = 0; a < rowspan; a++) {
-							tdHeight += 1;
-						}
-					}
-					//if(_tdHeight < tdHeight) tdHeight -= 1;
-					
+					var tdHeight = axdom("#" + tdID).height();
+					var txtHeight = axdom("#" + txtID).outerHeight();
+
 					axdom(this).css({ height: tdHeight });
-					axdom(this).parent().css({ height: tdHeight });
-					
-					if (rowspan > 1) {
-						var cellMarginTop = 0;
-						if (valign == "bottom") cellMarginTop = (tdHeight - _tdHeight) + 5;
-						if (valign == "middle") cellMarginTop = (tdHeight - _tdHeight) / 2 + 5;
-						axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-						axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
-					}
+
+					var cellMarginTop = 0;
+					if (valign == "bottom") cellMarginTop = (tdHeight - txtHeight) + 5;
+					if (valign == "middle") cellMarginTop = (tdHeight - txtHeight) / 2 + 5;
+					axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+					axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
 				});
 				
 				this.fixedColHead.bind("mouseover", this.colHeadMouseOver.bind(this));
@@ -13782,7 +13770,7 @@ var AXGrid = Class.create(AXJ, {
 				this.fixedColHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
 				this.fixedColHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 			}
-			*/
+
 		}
 		else if (cfg.viewMode == "icon")
 		{
