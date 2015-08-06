@@ -1,0 +1,73 @@
+@import "AXUtils";
+
+@axf-upload-progress-bg1: #eee;
+@axf-upload-progress-bg2: #fff;
+@axf-upload-progress-border: 1px solid #ddd;
+
+@axf-upload-progress-bar-bg1: #98c87b;
+@axf-upload-progress-bar-bg2: #79aa5a;
+
+.AXFrameUpload{
+	position: relative;
+	overflow: hidden;
+	width:100%;height:100%;
+	display: table;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border:0px;
+	&.dragover{
+		.AXF-upload-preview {
+			background: #ccdaee;
+			&::before{
+				content: "Drop here"
+			}
+			.empty-msg{
+				display: none;
+			}
+		}
+	}
+	&.uploaded{
+		.AXF-upload-preview {
+			.empty-msg{
+				display: none;
+			}
+		}
+	}
+	.AXF-upload-preview{
+		width:100%;height:100%;
+		padding:0px;
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+		cursor: pointer;
+		overflow: hidden;
+		.AXF-upload-preview-img{
+			position: absolute;
+			left:0px;top:0px;
+		}
+	}
+	input[type=file]{
+		position:absolute;
+		left:0px;top:0px;
+		margin:0px;
+		padding:0px;
+		-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);
+	}
+	.AXF-upload-progress{
+		position: absolute;
+		left:0px;top:0px;
+		height: 10px;
+		.util-gradient(top, @axf-upload-progress-bg1, @axf-upload-progress-bg2);
+		border: @axf-upload-progress-border;
+		border-radius: 5px;
+		overflow: hidden;
+		.AXF-upload-progress-bar{
+			position: absolute;
+			left:0px;top:0px;
+			height:10px;
+			width: 0%;
+			.util-gradient(top, @axf-upload-progress-bar-bg1, @axf-upload-progress-bar-bg2);
+			.util-border-radius(0px, 4px, 0px, 4px);
+		}
+	}
+}

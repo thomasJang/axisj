@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-05 
+AXJ - v1.0.18 - 2015-08-06 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-05 
+AXJ - v1.0.18 - 2015-08-06 
 */
 
 if(!window.AXConfig){
@@ -13486,8 +13486,8 @@ var AXGrid = Class.create(AXJ, {
 		if(toolUse) toolUse = arg.colHeadTool;
 		po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " ");
 		if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
-		po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\">");
-		po.push("<div class=\"tdRelBlock\">");
+		po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\" style=\"height:"+arg.tdHeight+"px;\">");
+		po.push("<div class=\"tdRelBlock\" style=\"height:"+arg.tdHeight+"px;\">");
 		po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" ");
 		if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
 		po.push(">");
@@ -13521,6 +13521,7 @@ var AXGrid = Class.create(AXJ, {
 		{
 			this.colHead.show();
 			var getColHeadTd = this.getColHeadTd.bind(this);
+			var _tdHeight = cfg.head_tdHeight;
 			
 			//console.log(cfg.colHead.rows);
 			
@@ -13550,7 +13551,19 @@ var AXGrid = Class.create(AXJ, {
 								sort: CH.sort,
 								colHeadTool: CH.colHeadTool,
 								tdHtml: tdHtml,
-								ghost: false, displayLabel: CH.displayLabel
+								ghost: false, displayLabel: CH.displayLabel,
+								tdHeight: (function(){
+									if(cfg.colHead.heights && cfg.colHead.heights[r]){
+										var tdHeight = 0;
+										for(var i=r;i<r+(CH.rowspan);i++){
+											tdHeight += (cfg.colHead.heights[i] || 0);
+										}
+										return tdHeight;
+									}
+									else{
+										return _tdHeight * (CH.rowspan || 1);
+									}
+								})()
 							}));
 						}
 					}
@@ -13594,7 +13607,19 @@ var AXGrid = Class.create(AXJ, {
 								sort: CH.sort,
 								colHeadTool: CH.colHeadTool,
 								tdHtml: tdHtml,
-								ghost: (colCount < (cfg.fixedColSeq + 1))
+								ghost: (colCount < (cfg.fixedColSeq + 1)),
+								tdHeight: (function(){
+									if(cfg.colHead.heights && cfg.colHead.heights[r]){
+										var tdHeight = 0;
+										for(var i=r;i<r+(CH.rowspan);i++){
+											tdHeight += (cfg.colHead.heights[i] || 0);
+										}
+										return tdHeight;
+									}
+									else{
+										return _tdHeight * (CH.rowspan || 1);
+									}
+								})()
 							}));
 							
 							colCount += CH.colspan;
@@ -13631,7 +13656,19 @@ var AXGrid = Class.create(AXJ, {
 								sort: CH.sort,
 								colHeadTool: CH.colHeadTool,
 								tdHtml: tdHtml,
-								ghost: false
+								ghost: false,
+								tdHeight: (function(){
+									if(cfg.colHead.heights && cfg.colHead.heights[r]){
+										var tdHeight = 0;
+										for(var i=r;i<r+(CH.rowspan);i++){
+											tdHeight += (cfg.colHead.heights[i] || 0);
+										}
+										return tdHeight;
+									}
+									else{
+										return _tdHeight * (CH.rowspan || 1);
+									}
+								})()
 							}));
 						}
 						colCount += CH.colspan;
@@ -13664,10 +13701,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			}
 			*/
-			
-			var _tdHeight = cfg.head_tdHeight; //this._tdHeight;
-			//console.log(_tdHeight, cfg.colHead.rows.length);
-			
+
 			this.colHead.find(".colHeadResizer").each(function () {
 				var resizerID = this.id;
 				
@@ -13677,29 +13711,22 @@ var AXGrid = Class.create(AXJ, {
 				
 				var rowspan = axdom("#" + tdID).attr("rowspan");
 				var valign = axdom("#" + tdID).attr("valign");
-				if (!rowspan) rowspan = 1;
-				/*
-				 if(typeof _tdHeight === "undefined") {
-				 _tdHeight = axdom("#" + tdID).height() / rowspan;
-				 }
-				 */
-				var tdHeight = _tdHeight * rowspan;
-				if(rowspan > 1) {
-					for (var a = 0; a < rowspan; a++) {
-						tdHeight += 1;
-					}
-				}
-				
+				var tdHeight = axdom("#" + tdID).height();
+				var txtHeight = axdom("#" + txtID).outerHeight();
+
 				axdom(this).css({ height: tdHeight });
-				axdom(this).parent().css({ height: tdHeight });
-				
+
+				var cellMarginTop = 0;
+				if (valign == "bottom") cellMarginTop = (tdHeight - txtHeight) + 5;
+				if (valign == "middle") cellMarginTop = (tdHeight - txtHeight) / 2 + 5;
+				axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
+				axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+
+				/*
 				if (rowspan > 1) {
-					var cellMarginTop = 0;
-					if (valign == "bottom") cellMarginTop = (tdHeight - _tdHeight) + 5;
-					if (valign == "middle") cellMarginTop = (tdHeight - _tdHeight) / 2 + 5;
-					axdom("#" + txtID).css({ "padding-top": cellMarginTop + "px" });
-					axdom("#" + toolID).css({ "top": (cellMarginTop - 5) + "px" });
+
 				}
+				*/
 			});
 			
 			//AXGridTarget_AX_colHead_AX_0_AX_2
@@ -13714,8 +13741,9 @@ var AXGrid = Class.create(AXJ, {
 			});
 			this.colHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
 			this.colHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
-			
-			if (this.hasFixed) { /*fixedColHead에 대한 바인딩 및 처리 */
+
+			/*
+			if (this.hasFixed) { //fixedColHead에 대한 바인딩 및 처리
 				this.fixedColHead = axdom("#" + cfg.targetID + "_AX_fixedColHead");
 				this.fixedColHead.find(".colHeadResizer").each(function () {
 					var resizerID = this.id;
@@ -13725,12 +13753,7 @@ var AXGrid = Class.create(AXJ, {
 					var rowspan = axdom("#" + tdID).attr("rowspan");
 					var valign = axdom("#" + tdID).attr("valign");
 					if (!rowspan) rowspan = 1;
-					/*
-					 if(typeof _tdHeight === "undefined") {
-					 console.log(axdom("#" + tdID).height(), rowspan);
-					 _tdHeight = axdom("#" + tdID).height() / rowspan;
-					 }
-					 */
+
 					var tdHeight = _tdHeight * rowspan;
 					//console.log(_tdHeight * rowspan);
 					if(rowspan > 1) {
@@ -13759,6 +13782,7 @@ var AXGrid = Class.create(AXJ, {
 				this.fixedColHead.find(".colHeadResizer").bind("mousedown", this.colHeadResizerMouseDown.bind(this));
 				this.fixedColHead.find(".gridCheckBox").bind("click", this.colHeadCheckBoxClick.bind(this));
 			}
+			*/
 		}
 		else if (cfg.viewMode == "icon")
 		{
