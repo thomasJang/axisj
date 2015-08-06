@@ -14716,7 +14716,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		var _this = this, cfg = this.config,
 		    obj = this.objects[objSeq];
 
-		obj.tagExpandBox.remove();
+		if(obj.tagExpandBox) obj.tagExpandBox.remove();
 		axdom(document.body).unbind("click.AXTagSelector");
 		obj.bindTarget.unbind("blur.AXTagSelector");
 	},
