@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-07 
+AXJ - v1.0.18 - 2015-08-10 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-07 
+AXJ - v1.0.18 - 2015-08-10 
 */
 
 if(!window.AXConfig){
@@ -16798,8 +16798,7 @@ var AXGrid = Class.create(AXJ, {
 			inline_css.width = div.width();
 			inline_editor.css(inline_css).find("input").select();
 			_this.inline_edit = {editor:inline_editor, r:r,  c:c,  ii:ii, cell:div};
-			
-			
+
 			if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
 				jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
 					var target = axf.get_event_target(e.target, {id: inline_editor_id});
@@ -16946,7 +16945,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 				else
 				{
-					po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor"' + maxLength + ' value="' + val + '" class="inline_editor_input '+cond.type+'" ' + (cond.readonly?'readonly="readonly"':'') + ' />');
+					po.push('<input type="' + (cond.textType||"text") + '" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor"' + maxLength + ' value="' + val + '" class="inline_editor_input '+cond.type+'" ' + (cond.readonly?'readonly="readonly"':'') + ' />');
 				}
 			}
 			return po.join('');
