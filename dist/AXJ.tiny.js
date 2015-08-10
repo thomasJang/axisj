@@ -13325,6 +13325,9 @@ var AXInputConverterPro = Class.create(AXJ, {
 		} else if (obj.bindType == "pattern") {
 			this.bindPattern(objID, objSeq);
 		} else if (obj.bindType == "tagSelector") {
+			if(!this.objects[objSeq].config.reserveKeys){
+				this.objects[objSeq].config.reserveKeys = axdom.extend({}, this.config.reserveKeys);
+			}
 			this.bindTagSelector(objID, objSeq);
 		}
 	},
@@ -14384,7 +14387,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		    anchorWidth, anchorHeight, styles, focusedIndex;
 
 		if(e.type == "keydown"){
-			if(e.keyCode == axf.Event.KEY_BACKSPACE){
+			if(e.target.value == "" && e.keyCode == axf.Event.KEY_BACKSPACE){
 				if(obj.tagList.length > 0) {
 					if(obj.ready_backspace){
 						this.bindTagSelector_removeItem(objID, objSeq, obj.tagList.length - 1);
@@ -14653,6 +14656,22 @@ var AXInputConverterPro = Class.create(AXJ, {
 			});
 
 
+		}
+		else if(obj.config.onsearch){
+			var res = obj.config.onsearch.call(
+				{
+					id: objID,
+					value: kword
+				},
+				objID,
+				kword,
+				(function(res){
+					obj.config.options = res;
+					obj.config.focusedIndex = undefined;
+					po = get_options(obj.config.options);
+					next_fn.call(_this);
+				}).bind(this)
+			);
 		}
 		else
 		{
@@ -14949,9 +14968,6 @@ axdom.fn.bindPatternGetDisplayText = function(){
 	});
 	return returnVals;
 };
-
-
-
 
 /**
  * @method jQueryFns.bindTagSelector
