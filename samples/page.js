@@ -1,5 +1,10 @@
 var disqus_shortname = 'axisjcom';
 var disqus_url = 'http://dev.axisj.com';
+var google_ad_client = "ca-pub-6976556327869017",
+	google_ad_slot = "7585461085",
+	google_ad_width = 728,
+	google_ad_height = 90;
+
 var isIndex = false;
 var pageObj;
 var sampleMobileMenu = new AXMobileMenu();
@@ -46,6 +51,9 @@ var sampleTree = [
     ]}
 ];
 var sampleTreeMenu = new AXTopDownMenu();
+
+$("head").append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>');
+
 
 (function(){
     pageObj = {
@@ -204,6 +212,14 @@ var sampleTreeMenu = new AXTopDownMenu();
             fo.push('<div id="disqusTarget"></div>');
             */
 
+	        fo.push('<div align="center" style="text-align: center;padding:20px;padding-bottom:50px;">');
+	        fo.push('<ins class="adsbygoogle" '+
+	        'style="display:block" '+
+	        'data-ad-client="ca-pub-6976556327869017" '+
+	        'data-ad-slot="4492393884" '+
+	        'data-ad-format="auto"></ins>');
+	        fo.push('</div>');
+
             fo.push('<footer id="AXPageFoot">');
                 fo.push('<div class="ax-wrap">');
                     fo.push('<div class="ax-layer-1">');
@@ -296,9 +312,13 @@ var sampleTreeMenu = new AXTopDownMenu();
     jQuery(document).ready(function(){
         pageObj.incHeader();
         pageObj.incFooter();
-        $("#"+pageObj.theme).addClass("on");
+
+	    (adsbygoogle = window.adsbygoogle || []).push({});
+
+	    $("#"+pageObj.theme).addClass("on");
 
         if (window["prettyPrint"]) {
+	        $("#AXPageFoot").before($("#pretty").css({margin:"0px 10px 50px 10px"}));
             $("#pretty").text($("#jscode").text());
             window["prettyPrint"]();
         }
