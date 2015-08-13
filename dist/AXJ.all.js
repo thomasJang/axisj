@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-10 
+AXJ - v1.0.18 - 2015-08-13 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-10 
+AXJ - v1.0.18 - 2015-08-13 
 */
 
 if(!window.AXConfig){
@@ -13603,7 +13603,7 @@ var AXGrid = Class.create(AXJ, {
 							
 							po.push(getColHeadTd({
 								valign: valign, rowspan: rowspan, colspan: colspan, bottomClass: bottomClass, r: r, CHidx: CHidx,
-								align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter,
+								align: (cfg.colHeadAlign || CH.align || "left"), colSeq: CH.colSeq, formatter: CH.formatter, formatterLabel: CH.formatterLabel,
 								sort: CH.sort,
 								colHeadTool: CH.colHeadTool,
 								tdHtml: tdHtml,
