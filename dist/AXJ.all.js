@@ -21827,7 +21827,8 @@ var AXInputConverter = Class.create(AXJ, {
 						}
 					}
 				}
-			} else {
+			}
+			else {
 				if (minval != undefined && minval != null) {
 					if ((nval) < minval) {
 						obj.bindTarget.val("");
@@ -21840,6 +21841,7 @@ var AXInputConverter = Class.create(AXJ, {
 					obj.bindTarget.val(nval);
 				}
 			}
+			obj.bindTarget.trigger("change");
 			
 			if (event && event.type == "mousedown") {
 				obj.bindTarget.setCaret();
@@ -21982,6 +21984,7 @@ var AXInputConverter = Class.create(AXJ, {
 				if(nval != "" && nval != "-") obj.bindTarget.val(nval.money());
 			}
 		}
+		obj.bindTarget.trigger("change");
 
 		if( !axf.isEmpty( obj.bindTarget.data("focusPosition") ) ){
 			obj.bindTarget.setCaret( obj.bindTarget.data("focusPosition").number() + ( obj.bindTarget.val().length - obj.bindTarget.data("prevLen") ) );
