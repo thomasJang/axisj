@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-13 
+AXJ - v1.0.18 - 2015-08-18 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-13 
+AXJ - v1.0.18 - 2015-08-18 
 */
 
 if(!window.AXConfig){
@@ -13576,7 +13576,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 							trace("중간에서 다중문자 타이핑");
 						}
 					}
-
+/*
 					trace({
 						nvalue: v1,
 						prevValue: v2,
@@ -13586,7 +13586,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 						eD:[obj.DSP, obj.DEP],
 						eU:[obj.USP, obj.UEP]
 					});
-
+*/
 				}else if(v1 != v2 && v1.length < v2.length){
 					// 삭제 obj.originalValue의 삭제된 문자열 위치를 찾아 제거 합니다.
 
@@ -13812,6 +13812,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 			nval = this.bindPatternGetValue(objID, objSeq, val, eventType);
 			// 패턴 적용
 			obj.bindTarget.val(nval);
+			if(val != nval) obj.bindTarget.trigger("change");
 
 			if (Object.isFunction(obj.config.onBlur)) {
 				obj.config.onBlur.call({ objID: objID, objSeq: objSeq, value: nval });
@@ -13823,6 +13824,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 			nval = this.bindPatternGetValue(objID, objSeq, val, eventType);
 			// 패턴 적용
 			obj.bindTarget.val(nval);
+			if(val != nval) obj.bindTarget.trigger("change");
 
 			if( !axf.isEmpty( obj.bindTarget.data("focusPosition") ) ){
 				obj.bindTarget.setCaret(
@@ -14308,6 +14310,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		if(!Object.isNumber(objSeq)) return;
 		var obj = this.objects[objSeq];
 		obj.bindTarget.val( this.bindPatternGetValue(objID, objSeq, val, "blur") );
+		obj.bindTarget.trigger("change");
 	},
 
 	/**
