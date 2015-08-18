@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-18 
+AXJ - v1.0.18 - 2015-08-19 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-18 
+AXJ - v1.0.18 - 2015-08-19 
 */
 
 if(!window.AXConfig){
@@ -25104,15 +25104,19 @@ var AXInputConverter = Class.create(AXJ, {
 				else {
 					objVal1 = objVal1.left(4);
 					axdom("#" + obj.config.startTargetID).val(objVal1);
+					axdom("#" + obj.config.startTargetID).trigger("change");
 				}
 				if (objVal2.length < 4) axdom("#" + objID).val(obj.nDate2.print("yyyy"));
 				else {
 					objVal2 = objVal2.left(4);
 					axdom("#" + objID).val(objVal2);
+					axdom("#" + objID).trigger("change");
 				}
 			} else if (obj.config.selectType == "m") {
 				axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
+				axdom("#" + obj.config.startTargetID).trigger("change");
 				axdom("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
+				axdom("#" + objID).trigger("change");
 			} else {
 				printDate1 = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
 				printDate2 = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
@@ -25122,6 +25126,8 @@ var AXInputConverter = Class.create(AXJ, {
 				}
 				axdom("#" + obj.config.startTargetID).val(printDate1);
 				axdom("#" + objID).val(printDate2);
+				axdom("#" + obj.config.startTargetID).trigger("change");
+				axdom("#" + objID).trigger("change");
 			}
 
 			axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
