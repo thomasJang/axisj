@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-21 
+AXJ - v1.0.18 - 2015-08-22 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-21 
+AXJ - v1.0.18 - 2015-08-22 
 */
 
 if(!window.AXConfig){
@@ -38753,7 +38753,7 @@ var AXTree = Class.create(AXJ, {
 
 			result = '<input type="'+CH.editor.type+'" name="'+ key +'" data-editor-key="'+itemIndex+','+CHidx+'" class="inline-editor-checkbox" ' +
 				checkedStr + disabled + ' onfocus="this.blur();" />';
-			//"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+			//"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"treeCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
 		}
 		else
 		if (formatter == "money") {
@@ -38798,10 +38798,10 @@ var AXTree = Class.create(AXJ, {
 			}
 			/*
 			 result = "<label class=\"gridCheckboxLabel\">" +
-			 "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
+			 "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"treeCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />" +
 			 "</label>";
 			 */
-			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+			result = "<input type=\"" + formatter + "\" name=\"" + CH.label + "\" class=\"treeCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
 		} else {
 			if(Object.isFunction(formatter)){
 				var sendObj = {
