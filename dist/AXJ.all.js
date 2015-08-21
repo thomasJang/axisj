@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-20 
+AXJ - v1.0.18 - 2015-08-21 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-20 
+AXJ - v1.0.18 - 2015-08-21 
 */
 
 if(!window.AXConfig){
@@ -21300,8 +21300,7 @@ var AXInputConverter = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (!obj.id) {
-			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
-			return;
+			obj.id = "AXInput-" + axf.getUniqueId();
 		}
 		if (!AXgetId(obj.id)) {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
@@ -26310,8 +26309,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 		var cfg = this.config;
 
 		if (!obj.id) {
-			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
-			return;
+			obj.id = "AXInputPro-" + axf.getUniqueId();
 		}
 		if (!AXgetId(obj.id)) {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
@@ -32164,8 +32162,7 @@ var AXSelectConverter = Class.create(AXJ, {
 			return;
 		}
 		if (!AXgetId(obj.id)) {
-			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
-			return;
+			obj.id = "AXSelect-" + axf.getUniqueId();
 		}
 
 		var objID = obj.id, objSeq = null, objConfig = {}, reserveKeys = jQuery.extend({}, cfg.reserveKeys);
