@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-22 
+AXJ - v1.0.18 - 2015-08-23 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-22 
+AXJ - v1.0.18 - 2015-08-23 
 */
 
 if(!window.AXConfig){
@@ -8292,10 +8292,6 @@ var AXInputConverter = Class.create(AXJ, {
 	},
 	bind: function (obj) {
 		var cfg = this.config;
-
-		if (!obj.id) {
-			obj.id = "AXInput-" + axf.getUniqueId();
-		}
 		if (!AXgetId(obj.id)) {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
@@ -12744,6 +12740,7 @@ axdom.fn.unbindInput = function (config) {
  **/
 axdom.fn.bindSearch = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		if (config == undefined) config = {};
 		config.id = this.id;
 		config.bindType = "search";
@@ -12771,6 +12768,7 @@ axdom.fn.bindSearch = function (config) {
  **/
 axdom.fn.bindNumber = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "number";
 		AXInput.bind(config);
@@ -12794,6 +12792,7 @@ axdom.fn.bindNumber = function (config) {
  **/
 axdom.fn.bindMoney = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "money";
 		AXInput.bind(config);
@@ -12856,6 +12855,7 @@ axdom.fn.bindMoney = function (config) {
  **/
 axdom.fn.bindSelector = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "selector";
 		AXInput.bind(config);
@@ -12901,6 +12901,7 @@ axdom.fn.bindSelectorBlur = function (config) {
  **/
 axdom.fn.bindSlider = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "slider";
 		AXInput.bind(config);
@@ -12930,6 +12931,7 @@ axdom.fn.bindSlider = function (config) {
  **/
 axdom.fn.bindTwinSlider = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "twinSlider";
 		AXInput.bind(config);
@@ -12956,6 +12958,7 @@ axdom.fn.bindTwinSlider = function (config) {
  **/
 axdom.fn.bindSwitch = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "switch";
 		AXInput.bind(config);
@@ -12987,6 +12990,7 @@ axdom.fn.bindSwitch = function (config) {
  **/
 axdom.fn.bindSegment = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "segment";
 		AXInput.bind(config);
@@ -13020,6 +13024,7 @@ axdom.fn.bindSegment = function (config) {
  **/
 axdom.fn.bindDate = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "date";
 		AXInput.bind(config);
@@ -13071,6 +13076,7 @@ axdom.fn.unbindDate = function (config) {
  **/
 axdom.fn.bindDateTime = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "date";
 		config.expandTime = true;
@@ -13107,6 +13113,7 @@ axdom.fn.bindDateTime = function (config) {
  **/
 axdom.fn.bindTwinDate = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "twinDate";
 		AXInput.bind(config);
@@ -13142,6 +13149,7 @@ axdom.fn.bindTwinDate = function (config) {
  **/
 axdom.fn.bindTwinDateTime = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "twinDateTime";
 		config.expandTime = true;
@@ -13162,6 +13170,7 @@ axdom.fn.bindTwinDateTime = function (config) {
  **/
 axdom.fn.bindPlaceHolder = function (config) {
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "placeHolder";
 		AXInput.bind(config);
@@ -13301,10 +13310,6 @@ var AXInputConverterPro = Class.create(AXJ, {
 	},
 	bind: function (obj) {
 		var cfg = this.config;
-
-		if (!obj.id) {
-			obj.id = "AXInputPro-" + axf.getUniqueId();
-		}
 		if (!AXgetId(obj.id)) {
 			trace("bind 대상이 없어 bind 처리할 수 없습니다.");
 			return;
@@ -14881,6 +14886,7 @@ AXInputPro.setConfig({ targetID: "inputBasic" });
  */
 axdom.fn.bindPattern = function(config){
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInputPro-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "pattern";
 		AXInputPro.bind(config);
@@ -14998,6 +15004,7 @@ axdom.fn.bindPatternGetDisplayText = function(){
  */
 axdom.fn.bindTagSelector = function(config){
 	axf.each(this, function () {
+		if(!this.id) this.id = "AXInputPro-" + axf.getUniqueId();
 		config = config || {}; config.id = this.id;
 		config.bindType = "tagSelector";
 		AXInputPro.bind(config);
@@ -15133,11 +15140,6 @@ var AXSelectConverter = Class.create(AXJ, {
 	},
 	bind: function (obj) {
 		var cfg = this.config;
-
-		if (!obj.id) {
-			trace("bind 대상 ID가 없어 bind 처리할 수 없습니다.");
-			return;
-		}
 		if (!AXgetId(obj.id)) {
 			obj.id = "AXSelect-" + axf.getUniqueId();
 		}
@@ -16372,6 +16374,7 @@ axdom("Selector").bindSelect(configs);
  */
 axdom.fn.bindSelect = function (config) {
 	axdom.each(this, function () {
+		if(!this.id) this.id = "AXInput-" + axf.getUniqueId();
 		if (config == undefined) config = {};
 		config.id = this.id;
 		AXSelect.bind(config);
