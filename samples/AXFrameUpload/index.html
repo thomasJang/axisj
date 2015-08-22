@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXFrameUpload - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXFrameUpload.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXFrameUpload.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent" style="padding:10px;">
+
+	        <h1>AXFrameUpload</h1>
+			<table class="AXFormTable">
+				<tr>
+					<td style="padding:20px;" width="300">
+
+						<div style="width:300px;height: 300px;border:1px solid #ccc;border-radius:10px;overflow: hidden;"
+								id="upload-target">
+						</div>
+
+					</td>
+					<td align="center">
+						<p>좌측 div 영역에 파일을 드래그앤 드랍 또는 영역 클릭</p>
+						<p>HTML5가 지원되는 브라우저에서만 사용가능합니다.</p>
+					</td>
+				</tr>
+			</table>
+
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+	var pageID = "AXFrameUpload";
+	var fnObj = {
+		pageStart: function(){
+			this.upload.init();
+		},
+		upload: {
+			target: new AXFrameUpload(),
+			init: function(){
+				var _this = this;
+				this.target.setConfig({
+					target: $("#upload-target"),
+					emptyMsg: "Click or Drag&Drop",
+					upload_http: {
+						method: "POST",
+						url: "frame-upload.php",
+						filename_param_key: "fileData",
+						data: {}
+					},
+					onupload: function(file){
+						_this.target.set_preview_img(file.thumbUrl.dec());
+					}
+				});
+			}
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart();
+	});
+</script>
+</body>
+</html>

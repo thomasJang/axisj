@@ -31,6 +31,7 @@
 	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
     <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -69,19 +70,13 @@
 							key:"string", label:"String", width:"200",
 							editor: {
 								type: "text",
+								textType: "password",
 								maxLength: 5,
 								updateWith: ["_CUD"]
 							}
 						},
 						{
 							key:"combobox", label:"combobox", width:"100",
-							formatter: function(val){
-								if(Object.isObject(this.value)){
-									return this.value.NM;
-								}else{
-									return this.value;
-								}
-							},
 							editor: {
 								type: "select",
 								optionValue: "CD",
@@ -89,7 +84,7 @@
 								options:[
 									{CD:1, NM:"김기영"},
 									{CD:2, NM:"장기영"},
-									{CD:"3", NM:"장서우"}
+									{CD:3, NM:"장서우"}
 								],
 								beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
 									// 선택된 값은
@@ -141,7 +136,7 @@
 							editor: {
 								type: "calendar",
 								config: {
-									separator: "/"
+									separator: "-"
 								},
 								updateWith: ["_CUD"]
 							}
@@ -207,7 +202,7 @@
 					{
 						no:1,
 						string: "AXGrid 첫번째 줄 입니다.",
-						combobox: {CD:1, NM:"김기영"},
+						combobox: 1,
 						combobox2: {CD:1, NM:"김기영"},
 						date: "2013-01-18",
 						money: 1709401,
@@ -241,7 +236,7 @@
 						finder: "선택"
 					}
 				];
-				myGrid.setList([list[0]]);
+				myGrid.setList(list);
 				//trace(myGrid.getSortParam());
 
 			},

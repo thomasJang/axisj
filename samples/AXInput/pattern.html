@@ -84,7 +84,7 @@
 
             <label class="AXInputLabel">
                 <div>통화(소수점 포함 안함, maxLength: 7)</div>
-                <input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="123.45678908" />
+                <input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="123.45678908" onchange="console.log(this.value);" />
                 <button class="AXButton"
                         onclick="trace($('#ax-bind-pattern-moneyint-target').bindPatternGetText());"
                         >getText</button>

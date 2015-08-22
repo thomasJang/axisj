@@ -33,7 +33,7 @@
     <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
     <!-- prettify block -->
 
-    <script id="jscode">
+    <script id="11jscode">
     /**
      * Require Files for AXISJ UI Component...
      * Based        : jQuery
@@ -84,35 +84,11 @@
                 },
                 
                 body : {
-                    rows: [
-                        [
-                            {colSeq:0, rowspan:2, align:"center"},
-                            {colSeq:null, colspan:3, formatter:function(){
-                                var mul = (this.index * this.item.no);
-                                itemSum += this.item.no;
-                                return "index * no = " + mul + ", no 누적합은 = " + itemSum;
-                            }, align:"center", addClass:""}, 
-                            {colSeq:4, rowspan:2, valign:"bottom", align:"right"},
-                            {colSeq:5, rowspan:2, valign:"bottom", align:"right"},
-                            {colSeq:6, rowspan:2, valign:"bottom", align:"right"},
-                            {colSeq:7, rowspan:2, valign:"bottom", align:"right"}
-                        ],
-                        [
-                            {colSeq:1},
-                            {colSeq:2},
-                            {colSeq:3}
-                        ]
-                    ],
                     marker: function(){
                         
                     },
                     onclick: function(){
                         toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-                        //alert(this.list);
-                        //alert(this.page);
-                    },
-                    ondblclick: function(){
-                        //toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
                         //alert(this.list);
                         //alert(this.page);
                     }
@@ -121,9 +97,9 @@
                 foot : {
                     rows: [
                         [    
-                            {colSeq:null, colspan:4, formatter:function(){
+                            {colSeq:null, rowspan:2, colspan:4, formatter:function(){
                                 return "계";    
-                            }, align:"center"}, 
+                            }, align:"center", valign:"middle"},
                             {colSeq:4, formatter:function(){
                                 var sum = 0;
                                 $.each(this.list, function(){
@@ -148,9 +124,11 @@
                             {colSeq:7}
                         ],
                         [
+		                        /*
                             {colSeq:null, colspan:4, formatter:function(){
                                 return "계";
                             }, align:"center"},
+		                        */
                             {colSeq:4, formatter:function(){
                                 var sum = 0;
                                 $.each(this.list, function(){

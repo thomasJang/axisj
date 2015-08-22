@@ -50,6 +50,9 @@
 				<h2>AJAX</h2>
 				<input type="text" name="tags2" id="ax-tag-selector-02" class="AXInput W200" />
 
+				<h2>onsearch</h2>
+				<input type="text" name="tags3" id="ax-tag-selector-03" class="AXInput W200" />
+
 				<div class="H20"></div>
 				<button class="AXButton" type="button" onclick="fnObj.form.submit();">Submit</button>
 				<button class="AXButton" type="button" onclick="fnObj.form.set();">두번째 필드에 값 채우기</button>
@@ -111,6 +114,56 @@
 				appendable: false,
 				ajaxUrl:"selectorData.php",
 				ajaxPars:""
+			});
+
+			$("#ax-tag-selector-03").bindTagSelector({
+				selectorWidth: false, //selectorWidth 값이 없으면 인풋의 너비를 이용.
+				optionValue_inputName: "tagValue", // 태그가 추가될 때 생성되는 optionValue input hidden name값
+				optionText_inputName: "tagText", // 태그가 추가될 때 생성되는 optionText input hidden name값
+				/*
+				 reserveKeys: {
+				 options: "options", // ajax 를 이용해서 options 리스트 구성할 때. 사용
+				 optionValue: "optionValue",
+				 optionText: "optionText"
+				 },
+				 */
+				onsearch: function(objID, kword, callBack){
+					callBack([
+						{optionValue:1, optionText:"Seoul"},
+						{optionValue:2, optionText:"대구"},
+						{optionValue:3, optionText:"대전"},
+						{optionValue:4, optionText:"(창원"},
+						{optionValue:5, optionText:"[마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:4, optionText:"창원"},
+						{optionValue:5, optionText:"마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:9, optionText:"Gwangju"}
+					]);
+
+					/*
+					return [
+						{optionValue:1, optionText:"Seoul"},
+						{optionValue:2, optionText:"대구"},
+						{optionValue:3, optionText:"대전"},
+						{optionValue:4, optionText:"(창원"},
+						{optionValue:5, optionText:"[마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:4, optionText:"창원"},
+						{optionValue:5, optionText:"마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:9, optionText:"Gwangju"}
+					];
+					*/
+				}
 			});
 
 		},
