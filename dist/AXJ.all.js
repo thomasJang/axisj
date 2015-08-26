@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-23 
+AXJ - v1.0.19 - 2015-08-26 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-23 
+AXJ - v1.0.19 - 2015-08-26 
 */
 
 if(!window.AXConfig){
@@ -38747,7 +38747,8 @@ var AXTree = Class.create(AXJ, {
 					value: value
 				};
 
-			if(value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
+			if(value && value.__checked) checkedStr = ' checked="checked"';
+			else if(value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
 			if(CH.editor.disabled){
 				if(CH.editor.disabled.call(that)){
 					disabled = ' disabled="disabled"';
@@ -38781,10 +38782,16 @@ var AXTree = Class.create(AXJ, {
 				value: value
 			};
 
+			/*
 			if(this.list[itemIndex].___checked && this.list[itemIndex].___checked[CHidx]){
 				if(this.list[itemIndex].___checked[CHidx]) checkedStr = " checked=\"checked\" ";
 				//if(itemIndex == 0) console.log(this.list[itemIndex].___checked[CHidx], checkedStr);
-			}else if (Object.isFunction(CH.checked)) {
+			}
+			*/
+			if(this.list[itemIndex].__checked){
+				checkedStr = " checked=\"checked\" ";
+			}
+			else if (Object.isFunction(CH.checked)) {
 				if (CH.checked.call(sendObj)) {
 					checkedStr = " checked=\"checked\" ";
 					if(!this.list[itemIndex].___checked) this.list[itemIndex].___checked = {};
@@ -39579,7 +39586,9 @@ var AXTree = Class.create(AXJ, {
 			}
 			//trace(sendObj);
 			cfg.body.oncheck.call(sendObj, itemIndex, item);
-		} else {
+		}
+		else
+		{
 
 			var myTarget = this.getEventTarget({
 				evt: eventTarget, evtIDs: "",
