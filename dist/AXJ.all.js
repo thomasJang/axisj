@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-08-26 
+AXJ - v1.0.19 - 2015-08-29 
 */
 /*! 
-AXJ - v1.0.19 - 2015-08-26 
+AXJ - v1.0.19 - 2015-08-29 
 */
 
 if(!window.AXConfig){
@@ -26435,24 +26435,29 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		if (!AXgetId(objID)) return; /* 엘리먼트 존재 여부 확인 */
 
-		var iobjPosition = obj.bindTarget.position();
-		var l = iobjPosition.left, t = iobjPosition.top;
-		var w = obj.bindTarget.outerWidth();
-		var h = obj.bindTarget.outerHeight();
-		if (obj.bindTarget.css("display") == "none") {
-			h = obj.bindAnchorTarget.data("height");
-			var css = { width: w };
-		} else {
-			var css = { left: l, top: t, width: w, height: 0 };
-		}
-		//trace(css);
-		obj.bindAnchorTarget.css(css);
-		obj.bindAnchorTarget.data("height", h);
 
-		if (obj.bindType == "null") {
+		if(obj.bindType == "tagSelector"){
+			if(obj.tagList.length > 0) obj.bindTarget.css({"padding-top":obj.tagContainer.height()});
+		}else{
+			var iobjPosition = obj.bindTarget.position();
+			var l = iobjPosition.left, t = iobjPosition.top;
+			var w = obj.bindTarget.outerWidth();
+			var h = obj.bindTarget.outerHeight();
+			if (obj.bindTarget.css("display") == "none") {
+				h = obj.bindAnchorTarget.data("height");
+				var css = { width: w };
+			} else {
+				var css = { left: l, top: t, width: w, height: 0 };
+			}
+			//trace(css);
+			obj.bindAnchorTarget.css(css);
+			obj.bindAnchorTarget.data("height", h);
 
-		} else if (obj.bindType == "pattern") {
+			if (obj.bindType == "null") {
 
+			} else if (obj.bindType == "pattern") {
+
+			}
 		}
 	},
 
@@ -27404,7 +27409,6 @@ var AXInputConverterPro = Class.create(AXJ, {
 				_this.bindTagSelector_onkeydown(event, objID, objSeq);
 			}).bind(_this, event), 100);
 		});
-
 	},
 	bindTagSelector_onkeydown: function(e, objID, objSeq){
 		var _this = this, cfg = this.config,
