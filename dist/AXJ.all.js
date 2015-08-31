@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-08-29 
+AXJ - v1.0.19 - 2015-08-31 
 */
 /*! 
-AXJ - v1.0.19 - 2015-08-29 
+AXJ - v1.0.19 - 2015-08-31 
 */
 
 if(!window.AXConfig){
@@ -12908,8 +12908,12 @@ var AXGrid = Class.create(AXJ, {
 			cfg.height = targetInnerHeight + "px"; // 그리드 높이 지정
 			
 			if (cfg.height && this.gridBody) this.gridBody.css({height: cfg.height});
-			this.redrawGrid();
-			this.onevent_grid({type:"resetHeight"})
+
+			if(this.colHead)
+			{
+				this.redrawGrid();
+				this.onevent_grid( {type: "resetHeight"} );
+			}
 			/*
 			 var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0;
 			 if (cfg.page.display == false) pageBodyHeight = 0;
