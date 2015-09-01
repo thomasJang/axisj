@@ -176,6 +176,13 @@
   -moz-border-radius: 2px 5px 5px 5px;
   border-radius: 2px 5px 5px 5px;
 }
+.AXEditor .editorHead .me___headPanel a.me___btnSa {
+  width: 23px;
+  background: url('images/dx-editor-btns.gif') no-repeat -340px 0px;
+}
+.AXEditor .editorHead .me___headPanel a.me___btnSa:hover {
+  background-position: -340px -30px;
+}
 .AXEditor .editorHead .me___headPanel div {
   display: block;
   float: left;

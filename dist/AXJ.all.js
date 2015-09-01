@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-08-31 
+AXJ - v1.0.19 - 2015-09-01 
 */
 /*! 
-AXJ - v1.0.19 - 2015-08-31 
+AXJ - v1.0.19 - 2015-09-01 
 */
 
 if(!window.AXConfig){
@@ -9467,12 +9467,13 @@ var AXEditorLang = {
  * AXEditor
  * @class AXEditor
  * @extends AXJ
- * @version v1.3
+ * @version v1.4
  * @author tom@axisj.com
  * @logs
  * "2014-06-04 tom : method [insertImg] Insert prevent duplicate images
  * "2014-08-05 tom : add event onresize"
  * "2014-08-08 tom : AXConfig.AXEditor 설정 추가"
+ * "2014-09-01 tom : toolbar config 추
  *
  */
 
@@ -9536,6 +9537,19 @@ var AXEditor = Class.create(AXJ, {
 				alreadyInsertImg:"이미 추가된 이미지 입니다."
 			}
 		}
+
+		this.config.toolbar = {
+			fontFamily: true,
+			fontSize: true,
+			fontDecoration: true,
+			color: true,
+			textAlign: true,
+			orderList: true,
+			lineHeight: true,
+			url: true,
+			imoticon: true,
+			pageBreak: true
+		};
 
 
         this.config.AXEditorIcons = [
@@ -9630,76 +9644,112 @@ myEditor.setConfig({
 
 		this.initPanel();
 	},
-	initPanel: function(){
+	initPanel: function()
+	{
 		var config = this.config;
 		var re = config.targetID;
 		var po = [];
-			po.push("<div class='me___selectW'>");
-			po.push("	<a href='#axExecption' class='me___value selectCommand me_ffs' style='font-family:"+config.editorFontFamily+"' id='"+this._GID([re, "fontname"])+"'>"+config.editorFontFamily+"</a>");
-			po.push("</div>");
-			po.push("<div class='me___selectS'>");
-			po.push("	<a href='#axExecption' class='me___value selectCommand me_fss' id='"+this._GID([re, "fontsize"])+"'>"+config.editorFontSize+"</a>");
-			po.push("</div>");
-			po.push("<div class='me___vline'></div>");
-			po.push("<a href='#axExecption' class='me___btnL'>");
-			po.push("	<span class='me_icon me___bold simpleCommand' id='"+this._GID([re, "bold"])+"'>Bold</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnM'>");
-			po.push("	<span class='me_icon me___italic simpleCommand' id='"+this._GID([re, "italic"])+"'>Italic</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnM'>");
-			po.push("	<span class='me_icon me___underLine simpleCommand' id='"+this._GID([re, "underline"])+"'>UnderLine</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnR'>");
-			po.push("	<span class='me_icon me___strike simpleCommand' id='"+this._GID([re, "strikethrough"])+"'>strike</span>");
-			po.push("</a>");
-			po.push("<div class='me___vline'></div>");
-			po.push("<div class='me___selectTL'>");
-			po.push("	<div class='me___fontColor_disp' style='background:#444444;' id='"+this._GID([re, "foreColorVal"])+"'></div>");
-			po.push("	<a href='#axExecption' class='me___value colorCommand' id='"+this._GID([re, "foreColor"])+"'>foreColor</a>");
-			po.push("	<a href='#axExecption' class='me___arrow selectCommand me_picker' id='"+this._GID([re, "foreColorExt"])+"'>+</a>");
-			po.push("</div>");
-			po.push("<div class='me___selectTR'>");
-			po.push("	<div class='me___fontBgColor_disp' style='background:#ffffff;' id='"+this._GID([re, "backColorVal"])+"'></div>");
-			po.push("	<a href='#axExecption' class='me___value colorCommand' id='"+this._GID([re, "backColor"])+"'>backColor</a>");
-			po.push("	<a href='#axExecption' class='me___arrow selectCommand me_picker' id='"+this._GID([re, "backColorExt"])+"'>+</a>");
-			po.push("</div>");
-			po.push("<div class='me___vline'></div>");
-			po.push("<a href='#axExecption' class='me___btnL'>");
-			po.push("	<span class='me_icon me___alignLeft simpleCommand' id='"+this._GID([re, "JustifyLeft"])+"'>alignLeft</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnM'>");
-			po.push("	<span class='me_icon me___alignCenter simpleCommand' id='"+this._GID([re, "JustifyCenter"])+"'>alignCenter</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnM'>");
-			po.push("	<span class='me_icon me___alignRight simpleCommand' id='"+this._GID([re, "JustifyRight"])+"'>alignRight</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnR'>");
-			po.push("	<span class='me_icon me___alignJustify simpleCommand' id='"+this._GID([re, "JustifyFull"])+"'>alignJustify</span>");
-			po.push("</a>");
-			po.push("<div class='me___vline'></div>");
-			po.push("<a href='#axExecption' class='me___btnL'>");
-			po.push("	<span class='me_icon me___li simpleCommand' id='"+this._GID([re, "InsertUnorderedList"])+"'>li</span>");
-			po.push("</a>");
+		if (config.toolbar.fontFamily)
+		{
+			po.push( "<div class='me___selectW'>" );
+			po.push( "	<a href='#axExecption' class='me___value selectCommand me_ffs' style='font-family:" + config.editorFontFamily + "' id='" + this._GID( [ re, "fontname" ] ) + "'>" + config.editorFontFamily + "</a>" );
+			po.push( "</div>" );
+		}
+		if (config.toolbar.fontSize)
+		{
+			po.push( "<div class='me___selectS'>" );
+			po.push( "	<a href='#axExecption' class='me___value selectCommand me_fss' id='" + this._GID( [ re, "fontsize" ] ) + "'>" + config.editorFontSize + "</a>" );
+			po.push( "</div>" );
+		}
+
+		if (config.toolbar.fontDecoration)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnL'>" );
+			po.push( "	<span class='me_icon me___bold simpleCommand' id='" + this._GID( [ re, "bold" ] ) + "'>Bold</span>" );
+			po.push( "</a>" );
+
+			po.push( "<a href='#axExecption' class='me___btnM'>" );
+			po.push( "	<span class='me_icon me___italic simpleCommand' id='" + this._GID( [ re, "italic" ] ) + "'>Italic</span>" );
+			po.push( "</a>" );
+			po.push( "<a href='#axExecption' class='me___btnM'>" );
+			po.push( "	<span class='me_icon me___underLine simpleCommand' id='" + this._GID( [ re, "underline" ] ) + "'>UnderLine</span>" );
+			po.push( "</a>" );
+			po.push( "<a href='#axExecption' class='me___btnR'>" );
+			po.push( "	<span class='me_icon me___strike simpleCommand' id='" + this._GID( [ re, "strikethrough" ] ) + "'>strike</span>" );
+			po.push( "</a>" );
+		}
+
+		if (config.toolbar.color)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<div class='me___selectTL'>" );
+			po.push( "	<div class='me___fontColor_disp' style='background:#444444;' id='" + this._GID( [ re, "foreColorVal" ] ) + "'></div>" );
+			po.push( "	<a href='#axExecption' class='me___value colorCommand' id='" + this._GID( [ re, "foreColor" ] ) + "'>foreColor</a>" );
+			po.push( "	<a href='#axExecption' class='me___arrow selectCommand me_picker' id='" + this._GID( [ re, "foreColorExt" ] ) + "'>+</a>" );
+			po.push( "</div>" );
+			po.push( "<div class='me___selectTR'>" );
+			po.push( "	<div class='me___fontBgColor_disp' style='background:#ffffff;' id='" + this._GID( [ re, "backColorVal" ] ) + "'></div>" );
+			po.push( "	<a href='#axExecption' class='me___value colorCommand' id='" + this._GID( [ re, "backColor" ] ) + "'>backColor</a>" );
+			po.push( "	<a href='#axExecption' class='me___arrow selectCommand me_picker' id='" + this._GID( [ re, "backColorExt" ] ) + "'>+</a>" );
+			po.push( "</div>" );
+		}
+		if (config.toolbar.textAlign)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnL'>" );
+			po.push( "	<span class='me_icon me___alignLeft simpleCommand' id='" + this._GID( [ re, "JustifyLeft" ] ) + "'>alignLeft</span>" );
+			po.push( "</a>" );
+			po.push( "<a href='#axExecption' class='me___btnM'>" );
+			po.push( "	<span class='me_icon me___alignCenter simpleCommand' id='" + this._GID( [ re, "JustifyCenter" ] ) + "'>alignCenter</span>" );
+			po.push( "</a>" );
+			po.push( "<a href='#axExecption' class='me___btnM'>" );
+			po.push( "	<span class='me_icon me___alignRight simpleCommand' id='" + this._GID( [ re, "JustifyRight" ] ) + "'>alignRight</span>" );
+			po.push( "</a>" );
+			po.push( "<a href='#axExecption' class='me___btnR'>" );
+			po.push( "	<span class='me_icon me___alignJustify simpleCommand' id='" + this._GID( [ re, "JustifyFull" ] ) + "'>alignJustify</span>" );
+			po.push( "</a>" );
+		}
+		if (config.toolbar.orderList)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnL'>" );
+			po.push( "	<span class='me_icon me___li simpleCommand' id='" + this._GID( [ re, "InsertUnorderedList" ] ) + "'>li</span>" );
+			po.push( "</a>" );
 			
-			po.push("<a href='#axExecption' class='me___btnM'>");
-			po.push("	<span class='me_icon me___ol simpleCommand' id='"+this._GID([re, "InsertOrderedList"])+"'>ol</span>");
-			po.push("</a>");
+			po.push( "<a href='#axExecption' class='me___btnR'>" );
+			po.push( "	<span class='me_icon me___ol simpleCommand' id='" + this._GID( [ re, "InsertOrderedList" ] ) + "'>ol</span>" );
+			po.push( "</a>" );
+		}
 
-			po.push("<a href='#axExecption' class='me___btnRa'>");
-			po.push("	<span class='me_icon me___lineHeight selectCommand me_lhs' id='"+this._GID([re, "lineHeight"])+"'>lineHeight</span>");
-			po.push("</a>");
-			po.push("<div class='me___vline'></div>");
-			po.push("<a href='#axExecption' class='me___btnLa'>");
-			po.push("	<span class='me_icon me___url selectCommand me_url' id='"+this._GID([re, "url"])+"'>url</span>");
-			po.push("</a>");
-			po.push("<a href='#axExecption' class='me___btnMa'>");
-			po.push("	<span class='me_icon me___imoticon selectCommand me_ico' id='"+this._GID([re, "imoticon"])+"'>imoticon</span>");
-			po.push("</a>");
-
-			po.push("<a href='#axExecption' class='me___btnR'>");
-			po.push("	<span class='me_icon me___pageBreak pbCommand' id='"+this._GID([re, "pageBreak"])+"'>pageBreak</span>");
-			po.push("</a>");
+		if (config.toolbar.lineHeight)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnSa'>" );
+			po.push( "	<span class='me_icon me___lineHeight selectCommand me_lhs' id='" + this._GID( [ re, "lineHeight" ] ) + "'>lineHeight</span>" );
+			po.push( "</a>" );
+		}
+		if (config.toolbar.url)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnSa'>" );
+			po.push( "	<span class='me_icon me___url selectCommand me_url' id='" + this._GID( [ re, "url" ] ) + "'>url</span>" );
+			po.push( "</a>" );
+		}
+		if (config.toolbar.imoticon)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnSa'>" );
+			po.push( "	<span class='me_icon me___imoticon selectCommand me_ico' id='" + this._GID( [ re, "imoticon" ] ) + "'>imoticon</span>" );
+			po.push( "</a>" );
+		}
+		if (config.toolbar.pageBreak)
+		{
+			po.push( "<div class='me___vline'></div>" );
+			po.push( "<a href='#axExecption' class='me___btnSa'>" );
+			po.push( "	<span class='me_icon me___pageBreak pbCommand' id='" + this._GID( [ re, "pageBreak" ] ) + "'>pageBreak</span>" );
+			po.push( "</a>" );
+		}
 		jQuery("#"+re+"_headPanel").append(po.join(''));
 		jQuery("#"+re+"_headPanel").find(".simpleCommand").bind("click", this.onSimpleCommandClick.bind(this));
 		jQuery("#"+re+"_headPanel").find(".colorCommand").bind("click", this.onColorCommandClick.bind(this));
