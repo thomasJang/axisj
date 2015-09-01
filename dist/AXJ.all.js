@@ -1489,14 +1489,14 @@ Object.extend(String.prototype, (function () {
 	 * ```
 	 */
 	function dec() {
-		var result;
+		var decodeURI;
 		try {
-			result = decodeURIComponent(this);
+			decodeURI = decodeURIComponent(this);
 		}
 		catch (e) {
-			result =  unescape(this);
+			decodeURI = unescape(this);
 		}
-		return result;
+		return decodeURI;
 		/*
 		var decodeURI;
 		try{decodeURI = decodeURIComponent(this.replace(/\+/g, " "));}catch(e){var decodeURI = this;}
