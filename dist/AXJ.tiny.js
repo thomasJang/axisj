@@ -8759,7 +8759,7 @@ var AXInputConverter = Class.create(AXJ, {
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
 			//else bindNumberCheck(objID, objSeq, event);
 		});
-		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
+		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq, event);
 		});
 	},
