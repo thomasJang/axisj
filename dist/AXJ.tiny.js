@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.18 - 2015-08-23 
+AXJ - v1.0.19 - 2015-09-01 
 */
 /*! 
-AXJ - v1.0.18 - 2015-08-23 
+AXJ - v1.0.19 - 2015-09-01 
 */
 
 if(!window.AXConfig){
@@ -1490,8 +1490,18 @@ Object.extend(String.prototype, (function () {
 	 */
 	function dec() {
 		var decodeURI;
+		try {
+			decodeURI = decodeURIComponent(this);
+		}
+		catch (e) {
+			decodeURI = unescape(this);
+		}
+		return decodeURI;
+		/*
+		var decodeURI;
 		try{decodeURI = decodeURIComponent(this.replace(/\+/g, " "));}catch(e){var decodeURI = this;}
 		return (this) ? (decodeURI) : this;
+		*/
 	}
 	/**
 	 * URLencode된 문자열로 인코드 합니다.
@@ -8749,7 +8759,7 @@ var AXInputConverter = Class.create(AXJ, {
 			else if (event.keyCode == AXUtil.Event.KEY_DOWN) bindNumberAdd(objID, -1, objSeq);
 			//else bindNumberCheck(objID, objSeq, event);
 		});
-		obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
+		obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
 			bindNumberCheck(objID, objSeq, event);
 		});
 	},
@@ -13429,24 +13439,29 @@ var AXInputConverterPro = Class.create(AXJ, {
 
 		if (!AXgetId(objID)) return; /* 엘리먼트 존재 여부 확인 */
 
-		var iobjPosition = obj.bindTarget.position();
-		var l = iobjPosition.left, t = iobjPosition.top;
-		var w = obj.bindTarget.outerWidth();
-		var h = obj.bindTarget.outerHeight();
-		if (obj.bindTarget.css("display") == "none") {
-			h = obj.bindAnchorTarget.data("height");
-			var css = { width: w };
-		} else {
-			var css = { left: l, top: t, width: w, height: 0 };
-		}
-		//trace(css);
-		obj.bindAnchorTarget.css(css);
-		obj.bindAnchorTarget.data("height", h);
 
-		if (obj.bindType == "null") {
+		if(obj.bindType == "tagSelector"){
+			if(obj.tagList.length > 0) obj.bindTarget.css({"padding-top":obj.tagContainer.height()});
+		}else{
+			var iobjPosition = obj.bindTarget.position();
+			var l = iobjPosition.left, t = iobjPosition.top;
+			var w = obj.bindTarget.outerWidth();
+			var h = obj.bindTarget.outerHeight();
+			if (obj.bindTarget.css("display") == "none") {
+				h = obj.bindAnchorTarget.data("height");
+				var css = { width: w };
+			} else {
+				var css = { left: l, top: t, width: w, height: 0 };
+			}
+			//trace(css);
+			obj.bindAnchorTarget.css(css);
+			obj.bindAnchorTarget.data("height", h);
 
-		} else if (obj.bindType == "pattern") {
+			if (obj.bindType == "null") {
 
+			} else if (obj.bindType == "pattern") {
+
+			}
 		}
 	},
 
@@ -14398,7 +14413,6 @@ var AXInputConverterPro = Class.create(AXJ, {
 				_this.bindTagSelector_onkeydown(event, objID, objSeq);
 			}).bind(_this, event), 100);
 		});
-
 	},
 	bindTagSelector_onkeydown: function(e, objID, objSeq){
 		var _this = this, cfg = this.config,

@@ -67,14 +67,14 @@
   left: 0px;
   top: 0px;
   height: 10px;
-  /*background: @stop;*/
-  background-image: -webkit-linear-gradient(#eeeeee, #ffffff);
+  background: #ffffff;
+  background: -webkit-linear-gradient(#eeeeee, #ffffff);
   /* For Safari */
-  background-image: -o-linear-gradient(#eeeeee, #ffffff);
+  background: -o-linear-gradient(#eeeeee, #ffffff);
   /* For Opera 11.1 to 12.0 */
-  background-image: -moz-linear-gradient(#eeeeee, #ffffff);
+  background: -moz-linear-gradient(#eeeeee, #ffffff);
   /* For Firefox 3.6 to 15 */
-  background-image: linear-gradient(#eeeeee, #ffffff);
+  background: linear-gradient(#eeeeee, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eeeeee, endColorstr=#ffffff);
   /*For IE7-8-9*/
@@ -88,14 +88,14 @@
   top: 0px;
   height: 10px;
   width: 0%;
-  /*background: @stop;*/
-  background-image: -webkit-linear-gradient(#98c87b, #79aa5a);
+  background: #79aa5a;
+  background: -webkit-linear-gradient(#98c87b, #79aa5a);
   /* For Safari */
-  background-image: -o-linear-gradient(#98c87b, #79aa5a);
+  background: -o-linear-gradient(#98c87b, #79aa5a);
   /* For Opera 11.1 to 12.0 */
-  background-image: -moz-linear-gradient(#98c87b, #79aa5a);
+  background: -moz-linear-gradient(#98c87b, #79aa5a);
   /* For Firefox 3.6 to 15 */
-  background-image: linear-gradient(#98c87b, #79aa5a);
+  background: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
