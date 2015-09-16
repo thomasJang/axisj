@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-09-01 
+AXJ - v1.0.19 - 2015-09-16 
 */
 /*! 
-AXJ - v1.0.19 - 2015-09-01 
+AXJ - v1.0.19 - 2015-09-16 
 */
 
 if(!window.AXConfig){
@@ -13110,6 +13110,7 @@ var AXGrid = Class.create(AXJ, {
 		}
 		else{
 			this.contentScrollResize();
+
 		}
 		
 		if (cfg.viewMode == "grid") {
@@ -14485,7 +14486,7 @@ var AXGrid = Class.create(AXJ, {
 		if (this.list.length > 0) {
 			var _this = this;
 			if(typeof list === "undefined"){
-				_this.setList(_this.list, "reload");
+				_this.setList(_this.list, true, "reload");
 			}
 			else{
 				setTimeout(function(){
@@ -14663,7 +14664,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 				
 				this.printList();
-				this.scrollTop(0);
+				if(!rewrite) this.scrollTop(0);
 				this.setStatus(this.list.length);
 				
 				if (!cfg.page.paging) {
@@ -15595,8 +15596,8 @@ var AXGrid = Class.create(AXJ, {
 					var trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
 					if (trTop.number() + trHeight.number() > bodyHeight) {
 						var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
-						this.scrollContent.css({ top: scrollTop });
-						this.contentScrollContentSync({ top: scrollTop });
+						this.scrollContent.css({ top: (scrollTop - cfg.listCountMargin||0) });
+						this.contentScrollContentSync({ top: (scrollTop - cfg.listCountMargin||0) });
 					} else {
 						if (trTop.number() == 0) {
 							var scrollTop = 0;
@@ -45163,6 +45164,23 @@ var AXValidator = Class.create(AXJ, {
 		    */
 		    _elements.push(item);
 	    });
+	    
+	    //config에 checkCrlf 옵션이 있을 경우
+	    if(cfg.checkCrlf){
+	    	axdom(this.form).find("textarea[maxlength]").each(function(index, element){
+	    		
+	    		var item = {
+	    			"id":element.id,
+	    			"name":element.name,
+	    			"type":"textarea",
+	    			"value":"",
+	    			"label":element.title||element.placeholder||"",
+	    			"config":{"maxlength":element.maxLength}
+	    		};
+	    		
+	    		_elements.push(item);
+	    	});
+	    }
 
         this.elements = _elements;
     },
@@ -45315,7 +45333,7 @@ myValidator.add({
         if (addedObject.id) {
             targetElem = axdom("#" + addedObject.id);
             targetElemForSelect = AXgetId(addedObject.id);
-        } else if (this.name) {
+        } else if (addedObject.name) {
             targetElem = $(document[cfg.targetFormName][addedObject.name]);
             targetElemForSelect = document[cfg.targetFormName][addedObject.name];
         }
@@ -45716,9 +45734,17 @@ var validateResult = myValidator.validate();
             } else if (ElemValue != "" && validateKey == "maxbyte") {
                 result = (ElemValue.getByte().number() - lenMargin <= validateValue);
             } else if (ElemValue != "" && validateKey == "minlength") {
-                result = (ElemValue.length.number() + lenMargin > validateValue);
+                result = (ElemValue.length.number() >= validateValue);
             } else if (ElemValue != "" && validateKey == "maxlength") {
-                result = (ElemValue.length.number() - lenMargin <= validateValue);
+            	var crlfLength = 0;
+            	if(cfg.checkCrlf){
+            		var __matchedArr = ElemValue.match(/(\r\n|\n|\r)/g);
+            		if(__matchedArr){
+            			crlfLength = __matchedArr.length * 1;
+            			trace(crlfLength);
+            		}
+            	}
+                result = (ElemValue.length.number() + crlfLength <= validateValue);
                 /* for format */
             } else if (ElemValue != "" && validateKey == "number") {
                 //var pattern = /^[0-9]+$/;
