@@ -212,8 +212,8 @@ var sampleTreeMenu = new AXTopDownMenu();
             fo.push('<div id="disqusTarget"></div>');
             */
 
-	        fo.push('<div align="center" style="text-align: center;padding:20px;padding-bottom:50px;color:#ccc;">');
-	        fo.push('"안녕하세요 ! 이 자리에는 서버비라도 조금 보태 보겠다고 구글 애드센스를 붙여 두고 있었습니다. 하지만 약 10여달러 정도 모이자 <u>구글 애드센스</u>에서 부정클릭을 했다며 제 애드센스 계정을 지워버렸습니다. 여러분. 무슨일이 있어도 구글 애드센스를 달지 맙시다."');
+	        //fo.push('<div align="center" style="text-align: center;padding:20px;padding-bottom:50px;color:#ccc;">');
+	        //fo.push('"안녕하세요 ! 이 자리에는 서버비라도 조금 보태 보겠다고 구글 애드센스를 붙여 두고 있었습니다. 하지만 약 10여달러 정도 모이자 <u>구글 애드센스</u>에서 부정클릭을 했다며 제 애드센스 계정을 지워버렸습니다. 여러분. 무슨일이 있어도 구글 애드센스를 달지 맙시다."');
 	        /*
 	        fo.push('<ins class="adsbygoogle" '+
 	        'style="display:block" '+
@@ -221,7 +221,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 	        'data-ad-slot="4492393884" '+
 	        'data-ad-format="auto"></ins>');
 	        */
-	        fo.push('</div>');
+	        //fo.push('</div>');
 
             fo.push('<footer id="AXPageFoot">');
                 fo.push('<div class="ax-wrap">');
