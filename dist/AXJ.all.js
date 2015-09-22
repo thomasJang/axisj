@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-09-16 
+AXJ - v1.0.19 - 2015-09-22 
 */
 /*! 
-AXJ - v1.0.19 - 2015-09-16 
+AXJ - v1.0.19 - 2015-09-22 
 */
 
 if(!window.AXConfig){
@@ -15375,6 +15375,7 @@ var AXGrid = Class.create(AXJ, {
 	 * @description grid list 의 전체 출력을 처리 합니다.
 	 */
 	printList: function (args) {
+		if(!args) args = {};
 		var cfg = this.config, _this = this;
 		var bodyHasMarker = this.bodyHasMarker;
 		var getItem = this.getItem.bind(this);
