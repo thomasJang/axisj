@@ -21136,6 +21136,7 @@ AXGrid.prototype.inlineEditor = (function(){
 				};
 
 				var td_val = _this.list[ii][CG.key];
+				if(typeof td_val === "undefined") AXBindConfig.setValue = "";
 				if(typeof td_val === "string" || typeof td_val === "number" || typeof td_val === "boolean") {
 					AXBindConfig.setValue = td_val;
 				}else{
