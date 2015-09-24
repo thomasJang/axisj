@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-09-22 
+AXJ - v1.0.19 - 2015-09-24 
 */
 /*! 
-AXJ - v1.0.19 - 2015-09-22 
+AXJ - v1.0.19 - 2015-09-24 
 */
 
 if(!window.AXConfig){
@@ -14871,7 +14871,8 @@ var AXGrid = Class.create(AXJ, {
 			result = '<input type="' + CH.editor.type + '" name="' + key + '" data-editor-key="' + itemIndex + ',' + CHidx + '" class="inline-editor-checkbox" ' +
 				checkedStr + disabled + ' onfocus="this.blur();" />';
 			//"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
-		} else if (CH.editor && (CH.editor.type in this.formatter)) {
+		}
+		else if (CH.editor && (CH.editor.type in this.formatter)) {
 			// 동일한 이름을 가진 formatter와 editor가 있으면 해당 editor의 값을 보여줄 때 동일한 이름을 가진 formatter를 사용한다.
 			result = this.formatter[CH.editor.type].call(this, CH.editor.type, item, itemIndex, value, key, CH, CHidx);
 		} else if (Object.isString(formatter) && (formatter in this.formatter)) {
@@ -16866,7 +16867,7 @@ var AXGrid = Class.create(AXJ, {
 			inline_editor.css(inline_css).find("input").select();
 			_this.inline_edit = {editor:inline_editor, r:r,  c:c,  ii:ii, cell:div};
 
-			if(inline_editor.find("input").get(0) && CG.editor.type != "calendar") {
+			if(inline_editor.find("input").get(0) && CG.editor.type != "calendar" && CG.editor.type != "AXSelector") {
 				jQuery(document.body).unbind("click.axgrid").bind("click.axgrid", function (e) {
 					var target = axf.get_event_target(e.target, {id: inline_editor_id});
 					if (!target) {
@@ -16993,6 +16994,20 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 				po.push('</select>');
+			}
+			else if(cond.type === "AXSelector") {
+				//console.log(cond.config.reserveKeys);
+				if(typeof val === "string" || typeof val === "number" || typeof val === "boolean"){
+					_val = val;
+				}
+				else if(cond.config.reserveKeys){
+					_val = val[cond.config.reserveKeys.optionText];
+				}
+				else{
+					_val = val["optionText"];
+				}
+
+				po.push('<input type="text" name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" value="' + _val + '" class="inline_editor_input '+cond.type+'" ' + (cond.readonly?'readonly="readonly"':'') + ' />');
 			}
 			else
 			{
@@ -19198,31 +19213,40 @@ var AXGrid = Class.create(AXJ, {
 						if (CH.AXBind.type == "number" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindNumber((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "money" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "money" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindMoney((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "selector" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindSelector((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "slider" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindSlider((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "twinSlider" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "twinSlider" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindTwinSlider((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "date" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "date" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindDate((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "twinDate" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "twinDate" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindTwinDate((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "dateTime" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "dateTime" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindDateTime((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "switch" && CH.form.type == "text") {
+						}
+						else if (CH.AXBind.type == "switch" && CH.form.type == "text") {
 							/*axdom("#"+formID).unbindInput(); */
 							axdom("#" + formID).bindSwitch((CH.AXBind.config || {}));
-						} else if (CH.AXBind.type == "select" && CH.form.type == "select") {
+						}
+						else if (CH.AXBind.type == "select" && CH.form.type == "select") {
 							/*axdom("#"+formID).unbindSelect(); */
 							axdom("#" + formID).bindSelect((CH.AXBind.config || {}));
 						}
@@ -21035,6 +21059,7 @@ AXGrid.prototype.inlineEditor = (function(){
 				});
 			},
 			getValue: function(value) {
+				// return value; // 예외 처리 가능
 				var valKey = this.CG.editor.optionValue || AXConfig.AXInput.keyOptionValue || "optionValue";
 				return value[valKey];
 			}
@@ -21085,7 +21110,53 @@ AXGrid.prototype.inlineEditor = (function(){
 				});
 			},
 			getValue: function(value) {
+				return value; // 예외 처리 가능
+			}
+		},
+		"AXSelector": {
+			init: function(inline_editor, AXBindConfig, CG, r, c, ii) {
+				var _this = this;
+				var cfg = this.config;
+				var cfg_key_value = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionValue||"optionValue") : "optionValue",
+					cfg_key_text = (AXBindConfig.reserveKeys) ? (AXBindConfig.reserveKeys.optionText||"optionText") : "optionText";
+
+				// todo : inline_editor.config에 onchange함수 재 정의
+				AXBindConfig.onchange = function(){
+					var obj = {};
+					if(this.selectedOption) {
+						obj[cfg_key_value] = this.selectedOption[cfg_key_value];
+						obj[cfg_key_text] = this.selectedOption[cfg_key_text];
+					}else{
+						obj[cfg_key_value] = "";
+						obj[cfg_key_text] = "";
+					}
+					setTimeout(function(){
+						_this.updateItem(r, c, ii, obj);
+					}, 100);
+				};
+
+				var td_val = _this.list[ii][CG.key];
+				if(typeof td_val === "string" || typeof td_val === "number" || typeof td_val === "boolean") {
+					AXBindConfig.setValue = td_val;
+				}else{
+					AXBindConfig.setValue = td_val[cfg_key_value];
+				}
+
+				inline_editor.find("input").bindSelector(AXBindConfig);
+				setTimeout(function(){
+					inline_editor.find("input").focus();
+				}, 100);
+
+			},
+			getValue: function(value) {
 				return value;
+				/*
+				var valKey = "optionText";
+				if(this.CG.editor.config.reserveKeys){
+					valKey = this.CG.editor.config.reserveKeys.optionText;
+				}
+				return value[valKey];
+				*/
 			}
 		}
 	};
