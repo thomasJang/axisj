@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-09-24 
+AXJ - v1.0.19 - 2015-09-29 
 */
 /*! 
-AXJ - v1.0.19 - 2015-09-24 
+AXJ - v1.0.19 - 2015-09-29 
 */
 
 if(!window.AXConfig){
@@ -34916,6 +34916,8 @@ var AXTabClass = Class.create(AXJ, {
 			if (tabIndex === -1) { return; }
 			closeTab(objID, tabIndex, event);
 		});
+
+    this.resizeCheck();
 	},
 	/**
 	 * @method AXTabClass.closeTab
@@ -35566,10 +35568,10 @@ var AXTabClass = Class.create(AXJ, {
 	},
 	/**
 	 * @method AXTabClass.updateTabOption
-	 * @description 입력된 value값과 같은 optionValue를 가진탭의 option 을 입력된 option으로 대체합니다. 
+	 * @description 입력된 value값과 같은 optionValue를 가진탭의 option 을 입력된 option으로 대체합니다.
 	 * @param {String} objID - 탭 대상 ID
 	 * @param {String} value - 대상 탭 값
-	 * @param {String} option  - 변경될 option 
+	 * @param {String} option  - 변경될 option
 	 * @returns {AXTab}
 	 * @example
 	 * ```js
@@ -35604,13 +35606,13 @@ var AXTabClass = Class.create(AXJ, {
 			if(itemIndex == null) return;
 
 			var OriginalOption = obj.config.options[itemIndex];
-			
+
 			for(var idx in option){
 				OriginalOption[idx]=option[idx];
 			}
-			
+
 			this.initTab(objID, objSeq);
-						
+
 		}
     }
 });
@@ -35803,6 +35805,7 @@ axdom.fn.getOptions = function (){
 	})
 	return returnValue;
 };
+
 /* ---------------------------- */
 var AXToolBar = Class.create(AXJ, {
 	initialize: function (AXJ_super) {
