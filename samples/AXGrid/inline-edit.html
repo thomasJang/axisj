@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXGrid - AXISJ</title>
@@ -68,11 +68,43 @@
 						},
 						{
 							key:"string", label:"String", width:"200",
+							formatter: function(val){
+								if(Object.isObject(this.value)){
+									return this.value.NM;
+								}else{
+									return this.value;
+								}
+							},
 							editor: {
+								type: "AXSelector",
+								config: {
+									reserveKeys: {
+										options: "list",
+										optionValue: "CD",
+										optionText: "NM"
+									},
+									ajaxUrl: "selectData-01.php",
+									ajaxPars: "",
+									onchange: function(){
+										// inline editor 에 선언한 onchange함수는 AXGrid내부에서 사용하는 onchange 함수로 변경되어 사용할 수 없습니다.
+									}
+								},
+								beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+									// 선택된 값은
+									console.log(val);
+									return val;
+								},
+								afterUpdate: function(val){ // 수정이 처리된 후
+									// 수정이 된 후 액션.
+									//console.log(this);
+								}
+
+								/*
 								type: "text",
 								//textType: "password",
 								//maxLength: 5,
 								updateWith: ["_CUD"]
+								*/
 							}
 						},
 						{

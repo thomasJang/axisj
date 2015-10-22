@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.19 - 2015-09-01 
+AXJ - v1.0.20 - 2015-10-23 
 */
 /*! 
-AXJ - v1.0.19 - 2015-09-01 
+AXJ - v1.0.20 - 2015-10-23 
 */
 
 if(!window.AXConfig){
@@ -16109,7 +16109,8 @@ var AXSelectConverter = Class.create(AXJ, {
 			var cfg = this.config;
 
 			if (obj.selectedIndex != undefined) {
-				return { optionValue: AXgetId(objID).options[ obj.selectedIndex ].value, optionText: AXgetId(objID).options[ obj.selectedIndex ].text };
+				var options = AXgetId(objID).options[obj.selectedIndex];
+				return { optionValue: options.value, optionText: options.text, optionData:options.getAttribute("data-option") };
 			}else{
 				return { optionValue: null, optionText: null };
 			}
