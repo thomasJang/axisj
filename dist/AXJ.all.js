@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.20 - 2015-10-23 
+AXJ - v1.0.20 - 2015-10-30 
 */
 /*! 
-AXJ - v1.0.20 - 2015-10-23 
+AXJ - v1.0.20 - 2015-10-30 
 */
 
 if(!window.AXConfig){
@@ -14152,6 +14152,7 @@ var AXGrid = Class.create(AXJ, {
 			} else {
 				this.list = this.sortList(nsort, myColHead, this.list);
 				this.printList({sort:true});
+				this.contentScrollResize();
 			}
 
 		}
@@ -14662,8 +14663,10 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 
-				this.scrollTop(0);
+
 				this.printList({reload:rewrite});
+				this.contentScrollResize();
+				this.scrollTop(0);
 				this.setStatus(this.list.length);
 
 				if (!cfg.page.paging) {
@@ -14783,6 +14786,7 @@ var AXGrid = Class.create(AXJ, {
 		axf.overwriteObject(this.page, res.page, true);
 
 		this.printList();
+		this.contentScrollResize();
 		this.scrollTop(0);
 		this.setPaging();
 	},
@@ -14828,9 +14832,9 @@ var AXGrid = Class.create(AXJ, {
 
 		this.selectClear();
 		this.printList();
+		this.contentScrollResize();
 		this.scrollTop(0);
 		this.setStatus(this.list.length);
-		this.contentScrollResize();
 
 		if (cfg.page.paging) {
 			this.setPaging();
@@ -16053,6 +16057,7 @@ var AXGrid = Class.create(AXJ, {
 			this.bigDataSync(true);
 		} else {
 			this.printList();
+			this.contentScrollResize();
 		}
 		this.setStatus(this.list.length);
 		this.redrawDataSet();
@@ -16128,6 +16133,7 @@ var AXGrid = Class.create(AXJ, {
 			this.bigDataSync(true);
 		} else {
 			this.printList();
+			this.contentScrollResize();
 		}
 
 		this.setStatus(this.list.length);
@@ -16183,6 +16189,7 @@ var AXGrid = Class.create(AXJ, {
 			this.bigDataSync(true);
 		} else {
 			this.printList();
+			this.contentScrollResize();
 		}
 		this.setStatus(this.list.length);
 		this.redrawDataSet();
@@ -16485,8 +16492,58 @@ var AXGrid = Class.create(AXJ, {
 						this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 						this.selectedRow.push(itemIndex.number());
 
+						if(cfg.mergeCells){ /// mergeCells 이 있는 경우 함께 선택 표시해야할 대상이 있는지 판단 후 처리
+
+							(function(){
+								var colGroupLen = 0, nowTrTd = this.body.find(".gridBodyTr_" + itemIndex).find("td");
+								for(var i=0, l=cfg.colGroup.length;i<l;i++){
+									if(cfg.colGroup[i].display) colGroupLen++;
+								}
+								if(colGroupLen == nowTrTd.length - 1){
+									// td중에 rowspan이 있는 컬럼이 있는지 체크
+									for(var i=0, l=nowTrTd.length;i<l;i++) {
+										if(nowTrTd[i].getAttribute("rowspan") > 1){
+											for(var ai = 0;ai < nowTrTd[i].getAttribute("rowspan")-1;ai++){
+												this.body.find(".gridBodyTr_" + (Number(itemIndex) + ai + 1)).addClass("selected");
+												this.selectedRow.push((Number(itemIndex) + ai + 1));
+											}
+											break;
+										}
+									}
+								}
+								else{
+									this.selectedRow.clear();
+									// 이가 빠졌음 머지된 컬럼을 검색 (위로 탐색 나올때까지)
+									var finding = true, parentItemIndex = itemIndex, safeLoop = 0;
+									do{
+										parentItemIndex = parentItemIndex - 1;
+										var _nowTrTd = this.body.find(".gridBodyTr_" + (parentItemIndex)).find("td");
+										//console.log(colGroupLen, (_nowTrTd.length - 1), parentItemIndex);
+										if(colGroupLen == _nowTrTd.length - 1) {
+											for(var i=0, l=_nowTrTd.length;i<l;i++) {
+
+												if(_nowTrTd[i].getAttribute("rowspan") > 1){
+													//console.log(_nowTrTd[i].getAttribute("rowspan"));
+													for(var ai = 0;ai < _nowTrTd[i].getAttribute("rowspan");ai++){
+														this.body.find(".gridBodyTr_" + (Number(parentItemIndex) + ai)).addClass("selected");
+														this.selectedRow.push((Number(parentItemIndex) + ai));
+													}
+													break;
+												}
+											}
+											finding = false;
+										}
+										safeLoop++;
+										if(safeLoop > 1000) finding = false;
+									}while(finding)
+
+								}
+							}).call(this);
+						}
+
 						this.body.find(".gridBodyTr_" + itemIndex).find(".bodyTd_" + c + ".bodyTdr_" + r).addClass("selected");
 						this.selectedCells.push(c);
+
 
 						var item = this.list[itemIndex];
 
@@ -17326,7 +17383,8 @@ var AXGrid = Class.create(AXJ, {
 					scrollTrackYHeight: this.scrollTrackY.height(),
 					scrollYHandleHeight: this.scrollYHandle.outerHeight()
 				};
-			}else{
+			}
+			else{
 				// scrollContent height update
 				this.contentScrollYAttr.bodyHeight = this.body.height();
 				this.contentScrollYAttr.scrollHeight = this.scrollContent.height();
@@ -17405,6 +17463,7 @@ var AXGrid = Class.create(AXJ, {
 			}
 			var _sh = this.contentScrollYAttr.scrollHeight, _bh = this.contentScrollYAttr.bodyHeight, _th = this.contentScrollYAttr.scrollTrackYHeight, _hh = this.contentScrollYAttr.scrollYHandleHeight;
 			var T = pos.top * (_th - _hh) / (_sh-_bh);
+
 			this.scrollYHandle.css({ top: -T });
 			if (axf.getId(cfg.targetID + "_AX_fixedScrollContent")) this.fixedScrollContent.css({ top: pos.top });
 			if (this.editorOpend) {
@@ -17627,7 +17686,7 @@ var AXGrid = Class.create(AXJ, {
 				eventCancle = true;
 			}
 			this.scrollContent.css({ top: scrollTop });
-			this.contentScrollContentSync({ top: scrollTop });
+			this.contentScrollContentSync({ top: scrollTop }, "direct");
 			this.onevent_grid({type:"onscroll"});
 		}
 		else
@@ -17645,7 +17704,7 @@ var AXGrid = Class.create(AXJ, {
 				eventCancle = true;
 			}
 			this.scrollContent.css({ left: scrollLeft });
-			this.contentScrollContentSync({ left: scrollLeft });
+			this.contentScrollContentSync({ left: scrollLeft }, "direct");
 			this.onevent_grid({type:"onscroll"});
 		}
 
@@ -17986,7 +18045,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 				this.editCellClear();
 
-				if (this.selectedRow != undefined && this.selectedRow.length > 0) {
+				if (typeof this.selectedRow != "undefined" && this.selectedRow.length > 0) {
 					var body = this.body;
 					for(var ri = 0;ri < this.selectedRow.length;ri++){
 						body.find(".gridBodyTr_" + this.selectedRow[ri]).addClass("selected");
@@ -17994,25 +18053,27 @@ var AXGrid = Class.create(AXJ, {
 						body.find(".gridBodyTr_" + this.selectedRow[ri]).find(".bodyTd_" + this.selectedCells[0] + ".bodyTdr_0").addClass("selected");
 					}
 
-					var itemIndex = this.selectedRow.last();
-					var itemDom = this.body.find(".gridBodyTr_" + itemIndex);
-					if(itemDom[0]){
-						var trTop = itemDom.position().top;
-						var scrollHeight = this.scrollContent.height();
-						var bodyHeight = this.body.height();
+					if(typeof reload != "undefined") {
+						var itemIndex = this.selectedRow.last();
+						var itemDom = this.body.find(".gridBodyTr_" + itemIndex);
+						if (itemDom[0]) {
+							var trTop = itemDom.position().top;
+							var scrollHeight = this.scrollContent.height();
+							var bodyHeight = this.body.height();
 
-						var trHeight = this.body.find(".bodyNullTd").outerHeight().number();
+							var trHeight = this.body.find(".bodyNullTd").outerHeight().number();
 
-						if (trTop.number() + trHeight.number() > bodyHeight) {
-							var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
-							this.scrollContent.css({ top: (scrollTop - cfg.listCountMargin) });
-							this.contentScrollContentSync({ top: (scrollTop - cfg.listCountMargin) });
-						}
-						else {
-							if (trTop.number() == 0) {
-								var scrollTop = 0;
-								this.scrollContent.css({ top: scrollTop });
-								this.contentScrollContentSync({ top: scrollTop });
+							if (trTop.number() + trHeight.number() > bodyHeight) {
+								var scrollTop = bodyHeight - (trTop.number() + trHeight.number());
+								this.scrollContent.css({top: (scrollTop - cfg.listCountMargin)});
+								this.contentScrollContentSync({top: (scrollTop - cfg.listCountMargin)});
+							}
+							else {
+								if (trTop.number() == 0) {
+									var scrollTop = 0;
+									this.scrollContent.css({top: scrollTop});
+									this.contentScrollContentSync({top: scrollTop});
+								}
 							}
 						}
 					}
@@ -18097,6 +18158,56 @@ var AXGrid = Class.create(AXJ, {
 
 				this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
 				this.selectedRow.push(itemIndex);
+
+				if(cfg.mergeCells){ /// mergeCells 이 있는 경우 함께 선택 표시해야할 대상이 있는지 판단 후 처리
+
+					(function(){
+						var colGroupLen = 0, nowTrTd = this.body.find(".gridBodyTr_" + itemIndex).find("td");
+						for(var i=0, l=cfg.colGroup.length;i<l;i++){
+							if(cfg.colGroup[i].display) colGroupLen++;
+						}
+						if(colGroupLen == nowTrTd.length - 1){
+							// td중에 rowspan이 있는 컬럼이 있는지 체크
+							for(var i=0, l=nowTrTd.length;i<l;i++) {
+								if(nowTrTd[i].getAttribute("rowspan") > 1){
+									for(var ai = 0;ai < nowTrTd[i].getAttribute("rowspan")-1;ai++){
+										this.body.find(".gridBodyTr_" + (Number(itemIndex) + ai + 1)).addClass("selected");
+										this.selectedRow.push((Number(itemIndex) + ai + 1));
+									}
+									break;
+								}
+							}
+						}
+						else{
+							this.selectedRow.clear();
+							// 이가 빠졌음 머지된 컬럼을 검색 (위로 탐색 나올때까지)
+							var finding = true, parentItemIndex = itemIndex, safeLoop = 0;
+							do{
+								parentItemIndex = parentItemIndex - 1;
+								var _nowTrTd = this.body.find(".gridBodyTr_" + (parentItemIndex)).find("td");
+								//console.log(colGroupLen, (_nowTrTd.length - 1), parentItemIndex);
+								if(colGroupLen == _nowTrTd.length - 1) {
+									for(var i=0, l=_nowTrTd.length;i<l;i++) {
+
+										if(_nowTrTd[i].getAttribute("rowspan") > 1){
+											//console.log(_nowTrTd[i].getAttribute("rowspan"));
+											for(var ai = 0;ai < _nowTrTd[i].getAttribute("rowspan");ai++){
+												this.body.find(".gridBodyTr_" + (Number(parentItemIndex) + ai)).addClass("selected");
+												this.selectedRow.push((Number(parentItemIndex) + ai));
+											}
+											break;
+										}
+									}
+									finding = false;
+								}
+								safeLoop++;
+								if(safeLoop > 1000) finding = false;
+							}while(finding)
+
+						}
+					}).call(this);
+				}
+
 				this.body.find(".gridBodyTr_" + itemIndex).find(".bodyTd_" + c_index + ".bodyTdr_0").addClass("selected");
 
 				var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top,
@@ -18135,9 +18246,7 @@ var AXGrid = Class.create(AXJ, {
 			{
 				if (this.list.length > itemIndex && itemIndex > -1) {
 
-					this.selectedRow.clear();
-					this.selectedRow.push(itemIndex);
-					this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+					if(itemIndex == 0) itemIndex = '' + itemIndex;
 
 					var scrollHeight = this.scrollContent.height();
 					var bodyHeight = this.body.height();
@@ -18169,6 +18278,60 @@ var AXGrid = Class.create(AXJ, {
 									_this.scrollContent.css({ top: scrollTop });
 									_this.contentScrollContentSync({ top: scrollTop }, "direct");
 								}
+							}
+
+
+							_this.selectedRow.clear();
+							_this.selectedRow.push(itemIndex);
+							_this.body.find(".gridBodyTr_" + itemIndex).addClass("selected");
+
+							if(cfg.mergeCells){ /// mergeCells 이 있는 경우 함께 선택 표시해야할 대상이 있는지 판단 후 처리
+
+								(function(){
+									var colGroupLen = 0, nowTrTd = this.body.find(".gridBodyTr_" + itemIndex).find("td");
+									for(var i=0, l=cfg.colGroup.length;i<l;i++){
+										if(cfg.colGroup[i].display) colGroupLen++;
+									}
+									if(colGroupLen == nowTrTd.length - 1){
+										// td중에 rowspan이 있는 컬럼이 있는지 체크
+										for(var i=0, l=nowTrTd.length;i<l;i++) {
+											if(nowTrTd[i].getAttribute("rowspan") > 1){
+												for(var ai = 0;ai < nowTrTd[i].getAttribute("rowspan")-1;ai++){
+													this.body.find(".gridBodyTr_" + (Number(itemIndex) + ai + 1)).addClass("selected");
+													this.selectedRow.push((Number(itemIndex) + ai + 1));
+												}
+												break;
+											}
+										}
+									}
+									else{
+										this.selectedRow.clear();
+										// 이가 빠졌음 머지된 컬럼을 검색 (위로 탐색 나올때까지)
+										var finding = true, parentItemIndex = itemIndex, safeLoop = 0;
+										do{
+											parentItemIndex = parentItemIndex - 1;
+											var _nowTrTd = this.body.find(".gridBodyTr_" + (parentItemIndex)).find("td");
+											//console.log(colGroupLen, (_nowTrTd.length - 1), parentItemIndex);
+											if(colGroupLen == _nowTrTd.length - 1) {
+												for(var i=0, l=_nowTrTd.length;i<l;i++) {
+
+													if(_nowTrTd[i].getAttribute("rowspan") > 1){
+														//console.log(_nowTrTd[i].getAttribute("rowspan"));
+														for(var ai = 0;ai < _nowTrTd[i].getAttribute("rowspan");ai++){
+															this.body.find(".gridBodyTr_" + (Number(parentItemIndex) + ai)).addClass("selected");
+															this.selectedRow.push((Number(parentItemIndex) + ai));
+														}
+														break;
+													}
+												}
+												finding = false;
+											}
+											safeLoop++;
+											if(safeLoop > 1000) finding = false;
+										}while(finding)
+
+									}
+								}).call(_this);
 							}
 						}
 					});
@@ -18245,6 +18408,11 @@ var AXGrid = Class.create(AXJ, {
 		else
 		{
 			myIndex = this.selectedRow.first();
+			if(cfg.mergeCells && this.selectedRow.length > 1 && direction > 0) {
+				if(Math.abs(this.selectedRow[0] - this.selectedRow[1]) == 1){ // 인점 선택인 경우
+					myIndex = this.selectedRow.last();
+				}
+			}
 			itemIndex = myIndex.number() + direction;
 			if(itemIndex < 0) itemIndex = this.list.length - 1;
 			else if(itemIndex > this.list.length-1) itemIndex = 0;
@@ -18349,7 +18517,8 @@ var AXGrid = Class.create(AXJ, {
 					};
 					if (cfg.colGroup[tdi] && cfg.colGroup[tdi].display && item.tdom.length == 0) {
 						break; // end loop
-					} else if (!item.tdom.hasClass("bodyNullTd")) {
+					}
+					else if (!item.tdom.hasClass("bodyNullTd")) {
 						item.html = this.list[tri][tdn];
 						item.tri = tri;
 						item.tdi = tdi;
@@ -18392,7 +18561,8 @@ var AXGrid = Class.create(AXJ, {
 					}
 				}
 			}
-		}else{
+		}
+		else{
 			for(var tri = 0;tri < rows.length;tri++){
 				for(var tdi = 0;tdi < rows[tri].length;tdi++) {
 					if( _val["td_"+tdi] ) {
@@ -18407,7 +18577,8 @@ var AXGrid = Class.create(AXJ, {
 								html   : rows[tri][tdi].html
 							};
 						}
-					}else {
+					}
+					else {
 						_val["td_" + tdi] = {
 							tri    : tri,
 							tdi    : tdi,
@@ -18423,8 +18594,13 @@ var AXGrid = Class.create(AXJ, {
 		if(typ == "n") {
 			for (var tri = 0; tri < rows.length; tri++) {
 				for (var tdi = 0; tdi < rows[tri].length; tdi++) {
-					if (rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
-					else rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+					if (rows[tri][tdi].rowspan == 0) {
+						rows[tri][tdi].tdom.remove();
+					}
+					else {
+						rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+						//tgDom.find(".gridBodyTr_" + tri).removeAttr("data-mergedBy");
+					}
 				}
 			}
 		}
@@ -18432,9 +18608,12 @@ var AXGrid = Class.create(AXJ, {
 		if(typ == "f"){
 			for (var tri = 0; tri < rows.length; tri++) {
 				for (var tdi = 0; tdi < rows[tri].length; tdi++) {
-					if (rows[tri][tdi].rowspan == 0) rows[tri][tdi].tdom.remove();
+					if (rows[tri][tdi].rowspan == 0) {
+						rows[tri][tdi].tdom.remove();
+					}
 					else{
 						rows[tri][tdi].tdom.attr("rowspan", rows[tri][tdi].rowspan);
+						//tgDom.find(".gridBodyTr_" + tri).removeAttr("data-mergedBy");
 						if(tdi > 0 || cfg.fixedColSeq == 0)
 							rows[tri][tdi].tdom.css({height: (this.virtualScroll.itemTrHeight) * rows[tri][tdi].rowspan - 1});
 					}
@@ -20515,11 +20694,13 @@ var AXGrid = Class.create(AXJ, {
 				}
 				cfg.view.column = axf.copyObject(this.menu);
 				_this.printList();
+				this.contentScrollResize();
 			},
 			onsort: function () { // 정렬이 변경 된 경우 호출 됩니다.
 				//console.log(this.sortMenu);
 				_this.list = _this.sortList(this.sortMenu.sort, this.sortMenu, _this.list);
 				_this.printList();
+				this.contentScrollResize();
 
 				return true;// 메뉴 창이 닫히지 않게 합니다.
 			}
