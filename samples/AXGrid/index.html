@@ -35,13 +35,25 @@
     <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
     <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
     <!-- prettify block -->
+
+	<style type="text/css">
+		.AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td.colHeadTdLast{
+			background:none;
+		}
+		.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr td.isTdEnd{
+			background-image:none;
+		}
+	</style>
+
     <script id="jscode">
     /**
      * Require Files for AXISJ UI Component...
      * Based        : jQuery
      * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
      * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelecto.css
-     */    
+     */
+    AXConfig.AXGrid.fitToWidthRightMargin = 11;
+
     var pageID = "AXGrid";
     var AXGrid_instances = [];
     var fnObj = {

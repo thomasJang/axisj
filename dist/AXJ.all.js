@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.20 - 2015-11-04 
+AXJ - v1.0.20 - 2015-11-05 
 */
 /*! 
-AXJ - v1.0.20 - 2015-11-04 
+AXJ - v1.0.20 - 2015-11-05 
 */
 
 if(!window.AXConfig){
@@ -11521,7 +11521,7 @@ var AXGrid = Class.create(AXJ, {
 		this.config.colHeadTool = true;
 		this.config.xscroll = true;
 		this.config.fitToWidth = (AXConfig.AXGrid.fitToWidth || false);
-		this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 10);
+		this.config.fitToWidthRightMargin = (AXConfig.AXGrid.fitToWidthRightMargin || 15);
 		this.config.passiveMode = AXConfig.AXGrid.passiveMode;
 		this.config.passiveRemoveHide = AXConfig.AXGrid.passiveRemoveHide;
 		this.config.scrollContentBottomMargin = "10";
@@ -12521,6 +12521,66 @@ var AXGrid = Class.create(AXJ, {
 			}
 			this.showFixedColLen = fixedColLen;
 			this.fixedColWidth = fixedColWidth;
+		}
+
+
+		var ri = cfg.body.rows.length;
+		while(ri--){
+			var ii = cfg.body.rows[ri].length;
+			while(ii--) {
+				if(cfg.body.rows[ri][ii].display){
+					cfg.body.rows[ri][ii].isTdEnd = true;
+					break;
+				}
+			}
+		}
+		if(cfg.editor) {
+			ri = cfg.editor.rows.length;
+			while (ri--) {
+				var ii = cfg.editor.rows[ri].length;
+				while (ii--) {
+					if (cfg.editor.rows[ri][ii].display) {
+						cfg.editor.rows[ri][ii].isTdEnd = true;
+						break;
+					}
+				}
+			}
+		}
+		if(cfg.foot) {
+			ri = cfg.foot.rows.length;
+			while (ri--) {
+				var ii = cfg.foot.rows[ri].length;
+				while (ii--) {
+					if (cfg.foot.rows[ri][ii].display) {
+						cfg.foot.rows[ri][ii].isTdEnd = true;
+						break;
+					}
+				}
+			}
+		}
+		if(cfg.head) {
+			ri = cfg.head.rows.length;
+			while (ri--) {
+				var ii = cfg.head.rows[ri].length;
+				while (ii--) {
+					if (cfg.head.rows[ri][ii].display) {
+						cfg.head.rows[ri][ii].isTdEnd = true;
+						break;
+					}
+				}
+			}
+		}
+		if(cfg.body.marker) {
+			ri = cfg.body.marker.rows.length;
+			while (ri--) {
+				var ii = cfg.body.marker.rows[ri].length;
+				while (ii--) {
+					if (cfg.body.marker.rows[ri][ii].display) {
+						cfg.body.marker.rows[ri][ii].isTdEnd = true;
+						break;
+					}
+				}
+			}
 		}
 	},
 	/**
@@ -13904,7 +13964,7 @@ var AXGrid = Class.create(AXJ, {
 				axdom("#" + txtID).css({"padding-top": cellMarginTop + "px"});
 				axdom("#" + toolID).css({"top": (cellMarginTop - 5) + "px"});
 			});
-			
+			this.colHead.find(".colHeadTd:last-child").addClass("colHeadTdLast");
 			//AXGridTarget_AX_colHead_AX_0_AX_2
 			//AXGridTarget_AX_colHead_AX_0_AX_0
 			
@@ -15209,6 +15269,8 @@ var AXGrid = Class.create(AXJ, {
 			for (; CHidx < cfg.body.rows[r].length; CHidx++) {
 				CH = cfg.body.rows[r][CHidx];
 				CG = cfg.colGroup[CHidx];
+				//console.log(CH.isLastCell); //
+				//console.log(CG);
 				if (CH.display && CH.colspan > 0) {
 					var printOk = false, makeBodyNode = true;
 					if (isfix == "n") {
@@ -15242,7 +15304,7 @@ var AXGrid = Class.create(AXJ, {
 						
 						tpo.push("<td" + valign + rowspan + colspan + styles + " " +
 							" id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "body_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
-							" class=\"bodyTd bodyTd_" + CHidx + " bodyTdr_" + r + " " + bottomClass + fixedClass + "\">");
+							" class=\"bodyTd bodyTd_" + CHidx + " bodyTdr_" + r + " " + bottomClass + fixedClass + ((CH.isTdEnd) ? " isTdEnd":"") + "\">");
 						
 						if (makeBodyNode) {
 							tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + addClasses + "\" " +
