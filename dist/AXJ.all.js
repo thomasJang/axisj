@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.20 - 2015-11-05 
+AXJ - v1.0.20 - 2015-11-06 
 */
 /*! 
-AXJ - v1.0.20 - 2015-11-05 
+AXJ - v1.0.20 - 2015-11-06 
 */
 
 if(!window.AXConfig){
@@ -12570,7 +12570,7 @@ var AXGrid = Class.create(AXJ, {
 				}
 			}
 		}
-		if(cfg.body.marker) {
+		if(cfg.body.marker && cfg.body.marker.rows) {
 			ri = cfg.body.marker.rows.length;
 			while (ri--) {
 				var ii = cfg.body.marker.rows[ri].length;
@@ -15236,6 +15236,7 @@ var AXGrid = Class.create(AXJ, {
 		var hasFixed = this.hasFixed;
 		var hasTrValue = (hasTr === undefined);
 		var trAddClass = "";
+		var lastTdRowspan = "";
 		if (cfg.body.addClass) {
 			try {
 				trAddClass = cfg.body.addClass.call({
@@ -15285,6 +15286,7 @@ var AXGrid = Class.create(AXJ, {
 						//radio, check exception
 						var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
 						var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
+						lastTdRowspan = rowspan;
 						var valign = " valign=\"" + CH.valign + "\" ";
 						var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
 						var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
