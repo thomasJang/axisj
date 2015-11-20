@@ -24,6 +24,7 @@ $uploadfile = $upload_dir . "/" . basename($new_file_name);
 if (move_uploaded_file($_FILES['fileData']['tmp_name'], $uploadfile)) {
 
     echo "{";
+	//echo "id:'1234', ";
     echo "name:'". urlencode($file_name) ."', ";
     echo "type:'". urlencode($file_ext) ."', ";
     echo "saveName:'". urlencode($new_file_name) ."', ";
