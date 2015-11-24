@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.20 - 2015-11-06 
+AXJ - v1.0.21 - 2015-11-24 
 */
 /*! 
-AXJ - v1.0.20 - 2015-11-06 
+AXJ - v1.0.21 - 2015-11-24 
 */
 
 if(!window.AXConfig){
@@ -44037,7 +44037,7 @@ var swfobject;
  * AXUpload5
  * @class AXUpload5
  * @extends AXJ
- * @version v1.4.3
+ * @version v1.4.4
  * @author tom@axisj.com
  * @logs
  "2013-10-02 오후 2:19:36 - 시작 tom",
@@ -44072,6 +44072,7 @@ var swfobject;
  "2015-08-02 tom : 업로드 버튼 태그 수정 / 업로드 완료시에 엘리먼트 초기화 기능 보류"
  "2015-08-03 tom : setUploadedList queue box clear"
  "2015-08-07 tom : 내부 키 id > _id_ 로 교체"
+ "2015-11-24 tom : queueBoxAppendType:"prepend" 버그 픽스
  * @description
  *
  ```js
@@ -44185,7 +44186,7 @@ var AXUpload5 = Class.create(AXJ, {
 		this.config.flash9_url = "/_AXJ/lib/swfupload_fp9.swf";
 		this.config.uploadPars = {};
 		this.config.deletePars = {};
-		this.config.queueBoxAppendType = "prepend";
+		this.config.queueBoxAppendType = "append";
 	},
 	init: function(reset){
 		var cfg = this.config;
@@ -44252,13 +44253,13 @@ var AXUpload5 = Class.create(AXJ, {
 		 po.push('	<input type="file" id="'+cfg.targetID+'_AX_files" '+inputFileMultiple+' accept="'+inputFileAccept+'" style="position:absolute;left:0px;top:0px;margin:0px;padding:0px;-moz-opacity: 0.0;opacity:.00;filter: alpha(opacity=0);" />');
 		 po.push('	<button type="button" class="AXButton '+cfg.targetButtonClass+'" id="'+cfg.targetID+'_AX_selector"><span class="AXFileSelector">'+(cfg.buttonTxt)+'</span></button>');
 		 po.push('	</td>');
-		
+
 		 if(cfg.isSingleUpload && cfg.fileDisplayHide != true){
 		 po.push('<td>');
 		 po.push('<div class="AXFileDisplay" id="'+cfg.targetID+'_AX_display">'+AXConfig.AXUpload5.uploadSelectTxt+'</div>');
 		 po.push('</td>');
 		 }
-		
+
 		 po.push('	</tr></tbody></table>');
 		 */
 
@@ -45026,14 +45027,20 @@ var AXUpload5 = Class.create(AXJ, {
 		axdom.each(_res, function(k, v){
 			uploadedItem[k] = v;
 		});
-		if(cfg.queueBoxAppendType == "prepend") this.uploadedList.push(uploadedItem);
+		if(cfg.queueBoxAppendType == "prepend") {
+			//this.uploadedList.push(uploadedItem);
+			this.uploadedList.splice(0, 0, uploadedItem);
+		}
 		else{
-			var uploadedList = [];
-			uploadedList.push(uploadedItem);
-			axdom.each(this.uploadedList, function(){
-				uploadedList.push(this);
-			});
-			this.uploadedList = uploadedList;
+			this.uploadedList.push(uploadedItem);
+			/*
+			 var uploadedList = [];
+			 uploadedList.push(uploadedItem);
+			 axdom.each(this.uploadedList, function(){
+			 uploadedList.push(this);
+			 });
+			 */
+			//this.uploadedList = this.uploadedList.concat(uploadedItem);
 		}
 		axdom("#"+itemID).addClass("readyselect");
 		if(cfg.onUpload) cfg.onUpload.call(uploadedItem, uploadedItem);
@@ -45053,7 +45060,7 @@ var AXUpload5 = Class.create(AXJ, {
 		if(AXgetId(cfg.targetID+'_AX_files')){ // 2015-08-02 업로드 완료 방식 변경 체크중
 			/*
 			 axdom('#'+cfg.targetID+'_AX_files').remove();
-			
+
 			 var inputFileMultiple = 'multiple="multiple"';
 			 var inputFileAccept = cfg.file_types;
 			 if(cfg.isSingleUpload){
@@ -45366,7 +45373,9 @@ var AXUpload5 = Class.create(AXJ, {
 			};
 
 			itembox = axdom("#" + cfg.targetID+'_AX_display');
-			itembox.empty().append(this.getItemTag(itemID, uf));
+			if(cfg.queueBoxAppendType == "prepend") itembox.empty().prepend(this.getItemTag(itemID, uf));
+			else itembox.empty().append(this.getItemTag(itemID, uf));
+
 
 			itembox.find(".AXUploadBtns").show();
 			itembox.find(".AXUploadLabel").show();
@@ -45389,7 +45398,7 @@ var AXUpload5 = Class.create(AXJ, {
 			//this.uploadedList = files;
 			this.uploadedList = [];
 			var uploadedList = [];
-			files.reverse();
+
 			axf.each(files, function(){
 				if(this) uploadedList.push(this);
 			});
@@ -45413,7 +45422,11 @@ var AXUpload5 = Class.create(AXJ, {
 						name:f[cfg.fileKeys.name],
 						size:f[cfg.fileKeys.fileSize]
 					};
-					quebox.prepend(getItemTag(itemID, uf));
+
+					if(cfg.queueBoxAppendType == "prepend") quebox.prepend(getItemTag(itemID, uf));
+					else quebox.append(getItemTag(itemID, uf));
+
+
 					itembox = axdom("#" + itemID);
 					itembox.fadeIn();
 					
@@ -45462,6 +45475,12 @@ var AXUpload5 = Class.create(AXJ, {
 	 ```
 	 */
 	getUploadedList: function(arg){
+		var cfg = this.config;
+
+		if(cfg.uploadedListSort){
+			this.uploadedList = cfg.uploadedListSort.call(this, this.uploadedList);
+		}
+
 		if(arg == "param"){
 			try{
 				var pars = [];
