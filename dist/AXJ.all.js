@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-11-24 
+AXJ - v1.0.21 - 2015-11-25 
 */
 /*! 
-AXJ - v1.0.21 - 2015-11-24 
+AXJ - v1.0.21 - 2015-11-25 
 */
 
 if(!window.AXConfig){
@@ -13254,7 +13254,6 @@ var AXGrid = Class.create(AXJ, {
 			
 			this.gridTargetSetSize(true);
 			this.setBody(undefined, true);
-			this.contentScrollResize();
 		}
 		else {
 			this.contentScrollResize();
@@ -14862,10 +14861,10 @@ var AXGrid = Class.create(AXJ, {
 						this.list = obj;
 					}
 				}
-				
+
 				this.printList({reload: rewrite});
 				this.contentScrollResize();
-				this.scrollTop(0);
+				if(rewrite != "reload") this.scrollTop(0);
 				this.setStatus(this.list.length);
 				
 				if (!cfg.page.paging) {
