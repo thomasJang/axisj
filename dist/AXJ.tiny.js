@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-11-25 
+AXJ - v1.0.21 - 2015-12-01 
 */
 /*! 
-AXJ - v1.0.21 - 2015-11-25 
+AXJ - v1.0.21 - 2015-12-01 
 */
 
 if(!window.AXConfig){
@@ -1195,7 +1195,32 @@ var Class = (function () {
  * // "{a:1, b:2}"
  * ```
  */
-	function toJSON(object, qoute) {
+
+	var toJSON = (function(){
+		var r = /["]/g, f;
+		return f = function(vContent, isqoute){
+			var result, i, j;
+			switch( result = typeof vContent ){
+				case'string':return '"' + vContent.replace( r, '\\"' ) + '"';
+				case'number':case'boolean':return vContent.toString();
+				case'undefined':return 'undefined';
+				case'function':return '""';
+				case'object':
+					if(!vContent) return 'null';
+					result = '';
+					if(vContent.splice){
+						for(i = 0, j = vContent.length ; i < j ; i++) result += ',' + f(vContent[i]);
+						return '[' + result.substr(1) + ']';
+					}else{
+						for(i in vContent) if(vContent.hasOwnProperty(i) && vContent[i] !== undefined && typeof vContent[i] != 'function') result += ',"'+i+'":' + f(vContent[i]);
+						return '{' + result.substr(1) + '}';
+					}
+			}
+		};
+	})();
+
+	/*
+	function toJSON(vContent, qoute) {
 		var type = typeof object;
 		var isqoute = qoute;
 		if (isqoute == undefined) isqoute = true;
@@ -1220,6 +1245,8 @@ var Class = (function () {
 		}
 		return '{' + results.join(', ') + '}';
 	}
+	*/
+
 	/**
 	 * 오브젝트의 새로운 참조를 생성합니다.
 	 * @method Object.toJSONfn
