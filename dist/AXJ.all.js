@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-12-01 
+AXJ - v1.0.21 - 2015-12-04 
 */
 /*! 
-AXJ - v1.0.21 - 2015-12-01 
+AXJ - v1.0.21 - 2015-12-04 
 */
 
 if(!window.AXConfig){
@@ -15086,6 +15086,7 @@ var AXGrid = Class.create(AXJ, {
 	getFormatterValue: function(formatter, item, itemIndex, value, key, CH, CHidx) {
 		var cfg = this.config;
 		var result;
+
 		if (CH.editor && (CH.editor.type == "checkbox" || CH.editor.type == "radio")) {
 			//
 			// editCell 처리
@@ -15098,17 +15099,28 @@ var AXGrid = Class.create(AXJ, {
 					key: key,
 					value: value
 				};
-			
+
 			if (value == true || value == 1 || value == "1" || value == "Y") checkedStr = ' checked="checked"';
 			if (CH.editor.disabled) {
 				if (CH.editor.disabled.call(that)) {
 					disabled = ' disabled="disabled"';
 				}
 			}
-			
+
 			result = '<input type="' + CH.editor.type + '" name="' + key + '" data-editor-key="' + itemIndex + ',' + CHidx + '" class="inline-editor-checkbox" ' +
 				checkedStr + disabled + ' onfocus="this.blur();" />';
 			//"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
+		}
+		else if (Object.isFunction(formatter)) {
+			var sendObj = {
+				index: itemIndex,
+				list: this.list,
+				item: item,
+				page: this.page,
+				key: key,
+				value: value
+			};
+			result = formatter.call(sendObj, itemIndex, item);
 		}
 		else if (CH.editor && (CH.editor.type in this.formatter)) {
 			// 동일한 이름을 가진 formatter와 editor가 있으면 해당 editor의 값을 보여줄 때 동일한 이름을 가진 formatter를 사용한다.
@@ -15118,20 +15130,7 @@ var AXGrid = Class.create(AXJ, {
 			result = this.formatter[formatter].call(this, formatter, item, itemIndex, value, key, CH, CHidx);
 		}
 		else {
-			if (Object.isFunction(formatter)) {
-				var sendObj = {
-					index: itemIndex,
-					list: this.list,
-					item: item,
-					page: this.page,
-					key: key,
-					value: value
-				};
-				result = formatter.call(sendObj, itemIndex, item);
-			}
-			else {
-				result = ((String(value) == "null") ? "" : value);
-			}
+			result = ((String(value) == "null") ? "" : value);
 		}
 		return result;
 	},
