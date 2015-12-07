@@ -37,6 +37,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fee834, endColorstr=#fee834);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fee834, endColorstr=#fee834);
+  /*For IE7-8-9*/
   color: #523636;
   padding: 3px 5px;
   border-radius: 3px;
@@ -67,6 +69,8 @@
   background-image: linear-gradient(#fee834, #fee834);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fee834, endColorstr=#fee834);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fee834, endColorstr=#fee834);
   /*For IE7-8-9*/
 }
 .userSelectBox .bedraged {

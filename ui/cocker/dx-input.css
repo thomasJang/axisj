@@ -365,6 +365,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
   border: 1px solid #b9babc;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -394,6 +396,8 @@
   background: linear-gradient(#e8e8e8, #e8e8e8);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   border: 1px solid #b9babc;
 }
@@ -680,6 +684,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e8e8e8, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -696,6 +702,8 @@
   background: linear-gradient(#c7cfd4, #c7cfd4);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c7cfd4, endColorstr=#c7cfd4);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c7cfd4, endColorstr=#c7cfd4);
   /*For IE7-8-9*/
   text-shadow: 0px 1px #fff;
 }
@@ -719,6 +727,8 @@
   background: linear-gradient(#b1b1b1, #b1b1b1);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1b1b1, endColorstr=#b1b1b1);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1b1b1, endColorstr=#b1b1b1);
   /*For IE7-8-9*/
   color: #fff;
   text-shadow: none;
@@ -757,6 +767,8 @@
   background: linear-gradient(#b1bec7, #919ea7);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1bec7, endColorstr=#919ea7);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1bec7, endColorstr=#919ea7);
   /*For IE7-8-9*/
   border: 1px solid #7f8d9c;
 }

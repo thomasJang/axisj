@@ -1576,6 +1576,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
   color: #5c382c;
@@ -1659,6 +1661,8 @@
   background-image: linear-gradient(#ffffff, #f1efea);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
   box-sizing: border-box;
 }

@@ -34,6 +34,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
   color: #6e7a85;
   text-align: center;
   border: none;
@@ -68,6 +70,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
+  /*For IE7-8-9*/
   color: #5c6b74;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.25);
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -97,6 +101,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
+  /*For IE7-8-9*/
   color: #d0ebfe;
   border: 1px solid #3f80b1;
   -webkit-appearance: none;
@@ -115,6 +121,8 @@ button:hover {
   background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
   color: #dffebe;
   border: 1px solid #6a9751;
@@ -135,6 +143,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
+  /*For IE7-8-9*/
   color: #fcccc9;
   border: 1px solid #87302b;
   -webkit-appearance: none;
@@ -153,6 +163,8 @@ button:hover {
   background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
@@ -174,6 +186,8 @@ button:hover {
   background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   text-align: center;
@@ -218,6 +232,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
+  /*For IE7-8-9*/
   color: #5c6b74;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.25);
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -256,6 +272,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
+  /*For IE7-8-9*/
   color: #d0ebfe;
   border: 1px solid #3f80b1;
   -webkit-appearance: none;
@@ -281,6 +299,8 @@ button:hover {
   background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
   color: #dffebe;
   border: 1px solid #6a9751;
@@ -308,6 +328,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
+  /*For IE7-8-9*/
   color: #fcccc9;
   border: 1px solid #87302b;
   -webkit-appearance: none;
@@ -334,6 +356,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
+  /*For IE7-8-9*/
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
@@ -354,10 +378,13 @@ button:hover {
   font-size: 12px;
   height: 26px;
   line-height: 26px;
+  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
+}
+.AXButton {
   background: #fdfdfd;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
@@ -369,6 +396,8 @@ button:hover {
   background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   text-align: center;
@@ -413,6 +442,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
+  /*For IE7-8-9*/
   color: #5c6b74;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.25);
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -451,6 +482,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
+  /*For IE7-8-9*/
   color: #d0ebfe;
   border: 1px solid #3f80b1;
   -webkit-appearance: none;
@@ -476,6 +509,8 @@ button:hover {
   background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
   color: #dffebe;
   border: 1px solid #6a9751;
@@ -503,6 +538,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
+  /*For IE7-8-9*/
   color: #fcccc9;
   border: 1px solid #87302b;
   -webkit-appearance: none;
@@ -529,6 +566,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
+  /*For IE7-8-9*/
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
@@ -549,10 +588,13 @@ button:hover {
   font-size: 11px;
   height: 20px;
   line-height: 20px;
+  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
+}
+.AXButtonSmall {
   background: #fdfdfd;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
@@ -564,6 +606,8 @@ button:hover {
   background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   text-align: center;
@@ -608,6 +652,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
+  /*For IE7-8-9*/
   color: #5c6b74;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.25);
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -646,6 +692,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
+  /*For IE7-8-9*/
   color: #d0ebfe;
   border: 1px solid #3f80b1;
   -webkit-appearance: none;
@@ -671,6 +719,8 @@ button:hover {
   background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
   color: #dffebe;
   border: 1px solid #6a9751;
@@ -698,6 +748,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
+  /*For IE7-8-9*/
   color: #fcccc9;
   border: 1px solid #87302b;
   -webkit-appearance: none;
@@ -724,6 +776,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
+  /*For IE7-8-9*/
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
@@ -744,10 +798,13 @@ button:hover {
   font-size: 12px;
   height: 46px;
   line-height: 46px;
+  margin: 0;
   padding: 0 10px;
   cursor: pointer;
   outline: none;
   vertical-align: middle;
+}
+.AXButtonLarge {
   background: #fdfdfd;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fdfdfd, #e8e8e8);
@@ -759,6 +816,8 @@ button:hover {
   background-image: linear-gradient(#fdfdfd, #e8e8e8);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   color: #6e7a85;
   text-align: center;
@@ -803,6 +862,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c1cdd5, endColorstr=#98a4ae);
+  /*For IE7-8-9*/
   color: #5c6b74;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.25);
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -841,6 +902,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#6faee1, endColorstr=#468ec9);
+  /*For IE7-8-9*/
   color: #d0ebfe;
   border: 1px solid #3f80b1;
   -webkit-appearance: none;
@@ -866,6 +929,8 @@ button:hover {
   background-image: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
   color: #dffebe;
   border: 1px solid #6a9751;
@@ -893,6 +958,8 @@ button:hover {
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c65a5b, endColorstr=#a93b3e);
+  /*For IE7-8-9*/
   color: #fcccc9;
   border: 1px solid #87302b;
   -webkit-appearance: none;
@@ -918,6 +985,8 @@ button:hover {
   background-image: linear-gradient(#d7d7d7, #d7d7d7);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7d7d7, endColorstr=#d7d7d7);
   /*For IE7-8-9*/
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);

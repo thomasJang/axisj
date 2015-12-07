@@ -765,6 +765,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fcfcfc, endColorstr=#edecef);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fcfcfc, endColorstr=#edecef);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_6 {
   border-right: 0px none;
@@ -783,6 +785,8 @@
   background-image: linear-gradient(#faefed, #ebd2cd);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#faefed, endColorstr=#ebd2cd);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#faefed, endColorstr=#ebd2cd);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
@@ -846,6 +850,8 @@
   background-image: linear-gradient(#fcfcfc, #edecef);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fcfcfc, endColorstr=#edecef);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fcfcfc, endColorstr=#edecef);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_2 {
@@ -1626,6 +1632,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #d4d4d4;
   border-right: 1px solid #d4d4d4;
   color: #565b61;
@@ -1709,6 +1717,8 @@
   background-image: linear-gradient(#ffffff, #e8e8e8);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
   box-sizing: border-box;
 }

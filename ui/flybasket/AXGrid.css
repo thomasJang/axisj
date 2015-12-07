@@ -886,6 +886,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f3f3f3);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }
 .AXGrid.AXGridMobile .AXgridScrollBody .AXGridToolGroup.top {

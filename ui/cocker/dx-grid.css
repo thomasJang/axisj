@@ -57,6 +57,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }
 .AXGrid .AXgridScrollBody .fixedColHead {
@@ -78,6 +80,8 @@
   background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td {
@@ -566,6 +570,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
   border-left: 1px solid #b1b1b1;
   border-right: 1px solid #b1b1b1;
@@ -585,6 +591,8 @@
   background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   z-index: 3;
 }
@@ -935,6 +943,8 @@
   background: linear-gradient(#f3f3f3, #f3f3f3);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f3f3f3, endColorstr=#f3f3f3);
   /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }
