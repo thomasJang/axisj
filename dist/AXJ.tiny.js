@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-12-07 
+AXJ - v1.0.21 - 2015-12-11 
 */
 /*! 
-AXJ - v1.0.21 - 2015-12-07 
+AXJ - v1.0.21 - 2015-12-11 
 */
 
 if(!window.AXConfig){
@@ -17618,7 +17618,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 				po.push("<li>");
 				var addClass = (T.cn && T.cn.length > 0 ) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
 				if (cfg.onclick) {
-					po.push("<a data-href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
+					po.push("<a data-href=\"" + (T.url || cfg.href) + "\"" + addClass + " data-id=\"" + (T._id || "") + "\" id=\"" + (T._id || "") + "\" data-label=\"" + (T.label || "").dec().delHtml() + "\">" + (T.label || "").dec() + "</a>");
 				}
 				else {
 					po.push("<a href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
@@ -17645,7 +17645,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			var addClass = (T.cn) ? " class = \"" + cfg.childMenu.hasChildClassName + "\"" : "";
 
 			if (cfg.onclick) {
-				po.push("<a data-href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
+				po.push("<a data-href=\"" + (T.url || cfg.href) + "\"" + addClass + " data-id=\"" + (T._id || "") + "\" id=\"" + (T._id || "") + "\" data-label=\"" + (T.label || "").dec().delHtml() + "\">" + (T.label || "").dec() + "</a>");
 			}
 			else {
 				po.push("<a href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
@@ -17670,9 +17670,11 @@ var AXTopDownMenu = Class.create(AXJ, {
 		if (cfg.onclick) {
 			this.menuBox.find('[data-href]').bind("click", function() {
 				cfg.onclick({
-					id: this.getAttribute("id"),
-					href: this.getAttribute("data-href")
+					id: this.getAttribute("data-id"),
+					href: this.getAttribute("data-href"),
+					label: this.getAttribute("data-label")
 				});
+				_this.outChild();
 			});
 		}
 
@@ -18119,6 +18121,10 @@ var AXTopDownMenu = Class.create(AXJ, {
 			var selectedMenus = pos.split(/_/g);
 			this.setHighLightMenu(selectedMenus);
 			return selectedMenus;
+		}else{
+			this.menuBox.find(".parentMenu").removeClass("on");
+			this.menuBox.find(".parentMenu a").removeClass("on");
+			this.menuBox.find(".childMenu a").removeClass("on");
 		}
 
 	},
