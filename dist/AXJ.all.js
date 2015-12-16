@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-12-11 
+AXJ - v1.0.21 - 2015-12-17 
 */
 /*! 
-AXJ - v1.0.21 - 2015-12-11 
+AXJ - v1.0.21 - 2015-12-17 
 */
 
 if(!window.AXConfig){
@@ -21766,7 +21766,7 @@ AXGrid.prototype.inlineEditor = (function() {
         
         var td_val = _this.list[ii][CG.key];
         if (typeof td_val === "undefined") AXBindConfig.setValue = "";
-        if (typeof td_val === "string" || typeof td_val === "number" || typeof td_val === "boolean") {
+        else if (typeof td_val === "string" || typeof td_val === "number" || typeof td_val === "boolean") {
           AXBindConfig.setValue = td_val;
         }
         else {
