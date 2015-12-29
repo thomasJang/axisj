@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-12-24 
+AXJ - v1.0.21 - 2015-12-29 
 */
 /*! 
-AXJ - v1.0.21 - 2015-12-24 
+AXJ - v1.0.21 - 2015-12-29 
 */
 
 if(!window.AXConfig){
@@ -17465,7 +17465,7 @@ var AXGrid = Class.create(AXJ, {
         var _this = this, cfg = this.config,
             CH = cfg.body.rows[r][c], item = this.list[itemIndex],
             CG = cfg.colGroup[c],
-            that = {item: item, index: itemIndex, CG: CG, r: r, c: c};
+            that = {grid: this, item: item, index: itemIndex, CG: CG, r: r, c: c};
         
         if (cfg.control_lock_status > 1) {
             return this;
