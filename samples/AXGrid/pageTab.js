@@ -15,7 +15,8 @@ var myTabOption = [
 	{optionValue:"bigData", optionText:"bigData", addClass:"", url:"bigData.html"},
 	{optionValue:"mergeCells", optionText:"mergeCells", addClass:"", url:"mergeCells.html"},
 	{optionValue:"misc", optionText:"misc", addClass:"", url:"misc.html"},
-	{optionValue:"inline-edit", optionText:"inline-edit", addClass:"", url:"inline-edit.html"}
+	{optionValue:"inline-edit", optionText:"inline-edit", addClass:"", url:"inline-edit.html"},
+	{optionValue:"formatter", optionText:"formatter", addClass:"", url:"formatter.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){
