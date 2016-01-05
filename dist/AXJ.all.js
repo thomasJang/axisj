@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2015-12-29 
+AXJ - v1.0.21 - 2016-01-05 
 */
 /*! 
-AXJ - v1.0.21 - 2015-12-29 
+AXJ - v1.0.21 - 2016-01-05 
 */
 
 if(!window.AXConfig){
@@ -11918,6 +11918,7 @@ var AXGrid = Class.create(AXJ, {
                             }
                             else {
                                 if (cfg.body._maps[rr][nC] == undefined) {
+                                    if(rr != posR) position._isRowMerged = true; /// status row merged
                                     cfg.body._maps[rr][nC] = position;
                                     if (startPosition == null) startPosition = nC;
                                     tC--;
@@ -15293,12 +15294,13 @@ var AXGrid = Class.create(AXJ, {
         }
         
         var r = 0, l = cfg.body.rows.length;
+
         for (; r < l; r++) {
             var isLastTR = (l - 1 == r);
             var trHeight = 0;
+            trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex + " td").innerHeight();
             if (hasTrValue) {
                 if (isfix == "fix") {
-                    trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex + " td").innerHeight();
                     tpo.push("<tr class=\"gridBodyTr gridBodyTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" " +
                         "id=\"" + cfg.targetID + "_AX_tr_" + r + "_AX_fix_AX_" + itemIndex + "\">");
                 }
@@ -15306,23 +15308,42 @@ var AXGrid = Class.create(AXJ, {
                     tpo.push("<tr class=\"gridBodyTr gridBodyTr_" + itemIndex + " " + evenClassName + " " + trAddClass + "\" " +
                         "id=\"" + cfg.targetID + "_AX_tr_" + r + "_AX_n_AX_" + itemIndex + "\">");
                 }
-                
+
             }
             var colCount = 0, CH, CHidx = 0, CG, CHLen = cfg.body.rows[r].length;
+
             for (; CHidx < cfg.body.rows[r].length; CHidx++) {
                 CH = cfg.body.rows[r][CHidx];
                 CG = cfg.colGroup[CHidx];
-                //console.log(CH.isLastCell); //
-                //console.log(CG);
+                
                 if (CH.display && CH.colspan > 0) {
                     var printOk = false, makeBodyNode = true;
                     if (isfix == "n") {
                         printOk = true;
-                        if (typeof cfg.fixedColSeq != "undefined" && cfg.fixedColSeq > 0 & colCount < (cfg.fixedColSeq + 1)) {
-                            makeBodyNode = false;
+
+                        if(typeof CH.colSeq == "undefined") {
+
+                        }else{
+                            if (typeof cfg.fixedColSeq != "undefined" && cfg.fixedColSeq > 0 && CH.colSeq < (cfg.fixedColSeq + 1)) {
+                                makeBodyNode = false;
+                            }
                         }
                     }
-                    if (isfix == "fix" && colCount < (cfg.fixedColSeq + 1)) printOk = true;
+                    if (isfix == "fix" && colCount < (cfg.fixedColSeq + 1)) {
+                        printOk = true;
+                        if(typeof CH.colSeq == "undefined" || CH.colSeq == null){
+                            if(r > 0 && cfg.body._maps[r][CHidx] && cfg.body._maps[r][colCount].r != r){
+                                printOk = false;
+                            }
+                        }else{
+                            var _postion = cfg.body._maps[r][CH.colSeq];
+                            if (CH.colSeq > (cfg.fixedColSeq)) {
+                                printOk = false;
+                            }
+                        }
+
+                    }
+
                     if (printOk) {
                         colCount += CH.colspan;
                         //radio, check exception
@@ -15333,28 +15354,47 @@ var AXGrid = Class.create(AXJ, {
                         var bottomClass = (CH.isLastCell) ? "" : " bodyBottomBorder";
                         var fixedClass = (CH.isFixedEndCell) ? " fixedLine" : "";
                         var styles = " style=\"vertical-align:" + CH.valign + ";\"";
-                        
-                        if (trHeight && CH.rowspan < 2 && CH.colspan < 2) styles = " style=\"vertical-align:" + CH.valign + ";height:" + trHeight + "px;\"";
-                        
+
+                        var tdHeight = (function () {
+                            if (cfg.body.heights && cfg.body.heights[r]) {
+                                var tdHeight = 0;
+                                for (var i = r; i < CH.rowspan; i++) {
+                                    tdHeight += (cfg.body.heights[i] || 0);
+                                }
+                                return tdHeight;
+                            }
+                            else {
+                                return 0;
+                            }
+                        })();
+
+                        if(tdHeight){
+                            styles = " style=\"vertical-align:" + CH.valign + ";height:" + (tdHeight) + "px;\"";
+                        }
+                        else if (trHeight && CH.rowspan < 2 && CH.colspan < 2) styles = " style=\"vertical-align:" + CH.valign + ";height:" + trHeight + "px;\"";
+                        else if(CH.rowspan > 1){
+                            styles = " style=\"vertical-align:" + CH.valign + ";height:" + (trHeight) + "px;\"";
+                        }
                         var bodyNodeClass = "";
                         if (CH.formatter == "checkbox" || CH.formatter == "radio") bodyNodeClass = " bodyTdCheckBox";
                         else if (CH.formatter == "html") bodyNodeClass = " bodyTdHtml";
-                        
+
                         var tooltipValue = "";
                         if (CH.tooltip) tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
-                        
+
                         var addClasses = "";
                         if (CH.addClass) addClasses = " " + getAddingClass(CH.addClass, item, itemIndex, item[CH.key], CH.key, CH);
-                        
+
                         tpo.push("<td" + valign + rowspan + colspan + styles + " " +
                             " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "body_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
                             " class=\"bodyTd bodyTd_" + CHidx + " bodyTdr_" + r + " " + bottomClass + fixedClass + ((CH.isTdEnd) ? " isTdEnd" : "") + "\">");
-                        
+
                         if (makeBodyNode) {
                             tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + addClasses + "\" " +
                                 " align=\"" + CH.align + "\" " +
                                 " id=\"" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
                                 " title=\"" + tooltipValue + "\">");
+
                             if ((hasFixed && !CH.isFixedCell) || !hasFixed || isfix != undefined) {
                                 if (CH.formatter) {
                                     tpo.push(getFormatterValue(CH.formatter, item, itemIndex, item[CH.key], CH.key, CH, CHidx));
@@ -21539,6 +21579,11 @@ AXGrid.prototype.formatter = (function () {
     }
     
     return {
+        "wordwrap": function(formatter, item, itemIndex, value, key, CH, CHidx){
+            if (!value) { return ""; }
+
+            return '<span class="AXWordwrap">' + value.dec().crlf().replace(/ /g, '&nbsp;') + '</span>';
+        },
         "money": function (formatter, item, itemIndex, value, key, CH, CHidx) {
             if (value == "" || value == "null" || value == null || value == undefined) {
                 return "0";
@@ -21562,19 +21607,21 @@ AXGrid.prototype.formatter = (function () {
             var options = CH.editor.options || [];
             var text = "";
             
-            if (!txtKey && AXConfig && AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) {
-                txtKey = AXConfig.AXSelect.keyOptionValue || "optionValue";
+            if (!txtKey && AXConfig && AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) {
+                txtKey = AXConfig.AXSelect.keyOptionText || "optionText";
             }
-            if (!valKey && AXConfig && AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) {
-                valKey = AXConfig.AXSelect.keyOptionText || "optionText";
+            if (!valKey && AXConfig && AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) {
+                valKey = AXConfig.AXSelect.keyOptionValue || "optionValue";
             }
             
             if (options.length === 0) {
                 return text;
             }
-            
+
+            var isObjectVal = Object.isObject(value);
+            var optionVal = isObjectVal ? value[valKey] : value;
             for (var i = 0; i < options.length; i++) {
-                if (options[i][valKey] == value) {
+                if (options[i][valKey] == optionVal) {
                     text = options[i][txtKey];
                     break;
                 }
