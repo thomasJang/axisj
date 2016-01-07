@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2016-01-05 
+AXJ - v1.0.21 - 2016-01-07 
 */
 /*! 
-AXJ - v1.0.21 - 2016-01-05 
+AXJ - v1.0.21 - 2016-01-07 
 */
 
 if(!window.AXConfig){
@@ -12628,6 +12628,7 @@ var AXGrid = Class.create(AXJ, {
  *     remoteSort  : true,           // {Boolean} [false] -- 서버에서 정렬을 처리(서버에서 별도 처리 필요)합니다. 헤더 클릭시 'sortBy=cost desc' 형식의 정렬 정보가 ajax 요청에 포함됩니다.
  *     colHeadTool : true,           // {Boolean} -- 컬럼 display 여부를 설정 합니다. 이 설정은 colGroup의 colHeadTool 보다 우선적으로 적용됩니다.
  *     viewMode    : "grid"          // {String} -- 그리드가 보여지는 형태("grid"|"icon"|"mobile")를 지정합니다. viewMode는 mediaQuery에 의해서 자동으로 결정되기도 합니다. 예제) http://localhost/axisj/samples/AXGrid/viewMode.html
+ *     hiddenBorder_tdLastChild : false, // {Boolean} [false] -- 각줄의 마지막 td에 border를 제거합니다.
  *     reserveKeys : { // reserveKeys는 AXISJ에서 지정한 키를 다른 키로 지정하는 하는 경우 사용합니다. reserveKeys를 사용하면 데이터를 수정없이 바로 사용할 수 있습니다.
  *         parent_hash  : "phash", // {String} 부모해시 키의 이름을 지정합니다.
  *         child_hash   : "hash",  // {String} 자식해시 키의 이름을 지정합니다.
@@ -14008,7 +14009,10 @@ var AXGrid = Class.create(AXJ, {
                 axdom("#" + txtID).css({"padding-top": cellMarginTop + "px"});
                 axdom("#" + toolID).css({"top": (cellMarginTop - 5) + "px"});
             });
-            this.colHead.find(".colHeadTd:last-child").addClass("colHeadTdLast");
+
+            if(cfg.hiddenBorder_tdLastChild) {
+                this.colHead.find(".colHeadTd:last-child").css({"background":"none"});
+            }
             //AXGridTarget_AX_colHead_AX_0_AX_2
             //AXGridTarget_AX_colHead_AX_0_AX_0
             
@@ -15384,10 +15388,13 @@ var AXGrid = Class.create(AXJ, {
 
                         var addClasses = "";
                         if (CH.addClass) addClasses = " " + getAddingClass(CH.addClass, item, itemIndex, item[CH.key], CH.key, CH);
-
+                        var tdEndStyles = "";
+                        if(CH.isTdEnd && cfg.hiddenBorder_tdLastChild) {
+                            tdEndStyles = "background-image:none;"
+                        }
                         tpo.push("<td" + valign + rowspan + colspan + styles + " " +
                             " id=\"" + cfg.targetID + "_AX_" + (isfix || "n") + "body_AX_" + r + "_AX_" + CHidx + "_AX_" + itemIndex + "\" " +
-                            " class=\"bodyTd bodyTd_" + CHidx + " bodyTdr_" + r + " " + bottomClass + fixedClass + ((CH.isTdEnd) ? " isTdEnd" : "") + "\">");
+                            " class=\"bodyTd bodyTd_" + CHidx + " bodyTdr_" + r + " " + bottomClass + fixedClass + "\" style=\"" + tdEndStyles + "\">");
 
                         if (makeBodyNode) {
                             tpo.push("<div class=\"bodyNode bodyTdText" + bodyNodeClass + addClasses + "\" " +
