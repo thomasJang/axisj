@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2016-01-07 
+AXJ - v1.0.21 - 2016-01-08 
 */
 /*! 
-AXJ - v1.0.21 - 2016-01-07 
+AXJ - v1.0.21 - 2016-01-08 
 */
 
 if(!window.AXConfig){
@@ -12628,7 +12628,6 @@ var AXGrid = Class.create(AXJ, {
  *     remoteSort  : true,           // {Boolean} [false] -- 서버에서 정렬을 처리(서버에서 별도 처리 필요)합니다. 헤더 클릭시 'sortBy=cost desc' 형식의 정렬 정보가 ajax 요청에 포함됩니다.
  *     colHeadTool : true,           // {Boolean} -- 컬럼 display 여부를 설정 합니다. 이 설정은 colGroup의 colHeadTool 보다 우선적으로 적용됩니다.
  *     viewMode    : "grid"          // {String} -- 그리드가 보여지는 형태("grid"|"icon"|"mobile")를 지정합니다. viewMode는 mediaQuery에 의해서 자동으로 결정되기도 합니다. 예제) http://localhost/axisj/samples/AXGrid/viewMode.html
- *     hiddenBorder_tdLastChild : false, // {Boolean} [false] -- 각줄의 마지막 td에 border를 제거합니다.
  *     reserveKeys : { // reserveKeys는 AXISJ에서 지정한 키를 다른 키로 지정하는 하는 경우 사용합니다. reserveKeys를 사용하면 데이터를 수정없이 바로 사용할 수 있습니다.
  *         parent_hash  : "phash", // {String} 부모해시 키의 이름을 지정합니다.
  *         child_hash   : "hash",  // {String} 자식해시 키의 이름을 지정합니다.
@@ -12874,10 +12873,12 @@ var AXGrid = Class.create(AXJ, {
         this.target = axdom("#" + cfg.targetID);
         
         var targetInnerHeight = this.target.innerHeight();
-        if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXGrid.pageHeight || 400);
+        if (targetInnerHeight == 0) targetInnerHeight = (AXConfig.AXGrid.pageHeight.number() || 400);
         this.theme = (cfg.theme) ? cfg.theme : "AXGrid";
         /* 테마기본값 지정*/
-        cfg.height = (cfg.height) ? cfg.height : targetInnerHeight + "px";
+        cfg.__height = cfg.height;
+        cfg.height = (cfg.height) ? cfg.height : targetInnerHeight.number() + "px";
+
         /* 그리드 높이 지정 */
         
         var theme = this.theme;
@@ -13103,7 +13104,7 @@ var AXGrid = Class.create(AXJ, {
             
             this.gridBody.removeClass("AXGridMobile");
             
-            if (cfg.height == "auto") {
+            if (cfg.__height == "auto") {
                 var colHeadHeight = this.colHead.outerHeight();
                 if (colHeadHeight == 1) colHeadHeight = 0;
                 var scrollBodyHeight = this.scrollContent.height();
@@ -13111,6 +13112,8 @@ var AXGrid = Class.create(AXJ, {
                 /*colhead + body height */
                 this.body.css({top: colHeadHeight, height: (scrollBodyHeight)});
                 /* body Height */
+                this.gridBody.css({height: "auto"});
+                this.target.css({height: "auto", "max-height": "auto"});
             }
             else {
                 if (cfg.height) this.gridBody.css({height: cfg.height});
@@ -15082,7 +15085,7 @@ var AXGrid = Class.create(AXJ, {
         }
         if (!this.page.onchange) this.page.onchange = this.page.onChange;
         axf.overwriteObject(this.page, res.page, true);
-        
+
         this.selectClear();
         this.printList();
         this.contentScrollResize();
@@ -15724,7 +15727,7 @@ var AXGrid = Class.create(AXJ, {
         var po = [];
         // view mode 가 grid 인경우만 유효
         if (cfg.viewMode == "grid") {
-            if (cfg.height == "auto") {
+            if (cfg.__height == "auto") {
                 for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
                     po.push(getItem(itemIndex, item, "n"));
                     if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
@@ -15762,7 +15765,7 @@ var AXGrid = Class.create(AXJ, {
             
             if (this.hasFixed) {
                 po = [];
-                if (cfg.height == "auto") {
+                if (cfg.__height == "auto") {
                     for (var item, itemIndex = 0, __arr = this.list; (itemIndex < __arr.length && (item = __arr[itemIndex])); itemIndex++) {
                         po.push(getItem(itemIndex, item, "fix"));
                         if (bodyHasMarker && (markerIndex = getMarkerDisplay(itemIndex, item)).length > 0) {
@@ -15790,8 +15793,11 @@ var AXGrid = Class.create(AXJ, {
                     this.fixedScrollContent.show();
                 }
             }
-            
-            if (cfg.height != "auto" && this.list.length > 0) {
+
+
+            /// console.log(cfg.height, this.list.length);
+
+            if (cfg.__height != "auto" && this.list.length > 0) {
                 
                 //아이템 한줄의 높이는?
                 var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
@@ -15852,7 +15858,7 @@ var AXGrid = Class.create(AXJ, {
                 this.contentScrollContentSync({top: 0});
                 
             }
-            else if (cfg.height == "auto" && this.list.length > 0) {
+            else if (cfg.__height == "auto" && this.list.length > 0) {
                 
                 this.virtualScroll = {
                     startIndex: 0,
@@ -15888,7 +15894,7 @@ var AXGrid = Class.create(AXJ, {
                 
                 this.scrollContent.css({top: 0});
                 this.contentScrollContentSync({top: 0});
-                
+                this.gridTargetSetSize();
             }
             else {
                 
@@ -17662,8 +17668,8 @@ var AXGrid = Class.create(AXJ, {
             if (scrollXHandleWidth < 30) scrollXHandleWidth = 30;
             _this.scrollXHandle.css({width: scrollXHandleWidth});
             
-            /* cfg.height == "auto" 길이 늘이기 */
-            if (cfg.height == "auto") {
+            /* cfg.__height == "auto" 길이 늘이기 */
+            if (cfg.__height == "auto") {
                 var colHeadHeight = _this.colHead.outerHeight();
                 var scrollBodyHeight = _this.scrollContent.height();
                 //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
@@ -17674,9 +17680,9 @@ var AXGrid = Class.create(AXJ, {
         else {
             _this.show_scrollTrackX = false;
             _this.scrollTrackX.hide();
-            //if (cfg.height == "auto") _this.scrollTrackXY.hide();
+            //if (cfg.__height == "auto") _this.scrollTrackXY.hide();
             
-            if (cfg.height == "auto") {
+            if (cfg.__height == "auto") {
                 var colHeadHeight = _this.colHead.outerHeight();
                 var scrollBodyHeight = _this.scrollContent.height();
                 _this.scrollBody.css({height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number()});
@@ -17728,7 +17734,7 @@ var AXGrid = Class.create(AXJ, {
             
         }
         else {
-            if (cfg.height == "auto") return;
+            if (cfg.__height == "auto") return;
             if (!this.contentScrollYAttr) {
                 this.contentScrollYAttr = {
                     bodyHeight: this.body.height(),
@@ -17798,7 +17804,7 @@ var AXGrid = Class.create(AXJ, {
             
         }
         else {
-            if (cfg.height == "auto") return;
+            if (cfg.__height == "auto") return;
             if (!this.contentScrollYAttr) {
                 this.contentScrollYAttr = {
                     bodyHeight: this.body.height(),
@@ -18004,7 +18010,7 @@ var AXGrid = Class.create(AXJ, {
             eventCancle = false,
             event = e || window.event, deltaX = 0, deltaY = 0, attr;
         
-        if (cfg.height == "auto") return;
+        if (cfg.__height == "auto") return;
         
         attr = {
             bodyHeight: this.body.height(),
@@ -18465,7 +18471,7 @@ var AXGrid = Class.create(AXJ, {
      */
     scrollTop: function (itemIndex) {
         var cfg = this.config;
-        if (cfg.height == "auto") return;
+        if (cfg.__height == "auto") return;
         try {
             var trTop = this.body.find(".gridBodyTr_" + itemIndex).position().top;
             var trHeight = this.body.find(".gridBodyTr_" + itemIndex).height();
@@ -19650,7 +19656,7 @@ var AXGrid = Class.create(AXJ, {
             
             var scrollTop = this.scrollContent.position().top, list = this.list;
             
-            if (cfg.height == "auto")
+            if (cfg.__height == "auto")
             {
                 var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + itemIndex).position().top;
                 itemTrHeight = (function () {
@@ -19703,7 +19709,7 @@ var AXGrid = Class.create(AXJ, {
             var scrollTop = this.scrollContent.position().top, list = this.list;
             ;
             
-            if (cfg.height == "auto") {
+            if (cfg.__height == "auto") {
                 var editorTop = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).position().top;
                 var trHeight = axdom("#" + cfg.targetID + "_AX_tr_0_AX_n_AX_" + insertIndex).outerHeight();
                 itemTrHeight = (function () {
