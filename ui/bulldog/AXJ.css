@@ -757,6 +757,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td.setDate {
   /*background: @stop;*/
@@ -769,6 +771,8 @@
   background-image: linear-gradient(#1dbb9a, #1dbb9a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1dbb9a, endColorstr=#1dbb9a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1dbb9a, endColorstr=#1dbb9a);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
@@ -829,6 +833,8 @@
   background-image: linear-gradient(#536270, #536270);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_3 {
@@ -1589,6 +1595,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #6c7b8a;
   border-right: 1px solid #6c7b8a;
   color: #5e5e5e;
@@ -1673,6 +1681,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
+  /*For IE7-8-9*/
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,
@@ -1709,6 +1719,14 @@
 }
 .AXFormTable tbody tr td.yellow {
   background-color: #FEFEE9;
+}
+.AXWordwrap {
+  word-wrap: break-word;
+  /* IE 5.5-7 */
+  white-space: -moz-pre-wrap;
+  /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;
+  /* current browsers */
 }
 @media (max-width: 767px) {
   .AXInputLabel {

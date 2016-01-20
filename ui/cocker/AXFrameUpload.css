@@ -78,6 +78,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eeeeee, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eeeeee, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border: 1px solid #dddddd;
   border-radius: 5px;
   overflow: hidden;
@@ -98,6 +100,8 @@
   background: linear-gradient(#98c87b, #79aa5a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#98c87b, endColorstr=#79aa5a);
   /*For IE7-8-9*/
   -webkit-border-radius: 0px 4px 4px 0px;
   -moz-border-radius: 0px 4px 4px 0px;

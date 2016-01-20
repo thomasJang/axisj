@@ -1576,6 +1576,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
   color: #5c382c;
@@ -1660,6 +1662,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,
@@ -1696,6 +1700,14 @@
 }
 .AXFormTable tbody tr td.yellow {
   background-color: #FEFEE9;
+}
+.AXWordwrap {
+  word-wrap: break-word;
+  /* IE 5.5-7 */
+  white-space: -moz-pre-wrap;
+  /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;
+  /* current browsers */
 }
 @media (max-width: 767px) {
   .AXInputLabel {

@@ -51,6 +51,7 @@
   background-image: -moz-linear-gradient(@start, @stop); /* For Firefox 3.6 to 15 */
   background-image: linear-gradient(@start, @stop); /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@start, endColorstr=@stop); /*For IE7-8-9*/
+	-ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@start, endColorstr=@stop); /*For IE7-8-9*/
 }
 
 //Quick Gradient
@@ -60,7 +61,8 @@
     background-image: -o-linear-gradient(@origin, rgba(0,0,0,0.0), rgba(0,0,0,@alpha));
     background-image: -ms-linear-gradient(@origin, rgba(0,0,0,0.0), rgba(0,0,0,@alpha));
     background-image: linear-gradient(@origin, rgba(0,0,0,0.0), rgba(0,0,0,@alpha));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@start, endColorstr=@stop); /*For IE7-8-9*/        
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@start, endColorstr=@stop); /*For IE7-8-9*/
+	-ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@start, endColorstr=@stop); /*For IE7-8-9*/
 }
 
 //Webkit Reflection

@@ -111,6 +111,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-classic {
@@ -171,6 +173,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-green {
@@ -206,6 +210,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -243,6 +249,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .axtabs-event-disabled {
@@ -277,6 +285,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -319,6 +329,8 @@
   text-align: center;
   text-decoration: none;
   outline: none;
+}
+.AXTabs .AXTabsTray .AXTab {
   background: #99847d;
   color: #ccc2be;
   border: 1px solid #593629;
@@ -351,6 +363,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -415,6 +429,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab.Green {
@@ -450,6 +466,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -487,6 +505,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabs .AXTabsTray .AXTab[disabled] {
@@ -521,6 +541,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -626,6 +648,8 @@
   text-align: center;
   text-decoration: none;
   outline: none;
+}
+.AXTabsLarge .AXTabsTray .AXTab {
   background: #99847d;
   color: #ccc2be;
   border: 1px solid #593629;
@@ -658,6 +682,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -722,6 +748,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab.Green {
@@ -757,6 +785,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -794,6 +824,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabsLarge .AXTabsTray .AXTab[disabled] {
@@ -828,6 +860,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -933,6 +967,8 @@
   text-align: center;
   text-decoration: none;
   outline: none;
+}
+.AXTabsSmall .AXTabsTray .AXTab {
   background: #99847d;
   color: #ccc2be;
   border: 1px solid #593629;
@@ -965,6 +1001,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -1029,6 +1067,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab.Green {
@@ -1064,6 +1104,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
@@ -1101,6 +1143,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }
 .AXTabsSmall .AXTabsTray .AXTab[disabled] {
@@ -1135,6 +1179,8 @@
   background-image: linear-gradient(#ffffff, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ffffff);
   /*For IE7-8-9*/
   border-bottom: 1px solid #fff;
 }

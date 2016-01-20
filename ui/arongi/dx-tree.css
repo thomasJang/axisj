@@ -39,6 +39,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable {
@@ -53,6 +55,8 @@
   background-image: linear-gradient(#e2e4e6, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
   /*For IE7-8-9*/
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable tbody tr td {

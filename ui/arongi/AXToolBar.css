@@ -78,4 +78,6 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
 }

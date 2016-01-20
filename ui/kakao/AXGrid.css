@@ -54,6 +54,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #cecece;
 }
 .AXGrid .AXgridScrollBody .fixedColHead {
@@ -75,6 +77,8 @@
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td {
@@ -550,6 +554,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #cecece;
   border-left: 1px solid #cecece;
   border-right: 1px solid #cecece;
@@ -569,6 +575,8 @@
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
   z-index: 3;
 }
@@ -920,6 +928,8 @@
   background-image: linear-gradient(#ffffff, #ededed);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#ededed);
   /*For IE7-8-9*/
   border-bottom: 1px solid #cecece;
 }

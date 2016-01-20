@@ -624,6 +624,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e5e5e5, endColorstr=#e5e5e5);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e5e5e5, endColorstr=#e5e5e5);
+  /*For IE7-8-9*/
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -640,6 +642,8 @@
   background-image: linear-gradient(#bbbbbb, #bbbbbb);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#bbbbbb, endColorstr=#bbbbbb);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#bbbbbb, endColorstr=#bbbbbb);
   /*For IE7-8-9*/
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.segmentLeft {
@@ -662,6 +666,8 @@
   background-image: linear-gradient(#808080, #808080);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#808080, endColorstr=#808080);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#808080, endColorstr=#808080);
   /*For IE7-8-9*/
   color: #ffffff;
 }

@@ -754,6 +754,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 {
   background: #442a2a;
@@ -776,6 +778,8 @@
   background-image: linear-gradient(#ff5b49, #ff5b49);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
@@ -847,6 +851,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_2 {
   border-right: 0px none;
@@ -867,6 +873,8 @@
   background-image: linear-gradient(#ff5b49, #ff5b49);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth {
@@ -1720,4 +1728,12 @@
 }
 .AXFormTable tbody tr td.yellow {
   background-color: #FEFEE9;
+}
+.AXWordwrap {
+  word-wrap: break-word;
+  /* IE 5.5-7 */
+  white-space: -moz-pre-wrap;
+  /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;
+  /* current browsers */
 }

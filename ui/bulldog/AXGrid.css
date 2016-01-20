@@ -54,6 +54,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d5dadf, endColorstr=#d5dadf);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d5dadf, endColorstr=#d5dadf);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #ffffff;
 }
 .AXGrid .AXgridScrollBody .fixedColHead {
@@ -75,6 +77,8 @@
   background-image: linear-gradient(#d5dadf, #d5dadf);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d5dadf, endColorstr=#d5dadf);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d5dadf, endColorstr=#d5dadf);
   /*For IE7-8-9*/
 }
 .AXGrid .AXgridScrollBody .AXGridColHead .colHeadTable tbody tr td {
@@ -556,6 +560,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7dde3, endColorstr=#d7dde3);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7dde3, endColorstr=#d7dde3);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #ffffff;
   border-left: 1px solid #ffffff;
   border-right: 1px solid #ffffff;
@@ -575,6 +581,8 @@
   background-image: linear-gradient(#d7dde3, #d7dde3);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7dde3, endColorstr=#d7dde3);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d7dde3, endColorstr=#d7dde3);
   /*For IE7-8-9*/
   z-index: 3;
 }
@@ -924,6 +932,8 @@
   background-image: linear-gradient(#d5dadf, #d5dadf);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d5dadf, endColorstr=#d5dadf);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d5dadf, endColorstr=#d5dadf);
   /*For IE7-8-9*/
   border-bottom: 1px solid #ffffff;
 }
