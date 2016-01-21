@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22 - 2016-01-21 
+axisj - v1.0.22-b - 2016-01-22 
 */
 /*! 
-axisj - v1.0.22 - 2016-01-21 
+axisj - v1.0.22-b - 2016-01-22 
 */
 
 if(!window.AXConfig){
@@ -11612,6 +11612,7 @@ var AXGrid = Class.create(AXJ, {
             if (CG.display) {
                 if (!rewrite) {
                     if (CG.width == "*") {
+                        cfg.hasAstricCol = true;
                         CG.width = 0;
                         CG.widthAstric = true;
                         astricCount++;
@@ -11830,8 +11831,6 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
             }
-            //trace(cfg.colHead.rows);
-            /*console.log(cfg.colHead._maps);  //_maps check */
             /* colHeadRow 정해진 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         }
         else {
@@ -11872,6 +11871,13 @@ var AXGrid = Class.create(AXJ, {
             cfg.colHead.rowsEmpty = true;
             // colHeadRow 정해지지 않은 경우 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         }
+
+        for (var mr = 0, mrl = cfg.colHead._maps.length; mr < mrl; mr++) {
+            //cfg.colHead.rows[m.r][m.c].isLastCell = true;
+            var map_p = cfg.colHead._maps[mr].last();
+            cfg.colHead.rows[map_p.r][map_p.c].isTrLastChild = true;
+        }
+
         /* colHead rows ----------------------------------------------------------------------------------------------------- */
         
         /* body rows ------------------------------------------------------------------------------------------------------- */
@@ -13824,12 +13830,14 @@ var AXGrid = Class.create(AXJ, {
                     po.push("<tr>");
                     for (var CH, CHidx = 0, __arr = cfg.colHead.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
                         if (CH.display && CH.colspan > 0) {
+
                             /*radio, check exception */
                             var tdHtml = CH.label || "untitle";
                             var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
                             var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
                             var valign = " valign=\"" + CH.valign + "\"";
                             var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
+                            if(CH.isTrLastChild) bottomClass += " isTrLastChild";
 
                             po.push(getColHeadTd({
                                 valign: valign,
@@ -13995,21 +14003,6 @@ var AXGrid = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
             if (fpo) this.colHead.after(fpo.join(''));
 
-            /*resizer 를 찾아 resizer의 부모와 같은 높이값을 가지도록 변경 합니다. */
-            /*또 그와 관련된 개체의 높이와 패딩을 지정합니다. */
-
-            //trace(this.colHead.height());
-
-            /*
-             if(!this._tdHeight) {
-             if(this.colHead.height() == 0){
-             this._tdHeight = 31;
-             }
-             else{
-             this._tdHeight = this.colHead.height() / cfg.colHead.rows.length;
-             }
-             }
-             */
 
             this.colHead.find(".colHeadResizer").each(function () {
                 var resizerID = this.id;
@@ -14032,11 +14025,9 @@ var AXGrid = Class.create(AXJ, {
                 axdom("#" + toolID).css({"top": (cellMarginTop - 5) + "px"});
             });
 
-            if (cfg.hiddenBorder_tdLastChild) {
-                this.colHead.find(".colHeadTd:last-child").css({"background": "none"});
+            if (cfg.hasAstricCol || cfg.fitToWidth) {
+                this.colHead.find(".isTrLastChild").css({"background": "none"});
             }
-            //AXGridTarget_AX_colHead_AX_0_AX_2
-            //AXGridTarget_AX_colHead_AX_0_AX_0
 
             this.colHead.bind("mouseover", this.colHeadMouseOver.bind(this));
             this.colHead.bind("mouseout", this.colHeadMouseOut.bind(this));
