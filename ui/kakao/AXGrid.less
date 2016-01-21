@@ -1034,13 +1034,16 @@
 .AXGrid {
 	.dx-axgrid-preset();
 	.AXGridFoot{
-		position:relative;
-		min-height:30px;
+		left: 0px;
+		bottom: 0px;
+		position: absolute;
+		min-height: 30px;
 		display:none;
 		//.util-gradient(top, @bgcolor-c, @bgcolor-c);
 		background-color: #FFFFEC;
-		border-bottom:@border;
-		border-left:@border;border-right:@border;
+		border-top: @border;
+		border-left: 0px none;
+		border-right: 0px none;
 
 		.gridFootContent{
 			position:relative;left:0px;top:0px;
@@ -1050,6 +1053,7 @@
 			position:absolute;left:0px;top:0px;
 			width:auto;
 			background-color: #FFFFEC;
+			box-shadow:0px 0px 3px #ccc;
 		}
 		.gridFootTable{
 			table-layout:fixed;
@@ -1118,6 +1122,86 @@
 							padding:5px 1px 5px 0px;
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+
+// 2016-01-21
+.AXGrid {
+	.dx-axgrid-preset();
+	.AXgridScrollBody {
+		.gridScrollTrackXY {
+			position: absolute;
+			right: 0px;
+			bottom: 0px;
+			width: 9px;
+			height: 9px;
+			border: @border-a;
+			background: url('images/dx-diagonal-bg.png');
+			display: none;
+		}
+		.gridScrollTrackY {
+			position: absolute;
+			right: 0px;
+			top: 0px;
+			width: 11px;
+			height: 9px;
+			background: #fff;
+			border-left: @border;
+			display: none;
+			.gridScrollHandle {
+				position: absolute;
+				left: 1px;
+				top: 0px;
+				width: 9px;
+				height: 20px;
+				background: #000;
+				border: 0px none;
+				.util-opacity(20);
+				.util-border-radius(5px, 5px, 5px, 5px);
+
+				cursor: pointer;
+				&:hover, &.hover {
+					.util-opacity(50);
+				}
+			}
+			.gridScroll-tip {
+				display: none;
+				font-size: 10px;
+				position: absolute;
+				right: 15px;
+				top: 0px;
+				padding: 5px;
+				border: @border;
+				.util-border-radius(5px, 5px, 5px, 5px);
+				background: #fff;
+			}
+		}
+		.gridScrollTrackX {
+			position: absolute;
+			left: 0px;
+			bottom: 0px;
+			width: 9px;
+			height: 11px;
+			display: none;
+			border-top: @border;
+			.gridScrollHandle {
+				position: absolute;
+				left: 0px;
+				top: 1px;
+				width: 20px;
+				height: 9px;
+				background: #000;
+				border: 0px none;
+				.util-opacity(20);
+				.util-border-radius(5px, 5px, 5px, 5px);
+
+				cursor: pointer;
+				&:hover, &.hover {
+					.util-opacity(50);
 				}
 			}
 		}

@@ -28,7 +28,7 @@
                     'lib/AXMobileMenu.js',
                     'lib/AXTopDownMenu.js'
                 ],
-                dest: 'dist/<%= pkg.name %>.tiny.js'
+                dest: 'dist/AXJ.tiny.js'
             },
             extras: {
                 src: [
@@ -62,7 +62,7 @@
                     'lib/AXValidator.js',
                     'lib/AXWaterfall.js'
                 ],
-                dest: 'dist/<%= pkg.name %>.all.js'
+                dest: 'dist/AXJ.all.js'
             }
         },
         uglify: {
@@ -72,9 +72,9 @@
             },
             my_target: {
                 files: {
-                    'dist/<%= pkg.name %>.min.js': ['dist/<%= pkg.name %>.all.js'],
-                    'dist/<%= pkg.name %>.tinymin.js': ['dist/<%= pkg.name %>.tiny.js'],
-                    'dist/<%= pkg.name %>.coremin.js': ['lib/AXJ.js']
+                    'dist/AXJ.min.js': ['dist/AXJ.all.js'],
+                    'dist/AXJ.tinymin.js': ['dist/AXJ.tiny.js'],
+                    'dist/AXJ.coremin.js': ['lib/AXJ.js']
                 }
             }
         },

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2016-01-13 
+axisj - v1.0.22 - 2016-01-21 
 */
 /*! 
-AXJ - v1.0.21 - 2016-01-13 
+axisj - v1.0.22 - 2016-01-21 
 */
 
 if(!window.AXConfig){
@@ -103,7 +103,7 @@ if(!window.AXConfig){
 		AXGrid: {
 			passiveMode: false,
 			passiveRemoveHide: false,
-			fitToWidthRightMargin: 10,
+			fitToWidthRightMargin: 11,
 			fitToWidth: false,
 			pageSize: 10,
 			pageHeight: 400,

@@ -1,8 +1,8 @@
 /*! 
-AXJ - v1.0.21 - 2016-01-13 
+axisj - v1.0.22 - 2016-01-21 
 */
 /*! 
-AXJ - v1.0.21 - 2016-01-13 
+axisj - v1.0.22 - 2016-01-21 
 */
 
 if(!window.AXConfig){
@@ -103,7 +103,7 @@ if(!window.AXConfig){
 		AXGrid: {
 			passiveMode: false,
 			passiveRemoveHide: false,
-			fitToWidthRightMargin: 10,
+			fitToWidthRightMargin: 11,
 			fitToWidth: false,
 			pageSize: 10,
 			pageHeight: 400,
@@ -11918,7 +11918,7 @@ var AXGrid = Class.create(AXJ, {
                             }
                             else {
                                 if (cfg.body._maps[rr][nC] == undefined) {
-                                    if(rr != posR) position._isRowMerged = true; /// status row merged
+                                    if (rr != posR) position._isRowMerged = true; /// status row merged
                                     cfg.body._maps[rr][nC] = position;
                                     if (startPosition == null) startPosition = nC;
                                     tC--;
@@ -12896,9 +12896,16 @@ var AXGrid = Class.create(AXJ, {
         ol.push("		<div class=\"AXGridToolGroup top\" id=\"" + cfg.targetID + "_AX_gridToolGroupTop\"></div>");
         ol.push("		<div class=\"AXGridBody\" id=\"" + cfg.targetID + "_AX_gridBody\"></div>");
         ol.push("		<div class=\"AXGridToolGroup bottom\" id=\"" + cfg.targetID + "_AX_gridToolGroupBottom\"></div>");
+
+        ol.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackY\" class=\"gridScrollTrackY\">");
+        ol.push("<div id=\"" + cfg.targetID + "_AX_scrollYHandle\" class=\"gridScrollHandle\"></div>");
+        ol.push("<div id=\"" + cfg.targetID + "_AX_scrollY_AX_tip\" class=\"gridScroll-tip\"><span></span></div>");
+        ol.push("</div>");
+        ol.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackX\" class=\"gridScrollTrackX\"><div id=\"" + cfg.targetID + "_AX_scrollXHandle\" class=\"gridScrollHandle\"></div></div>");
+
         ol.push("	</div>");
         ol.push("   <div class=\"AXgridEditor\" id=\"" + cfg.targetID + "_AX_gridEditor\" style=\"z-index:2;\"></div>");
-        ol.push("   <div class=\"AXGridFoot\" id=\"" + cfg.targetID + "_AX_gridFoot\"></div>")
+
         ol.push("	<div class=\"AXgridPageBody\" id=\"" + cfg.targetID + "_AX_gridPageBody\" style=\"z-index:1;\">");
         ol.push("		<div class=\"AXgridPagingUnit\" id=\"" + cfg.targetID + "_AX_gridPagingUnit\">");
         ol.push("			<a class=\"AXgridPagingPrev\">PREV</a>");
@@ -12920,8 +12927,15 @@ var AXGrid = Class.create(AXJ, {
         this.scrollBody = axdom("#" + cfg.targetID + "_AX_gridScrollBody");
         this.colHead = axdom("#" + cfg.targetID + "_AX_gridColHead");
         this.body = axdom("#" + cfg.targetID + "_AX_gridBody");
+
+        this.scrollTrackY = axdom("#" + cfg.targetID + "_AX_scrollTrackY");
+        this.scrollYHandle = axdom("#" + cfg.targetID + "_AX_scrollYHandle");
+        this.scrollYTip = axdom("#" + cfg.targetID + "_AX_scrollY_AX_tip");
+        this.scrollYTipSpan = axdom("#" + cfg.targetID + "_AX_scrollY_AX_tip").find("span");
+        this.scrollTrackX = axdom("#" + cfg.targetID + "_AX_scrollTrackX");
+        this.scrollXHandle = axdom("#" + cfg.targetID + "_AX_scrollXHandle");
+
         this.editor = axdom("#" + cfg.targetID + "_AX_gridEditor");
-        this.gridFoot = axdom("#" + cfg.targetID + "_AX_gridFoot");
 
         this.pageBody = axdom("#" + cfg.targetID + "_AX_gridPageBody");
         this.pageBody.data("display", "show");
@@ -13117,19 +13131,20 @@ var AXGrid = Class.create(AXJ, {
             }
             else {
                 if (cfg.height) this.gridBody.css({height: cfg.height});
+
+                /// gridFoot - height 빼기 제거
                 var pageBodyHeight = (this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0,
                     gridFootHeight = (cfg.foot) ? this.gridFoot.outerHeight() : 0;
                 if (cfg.page.display == false) pageBodyHeight = 0;
 
-                var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2 - gridFootHeight;
+                var scrollBodyHeight = cfg.height.number() - pageBodyHeight - 2; /// - gridFootHeight;
                 this.scrollBody.css({height: scrollBodyHeight});
-                /*colhead + body height */
+
                 var colHeadHeight = this.colHead.outerHeight();
                 if (colHeadHeight == 1) colHeadHeight = 0;
 
                 this.body.css({top: colHeadHeight, height: (scrollBodyHeight - colHeadHeight)});
                 /* body Height */
-
             }
             if (react) this.contentScrollResize(false);
         }
@@ -13279,23 +13294,27 @@ var AXGrid = Class.create(AXJ, {
                 this.pageBody.data("display", "hide");
             }
         }
+
+
         if (typeof changeGridView == "undefined" || changeGridView) {
             this.defineConfig(true);
             this.setColHead();
 
             this.gridTargetSetSize(true);
             this.setBody(undefined, true);
+
+            if (cfg.viewMode == "grid") {
+                if (cfg.head) this.printHead();
+                if (cfg.foot) {
+                    this.printFoot();
+                    this.contentScrollResize(false);
+                }
+            }
         }
         else {
             this.contentScrollResize();
         }
 
-        if (cfg.viewMode == "grid") {
-            //if (this.list.length > 0) {
-            if (cfg.head) this.printHead();
-            if (cfg.foot) this.printFoot();
-            //}
-        }
         /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 바디 재구성 기능 포함 */
     },
     /**
@@ -13600,13 +13619,13 @@ var AXGrid = Class.create(AXJ, {
          * start jglee
          * 2015.12.15
          */
-        if(this.isMobile && myTarget == null){
+        if (this.isMobile && myTarget == null) {
             myTarget = this.getEventTarget({
                 evt: eventTarget, evtIDs: eid,
-                until: function(evt, evtIDs) {
+                until: function (evt, evtIDs) {
                     return (axdom(evt.parentNode).hasClass("gridBodyDiv")) ? true : false;
                 },
-                find: function(evt, evtIDs) {
+                find: function (evt, evtIDs) {
                     return (axdom(evt).hasClass("bodyViewMobile")) ? true : false;
                 }
             });
@@ -14013,8 +14032,8 @@ var AXGrid = Class.create(AXJ, {
                 axdom("#" + toolID).css({"top": (cellMarginTop - 5) + "px"});
             });
 
-            if(cfg.hiddenBorder_tdLastChild) {
-                this.colHead.find(".colHeadTd:last-child").css({"background":"none"});
+            if (cfg.hiddenBorder_tdLastChild) {
+                this.colHead.find(".colHeadTd:last-child").css({"background": "none"});
             }
             //AXGridTarget_AX_colHead_AX_0_AX_2
             //AXGridTarget_AX_colHead_AX_0_AX_0
@@ -14696,15 +14715,12 @@ var AXGrid = Class.create(AXJ, {
         }
 
         if (cfg.viewMode == "grid" || cfg.viewMode == "icon") {
+            po.push("<div class=\"AXGridFoot\" id=\"" + cfg.targetID + "_AX_gridFoot\"></div>");
             //po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackXY\" class=\"gridScrollTrackXY\"></div>");
-            po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackY\" class=\"gridScrollTrackY\">");
-            po.push("<div id=\"" + cfg.targetID + "_AX_scrollYHandle\" class=\"gridScrollHandle\"></div>");
-            po.push("<div id=\"" + cfg.targetID + "_AX_scrollY_AX_tip\" class=\"gridScroll-tip\"><span></span></div>");
-            po.push("</div>");
-            po.push("<div id=\"" + cfg.targetID + "_AX_scrollTrackX\" class=\"gridScrollTrackX\"><div id=\"" + cfg.targetID + "_AX_scrollXHandle\" class=\"gridScrollHandle\"></div></div>");
         }
         this.body.html(po.join(''));
 
+        this.gridFoot = axdom("#" + cfg.targetID + "_AX_gridFoot"); /// gridFoot 위치 변경 및 캐쉬순서 변경
         this.scrollContent = axdom("#" + cfg.targetID + "_AX_scrollContent");
 
         // tbody, fixedTbody dom cached
@@ -14721,14 +14737,7 @@ var AXGrid = Class.create(AXJ, {
         }
 
         this.fixedScrollContent = axdom("#" + cfg.targetID + "_AX_fixedScrollContent");
-        //this.scrollTrackXY = axdom("#" + cfg.targetID + "_AX_scrollTrackXY");
-        this.scrollTrackY = axdom("#" + cfg.targetID + "_AX_scrollTrackY");
-        this.scrollYHandle = axdom("#" + cfg.targetID + "_AX_scrollYHandle");
-        this.scrollYTip = axdom("#" + cfg.targetID + "_AX_scrollY_AX_tip");
-        this.scrollYTipSpan = axdom("#" + cfg.targetID + "_AX_scrollY_AX_tip").find("span");
-        this.scrollTrackX = axdom("#" + cfg.targetID + "_AX_scrollTrackX");
-        this.scrollXHandle = axdom("#" + cfg.targetID + "_AX_scrollXHandle");
-        cfg.scrollContentBottomMargin = this.scrollTrackX.outerHeight() + 2;
+        cfg.scrollContentBottomMargin = 2;
 
         if (this.list.length > 0) {
             var _this = this;
@@ -15328,9 +15337,10 @@ var AXGrid = Class.create(AXJ, {
                     if (isfix == "n") {
                         printOk = true;
 
-                        if(typeof CH.colSeq == "undefined") {
+                        if (typeof CH.colSeq == "undefined") {
 
-                        }else{
+                        }
+                        else {
                             if (typeof cfg.fixedColSeq != "undefined" && cfg.fixedColSeq > 0 && CH.colSeq < (cfg.fixedColSeq + 1)) {
                                 makeBodyNode = false;
                             }
@@ -15338,11 +15348,12 @@ var AXGrid = Class.create(AXJ, {
                     }
                     if (isfix == "fix" && colCount < (cfg.fixedColSeq + 1)) {
                         printOk = true;
-                        if(typeof CH.colSeq == "undefined" || CH.colSeq == null){
-                            if(r > 0 && cfg.body._maps[r][CHidx] && cfg.body._maps[r][colCount].r != r){
+                        if (typeof CH.colSeq == "undefined" || CH.colSeq == null) {
+                            if (r > 0 && cfg.body._maps[r][CHidx] && cfg.body._maps[r][colCount].r != r) {
                                 printOk = false;
                             }
-                        }else{
+                        }
+                        else {
                             var _postion = cfg.body._maps[r][CH.colSeq];
                             if (CH.colSeq > (cfg.fixedColSeq)) {
                                 printOk = false;
@@ -15375,11 +15386,11 @@ var AXGrid = Class.create(AXJ, {
                             }
                         })();
 
-                        if(tdHeight){
+                        if (tdHeight) {
                             styles = " style=\"vertical-align:" + CH.valign + ";height:" + (tdHeight) + "px;\"";
                         }
                         else if (trHeight && CH.rowspan < 2 && CH.colspan < 2) styles = " style=\"vertical-align:" + CH.valign + ";height:" + trHeight + "px;\"";
-                        else if(CH.rowspan > 1){
+                        else if (CH.rowspan > 1) {
                             styles = " style=\"vertical-align:" + CH.valign + ";height:" + (trHeight) + "px;\"";
                         }
                         var bodyNodeClass = "";
@@ -15392,7 +15403,7 @@ var AXGrid = Class.create(AXJ, {
                         var addClasses = "";
                         if (CH.addClass) addClasses = " " + getAddingClass(CH.addClass, item, itemIndex, item[CH.key], CH.key, CH);
                         var tdEndStyles = "";
-                        if(CH.isTdEnd && cfg.hiddenBorder_tdLastChild) {
+                        if (CH.isTdEnd && cfg.hiddenBorder_tdLastChild) {
                             tdEndStyles = "background-image:none;"
                         }
                         tpo.push("<td" + valign + rowspan + colspan + styles + " " +
@@ -15793,7 +15804,6 @@ var AXGrid = Class.create(AXJ, {
                     this.fixedScrollContent.show();
                 }
             }
-
 
             /// console.log(cfg.height, this.list.length);
 
@@ -17620,82 +17630,108 @@ var AXGrid = Class.create(AXJ, {
 
         _this.scrollContent.css({width: scrollWidth});
         _this.colHead.css({width: scrollWidth});
+
         /* colHead width 재정의 */
-
         if (_this.hasEditor) _this.editor.css({width: bodyWidth});
+        if (_this.hasFoot) {
+            if (this.cachedDom) {
+                (function () {
+                    var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
+                    var printListCount = (this.body.height() / itemTrHeight).ceil();
+                    var _count = 0;
+                    if (printListCount < this.list.length) {
+                        _count = this.list.length - printListCount;
+                    }
+                    //console.log(cfg.scrollContentBottomMargin, _count, itemTrHeight, this.body.height());
 
-        if (resetLeft != false) {
+                    this.cachedDom.tfpadding.css({height: cfg.scrollContentBottomMargin.number() + (_count * itemTrHeight)});
+                    if (this.hasFixed) {
+                        this.cachedDom.ftfpadding.css({height: cfg.scrollContentBottomMargin.number() + (_count * itemTrHeight)});
+                    }
+                }).call(this);
+            }
+            _this.gridFoot.css({width: bodyWidth});
+        }
+        /// 가로 스크롤 포지션 초기화 처리 여부
+        if (resetLeft != false || (_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
             _this.scrollContent.css({left: 0});
-            axdom("#" + cfg.targetID + "_AX_gridColHead").css({left: 0});
+            _this.colHead.css({left: 0});
             _this.scrollXHandle.css({left: 0});
-            if (_this.hasEditor) axdom("#" + cfg.targetID + "_AX_editorContent").css({left: 0});
+            if (_this.hasEditor) _this.editor.css({left: 0});
+        }
+
+        var show_scroll_x = false,
+            show_scroll_y = false,
+            scrollContentAdjust = 0
+            ;
+
+        if (cfg.__height == "auto") {
+            show_scroll_y = false;
         }
         else {
-            if ((_this.scrollContent.width() + _this.scrollContent.position().left) < _this.body.width()) {
-                _this.scrollContent.css({left: 0});
-                axdom("#" + cfg.targetID + "_AX_gridColHead").css({left: 0});
-                _this.scrollXHandle.css({left: 0});
+            if (bodyHeight < scrollHeight) {
+                show_scroll_y = true;
             }
         }
 
-        if (bodyHeight < scrollHeight && cfg.height != "auto") {
+        if (scrollWidth > (bodyWidth + 4) && cfg.xscroll) {
+            show_scroll_x = true;
+        }
+
+        if(show_scroll_x){
+            _this.scrollTrackX.show();
+            _this.scrollTrackX.css({width: bodyWidth});
+            scrollContentAdjust = _this.scrollTrackX.outerHeight();
+
+            var scrollXHandleWidth = (bodyWidth * bodyWidth) / scrollWidth;
+            // 바디너비 트랙너비 , 스크롤 너비
+            _this.scrollXHandle.data("width", scrollXHandleWidth);
+            if (scrollXHandleWidth < 30) scrollXHandleWidth = 30;
+            _this.scrollXHandle.css({width: scrollXHandleWidth});
+        }
+        else{
+            _this.scrollTrackX.hide();
+        }
+
+        if(show_scroll_y){
             _this.scrollTrackY.show();
+            _this.scrollTrackY.css({top: _this.colHead.outerHeight(), height: bodyHeight});
 
-            var scrollTrackYHeight = bodyHeight;
-            _this.scrollTrackY.css({height: scrollTrackYHeight});
-
-            var scrollYHandleHeight = ((bodyHeight) * scrollTrackYHeight) / scrollHeight;
+            var scrollYHandleHeight = (bodyHeight * bodyHeight) / scrollHeight;
             // scrollYHandleHeight 최소 사이즈 예외 처리 최소 높이 = 30
             _this.scrollYHandle.data("height", scrollYHandleHeight);
             if (scrollYHandleHeight < 30) scrollYHandleHeight = 30;
             _this.scrollYHandle.css({height: scrollYHandleHeight});
         }
-        else {
-            //_this.scrollTrackXY.hide();
+        else{
             _this.scrollTrackY.hide();
         }
 
-        if (scrollWidth > (bodyWidth + 4) && cfg.xscroll) {
-            _this.show_scrollTrackX = true;
-
-            //_this.scrollTrackXY.show();
-            _this.scrollTrackX.show();
-
-            var scrollTrackXWidth = bodyWidth;
-            _this.scrollTrackX.css({width: scrollTrackXWidth});
-            var scrollXHandleWidth = ((bodyWidth) * scrollTrackXWidth) / scrollWidth;
-            _this.scrollXHandle.data("width", scrollXHandleWidth);
-            if (scrollXHandleWidth < 30) scrollXHandleWidth = 30;
-            _this.scrollXHandle.css({width: scrollXHandleWidth});
-
-            /* cfg.__height == "auto" 길이 늘이기 */
-            if (cfg.__height == "auto") {
-                var colHeadHeight = _this.colHead.outerHeight();
-                var scrollBodyHeight = _this.scrollContent.height();
-                //var scrollTrackXYHeight = _this.scrollTrackXY.outerHeight();
-                _this.scrollBody.css({height: (scrollBodyHeight + colHeadHeight)});
-                _this.body.css({top: colHeadHeight, height: (scrollBodyHeight)});
-            }
+        if (cfg.__height == "auto") {
+            // Foot의 높이 만큼 body를 늘려주어야 함.
+            _this.scrollBody.css({height: (
+                _this.colHead.outerHeight() +
+                _this.scrollContent.height() +
+                scrollContentAdjust
+            )});
+            _this.body.css({top: _this.colHead.outerHeight(), height: (
+                _this.scrollContent.height()
+            )});
         }
         else {
-            _this.show_scrollTrackX = false;
-            _this.scrollTrackX.hide();
-            //if (cfg.__height == "auto") _this.scrollTrackXY.hide();
-
-            if (cfg.__height == "auto") {
-                var colHeadHeight = _this.colHead.outerHeight();
-                var scrollBodyHeight = _this.scrollContent.height();
-                _this.scrollBody.css({height: (scrollBodyHeight + colHeadHeight) - cfg.scrollContentBottomMargin.number()});
-                //colhead + body height
-                _this.body.css({
-                    top: colHeadHeight,
-                    height: (scrollBodyHeight) - cfg.scrollContentBottomMargin.number()
-                });
-                //body Height
-            }
+            _this.body.css({height: (
+                cfg.height.number() -
+                ((this.pageBody.data("display") == "show") ? this.pageBody.outerHeight() : 0) -
+                2 -
+                this.colHead.outerHeight() -
+                scrollContentAdjust
+            )});
+            _this.scrollTrackY.css({top: _this.colHead.outerHeight(), height: bodyHeight});
         }
 
         _this.onevent_grid({type: "scroll-resize"});
+
+        return this;
     },
     /**
      * @method AXGrid.contentScrollScrollSync
@@ -17722,10 +17758,11 @@ var AXGrid = Class.create(AXJ, {
                     scrollXHandleWidth: this.scrollXHandle.outerHeight()
                 };
             }
-            var L = (function(D){
+            var L = (function (D) {
                 //return ((D.scrollWidth - D.bodyWidth) * pos.left / (D.scrollTrackXWidth - D.scrollXHandleWidth)).round();
                 return ((D.scrollWidth) * pos.left / (D.scrollTrackXWidth - D.scrollXHandleWidth)).round();
             })(this.contentScrollXAttr);
+
 
             this.scrollContent.css({left: -L});
             this.colHead.css({left: -L});
@@ -17788,13 +17825,14 @@ var AXGrid = Class.create(AXJ, {
                 var scrollWidth = (this.colWidth > this.body.width()) ? this.colWidth : this.body.width();
                 this.contentScrollXAttr = {
                     bodyWidth: this.body.width(),
-                    scrollWidth: this.scrollContent.width(),
+                    scrollWidth: scrollWidth,
                     scrollTrackXWidth: this.scrollTrackX.width(),
                     scrollXHandleWidth: this.scrollXHandle.outerWidth()
                 };
             }
 
-            var L = (this.contentScrollXAttr.scrollTrackXWidth - this.contentScrollXAttr.scrollXHandleWidth) * ((pos.left) / (this.contentScrollXAttr.scrollWidth - this.contentScrollXAttr.bodyWidth));
+            var L = (this.contentScrollXAttr.scrollTrackXWidth - this.contentScrollXAttr.scrollXHandleWidth) *
+                ((pos.left) / (this.contentScrollXAttr.scrollWidth - this.contentScrollXAttr.bodyWidth));
             this.scrollXHandle.css({left: -L});
             this.colHead.css({left: pos.left});
 
@@ -17967,7 +18005,8 @@ var AXGrid = Class.create(AXJ, {
         else {
             handleLeft = pos.x + this.contentScrollAttrs.x;
             if (handleLeft < 0) handleLeft = 0;
-            if ((handleLeft + this.contentScrollAttrs.handleWidth) > this.contentScrollAttrs.trackWidth) handleLeft = this.contentScrollAttrs.trackWidth - this.contentScrollAttrs.handleWidth;
+            if ((handleLeft + this.contentScrollAttrs.handleWidth) > this.contentScrollAttrs.trackWidth)
+                handleLeft = this.contentScrollAttrs.trackWidth - this.contentScrollAttrs.handleWidth;
             this.scrollXHandle.css({left: handleLeft});
             // 스크롤 X 예외 처리
             this.contentScrollScrollSync({left: handleLeft});
@@ -19216,7 +19255,9 @@ var AXGrid = Class.create(AXJ, {
             if (axdom.isPlainObject(obj)) {
                 this.dataSet = obj;
                 if (cfg.head) this.printHead();
-                if (cfg.foot) this.printFoot();
+                if (cfg.foot) {
+                    this.printFoot();
+                }
                 this.contentScrollResize(false);
             }
         }
@@ -19273,18 +19314,13 @@ var AXGrid = Class.create(AXJ, {
     printFoot: function () {
         // todo : foot 출력 방식 변경
         var cfg = this.config,
-            tableWidth = this.colWidth, getDataSet = this.getFootDataSet.bind(this), _tdHeight;
+            tableWidth = this.colWidth,
+            getDataSet = this.getFootDataSet.bind(this),
+            _tdHeight,
+            po = [];
+        
         this.hasFoot = true;
-        var po = [];
-        /*
-         po.push(getDataSet(this.dataSet));
-         axdom("#" + cfg.targetID + "_AX_tfoot").html(po.join(''));
-         if (this.hasFixed) {
-         po = [];
-         po.push(getDataSet(this.dataSet, "fix"));
-         axdom("#" + cfg.targetID + "_AX_fixedTfoot").html(po.join(''));
-         }
-         */
+
         po.push('<div class="gridFootContent">');
         po.push('<table cellpadding="0" cellspacing="0" class="gridFootTable" style="width:', tableWidth, 'px;">');
         po.push(this.getColGroup("FH"));
@@ -19310,31 +19346,27 @@ var AXGrid = Class.create(AXJ, {
         this.gridFoot.css({height: this.gridFoot_content.height()});
 
         _tdHeight = undefined;
+        
         this.gridFoot.find(".bodyTd").each(function () {
             var td_dom = $(this),
-                rowspan = td_dom.attr("rowspan"), valign = td_dom.attr("valign");
+                rowspan = td_dom.attr("rowspan"),
+                valign = td_dom.attr("valign"),
+                tdHeight;
+
             if (!rowspan) rowspan = 1;
             if (typeof _tdHeight === "undefined") {
                 _tdHeight = td_dom.height() / rowspan;
             }
-            var tdHeight = _tdHeight * rowspan;
-            /*
-             if(rowspan > 1) {
-             for (var a = 0; a < rowspan; a++) {
-             tdHeight -= 1;
-             }
-             }
-             if(_tdHeight < tdHeight) tdHeight -= 1;
-             */
+            tdHeight = _tdHeight * rowspan;
 
             if (rowspan > 1) {
                 td_dom.css({height: tdHeight + 1});
             }
         });
 
-        if (this.gridFoot_content.height() > 30) {
-            this.gridTargetSetSize();
-        }
+        /// gridFoot 위치 변경으로 gridTargetSetSize 호출 불필요해 짐
+        /// this.gridTargetSetSize();
+        cfg.scrollContentBottomMargin = this.gridFoot_content.height();
     },
     /* head & foot 영역 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -19351,8 +19383,9 @@ var AXGrid = Class.create(AXJ, {
      * @returns {Object|String}
      */
     getEditorFormatterValue: function (formatter, dataSet, value, key, CH, idAttr) {
-        var cfg = this.config;
-        var result;
+        var cfg = this.config,
+            result, sendObj;
+
         if (formatter == "money") {
             if (value == "" || value == "null" || value == undefined) {
                 result = "0";
@@ -19371,7 +19404,7 @@ var AXGrid = Class.create(AXJ, {
             result = value;
         }
         else {
-            var sendObj = {
+            sendObj = {
                 index: null,
                 list: this.list,
                 item: dataSet,
@@ -19387,10 +19420,8 @@ var AXGrid = Class.create(AXJ, {
             }
         }
 
-        var formID = cfg.targetID + "_AX_" + key + "_AX_" + idAttr;
-        var inputHidden = "<input type=\"hidden\" id=\"" + formID + "\" name=\"" + key + "\" value=\"" + value + "\" />";
-
-        return result + inputHidden;
+        return cfg.targetID + "_AX_" + key + "_AX_" + idAttr
+            + "<input type=\"hidden\" id=\"" + formID + "\" name=\"" + key + "\" value=\"" + value + "\" />";
     },
     /**
      * @method AXGrid.getEditorFormValue
@@ -21595,8 +21626,10 @@ AXGrid.prototype.formatter = (function () {
     }
 
     return {
-        "wordwrap": function(formatter, item, itemIndex, value, key, CH, CHidx){
-            if (!value) { return ""; }
+        "wordwrap": function (formatter, item, itemIndex, value, key, CH, CHidx) {
+            if (!value) {
+                return "";
+            }
 
             return '<span class="AXWordwrap">' + value.dec().crlf().replace(/ /g, '&nbsp;') + '</span>';
         },
