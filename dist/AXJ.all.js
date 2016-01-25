@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-01-22 
+axisj - v1.0.22-b - 2016-01-25 
 */
 /*! 
-axisj - v1.0.22-b - 2016-01-22 
+axisj - v1.0.22-b - 2016-01-25 
 */
 
 if(!window.AXConfig){
@@ -17256,7 +17256,6 @@ var AXGrid = Class.create(AXJ, {
         }
 
         setTimeout(function () {
-            console.log("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + c + "_AX_" + ii);
             var div = _this.body.find("#" + cfg.targetID + "_AX_bodyText_AX_" + r + "_AX_" + c + "_AX_" + ii),
                 td, td_ids, td_val, parent_type, inline_editor_id, inline_editor, inline_css, AXBindConfig = {};
 
@@ -45932,7 +45931,9 @@ var AXUpload5 = Class.create(AXJ, {
 
 			if(cfg.queueBoxID){
 				var quebox = axdom("#" + cfg.queueBoxID);
-				quebox.empty();
+				// quebox.empty();
+				// @panic910
+				quebox.remove('.AXUploadItem');
 				axdom.each(this.uploadedList, function(fidx, f){
 					if(f[cfg.fileKeys._id_] == undefined){
 						if(f["id"]){
