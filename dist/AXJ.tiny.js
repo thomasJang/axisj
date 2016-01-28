@@ -1291,6 +1291,9 @@ var Class = (function () {
                     if(_toString.call(vContent) == "[object Number]"){
                         return vContent;
                     }
+                    if(_toString.call(vContent) == "[object String]"){
+                        return '"' + vContent.replace(r, '\\"') + '"';
+                    }
                     if (!vContent) return 'null';
                     result = '';
                     if (vContent.splice) {

@@ -1291,6 +1291,9 @@ var Class = (function () {
                     if(_toString.call(vContent) == "[object Number]"){
                         return vContent;
                     }
+                    if(_toString.call(vContent) == "[object String]"){
+                        return '"' + vContent.replace(r, '\\"') + '"';
+                    }
                     if (!vContent) return 'null';
                     result = '';
                     if (vContent.splice) {
@@ -19066,6 +19069,10 @@ var AXGrid = Class.create(AXJ, {
                     trackHeight = this.scrollTrackY.height(),
                     scrollContentTop = this.scrollContent.position().top, scrollTop;
 
+                if (_this.hasFoot) {
+                    bodyHeight -= this.gridFoot.height();
+                }
+
                 if (!cfg.body.rowsEmpty) trHeight = cfg.body.rows.length * trHeight;
 
                 //console.log(trTop, scrollContentTop, bodyHeight);
@@ -19257,18 +19264,24 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
             itemIndex = myIndex.number() + direction;
+            /*
             if (itemIndex < 0) itemIndex = this.list.length - 1;
             else if (itemIndex > this.list.length - 1) itemIndex = 0;
+            */
+            if (itemIndex < 0) itemIndex = 0;
+            else if (itemIndex > this.list.length - 1) itemIndex = this.list.length - 1;
             // 사용 할 수 있는 itemIndex를 찾아라
 
             while (this.list[itemIndex][cfg.reserveKeys.hidden]) {
                 if (direction < 0) {
                     itemIndex--;
-                    if (itemIndex < 0) itemIndex = this.list.length - 1;
+                    // if (itemIndex < 0) itemIndex = this.list.length - 1;
+                    if (itemIndex < 0) itemIndex = 0;
                 }
                 else {
                     itemIndex++;
-                    if (itemIndex > this.list.length - 1) itemIndex = 0;
+                    // if (itemIndex > this.list.length - 1) itemIndex = 0;
+                    if (itemIndex > this.list.length - 1) itemIndex = this.list.length - 1;
                 }
             }
 
