@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-01-28 
+axisj - v1.0.22-b - 2016-01-31 
 */
 /*! 
-axisj - v1.0.22-b - 2016-01-28 
+axisj - v1.0.22-b - 2016-01-31 
 */
 
 if(!window.AXConfig){
@@ -2539,7 +2539,8 @@ Object.extend(Number.prototype, (function () {
      * ```
      */
     function round(digit) {
-        return (typeof digit == "undefined") ? Math.round(this) : +(Math.round(this + "e+" + digit) + "e-" + digit);
+        return (typeof digit == "undefined") ? Math.round(this) :
+            (this.toString().search('e-')) ? this.toFixed(digit) : +(Math.round(this + "e+" + digit) + "e-" + digit);
     }
 
     /**

@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-01-28 
+axisj - v1.0.22-b - 2016-01-31 
 */
 /*! 
-axisj - v1.0.22-b - 2016-01-28 
+axisj - v1.0.22-b - 2016-01-31 
 */
 
 if(!window.AXConfig){
@@ -2539,7 +2539,8 @@ Object.extend(Number.prototype, (function () {
      * ```
      */
     function round(digit) {
-        return (typeof digit == "undefined") ? Math.round(this) : +(Math.round(this + "e+" + digit) + "e-" + digit);
+        return (typeof digit == "undefined") ? Math.round(this) :
+            (this.toString().search('e-')) ? this.toFixed(digit) : +(Math.round(this + "e+" + digit) + "e-" + digit);
     }
 
     /**
@@ -17240,7 +17241,7 @@ var AXGrid = Class.create(AXJ, {
                             this.selectedCells.clear();
                         }
 
-                        if (CG.editor && (CG.editor.type == "checkbox" || CG.editor.type == "radio")) {
+                        if (CG.editor && (CG.editor.type == "checkbox" || CG.editor.type == "radio" || CG.editor.type == "select" || CG.editor.type == "AXSelect")) {
                             this.editCell(r, c, itemIndex, 0, event);
                         }
                         else if (this.selectedRow.length > 0)
