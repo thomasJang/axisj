@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-01-31 
+axisj - v1.0.22-b - 2016-02-01 
 */
 /*! 
-axisj - v1.0.22-b - 2016-01-31 
+axisj - v1.0.22-b - 2016-02-01 
 */
 
 if(!window.AXConfig){
@@ -18402,7 +18402,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 				po.push("<a href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
 			}
 
-			if (T.cn) {
+			if (T.cn && T.cn.length > 0) {
 				po.push("<div class=\"" + cfg.childMenu.className + "\">");
 				po.push("	<ul>");
 				po.push(treeFn(T.cn));

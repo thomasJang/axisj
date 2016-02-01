@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-01-31 
+axisj - v1.0.22-b - 2016-02-01 
 */
 /*! 
-axisj - v1.0.22-b - 2016-01-31 
+axisj - v1.0.22-b - 2016-02-01 
 */
 
 if(!window.AXConfig){
@@ -12013,7 +12013,7 @@ var AXGrid = Class.create(AXJ, {
         window.AXGrid_instances.push(this);
     },
     /* 공통 영역 */
-    defineConfig: function (rewrite) {
+    defineConfig: function (rewrite, _test) {
         var cfg = this.config;
         if (!cfg.colGroup) return;
         if (cfg.colGroup.length == 0) {
@@ -12363,6 +12363,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
             };
+
             for (var r = 0; r < cfg.body.rows.length; r++) {
                 for (var CH, CHidx = 0, __arr = cfg.body.rows[r]; (CHidx < __arr.length && (CH = __arr[CHidx])); CHidx++) {
                     if (CH.colSeq != undefined) {
@@ -12375,6 +12376,7 @@ var AXGrid = Class.create(AXJ, {
                     }
 
                     if (myCG != null) {
+
                         AXUtil.overwriteObject(CH, myCG, false);
                     }
                     else {
@@ -13725,7 +13727,6 @@ var AXGrid = Class.create(AXJ, {
             }
         }
 
-
         if (typeof changeGridView == "undefined" || changeGridView) {
             this.defineConfig(true);
             this.setColHead();
@@ -14261,7 +14262,7 @@ var AXGrid = Class.create(AXJ, {
                             var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
                             var valign = " valign=\"" + CH.valign + "\"";
                             var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
-                            if(CH.isTrLastChild) bottomClass += " isTrLastChild";
+                            if (CH.isTrLastChild) bottomClass += " isTrLastChild";
 
                             po.push(getColHeadTd({
                                 valign: valign,
@@ -14426,7 +14427,6 @@ var AXGrid = Class.create(AXJ, {
             this.colHead.html(po.join(''));
             axdom("#" + cfg.targetID + "_AX_fixedColHead").remove();
             if (fpo) this.colHead.after(fpo.join(''));
-
 
             this.colHead.find(".colHeadResizer").each(function () {
                 var resizerID = this.id;
@@ -18050,7 +18050,7 @@ var AXGrid = Class.create(AXJ, {
         if (_this.hasFoot) {
             if (this.cachedDom) {
                 (function () {
-                    if(!this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight()) return;
+                    if (!this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight()) return;
                     var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
                     var printListCount = (this.body.height() / itemTrHeight).ceil();
                     var _count = 0;
@@ -18080,7 +18080,7 @@ var AXGrid = Class.create(AXJ, {
             scrollContentAdjust = 0
             ;
 
-        if("수평스크롤 생성 조건 체크") {
+        if ("수평스크롤 생성 조건 체크") {
             if (scrollWidth > (bodyWidth + 4) && cfg.xscroll) {
                 show_scroll_x = true;
             }
@@ -18133,7 +18133,7 @@ var AXGrid = Class.create(AXJ, {
             scrollHeight = _this.scrollContent.height();
         }
 
-        if("수직스크롤 생성 조건 체크") {
+        if ("수직스크롤 생성 조건 체크") {
             if (cfg.__height == "auto") {
                 show_scroll_y = false;
             }
@@ -18193,7 +18193,7 @@ var AXGrid = Class.create(AXJ, {
             })(this.contentScrollXAttr);
 
             // 범위를 넘어서는 경우 체크
-            if(this.contentScrollXAttr.scrollWidth - L < this.body.width()){
+            if (this.contentScrollXAttr.scrollWidth - L < this.body.width()) {
                 L = this.contentScrollXAttr.scrollWidth - this.body.width();
             }
 
@@ -19266,9 +19266,9 @@ var AXGrid = Class.create(AXJ, {
             }
             itemIndex = myIndex.number() + direction;
             /*
-            if (itemIndex < 0) itemIndex = this.list.length - 1;
-            else if (itemIndex > this.list.length - 1) itemIndex = 0;
-            */
+             if (itemIndex < 0) itemIndex = this.list.length - 1;
+             else if (itemIndex > this.list.length - 1) itemIndex = 0;
+             */
             if (itemIndex < 0) itemIndex = 0;
             else if (itemIndex > this.list.length - 1) itemIndex = this.list.length - 1;
             // 사용 할 수 있는 itemIndex를 찾아라
@@ -22008,8 +22008,120 @@ var AXGrid = Class.create(AXJ, {
             this.nowSortHeadObj = undefined;
             this.nowSortHeadID = undefined;
         }
-    }
+    },
 
+    /**
+     * @method AXGrid.reorderColgroup
+     * @param {Array} rColgroup
+     *
+     */
+    reorderColGroup: function (rColgroup) {
+        var
+            cfg = this.config,
+            oldColGroup = [].concat(cfg.colGroup),
+            newColGroup = []
+            ;
+
+        if (rColgroup) {
+            // colGroup
+            rColgroup.forEach(function (c) {
+                jQuery.each(oldColGroup, function (idx, oc) {
+                    if (oc.key == c.key) {
+                        delete oc.colSeq;
+                        newColGroup.push(oc);
+                        oldColGroup.splice(idx, 1);
+                        return false;
+                    }
+                });
+            });
+            cfg.colGroup = newColGroup.concat(oldColGroup);
+
+            // body
+            var
+                oldBodyRows = []
+                ;
+
+            for (var r = 0; r < cfg.body.rows.length; r++) {
+                oldBodyRows.push([].concat(cfg.body.rows[r]));
+            }
+
+            for (var r = 0; r < oldBodyRows.length; r++) {
+                oldBodyRows[r].forEach(function (c, cidx) {
+                    var matchIdx = cidx;
+                    jQuery.each(cfg.colGroup, function (idx, cg) {
+                        if (cg.key == c.key) {
+                            matchIdx = idx;
+                            return false;
+                        }
+                    });
+                    oldBodyRows[r][cidx].matchIdx = matchIdx;
+                });
+                oldBodyRows[r].sort(function (a, b) {
+                    return a.matchIdx - b.matchIdx;
+                });
+                oldBodyRows[r].forEach(function(c){
+                    delete c.matchIdx;
+                    delete c.colSeq;
+                });
+            }
+
+            cfg.body.rows = [];
+            for (var r = 0; r < oldBodyRows.length; r++) {
+                cfg.body.rows.push(oldBodyRows[r]);
+            }
+
+            // foot
+            if (cfg.foot) {
+                var
+                    oldFootRows = []
+                    ;
+                for (var r = 0; r < cfg.foot.rows.length; r++) {
+                    oldFootRows.push([].concat(cfg.foot.rows[r]));
+                }
+
+                for (var r = 0; r < oldFootRows.length; r++) {
+                    oldFootRows[r].forEach(function (c, cidx) {
+                        var matchIdx = cidx;
+                        jQuery.each(cfg.colGroup, function (idx, cg) {
+                            if (cg.key == c.key) {
+                                matchIdx = idx;
+                                return false;
+                            }
+                        });
+                        oldFootRows[r][cidx].matchIdx = matchIdx;
+                    });
+                    oldFootRows[r].sort(function (a, b) {
+                        return a.matchIdx - b.matchIdx;
+                    });
+                    oldFootRows[r].forEach(function(c){
+                        delete c.matchIdx;
+                        delete c.colSeq;
+                    });
+                }
+
+
+                cfg.foot.rows = [];
+                for (var r = 0; r < oldFootRows.length; r++) {
+                    cfg.foot.rows.push(oldFootRows[r]);
+                }
+            }
+
+
+            this.defineConfig(false, true);
+            this.redrawGrid();
+        }
+
+        return this;
+
+        /*
+         console.log(cfg.colGroup);
+         console.log(cfg.colHead);
+         console.log(cfg.body);
+         console.log(cfg.head);
+         console.log(cfg.foot);
+         console.log(cfg.editor);
+         */
+    }
 });
 
 /**
@@ -37900,7 +38012,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 				po.push("<a href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
 			}
 
-			if (T.cn) {
+			if (T.cn && T.cn.length > 0) {
 				po.push("<div class=\"" + cfg.childMenu.className + "\">");
 				po.push("	<ul>");
 				po.push(treeFn(T.cn));
