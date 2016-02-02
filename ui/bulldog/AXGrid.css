@@ -1257,13 +1257,15 @@
   content: "\f002";
 }
 .AXGrid .AXGridFoot {
-  position: relative;
+  left: 0px;
+  bottom: 0px;
+  position: absolute;
   min-height: 30px;
   display: none;
   background-color: #FFFFEC;
-  border-bottom: 1px solid #ffffff;
-  border-left: 1px solid #ffffff;
-  border-right: 1px solid #ffffff;
+  border-top: 1px solid #ffffff;
+  border-left: 0px none;
+  border-right: 0px none;
 }
 .AXGrid .AXGridFoot .gridFootContent {
   position: relative;
@@ -1340,4 +1342,90 @@
   line-height: 20px;
   height: 20px;
   padding: 5px 1px 5px 0px;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackXY {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #ffffff;
+  background: url('images/dx-diagonal-bg.png');
+  display: none;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackY {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 11px;
+  height: 9px;
+  background: #fff;
+  border-left: 1px solid #ffffff;
+  display: none;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackY .gridScrollHandle {
+  position: absolute;
+  left: 1px;
+  top: 0px;
+  width: 9px;
+  height: 20px;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackY .gridScrollHandle:hover,
+.AXGrid .AXgridScrollBody .gridScrollTrackY .gridScrollHandle.hover {
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackY .gridScroll-tip {
+  display: none;
+  font-size: 10px;
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  padding: 5px;
+  border: 1px solid #ffffff;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  background: #fff;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackX {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 9px;
+  height: 11px;
+  display: none;
+  border-top: 1px solid #ffffff;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackX .gridScrollHandle {
+  position: absolute;
+  left: 0px;
+  top: 1px;
+  width: 20px;
+  height: 9px;
+  background: #000;
+  border: 0px none;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
+}
+.AXGrid .AXgridScrollBody .gridScrollTrackX .gridScrollHandle:hover,
+.AXGrid .AXgridScrollBody .gridScrollTrackX .gridScrollHandle.hover {
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
 }

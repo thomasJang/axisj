@@ -177,10 +177,10 @@
   width: 9px;
   height: 9px;
   /*
-				border-left:@border-a;
-				border-right:@border-a;
-				background:#f3f3f3;
-				*/
+				  border-left:@border-a;
+				  border-right:@border-a;
+				  background:#f3f3f3;
+				  */
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -212,9 +212,9 @@
   width: 9px;
   height: 9px;
   /*
-				border-top:@border-a;border-bottom:@border-a;
-				background:@bgcolor-c;
-				*/
+				  border-top:@border-a;border-bottom:@border-a;
+				  background:@bgcolor-c;
+				  */
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -764,9 +764,9 @@
   width: 9px;
   height: 9px;
   /*
-				border-left:@border-a;border-right:@border-a;
-				background:@bgcolor-c;
-				*/
+				  border-left:@border-a;border-right:@border-a;
+				  background:@bgcolor-c;
+				  */
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
