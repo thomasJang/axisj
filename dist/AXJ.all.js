@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-02-01 
+axisj - v1.0.22-b - 2016-02-11 
 */
 /*! 
-axisj - v1.0.22-b - 2016-02-01 
+axisj - v1.0.22-b - 2016-02-11 
 */
 
 if(!window.AXConfig){
@@ -22037,41 +22037,85 @@ var AXGrid = Class.create(AXJ, {
             cfg.colGroup = newColGroup.concat(oldColGroup);
 
             // body
-            var
-                oldBodyRows = []
-                ;
+            (function(){
+                var
+                    oldBodyRows = []
+                    ;
 
-            for (var r = 0; r < cfg.body.rows.length; r++) {
-                oldBodyRows.push([].concat(cfg.body.rows[r]));
-            }
+                for (var r = 0; r < cfg.body.rows.length; r++) {
+                    oldBodyRows.push([].concat(cfg.body.rows[r]));
+                }
 
-            for (var r = 0; r < oldBodyRows.length; r++) {
-                oldBodyRows[r].forEach(function (c, cidx) {
-                    var matchIdx = cidx;
-                    jQuery.each(cfg.colGroup, function (idx, cg) {
-                        if (cg.key == c.key) {
-                            matchIdx = idx;
-                            return false;
-                        }
+                for (var r = 0; r < oldBodyRows.length; r++) {
+                    oldBodyRows[r].forEach(function (c, cidx) {
+                        var matchIdx = cidx;
+                        jQuery.each(cfg.colGroup, function (idx, cg) {
+                            if (cg.key == c.key) {
+                                matchIdx = idx;
+                                return false;
+                            }
+                        });
+                        oldBodyRows[r][cidx].matchIdx = matchIdx;
                     });
-                    oldBodyRows[r][cidx].matchIdx = matchIdx;
-                });
-                oldBodyRows[r].sort(function (a, b) {
-                    return a.matchIdx - b.matchIdx;
-                });
-                oldBodyRows[r].forEach(function(c){
-                    delete c.matchIdx;
-                    delete c.colSeq;
-                });
-            }
+                    oldBodyRows[r].sort(function (a, b) {
+                        return a.matchIdx - b.matchIdx;
+                    });
+                    oldBodyRows[r].forEach(function(c){
+                        delete c.matchIdx;
+                        delete c.colSeq;
+                    });
+                }
 
-            cfg.body.rows = [];
-            for (var r = 0; r < oldBodyRows.length; r++) {
-                cfg.body.rows.push(oldBodyRows[r]);
-            }
+                cfg.body.rows = [];
+                for (var r = 0; r < oldBodyRows.length; r++) {
+                    cfg.body.rows.push(oldBodyRows[r]);
+                }
+            }).call(this);
+
+
+            // marker
+            (function(){
+                if (!cfg.body.marker) return;
+
+                for (var m = 0, l = cfg.body.marker.length; m < l; m++) {
+                    var marker = cfg.body.marker[m];
+                    var oldMarkerRows = [];
+                    for (var r = 0; r < marker.rows.length; r++) {
+                        oldMarkerRows.push([].concat(marker.rows[r]));
+                    }
+
+                    for (var r = 0; r < oldMarkerRows.length; r++) {
+                        oldMarkerRows[r].forEach(function (c, cidx) {
+                            var matchIdx = cidx;
+                            jQuery.each(cfg.colGroup, function (idx, cg) {
+                                if (cg.key == c.key) {
+                                    matchIdx = idx;
+                                    return false;
+                                }
+                            });
+                            oldMarkerRows[r][cidx].matchIdx = matchIdx;
+                        });
+                        oldMarkerRows[r].sort(function (a, b) {
+                            return a.matchIdx - b.matchIdx;
+                        });
+                        oldMarkerRows[r].forEach(function(c){
+                            delete c.matchIdx;
+                            delete c.colSeq;
+                        });
+                    }
+
+                    marker.rows = [];
+                    for (var r = 0; r < oldMarkerRows.length; r++) {
+                        marker.rows.push(oldMarkerRows[r]);
+                    }
+                }
+
+            }).call(this);
 
             // foot
-            if (cfg.foot) {
+            (function(){
+                if (!cfg.foot) return;
+
                 var
                     oldFootRows = []
                     ;
@@ -22104,8 +22148,7 @@ var AXGrid = Class.create(AXJ, {
                 for (var r = 0; r < oldFootRows.length; r++) {
                     cfg.foot.rows.push(oldFootRows[r]);
                 }
-            }
-
+            }).call(this);
 
             this.defineConfig(false, true);
             this.redrawGrid();
