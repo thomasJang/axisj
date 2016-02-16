@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-02-11 
+axisj - v1.0.22-b - 2016-02-16 
 */
 /*! 
-axisj - v1.0.22-b - 2016-02-11 
+axisj - v1.0.22-b - 2016-02-16 
 */
 
 if(!window.AXConfig){
@@ -17273,7 +17273,7 @@ var AXGrid = Class.create(AXJ, {
                         if (cfg.mergeCells) { /// mergeCells 이 있는 경우 함께 선택 표시해야할 대상이 있는지 판단 후 처리
 
                             (function () {
-                                var colGroupLen = 0, nowTrTd = this.body.find(".gridBodyTr_" + itemIndex).find("td");
+                                var colGroupLen = 0, nowTrTd = this.body.find(".gridBodyTable .gridBodyTr_" + itemIndex).find("td");
                                 for (var i = 0, l = cfg.colGroup.length; i < l; i++) {
                                     if (cfg.colGroup[i].display) colGroupLen++;
                                 }
@@ -17295,7 +17295,7 @@ var AXGrid = Class.create(AXJ, {
                                     var finding = true, parentItemIndex = itemIndex, safeLoop = 0;
                                     do {
                                         parentItemIndex = parentItemIndex - 1;
-                                        var _nowTrTd = this.body.find(".gridBodyTr_" + (parentItemIndex)).find("td");
+                                        var _nowTrTd = this.body.find(".gridBodyTable .gridBodyTr_" + (parentItemIndex)).find("td");
                                         //console.log(colGroupLen, (_nowTrTd.length - 1), parentItemIndex);
                                         if (colGroupLen == _nowTrTd.length - 1) {
                                             for (var i = 0, l = _nowTrTd.length; i < l; i++) {
@@ -22012,7 +22012,7 @@ var AXGrid = Class.create(AXJ, {
 
     /**
      * @method AXGrid.reorderColgroup
-     * @param {Array} rColgroup
+     * @param {Array} rColgroupreorderColGroup
      *
      */
     reorderColGroup: function (rColgroup) {
@@ -22072,13 +22072,12 @@ var AXGrid = Class.create(AXJ, {
                 }
             }).call(this);
 
-
             // marker
-            (function(){
+            (function () {
                 if (!cfg.body.marker) return;
 
-                for (var m = 0, l = cfg.body.marker.length; m < l; m++) {
-                    var marker = cfg.body.marker[m];
+                function convertMarker(marker){
+                    if(!marker.rows) return;
                     var oldMarkerRows = [];
                     for (var r = 0; r < marker.rows.length; r++) {
                         oldMarkerRows.push([].concat(marker.rows[r]));
@@ -22098,7 +22097,7 @@ var AXGrid = Class.create(AXJ, {
                         oldMarkerRows[r].sort(function (a, b) {
                             return a.matchIdx - b.matchIdx;
                         });
-                        oldMarkerRows[r].forEach(function(c){
+                        oldMarkerRows[r].forEach(function (c) {
                             delete c.matchIdx;
                             delete c.colSeq;
                         });
@@ -22108,6 +22107,14 @@ var AXGrid = Class.create(AXJ, {
                     for (var r = 0; r < oldMarkerRows.length; r++) {
                         marker.rows.push(oldMarkerRows[r]);
                     }
+                }
+
+                if (Object.isArray(cfg.body.marker)){
+                    for (var m = 0, l = cfg.body.marker.length; m < l; m++) {
+                        convertMarker(cfg.body.marker[m]);
+                    }
+                }else{
+                    convertMarker(cfg.body.marker);
                 }
 
             }).call(this);
