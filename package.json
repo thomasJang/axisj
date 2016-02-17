@@ -1,6 +1,6 @@
 ﻿{
 	"name": "axisj",
-	"version": "1.0.22-b",
+	"version": "1.0.23",
 	"description": "Javascript UI Library (jQuery)",
 	"devDependencies": {
 		"grunt": "~0.4.5",
