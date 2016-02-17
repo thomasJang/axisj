@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.22-b - 2016-02-16 
+axisj - v1.0.22-b - 2016-02-17 
 */
 /*! 
-axisj - v1.0.22-b - 2016-02-16 
+axisj - v1.0.22-b - 2016-02-17 
 */
 
 if(!window.AXConfig){
@@ -25914,7 +25914,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
             
             if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-            obj.bindTarget.change();
+            obj.bindTarget.trigger("change");
             
             obj.modal.close();
             //axdom("#" + objID).unbind("keydown.AXInput");
@@ -25990,7 +25990,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
             if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-            obj.bindTarget.change();
+            obj.bindTarget.trigger("change");
             
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
             obj.expandBox_axdom = null;
@@ -26172,8 +26172,12 @@ var AXInputConverter = Class.create(AXJ, {
                 
             }
         }
+
+        /*
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        obj.bindTarget.change();
+        obj.bindTarget.trigger("change");
+        */
+
         /* ie10 버그
          axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
          
