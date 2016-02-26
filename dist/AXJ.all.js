@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.0.23 - 2016-02-17 
+axisj - v1.1.0 - 2016-02-27 
 */
 /*! 
-axisj - v1.0.23 - 2016-02-17 
+axisj - v1.1.0 - 2016-02-27 
 */
 
 if(!window.AXConfig){
@@ -13722,6 +13722,8 @@ var AXGrid = Class.create(AXJ, {
                 this.pageBody.data("display", "show");
             }
             else if (cfg.viewMode == "mobile") {
+                this.scrollTrackX.hide();
+                this.scrollTrackY.hide();
                 this.pageBody.hide();
                 this.pageBody.data("display", "hide");
             }
@@ -15338,6 +15340,7 @@ var AXGrid = Class.create(AXJ, {
                     }
                 }
 
+                this.removedList = [];
                 this.printList({reload: rewrite});
                 this.contentScrollResize();
                 if (rewrite != "reload") this.scrollTop(0);
@@ -15463,6 +15466,7 @@ var AXGrid = Class.create(AXJ, {
         }
         axf.overwriteObject(this.page, res.page, true);
 
+        this.removedList = [];
         this.printList();
         this.contentScrollResize();
         this.scrollTop(0);
@@ -15510,6 +15514,7 @@ var AXGrid = Class.create(AXJ, {
         if (!this.page.onchange) this.page.onchange = this.page.onChange;
         axf.overwriteObject(this.page, res.page, true);
 
+        this.removedList = [];
         this.selectClear();
         this.printList();
         this.contentScrollResize();
@@ -16225,11 +16230,19 @@ var AXGrid = Class.create(AXJ, {
             if (cfg.__height != "auto" && this.list.length > 0) {
 
                 //아이템 한줄의 높이는?
-                var itemTrHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
+                var
+                    $itemTr = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0"),
+                    itemTrHeight,
+                    printListCount
+                    ;
+
+                if(!$itemTr.get(0)) return; // viewMode grid가 아닌 상황
+
+                itemTrHeight = $itemTr.outerHeight().number();
                 this.scrollContent.css({"padding-bottom": itemTrHeight});
                 // 추가로 출력할 목록 선정
                 po = [];
-                var printListCount = (this.body.height() / itemTrHeight).ceil();
+                printListCount = (this.body.height() / itemTrHeight).ceil();
 
                 if (this.list.length > (printListCount + cfg.listCountMargin)) printListCount += cfg.listCountMargin;
                 else printListCount = this.list.length;
