@@ -16,6 +16,7 @@ In terms of the development method, the collision issue between components has b
 ### link
 - Demonstration (http://dev.axisj.com)
 - Documentation (http://jdoc.axisj.com)
+- Guide (http://axisj.github.io/axisj-about/docs/)
 - Website (https://www.axisj.com)
 - Facebook (http://facebook.com/axisj)
 - Google+ (http://google.com/+axisj)
