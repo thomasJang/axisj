@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid RWD CUSTOME VIEW - AXGrid</title>
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+    <script type="text/javascript">
+        var pageID = "misc";
+
+        var myGrid = new AXGrid();
+        var itemSum = 0;
+        var fnObj = {
+            pageStart: function(){
+                //axf.readyMobileConsole();
+
+                myGrid.setConfig({
+                    targetID : "AXGridTarget",
+                    theme : "AXGrid",
+                    //viewMode: "grid", // ["grid","icon","mobile"]
+                    // 브라우저 사이즈에 따른 changeGridView 설정
+                    mediaQuery: {
+                        mx:{min:0, max:600}, dx:{min:600}
+                    },
+                    colGroup : [
+                        {key:"no", label:"번호", width:"40", align:"center", formatter:"checkbox"},
+                        {key:"title", label:"제목", width:"200"},
+                        {key:"writer", label:"작성자", width:"90", align:"center"},
+                        {key:"regDate", label:"작성일", width:"90", align:"center"},
+                        {key:"desc", label:"비고", width:"*"}
+                    ],
+                    view: {
+                        label:true,
+                        column: [ // col 은 4
+                            {key:"title", label:"제목", col:4, addClass:"underLine"},
+                            {key:"no", label:"번호", col:1, formatter:"checkbox"},
+                            {key:"desc", label:"비고", col:3},
+                            {key:"writer", label:"작성자"},
+                            {key:"regDate", label:"작성일"},
+                            {key:"", label:"사용자연산", formatter: function(){
+                                return (this.item.no * 987).money();
+                            }}
+                        ],
+                        buttons: [
+                            {addClass:"handle", onclick:function(){
+                                toast.push("handle Click");
+                                trace(this.item);
+                            }}
+                        ]
+                    },
+                    body : {
+                        onclick: function(){
+                            toast.push(Object.toJSON({index:this.index, item:this.item}));
+                            //alert(this.list);
+                            //alert(this.page);
+                        }
+                    },
+                    page:{
+                        paging:true,
+                        pageNo:1,
+                        pageSize:100,
+                        status:{formatter: null}
+                    }
+                });
+
+                myGrid.setList({
+                    ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+                        //trace(this);
+                    }
+                });
+
+            },
+            getCheckedList: function(){
+                var checkedList = myGrid.getCheckedList(0);// colSeq
+                alert(Object.toJSON(checkedList));
+            },
+            removeList: function(){
+                var checkedList = myGrid.getCheckedList(0);// colSeq
+                if(checkedList.length == 0){
+                    alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");
+                    return;
+                }
+                if(!confirm("정말 삭제 하시겠습니까?")) return;
+
+                /// something do for server
+
+                var removeList = [];
+                $.each(checkedList, function(){
+                    removeList.push({no:this.no});
+                });
+                myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+            }
+        };
+
+        jQuery(document.body).ready(function(){fnObj.pageStart()});
+
+    </script>
+    <!-- js block -->
+
+</head>
+<body>
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+
+
+
+        <div class="AXdemoPageContent">
+
+            <h1>AXGrid RWD CUSTOME VIEW</h1>
+            <h3>브라우저 너비를 줄이거나 늘려서 반응형 환경을 만들어 보세요.</h3>
+            <div id="AXGridTarget"></div>
+
+            <div style="padding:10px 0px;">
+                <input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
+                <input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
+                <input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

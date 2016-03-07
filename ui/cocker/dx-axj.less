@@ -131,6 +131,22 @@
 			background-repeat:no-repeat;
 			background-position:0px center;
 		}
+		.shot-cut{
+			position: absolute; right:5px;top:0px;
+			font-size:11px;
+		}
+		.tool-checkbox {
+			display: inline-block;
+			vertical-align: middle;
+			width: 30px;
+			height: 30px;
+			background: url('images/mx-item-check.png') no-repeat center center;
+			background-size: 30px 30px;
+			&.on {
+				background: url('images/mx-item-checkOn.png') no-repeat center center;
+				background-size: 30px 30px;
+			}
+		}
 	}
 	.hline{
 		display:block;
@@ -306,6 +322,7 @@
 	}	
 	.AXNotificationTable{
 		width:100%;border:0px none !important;background:@bgcolor;
+		table-layout: fixed;
 		td, th{
 			border:0px none !important; background:@bgcolor;
 		}
@@ -355,7 +372,7 @@
 
 // AXCalendar //////////////////////////////////////////////////////////////
 .AXCalendar{
-	.dx-axcalenter-preset();
+	.dx-axcalender-preset();
 	position:relative;
 	table{
 		&.calendarPage{
@@ -400,6 +417,7 @@
 							&:hover		{background:@bgcolor-a;}
 							&:active	{background:@bgcolor-b;color:@color-d;box-shadow:inset 0px 0px 4px #3d84bc;}
 							&.selected	{background:@bgcolor-c;color:@color-e;box-shadow:inset 0px 0px 4px #3d84bc;}
+                            &.disabled	{color:@color-disabled !important;;}
 						}
 					}
 					&.bodyCol_0{
@@ -994,28 +1012,47 @@
   font-size:12px;
   box-shadow:1px 1px 3px #eee;
 
-  thead{
-    td{
-      .util-gradient (top, @bgcolor, @bgcolor-a);
-      min-height:30px;line-height:30px;
-      border-bottom:@border-a;
-      border-right:@border-a;
-      color:@color;
-      .tdRel{
-        padding:0px 10px;text-align:center;color:@color;
-      }
-    }
-  }
-  tbody{
-    td{
-      min-height:36px;line-height:30px;
-      border-bottom:@border-a;
-      border-right:@border-a;
-      color:@color;
-      text-align:center;
-      .tdRel{position: relative;}
-    }
-  }
+	td, th{
+		min-height:30px;
+		box-sizing: border-box;
+		padding: 5px;
+		.tdRel, .AXInputLabel{
+			position: relative;
+		}
+	}
+
+	thead{
+		td, th{
+			.util-gradient(top, #f3f3f3, #f3f3f3);
+			border-bottom:@border-a;
+			border-right:@border-a;
+			color:@color;
+		}
+	}
+
+	tbody{
+		td, th{
+			border-bottom:@border-a;
+			border-right:@border-a;
+			color:@color;
+		}
+	}
+
+	tr{
+		&.gray{th,td{background-color:#F5F5F5;}}
+		&.red{th,td{background-color:#FFE8E8;}}
+		&.green{th,td{background-color:#F7FDEA;}}
+		&.blue{th,td{background-color:#EAF5FD;}}
+		&.yellow{th,td{background-color:#FEFEE9;}}
+		td{
+			&.gray{background-color:#F5F5F5;}
+			&.red{background-color:#FFE8E8;}
+			&.green{background-color:#F7FDEA;}
+			&.blue{background-color:#EAF5FD;}
+			&.yellow{background-color:#FEFEE9;}
+		}
+	}
+
 }
 
 /* view Style table */
@@ -1025,10 +1062,15 @@
   width:100%;table-layout:fixed;
   font-size:12px;
   box-shadow:1px 1px 3px #eee;
-  td, th{
-    padding:5px;
-    .tdRel{position: relative;}
-  }
+	td, th{
+		min-height:30px;
+		box-sizing: border-box;
+		padding: 5px;
+		.tdRel, .AXInputLabel{
+			position: relative;
+		}
+	}
+
   tbody{
     td, th{
       min-height:25px;overflow:visible;
@@ -1038,7 +1080,7 @@
     }
     th{
       color:@color-a;
-      .util-gradient (top, @bgcolor, @bgcolor-a);
+		.util-gradient(top, #f3f3f3, #f3f3f3);
       box-sizing: border-box;
     }
     tr{
@@ -1056,4 +1098,10 @@
       }
     }
   }
+}
+
+.AXWordwrap {
+  word-wrap: break-word;      /* IE 5.5-7 */
+  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;      /* current browsers */
 }

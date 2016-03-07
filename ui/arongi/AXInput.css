@@ -51,8 +51,8 @@
   -webkit-border-radius: 4px 5px 5px 5px;
   -moz-border-radius: 4px 5px 5px 5px;
   border-radius: 4px 5px 5px 5px;
+  font-family: inherit;
   font-size: 12px;
-  line-height: 15px;
   height: 15px;
   padding: 4px;
   margin: 0px auto;
@@ -102,8 +102,9 @@
   -webkit-border-radius: 4px 5px 5px 5px;
   -moz-border-radius: 4px 5px 5px 5px;
   border-radius: 4px 5px 5px 5px;
+  font-family: inherit;
   font-size: 12px;
-  line-height: 12px;
+  line-height: 1em;
   height: 12px;
   padding: 3px 3px;
   margin: 0px auto;
@@ -163,6 +164,88 @@
 .AXCheckbox input[type="checkbox"] {
   position: absolute;
   left: -56px;
+}
+.AXbindChecked {
+  position: relative;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 1px 0 0 30px;
+  margin: 0 0px 0 0;
+  font-weight: normal;
+  vertical-align: top;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  background: url('images/dx-checkbox.png') no-repeat left 0px;
+  vertical-align: middle;
+}
+.AXbindChecked.checked {
+  background-position: left -26px;
+}
+.AXbindChecked input[type="checkbox"] {
+  position: absolute;
+  left: -56px;
+}
+.AXbindCheckedHandle {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #b6b6b6;
+  border-radius: 3px;
+  box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+.AXbindCheckedHandle a.checked-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("images/mx-checked.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+}
+.AXbindCheckedHandle.checked {
+  box-shadow: none;
+  background: #717b85;
+  border-color: #717b85;
+}
+.AXbindCheckedHandle.checked a.checked-icon {
+  display: block;
+}
+.AXbindCheckedHandle_radio {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #b6b6b6;
+  border-radius: 3px;
+  box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-radius: 50%;
+}
+.AXbindCheckedHandle_radio a.checked-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("images/mx-checked.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+}
+.AXbindCheckedHandle_radio.checked {
+  box-shadow: none;
+  background: #717b85;
+  border-color: #717b85;
+}
+.AXbindCheckedHandle_radio.checked a.checked-icon {
+  display: block;
+}
+.AXbindCheckedHandle_radio a.checked-icon {
+  background: url("images/mx-checked-radio.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked-radio.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked-radio.png', sizingMethod='scale')";
 }
 .AXInputLabel {
   position: relative;
@@ -599,6 +682,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -615,6 +700,8 @@
   background-image: linear-gradient(#c7cfd4, #e5eff2);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c7cfd4, endColorstr=#e5eff2);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#c7cfd4, endColorstr=#e5eff2);
   /*For IE7-8-9*/
   text-shadow: 0px 1px #fff;
 }
@@ -638,6 +725,8 @@
   background-image: linear-gradient(#7c7e83, #b9babc);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#7c7e83, endColorstr=#b9babc);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#7c7e83, endColorstr=#b9babc);
   /*For IE7-8-9*/
   color: #ffffff;
   text-shadow: 0px 1px #4e585f;
@@ -675,6 +764,8 @@
   background-image: linear-gradient(#b1bec7, #919ea7);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1bec7, endColorstr=#919ea7);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#b1bec7, endColorstr=#919ea7);
   /*For IE7-8-9*/
   border: 1px solid #7f8d9c;
 }
@@ -822,4 +913,40 @@
   color: #828f9e;
   text-shadow: 0px 1px #fff;
   font-family: Arial;
+}
+.AXTag-selector-tagcontainer {
+  display: inline-block;
+  float: left;
+  overflow: auto;
+  padding: 4px 0px;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0px 0px 4px 4px;
+  background: #eee;
+  border-radius: 3px;
+  line-height: 20px;
+  padding: 0px 3px;
+  height: 20px;
+  box-sizing: border-box;
+  padding-right: 15px;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 15px;
+  height: 20px;
+  text-align: center;
+  line-height: inherit;
+  font-family: 'axicon';
+  cursor: pointer;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove:before {
+  content: '\f00d';
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove:hover {
+  color: #ff5d26;
 }

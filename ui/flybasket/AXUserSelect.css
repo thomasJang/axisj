@@ -37,6 +37,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
   color: #593629;
   padding: 3px 5px;
   border-radius: 3px;
@@ -68,10 +70,12 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
 }
 .userSelectBox .bedraged {
   border: 2px solid #ff3300 !important;
 }
 .userSelectBox .beSelected {
-  border: #f1efea;
+  border: 1px solid #565b61;
 }

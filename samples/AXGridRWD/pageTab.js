@@ -2,7 +2,8 @@
 var myTabOption = [
 	{optionValue:"AXGrid", optionText:"AXGrid(RWD)", addClass:"", url:"index.html"},
 	{optionValue:"ajax", optionText:"RWD Paging", addClass:"", url:"ajax.html"},
-	{optionValue:"custom", optionText:"RWD Custom", addClass:"", url:"custom.html"}
+	{optionValue:"custom", optionText:"RWD Custom", addClass:"", url:"custom.html"},
+	{optionValue:"misc", optionText:"misc", addClass:"", url:"misc.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

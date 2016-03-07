@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
-	<title>AXGrid(passive) - AXISJ</title>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid(passive) - AXISJ</title>
 
     <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
     <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
@@ -22,18 +22,25 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
 
-	<script>
-	/**
-	 * Require Files for AXISJ UI Component...
-	 * Based		: jQuery
-	 * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
-	 * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
-	 */	
-	var pageID = "passive";
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+
+    <script id="jscode">
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based        : jQuery
+     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
+     */    
+    var pageID = "passive";
 
     var myGrid = new AXGrid();
     var fnObj = {
@@ -109,12 +116,11 @@
                         //this.c
                         //this.list
                         //this.item
-                        toast.push(this.checked);
+                        trace(this.checked);
                     }
                 },
                 page:{
-                    paging:true,
-                    status:{formatter: null}
+                    paging:true
                 },
                 editor: {
                     rows: [
@@ -283,24 +289,28 @@
         }
     };
 
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
-	</script>
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
+    </script>
 
-	<style type="text/css">
-	
-	</style>
+    <style type="text/css">
+    
+    </style>
 </head>
-	
+    
 <body>
 
 <div id="AXPage">
 
-	<div id="AXPageBody" class="SampleAXSelect">
+    <div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-		<div class="AXdemoPageContent">
-			<div class="title"><h1>AXGrid passive option true</h1></div>
+        <div class="AXdemoPageContent">
+            <div class="title">
+                <h1>AXGrid (passive)</h1>
+            </div>
+            <h2>passiveMode 속성을 사용해서 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h2>
 
-            <h3>grid의 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h3>
             <div id="AXGridTarget" style="height:400px;"></div>
 
             <div class="H20"></div>
@@ -316,15 +326,15 @@
 
             <div>
                 <b>passiveMode:true </b> 사용시 <br/>
-                _isNew : 신규 등록된 item,
-                _isDel : 삭제된 item,
-                _isUpd : 수정된 item
+                myGrid.list[index]._CUD = "C" : 신규 등록된 item<br/>
+                myGrid.list[index]._CUD = "U" : 수정된 item<br/>
+                myGrid.list[index]._CUD = "D" : 삭제된 item<br/>
                 <br/>
                 <b>passiveRemoveHide:true</b> 변경 하면 삭제될 때 리스트가 제거 됩니다. 또한 삭제된 데이터가 myGrid.removedList 에 쌓이게 됩니다.
                 <br/>
                 <br/>
-                AXUtil.gridPassiveMode = true; 로 그리드 기본값을 설정 하실 수도 있습니다.<br/>
-                AXUtil.gridPassiveRemoveHide = true; 로 그리드 기본값을 설정 하실 수도 있습니다.
+                AXConfig.AXGrid.passiveMode = true; 로 그리드 기본값을 설정 하실 수도 있습니다.<br/>
+                AXConfig.AXGrid.passiveRemoveHide = true; 로 그리드 기본값을 설정 하실 수도 있습니다.
             </div>
 
             <div style="padding:10px 0px;">
@@ -332,8 +342,10 @@
                 <input type="button" value="removedList 추출" class="AXButton Green" onclick="AXUtil.alert(myGrid.removedList);" />
             </div>
 
-		</div>
-	</div>
+            <pre id="pretty" class="prettyprint linenums"></pre>
+
+        </div>
+    </div>
 
 </div>
 

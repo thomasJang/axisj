@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXSearch - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css">
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSearch.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+
+    <script type="text/javascript" src="../../lib/AXSearch.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXSelect.js, AXSearch.js, AXGrid.js, AXTab.js, AXButton.js
+	 * CSS			: AXJ.css, AXInput.css, AXSelect.css, AXSearch.css, AXGrid.css, AXTab.css, AXButton.css
+	 */	
+	var pageID = "tagBind";
+	var mySearch = new AXSearch();
+
+	var fnObj = {
+		pageStart: function(){
+
+            $("#customer").bindSelector({
+                appendable: true,
+                options   : [
+                    {optionValue: 1, optionText: "Seoul"},
+                    {optionValue: 2, optionText: "대구"},
+                    {optionValue: 3, optionText: "대전"},
+                    {optionValue: 4, optionText: "창원"},
+                    {optionValue: 5, optionText: "마산"},
+                    {optionValue: 6, optionText: "구례"},
+                    {optionValue: 7, optionText: "제주도"},
+                    {optionValue: 8, optionText: "전주"},
+                    {optionValue: 4, optionText: "창원"},
+                    {optionValue: 5, optionText: "마산"},
+                    {optionValue: 6, optionText: "구례"},
+                    {optionValue: 7, optionText: "제주도"},
+                    {optionValue: 8, optionText: "전주"},
+                    {optionValue: 9, optionText: "Gwangju"}
+                ]
+            });
+
+			//검색도구 설정 01 ---------------------------------------------------------
+			mySearch.setConfig({
+				targetID:"AXSearchTarget",
+				theme : "AXSearch",
+				onsubmit: function(){
+					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
+				},
+                keydown_check_classname:"sc-keydown",
+                onkeydown: function(event){
+                    trace("keydown : " + event.keyCode);
+                },
+                keyup_check_classname:"sc-keyup",
+                onkeyup: function(event){
+                    trace("keyup : " + event.keyCode);
+                },
+                change_check_classname:"sc-change",
+                onchange: function(event){
+                    trace("change : " + event.target.tagName);
+                },
+                focus_check_classname:"sc-focus",
+                onfocus: function(event){
+                    trace("focus : " + event.target.tagName);
+                },
+                return_check_classname:"sc-enter",
+                onreturn: function(event){
+                    trace("return : " + event.target.tagName);
+                }
+			});
+			//검색도구 설정 01 ---------------------------------------------------------
+
+
+		},
+		search1: function(){
+			var pars = mySearch.getParam();
+			toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
+			trace(pars);
+		}	
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+        .ax-rwd-table {
+            border-top: 1px solid #e2e2e2;border-right: 1px solid #e2e2e2;
+            position: relative;
+        }
+        .ax-rwd-table .table-title {
+            border-bottom: 1px solid #e2e2e2;
+            clear: both;
+        }
+        .ax-rwd-table .item-group {
+            position: relative;
+            min-height: 40px;
+        }
+        .ax-rwd-table .item-group.gray {
+            background: #eee;
+            padding: 0px;
+            min-height: 25px;
+        }
+        .ax-rwd-table .item-group .item {
+            float: left;
+            line-height: 20px;
+            min-height: 20px;
+            padding: 0px;
+            text-align: center;
+            position: relative;
+        }
+        .ax-rwd-table .item-group .item .item-lable {
+            position: relative;
+            display: table-row;
+            *display: block;
+            *float: left;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.th {
+            display: table-cell;
+            *display: block;
+            *float: left;
+            color: #616161;
+            border-left: 1px solid #e2e2e2;
+            border-right: 1px solid #e2e2e2;
+            min-height: 20px;
+            line-height: 20px;
+            padding: 10px 0px;
+            box-sizing: border-box;
+            min-width: 100px;
+            background: #f3f3f3;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.th.none {
+            border: 0px none;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td {
+            display: table-cell;
+            *display: block;
+            *float: left;
+            height: 30px;
+            line-height: auto;
+            padding: 5px 10px;
+            *line-height: 30px;
+            box-sizing: content-box;
+            vertical-align: middle;
+            text-align: left;
+            min-width: 320px;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td.selectBox {
+            *padding-top: 7px;
+            *height: 28px;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td.inputText {
+            *padding-top: 6px;
+            *height: 29px;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td.button {
+            *padding-top: 6px;
+            *height: 29px;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td select {
+            box-sizing: border-box;
+            height: 25px;
+            margin: 0px;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td input {
+            vertical-align: middle;
+        }
+        .ax-rwd-table .item-group .item .item-lable span.td label {
+            vertical-align: middle;
+        }
+        .ax-rwd-table .item-group .item.fullWidth {
+            position: relative;
+            display: table;
+            float: none;
+            clear: both;
+            width: 100%;
+        }
+        .ax-rwd-table .item-group .item.fullWidth .item-lable {
+            position: relative;
+            display: table-row;
+            float: none;
+            clear: both;
+            width: 100%;
+        }
+        .ax-rwd-table .item-group .item.fullWidth .item-lable span.th {
+            width: 100px;
+        }
+        .ax-rwd-table .item-group .item.fullWidth .item-lable input[type=text],
+        .ax-rwd-table .item-group .item.fullWidth .item-lable input[type=password],
+        .ax-rwd-table .item-group .item.fullWidth .item-lable .AXInput,
+        .ax-rwd-table .item-group .item.fullWidth .item-lable select,
+        .ax-rwd-table .item-group .item.fullWidth .item-lable textarea {
+            width: 100%;
+            height: 25px;
+            box-sizing: border-box;
+        }
+        .ax-rwd-table .item-group .item.rightPadding0 .item-lable span.td {
+            padding-right: 0px;
+        }
+        .ax-rwd-table .item-group .item.leftPadding0 .item-lable span.td {
+            padding-left: 0px;
+        }
+        .ax-rwd-table .item-group .item.padding0 .item-lable span.td {
+            padding: 5px 0px;
+        }
+        .ax-rwd-table .item-group .group-clear {
+            font-size: 1px;
+            line-height: 1px;
+            height: 1px;
+            background: #e2e2e2;
+            clear: both;
+        }
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<!-- s.AXPageBody -->
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget">
+
+        </div>
+        <div class="AXdemoPageContent">
+
+			<div class="title"><h1>AXSearch</h1></div>
+
+            <form class="ax-rwd-table" id="AXSearchTarget">
+
+                <div class="item-group" style="">
+                    <div class="item">
+                        <div class="item-lable">
+                            <span class="th" style="min-width:100px;">사업장</span>
+                            <span class="td inputText" style="" title="">
+                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200 sc-change">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item-clear"></div>
+                    <div class="item secondItem">
+                        <div class="item-lable">
+                            <span class="th" style="min-width:100px;">우편번호</span>
+                            <span class="td inputText" style="" title="">
+                                <label class="AXInputLabel" >
+                                    <input type="text" name="zip1" id="zip1" class="AXInput" style="width:40px;" /> - <input type="text" name="zip2" id="zip2" class="AXInput" style="width:40px;" />
+                                    <input type="text" name="addr" id="addr" class="AXInput W400 sc-enter" />
+                                    <button type="button" class="AXLabelFinder" id="ax-popup-btn-addr"><i class="axi axi-search2"></i></button>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item-clear"></div>
+                    <div class="group-clear"></div>
+                </div>
+                <div class="item-group" style="">
+                    <div class="item">
+                        <div class="item-lable">
+                            <span class="th" style="min-width:100px;">거래처</span>
+                            <span class="td inputText" style="" title="">
+                                <input type="text" name="customer" id="customer" class="AXInput W400 sc-enter sc-change" />
+                                <button type="button" class="AXButton" id="ax-popup-btn-customer"><i class="axi axi-search2"></i>거래처</button>
+                                <input type="checkbox" value="12" class="sc-change" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item-clear"></div>
+                    <div class="group-clear"></div>
+                </div>
+                <div class="item-group" style="">
+                    <div class="item">
+                        <div class="item-lable">
+                            <span class="th" style="min-width:100px;">기사명</span>
+                            <span class="td inputText" style="" title="">
+                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter sc-focus" />
+                                <button type="button" class="AXButton" id="ax-popup-btn-driver"><i class="axi axi-search2"></i>기사명</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item-clear"></div>
+                    <div class="group-clear"></div>
+                </div>
+                <div class="item-group" style="">
+                    <div class="item">
+                        <div class="item-lable">
+                            <span class="th" style="min-width:100px;">상품명</span>
+                            <span class="td inputText" style="" title="">
+                                <input type="text" name="goods" id="goods" class="AXInput W400 sc-enter" />
+                                <button type="button" class="AXButton" id="ax-popup-btn-goods"><i class="axi axi-search2"></i>상품명</button>
+
+                                <button class="AXButton Blue">폼 서브밋 테스트</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item-clear"></div>
+                    <div class="group-clear"></div>
+                </div>
+
+            </form>
+
+            <div class="H10"></div>
+
+            <div align="center">
+                <input type="button" value="검색하기" class="AXButton W100" onclick="fnObj.search1();" />
+            </div>
+
+		</div>
+	</div>
+	<!-- e.AXPageBody -->
+
+</div>
+
+</body>
+</html>

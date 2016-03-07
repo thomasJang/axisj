@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>binsSelect - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+
+	<script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+	<script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+	<link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <!-- js block -->
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+	<div id="AXPage">
+		<div id="AXPageBody" class="SampleAXSelect">
+	        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+			<div class="AXdemoPageContent">
+
+				<div class="title"><h1>AXSelect Custom</h1></div>
+				<!-- s.axlayer 1 -->
+
+				<h2>options, optionsValue, optionText 키값 사용자 정의</h2>
+
+				<select name="" class="AXSelect" id="ax-select1-01"></select>
+				&nbsp;
+				<select name="" class="AXSelect" id="ax-select11-02"></select>
+				&nbsp;
+				<select name="" class="AXSelect" id="ax-select111-03"></select>
+
+<!-- 소스코드 -->
+<pre class="prettyprint linenums">
+/**
+ * Require Files for AXISJ UI Component...
+ * Based		: jQuery
+ * Javascript 	: AXJ.js, AXInput.js, AXSelect.js
+ * CSS			: AXJ.css, AXInput.css, AXSelect.css
+ */
+
+// AXSelect 환경설정 값 변경
+AXConfig.AXSelect.keyOptions = "list";
+AXConfig.AXSelect.keyOptionValue = "optionValue";
+AXConfig.AXSelect.keyOptionText = "optionText";
+AXSelect.setConfig({ targetID: "AXselect" });
+
+var pageID = "AXSelect-custom";
+var fnObj = {
+	pageStart: function(){
+
+
+		// 예약어 설정 안하고 AXConfig 속성 사용
+		$("#ax-select-01").bindSelect({
+			ajaxUrl: "selectData-01.php",
+			ajaxPars: "",
+			onchange: function(){
+				trace("change : " + Object.toJSON(this));
+			}
+		});
+
+		// 예약어 설정
+		$("#ax-select-02").bindSelect({
+			reserveKeys: {
+				options: "lists",
+				optionValue: "value",
+				optionText: "text"
+			},
+			ajaxUrl: "selectData-02.php",
+			ajaxPars: "",
+			onchange: function(){
+				trace("change : " + Object.toJSON(this));
+			}
+		});
+
+		// 예약어 다르게 설정
+		$("#ax-select-03").bindSelect({
+			reserveKeys: {
+				options: "options",
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			ajaxUrl: "selectData-03.php",
+			ajaxPars: "",
+			onchange: function(){
+				trace("change : " + Object.toJSON(this));
+			}
+		});
+
+	}
+};
+jQuery(document.body).ready(function(){
+	fnObj.pageStart();
+	prettyPrint();
+});
+</pre>
+				<h2>selectData-01.php</h2>
+<pre class="prettyprint linenums">
+{
+	result:"ok",
+	list:[
+		{optionValue:1, optionText:"Seoul"},
+		{optionValue:2, optionText:"대구"},
+		{optionValue:3, optionText:"대전"},
+		{optionValue:4, optionText:"창원"},
+		{optionValue:5, optionText:"마산"},
+		{optionValue:6, optionText:"구례"},
+		{optionValue:7, optionText:"제주도"},
+		{optionValue:8, optionText:"전주"},
+		{optionValue:4, optionText:"창원"},
+		{optionValue:5, optionText:"마산"},
+		{optionValue:6, optionText:"구례"},
+		{optionValue:7, optionText:"제주도"},
+		{optionValue:8, optionText:"전주"},
+		{optionValue:9, optionText:"Gwangju"}
+	],
+	etcs:""
+}
+</pre>				
+				<h2>selectData-02.php</h2>
+<pre class="prettyprint linenums">
+{
+	result:"ok",
+	lists:[
+		{value:1, text:"Seoul"},
+		{value:2, text:"대구"},
+		{value:3, text:"대전"},
+		{value:4, text:"창원"},
+		{value:5, text:"마산"},
+		{value:6, text:"구례"},
+		{value:7, text:"제주도"},
+		{value:8, text:"전주"},
+		{value:4, text:"창원"},
+		{value:5, text:"마산"},
+		{value:6, text:"구례"},
+		{value:7, text:"제주도"},
+		{value:8, text:"전주"},
+		{value:9, text:"Gwangju"}
+	],
+	etcs:""
+}
+</pre>
+				<h2>selectData-03.php</h2>
+<pre class="prettyprint linenums">
+{
+	result:"ok",
+	options:[
+		{"CD":1, "NM":"Seoul"},
+		{"CD":2, "NM":"대구"},
+		{"CD":3, "NM":"대전"},
+		{"CD":4, "NM":"창원"},
+		{"CD":5, "NM":"마산"},
+		{"CD":6, "NM":"구례"},
+		{"CD":7, "NM":"제주도"},
+		{"CD":8, "NM":"전주"},
+		{"CD":4, "NM":"창원"},
+		{"CD":5, "NM":"마산"},
+		{"CD":6, "NM":"구례"},
+		{"CD":7, "NM":"제주도"},
+		{"CD":8, "NM":"전주"},
+		{"CD":9, "NM":"Gwangju"}
+	],
+	etcs:""
+}
+</pre>
+			</div>
+		</div>
+
+	</div>
+
+<script>
+/**
+ * Require Files for AXISJ UI Component...
+ * Based		: jQuery
+ * Javascript 	: AXJ.js, AXInput.js, AXSelect.js
+ * CSS			: AXJ.css, AXInput.css, AXSelect.css
+ */
+
+// AXSelect 환경설정 값 변경
+AXConfig.AXSelect.keyOptions = "list";
+AXConfig.AXSelect.keyOptionValue = "optionValue";
+AXConfig.AXSelect.keyOptionText = "optionText";
+AXSelect.setConfig({ targetID: "AXselect" });
+
+var pageID = "AXSelect-custom";
+var fnObj = {
+	pageStart: function(){
+
+
+		// 예약어 설정 안하고 AXConfig 속성 사용
+		$("#ax-select1-01").bindSelect({
+			ajaxUrl: "selectData-01.php",
+			ajaxPars: "",
+			onchange: function(){
+				trace("change : " + Object.toJSON(this));
+			}
+		});
+
+		// 예약어 설정
+		$("#ax-select11-02").bindSelect({
+			reserveKeys: {
+				options: "lists",
+				optionValue: "value",
+				optionText: "text"
+			},
+			ajaxUrl: "selectData-02.php",
+			ajaxPars: "",
+			onchange: function(){
+				trace("change : " + Object.toJSON(this));
+			}
+		});
+
+		// 예약어 다르게 설정
+		$("#ax-select111-03").bindSelect({
+			reserveKeys: {
+				options: "options",
+				optionValue: "CD",
+				optionText: "NM"
+			},
+			ajaxUrl: "selectData-03.php",
+			ajaxPars: "",
+			onchange: function(){
+				trace("change : " + Object.toJSON(this));
+			}
+		});
+
+	}
+};
+jQuery(document.body).ready(function(){
+	fnObj.pageStart();
+	prettyPrint();
+});
+</script>
+
+</body>
+</html>		

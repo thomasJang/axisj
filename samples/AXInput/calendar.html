@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>bindDate - AXISJ</title>
@@ -20,6 +20,8 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXCore.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -34,27 +36,63 @@
 	var fnObj = {
 		pageStart: function(){
 
-			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"m", onchange:function(){toast.push(Object.toJSON(this));}});
-			$("#AXInputDateMiddle").bindDate({align:"left", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
-			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){toast.push(Object.toJSON(this));}});
-			$("#AXInputDateRight").bindDate({align:"right", valign:"top", onChange:function(){toast.push(Object.toJSON(this));}, defaultDate:"2013-05-01"});
+			$("#AXInputDate").bindDate({align:"right", valign:"bottom", separator:"/", defaultSelectType:"m", onchange:function(){
+                toast.push(Object.toJSON(this));
+            }});
+			$("#AXInputDateMiddle").bindDate({align:"left", valign:"middle", onChange:function(){
+                toast.push(Object.toJSON(this));
+            }});
+			$("#AXInputDateMiddle2").bindDate({align:"center", valign:"middle", onChange:function(){
+                toast.push(Object.toJSON(this));
+            }});
+			$("#AXInputDateRight").bindDate({
+                align:"right",
+                valign:"top",
+                onChange:function(){
+                    toast.push(Object.toJSON(this));
+                },
+                minDate:"2013-05-10",
+                maxDate:"2013-05-20",
+                defaultDate:"2013-05-15"
+            });
 			
 			$("#AXInputDate2").bindDate({separator:"/", selectType:"m"});
 			$("#AXInputDate3").bindDate({selectType:"y"});
 			
 			$("#AXInputDate4").bindDateTime({
 				onChange:function(){
-					toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(this));
 				}
 			});
+
+            $("#AXInputDateED").bindTwinDate({
+                startTargetID: "AXInputDateST",
+                handleLeft: 25,
+                align: "right",
+                valign: "bottom",
+                separator: "/",
+                buttonText: "선택",
+                onChange: function () {
+                    //toast.push(Object.toJSON(this));
+                },
+                onBeforeShowDay: function (date) {
+                    if (date.getDay() == 3) {
+                        return { isEnable: false, title: "수요일 선택불가", className: "", style: "" };
+                    }
+                }
+            });
 			
-			$("#AXInputDateED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateST", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 			
-			$("#AXInputDateYED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateYST", selectType:"y", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateMED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateMST", selectType:"m", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 			
-			$("#AXInputDateMED").bindTwinDate({align:"right", valign:"bottom", separator:"/", startTargetID:"AXInputDateMST", selectType:"m", onChange:function(){toast.push(Object.toJSON(this));}});
-			
-			$("#AXInputDateTimeED").bindTwinDateTime({align:"right", valign:"top", separator:"/", startTargetID:"AXInputDateTimeST", onChange:function(){toast.push(Object.toJSON(this));}});
+			$("#AXInputDateTimeED").bindTwinDateTime({align:"right", valign:"top", separator:"/", startTargetID:"AXInputDateTimeST", onChange:function(){
+                //toast.push(Object.toJSON(this));
+            }});
 
 			$("#AXInputDate_earlier").bindDate({align:"right", valign:"bottom", onChange:{
 					earlierThan:"AXInputDate_later", err:"종료일보다 빠른 날짜를 선택하세요", 
@@ -76,7 +114,7 @@
             $("#AXInputDate").bindDate({align:"right", valign:"top", separator:"/", onChange:function(){toast.push(Object.toJSON(this));}});
         }
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -116,7 +154,7 @@
 						<div class="H20"></div>
 						
 						<h3>bind DateTime</h3>
-						<input type="text" name="" id="AXInputDate4" class="AXInput W140" />
+						<input type="text" name="" id="AXInputDate4" class="AXInput W140" onchange="console.log('AXInputDate4 change');" />
 		
 						<div class="H20"></div>
 						

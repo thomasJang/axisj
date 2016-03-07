@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>bindNumber - AXISJ</title>
@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -36,6 +37,12 @@
 		pageStart: function(){
 
 			$("#AXInputNumber").bindNumber();
+            /*
+            $("#AXInputNumber").bind("change", function(){
+               trace("change");
+            });
+            */
+
 			$("#AXInputNumber2").bindNumber();
 			$("#AXInputNumber3").bindNumber(
 				{
@@ -49,12 +56,13 @@
 			$("#AXInputNumber4").bindNumber({min:20});
 
 			$("#AXInputMoney").bindMoney({
-				min:10, 
-				max:9000000,
+				min:0,
+				max:900000000,
 				onchange : function(){
 					trace(this);
 				}
-			});			
+			});
+
 		}
 	};
     $(document).ready(fnObj.pageStart.delay(0.1));
@@ -81,25 +89,25 @@
 						<h3>bind Number</h3>
 
 						<label>Normal</label>
-						<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />				
+						<input type="tel" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />
 						
 						<div class="H10"></div>						
 						<label>Range(1~100)</label>						
-						<input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
+						<input type="tel" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
 
 						<div class="H10"></div>
 						<label>Range(20~)</label>
-						<input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
+						<input type="tel" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
 
 						<div class="H10"></div>						
 						<label>AXInputSmall</label>						
-						<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
+						<input type="tel" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />
 						
 						<div class="H20"></div>						
 						
 						<h3>bind Money</h3>
 						<label>Normal</label>
-						<input type="text" name="inputMoney" id="AXInputMoney" value="" class="AXInput" />
+						<input type="tel" name="inputMoney" id="AXInputMoney" value="" class="AXInput" />
 						
 						<div class="H30"></div>	
 						

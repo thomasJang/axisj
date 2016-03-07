@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXTab(script) - AXISJ</title>
@@ -16,12 +16,15 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
-    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <link href="http://cdno.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <!--link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" /-->
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXConfig.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -42,15 +45,20 @@
 				value:"",
 				overflow:"scroll", /* "visible" */
 				options:[
-					{optionValue:"M", optionText:"남성"}, 
-					{optionValue:"F", optionText:"여성"}, 
+					{optionValue:"M", optionText:"남성", closable:true}, 
+					{optionValue:"F", optionText:"여성", closable:true}, 
 					{optionValue:"N", optionText:"선택안함"}, 
 					{optionValue:"", optionText:"모두"}
 				],
 				onchange: function(selectedObject, value){
 					//toast.push(Object.toJSON(this));
 					//toast.push(Object.toJSON(selectedObject));
-					toast.push(Object.toJSON(value));
+					toast.push("onchange: "+Object.toJSON(value));
+				},
+				onclose: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onclose: "+Object.toJSON(value));
 				}
 			});
 			
@@ -59,6 +67,7 @@
 				value:"1",
 				overflow:"scroll",
 				scrollAmount:5,
+				closable:true,
 				options:[
 					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
 					{optionValue:"2", optionText:"2살 선택하기"}, 
@@ -80,7 +89,12 @@
 				onchange: function(selectedObject, value){
 					//toast.push(Object.toJSON(this));
 					//toast.push(Object.toJSON(selectedObject));
-					toast.push(Object.toJSON(value));
+					toast.push("onchange: "+Object.toJSON(value));
+				},
+				onclose: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onclose: "+Object.toJSON(value));
 				}
 			});
 			
@@ -184,6 +198,27 @@
 		},
 		setValueTab: function(tabID, tabValue){
 			$("#"+tabID).setValueTab(tabValue);
+		},
+		addTabs: function(tabID, addCount) {
+			var options = [];
+			var index;
+			for(var i = 0; i < addCount; i++){
+				index = "0" + (i + 1);
+				options.push({optionText: "add " + index, optionValue: index, closable:true});
+			}
+			$("#" + tabID).addTabs(options);
+		},
+		closeTab: function(tabID, tabValue) {
+			$("#" + tabID).closeTab(tabValue);
+		},
+		updateTab: function(tabID){
+		    var options = [
+		        {optionValue:"M", optionText:"남성"},
+		        {optionValue:"F", optionText:"여성"},
+		        {optionValue:"N", optionText:"선택안함"},
+		        {optionValue:"", optionText:"모두"}
+		    ];
+		    $("#" + tabID).updateTabs(options);
 		}
 	};
 	$(document.body).ready(fnObj.pageStart.delay(0.1));
@@ -208,9 +243,13 @@
 
             <div style="padding:20px 0px;">
                 <input type="button" value="탭 변경 (나이별)" class="AXButton" onclick="fnObj.tabChange1();" />
-                <input type="button" value="탭 변경 (성별)" class="AXButton" onclick="fnObj.tabChange2();" />
+                <input type="button" value="탭 변경 (성별)" class="AXButton" onclick="fnObj.updateTab('myTab01');" />
                 <input type="button" value="탭선택값 강제변경 (여성)" class="AXButton" onclick="fnObj.setValueTab('myTab01','F');" />
                 <input type="button" value="탭선택값 강제변경 (7살)" class="AXButton" onclick="fnObj.setValueTab('myTab01','7');" />
+				<input type="button" value="탭 추가" class="AXButton" onclick="fnObj.addTabs('myTab01', 6);" />
+				<input type="button" value="인덱스[2] 탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01', 2);" />
+				<input type="button" value="여성탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01', 'F');" />
+				<input type="button" value="마지막탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01');" />
                 <p>
                     ※ 탭의 갯수가 탭 컨테이너의 너비보다 넓어져도 스크롤 되지 않고 넘쳐 흐르는 방식입니다.
                 </p>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid(ajax) - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+
+    <script id="jscode">
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based        : jQuery
+     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
+     */    
+    var pageID = "ajax";
+    var myGrid = new AXGrid();
+    var itemSum = 0;
+    
+    var fnObj = {
+        pageStart: function(){
+
+            myGrid.setConfig({
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                fixedColSeq:3,
+                remoteSort: true, // 서버에서 정렬을 처리(서버에서 별도 처리 필요)합니다. 헤더 클릭시 'sortBy=cost desc' 형식의 정렬 정보가 ajax 요청에 포함됩니다.
+                //fitToWidth:true,
+                //height:775,
+                colGroup : [
+                    {
+                        key:"no", label:"no", width:"40", align:"center", formatter:"checkbox",
+                        disabled: function(){
+                            return true;
+                        }
+                    },
+                    {key:"title", label:"제목", width:"200"},
+                    {key:"writer", label:"작성자", width:"100", align:"center"},
+                    {key:"regDate", label:"작성일", width:"100", align:"center"},
+                    {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+                    {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+                    {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+                        return (this.item.price.number() * this.item.amount.number()).money();
+                    }},
+                    { key: "descSeq", label: "desc", width: "40", align:"center", formatter:function(){
+                         return (this.list.length - this.index) + ( ( this.page.pageNo - 1) * this.page.pageSize );
+                     } },
+                     { key: "ascSeq", label: "asc", width: "40", align:"center", formatter:function(){
+                         return (this.index + 1) + ( ( this.page.pageNo - 1) * this.page.pageSize );
+                     } },
+                    {key:"desc", label:"비고", width:"*"}
+                ],
+                colHead : {
+                    rows: [
+                        [
+                            {colSeq:0, rowspan:2},
+                            {colSeq:null, colspan:3, label:"표현식", align:"center"}, 
+                            {colSeq:4, rowspan:2},
+                            {colSeq:5, rowspan:2},
+                            {colSeq:6, rowspan:2},
+                            {colSeq:7, rowspan:2},
+                            {colSeq:8, rowspan:2},
+                            {colSeq:9, rowspan:2}
+                        ],
+                        [
+                            {colSeq:1},
+                            {colSeq:2},
+                            {colSeq:3}
+                        ]
+                    ],
+                    onclick: function(){
+                        toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, colHead:this.colHead, page:this.page}));
+                    }
+                },
+                body : {
+                    marker: {
+                        display: function(){
+                            return (this.index == 9); // return true 이면 marker 삽입처리
+                        },
+                        rows: [
+                            [
+                                {colSeq:null, colspan:4, formatter:function(){
+                                    return "소계";    
+                                }, align:"center"}, 
+                                {colSeq:4, formatter:function(){
+                                    var sum = 0;
+                                    for(var a=this.index-9;a<this.index+1;a++){
+                                        sum += this.list[a].price;
+                                    }
+                                    return sum.money();
+                                }},
+                                {colSeq:5, formatter:function(){
+                                    var sum = 0;
+                                    for(var a=this.index-9;a<this.index+1;a++){
+                                        sum += this.list[a].amount;
+                                    }
+                                    return sum.money();    
+                                }},
+                                {colSeq:6, formatter:function(){
+                                    var sum = 0;
+                                    for(var a=this.index-9;a<this.index+1;a++){
+                                        sum += this.list[a].price * this.list[a].amount;
+                                    }
+                                    return sum.money();    
+                                }},
+                                
+                                {colSeq:7, formatter:function(){
+                                    return "";    
+                                }},
+                                {colSeq:8, formatter:function(){
+                                    return "";    
+                                }},
+                                {colSeq:9, formatter:function(){
+                                    return "";    
+                                }}
+                            ]
+                        ]
+                    },
+                    onclick: function(){
+                        //toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item, page:this.page}));
+                        alert(Object.keys(this.item));
+                    }
+                },
+                head : {
+                    rows: [
+                        [
+                            {colSeq:null, colspan:4, formatter:function(){
+                                return "계";    
+                            }, align:"center"}, 
+                            {colSeq:4},
+                            {colSeq:5},
+                            {colSeq:6},
+                            {colSeq:7},
+                            {colSeq:8},
+                            {colSeq:9}
+                        ]
+                    ]
+                },
+                page:{
+                    paging:true,
+                    pageNo:1,
+                    pageSize:100
+                }
+            });
+
+            myGrid.setList({
+                //ajaxUrl:"gridData.json", ajaxPars:"param1=1&param2=2", onLoad:function(){
+                ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+                    //trace(this);
+                }
+            });
+
+            //myGrid.setDataSet({price:123000, amount:10});
+        },
+        getCheckedList: function(){
+            var checkedList = myGrid.getCheckedList(0);// colSeq
+            alert(Object.toJSON(checkedList));
+        },
+        emptyList: function(){
+            myGrid.setList({
+                ajaxUrl:"loadGrid.php", ajaxPars:"empty=true", onLoad:function(){
+                }
+            });
+
+            //myGrid.setDataSet({price:0, amount:0});
+        },
+        reloadList: function(){
+            myGrid.reloadList();
+        }
+    };
+    jQuery(document.body).ready(function(){fnObj.pageStart()});
+    </script>
+
+    <style type="text/css">
+    
+    </style>
+</head>
+    
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody  -->
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div class="title">
+                <h1>AXGrid (ajax & paging)</h1>
+            </div>
+            <h2>그리드 데이터를 ajax를 이용해서 가져옵니다.</h2>
+
+            <div id="AXGridTarget" style="height:400px;"></div>
+            <div class="H20"></div>
+            <div>
+                <input type="button"    value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
+                <input type="button"    value="emptyList" class="AXButton Blue" onclick="fnObj.emptyList();" />
+                <input type="button"    value="reloadList" class="AXButton Blue" onclick="fnObj.reloadList();" />
+            </div>
+
+            <pre id="pretty" class="prettyprint linenums"></pre>
+
+        </div>
+    </div>
+    <!-- e.AXPageBody  -->
+
+</div>
+
+</body>
+</html>        

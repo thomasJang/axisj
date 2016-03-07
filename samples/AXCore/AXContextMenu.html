@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXISJ</title>
@@ -42,6 +42,13 @@
 			<input type="button" value="컨텍스트메뉴 열기" class="AXButton" id="contextBtn1" />
 			<div style="padding:5px;">
 				event 위치에 모든 컨텍스트 메뉴 열기
+			</div>
+		</div>
+        
+        <div style="padding:20px;position:relative;">
+			<input type="button" value="컨텍스트메뉴 열기(checkbox)" class="AXButton" id="contextBtn4" />
+			<div style="padding:5px;">
+				checkbox 컨텍스트 메뉴 열기
 			</div>
 		</div>
 		
@@ -252,6 +259,23 @@ $(document).ready(fnObj.pageStart);
                     }}
                 ]
             });
+            
+            AXContextMenu.bind({
+                id:"myCheckboxContextMenu",
+                theme:"AXContextMenu", // 선택항목
+                width:"150", // 선택항목
+                checkbox:"checkbox",
+                menu:[
+                    {label:"컨텍스트메뉴"},
+                    {label:"컨텍스트메뉴(checkbox)"},
+                    {label:"컨텍스트메뉴(filterd)"},
+                    {label:"여러단계컨텍스트메뉴"}
+                ],
+                onchange: function(){
+                    toast.push(Object.toJSON(this));
+                }
+            });
+
             //다차원 레벨 메뉴
 
             AXContextMenu.bind({
@@ -483,12 +507,10 @@ $(document).ready(fnObj.pageStart);
                                 ]
                             }]
                     }]
-        });
+            });
 
             $("#contextBtn1").bind("click", fnObj.contextMenuOpen);
-
-
-
+            $("#contextBtn4").bind("click", fnObj.contextMenuOpen4);
         },
         contextMenuOpen: function(e){
             var event = window.event || e;
@@ -509,6 +531,10 @@ $(document).ready(fnObj.pageStart);
         contextMenuOpen3: function(e){
             var event = window.event || e;
             AXContextMenu.open({id:"myContextMenuTree"}, event); // event 직접 연결 방식
+        },
+        contextMenuOpen4: function(e){
+            var event = window.event || e;
+            AXContextMenu.open({id:"myCheckboxContextMenu"}, event); // event 직접 연결 방식
         }
     };
     $(document).ready(fnObj.pageStart.delay(0.5));

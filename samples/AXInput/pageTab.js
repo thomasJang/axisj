@@ -5,7 +5,9 @@
 	{optionValue:"Segment", optionText:"Segment", addClass:"", url:"Segment.html"},
 	{optionValue:"Slider", optionText:"Slider", addClass:"", url:"Slider.html"},
 	{optionValue:"Selector", optionText:"Selector", addClass:"", url:"Selector.html"},
-	{optionValue:"Date", optionText:"Date", addClass:"", url:"calendar.html"}
+	{optionValue:"Date", optionText:"Date", addClass:"", url:"calendar.html"},
+	{optionValue:"Pattern", optionText:"Pattern", addClass:"", url:"pattern.html"},
+    {optionValue:"TagSelector", optionText:"TagSelector", addClass:"", url:"TagSelector.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

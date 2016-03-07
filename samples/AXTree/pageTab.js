@@ -6,7 +6,8 @@ var myTabOption = [
 	{optionValue:"TreeControl", optionText:"TreeControl", addClass:"", url:"control.html"},
 	{optionValue:"TreeControl2", optionText:"TreeControl(2)", addClass:"", url:"control2.html"},
 	{optionValue:"treeCheckbox", optionText:"treeCheckbox", addClass:"", url:"treeCheckbox.html"},
-	{optionValue:"connectionType", optionText:"connectionType", addClass:"", url:"connectionType.html"}
+	{optionValue:"connectionType", optionText:"connectionType", addClass:"", url:"connectionType.html"},
+    {optionValue:"persist", optionText:"persist", addClass:"", url:"persist.html"}
 ];
 
 var pageTabChange = function(selectedObject, value){

@@ -1,0 +1,340 @@
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent {
+  color: #404752;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  font-family: 'axicon';
+  text-align: center;
+  padding: 2px;
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  cursor: pointer;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.file {
+  width: 2.0em;
+  text-align: right;
+  padding-right: 0.5em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.file:before {
+  content: "\e829";
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder {
+  width: 2.2em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder:before {
+  content: "\f0d7  \e841";
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder.collapse:before {
+  content: "\f0da  \e840";
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent.folder:hover {
+  color: #000;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-1 {
+  margin-left: 1em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-2 {
+  margin-left: 2em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-3 {
+  margin-left: 3em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-4 {
+  margin-left: 4em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-5 {
+  margin-left: 5em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-6 {
+  margin-left: 6em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-7 {
+  margin-left: 7em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-8 {
+  margin-left: 8em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-9 {
+  margin-left: 9em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-10 {
+  margin-left: 10em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-11 {
+  margin-left: 11em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-12 {
+  margin-left: 12em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-13 {
+  margin-left: 13em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-14 {
+  margin-left: 14em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-15 {
+  margin-left: 15em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-16 {
+  margin-left: 16em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-17 {
+  margin-left: 17em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-18 {
+  margin-left: 18em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-19 {
+  margin-left: 19em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-20 {
+  margin-left: 20em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-21 {
+  margin-left: 21em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-22 {
+  margin-left: 22em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-23 {
+  margin-left: 23em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-24 {
+  margin-left: 24em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-25 {
+  margin-left: 25em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-26 {
+  margin-left: 26em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-27 {
+  margin-left: 27em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-28 {
+  margin-left: 28em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-29 {
+  margin-left: 29em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-30 {
+  margin-left: 30em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-31 {
+  margin-left: 31em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-32 {
+  margin-left: 32em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-33 {
+  margin-left: 33em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-34 {
+  margin-left: 34em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-35 {
+  margin-left: 35em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-36 {
+  margin-left: 36em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-37 {
+  margin-left: 37em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-38 {
+  margin-left: 38em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-39 {
+  margin-left: 39em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-40 {
+  margin-left: 40em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-41 {
+  margin-left: 41em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-42 {
+  margin-left: 42em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-43 {
+  margin-left: 43em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-44 {
+  margin-left: 44em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-45 {
+  margin-left: 45em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-46 {
+  margin-left: 46em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-47 {
+  margin-left: 47em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-48 {
+  margin-left: 48em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-49 {
+  margin-left: 49em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-50 {
+  margin-left: 50em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-51 {
+  margin-left: 51em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-52 {
+  margin-left: 52em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-53 {
+  margin-left: 53em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-54 {
+  margin-left: 54em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-55 {
+  margin-left: 55em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-56 {
+  margin-left: 56em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-57 {
+  margin-left: 57em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-58 {
+  margin-left: 58em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-59 {
+  margin-left: 59em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-60 {
+  margin-left: 60em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-61 {
+  margin-left: 61em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-62 {
+  margin-left: 62em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-63 {
+  margin-left: 63em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-64 {
+  margin-left: 64em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-65 {
+  margin-left: 65em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-66 {
+  margin-left: 66em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-67 {
+  margin-left: 67em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-68 {
+  margin-left: 68em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-69 {
+  margin-left: 69em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-70 {
+  margin-left: 70em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-71 {
+  margin-left: 71em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-72 {
+  margin-left: 72em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-73 {
+  margin-left: 73em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-74 {
+  margin-left: 74em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-75 {
+  margin-left: 75em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-76 {
+  margin-left: 76em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-77 {
+  margin-left: 77em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-78 {
+  margin-left: 78em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-79 {
+  margin-left: 79em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-80 {
+  margin-left: 80em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-81 {
+  margin-left: 81em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-82 {
+  margin-left: 82em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-83 {
+  margin-left: 83em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-84 {
+  margin-left: 84em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-85 {
+  margin-left: 85em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-86 {
+  margin-left: 86em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-87 {
+  margin-left: 87em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-88 {
+  margin-left: 88em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-89 {
+  margin-left: 89em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-90 {
+  margin-left: 90em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-91 {
+  margin-left: 91em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-92 {
+  margin-left: 92em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-93 {
+  margin-left: 93em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-94 {
+  margin-left: 94em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-95 {
+  margin-left: 95em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-96 {
+  margin-left: 96em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-97 {
+  margin-left: 97em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-98 {
+  margin-left: 98em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-99 {
+  margin-left: 99em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable .node-indent-100 {
+  margin-left: 100em;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.copied td {
+  background-color: #fff3da;
+}
+.AXGrid .AXgridScrollBody .AXGridBody .gridBodyTable tbody tr.copied.selected td {
+  background-color: #ebf4db;
+}

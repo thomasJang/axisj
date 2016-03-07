@@ -7,6 +7,7 @@
 
 @import "preset";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+//@import (css) url(http://ts.daumcdn.net/custom/blog/0/606/skin/images/nanumgothic.css);
 
 // Common /////////////////////////////////////////////////////////////
 html, body	{
@@ -14,7 +15,11 @@ html, body	{
 	margin:0; padding:0; 
 	height:100%;
     font-size:12px;line-height: 1.6em;
-	color:@color; background: @bgcolor; 
+	color:@color; background: @bgcolor;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+	text-stroke: 0.6px;
+	font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 	a 		{color:@link; text-decoration: none;}	 	
 	a:hover {color:@link-hover;}
 	a:active{color:@link-active;}	
@@ -421,3 +426,10 @@ table.setConfig {
 .tac {text-align:center;}
 .fieldsetBody{width:100%;background: #eeeeee;border: 0px none;padding: 0px;font-size:12px;line-height:1.8em;}
 /* -------------------------------------------------------------------- oldCode Css} */
+
+// 2015-01-08 add
+.prettyprint{
+	border:1px solid #ccc;background: #f3f3f3;
+	border-radius: 10px;
+	padding:20px;
+}

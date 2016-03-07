@@ -27,8 +27,9 @@
   -webkit-border-radius: 2px 2px 2px 2px;
   -moz-border-radius: 2px 2px 2px 2px;
   border-radius: 2px 2px 2px 2px;
+  font-family: inherit;
   font-size: 12px;
-  line-height: 15px;
+  line-height: 1em;
   height: 15px;
   padding: 4px;
   margin: 0px auto;
@@ -71,8 +72,9 @@
   -webkit-border-radius: 2px 2px 2px 2px;
   -moz-border-radius: 2px 2px 2px 2px;
   border-radius: 2px 2px 2px 2px;
+  font-family: inherit;
   font-size: 12px;
-  line-height: 12px;
+  line-height: 1em;
   height: 12px;
   padding: 3px 3px;
   margin: 0px auto;
@@ -131,6 +133,64 @@
   position: absolute;
   left: -56px;
 }
+.AXbindCheckedHandle {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: #fff;
+}
+.AXbindCheckedHandle a.checked-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("images/mx-checked.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+}
+.AXbindCheckedHandle.checked {
+  box-shadow: none;
+  background: #1dbb9a;
+  border-color: #1dbb9a;
+}
+.AXbindCheckedHandle.checked a.checked-icon {
+  display: block;
+}
+.AXbindCheckedHandle_radio {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: #fff;
+  border-radius: 50%;
+}
+.AXbindCheckedHandle_radio a.checked-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("images/mx-checked.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked.png', sizingMethod='scale')";
+}
+.AXbindCheckedHandle_radio.checked {
+  box-shadow: none;
+  background: #1dbb9a;
+  border-color: #1dbb9a;
+}
+.AXbindCheckedHandle_radio.checked a.checked-icon {
+  display: block;
+}
+.AXbindCheckedHandle_radio a.checked-icon {
+  background: url("images/mx-checked-radio.png") no-repeat;
+  background-position: 50% 50%;
+  background-size: 10px 10px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/mx-checked-radio.png', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/mx-checked-radio.png', sizingMethod='scale')";
+}
 .AXInputLabel {
   position: relative;
   display: inline-block;
@@ -154,7 +214,10 @@
   display: block;
 }
 .AXInputLabel.fullWidth input[type=text],
-.AXInputLabel.fullWidth input[type=password] {
+.AXInputLabel.fullWidth input[type=password],
+.AXInputLabel.fullWidth .AXInput,
+.AXInputLabel.fullWidth select,
+.AXInputLabel.fullWidth textarea {
   width: 100%;
 }
 .AXInputGroup {
@@ -561,6 +624,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e5e5e5, endColorstr=#e5e5e5);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e5e5e5, endColorstr=#e5e5e5);
+  /*For IE7-8-9*/
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -577,6 +642,8 @@
   background-image: linear-gradient(#bbbbbb, #bbbbbb);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#bbbbbb, endColorstr=#bbbbbb);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#bbbbbb, endColorstr=#bbbbbb);
   /*For IE7-8-9*/
 }
 .AXanchorSegmentBox .AXanchorSegmentHandle.segmentLeft {
@@ -599,6 +666,8 @@
   background-image: linear-gradient(#808080, #808080);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#808080, endColorstr=#808080);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#808080, endColorstr=#808080);
   /*For IE7-8-9*/
   color: #ffffff;
 }
@@ -761,4 +830,40 @@
   font-size: 12px;
   color: #828f9e;
   font-family: Arial;
+}
+.AXTag-selector-tagcontainer {
+  display: inline-block;
+  float: left;
+  overflow: auto;
+  padding: 4px 0px;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0px 0px 4px 4px;
+  background: #eee;
+  border-radius: 3px;
+  line-height: 20px;
+  padding: 0px 3px;
+  height: 20px;
+  box-sizing: border-box;
+  padding-right: 15px;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 15px;
+  height: 20px;
+  text-align: center;
+  line-height: inherit;
+  font-family: 'axicon';
+  cursor: pointer;
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove:before {
+  content: '\f00d';
+}
+.AXTag-selector-tagcontainer .AXTag-selector-tagitem .AXTag-selector-tagitem-remove:hover {
+  color: #ff3300;
 }

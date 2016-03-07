@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXISJ</title>
@@ -123,6 +123,7 @@ tooltip 핸들이 되는 tooltip0 이 있어야 하고 그와 쌍을 이루며 �
         pageStart: function(){
 
             //AXPopOver (menu)
+            AXPopOver.setConfig({responsiveMobile:640}); /* mobile modal 모달 적용 너비 지정 지정하지 않으면 모바일 모드가 작동 되지 않습니다. */
             AXPopOver.bind({
                 id:"myContextMenu",
                 theme:"AXPopOver", // 선택항목

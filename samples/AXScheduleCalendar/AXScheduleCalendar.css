@@ -1,0 +1,162 @@
+﻿/* ---------------------------- AXScheduleCalendar ------------------------------- */
+
+.AXScheduleCalendar{
+	position:relative;
+	border-top:2px solid #ccc;
+}
+.AXScheduleCalendar .schduleItem {
+    position:absolute;left:0px;top:0px;
+    border:1px solid #3286bd;background:#eff7fa;
+    height:18px;line-height:18px;color:#222;
+    text-indent:3px;font-size:11px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    cursor:pointer;
+}
+
+    .AXScheduleCalendar .schduleItem span {
+        font-size:10px;color:#000;
+        
+        padding-left:3px;
+    }
+
+    .AXScheduleCalendar .schduleItem.hover {
+        background:#e9e9e9;
+    }
+
+
+	.AXScheduleCalendar table.calendarPage{
+		table-layout:fixed;width:100%;
+	}
+	.AXScheduleCalendar table.calendarPage thead td{
+		font-size:10px;
+		height:30px;line-height:20px;
+		padding:0px;text-align:center;
+		background:#f3f3f3;
+		border-right:1px solid #f2f2f3;
+		border-bottom:1px solid #d8d8d8;
+	}
+	.AXScheduleCalendar table.calendarPage thead td.head_0{
+
+	}
+	.AXScheduleCalendar table.calendarPage thead td.head_6{
+		border-right:0px none;
+	}
+
+	.AXScheduleCalendar table.calendarPage tbody td{
+		height:20px;line-height:20px;
+		padding:0px;
+		border-right:1px solid #d8d8d8;
+		border-bottom:1px solid #d8d8d8;
+		background:#fff;
+		text-indent:5px;
+		vertical-align:top;
+	}
+
+	.AXScheduleCalendar table.calendarPage tbody td.bodyCol_6{
+		border-right:0px none;
+	}
+	.AXScheduleCalendar table.calendarPage tbody td.bodyRow_5{
+		border-bottom:0px none;
+	}
+	.AXScheduleCalendar table.calendarPage tbody td.setDate{
+		background:#FFDFDF;
+	}
+	.AXScheduleCalendar table.calendarPage tbody td.toDay{
+		text-decoration:underline;
+	}
+	
+	.AXScheduleCalendar table.calendarPage tbody td A.calendarDate{
+        position:relative;
+		display:block;height:25px;line-height:25px;
+		text-decoration:none;color:#6d6e71;
+		font-size:11px;font-family:Arial;font-weight:bold;
+	}
+        .AXScheduleCalendar table.calendarPage tbody td A.calendarDate .label {
+            position:absolute;right:5px;top:0px;
+            color:#3286bd;
+        }
+	.AXScheduleCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate{
+		color:#c78b82;
+	}
+	.AXScheduleCalendar table.calendarPage tbody td A.calendarDate.notThisMonth{
+		color:#bfbfc1;
+	}
+
+	.AXScheduleCalendar table.calendarPage tbody td A.calendarDate:hover{
+		background:#d8e1e7;
+	}
+	.AXScheduleCalendar table.calendarPage tbody td A.calendarDate:active{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
+	}
+	.AXScheduleCalendar table.calendarPage tbody td A.calendarDate.selected{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 4px #3d84bc;
+	}
+
+
+
+
+	.AXScheduleCalendar table.calendarPageMonth{
+		table-layout:fixed;width:100%;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td{
+		height:43px;line-height:43px;
+		padding:0px;text-align:center;
+		border-right:1px solid #b9babc;
+		border-bottom:1px solid #b9babc;
+		background:url(/_AXJ/ui/ETRI/img/calendarBgs.png) repeat-x 0px -101px;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td.bodyCol_2{
+		border-right:0px none;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td.bodyRow_3{
+		border-bottom:0px none;padding-bottom:1px;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td.setDate{
+		background:#f3e2df;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td A.calendarMonth{
+		display:block;height:43px;line-height:43px;
+		text-decoration:none;color:#6d6e71;
+		font-size:12px;font-family:Arial;font-weight:bold;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td A.calendarMonth:hover{
+		background:#d8e1e7;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td A.calendarMonth:active{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
+	}
+	.AXScheduleCalendar table.calendarPageMonth tbody td A.calendarMonth.selected{
+		background:#5ea3db;color:#fff;box-shadow:inset 0px 0px 5px #3d84bc;
+	}
+
+	.AXScheduleCalendar .timeBox{
+		position:relative;height:90px;
+	}
+		.AXScheduleCalendar .timeBox .hourTitle{
+			position:absolute;left:5px;top:18px;
+			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			text-shadow:0px 1px #fff;
+		}
+		.AXScheduleCalendar .timeBox .hourSlider{
+			position:absolute;left:45px;top:15px;
+		}
+		.AXScheduleCalendar .timeBox .minuteTitle{
+			position:absolute;left:5px;top:53px;
+			color:#738089;font-size:11px;line-height:24px;font-family:Arial;
+			text-shadow:0px 1px #fff;
+		}
+		.AXScheduleCalendar .timeBox .minuteSlider{
+			position:absolute;left:45px;top:50px;
+		}
+		.AXScheduleCalendar .timeBox .timeDisplay{
+			position:absolute;left:5px;top:90px;
+			border:1px solid #7f8d9c;background:#a3b0b9;box-shadow:inset 0px 1px 2px #828282;
+			border-radius:5px;
+			padding:0px 20px;margin:0px;
+			font-size:12px;color:#fff;font-family:Arial;line-height:22px;
+			text-shadow:0px -1px #8a939e;
+			outline:none;
+		}
+		.AXScheduleCalendar .timeBox .AMPM{
+			position:absolute;right:10px;top:90px;
+		}

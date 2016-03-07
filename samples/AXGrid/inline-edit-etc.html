@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGrid - AXISJ</title>
+
+	<link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+	<link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+	<link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+	<meta property="og:image" content="/samples/_img/axisj_sns.png" />
+	<meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+	<meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="http://cdno.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+	<link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../ui/arongi/AXGrid.css" />
+
+	<style type="text/css">
+	</style>
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
+	<script type="text/javascript" src="../../lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../lib/AXInput.js"></script>
+	<script type="text/javascript" src="../page.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+
+	<script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+	<script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+	<link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+
+	<script id="jscode">
+		/**
+		 * Require Files for AXISJ UI Component...
+		 * Based		: jQuery
+		 * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+		 * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelect.css
+		 */
+		var pageID = "inline-edit";
+		var fnObj = {
+			pageStart: function(){
+				fnObj.grid.bind();
+				prettyPrint();
+			},
+			grid: {
+				target: new AXGrid(),
+				bind: function(){
+					window.myGrid = fnObj.grid.target;
+
+					myGrid.setConfig({
+						targetID : "AXGridTarget",
+						sort:false,
+						//fitToWidth:true, // 너비에 자동 맞춤
+						passiveMode:true,
+						passiveRemoveHide:false,
+						height: "auto",
+						colGroup : [
+							{key:"no", label:"번호", width:"50", align:"center", formatter:"checkbox", oncheck: function(){
+									alert("oncheck");
+								}
+							},
+							{
+								key:"_CUD", label:"상태", width:"50", align:"center"
+							},
+							{
+								key:"string", label:"String", width:"200",
+								editor: {
+									type: "text",
+									maxLength: 5,
+									updateWith: ["_CUD"]
+								}
+							},
+							{
+								key:"combobox", label:"combobox", width:"100",
+								formatter: function(val){
+									if(Object.isObject(this.value)){
+										return this.value.NM;
+									}else{
+										return this.value;
+									}
+								},
+								editor: {
+									type: "AXSelect",
+									config: {
+										options: (function(){
+											return [
+												{optionValue:1, optionText:"1 : ABCDEFG"},
+												{optionValue:2, optionText:"2 : 09123123"},
+												{optionValue:3, optionText:"2 : 1222"},
+												{optionValue:4, optionText:"2 : AXISJ"},
+												{optionValue:5, optionText:"2 : 액시스 제이"}
+											];
+										})(),
+										onchange: function(){
+											// inline editor 에 선언한 onchange함수는 AXGrid내부에서 사용하는 onchange 함수로 변경되어 사용할 수 없습니다.
+										}
+									},
+									beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+										// 선택된 값은
+										console.log(val);
+										return val;
+									},
+									afterUpdate: function(val){ // 수정이 처리된 후
+										// 수정이 된 후 액션.
+										//console.log(this);
+									}
+								}
+							},
+							{
+								key:"combobox2", label:"combobox2", width:"100",
+								formatter: function(val){
+									if(Object.isObject(this.value)){
+										return this.value.NM;
+									}else{
+										return this.value;
+									}
+								},
+								editor: {
+									type: "AXSelect",
+									config: {
+										reserveKeys: {
+											options: "list",
+											optionValue: "CD",
+											optionText: "NM"
+										},
+										ajaxUrl: "selectData-01.php",
+										ajaxPars: "",
+										onchange: function(){
+											// inline editor 에 선언한 onchange함수는 AXGrid내부에서 사용하는 onchange 함수로 변경되어 사용할 수 없습니다.
+										}
+									},
+									beforeUpdate: function(val){ // 수정이 되기전 value를 처리 할 수 있음.
+										// 선택된 값은
+										console.log(val);
+										return val;
+									},
+									afterUpdate: function(val){ // 수정이 처리된 후
+										// 수정이 된 후 액션.
+										//console.log(this);
+									}
+								}
+							}
+						],
+						colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+
+						body : {
+							onclick: function(){
+								//trace(this.index);
+							}
+						},
+						page: {
+							paging: false
+						}
+					});
+
+					var list = [
+						{
+							no:1,
+							string: "AXGrid 첫번째 줄 입니다.",
+							combobox: {CD:1, NM:"김기영"},
+							combobox2: {CD:1, NM:"김기영"},
+							date: "2013-01-18",
+							money: 1709401,
+							number: 10,
+							checkbox: 1,
+							radio: 1,
+							finder: "선택"
+						},
+						{
+							no:2,
+							string: "AXGrid 첫번째 줄 입니다.",
+							combobox: 2,
+							combobox2: {CD:1, NM:"김기영"},
+							date: "2013-01-18",
+							money: 1709401,
+							number: 10,
+							checkbox: 1,
+							radio: 1,
+							finder: "선택"
+						},
+						{
+							no:3,
+							string: "AXGrid 첫번째 줄 입니다.",
+							combobox: 3,
+							combobox2: {CD:1, NM:"김기영"},
+							date: "2013-01-18",
+							money: 1709401,
+							number: 10,
+							checkbox: 1,
+							radio: 1,
+							finder: "선택"
+						}
+					];
+					myGrid.setList(list.concat(list).concat(list));
+					//trace(myGrid.getSortParam());
+
+				},
+				getExcel: function(type){
+					var obj = myGrid.getExcelFormat(type, function(){
+						return this.key != "no" && this.key != "finder";
+					});
+					$("#printout").html(obj);
+				},
+				getSelectedItem: function(){
+					trace( this.target.getSelectedItem() );
+					toast.push('콘솔창에 데이터를 출력하였습니다.');
+				},
+				append: function(){
+					this.target.pushList(
+						{
+							no:this.target.list.length,
+							string: "",
+							combobox: {optionValue:1, optionText:"김기영"},
+							date: "2013-01-18",
+							money: 1709401,
+							number: 10,
+							checkbox: 1,
+							radio: 1,
+							finder: "선택"
+						}
+					);
+					this.target.setFocus(this.target.list.length-1);
+				},
+				remove: function(){
+					var checkedList = myGrid.getCheckedListWithIndex(0);// colSeq
+					if(checkedList.length == 0){
+						alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");
+						return;
+					}
+					this.target.removeListIndex(checkedList);
+					// 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+				}
+			}
+		};
+		jQuery(document.body).ready(function() {
+			fnObj.pageStart();
+		});
+	</script>
+	<!-- js block -->
+	<style type="text/css">
+	
+	</style>
+</head>
+
+<body>
+<div id="AXPage">
+	<div id="AXPageBody" class="SampleAXSelect">
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+
+			<div id="grid0">
+				<h2>AXGrid</h2>
+				<div id="AXGridTarget"></div>
+				<div style="padding:10px;">
+					<input type="button" value="getSelectedItem" class="AXButton" onclick="fnObj.grid.getSelectedItem();" />
+					<input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.append();" />
+					<input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.grid.remove();" />
+				</div>
+				<div style="padding:10px;">
+					<input type="button" value="forExcel html with filter" class="AXButton" onclick="fnObj.grid.getExcel('html');" />
+				</div>
+
+			</div>
+			<pre id="pretty" class="prettyprint linenums"></pre>
+			<div id="printout"></div>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>		

@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title>AXValidator</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 		<meta name="description" content="Description" />
@@ -22,6 +22,7 @@
 
         <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
         <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+        <script type="text/javascript" src="../../lib/AXValidator.js"></script>
         <script type="text/javascript" src="../page.js"></script>
         <script type="text/javascript" src="pageTab.js"></script>
         <!-- js block -->
@@ -33,30 +34,43 @@
 		<script type="text/javascript">
 		var pageID = "AXValidator";
 
+		AXConfig.AXValidator.validateErrMessage.required = "[{label}] is required";
+
 		var myValidator = new AXValidator(); // Validator 선언
 		var fnObj = {
 			pageStart: function(){
-				
-/*
+
+            $("#isdate").bindDate();
             $("#regdate").bindDate({
-                align:"left", valign:"top", separator:"-", selectType:"d", 
+                align:"left", valign:"top", separator:"-", selectType:"d",
                 onChange:{
                     earlierThan:"enddate", err:"종료일보다 빠른 날짜를 선택하세요", onChange: function() {
-                        
+
                     }
                 }
             });
 
             $("#enddate").bindDate({
                 align:"left", valign:"top", separator:"-", selectType:"d",
-                onChange:{                    
+                onChange:{
                     laterThan:"regdate", err:"시작일보다 느린 날짜를 선택하세요"
                 }
             });
-*/				
+
+                //$("#my-select").bindSelect();
+                //$("#my-select").html("<option></option>");
+
+/*
+                setTimeout(function(){
+                    $("#my-select").html("<option value=''>선택</option>");
+                }, 200);
+*/
+
 				myValidator.setConfig({
-					targetFormName : "myForm",
+					targetFormName : "myForm"
 				});
+
+                /*
 
 				myValidator.add({
 				    id: "userID",
@@ -107,10 +121,10 @@
 				                } else if (this.validateKey == "number") {
 				                    return false;
 				                } else if (this.validateKey == "money") {
-				                    return false;                    
+				                    return false;
 				                } else {
 				                    return true; //키 입력 제어 안함
-				                }                
+				                }
 				            }
 				        }
 				    },
@@ -122,14 +136,14 @@
 				    		} else {
 				    			AXUtil.alert(this.message);
 				    			$("#" + this.element.id).endFocus();
-				
+
 				    			var event = window.event || e;
 				    			if (event.preventDefault) event.preventDefault();
 				    			if (event.stopPropagation) event.stopPropagation();
 				    			event.cancelBubble = true;
 				    			return false;
 				    		}
-				
+
 				        } else if (this.result && this.value != "") {
 				        	var _this = this;
 				        	$.each(_this.config, function(k, v){
@@ -141,13 +155,13 @@
 								    var pattern = /([0-9]{3})([0-9]{3})/;
 								    var dataFormat = "$1-$2";
 								    var value = num.replace(pattern, dataFormat);
-								    $("#" + _this.element.id).val(value);                
-								} else if (k == "isdate") {
-									/*
-								    dateObj.setDate(_this.value);
-								    var value = dateObj.getDate();
 								    $("#" + _this.element.id).val(value);
-								    */
+								} else if (k == "isdate") {
+
+								    //dateObj.setDate(_this.value);
+								    //var value = dateObj.getDate();
+								    //$("#" + _this.element.id).val(value);
+
 								}
 								else if (k == "money") {
 								    var value = _this.value.number().money();
@@ -157,15 +171,15 @@
 				        }
 					}
 				});
-				
+
 				myValidator.add({
 					id:"enddate", label:"종료일",
 					config:{isdate:true, laterThan:{id:"regdate", label:"등록일"}},
 					onblur: function(){
-				
+
 					}
-				});    
-				
+				});
+*/
 			},
 			saveForm: function(){
 				var validateResult = myValidator.validate();
@@ -177,7 +191,11 @@
 				}else{
 					alert(	validateResult );
 				}
-			}
+			},
+            serialize: function(){
+                var frm = document.myForm;
+                prompt("$(frm).serialize()", $(frm).serialize() );
+            }
 		}
 		$(document).ready(fnObj.pageStart);
 		</script>
@@ -198,6 +216,17 @@
                             <col />
                         </colgroup>
                         <tbody>
+
+                        <tr>
+	                        <th>
+		                        <div class="tdRel">bizno</div>
+	                        </th>
+	                        <td class="last">
+		                        <div class="tdRel">
+			                        <input type="text" name="bizno" placeholder="bizno" value="" class="AXInput W200 av-bizno" />
+		                        </div>
+	                        </td>
+                        </tr>
                             <tr>
                                 <th>
                                     <div class="tdRel">realtime</div>
@@ -229,6 +258,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <!--
                             <tr>
                                 <th>
                                     <div class="tdRel">hangul</div>
@@ -249,26 +279,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <th>
-                                    <div class="tdRel">residentno</div>
-                                </th>
-                                <td class="last">
-                                    <div class="tdRel">
-                                        <input type="text" name="residentno" placeholder="residentno" value="" class="AXInput W200 av-residentno" />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <div class="tdRel">foreignerno</div>
-                                </th>
-                                <td class="last">
-                                    <div class="tdRel">
-                                        <input type="text" name="foreignerno" placeholder="foreignerno" value="" class="AXInput W200 av-foreignerno" />
-                                    </div>
-                                </td>
-                            </tr>
+
                             <tr>
                                 <th>
                                     <div class="tdRel">bizno</div>
@@ -279,6 +290,27 @@
                                     </div>
                                 </td>
                             </tr>
+                            -->
+<tr>
+    <th>
+        <div class="tdRel">residentno</div>
+    </th>
+    <td class="last">
+        <div class="tdRel">
+            <input type="text" name="residentno" placeholder="residentno" value="" class="AXInput W200 av-residentno av-required" />
+        </div>
+    </td>
+</tr>
+<tr>
+    <th>
+        <div class="tdRel">foreignerno</div>
+    </th>
+    <td class="last">
+        <div class="tdRel">
+            <input type="text" name="foreignerno" placeholder="foreignerno" value="" class="AXInput W200 av-foreignerno" />
+        </div>
+    </td>
+</tr>
                             <tr>
                                 <th>
                                     <div class="tdRel">phone</div>
@@ -295,7 +327,7 @@
                                 </th>
                                 <td class="last">
                                     <div class="tdRel">
-                                        <input type="text" name="isdate" placeholder="isdate" value="" class="AXInput W200 av-isdate" />
+                                        <input type="text" name="isdate" id="isdate" placeholder="isdate" value="" class="AXInput W200 av-isdate" />
                                     </div>
                                 </td>
                             </tr>
@@ -337,12 +369,79 @@
                                     </div>
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th>
+                                    <div class="tdRel">select</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <select name="my-select" id="my-select" class="av-required" title="내 셀렉트">
+                                            <option value="1">1</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+<!--
+                            <tr>
+                                <th>
+                                    <div class="tdRel">checkbox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" id="iamcheckbox01" value="01" class="av-required" title="내이름" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="03" class="av-required" />
+                                            03
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">radiobox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="radio" name="iamradio" value="01" class="av-required" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+
+                                    </div>
+                                </td>
+                            </tr>
+-->
                         </tbody>
                     </table>
                     </form>
 
                     <div style="padding:10px;">
                         <button class="AXButton Blue" onclick="fnObj.saveForm();">저장</button>
+                        <button class="AXButton Blue" onclick="fnObj.serialize();">serialize</button>
                     </div>
 
                 </div>

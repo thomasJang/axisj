@@ -1,0 +1,97 @@
+
+<!--@foreach($category_down_str as $key => $values)-->
+{@
+$cate_all = (substr($_GET[category],3,6)=='000000') ? 1 : 0;
+$code_all = substr($values[code],0,2).'000000';
+@}
+<!--@if($key==0)-->
+<li class="active"|cond="$cate_all">
+<a href="/shop_goods/goods_list.htm?category={$code_all}"|cond="$values[code]!=$code_all" href="#"|cond="$values[code]==$code_all" class="all">All</a>
+</li>
+<!--@end-->
+<li class="active"|cond="$values[code]==$_GET['category']"><a href="/shop_goods/goods_list.htm?category={$values[code]}">{$values[name]}</a></li>
+<!--@end-->
+
+
+
+
+
+
+
+
+
+{@
+$program_set[start_code] = ($var_set[code]) ? $var_set[code] : "00000000"; // 네비게이션 출력 위치를 입력해주세요.
+$shop_nav = program_load(SHOP_CATEGORY_MENU);
+@}
+
+<div class="pm_goods_cate1_vertical_toggle">
+    <!-- 1 Depth -->
+    <ul class="dep1">
+        <!--@foreach($shop_nav[sub_menu] as $k=>$v)-->
+        <li cond="$v[visible]" role="toggle"|cond="$v[sub_menu]" class="li_left"|cond="$k%3==0">
+        <a href="{$v[link_url]}" target="{$v[link_target]}"|cond="$v[link_target]">
+        <!--@if($v[bt1_img_url])-->
+        <!--@if($v[bt2_img_url])-->
+        <img src="{$v[bt1_img_url]}" onmouseover="this.src='{$v[bt2_img_url]}'" onmouseout="this.src='{$v[bt1_img_url]}'" alt="{$v[subject]}" />
+        <!--@else-->
+        <img src="{$v[bt1_img_url]}" alt="{$v[subject]}"/>
+        <!--@end-->
+        <!--@else-->
+        {$v[subject]}
+        <!--@end-->
+        <i cond="$v[sub_menu]"></i>
+        </a>
+        <div cond="$v[sub_menu]">
+            <!-- 2 Depth -->
+            <ul class="dep2">
+                <!--@foreach($v[sub_menu] as $k2=>$v2)-->
+                <li>
+                    <a href="{$v2[link_url]}" target="{$v2[link_target]}"|cond="$v2[link_target]">
+                    <!--@if($v2[bt1_img_url])-->
+                    <!--@if($v2[bt2_img_url])-->
+                    <img src="{$v2[bt1_img_url]}" onmouseover="this.src='{$v2[bt2_img_url]}'" onmouseout="this.src='{$v2[bt1_img_url]}'" alt="{$v2[subject]}" />
+                    <!--@else-->
+                    <img src="{$v2[bt1_img_url]}" alt="{$v2[subject]}"/>
+                    <!--@end-->
+                    <!--@else-->
+                    {$v2[subject]}
+                    <!--@end-->
+                    </a>
+                </li>
+                <!--@end-->
+            </ul>
+            <!-- // 2 Depth -->
+        </div>
+        </li>
+        <!--@end-->
+
+    </ul>
+    <!-- // 1 Depth -->
+</div>
+
+<script>
+    jQuery(function($){
+        $('.pm_goods_cate1_vertical_toggle [role=toggle] > a').on('click', function(e){
+            if($(window).width()<1024) {
+                var
+                        $li = $(this).parent()
+                        ,$active = $(this).parent().parent().children('.active')
+                        ;
+                if ($li.hasClass('active'))
+                {
+                    $li.removeClass('active');
+                    $li.children('div').slideUp(200);
+                }
+                else
+                {
+                    $active.children('div').slideUp(200);
+                    $active.removeClass('active');
+                    $li.addClass('active');
+                    $(this).next().slideDown(200);
+                }
+                return false;
+            }
+        });
+    });
+</script>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindPattern - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+
+    <script type="text/javascript" src="../../lib/AXInputPro.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+        .edit-input-cursor{
+            display:inline-block;
+            width: 3px;
+
+            /* Chrome, Safari, Opera */
+            -webkit-animation-name: edit-input-cursor-animate;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-iteration-count: infinite;
+
+            animation-name: edit-input-cursor-animate;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        /* Chrome, Safari, Opera */
+        @-webkit-keyframes edit-input-cursor-animate {
+            from {color:#ff5b49;}
+            to {color:#fff;}
+        }
+
+        /* Standard syntax */
+        @keyframes edit-input-cursor-animate {
+            from {color:#ff5b49;}
+            to {color:#fff;}
+        }
+	</style>
+</head>
+	
+<body>
+<div id="AXPage">
+    <div id="AXPageBody">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="ax-wrap AXdemoPageContent">
+
+            <div class="title"><h1>AXInput</h1></div>
+
+            <h3>bind Pattern</h3>
+
+            <label class="AXInputLabel">
+                <div>통화(소수점 포함, allow_minus:true, max_round:3, max_length:10)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-money-target" value="-abc123,.45-67891234" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-money-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-money-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-money-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+
+            <label class="AXInputLabel">
+                <div>통화(소수점 포함 안함, maxLength: 7)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-moneyint-target" value="123.45678908" onchange="console.log(this.value);" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-moneyint-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-moneyint-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-moneyint-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+
+            <label class="AXInputLabel">
+                <div>숫자(소수점 포함, allow_minus: true,
+                    max_length: 10,
+                    max_round: 5)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-number-target" value="123.123456789" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-number-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-number-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-number-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+
+            <label class="AXInputLabel">
+                <div>숫자(소수점 포함 안함, maxLength: 7)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-numberint-target" value="123.4234234324" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-numberint-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-numberint-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('98장8,0Ab0-0.12!@#$'); $('#ax-bind-pattern-numberint-target').bindPatternSetText('98장8,0Ab0-0.12!@#$');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>날짜</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-date-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-date-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-date-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-date-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>날짜+시간</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-datetime-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-datetime-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-datetime-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-datetime-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>시간</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-time-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-time-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-time-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-time-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>날짜 (/)</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-date01-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-date01-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-date01-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-date01-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>날짜+시간 (년월일)</div>
+                <input type="text" class="AXInput W200" id="ax-bind-pattern-date02-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-date02-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-date02-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-date02-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>부분패스워드 및 기타</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-etc-target" value="" size="20" />
+
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-etc-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-etc-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('123456789ABCDE'); $('#ax-bind-pattern-etc-target').bindPatternSetText('123456789ABCDE');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>사업자번호</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-bizno-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-bizno-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-bizno-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-bizno-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+            <div class="H20"></div>
+            <label class="AXInputLabel">
+                <div>전화번호</div>
+                <input type="text" class="AXInput" id="ax-bind-pattern-phone-target" value="" />
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-phone-target').bindPatternGetText());"
+                        >getText</button>
+                <button class="AXButton"
+                        onclick="trace($('#ax-bind-pattern-phone-target').bindPatternGetDisplayText());"
+                        >getDisplayText</button>
+                <button class="AXButton"
+                        onclick="alert('988,000.12'); $('#ax-bind-pattern-phone-target').bindPatternSetText('988,000.12');"
+                        >setText</button>
+            </label>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based		: jQuery
+     * Javascript 	: AXJ.js, AXInput.js
+     * CSS			: AXJ.css, AXInput.css
+     */
+    var pageID = "Pattern";
+    var fnObj = {
+        pageStart: function(){
+
+            //alert("123a6789".substring(3, 4));
+
+            $("#ax-bind-pattern-money-target").bindPattern({
+                pattern: "money",
+                allow_minus: true,
+                max_length: 10,
+                max_round: 3
+            });
+            $("#ax-bind-pattern-moneyint-target").bindPattern({
+                pattern: "moneyint",
+                max_length: 7
+            });
+
+            $("#ax-bind-pattern-number-target").bindPattern({
+                pattern: "number",
+                allow_minus: true,
+                max_length: 10,
+                max_round: 5
+            });
+            $("#ax-bind-pattern-numberint-target").bindPattern({
+                pattern: "numberint",
+                max_length: 7
+            });
+
+            $("#ax-bind-pattern-date-target").bindPattern({pattern: "date"});
+            $("#ax-bind-pattern-datetime-target").bindPattern({pattern: "datetime"});
+            $("#ax-bind-pattern-time-target").bindPattern({pattern: "time"});
+
+            $("#ax-bind-pattern-date01-target").bindPattern({pattern: "date(/)"});
+            $("#ax-bind-pattern-date02-target").bindPattern({pattern: "datetime(년월일)"});
+
+            /*
+            $("#ax-bind-pattern-etc-target").bindPattern({
+                pattern: "custom", patternString:"99-XX-999.99,9"
+            });
+            */
+
+            $("#ax-bind-pattern-etc-target").bindPattern({pattern: "custom", max_length: 14, patternString:"999999-9999999"}); // 법인
+            $("#ax-bind-pattern-etc-target").val("5874595329347");
+
+
+            $("#ax-bind-pattern-bizno-target").bindPattern({
+                pattern: "bizno"
+            });
+            $("#ax-bind-pattern-phone-target").bindPattern({
+                pattern: "phone"
+            });
+
+        }
+    };
+    $(document).ready(fnObj.pageStart.delay(0.1));
+</script>
+
+</body>
+</html>		

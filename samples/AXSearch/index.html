@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXSearch - AXISJ</title>
@@ -16,20 +16,12 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
-    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
-
-    <script type="text/javascript" src="../../lib/AXJ.js"></script>
-    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
-    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
     <script type="text/javascript" src="../../lib/AXSearch.js"></script>
-    <script type="text/javascript" src="../../lib/AXInput.js"></script>
-    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
-    <script type="text/javascript" src="../../lib/AXTab.js"></script>
 
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
@@ -69,9 +61,9 @@
 							],
 							onChange: function(selectedObject, value){
 								//아래 3개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(Object.toJSON(selectedObject));
-								dialog.push(value);
+								toast.push(Object.toJSON(this));
+								toast.push(Object.toJSON(selectedObject));
+								toast.push(value);
 							}
 						}
 					]},
@@ -86,29 +78,33 @@
 							options:[{optionValue:"all", optionText:"전체보기", title:"체크박스"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
 							onChange: function(selectedObject, value){
 								//아래 3개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(Object.toJSON(selectedObject));
-								dialog.push(value);
+								toast.push(Object.toJSON(this));
+								toast.push(Object.toJSON(selectedObject));
+								toast.push(value);
 							}
 						},
 						{label:"라디오류", labelWidth:"100", type:"radioBox", width:"", key:"radiobox", addClass:"secondItem", valueBoxStyle:"", value:"close",
 							options:[{optionValue:"all", optionText:"전체보기", title:"라디오타이틀"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
 							onChange: function(selectedObject, value){
 								//아래 3개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(Object.toJSON(selectedObject));
-								dialog.push(value);
+								toast.push(Object.toJSON(this));
+								toast.push(Object.toJSON(selectedObject));
+								toast.push(value);
 							}
 						}
 					]},
 					{display:true, addClass:"", style:"", list:[
 						{label:"선택입력", labelWidth:"100", type:"selectBox", width:"", key:"selectbox", addClass:"", valueBoxStyle:"", value:"close",
-							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							options:[
+                                {optionValue:"all", optionText:"전체 보기"},
+                                {optionValue:'5001', optionText:'강서 사무소'},
+                                {optionValue:"open", optionText:"공개"},
+                                {optionValue:"close", optionText:"비공개"}
+                            ],
 							AXBind:{
 								type:"select", config:{
-									onChange:function(){
-										//toast.push(Object.toJSON(this));
-										
+									onchange:function(){
+										toast.push(Object.toJSON(this));
 									}
 								}
 							}
@@ -116,16 +112,25 @@
 						{label:"", labelWidth:"", type:"inputText", width:"150", key:"inputText", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"ABCD",
 							onChange: function(changedValue){
 								//아래 2개의 값을 사용 하실 수 있습니다.
-								dialog.push(Object.toJSON(this));
-								dialog.push(changedValue);						
+								toast.push(Object.toJSON(this));
+								toast.push(changedValue);
 							}
 						},
 						{label:"입력2", labelWidth:"60", type:"inputText", width:"250", key:"inputText2", addClass:"secondItem", valueBoxStyle:"", value:"입력2", title:"타이틀정보",
 							onChange: function(){}
 						},
-						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"기능1",
+						{label:"", labelWidth:"", type:"button", width:"80", key:"button", addClass:"Red", valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"<span>읽기전용</span>",
 							onclick: function(){
-								//alert(mySearch.getItemId("checkbox"));
+
+
+								//mySearch.setItemValue("selectbox", "open");
+
+								//mySearch.reset();
+
+								//mySearch.getItemId("inputText2");
+                                axdom("#" + mySearch.getItemId("inputText2")).attr("readonly", "readonly");
+
+                                /*
 								mySearch.setItemValue("checkbox", ["all","open"]);
 								mySearch.setItemValue("radiobox");
 								mySearch.setItemValue("inputText2");
@@ -134,11 +139,15 @@
 								var myID = mySearch.getItemId("selectbox");
 								$("#"+myID).append("<option value='1'>222222</option>");
 								$("#"+myID).bindSelect();
+								*/
 							}
 						},
-						{label:"", labelWidth:"", type:"submit", width:"80", key:"button", addClass:"Classic", valueBoxStyle:"padding-left:0px;", value:"기능2",
+						{label:"", labelWidth:"", type:"submit", width:"80", key:"button", addClass:"Classic float-right", valueBoxStyle:"padding-left:0px;", value:"읽기전용해제",
 							onclick: function(){
-								AXUtil.alert(this);
+								//trace(this);
+
+                                axdom("#" + mySearch.getItemId("inputText2")).removeAttr("readonly");
+
 							}
 						}
 					]},
@@ -192,6 +201,12 @@
 										toast.push(Object.toJSON(this));
 									}
 								}
+							},
+							onkeydown: function(e){
+								trace("keydown" + e.keyCode);
+							},
+							onkeyup: function(e){
+								trace("keyup" + e.keyCode);
 							}
 						}
 					]},
@@ -217,7 +232,7 @@
 								type:"twinDate", config:{
 									align:"right", valign:"top", startTargetID:"inputText1", 
 									onChange:function(){
-										toast.push(Object.toJSON(this));
+
 									}
 								}
 							}
@@ -241,7 +256,7 @@
 			trace(pars);
 		}	
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -266,6 +281,7 @@
 
             <div align="center">
                 <input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search1();" />
+				<input type="button" value="Reset" class="AXButtonLarge Classic W100" onclick="mySearch.reset();" />
             </div>
 
             <div class="H20"></div>

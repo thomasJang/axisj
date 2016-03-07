@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
     <title>AXTree - AXISJ</title>
@@ -217,7 +217,7 @@
 				targetID:"modalContent",
 				width:300,
 				top:100
-			});	
+			});
 			document.treeWriteForm.nodeName.focus();
 		},
 		addChildTree: function(){
@@ -246,12 +246,10 @@
 		},
 		updateTree: function(){
 			var obj = myTree.getSelectedList();
-
 			if(obj.error){
 				alert("개체를 선택해 주세요");
 				return;
 			}
-			
 			document.treeWriteForm.reset();
 			document.treeWriteForm.writeMode.value = "modify";
 			myModal.openDiv({
@@ -295,7 +293,7 @@
 		}		
 		
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">

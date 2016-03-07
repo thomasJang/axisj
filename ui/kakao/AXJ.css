@@ -314,6 +314,24 @@
   background-repeat: no-repeat;
   background-position: 0px center;
 }
+.AXContextMenu .contextMenuItem .shot-cut {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  font-size: 11px;
+}
+.AXContextMenu .contextMenuItem .tool-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  background: url('images/mx-item-check.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXContextMenu .contextMenuItem .tool-checkbox.on {
+  background: url('images/mx-item-checkOn.png') no-repeat center center;
+  background-size: 30px 30px;
+}
 .AXContextMenu .hline {
   display: block;
   height: 1px;
@@ -614,6 +632,7 @@
   width: 100%;
   border: 0px none !important;
   background: #ffffff;
+  table-layout: fixed;
 }
 .AXNotification .AXNotificationTable td,
 .AXNotification .AXNotificationTable th {
@@ -735,6 +754,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 {
   background: #442a2a;
@@ -757,6 +778,8 @@
   background-image: linear-gradient(#ff5b49, #ff5b49);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
@@ -782,6 +805,9 @@
   background: #fee834;
   color: #523636;
   box-shadow: inset 0px 0px 4px #3d84bc;
+}
+.AXCalendar table.calendarPage tbody td A.calendarDate.disabled {
+  color: #986060 !important;
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate {
   color: #ffea00;
@@ -825,6 +851,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#523636, endColorstr=#523636);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_2 {
   border-right: 0px none;
@@ -845,6 +873,8 @@
   background-image: linear-gradient(#ff5b49, #ff5b49);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ff5b49, endColorstr=#ff5b49);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth {
@@ -961,8 +991,8 @@
 }
 .AXModalBox .windowbox .closeBtn {
   position: absolute;
-  right: -19px;
-  top: -19px;
+  right: 0px;
+  top: 0px;
   display: block;
   width: 38px;
   height: 38px;
@@ -1568,41 +1598,75 @@
 /* ----------------------------- table styles ---------------------------------*/
 .AXGridTable {
   border-collapse: collapse;
-  border: 1px solid #000000;
+  border: 1px solid #cecece;
   border-bottom: 0px none;
   width: 100%;
   table-layout: fixed;
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
 }
-.AXGridTable thead td {
-  background: #fee834;
+.AXGridTable td,
+.AXGridTable th {
   min-height: 30px;
-  line-height: 30px;
-  border-bottom: 1px solid #000000;
-  border-right: 1px solid #000000;
-  color: #523636;
+  box-sizing: border-box;
+  padding: 5px;
 }
-.AXGridTable thead td .tdRel {
-  padding: 0px 10px;
-  text-align: center;
-  color: #523636;
-}
-.AXGridTable tbody td {
-  min-height: 36px;
-  line-height: 30px;
-  border-bottom: 1px solid #000000;
-  border-right: 1px solid #000000;
-  color: #523636;
-  text-align: center;
-}
-.AXGridTable tbody td .tdRel {
+.AXGridTable td .tdRel,
+.AXGridTable th .tdRel,
+.AXGridTable td .AXInputLabel,
+.AXGridTable th .AXInputLabel {
   position: relative;
+}
+.AXGridTable thead td,
+.AXGridTable thead th {
+  background: #fee834;
+  border-bottom: 1px solid #cecece;
+  border-right: 1px solid #cecece;
+}
+.AXGridTable tbody td,
+.AXGridTable tbody th {
+  border-bottom: 1px solid #cecece;
+  border-right: 1px solid #cecece;
+}
+.AXGridTable tr.gray th,
+.AXGridTable tr.gray td {
+  background-color: #F5F5F5;
+}
+.AXGridTable tr.red th,
+.AXGridTable tr.red td {
+  background-color: #FFE8E8;
+}
+.AXGridTable tr.green th,
+.AXGridTable tr.green td {
+  background-color: #F7FDEA;
+}
+.AXGridTable tr.blue th,
+.AXGridTable tr.blue td {
+  background-color: #EAF5FD;
+}
+.AXGridTable tr.yellow th,
+.AXGridTable tr.yellow td {
+  background-color: #FEFEE9;
+}
+.AXGridTable tr td.gray {
+  background-color: #F5F5F5;
+}
+.AXGridTable tr td.red {
+  background-color: #FFE8E8;
+}
+.AXGridTable tr td.green {
+  background-color: #F7FDEA;
+}
+.AXGridTable tr td.blue {
+  background-color: #EAF5FD;
+}
+.AXGridTable tr td.yellow {
+  background-color: #FEFEE9;
 }
 /* view Style table */
 .AXFormTable {
   border-collapse: collapse;
-  border: 1px solid #000000;
+  border: 1px solid #cecece;
   border-bottom: 0px none;
   width: 100%;
   table-layout: fixed;
@@ -1621,8 +1685,8 @@
 .AXFormTable tbody th {
   min-height: 25px;
   overflow: visible;
-  border-bottom: 1px solid #000000;
-  border-right: 1px solid #000000;
+  border-bottom: 1px solid #cecece;
+  border-right: 1px solid #cecece;
   color: #523636;
 }
 .AXFormTable tbody th {
@@ -1664,6 +1728,14 @@
 }
 .AXFormTable tbody tr td.yellow {
   background-color: #FEFEE9;
+}
+.AXWordwrap {
+  word-wrap: break-word;
+  /* IE 5.5-7 */
+  white-space: -moz-pre-wrap;
+  /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;
+  /* current browsers */
 }
 @media (max-width: 767px) {
   .AXInputLabel {

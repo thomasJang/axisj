@@ -7,6 +7,10 @@ body {
   height: 100%;
   font-size: 12px;
   line-height: 1.6em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+  text-stroke: 0.6px;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   color: #523636;
   background: #ffffff;
 }
@@ -419,12 +423,6 @@ body h3 {
   background: #fee834;
   font-size: 13px;
 }
-@media (min-width:1152px) {
-  
-}
-@media only screen and (min-width: 1024px) and (max-width: 1151px) {
-  
-}
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   #AXPageBody .ax-wrap {
     width: 100%;
@@ -613,3 +611,9 @@ table.setConfig pre {
   line-height: 1.8em;
 }
 /* -------------------------------------------------------------------- oldCode Css} */
+.prettyprint {
+  border: 1px solid #ccc;
+  background: #f3f3f3;
+  border-radius: 10px;
+  padding: 20px;
+}

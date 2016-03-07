@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>bindSelect - AXISJ</title>
@@ -16,13 +16,12 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -53,8 +52,12 @@
             	maxHeight: 100,
             	onChange: function(){
             		trace(this);
-            	}
+            	},
+                onLoad: function(){
+                    trace(this);
+                }
             });
+
 
             jQuery("#AXSelect2").bindSelect({
             	onChange: function(){
@@ -70,15 +73,12 @@
                 setValue: "3"
             });
 
-
             jQuery("#AXSelect4").bindSelect({
-                options:[
-					{optionValue:1, optionText:"1 : ABCDEFG"},
-					{optionValue:2, optionText:"2 : 09123123"},
-					{optionValue:3, optionText:"3 : 1222"},
-					{optionValue:4, optionText:"4 : AXISJ"},
-					{optionValue:5, optionText:"5 : 액시스 제이"}
-				],
+                reserveKeys: {
+                    optionValue: "code",
+                    optionText: "name"
+                },
+                options:[{"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B001", "name":"밥이답이다", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B002", "name":"버거헌터", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B003", "name":"야끼스타", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B004", "name":"카페클라시코", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B005", "name":"업타운카페", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B006", "name":"업타운베이커리", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B007", "name":"메인디쉬", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B008", "name":"키사라", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B009", "name":"손수헌_고급", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B010", "name":"손수헌_일반", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B011", "name":"메짜루나", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B012", "name":"싱카이", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B013", "name":"오리옥스", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B014", "name":"아모리스_연회", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B015", "name":"아모리스_케이터링", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B016", "name":"뭄바", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B017", "name":"사보텐", "data4":1, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B018", "name":"정글주스", "sort":0, "data4":1, "data5":0, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B019", "name":"DELIVERY", "sort":0, "data4":1, "data5":0, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B020", "name":"루", "sort":0, "data4":1, "data5":0, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B021", "name":"타코벨", "sort":0, "data4":1, "data5":0, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}, {"basicCd":"MNU_BCAT", "basicNm":"메뉴분류(브랜드)", "code":"B022", "name":"반주", "sort":0, "data4":1, "data5":0, "posUseYn":"N", "remark":"DATA4컬럼의 값은 분류정보 테이블(CAT_M)의 Level을 의미함", "useYn":"Y"}],
             	onChange: function(){
             		toast.push(Object.toJSON(this));
             	}
@@ -94,6 +94,7 @@
                 ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                 isspace: true, isspaceTitle: "선택하세요",
                 setValue:"",
+                alwaysOnChange: true,
                 onChange: function(){
                     //toast.push(Object.toJSON(this));
 
@@ -101,6 +102,7 @@
                         ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                         isspace: true, isspaceTitle: "선택하세요",
                         setValue:this.optionValue,
+                        alwaysOnChange: true,
                         onChange: function(){
                             //toast.push(Object.toJSON(this));
 
@@ -108,6 +110,7 @@
                                 ajaxUrl: "selectData.php", ajaxPars: "", ajaxAsync:false,
                                 isspace: true, isspaceTitle: "선택하세요",
                                 setValue:this.optionValue,
+                                alwaysOnChange: true,
                                 onChange: function(){
                                     //toast.push(Object.toJSON(this));
                                 }
@@ -117,16 +120,13 @@
                 }
             });
 
-// AJAX 로딩중에 #AXSelect_m1, m2 가 나중에 보일수 있는데 그 현상을 없애고 싶다면
+            // AJAX 로딩중에 #AXSelect_m1, m2 가 나중에 보일수 있는데 그 현상을 없애고 싶다면
+            //$("#AXSelect_m1").bindSelect();
+            //$("#AXSelect_m2").bindSelect();
 
-/*
-            $("#AXSelect_m1").bindSelect();
-            $("#AXSelect_m2").bindSelect();
-
-            $("#AXSelect_m0").bindSelectSetValue("3");
-            $("#AXSelect_m1").bindSelectSetValue("4");
-            $("#AXSelect_m2").bindSelectSetValue("5");
-*/
+            //$("#AXSelect_m0").bindSelectSetValue("3");
+            //$("#AXSelect_m1").bindSelectSetValue("4");
+            //$("#AXSelect_m2").bindSelectSetValue("5");
 
 		},
         unbindSelect: function () {
@@ -156,6 +156,7 @@
                 isspaceTitle: "전체"
             });
 
+            /*
             jQuery("#AXSelect4").bindSelect({
                 options:[
 					{optionValue:1, optionText:"1 : ABCDEFG"},
@@ -168,6 +169,7 @@
             		//toast.push(Object.toJSON(this));
             	}
             });
+            */
         },
         bindSelectSetValue: function(a, b){
         	jQuery("#"+a).bindSelectSetValue(b);
@@ -176,7 +178,7 @@
         	jQuery("#"+a).bindSelectDisabled(b);
         }
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -191,12 +193,13 @@
 	<div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
 		<div class="ax-wrap AXdemoPageContent">
+
 			<div class="title"><h1>AXSelect</h1></div>
 
             <h2>AXSelect bind Select</h2>
 
             <label class="AXInputLabel">
-                <span>Default</span>
+                <span>Default (#AXSelect1)</span>
                 <select name="" class="AXSelect" id="AXSelect1" tabindex="7">
                     <option value="">-- 선택하세요 --</option>
                     <option value="1">%가나다라마바사</option>
@@ -209,9 +212,24 @@
                 <button type="button" class="AXButton" onclick="alert($('#AXSelect1').val())">valueCheck</button>
             </label>
 
+            <div>
+                <p>
+                    <input type="button" value="아이템추가" class="AXButtonSmall"
+                           onclick="$('#AXSelect1').bindSelectAddOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+                    bindSelectAddOptions({Array});
+                </p>
+                <p>
+                    <input type="button" value="아이템제거" class="AXButtonSmall"
+                           onclick="$('#AXSelect1').bindSelectRemoveOptions([{optionValue:234, optionText:'액시스제이'}]);" />
+                    bindSelectRemoveOptions({Array});
+                </p>
+
+            </div>
+
 
             <h3>small</h3>
             <label class="AXInputLabel">
+                <span>(#AXSelect2)</span>
                 <select name="" class="AXSelectSmall" id="AXSelect2">
                     <option value="0">0 가나다라마바사 가나다라마바사</option>
                     <option value="1">1 abcdefg 가나다라마바사</option>
@@ -219,19 +237,21 @@
                     <option value="99">99 abcdefg 가나다라마바사</option>
                     <option value="100" selected="selected">100 abcdefg 가나다라마바사</option>
                 </select>
+                <input type="button" value="valueCheck" class="AXButtonSmall" onclick="alert($('#AXSelect2').val())" />
             </label>
-            <input type="button" value="valueCheck" class="AXButtonSmall" onclick="alert($('#AXSelect2').val())" />
+
 
             <div class="H20"></div>
 
             <h3>AJAX 호출방식</h3>
             <label class="AXInputLabel">
+                <span>(#AXSelect3)</span>
                 <select name="" class="AXSelect" id="AXSelect3" style="width:100px;" tabindex="5"></select>
             </label>
 
             <div class="H20"></div>
 
-            <h3>option script 지정방식</h3>
+            <h3>option script 지정방식 (#AXSelect4)</h3>
             <select name="" class="AXSelect" id="AXSelect4" style="width:100px;" tabindex="4"></select>
 
             <div class="H20"></div>
@@ -243,10 +263,10 @@
 
             <div class="H20"></div>
 
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '99');" />
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect2', '99');" />
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect3', '9');" />
-            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect4', '5');" />
+            <input type="button" value="AXSelect1 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect1', '3');" />
+            <input type="button" value="AXSelect2 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect2', '9');" />
+            <input type="button" value="AXSelect3 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect3', '9');" />
+            <input type="button" value="AXSelect4 value change" class="AXButton" onclick="fnObj.bindSelectSetValue('AXSelect4', '1');" />
 
             <div class="h20"></div>
 
@@ -261,6 +281,7 @@
                 <select name="" class="AXSelect" id="AXSelect_m2" style="width:200px;" tabindex="3"></select>
             </label>
 
+            <!--
             <div class="H20"></div>
 
             <label class="AXInputLabel">
@@ -281,6 +302,8 @@
                     <option value="6">abcdefg 가나다라마바사</option>
                 </select>
             </label>
+
+            -->
 
 		</div>
 	</div>

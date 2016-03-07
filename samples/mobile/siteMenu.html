@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AX for Mobile</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+
+    <script type="text/javascript">
+        /* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+        AXConfig.mobile.responsiveWidth = 648;
+    </script>
+
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">
+	var pageID = "siteMenu";
+	var myMobileMenu = new AXMobileMenu();
+	var fnObj = {
+		pageStart: function(){
+            fnObj.menu.bind();
+        },
+        menu: {
+            mxMenu: new AXMobileMenu(),
+            dxMenu: new AXTopDownMenu(),
+            bind: function(){
+                // 데스크탑 메뉴 설정
+                window.dxMenu = fnObj.menu.dxMenu;
+                dxMenu.setConfig({
+                    menuBoxID:"menuBox",
+                    parentMenu:{
+                        className:"parentMenu"
+                    },
+                    childMenu:{
+                        className:"childMenu",
+                        align:"center",
+                        valign:"top",
+                        margin:{top:0, left:0},
+                        arrowClassName:"varrow2",
+                        arrowMargin:{top:1, left:0}
+                    },
+                    childsMenu:{
+                        className:"childsMenu",
+                        align:"left",
+                        valign:"top",
+                        margin:{top:-4, left:0},
+                        arrowClassName:"harrow",
+                        arrowMargin:{top:13, left:1}
+                    },
+                    onComplete: function(){
+                        //myMenu.setHighLightMenu(0);
+                        //myMenu.setHighLightMenu([0,1,3,2]);
+                        dxMenu.setHighLightOriginID("ID1245");
+                    }
+                });
+
+                // 모바일 메뉴 설정
+                window.mxMenu = fnObj.menu.mxMenu;
+                mxMenu.setConfig({
+                    reserveKeys:{
+                        primaryKey:"menuID",
+                        labelKey:"label",
+                        urlKey:"url",
+                        targetKey:"target",
+                        addClassKey:"ac",
+                        subMenuKey:"cn"
+                    },
+                    menuBoxID:"menuBox",
+                    parentMenu:{
+                        className:"parentMenu"
+                    },
+                    childMenu:{
+                        className:"childMenu"
+                    },
+                    childsMenu:{
+                        className:"childsMenu"
+                    },
+                    onclick: function(){ // 메뉴 클릭 이벤트
+                        //location.href = this.url; 원하는 링크를 구현하세요
+                        mxMenu.close(); // 모바일 메뉴를 닫습니다.
+                    }
+                });
+                mxMenu.setHighLightOriginID("ID1245");
+
+                axdom("#mx-menu-handle").bind("click", function(){
+                    mxMenu.open();
+                });
+
+            }
+        }
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart();
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent" style="min-height: 600px;">
+
+
+            <style type="text/css">
+
+                .varrow1 	{position:absolute;background: transparent url('../AXTopDownMenu/images/allow_menu1.gif') no-repeat;width:19px;height:10px;z-index:2;_margin-top:4px;}
+                .varrow2 	{position:absolute;background: transparent url('../AXTopDownMenu/images/allow_menu2.gif') no-repeat;width:19px;height:10px;z-index:2;_margin-top:4px;}
+                .harrow 	{position:absolute;background: transparent url('../AXTopDownMenu/images/allow_menu3.gif') no-repeat;width:9px;height:13px;z-index:2;}
+
+                .AXMenuBox{position:relative;background: #3e4558;height:40px;line-height:40px;padding:0px 20px;min-width:700px;}
+                .AXMenuBox a{
+                    transition-delay:0s;
+                    transition-timing-function:ease;
+                    transition-duration:0.3s;
+                    transition-property:all;
+                }
+                .AXMenuBox ul{list-style:none;margin:0px; padding:0px;}
+                .AXMenuBox ul li{list-style:none;margin:0px; padding:0px;float:left;}
+
+                .AXMenuBox .parentMenu{color:#fff;position:relative;font-size:14px;}
+                .AXMenuBox .parentMenu a{
+                    display:block;_display:inline-block;
+                    color:#fff;text-decoration:none;
+                    height:40px;line-height:40px;font-size:11px;font-style:italic;
+                    padding:0px 10px;
+                }
+                .AXMenuBox .parentMenu a:hover{background:#9197a4;}
+                .AXMenuBox .parentMenu a:focus{background:#9197a4;}
+                .AXMenuBox .parentMenu a.on{background:#9197a4;}
+
+                .AXMenuBox .childMenu{position:absolute;line-height:25px;font-size:12px;display:none;}
+                .AXMenuBox .childMenu ul{
+                    background:#ebebeb;border:1px solid #ccc;border-radius:5px;
+                    padding:3px; margin:0px;display:block;position:relative;
+                    box-shadow:0px 0px 3px #ccc;
+                }
+                .AXMenuBox .childMenu ul li{float:none;padding:0px; margin:0px;border-bottom:1px solid #ebebeb;}
+                .AXMenuBox .childMenu ul li a{
+                    display:block;_width:100%;
+                    padding:0px 10px;
+                    height:30px;line-height:30px;
+                    background:#424a5c;
+                    border-radius:3px;
+                    color:#fff; text-decoration: none;white-space:nowrap;
+                }
+                .AXMenuBox .childMenu ul li a:hover{background:#9197a4;}
+
+                .AXMenuBox .childMenu ul li a.on{background:#9197a4;}
+                .AXMenuBox .childMenu ul li a.expand{background-image:url(../AXTopDownMenu/images/rightArrows.png);background-repeat:no-repeat;background-position:100% 0px;padding-right:30px;}
+                .AXMenuBox .childMenu ul li a.expand:hover{background-image:url(../AXTopDownMenu/images/rightArrows.png);background-repeat:no-repeat;background-position:100% -30px;padding-right:30px;}
+
+                .AXMenuBox .childsMenu{position:absolute;line-height:20px;font-size:12px;}
+                .AXMenuBox .childsMenu ul{background:#ebebeb;border:1px solid #ccc;padding:3px; margin:0px;}
+                .AXMenuBox .childsMenu ul li{float:none;padding:0px; margin:0px;border-bottom:1px solid #ebebeb;}
+                .AXMenuBox .childsMenu ul li a{}
+
+                .clear{clear:both;}
+
+                .mx-menu-handle{
+                    display:none;
+                    cursor: pointer;
+                    color: #fff;
+                }
+
+                @media (max-width: 600px) {
+                    .mx-menu-handle{
+                        display:block;
+                    }
+                    #menuBox{
+                        display:none;
+                    }
+                }
+
+            </style>
+            <div class="H20"></div>
+            <div class="AXMenuBox" style="z-index:5;">
+                <a class="mx-menu-handle" id="mx-menu-handle">Mobile Menu Open</a>
+                <div id="menuBox">
+                    <ul>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#" id="ID1234">AXISJ Menu Expend</a>
+                                <div class="childMenu">
+                                    <ul>
+                                        <li><a href="http://www.mondo.co.kr" target="_blank" id="ID1235">mondo.co.kr</a></li>
+                                        <li>
+                                            <a href="#" id="ID1236" class="expand">AXISJ Simple</a>
+                                            <div class="childsMenu">
+                                                <ul>
+                                                    <li><a href="#" id="ID1237">Feature</a></li>
+                                                    <li><a href="#" id="ID1238">Design</a></li>
+                                                    <li><a href="#" id="ID1239">Application</a></li>
+                                                    <li><a href="#" id="ID1240" class="expand">Options</a>
+                                                        <div class="childsMenu">
+                                                            <ul>
+                                                                <li><a href="#" id="ID1241">Feature</a></li>
+                                                                <li><a href="#" id="ID1242">Design</a></li>
+                                                                <li><a href="#" id="ID1243" class="expand">Applications</a>
+                                                                    <div class="childsMenu">
+                                                                        <ul>
+                                                                            <li><a href="#" id="ID1244">Feature</a></li>
+                                                                            <li><a href="#" id="ID1245">Design</a></li>
+                                                                            <li><a href="#" id="ID1246">Applications</a></li>
+                                                                            <li><a href="#" id="ID1247">Options</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" id="ID1248">Options</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li><a href="#">AXISJ Journey</a></li>
+                                        <li><a href="#">AXInput</a></li>
+                                        <li><a href="#">Jowrney</a></li>
+                                        <li><a href="#">Stacey</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">ABOUT AXISJ Menu Expend</a>
+                                <div class="childMenu">
+                                    <ul>
+                                        <li><a href="http://www.mondo.co.kr" target="_blank">mondo.co.kr</a></li>
+                                        <li><a href="#">AXISJ Simple</a></li>
+                                        <li><a href="#">AXISJ Journey</a></li>
+                                        <li><a href="#">AXWaterfall</a></li>
+                                        <li><a href="#">Squall</a></li>
+                                        <li>
+                                            <a href="#" class="expand">tom@axisj.com</a>
+                                            <div class="childsMenu">
+                                                <ul>
+                                                    <li><a href="#">Feature</a></li>
+                                                    <li><a href="#">Design</a></li>
+                                                    <li><a href="#">Application</a></li>
+                                                    <li><a href="#" class="expand">Options</a>
+                                                        <div class="childsMenu">
+                                                            <ul>
+                                                                <li><a href="#">Feature</a></li>
+                                                                <li><a href="#">Design</a></li>
+                                                                <li><a href="#" class="expand">Applications</a>
+                                                                    <div class="childsMenu">
+                                                                        <ul>
+                                                                            <li><a href="#">Feature</a></li>
+                                                                            <li><a href="#">Design</a></li>
+                                                                            <li><a href="#">Applications</a></li>
+                                                                            <li><a href="#">Options</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">Options</a>
+
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">No Expand Menus</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">No Expand Menus</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">AXISJ Menu Expend</a>
+                                <div class="childMenu">
+                                    <ul>
+                                        <li><a href="http://www.mondo.co.kr" target="_blank">mondo.co.kr</a></li>
+                                        <li><a href="#">AXISJ Journey</a></li>
+                                        <li><a href="#">AXInput</a></li>
+                                        <li><a href="#">Jowrney</a></li>
+                                        <li><a href="#">Stacey</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+            <div class="H10" style="height:100px;"></div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXNotification - AXISJ</title>
@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXCore.js"></script>
     <!--
     <script type="text/javascript" src="../../lib/AXJ.js"></script>
     <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
@@ -51,7 +52,7 @@
 		}
 	
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 </head>
@@ -69,12 +70,12 @@
 				<div class="ax-col-12">
 					<div class="ax-unit">
 						<h2>Toast</h2>
-						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete</button>
+						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b>\n Complete messange send !!');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete</button>
 						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !! 1');toast.push('<b>Complete</b> Complete messange send !! 2');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete x2</button>
 						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!1');toast.push('<b>Complete</b> Complete messange send !! 2');toast.push('<b>Complete</b> Complete messange send !! 3.');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete x3</button>	
 						<div class="H10"></div>					
 						<button type="button" class="AXButton Classic" onclick="toast.push({body:'<b>Warning</b> Warning messange send !!', type:'Warning'});" ><i class="fa fa-bell fa-lg"></i> Warning</button>
-						<button type="button" class="AXButton Red" onclick="toast.push({body:'<b>Caution</b> Caution messange send !!', type:'Caution'});" ><i class="fa fa-info-circle fa-lg"></i> Caution</button>
+						<button type="button" class="AXButton Red" onclick="toast.push({body:'<b>Caution</b> Caution messange send !!', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" ><i class="fa fa-info-circle fa-lg"></i> Caution</button>
 						
 						<div class="H30"></div>
 						
@@ -89,8 +90,8 @@
 				<div class="ax-col-12">
 					<div class="ax-unit">
 						<h2>Dialog</h2>
-						<button type="button" class="AXButton" onclick="dialog.push('<b>Alert</b> Application Call dialog push');" ><i class="fa fa-microphone fa-lg"></i> Alert</button>
-						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning'});" ><i class="fa fa-microphone fa-lg"></i> Alert Warning</button>
+						<button type="button" class="AXButton" onclick="dialog.push('<b>Alert</b>\n Application Call dialog push');" ><i class="fa fa-microphone fa-lg"></i> Alert</button>
+						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Warning</b> Application Call dialog push', type:'Warning', onclose:function(){alert('close');}});" ><i class="fa fa-microphone fa-lg"></i> Alert Warning</button>
 						<button type="button" class="AXButton" onclick="dialog.push({body:'<b>Caution</b> Application Call dialog push', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" ><i class="fa fa-microphone fa-lg"></i> Alert Caution</button>
 						
 						<button type="button" class="AXButton" onclick="dialog.push({

@@ -207,7 +207,7 @@
   width: 140px;
   background: #ffffff;
   border: 1px solid #99847d;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXContextMenu .contextMenuItem {
@@ -314,6 +314,24 @@
   background-repeat: no-repeat;
   background-position: 0px center;
 }
+.AXContextMenu .contextMenuItem .shot-cut {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  font-size: 11px;
+}
+.AXContextMenu .contextMenuItem .tool-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  background: url('images/mx-item-check.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXContextMenu .contextMenuItem .tool-checkbox.on {
+  background: url('images/mx-item-checkOn.png') no-repeat center center;
+  background-size: 30px 30px;
+}
 .AXContextMenu .hline {
   display: block;
   height: 1px;
@@ -334,7 +352,7 @@
   padding: 6px;
   background: #ffffff;
   border: 1px solid #99847d;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXPopOver .arrowTop {
@@ -453,7 +471,7 @@
   padding: 6px;
   background: #FFFFF0;
   border: 1px solid #B55A00;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXPopOverTooltip .arrowTop {
@@ -616,6 +634,7 @@
   width: 100%;
   border: 0px none !important;
   background: #ffffff;
+  table-layout: fixed;
 }
 .AXNotification .AXNotificationTable td,
 .AXNotification .AXNotificationTable th {
@@ -763,6 +782,9 @@
   background: #5ea3db;
   color: #ffffff;
   box-shadow: inset 0px 0px 4px #3d84bc;
+}
+.AXCalendar table.calendarPage tbody td A.calendarDate.disabled {
+  color: #d0d0d0 !important;
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate {
   color: #c78b82;
@@ -1529,7 +1551,20 @@
   font-size: 12px;
   box-shadow: 1px 1px 3px #eee;
 }
-.AXGridTable thead td {
+.AXGridTable td,
+.AXGridTable th {
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.AXGridTable td .tdRel,
+.AXGridTable th .tdRel,
+.AXGridTable td .AXInputLabel,
+.AXGridTable th .AXInputLabel {
+  position: relative;
+}
+.AXGridTable thead td,
+.AXGridTable thead th {
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#ffffff, #f1efea);
   /* For Safari */
@@ -1541,27 +1576,52 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
-  min-height: 30px;
-  line-height: 30px;
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
   color: #5c382c;
 }
-.AXGridTable thead td .tdRel {
-  padding: 0px 10px;
-  text-align: center;
-  color: #5c382c;
-}
-.AXGridTable tbody td {
-  min-height: 36px;
-  line-height: 30px;
+.AXGridTable tbody td,
+.AXGridTable tbody th {
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
   color: #5c382c;
-  text-align: center;
 }
-.AXGridTable tbody td .tdRel {
-  position: relative;
+.AXGridTable tr.gray th,
+.AXGridTable tr.gray td {
+  background-color: #F5F5F5;
+}
+.AXGridTable tr.red th,
+.AXGridTable tr.red td {
+  background-color: #FFE8E8;
+}
+.AXGridTable tr.green th,
+.AXGridTable tr.green td {
+  background-color: #F7FDEA;
+}
+.AXGridTable tr.blue th,
+.AXGridTable tr.blue td {
+  background-color: #EAF5FD;
+}
+.AXGridTable tr.yellow th,
+.AXGridTable tr.yellow td {
+  background-color: #FEFEE9;
+}
+.AXGridTable tr td.gray {
+  background-color: #F5F5F5;
+}
+.AXGridTable tr td.red {
+  background-color: #FFE8E8;
+}
+.AXGridTable tr td.green {
+  background-color: #F7FDEA;
+}
+.AXGridTable tr td.blue {
+  background-color: #EAF5FD;
+}
+.AXGridTable tr td.yellow {
+  background-color: #FEFEE9;
 }
 /* view Style table */
 .AXFormTable {
@@ -1602,6 +1662,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  /*For IE7-8-9*/
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,
@@ -1638,6 +1700,14 @@
 }
 .AXFormTable tbody tr td.yellow {
   background-color: #FEFEE9;
+}
+.AXWordwrap {
+  word-wrap: break-word;
+  /* IE 5.5-7 */
+  white-space: -moz-pre-wrap;
+  /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;
+  /* current browsers */
 }
 @media (max-width: 767px) {
   .AXInputLabel {

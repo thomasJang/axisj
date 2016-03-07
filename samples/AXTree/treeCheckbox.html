@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
     <title>AXTree - AXISJ</title>
@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTree.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -45,7 +46,7 @@
 				theme: "AXTree",
 				//height:"auto",
 				xscroll:false,
-				checkboxRelationFixed:true, // true | false | null
+				checkboxRelationFixed:false, // true | false | null
 				reserveKeys:{
 					parentHashKey:"pHash", // 부모 트리 포지션
 					hashKey:"hash", // 트리 포지션
@@ -127,12 +128,12 @@
 			});
 
 			var Tree = [
-				{nodeID:"1","nodenm":"ETRI",open:true, nodeType:"company","parentcd":"","parentnm":"","sortnum":1,"ckd":0,"treeno":"l001", subTree:[
-						{nodeID:"2","nodenm":"%ec%9e%84%ec%8b%9c%ec%9a%a9%eb%b6%80%ec%84%9c",open:true, nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":1,"ckd":0,"treeno":"l001_001"},
+				{nodeID:"1","nodenm":"ETRI",open:false, nodeType:"company","parentcd":"","parentnm":"","sortnum":1,"ckd":0,"treeno":"l001", subTree:[
+						{nodeID:"2","nodenm":"%ec%9e%84%ec%8b%9c%ec%9a%a9%eb%b6%80%ec%84%9c",open:false, nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":1,"ckd":0,"treeno":"l001_001"},
 						{nodeID:"20130618001","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002", subTree:[
-							{nodeID:"20130618002","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:true,nodeType:"folder","parentcd":"20130618001","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003"},
-							{nodeID:"20130618003","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"20130618001","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004", subTree:[
-								{nodeID:"20130618004","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"20130618003","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004"}	
+							{nodeID:"20130618002","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:false,nodeType:"folder","parentcd":"20130618001","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003"},
+							{nodeID:"20130618003","nodenm":"%ec%b6%94%ea%b0%80",open:false,nodeType:"folder","parentcd":"20130618001","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004", subTree:[
+								{nodeID:"20130618004","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"20130618003","parentnm":"ETRI","sortnum":4,"ckd":1,"treeno":"l001_004"}
 							]}
 						]},
 						{nodeID:"20130618009","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003"},
@@ -144,7 +145,7 @@
 
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -167,8 +168,8 @@
             <div class="H10"></div>
 
             <div>
-                <input type="button" value="myTree.relationFixedSync();" onclick="myTree.relationFixedSync();" class="AXButton" />
-                <input type="button" value="myTree.getCheckedList(0);" onclick="trace(myTree.getCheckedList(0));" class="AXButton" />
+                <input type="button" value="myTree.relationFixedSync();" onclick="myTree.relationFixedSync({expandItem:true});" class="AXButton" />
+                <input type="button" value="myTree.getCheckedList(0);" onclick="trace(myTree.getCheckedList(0));toast.push('브라우저 console창을 확인하세요');" class="AXButton" />
             </div>
 
             <div class="H20"></div>

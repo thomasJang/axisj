@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>bindSegment - AXISJ</title>
@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -79,7 +80,7 @@
 		
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -233,6 +234,10 @@
 							<input type="button" value="왼쪽으로" class="AXButton" onclick="jQuery('#AXInputSegmentForImage').setValueInput('0');" />
 							<input type="button" value="가운데로" class="AXButton" onclick="jQuery('#AXInputSegmentForImage').setValueInput('1');" />
 							<input type="button" value="오른쪽으로" class="AXButton" onclick="jQuery('#AXInputSegmentForImage').setValueInput('2');" />
+
+                            <button class="AXButton" onclick="jQuery('#AXInputSegmentForImage').bindInputDisabled(true);">Disabled</button>
+                            <button class="AXButton" onclick="jQuery('#AXInputSegmentForImage').bindInputDisabled(false);">Enable</button>
+
 						</div>
 					
 						<h3>AXInput bind Switch (custom css)</h3>

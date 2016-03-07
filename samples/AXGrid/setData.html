@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
-	<title>AXGrid(setData way) - AXISJ</title>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid(setData way) - AXISJ</title>
 
     <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
     <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
@@ -16,54 +16,66 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <!-- css block -->
 
+    <!-- js block -->
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
 
-	<script>
-	/**
-	 * Require Files for AXISJ UI Component...
-	 * Based		: jQuery
-	 * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
-	 * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
-	 */	
-	var pageID = "setData";
-	var myGrid = new AXGrid();
-	var itemSum = 0;
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
 
-	var fnObj = {
-		pageStart: function(){
-			myGrid.setConfig({
-				targetID : "AXGridTarget",
-				theme : "AXGrid",
-				colHeadAlign: "center", // 헤드의 기본 정렬 값
-				colGroup : [
-					{key:"document_srl", label:"번호", width:"100", align:"center"},
-					{key:"title", label:"제목", width:"*", formatter:function(){
-						return this.item.title;
-					}},
-					{key:"nick_name", label:"작성자", width:"100", align:"center"},
-					{key:"regdate", label:"작성일", width:"100", align:"center", formatter:function(){
-                        return this.value.left(8).date().print("YYYY/MM/DD");
-                    }}
-				],
+    <script id="jscode">
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based        : jQuery
+     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
+     */    
+    var pageID = "setData";
+    var myGrid = new AXGrid();
+    var itemSum = 0;
 
-				body : {
-					marker: function(){
-						
-					},
-					onclick: function(){
-						toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
-						//alert(this.list);
-						//alert(this.page);
-					}
-				},
+    var fnObj = {
+        pageStart: function(){
+            myGrid.setConfig({
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                colHeadAlign: "center", // 헤드의 기본 정렬 값
+                colGroup : [
+                    {key:"document_srl", label:"번호", width:"100", align:"center"},
+                    {key:"title", label:"제목", width:"*",
+                        formatter:function(){
+                            return this.item.title;
+                        }
+                    },
+                    {key:"nick_name", label:"작성자", width:"100", align:"center"},
+                    {key:"regdate", label:"작성일", width:"100", align:"center",
+                        formatter:function(){
+                            return this.value.left(8).date().print("yyyy/mm/dd");
+                        }
+                    }
+                ],
+
+                body : {
+                    marker: function(){
+                        
+                    },
+                    onclick: function(){
+                        toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+                        //alert(this.list);
+                        //alert(this.page);
+                    }
+                },
                 page:{
                     paging:true,
                     onchange: function(pageNo){
@@ -71,7 +83,7 @@
                         trace(this, pageNo);
                     }
                 }
-			});
+            });
 
             var _obj ={
                 message_type:"",
@@ -112,37 +124,38 @@
                     listCount: _obj.page_navigation.total_count
                 }
             };
-			myGrid.setData(gridData);
-		}
-	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
-	</script>
-
-	<style type="text/css">
-	
-	</style>
+            myGrid.setData(gridData);
+        }
+    };
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
+    </script>
 </head>
-	
+    
 <body>
 
 <div id="AXPage">
 
-	<!-- s.AXPageBody  -->
-	<div id="AXPageBody" class="SampleAXSelect">
+    <!-- s.AXPageBody  -->
+    <div id="AXPageBody" class="SampleAXSelect">
         <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
-		<div class="AXdemoPageContent">
+        <div class="AXdemoPageContent">
 
-			<div class="title"><h1>AXGrid 그리드에 데이터를 정의하는 새로운 방법</h1></div>
+            <div class="title">
+                <h1>AXGrid (setData way)</h1>
+            </div>
+            <h2>setData 메서드를 이용해서 그리드에 데이터를 설정하는 방법을 설명합니다.</h2>
 
             <div id="AXGridTarget" style="height:400px;"></div>
 
-            <div class="H30"></div>
+            <pre id="pretty" class="prettyprint linenums"></pre>
 
-		</div>
-	</div>
-	<!-- e.AXPageBody  -->
+        </div>
+    </div>
+    <!-- e.AXPageBody  -->
 
 </div>
 
 </body>
-</html>		
+</html>        

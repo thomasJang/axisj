@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXTree - AXISJ</title>
@@ -16,12 +16,12 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTree.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -138,7 +138,7 @@
 							return iconName;
 						},
 						formatter:function(){
-							return this.item.activity;
+							return "<u>" + this.item.activity + "</u>";
 						},
 						tooltip:function(){
 							return this.item.activity;
@@ -177,7 +177,8 @@
 				targetID : "AXTreeTarget2",
 				theme: "AXTree_none",
 				//height:"auto",
-				xscroll:true,
+                //width:"auto",
+				//xscroll:true,
 				indentRatio:0.7,
 				reserveKeys:{
 					parentHashKey:"pHash", // 부모 트리 포지션
@@ -190,7 +191,7 @@
 					{
 						key:"nodeName",
 						label:"제목",
-						width:"300", align:"left",
+						width:"100%", align:"left",
 						indent:true,
 						getIconClass: function(){
 							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
@@ -229,7 +230,7 @@
 		}
 	
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 </head>
 	

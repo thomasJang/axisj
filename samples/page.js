@@ -1,5 +1,10 @@
 var disqus_shortname = 'axisjcom';
 var disqus_url = 'http://dev.axisj.com';
+var google_ad_client = "ca-pub-6976556327869017",
+	google_ad_slot = "7585461085",
+	google_ad_width = 728,
+	google_ad_height = 90;
+
 var isIndex = false;
 var pageObj;
 var sampleMobileMenu = new AXMobileMenu();
@@ -17,7 +22,8 @@ var sampleTree = [
         {menuID:"204", url:"javascript:pageObj.goLink('samples/AXNotification/index.html');", label:"AXNotification"},
         {menuID:"205", url:"javascript:pageObj.goLink('samples/AXProgress/index.html');", label:"AXProgress"},
         {menuID:"206", url:"javascript:pageObj.goLink('samples/AXScroll/index.html');", label:"AXScroll"},
-        {menuID:"207", url:"javascript:pageObj.goLink('samples/AXTabs/index.html');", label:"AXTabs"}
+        {menuID:"207", url:"javascript:pageObj.goLink('samples/AXTabs/index.html');", label:"AXTabs"},
+        {menuID:"207", url:"javascript:pageObj.goLink('samples/AXToolBar/index.html');", label:"AXToolBar"}
     ]},
     {menuID:"3", label:"UI-Complex", url:"javascript:pageObj.goLink('samples/AXModal/index.html');", cn:[
         {menuID:"301", url:"javascript:pageObj.goLink('samples/AXModal/index.html');", label:"AXModal"},
@@ -27,7 +33,8 @@ var sampleTree = [
         {menuID:"305", url:"javascript:pageObj.goLink('samples/AXEditor/index.html');", label:"AXEditor"},
         {menuID:"306", url:"javascript:pageObj.goLink('samples/AXSearch/index.html');", label:"AXSearch"},
         {menuID:"307", url:"javascript:pageObj.goLink('samples/AXUpload5/index.html');", label:"AXUpload5"},
-        {menuID:"307", url:"javascript:pageObj.goLink('samples/AXSlideViewer/index.html');", label:"AXSlideViewer"}
+	    {menuID:"308", url:"javascript:pageObj.goLink('samples/AXFrameUpload/index.html');", label:"AXFrameUpload"},
+        {menuID:"309", url:"javascript:pageObj.goLink('samples/AXSlideViewer/index.html');", label:"AXSlideViewer"}
     ]},
     {menuID:"4", label:"Lab", url:"javascript:pageObj.goLink('samples/AXTopDownMenu/index.html');", cn:[
         {menuID:"401", url:"javascript:pageObj.goLink('samples/AXTopDownMenu/index.html');", label:"AXTopDownMenu"},
@@ -38,11 +45,15 @@ var sampleTree = [
         //{menuID:"406", url:"javascript:pageObj.goLink('samples/AXFrameSet/index.html');", label:"AXFrameSet(alpha)"},
         {menuID:"407", url:"javascript:pageObj.goLink('samples/mobile/index.html');", label:"for Mobile"},
         {menuID:"404", url:"javascript:pageObj.goLink('samples/AXWaterfall/index.html');", label:"AXWaterfall"},
-	    {menuID:"409", url:"javascript:pageObj.goLink('samples/AXSplit/index.html');", label:"AXSplit"}
+	    {menuID:"409", url:"javascript:pageObj.goLink('samples/AXSplit/index.html');", label:"AXSplit"},
+	    {menuID:"410", url:"javascript:pageObj.goLink('samples/AXDivSlider/index.html');", label:"AXDivSlider"}
         //{menuID:"408", url:"javascript:pageObj.goLink('samples/Angularjs/index.html');", label:"for AngularJS"}
     ]}
 ];
 var sampleTreeMenu = new AXTopDownMenu();
+
+//$("head").append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>');
+
 
 (function(){
     pageObj = {
@@ -134,11 +145,10 @@ var sampleTreeMenu = new AXTopDownMenu();
             to.push("</h1>");
             to.push("<h2>Theme Developer. <a href='mailto:"+tdata.mail+"'>"+tdata.developer+"</a></h2>");
             to.push("<a href='http://www.axisj.com' target='_blank' class='facebook'>Website</a>");
-            to.push("<a href='https://github.com/axisj-com/axisj' target='_blank' class='github'>Github</a>");
+            to.push("<a href='https://github.com/axisj/axisj' target='_blank' class='github'>Github</a>");
             to.push("<a href='http://jdoc.axisj.com' target='_blank' class='api'>API</a>");
             to.push("<div class='ax-clear'></div>");
             jQuery(".themeInfo").append(to.join(""));
-
 
             sampleTreeMenu.setConfig({
                 targetID:"sampleMenuBox",
@@ -167,7 +177,6 @@ var sampleTreeMenu = new AXTopDownMenu();
             sampleTreeMenu.setTree(sampleTree);
             //sampleTreeMenu.setHighLightMenu([1,1]);
 
-
             sampleMobileMenu.setConfig({
                 reserveKeys:{
                     primaryKey:"menuID",
@@ -186,13 +195,14 @@ var sampleTreeMenu = new AXTopDownMenu();
 
             axdom("#devCentermobileMenu").bind("click", function(){
                 sampleMobileMenu.open();
-            })
+            });
 
 
         },
         incFooter:function(){
             var fo = [];
 
+	        /*
             fo.push('<div class="disqus_target">');
             fo.push('<div style="padding:20px 20px 50px 20px;background:#fff;">');
             fo.push('<div id="disqus_thread"></div>');
@@ -200,6 +210,18 @@ var sampleTreeMenu = new AXTopDownMenu();
             fo.push('</div>');
 
             fo.push('<div id="disqusTarget"></div>');
+            */
+
+	        //fo.push('<div align="center" style="text-align: center;padding:20px;padding-bottom:50px;color:#ccc;">');
+	        //fo.push('"안녕하세요 ! 이 자리에는 서버비라도 조금 보태 보겠다고 구글 애드센스를 붙여 두고 있었습니다. 하지만 약 10여달러 정도 모이자 <u>구글 애드센스</u>에서 부정클릭을 했다며 제 애드센스 계정을 지워버렸습니다. 여러분. 무슨일이 있어도 구글 애드센스를 달지 맙시다."');
+	        /*
+	        fo.push('<ins class="adsbygoogle" '+
+	        'style="display:block" '+
+	        'data-ad-client="ca-pub-6976556327869017" '+
+	        'data-ad-slot="4492393884" '+
+	        'data-ad-format="auto"></ins>');
+	        */
+	        //fo.push('</div>');
 
             fo.push('<footer id="AXPageFoot">');
                 fo.push('<div class="ax-wrap">');
@@ -218,7 +240,7 @@ var sampleTreeMenu = new AXTopDownMenu();
                         fo.push('</div>');
 
 
-                        fo.push('<div style="position:absolute;top: 5px;right: 2px;">');
+                        fo.push('<div style="position:absolute;top: -30px;right: 7px;">');
 
                             fo.push('<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline;margin:0px;padding:0px;">');
                             fo.push('<input type="hidden" name="cmd" value="_s-xclick">');
@@ -246,6 +268,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 	        ga('send', 'pageview');
         },
 	    disqus: function(){
+		    return;
 		    $("#disqus_thread").empty();
 		    $("#disqusTarget").empty();
 
@@ -292,8 +315,18 @@ var sampleTreeMenu = new AXTopDownMenu();
     jQuery(document).ready(function(){
         pageObj.incHeader();
         pageObj.incFooter();
-        $("#"+pageObj.theme).addClass("on");
 
+	    (adsbygoogle = window.adsbygoogle || []).push({});
+
+	    $("#"+pageObj.theme).addClass("on");
+
+        if (window["prettyPrint"]) {
+	        $("#AXPageFoot").before($("#pretty").css({margin:"0px 10px 50px 10px"}));
+            $("#pretty").text($("#jscode").text());
+            window["prettyPrint"]();
+        }
+
+/*
         trace(" Fullstack open source javascript UI. framework ");
         trace(" axis of javascript - axisj.com, April 2014 ");
         trace(" tom@axisj.com & jowrney@axisj.com and team axisj ");
@@ -301,9 +334,9 @@ var sampleTreeMenu = new AXTopDownMenu();
         trace(" http://www.axisj.com ");
         trace(" http://dev.axisj.com ");
         trace(" http://jdoc.axisj.com ");
-        trace(" https://github.com/axisj-com ");
+        trace(" https://github.com/axisj ");
         trace(" ");
-
+*/
     });
 
 
@@ -322,3 +355,13 @@ var sampleTreeMenu = new AXTopDownMenu();
 
 
 })();
+
+
+// 구글 애널
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-56252826-1', 'auto');
+ga('send', 'pageview');

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1"/>
+  <title>AXGrid mergeCells - AXISJ</title>
+
+  <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon"/>
+  <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon"/>
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png"/>
+  <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png"/>
+  <meta property="og:image" content="/samples/_img/axisj_sns.png"/>
+  <meta property="og:site_name" content="Axis of Javascript - axisj.com"/>
+  <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery"/>
+
+  <!-- css block -->
+  <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+  <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css"/>
+
+  <style type="text/css">
+
+  </style>
+  <!-- css block -->
+
+  <!-- js block -->
+  <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+  <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+  <script type="text/javascript" src="../page.js"></script>
+  <script type="text/javascript" src="pageTab.js"></script>
+  <!-- js block -->
+
+</head>
+
+<body>
+
+<div id="AXPage">
+
+  <div id="AXPageBody" class="SampleAXSelect">
+    <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+    <div class="AXdemoPageContent">
+
+      <div id="grid0">
+        <h2>AXGrid</h2>
+
+        <div id="AXGridTarget" style="height:400px;"></div>
+      </div>
+      <p>
+        mergeCells: true => 모든 셀을 머지<br/>
+        mergeCells: [1] => 인덱스 1의 셀을 머지<br/>
+        mergeCells: [3,4] => 인덱스 3, 4 셀을 머지하지만 앞의 셀이 머지 되었을 때만 다음셀이 머지.<br/>
+      </p>
+
+      <input type="button" value="forExcel html" class="AXButton" onclick="fnObj.grid.getExcel('html');"/>
+
+      <div id="printout"></div>
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<script>
+  /**
+   * Require Files for AXISJ UI Component...
+   * Based        : jQuery
+   * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+   * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelecto.css
+   */
+  var pageID = "AXGrid";
+  var fnObj = {
+    pageStart: function() {
+      fnObj.grid.bind();
+    },
+    grid: {
+      target: new AXGrid(),
+      bind: function() {
+        window.myGrid = fnObj.grid.target;
+
+        myGrid.setConfig({
+          targetID: "AXGridTarget",
+          //fixedColSeq: 2,
+          //sort:false,
+          //fitToWidth: true,
+          colGroup: [
+            {key: "col1", label: "컬럼1", width: "100", align: "center"},
+            {key: "col2", label: "컬럼2", width: "100", align: "center", display: false},
+            {key: "col3", label: "컬럼3", width: "70", align: "center"},
+            {key: "col4", label: "컬럼4", width: "100", align: "center"},
+            {key: "col5", label: "컬럼5", width: "100", align: "center"},
+            {key: "col6", label: "컬럼6", width: "40", align: "center"},
+            {key: "col7", label: "컬럼7", width: "40", align: "center"},
+            {key: "col8", label: "컬럼8", width: "50", align: "center"},
+            {key: "col9", label: "컬럼9", width: "50", align: "center"},
+            {key: "col10", label: "컬럼10", width: "50", align: "center"},
+            {key: "col11", label: "컬럼11", width: "50", align: "center"},
+            {key: "col12", label: "컬럼12", width: "90", align: "center"}
+          ],
+          colHeadAlign: "center",
+          mergeCells: [0, 2],
+          colHead: {
+            heights: [40, 30],
+            rows: [
+              [
+                {key: "col1", rowspan: 2},
+                {colSeq: null, colspan: 3, label: "표현식", align: "center", valign: "middle"},
+                {key: "col5", rowspan: 2},
+                {key: "col6", rowspan: 2},
+                {key: "col7", rowspan: 2},
+                {key: "col8", rowspan: 2},
+                {key: "col9", rowspan: 2},
+                {key: "col10", rowspan: 2},
+                {key: "col11", rowspan: 2},
+                {key: "col12", rowspan: 2}
+              ],
+              [
+                {key: "col2"},
+                {key: "col3"},
+                {key: "col4"}
+              ]
+            ],
+            onclick: function() {
+
+            },
+          },
+          body: {
+            onclick: function() {
+              // toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+            },
+            // ondblclick: function(){
+            // },
+            addClass: function() {
+              // red, green, blue, yellow, white, gray
+              if (this.index % 2 == 0) {
+                //return "gray";
+              }
+              else {
+                //return "white";
+              }
+
+            }
+          },
+          page: {
+            paging: false
+          }
+        });
+
+        var list = [
+          {
+            col1: "a0001",
+            col2: "YELLOW",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0002",
+            col2: "YELLOW",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0002",
+            col2: "RED",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0002",
+            col2: "RED",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0003",
+            col2: "BLUE",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0004",
+            col2: "BLUE",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0004",
+            col2: "BLUE",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0005",
+            col2: "BLACK",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0005",
+            col2: "BLACK",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0005",
+            col2: "BLACK",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0005",
+            col2: "BLACK",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+          {
+            col1: "a0006",
+            col2: "BLACK",
+            col3: "테스트",
+            col4: "테스트",
+            col5: "테스트",
+            col6: "테스트",
+            col7: "테스트",
+            col8: "50/60",
+            col9: "200.0",
+            col10: "541.0",
+            col11: "111.0",
+            col12: "2014-10-27"
+          },
+
+        ];
+        myGrid.setList(list);
+        // trace(myGrid.getSortParam());
+
+      },
+      getExcel: function(type) {
+        var obj = myGrid.getExcelFormat(type);
+        trace(obj);
+        $("#printout").html(Object.toJSON(obj));
+      }
+    }
+  };
+  jQuery(document.body).ready(function() {
+    fnObj.pageStart();
+  });
+</script>
+
+</body>
+</html>		

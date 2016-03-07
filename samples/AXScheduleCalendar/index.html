@@ -1,52 +1,33 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<title>AXScheduleCalendar</title>
-    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
-    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>scheduleCalendar - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
-	<!-- css block -->
-	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXScheduleCalendar.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/import_desktop.css" />
-	<![endif]-->
-	
-	
-	<!-- js block -->
-	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXScheduleCalendar.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
-	
-	<style type="text/css">
-	
-	.leftArrow{
-	    display:block;
-		width:16px;height:16px;
-		background:url(../../_AXJ/ui/arongi/img/leftArrows.png) no-repeat -7px -4px;
-	}
-	.rightArrow{
-	    display:block;
-		width:16px;height:16px;
-		background:url(../../_AXJ/ui/arongi/img/rightArrows.png) no-repeat -5px -4px;
-	}
-	</style>
 
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <link rel="stylesheet" type="text/css" href="AXScheduleCalendar.css">
 
-	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
-	<script type="text/javascript" src="pageTab.js"></script>
-	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXScheduleCalendar.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+
+    <!-- js block -->
+    <link rel="stylesheet" type="text/css" href="http://cdno.axisj.com/axicon/axicon.min.css" />
+
 
 	<script type="text/javascript">	
 	var pageID = "AXScheduleCalendar";
@@ -55,9 +36,7 @@
 	var myGrid = new AXGrid();
 	var fnObj = {
 		pageStart: function (h, w) {
-	        
-	        AXCode.bind(); // 소스보기
-	        
+
 			myModal.setConfig({ windowID: "myModalCT", width: 860 });
 	
 			$("#calendarViewMode").bindSegment({
@@ -132,7 +111,7 @@
 						}
 					},
 					onclick: function () {
-	
+
 						myModal.open({
 							url: "/Template/WBS/UI/calendarView.aspx",
 							pars: { schduleid: this.item.schduleid },
@@ -157,18 +136,18 @@
 			load: function () {
 				
                 var list = [
-			        { schduleid: 1, schedulename: '일정 1', sdate: "2013-10-09", edate: "2013-10-09" },
-			        { schduleid: 2, schedulename: '일정 2', sdate: "2013-10-09", edate: "2013-11-18" },
-			        { schduleid: 3, schedulename: '일정 3', sdate: "2013-10-10", edate: "2013-10-16" },
-			        { schduleid: 4, schedulename: '일정 4', sdate: "2013-10-11", edate: "2013-10-11" },
-			        { schduleid: 5, schedulename: '일정 5', sdate: "2013-10-13", edate: "2013-10-14" },
-			        { schduleid: 6, schedulename: '일정 6', sdate: "2013-10-13", edate: "2013-10-14" },
-			        { schduleid: 7, schedulename: '일정 7', sdate: "2013-10-24", edate: "2013-10-30" },
-			        { schduleid: 8, schedulename: '일정 8', sdate: "2013-10-31", edate: "2013-11-05" },
-			        { schduleid: 9, schedulename: '일정 9', sdate: "2013-10-11", edate: "2013-10-12" }
+			        { schduleid: 1, schedulename: '일정 1', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 2, schedulename: '일정 2', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 3, schedulename: '일정 3', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 4, schedulename: '일정 4', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 5, schedulename: '일정 5', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 6, schedulename: '일정 6', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 7, schedulename: '일정 7', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 8, schedulename: '일정 8', sdate: "2014-12-10", edate: "2014-12-23" },
+			        { schduleid: 9, schedulename: '일정 9', sdate: "2014-12-10", edate: "2014-12-23" }
 		        ];
 
-		        myGrid.setList(list);
+		        //myGrid.setList(list);
 		        myCalendar.setList(list);
 			}
 		},
@@ -182,7 +161,7 @@
 	                    { key: "schedulename", label: "Schedule", width: "120" },
 						{
 							key: "dates", label: "dates", width: "100", formatter: function () {
-								return this.item.sdate.date().print("MM/DD") + "~" + this.item.edate.date().print("MM/DD");
+								return this.item.sdate.date().print("mm/dd") + "~" + this.item.edate.date().print("mm/dd");
 							}
 						}
 					],
@@ -229,8 +208,8 @@
                                         <tr>
                                             <td>
                                                 <button class="AXButton" id="goToday" onclick="fnObj.calendar.goToday();" disabled="disabled"><span>Today</span></button>
-                                                <button class="AXButton" onclick="fnObj.calendar.move(-1);"><span class="leftArrow"></span></button>
-                                                <button class="AXButton" onclick="fnObj.calendar.move(1);"><span class="rightArrow"></span></button>
+                                                <button class="AXButton" onclick="fnObj.calendar.move(-1);"><i class="axi axi-chevron-left"></i></button>
+                                                <button class="AXButton" onclick="fnObj.calendar.move(1);"><i class="axi axi-chevron-right"></i></button>
                                                 <span id="calendarDisplay" style="padding-left:20px;font-weight:bold;"></span>
                                             </td>
                                             <td align="right">
