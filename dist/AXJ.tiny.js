@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.0 - 2016-02-27 
+axisj - v1.1.0 - 2016-03-07 
 */
 /*! 
-axisj - v1.1.0 - 2016-02-27 
+axisj - v1.1.0 - 2016-03-07 
 */
 
 if(!window.AXConfig){
@@ -14487,7 +14487,6 @@ var AXInputConverterPro = Class.create(AXJ, {
 				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue), "keyup");
 			}
 		});
-
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function(event) {
 			if (
 				event.which &&

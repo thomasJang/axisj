@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.0 - 2016-02-27 
+axisj - v1.1.0 - 2016-03-07 
 */
 /*! 
-axisj - v1.1.0 - 2016-02-27 
+axisj - v1.1.0 - 2016-03-07 
 */
 
 if(!window.AXConfig){
@@ -16370,7 +16370,13 @@ var AXGrid = Class.create(AXJ, {
                     var trTop = itemDom.position().top;
                     var scrollHeight = this.scrollContent.height();
                     var bodyHeight = this.body.height();
-                    var trHeight = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0").outerHeight().number();
+
+                    var
+                        $itemTr = this.cachedDom.tbody.find("#" + cfg.targetID + "_AX_null_AX_0"),
+                        trHeight;
+
+                    if(!$itemTr.get(0)) return; // viewMode grid가 아닌 상황
+                    trHeight = $itemTr.outerHeight().number();
                     if (trTop.number() + trHeight.number() > bodyHeight) {
                         var scrollTop = bodyHeight - (trTop.number() + itemTrHeight.number());
                         this.scrollContent.css({top: (scrollTop - cfg.listCountMargin)});
@@ -19874,8 +19880,7 @@ var AXGrid = Class.create(AXJ, {
             }
         }
 
-        return cfg.targetID + "_AX_" + key + "_AX_" + idAttr
-            + "<input type=\"hidden\" id=\"" + formID + "\" name=\"" + key + "\" value=\"" + value + "\" />";
+        return result;
     },
     /**
      * @method AXGrid.getEditorFormValue
@@ -28550,7 +28555,6 @@ var AXInputConverterPro = Class.create(AXJ, {
 				event.target.value = _this.bindPatternGetValue(objID, objSeq, (obj.originalValue), "keyup");
 			}
 		});
-
 		obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function(event) {
 			if (
 				event.which &&

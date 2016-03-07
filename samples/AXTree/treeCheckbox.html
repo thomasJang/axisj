@@ -43,9 +43,9 @@
 
 			myTree.setConfig({
 				targetID : "AXTreeTarget",
-				theme: "AXTree",
+				theme: "AXTree_none",
 				//height:"auto",
-				xscroll:false,
+				//xscroll:false,
 				checkboxRelationFixed:false, // true | false | null
 				reserveKeys:{
 					parentHashKey:"pHash", // 부모 트리 포지션
@@ -71,7 +71,7 @@
 					{
 						key:"nodenm",
 						label:"제목",
-						width:"300", align:"left",
+						width:"*", align:"left",
 						indent:true,
 						getIconClass: function(){
 							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
