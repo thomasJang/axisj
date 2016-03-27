@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.1 - 2016-03-21 
+axisj - v1.1.1 - 2016-03-27 
 */
 /*! 
-axisj - v1.1.1 - 2016-03-21 
+axisj - v1.1.1 - 2016-03-27 
 */
 
 if(!window.AXConfig){
@@ -23060,7 +23060,7 @@ var AXInputConverter = Class.create(AXJ, {
         l = l + marginW;
         /*t = t;*/
         w = iobj.outerWidth();
-        h = iobj.outerHeight();
+        h = iobj.height();
         
         var css = {left: l, top: t, width: w, height: 0};
         //trace(css);
@@ -38200,21 +38200,24 @@ var AXTopDownMenu = Class.create(AXJ, {
 	},
 	onoverParent: function(event) {
 		if (this.childObserver) clearTimeout(this.childObserver); //닫기 명령 제거
-		var cfg = this.config;
+		var _this = this, cfg = this.config;
 
 		var target = axf.get_event_target(event.target, {tagname: "a"});
 		var poi = target.id.split(/\_/g).last();
 		if (this.poi != "" && this.poi != poi) {
 			axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
-			axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
-				{
-					duration: cfg.easing.close.duration,
-					easing: cfg.easing.close.easing,
-					complete: function() {
+            axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).hide();
+            /*
+            axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
+                {
+                    duration: cfg.easing.close.duration,
+                    easing: cfg.easing.close.easing,
+                    complete: function() {
 
-					}
-				}
-			);
+                    }
+                }
+            );
+            */
 			if (cfg.parentOutResetChild) this.closeSubMenu(this.tree[this.poi]);
 		}
 
@@ -38294,14 +38297,19 @@ var AXTopDownMenu = Class.create(AXJ, {
 			posLeft = null;
 		}
 
+        _this.overParentAnimate = true;
+        tgDiv.show();
+        /*
 		tgDiv.fadeIn(
 			{
 				duration: cfg.easing.open.duration,
 				easing: cfg.easing.open.easing,
 				complete: function() {
+                    _this.overParentAnimate = false;
 				}
 			}
 		);
+		*/
 
 		this.poi = poi;
 	},
