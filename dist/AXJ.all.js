@@ -38550,6 +38550,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		}, cfg.childOutCloseTime);
 	},
 	outChild: function () {
+		this.active = false;
 		var cfg = this.config;
 		this.closeSubMenu(this.tree[this.poi]);
 
