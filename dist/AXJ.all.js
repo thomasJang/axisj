@@ -23070,12 +23070,13 @@ var AXInputConverter = Class.create(AXJ, {
         var marginW = iobj.css("margin-left").number();
         var marginH = iobj.css("margin-top").number();
         l = l + marginW;
+
         /*t = t;*/
         w = iobj.outerWidth();
-        h = iobj.height();
+        h = (iobj.css("box-sizing") == "content-box") ? iobj.outerHeight() : iobj.height();
         
         var css = {left: l, top: t, width: w, height: 0};
-        //trace(css);
+
         obj.bindAnchorTarget.css(css);
         obj.bindAnchorTarget.data("height", h);
         
@@ -37990,11 +37991,12 @@ var AXToolBar = Class.create(AXJ, {
 });
 /* ---------------------------- */
 var AXTopDownMenu = Class.create(AXJ, {
-	initialize: function(AXJ_super) {
+	initialize: function (AXJ_super) {
 		AXJ_super();
 
 		this.tree = [];
 		this.poi = "";
+		this.config.openType = "over";
 		this.config.easing = {
 			open: {duraing: 200, easing: "expoOut"},
 			close: {duration: 200, easing: "expoOut"}
@@ -38023,7 +38025,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		this.config.childOutClose = true;
 		this.config.childOutCloseTime = 700;
 	},
-	init: function() {
+	init: function () {
 		var cfg = this.config;
 
 		if (cfg.menuBoxID) {
@@ -38042,9 +38044,9 @@ var AXTopDownMenu = Class.create(AXJ, {
 		}
 		axdom(window).bind("resize", this.windowResize.bind(this));
 	},
-	windowResizeApply: function() {
+	windowResizeApply: function () {
 		var cfg = this.config, menuBoxWidth = 0;
-		axf.each(this.tree, function() {
+		axf.each(this.tree, function () {
 			this.width = axdom("#" + this.id).outerWidth();
 			this.height = axdom("#" + this.id).outerHeight();
 			menuBoxWidth += axdom("#" + this.id).parent().outerWidth().number() + 2;
@@ -38091,7 +38093,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 
 	 ```
 	 */
-	setTree: function(tree) {
+	setTree: function (tree) {
 		var cfg = this.config;
 		cfg.menuBoxID = cfg.targetID, _this = this;
 
@@ -38099,8 +38101,8 @@ var AXTopDownMenu = Class.create(AXJ, {
 
 		var po = [];
 
-		var treeFn = function(subTree) {
-			axdom.each(subTree, function(pi, T) {
+		var treeFn = function (subTree) {
+			axdom.each(subTree, function (pi, T) {
 				po.push("<li>");
 				var addClass = (T.cn && T.cn.length > 0 ) ? " class = \"" + cfg.childsMenu.hasChildClassName + "\"" : "";
 				if (cfg.onclick) {
@@ -38121,7 +38123,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		};
 
 		po.push("<ul>");
-		axdom.each(tree, function(pi, T) {
+		axdom.each(tree, function (pi, T) {
 			var addClass = [];
 			if (T.addClass) {
 				addClass.push(T.addClass);
@@ -38154,13 +38156,16 @@ var AXTopDownMenu = Class.create(AXJ, {
 		this.menuBox.append(po.join(''));
 
 		if (cfg.onclick) {
-			this.menuBox.find('[data-href]').bind("click", function() {
+			this.menuBox.find('[data-href]').bind("click", function () {
 				cfg.onclick({
 					id: this.getAttribute("data-id"),
 					href: this.getAttribute("data-href"),
 					label: this.getAttribute("data-label")
 				});
-				_this.outChild();
+
+				if(this.getAttribute("data-href") != "#"){
+					_this.outChild();
+				}
 			});
 		}
 
@@ -38168,16 +38173,16 @@ var AXTopDownMenu = Class.create(AXJ, {
 		this.menuBox.find("." + cfg.childMenu.className).hide();
 		this.menuBox.find("." + cfg.childsMenu.className).hide();
 
-		setTimeout(function() {
+		setTimeout(function () {
 			_this.initParents();
 			_this.initChild();
 			if (cfg.onComplete) cfg.onComplete.call(this);
 		}, 300);
 	},
-	initParents: function() {
+	initParents: function () {
 		var cfg = this.config;
 		var parents = [], menuBoxWidth = 0;
-		this.menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL) {
+		this.menuBox.find("." + cfg.parentMenu.className).each(function (pi, EL) {
 			EL.id = cfg.menuBoxID + "_PM_" + pi;
 			var _id = "";
 
@@ -38201,16 +38206,24 @@ var AXTopDownMenu = Class.create(AXJ, {
 		//this.menuBox.css({width:menuBoxWidth});
 
 		//trace(this.menuBox.find("." + cfg.parentMenu.className + ">a"));
-		this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseover", this.onoverParent.bind(this));
-		this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("focus", this.onoverParent.bind(this));
-		this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("click", this.onclickParent.bind(this));
+		if (cfg.openType == "over") {
+			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseover", this.onoverParent.bind(this));
+			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("focus", this.onoverParent.bind(this));
+			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("click", this.onclickParent.bind(this));
 
-		if (cfg.childOutClose) {
-			var onoutChild = this.onoutChild.bind(this);
-			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseout", onoutChild);
+			if (cfg.childOutClose) {
+				var onoutChild = this.onoutChild.bind(this);
+				this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseout", onoutChild);
+			}
+		}
+		else if (cfg.openType == "click") {
+			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseover", this.onoverParent.bind(this));
+			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("click", this.onclickParent.bind(this));
 		}
 	},
-	onoverParent: function(event) {
+	onoverParent: function (event) {
+		if (!this.active) return this;
+
 		if (this.childObserver) clearTimeout(this.childObserver); //닫기 명령 제거
 		var _this = this, cfg = this.config;
 
@@ -38218,18 +38231,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		var poi = target.id.split(/\_/g).last();
 		if (this.poi != "" && this.poi != poi) {
 			axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
-            axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).hide();
-            /*
-            axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).slideUp(
-                {
-                    duration: cfg.easing.close.duration,
-                    easing: cfg.easing.close.easing,
-                    complete: function() {
-
-                    }
-                }
-            );
-            */
+			axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).hide();
 			if (cfg.parentOutResetChild) this.closeSubMenu(this.tree[this.poi]);
 		}
 
@@ -38309,33 +38311,53 @@ var AXTopDownMenu = Class.create(AXJ, {
 			posLeft = null;
 		}
 
-        _this.overParentAnimate = true;
-        tgDiv.show();
-        /*
-		tgDiv.fadeIn(
-			{
-				duration: cfg.easing.open.duration,
-				easing: cfg.easing.open.easing,
-				complete: function() {
-                    _this.overParentAnimate = false;
-				}
-			}
-		);
-		*/
+		_this.overParentAnimate = true;
+		tgDiv.show();
+		/*
+		 tgDiv.fadeIn(
+		 {
+		 duration: cfg.easing.open.duration,
+		 easing: cfg.easing.open.easing,
+		 complete: function() {
+		 _this.overParentAnimate = false;
+		 }
+		 }
+		 );
+		 */
 
 		this.poi = poi;
 	},
-	onclickParent: function(event) {
+	onclickParent: function (event) {
 		var cfg = this.config;
-		var poi = event.target.id.split(/\_/g).last();
+		var target = axf.get_event_target(event.target, {tagname: "a"});
+		var poi = target.id.split(/\_/g).last();
 
-		//trace(this.tree[poi]);
+		if (!this.active) {
+
+			this.active = true;
+			this.activePoi = poi;
+			this.onoverParent(event);
+
+		} else {
+			if (poi != this.activePoi) {
+				this.active = true;
+				this.activePoi = poi;
+				this.onoverParent(event);
+				return this;
+			}
+
+			this.active = false;
+			axdom("#" + cfg.menuBoxID + "_PMA_" + this.poi).removeClass("on");
+			axdom("#" + cfg.menuBoxID + "_PMC_" + this.poi).hide();
+
+		}
+
 	},
-	initChild: function() {
+	initChild: function () {
 		var cfg = this.config;
 		var initChilds = this.initChilds.bind(this);
 		var tree = this.tree;
-		this.menuBox.find("." + cfg.parentMenu.className).each(function(pi, EL) {
+		this.menuBox.find("." + cfg.parentMenu.className).each(function (pi, EL) {
 			var child = axdom(EL).children("." + cfg.childMenu.className).get(0);
 			if (child) {
 				child.id = cfg.menuBoxID + "_PMC_" + pi;
@@ -38350,7 +38372,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			}
 		});
 	},
-	initChilds: function(cid, rTree) {
+	initChilds: function (cid, rTree) {
 		var initChilds = this.initChilds.bind(this);
 		var cfg = this.config;
 		var tree = rTree.cn;
@@ -38358,14 +38380,14 @@ var AXTopDownMenu = Class.create(AXJ, {
 		var onoverChild = this.onoverChild.bind(this);
 		var onoutChild = this.onoutChild.bind(this);
 		//trace(cid);
-		axdom("#" + cid + ">ul>li").each(function(pi, EL) {
+		axdom("#" + cid + ">ul>li").each(function (pi, EL) {
 			var linkA = axdom(EL).children("A");
 			var _id = "";
 			if (linkA.get(0).id) _id = linkA.get(0).id;
 			linkA.get(0).id = cid.replace("PMC", "PMA") + "_" + pi;
 			linkA.attr("data-axmenuid", _id);
 			linkA.bind("mouseover", onoverChild);
-			if (cfg.childOutClose) {
+			if (cfg.childOutClose && cfg.openType == "over") {
 				linkA.bind("mouseout", onoutChild);
 			}
 
@@ -38397,7 +38419,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			}
 		});
 	},
-	closeSubMenu: function(pitem) {
+	closeSubMenu: function (pitem) {
 		if (!pitem) return;
 		if (pitem.coi == "") return;
 		var cfg = this.config;
@@ -38405,15 +38427,15 @@ var AXTopDownMenu = Class.create(AXJ, {
 			{
 				duration: cfg.easing.close.duration,
 				easing: cfg.easing.close.easing,
-				complete: function() {
+				complete: function () {
 				}
 			}
 		);
 		pitem.coi = "";
 		//하위 자식들의 poi 모두 닫기
 
-		var closeAllSubMenu = function(stree) {
-			axdom.each(stree, function() {
+		var closeAllSubMenu = function (stree) {
+			axdom.each(stree, function () {
 				if (this.coi != "") {
 					axdom("#" + this.coi).hide();
 				}
@@ -38422,7 +38444,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		};
 		closeAllSubMenu(pitem.cn);
 	},
-	onoverChild: function(event) {
+	onoverChild: function (event) {
 		if (this.childObserver) clearTimeout(this.childObserver); //닫기 명령 제거
 		var cfg = this.config;
 		var target = axf.get_event_target(event.target, {tagname: "a"});
@@ -38511,7 +38533,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 					{
 						duration: cfg.easing.open.duration,
 						easing: cfg.easing.open.easing,
-						complete: function() {
+						complete: function () {
 						}
 					}
 				);
@@ -38521,14 +38543,14 @@ var AXTopDownMenu = Class.create(AXJ, {
 		}
 
 	},
-	onoutChild: function(event) {
+	onoutChild: function (event) {
 		var cfg = this.config;
 		var outChild = this.outChild.bind(this);
-		this.childObserver = setTimeout(function() {
+		this.childObserver = setTimeout(function () {
 			outChild();
 		}, cfg.childOutCloseTime);
 	},
-	outChild: function() {
+	outChild: function () {
 		var cfg = this.config;
 		this.closeSubMenu(this.tree[this.poi]);
 
@@ -38538,12 +38560,12 @@ var AXTopDownMenu = Class.create(AXJ, {
 			{
 				duration: cfg.easing.close.duration,
 				easing: cfg.easing.close.easing,
-				complete: function() {
+				complete: function () {
 				}
 			}
 		);
 	},
-	setHighLightMenu: function(poi) {
+	setHighLightMenu: function (poi) {
 		var cfg = this.config;
 		this.menuBox.find(".parentMenu").removeClass("on");
 		this.menuBox.find(".parentMenu a").removeClass("on");
@@ -38552,7 +38574,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		if (axdom.isArray(poi)) {
 			this.poi = this.dfPoi = poi;
 			var tree = this.tree;
-			axdom.each(poi, function(idx, T) {
+			axdom.each(poi, function (idx, T) {
 				if (idx == 0) tree = tree[T.number()];
 				else  tree = tree.cn[T.number()];
 				if (tree) {
@@ -38582,13 +38604,13 @@ var AXTopDownMenu = Class.create(AXJ, {
 	 ```
 	 */
 
-	setHighLightOriginID: function(_id) {
+	setHighLightOriginID: function (_id) {
 		var cfg = this.config;
 		var tree = this.tree;
 		var findedID = "";
 
-		var treeFn = function(subTree) {
-			axdom.each(subTree, function(idx, T) {
+		var treeFn = function (subTree) {
+			axdom.each(subTree, function (idx, T) {
 				if (T._id == _id) {
 					findedID = T.id;
 					return false;
@@ -38599,7 +38621,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			});
 		};
 
-		axdom.each(this.tree, function(idx, T) {
+		axdom.each(this.tree, function (idx, T) {
 			if (T._id == _id) {
 				findedID = T.id;
 				return false;
@@ -38615,7 +38637,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 			var selectedMenus = pos.split(/_/g);
 			this.setHighLightMenu(selectedMenus);
 			return selectedMenus;
-		}else{
+		} else {
 			this.menuBox.find(".parentMenu").removeClass("on");
 			this.menuBox.find(".parentMenu a").removeClass("on");
 			this.menuBox.find(".childMenu a").removeClass("on");
@@ -38633,13 +38655,13 @@ var AXTopDownMenu = Class.create(AXJ, {
 	 myMenu.setHighLightMenu([2, 1]); // 3번째 아이템(1depth)의 2번째 아이템(2depth)을 하이라이트 처리합니다.
 	 ```
 	 */
-	setHighLightID: function(_id) {
+	setHighLightID: function (_id) {
 		var cfg = this.config;
 		var tree = this.tree;
 		var findedID = "";
 
-		var treeFn = function(subTree) {
-			axdom.each(subTree, function(idx, T) {
+		var treeFn = function (subTree) {
+			axdom.each(subTree, function (idx, T) {
 				if (T.id == _id) {
 					findedID = T.id;
 					return false;
@@ -38649,7 +38671,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 				}
 			});
 		};
-		axdom.each(tree, function(idx, T) {
+		axdom.each(tree, function (idx, T) {
 			if (T.id == _id) {
 				findedID = T.id;
 				return false;
