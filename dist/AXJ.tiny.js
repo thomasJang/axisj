@@ -18476,7 +18476,6 @@ var AXTopDownMenu = Class.create(AXJ, {
 		this.tree = parents;
 		//this.menuBox.css({width:menuBoxWidth});
 
-		//trace(this.menuBox.find("." + cfg.parentMenu.className + ">a"));
 		if (cfg.openType == "over") {
 			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("mouseover", this.onoverParent.bind(this));
 			this.menuBox.find("." + cfg.parentMenu.className + ">a").bind("focus", this.onoverParent.bind(this));
@@ -18493,7 +18492,7 @@ var AXTopDownMenu = Class.create(AXJ, {
 		}
 	},
 	onoverParent: function (event) {
-		if (!this.active) return this;
+		if (!this.active && this.config.openType == "click") return this;
 
 		if (this.childObserver) clearTimeout(this.childObserver); //닫기 명령 제거
 		var _this = this, cfg = this.config;
