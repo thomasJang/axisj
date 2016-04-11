@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.1 - 2016-03-27 
+axisj - v1.1.1 - 2016-04-11 
 */
 /*! 
-axisj - v1.1.1 - 2016-03-27 
+axisj - v1.1.1 - 2016-04-11 
 */
 
 if(!window.AXConfig){
@@ -14366,6 +14366,17 @@ var AXGrid = Class.create(AXJ, {
                              }));
                              */
 
+                            var findedCol = true;
+                            do{
+                                var _map_col = cfg.colHead._maps[r][colCount];
+                                if(!_map_col) findedCol = false;
+                                else {
+                                    if (_map_col.r == r && _map_col.c == colCount) findedCol = false;
+                                    else colCount++;
+                                }
+                            }
+                            while(findedCol)
+
                             po.push(getColHeadTd({
                                 valign: valign,
                                 rowspan: rowspan,
@@ -14444,7 +14455,7 @@ var AXGrid = Class.create(AXJ, {
                                         for (var i = r; i < r + (CH.rowspan); i++) {
                                             tdHeight += (cfg.colHead.heights[i] || 0);
                                         }
-                                        return tdHeight;
+                                        return tdHeight + 1;
                                     }
                                     else {
                                         return _tdHeight * (CH.rowspan || 1) + (CH.rowspan - 1);
@@ -14485,6 +14496,7 @@ var AXGrid = Class.create(AXJ, {
                 if (valign == "middle") cellMarginTop = (tdHeight - txtHeight) / 2 + 5;
                 axdom("#" + txtID).css({"padding-top": cellMarginTop + "px"});
                 axdom("#" + toolID).css({"top": (cellMarginTop - 5) + "px"});
+                cellMarginTop = null;
             });
 
             if (cfg.hasAstricCol || cfg.fitToWidth) {

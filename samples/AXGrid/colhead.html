@@ -50,8 +50,10 @@
                 targetID : "AXGridTarget",
                 theme : "AXGrid",
                 colHeadAlign: "center", // 헤드의 기본 정렬 값
+                fixedColSeq: 1,
                 colGroup : [
-                    {key:"no", label:"번호", width:"50", align:"right"}, 
+                    {key:"no", label:"번호", width:"50", align:"right", valign:"middle"},
+                    {key:"no", label:"번호", width:"50", align:"right", valign:"middle"},
                     {key:"title", label:"제목", width:"*", formatter:function(){
                         return "<u>"+this.item.title+"</u>";
                     }},
@@ -69,6 +71,7 @@
 	                heights: [40,30],
                     rows: [
                         [
+                            {key:"no", rowspan:2},
                             {key:"no", rowspan:2},
                             {colSeq:null, colspan:3, label:"표현식", align:"center", valign:"middle"},
                             {key:"price", rowspan:2},
