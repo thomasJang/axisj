@@ -50,13 +50,15 @@
             myGrid.setConfig({
                 targetID : "AXGridTarget",
                 theme : "AXGrid",
-                viewMode: "grid", // ["grid","icon","mobile"]
+                viewMode: "icon", // ["grid","icon","mobile"]
                 //viewMode: "mobile",
 
                 // 브라우저 사이즈에 따른 changeGridView 설정
+                /*
                 mediaQuery: {
                     mx:{min:0, max:600}, dx:{min:600}
                 },
+                */
                 colGroup : [
                     {key:"no", label:"번호", width:"40", align:"center", formatter:"money"},
                     {key:"title", label:"제목", width:"200"},
@@ -89,6 +91,7 @@
                     }
                 },
 
+                /*
                 view: {
                     label:true,
                     column: [ // col 은 4
@@ -107,6 +110,34 @@
 
                         }}
                     ]
+                },
+                */
+
+                view: {
+                    // 속성이 없을때 예외 처리 마지막에 구현
+                    width:"200",
+                    height:"300",
+                    img: {left:"10", top:"10", width:"179", height:"180",style:"border:1px solid #ccc;"},
+                    label:{left:"10", top:"200", width:"180", height:"20"},
+                    description: {left:"10", top:"225", width:"180", height:"65", style:"color:#888;"},
+                    buttons: {
+                        left:"5", top:"5", width:"180", height:"20", style:"",
+                        items:[
+                            {label:"but1", style:"", addClass:"AXButton Green", onclick:function(){
+                                fnObj.otherFunction(this);
+                            }},
+                            {label:"but2", style:"", addClass:"AXButton", onclick:function(){
+                                fnObj.otherFunction(this);
+                            }}
+                        ]
+                    },
+                    format: function(){
+                        return {
+                            imgsrc : this.item.img,
+                            label : this.item.title,
+                            description : this.item.writer+", "+this.item.no+" / " + (this.item.desc || "")
+                        }
+                    }
                 },
                 page:{
                     paging:true,
