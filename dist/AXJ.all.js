@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.2 - 2016-04-16 
+axisj - v1.1.2 - 2016-04-21 
 */
 /*! 
-axisj - v1.1.2 - 2016-04-16 
+axisj - v1.1.2 - 2016-04-21 
 */
 
 if(!window.AXConfig){
@@ -15467,7 +15467,7 @@ var AXGrid = Class.create(AXJ, {
                         }
                         if (obj.onLoad) obj.onLoad.call(res);
                     }
-                    else {
+                    else{
                         if (obj.onError) obj.onError.call(res);
                         else axf.alert(res);
                     }
@@ -16556,7 +16556,6 @@ var AXGrid = Class.create(AXJ, {
         else if (cfg.viewMode == "icon") {
 
             var viewIconObj = cfg.view;
-
             var viewIconCss = [];
             viewIconCss.push("width:" + viewIconObj.width.number() + "px");
             viewIconCss.push("height:" + viewIconObj.height.number() + "px");
@@ -18987,6 +18986,7 @@ var AXGrid = Class.create(AXJ, {
      */
     bigDataSyncApply: function (reload) {
         var cfg = this.config;
+        if (cfg.viewMode != "grid") return this;
         var bodyHasMarker = this.bodyHasMarker;
         var getItem = this.getItem.bind(this);
         var getItemMarker = this.getItemMarker.bind(this);
