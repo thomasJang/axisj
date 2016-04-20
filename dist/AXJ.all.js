@@ -12361,6 +12361,7 @@ var AXGrid = Class.create(AXJ, {
                         if (CH.sort != myCG.sort) {
                             //console.log(CH, myCG);
                         }
+                        myCG.colHeadTool = ((typeof CH.colHeadTool == "undefined") ? cfg.colHeadTool : CH.colHeadTool );
                         if (rewrite) AXUtil.overwriteObject(CH, myCG, true);
                         else AXUtil.overwriteObject(CH, myCG, false);
                     }
@@ -12370,7 +12371,8 @@ var AXGrid = Class.create(AXJ, {
                             valign: "bottom",
                             display: true,
                             rowspan: 1,
-                            colspan: 1
+                            colspan: 1,
+                            colHeadTool: ((typeof CH.colHeadTool == "undefined") ? cfg.colHeadTool : CH.colHeadTool )
                         }, false);
                     }
                     appendPosToColHeadMap(CH.rowspan, CH.colspan, r, {r: r, c: CHidx});
@@ -14345,22 +14347,22 @@ var AXGrid = Class.create(AXJ, {
         if (arg.sort) sortClass = (arg.sort == "desc") ? " sortDesc" : " sortAsc";
         if (toolUse) toolUse = arg.colHeadTool;
         po.push("<td" + arg.valign + arg.rowspan + arg.colspan + " ");
-        if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+        if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHead"+(arg.colHeadType||"")+"_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
         po.push("class=\"colHeadTd" + arg.bottomClass + sortClass + "\" style=\"height:" + arg.tdHeight + "px;\">");
         po.push("<div class=\"tdRelBlock\" style=\"height:" + arg.tdHeight + "px;\">");
         po.push("<div class=\"colHeadNode" + colHeadTdText + "\" align=\"" + arg.align + "\" ");
-        if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
+        if (!arg.ghost) po.push("id=\"" + cfg.targetID + "_AX_colHeadText"+(arg.colHeadType||"")+"_AX_" + arg.r + "_AX_" + arg.CHidx + "\" ");
         po.push(">");
         po.push(arg.tdHtml);
         po.push("</div>");
-        if (!arg.ghost && toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
-        if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
+        if (!arg.ghost && toolUse && arg.colSeq != null && arg.colSeq != undefined) po.push("<a href=\"#AXexec\" class=\"colHeadTool\" id=\"" + cfg.targetID + "_AX_colHeadTool"+(arg.colHeadType||"")+"_AX_" + arg.r + "_AX_" + arg.CHidx + "\">T</a>");
+        if (!arg.ghost) po.push("<div class=\"colHeadResizer\" id=\"" + cfg.targetID + "_AX_colHeadResizer"+(arg.colHeadType||"")+"_AX_" + arg.r + "_AX_" + arg.CHidx + "\"></div>");
         po.push("</div>");
         po.push("</td>");
 
         if (!arg.ghotst && arg.sort) {
             var myColHead = cfg.colHead.rows[arg.r][arg.CHidx];
-            var tdID = cfg.targetID + "_AX_colHead_AX_" + arg.r + "_AX_" + arg.CHidx;
+            var tdID = cfg.targetID + "_AX_colHead"+(arg.colHeadType||"")+"_AX_" + arg.r + "_AX_" + arg.CHidx;
 
             this.nowSortHeadID = tdID;
             this.nowSortHeadObj = myColHead;
@@ -14531,8 +14533,7 @@ var AXGrid = Class.create(AXJ, {
                     var colCount = 0;
                     axf.each(cfg.colHead.rows[r], function (CHidx, CH) {
                         if (CH.display && CH.isFixedCell && CH.colspan > 0) {
-                            /*console.log({CHidx:CHidx, fixedColSeq:(cfg.fixedColSeq+1)}); */
-                            /*radio, check exception */
+                            ///radio, check exception
                             var tdHtml = CH.label || "untitle";
                             var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
                             var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
@@ -14540,6 +14541,7 @@ var AXGrid = Class.create(AXJ, {
                             var bottomClass = (CH.isLastCell) ? "" : " colHeadBottomBorder";
 
                             fpo.push(getColHeadTd({
+                                colHeadType: "FC",
                                 valign: valign,
                                 rowspan: rowspan,
                                 colspan: colspan,
@@ -14556,11 +14558,11 @@ var AXGrid = Class.create(AXJ, {
                                 ghost: false,
                                 tdHeight: (function () {
                                     if (cfg.colHead.heights && cfg.colHead.heights[r]) {
-                                        var tdHeight = 0;
+                                        var tdHeight = 0, tdBorder = CH.rowspan - 1;
                                         for (var i = r; i < r + (CH.rowspan); i++) {
                                             tdHeight += (cfg.colHead.heights[i] || 0);
                                         }
-                                        return tdHeight + 1;
+                                        return tdHeight + tdBorder;
                                     }
                                     else {
                                         return _tdHeight * (CH.rowspan || 1) + (CH.rowspan - 1);
@@ -14623,11 +14625,9 @@ var AXGrid = Class.create(AXJ, {
                 this.fixedColHead.find(".colHeadResizer").each(function () {
 
                     var resizerID = this.id;
-
                     var tdID = resizerID.replace("colHeadResizer", "colHead");
                     var txtID = resizerID.replace("colHeadResizer", "colHeadText");
                     var toolID = resizerID.replace("colHeadResizer", "colHeadTool");
-
                     var rowspan = axdom("#" + tdID).attr("rowspan");
                     var valign = axdom("#" + tdID).attr("valign");
                     if (!rowspan) rowspan = 1;
@@ -14736,7 +14736,11 @@ var AXGrid = Class.create(AXJ, {
         var lastIdx = eid.length - 1;
         var colHeadR = eid[lastIdx - 1];
         var colHeadC = eid[lastIdx];
-
+        var myColHead = cfg.colHead.rows[colHeadR][colHeadC];
+        var tdID = cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC;
+        if(myColHead.isFixedCell){
+            tdID = cfg.targetID + "_AX_colHeadFC_AX_" + colHeadR + "_AX_" + colHeadC;
+        }
         /*console.log({colHeadR:colHeadR, colHeadC:colHeadC}); */
 
         var colSeq = this.getColSeqToHead(colHeadR, colHeadC);
@@ -14746,8 +14750,8 @@ var AXGrid = Class.create(AXJ, {
         if (this.colResizing) {
             this.colHeadResizerEnd();
         }
-        var offset = axdom("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").position();
-        var relBlockWidth = axdom("#" + cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC).find(".tdRelBlock").width();
+        var offset = axdom("#" + tdID).find(".tdRelBlock").position();
+        var relBlockWidth = axdom("#" + tdID).find(".tdRelBlock").width();
         var rightPosition = offset.left.number() + relBlockWidth.number();
         var blockWidth = axdom("#" + cfg.targetID + "_AX_col_AX_" + colSeq + "_AX_CH").attr("width");
         this.colResizeTarget = {
@@ -14932,6 +14936,9 @@ var AXGrid = Class.create(AXJ, {
         }
 
         var tdID = cfg.targetID + "_AX_colHead_AX_" + colHeadR + "_AX_" + colHeadC;
+        if(myColHead.isFixedCell){
+            tdID = cfg.targetID + "_AX_colHeadFC_AX_" + colHeadR + "_AX_" + colHeadC;
+        }
 
         if (myColHead.colSeq == undefined || myColHead.colSeq == null) {
             console.log("정렬할 수 없는 컬럼 입니다.");
@@ -15096,6 +15103,7 @@ var AXGrid = Class.create(AXJ, {
                     cfg.editor.rows[r][colSeq].display = !cfg.editor.rows[r][colSeq].display;
                 }
             }
+            
             //redraw grid
             this.redrawGrid("all");
 
@@ -15905,11 +15913,13 @@ var AXGrid = Class.create(AXJ, {
                 CH = cfg.body.rows[r][CHidx];
                 CG = cfg.colGroup[CHidx];
 
+
                 if (CH.display && CH.colspan > 0) {
+
+
                     var printOk = false, makeBodyNode = true;
                     if (isfix == "n") {
                         printOk = true;
-
                         if (typeof CH.colSeq == "undefined") {
 
                         }
@@ -15919,23 +15929,12 @@ var AXGrid = Class.create(AXJ, {
                             }
                         }
                     }
-                    if (isfix == "fix" && colCount < (cfg.fixedColSeq + 1)) {
+                    if (isfix == "fix" && CH.isFixedCell && CH.display) {
                         printOk = true;
-                        if (typeof CH.colSeq == "undefined" || CH.colSeq == null) {
-                            if (r > 0 && cfg.body._maps[r][CHidx] && cfg.body._maps[r][colCount].r != r) {
-                                printOk = false;
-                            }
-                        }
-                        else {
-                            var _postion = cfg.body._maps[r][CH.colSeq];
-                            if (CH.colSeq > (cfg.fixedColSeq)) {
-                                printOk = false;
-                            }
-                        }
-
                     }
 
                     if (printOk) {
+
                         colCount += CH.colspan;
                         //radio, check exception
                         var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
@@ -16018,6 +16017,9 @@ var AXGrid = Class.create(AXJ, {
                     "</td>");
             }
             if (hasTrValue) tpo.push("</tr>");
+
+
+
         }
         return tpo.join('');
     },
@@ -18985,6 +18987,7 @@ var AXGrid = Class.create(AXJ, {
      * @description - Grid의 리스트 내부 인덱스가 변경되거나 포커싱 대상 인덱스가 스크롤을 벗어나 있을경우 그리드를 재구성 합니다.
      */
     bigDataSyncApply: function (reload) {
+
         var cfg = this.config;
         if (cfg.viewMode != "grid") return this;
         var bodyHasMarker = this.bodyHasMarker;
@@ -19005,7 +19008,6 @@ var AXGrid = Class.create(AXJ, {
             }
 
             if (VS.startIndex != newStartIndex || reload) {
-
                 //그리드 내용 다시 구성
                 po = [];
                 for (var itemIndex = newStartIndex; itemIndex < newEndIndex; itemIndex++) {
