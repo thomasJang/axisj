@@ -62,7 +62,7 @@
 }
 .AXToolBar .ax-root-menu-item:hover .ax-menu-item,
 .AXToolBar .ax-root-menu-item.hover .ax-menu-item {
-  color: #ffffff;
+  color: #fff;
   border: 1px solid #b9babc;
   background: #c6cdd3;
 }

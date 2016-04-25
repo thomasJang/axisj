@@ -205,7 +205,7 @@
   left: 0px;
   top: 0px;
   width: 140px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #99847d;
   border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
@@ -341,7 +341,7 @@
 }
 .AXContextMenu .contextMenuItem:hover {
   background-color: #99847d;
-  color: #ffffff;
+  color: #fff;
 }
 .AXPopOver {
   z-index: 4999;
@@ -350,7 +350,7 @@
   top: 0px;
   width: 140px;
   padding: 6px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #99847d;
   border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
@@ -364,7 +364,7 @@
   background: url(images/dx-popover-arrow.png) no-repeat center 0px;
 }
 .AXPopOver .blockContainer {
-  background: #ffffff;
+  background: #fff;
   border-radius: 3px;
 }
 .AXPopOver .contextMenuBody {
@@ -457,7 +457,7 @@
 }
 .AXPopOver .contextMenuItem:hover {
   background-color: #99847d;
-  color: #ffffff;
+  color: #fff;
 }
 .AXTooltipContent {
   display: none;
@@ -592,7 +592,7 @@
 .AXNotification {
   width: 300px;
   border: 2px solid #99847e;
-  background: #ffffff;
+  background: #fff;
   padding: 10px;
   margin: 10px 0px;
   box-shadow: 0px 0px 5px #b2b2b2;
@@ -633,13 +633,13 @@
 .AXNotification .AXNotificationTable {
   width: 100%;
   border: 0px none !important;
-  background: #ffffff;
+  background: #fff;
   table-layout: fixed;
 }
 .AXNotification .AXNotificationTable td,
 .AXNotification .AXNotificationTable th {
   border: 0px none !important;
-  background: #ffffff;
+  background: #fff;
 }
 .AXNotification .AXNotificationIcon {
   width: 42px;
@@ -661,7 +661,7 @@
 .AXNotification .AXNotificationButtons {
   padding: 10px 0px;
   text-align: center;
-  background: #ffffff;
+  background: #fff;
 }
 .AXNotificationTray {
   position: fixed;
@@ -680,7 +680,7 @@
 .AXNotificationTrayDialog .AXNotification {
   width: 340px;
   border: 2px solid #99847e;
-  background: #ffffff;
+  background: #fff;
   padding: 0px;
   margin: 0px auto;
   box-shadow: 0px 0px 3px #888;
@@ -708,7 +708,7 @@
   width: 100%;
 }
 .AXCalendar table.calendarPage thead td {
-  background: #ffffff;
+  background: #fff;
   font-size: 8px;
   font-family: Arial;
   height: 20px;
@@ -775,16 +775,16 @@
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate:active {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 4px #3d84bc;
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate.selected {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 4px #3d84bc;
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate.disabled {
-  color: #d0d0d0 !important;
+  color: #D0D0D0 !important;
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate {
   color: #c78b82;
@@ -838,12 +838,12 @@
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth:active {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 5px #3d84bc;
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth.selected {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 5px #3d84bc;
 }
 .AXCalendar .timeBox {
@@ -917,7 +917,7 @@
 }
 .AXModalBox .windowbox {
   border: 1px solid #a6a6a6;
-  background: #ffffff;
+  background: #fff;
   box-shadow: 0px 0px 1px #a6a6a6;
   padding: 0px;
   margin: 0px 0px 10px 0px;
@@ -957,7 +957,7 @@
   top: 2px;
   width: 7px;
   height: 100%;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0;
   opacity: 0;
   filter: alpha(opacity=0);
@@ -980,7 +980,7 @@
   top: 2px;
   width: 7px;
   min-height: 10px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1012,7 +1012,7 @@
   bottom: 2px;
   width: 100%;
   height: 7px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1035,7 +1035,7 @@
   bottom: 2px;
   height: 7px;
   min-width: 10px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1070,7 +1070,7 @@
   top: 2px;
   width: 6px;
   height: 100%;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1092,7 +1092,7 @@
   top: 2px;
   width: 6px;
   min-height: 10px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.3;
   opacity: 0.3;
   filter: alpha(opacity=30);
@@ -1140,7 +1140,7 @@
 .AXMobileModal .AXMobileModalPanel .mobileModalHead .modalTitle {
   padding: 0px 10px;
   line-height: 44px;
-  color: #ffffff;
+  color: #fff;
   font-size: 15px;
   font-weight: bold;
 }
@@ -1176,7 +1176,7 @@
   height: 44px;
   line-height: 44px;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   font-size: 15px;
   font-weight: bold;
 }
@@ -1188,7 +1188,7 @@
   height: 44px;
   line-height: 44px;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   font-size: 15px;
   font-weight: bold;
 }
@@ -1212,7 +1212,7 @@
   height: 44px;
   line-height: 44px;
   padding-left: 30px;
-  color: #ffffff;
+  color: #fff;
   font-size: 13px;
   font-weight: bold;
   text-decoration: none;
@@ -1240,7 +1240,7 @@
   height: 44px;
   line-height: 44px;
   padding-left: 30px;
-  color: #ffffff;
+  color: #fff;
   font-size: 13px;
   font-weight: bold;
   text-decoration: none;
@@ -1266,17 +1266,17 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
   /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
-  background: #ffffff;
+  background: #fff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
   /* 모달창 바디 안에 위치한 달력 컨테이너 */
-  background: #ffffff;
+  background: #fff;
   border-top: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXTimeDisplayBox {
   height: 144px;
-  background: #ffffff;
+  background: #fff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem {
   position: relative;
@@ -1287,7 +1287,7 @@
   color: #3b3b3b;
   text-decoration: none;
   border-bottom: 1px solid #99847d;
-  background: #ffffff;
+  background: #fff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem:nth-child(odd) {
   background: #f1efea;
@@ -1520,7 +1520,7 @@
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper {
   position: absolute;
-  border: 1px dotted #000000;
+  border: 1px dotted #000;
 }
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable {
@@ -1537,7 +1537,7 @@
 }
 .AXResizableHelper {
   position: absolute;
-  border: 1px dotted #000000;
+  border: 1px dotted #000;
   cursor: se-resize;
   background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
@@ -1566,17 +1566,17 @@
 .AXGridTable thead td,
 .AXGridTable thead th {
   /*background: @stop;*/
-  background-image: -webkit-linear-gradient(#ffffff, #f1efea);
+  background-image: -webkit-linear-gradient(#fff, #f1efea);
   /* For Safari */
-  background-image: -o-linear-gradient(#ffffff, #f1efea);
+  background-image: -o-linear-gradient(#fff, #f1efea);
   /* For Opera 11.1 to 12.0 */
-  background-image: -moz-linear-gradient(#ffffff, #f1efea);
+  background-image: -moz-linear-gradient(#fff, #f1efea);
   /* For Firefox 3.6 to 15 */
-  background-image: linear-gradient(#ffffff, #f1efea);
+  background-image: linear-gradient(#fff, #f1efea);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fff, endColorstr=#f1efea);
   /*For IE7-8-9*/
-  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fff, endColorstr=#f1efea);
   /*For IE7-8-9*/
   border-bottom: 1px solid #99847d;
   border-right: 1px solid #99847d;
@@ -1652,17 +1652,17 @@
 .AXFormTable tbody th {
   color: #593629;
   /*background: @stop;*/
-  background-image: -webkit-linear-gradient(#ffffff, #f1efea);
+  background-image: -webkit-linear-gradient(#fff, #f1efea);
   /* For Safari */
-  background-image: -o-linear-gradient(#ffffff, #f1efea);
+  background-image: -o-linear-gradient(#fff, #f1efea);
   /* For Opera 11.1 to 12.0 */
-  background-image: -moz-linear-gradient(#ffffff, #f1efea);
+  background-image: -moz-linear-gradient(#fff, #f1efea);
   /* For Firefox 3.6 to 15 */
-  background-image: linear-gradient(#ffffff, #f1efea);
+  background-image: linear-gradient(#fff, #f1efea);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fff, endColorstr=#f1efea);
   /*For IE7-8-9*/
-  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ffffff, endColorstr=#f1efea);
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fff, endColorstr=#f1efea);
   /*For IE7-8-9*/
   box-sizing: border-box;
 }

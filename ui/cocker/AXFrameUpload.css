@@ -67,20 +67,20 @@
   left: 0px;
   top: 0px;
   height: 10px;
-  background: #ffffff;
-  background: -webkit-linear-gradient(#eeeeee, #ffffff);
+  background: #fff;
+  background: -webkit-linear-gradient(#eee, #fff);
   /* For Safari */
-  background: -o-linear-gradient(#eeeeee, #ffffff);
+  background: -o-linear-gradient(#eee, #fff);
   /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#eeeeee, #ffffff);
+  background: -moz-linear-gradient(#eee, #fff);
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#eeeeee, #ffffff);
+  background: linear-gradient(#eee, #fff);
   /* Standard syntax */
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eeeeee, endColorstr=#ffffff);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eee, endColorstr=#fff);
   /*For IE7-8-9*/
-  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eeeeee, endColorstr=#ffffff);
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#eee, endColorstr=#fff);
   /*For IE7-8-9*/
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
 }

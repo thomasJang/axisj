@@ -39,7 +39,7 @@
 .AXNotification {
   width: 280px;
   border: 2px solid #99847e;
-  background: #ffffff;
+  background: #fff;
   padding: 10px;
   margin: 10px 0px;
   box-shadow: 0px 0px 3px #b2b2b2;
@@ -84,12 +84,12 @@
 .AXNotification .AXNotificationTable {
   width: 100%;
   border: 0px none !important;
-  background: #ffffff;
+  background: #fff;
 }
 .AXNotification .AXNotificationTable td,
 .AXNotification .AXNotificationTable th {
   border: 0px none !important;
-  background: #ffffff;
+  background: #fff;
 }
 .AXNotification .AXNotificationIcon {
   width: 42px;
@@ -111,7 +111,7 @@
 .AXNotification .AXNotificationButtons {
   padding: 10px 0px;
   text-align: center;
-  background: #ffffff;
+  background: #fff;
 }
 .AXNotificationTray {
   position: fixed;
@@ -130,7 +130,7 @@
 .AXNotificationTrayDialog .AXNotification {
   width: 280px;
   border: 2px solid #99847e;
-  background: #ffffff;
+  background: #fff;
   padding: 0px;
   margin: 0px auto;
   box-shadow: 0px 0px 3px #888;

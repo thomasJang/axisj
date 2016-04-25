@@ -208,7 +208,7 @@
   left: 0px;
   top: 0px;
   width: 140px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #c6cdd3;
   border-radius: 5px;
   box-shadow: 0px 0px 5px #ccc;
@@ -352,7 +352,7 @@
   top: 0px;
   width: 140px;
   padding: 6px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #c6cdd3;
   border-radius: 5px;
   box-shadow: 0px 0px 5px #ccc;
@@ -366,7 +366,7 @@
   background: url(images/dx-popover-arrow.png) no-repeat center 0px;
 }
 .AXPopOver .blockContainer {
-  background: #ffffff;
+  background: #fff;
   border-radius: 3px;
 }
 .AXPopOver .contextMenuBody {
@@ -632,7 +632,7 @@
   padding: 5px 15px;
   height: 20px;
   line-height: 20px;
-  background: #ffffff url('images/dx-dialog-title.png') repeat-x;
+  background: #fff url('images/dx-dialog-title.png') repeat-x;
   text-align: center;
 }
 .AXNotification .AXNotificationTable {
@@ -684,7 +684,7 @@
 }
 .AXNotificationTrayDialog .AXNotification {
   width: 340px;
-  border: 1px solid #444444;
+  border: 1px solid #444;
   background: #ebebeb;
   padding: 0px;
   margin: 0px auto;
@@ -713,7 +713,7 @@
   width: 100%;
 }
 .AXCalendar table.calendarPage thead td {
-  background: #ffffff;
+  background: #fff;
   font-size: 8px;
   font-family: Arial;
   height: 20px;
@@ -804,16 +804,16 @@
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate:active {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 4px #3d84bc;
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate.selected {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 4px #3d84bc;
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate.disabled {
-  color: #d0d0d0 !important;
+  color: #D0D0D0 !important;
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate {
   color: #c78b82;
@@ -879,12 +879,12 @@
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth:active {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 5px #3d84bc;
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth.selected {
   background: #5ea3db;
-  color: #ffffff;
+  color: #fff;
   box-shadow: inset 0px 0px 5px #3d84bc;
 }
 .AXCalendar .timeBox {
@@ -958,7 +958,7 @@
 }
 .AXModalBox .windowbox {
   border: 1px solid #a6a6a6;
-  background: #ffffff;
+  background: #fff;
   box-shadow: 0px 0px 1px #a6a6a6;
   padding: 0px;
   margin: 0px 0px 10px 0px;
@@ -998,7 +998,7 @@
   top: 2px;
   width: 7px;
   height: 100%;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0;
   opacity: 0;
   filter: alpha(opacity=0);
@@ -1021,7 +1021,7 @@
   top: 2px;
   width: 7px;
   min-height: 10px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1053,7 +1053,7 @@
   bottom: 2px;
   width: 100%;
   height: 7px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1076,7 +1076,7 @@
   bottom: 2px;
   height: 7px;
   min-width: 10px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1111,7 +1111,7 @@
   top: 2px;
   width: 6px;
   height: 100%;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1133,7 +1133,7 @@
   top: 2px;
   width: 6px;
   min-height: 10px;
-  background: #000000;
+  background: #000;
   -moz-opacity: 0.3;
   opacity: 0.3;
   filter: alpha(opacity=30);
@@ -1307,17 +1307,17 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
   /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
-  background: #ffffff;
+  background: #fff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
   /* 모달창 바디 안에 위치한 달력 컨테이너 */
-  background: #ffffff;
+  background: #fff;
   border-top: 1px solid #b9babc;
   border-bottom: 1px solid #b9babc;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXTimeDisplayBox {
   height: 144px;
-  background: #ffffff;
+  background: #fff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem {
   position: relative;
@@ -1328,7 +1328,7 @@
   color: #3b3b3b;
   text-decoration: none;
   border-bottom: 1px solid #c8c8c8;
-  background: #ffffff;
+  background: #fff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem:nth-child(odd) {
   background: #f7f7f7;
@@ -1576,7 +1576,7 @@
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper {
   position: absolute;
-  border: 1px dotted #000000;
+  border: 1px dotted #000;
 }
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable {
@@ -1593,7 +1593,7 @@
 }
 .AXResizableHelper {
   position: absolute;
-  border: 1px dotted #000000;
+  border: 1px dotted #000;
   cursor: se-resize;
   background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
@@ -1710,7 +1710,7 @@
   color: #565b61;
 }
 .AXFormTable tbody th {
-  color: #444444;
+  color: #444;
   background: #f3f3f3;
   background: -webkit-linear-gradient(#f3f3f3, #f3f3f3);
   /* For Safari */
