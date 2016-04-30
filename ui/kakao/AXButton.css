@@ -36,7 +36,7 @@ button:hover {
 }
 .axbutton-style-classic {
   background: #493334;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #493334;
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
@@ -53,14 +53,14 @@ button:hover {
 }
 .axbutton-style-green {
   background: #0dc5b9;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #0dc5b9;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 .axbutton-style-red {
   background: #ff5b49;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #ff5b49;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -100,7 +100,7 @@ button:hover {
 }
 .axbutton-event-classic {
   background: #493334;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #493334;
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
@@ -136,7 +136,7 @@ button:hover {
 }
 .axbutton-event-green {
   background: #0dc5b9;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #0dc5b9;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -152,7 +152,7 @@ button:hover {
 }
 .axbutton-event-red {
   background: #ff5b49;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #ff5b49;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -217,7 +217,7 @@ button:hover {
 }
 .AXButton.Classic {
   background: #493334;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #493334;
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
@@ -253,7 +253,7 @@ button:hover {
 }
 .AXButton.Green {
   background: #0dc5b9;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #0dc5b9;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -269,7 +269,7 @@ button:hover {
 }
 .AXButton.Red {
   background: #ff5b49;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #ff5b49;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -334,7 +334,7 @@ button:hover {
 }
 .AXButtonSmall.Classic {
   background: #493334;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #493334;
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
@@ -370,7 +370,7 @@ button:hover {
 }
 .AXButtonSmall.Green {
   background: #0dc5b9;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #0dc5b9;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -386,7 +386,7 @@ button:hover {
 }
 .AXButtonSmall.Red {
   background: #ff5b49;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #ff5b49;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -451,7 +451,7 @@ button:hover {
 }
 .AXButtonLarge.Classic {
   background: #493334;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #493334;
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
@@ -487,7 +487,7 @@ button:hover {
 }
 .AXButtonLarge.Green {
   background: #0dc5b9;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #0dc5b9;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -503,7 +503,7 @@ button:hover {
 }
 .AXButtonLarge.Red {
   background: #ff5b49;
-  color: #fff;
+  color: #ffffff;
   border: 1px solid #ff5b49;
   -webkit-appearance: none;
   -moz-appearance: none;

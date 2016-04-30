@@ -205,8 +205,8 @@
   left: 0px;
   top: 0px;
   width: 140px;
-  background: #fff;
-  border: 1px solid #000;
+  background: #ffffff;
+  border: 1px solid #000000;
   border-radius: 5px;
   box-shadow: 0px 0px 5px #ccc;
 }
@@ -349,8 +349,8 @@
   top: 0px;
   width: 140px;
   padding: 6px;
-  background: #fff;
-  border: 1px solid #000;
+  background: #ffffff;
+  border: 1px solid #000000;
   border-radius: 5px;
   box-shadow: 0px 0px 5px #ccc;
 }
@@ -363,7 +363,7 @@
   background: url(images/dx-popover-arrow.png) no-repeat center 0px;
 }
 .AXPopOver .blockContainer {
-  background: #fff;
+  background: #ffffff;
   border-radius: 3px;
 }
 .AXPopOver .contextMenuBody {
@@ -590,7 +590,7 @@
 .AXNotification {
   width: 300px;
   border: 1px solid #c5c5c5;
-  background: #fff;
+  background: #ffffff;
   padding: 10px;
   margin: 10px 0px;
   box-shadow: 0px 0px 5px #b2b2b2;
@@ -631,13 +631,13 @@
 .AXNotification .AXNotificationTable {
   width: 100%;
   border: 0px none !important;
-  background: #fff;
+  background: #ffffff;
   table-layout: fixed;
 }
 .AXNotification .AXNotificationTable td,
 .AXNotification .AXNotificationTable th {
   border: 0px none !important;
-  background: #fff;
+  background: #ffffff;
 }
 .AXNotification .AXNotificationIcon {
   width: 42px;
@@ -659,7 +659,7 @@
 .AXNotification .AXNotificationButtons {
   padding: 10px 0px;
   text-align: center;
-  background: #fff;
+  background: #ffffff;
 }
 .AXNotificationTray {
   position: fixed;
@@ -677,8 +677,8 @@
 }
 .AXNotificationTrayDialog .AXNotification {
   width: 340px;
-  border: 1px solid #444;
-  background: #fff;
+  border: 1px solid #444444;
+  background: #ffffff;
   padding: 0px;
   margin: 0px auto;
   box-shadow: 0px 0px 3px #888;
@@ -703,7 +703,7 @@
   width: 100%;
 }
 .AXCalendar table.calendarPage thead td {
-  background: #fff;
+  background: #ffffff;
   font-size: 8px;
   font-family: Arial;
   height: 20px;
@@ -798,7 +798,7 @@
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate:active {
   background: #60c3c0;
-  color: #fff;
+  color: #ffffff;
   box-shadow: inset 0px 0px 4px #3d84bc;
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate.selected {
@@ -893,7 +893,7 @@
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth:active {
   background: #60c3c0;
-  color: #fff;
+  color: #ffffff;
   box-shadow: inset 0px 0px 5px #3d84bc;
 }
 .AXCalendar table.calendarPageMonth tbody td A.calendarMonth.selected {
@@ -972,7 +972,7 @@
 }
 .AXModalBox .windowbox {
   border: 1px solid #a6a6a6;
-  background: #fff;
+  background: #ffffff;
   box-shadow: 0px 0px 1px #a6a6a6;
   padding: 0px;
   margin: 0px 0px 10px 0px;
@@ -1011,7 +1011,7 @@
   top: 2px;
   width: 7px;
   height: 100%;
-  background: #000;
+  background: #000000;
   -moz-opacity: 0;
   opacity: 0;
   filter: alpha(opacity=0);
@@ -1034,7 +1034,7 @@
   top: 2px;
   width: 7px;
   min-height: 10px;
-  background: #000;
+  background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1066,7 +1066,7 @@
   bottom: 2px;
   width: 100%;
   height: 7px;
-  background: #000;
+  background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1089,7 +1089,7 @@
   bottom: 2px;
   height: 7px;
   min-width: 10px;
-  background: #000;
+  background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1124,7 +1124,7 @@
   top: 2px;
   width: 6px;
   height: 100%;
-  background: #000;
+  background: #000000;
   -moz-opacity: 0.1;
   opacity: 0.1;
   filter: alpha(opacity=10);
@@ -1146,7 +1146,7 @@
   top: 2px;
   width: 6px;
   min-height: 10px;
-  background: #000;
+  background: #000000;
   -moz-opacity: 0.3;
   opacity: 0.3;
   filter: alpha(opacity=30);
@@ -1320,17 +1320,17 @@
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer {
   /* 모달창 바디 안에 위치한 스크롤 컨테이너 */
-  background: #fff;
+  background: #ffffff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXDateDisplayBox {
   /* 모달창 바디 안에 위치한 달력 컨테이너 */
-  background: #fff;
-  border-top: 1px solid #000;
-  border-bottom: 1px solid #000;
+  background: #ffffff;
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXTimeDisplayBox {
   height: 144px;
-  background: #fff;
+  background: #ffffff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem {
   position: relative;
@@ -1340,8 +1340,8 @@
   line-height: 43px;
   color: #3b3b3b;
   text-decoration: none;
-  border-bottom: 1px solid #000;
-  background: #fff;
+  border-bottom: 1px solid #000000;
+  background: #ffffff;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .AXContextMenuContainer .AXContextMenuScroll .contextMenuItem:nth-child(odd) {
   background: #f7f7f7;
@@ -1479,7 +1479,7 @@
   height: 286px;
   overflow: hidden;
   position: relative;
-  background: #000;
+  background: #000000;
   /* menu container > menu */
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalBody .mobileMenuBody .mobileMenuBodyScroll {
@@ -1539,7 +1539,7 @@
   text-decoration: none;
   word-break: break-all;
   border-radius: 4px;
-  border: 1px solid #000;
+  border: 1px solid #000000;
 }
 .AXMobileModal .AXMobileModalPanel .mobileModalFoot {
   /* mobileMenu add */
@@ -1574,7 +1574,7 @@
 /* ---------------------------- AXMultiselectorHelper ------------------------------- */
 .AXMultiselectorHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
 }
 /* ---------------------------- AXResizable ------------------------------- */
 .AXResizable {
@@ -1591,7 +1591,7 @@
 }
 .AXResizableHelper {
   position: absolute;
-  border: 1px dotted #000;
+  border: 1px dotted #000000;
   cursor: se-resize;
   background: url('images/dx-resizable-handle.png') no-repeat 100% 100%;
 }
@@ -1765,7 +1765,7 @@
   .AXNotification {
     width: 280px;
     border: 1px solid #c5c5c5;
-    background: #fff;
+    background: #ffffff;
     padding: 10px;
     margin: 10px 0px;
     box-shadow: 0px 0px 3px #b2b2b2;
@@ -1810,12 +1810,12 @@
   .AXNotification .AXNotificationTable {
     width: 100%;
     border: 0px none !important;
-    background: #fff;
+    background: #ffffff;
   }
   .AXNotification .AXNotificationTable td,
   .AXNotification .AXNotificationTable th {
     border: 0px none !important;
-    background: #fff;
+    background: #ffffff;
   }
   .AXNotification .AXNotificationIcon {
     width: 42px;
@@ -1837,7 +1837,7 @@
   .AXNotification .AXNotificationButtons {
     padding: 10px 0px;
     text-align: center;
-    background: #fff;
+    background: #ffffff;
   }
   .AXNotificationTray {
     position: fixed;
@@ -1855,8 +1855,8 @@
   }
   .AXNotificationTrayDialog .AXNotification {
     width: 280px;
-    border: 1px solid #444;
-    background: #fff;
+    border: 1px solid #444444;
+    background: #ffffff;
     padding: 0px;
     margin: 0px auto;
     box-shadow: 0px 0px 3px #888;

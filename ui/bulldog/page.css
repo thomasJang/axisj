@@ -12,7 +12,7 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   color: #5e5e5e;
-  background: #fff;
+  background: #ffffff;
 }
 html a,
 body a {
@@ -144,7 +144,7 @@ body h3 {
   font-weight: normal;
   border-right: 1px solid #6c7b8a;
   background: #526271;
-  color: #fff;
+  color: #ffffff;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu h3 a {
   display: block;
@@ -388,7 +388,7 @@ body h3 {
   padding: 0 20px;
   border-right: 1px solid #6c7b8a;
   background: #526271;
-  color: #fff;
+  color: #ffffff;
 }
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme ul {
   list-style: none;

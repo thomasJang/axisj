@@ -14,7 +14,7 @@
 }
 .AXSelect {
   border: 1px solid #dfdfdf;
-  background: #fff;
+  background: #ffffff;
   -webkit-border-radius: 3px 3px 3px 3px;
   -moz-border-radius: 3px 3px 3px 3px;
   border-radius: 3px 3px 3px 3px;
@@ -28,7 +28,7 @@
 }
 .AXSelectSmall {
   border: 1px solid #dfdfdf;
-  background: #fff;
+  background: #ffffff;
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -46,7 +46,7 @@
 }
 .AXTextarea {
   border: 1px solid #dfdfdf;
-  background: #fff;
+  background: #ffffff;
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -93,7 +93,7 @@
   box-shadow: none;
 }
 .AXanchorSelect .selectedTextBox.focus {
-  background: #fff;
+  background: #ffffff;
 }
 .AXanchorSelect.disable .selectedTextBox {
   display: block;
@@ -137,7 +137,7 @@
   top: 0px;
   border: 1px solid #b9babc;
   border-radius: 3px;
-  background: #fff;
+  background: #ffffff;
   box-shadow: 0px 1px #e9eced;
   overflow: hidden;
 }
@@ -149,10 +149,10 @@
   padding: 3px 8px;
   font-size: 12px;
   line-height: 18px;
-  color: #888;
+  color: #888888;
   text-decoration: none;
   border-bottom: 1px solid #d8d9db;
-  background: #fff;
+  background: #ffffff;
 }
 .AXselectExpandBox a.on {
   background: #fee834;

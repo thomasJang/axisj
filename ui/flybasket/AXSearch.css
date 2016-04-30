@@ -19,10 +19,10 @@
 }
 .AXSearch .expandHandle {
   display: block;
-  border-bottom: 1px solid #ccc;
-  background: #eee;
+  border-bottom: 1px solid #cccccc;
+  background: #eeeeee;
   text-align: center;
-  color: #888;
+  color: #888888;
   text-decoration: none;
   font-size: 11px;
   line-height: 20px;
@@ -30,7 +30,7 @@
 }
 .AXSearch .searchGroup {
   position: relative;
-  background: #fff;
+  background: #ffffff;
   min-height: 40px;
 }
 .AXSearch .searchGroup.gray {
@@ -39,7 +39,7 @@
   min-height: 25px;
 }
 .AXSearch .searchGroup.gray .searchItem.searchLabel {
-  background: #eee;
+  background: #eeeeee;
 }
 .AXSearch .searchGroup .searchItem {
   float: left;
@@ -119,10 +119,10 @@
   background: #f3f3f3;
   font-weight: bold;
   font-size: 11px;
-  color: #444;
+  color: #444444;
 }
 .AXSearch .searchGroup .searchItem.searchLink {
-  color: #ccc;
+  color: #cccccc;
 }
 .AXSearch .searchGroup .searchItem.searchLink .searchLinkItem {
   color: #616161;
@@ -138,15 +138,15 @@
   font-size: 1px;
   line-height: 1px;
   height: 1px;
-  background: #ccc;
+  background: #cccccc;
   clear: both;
 }
 .AXSearch.mx .expandHandle {
   display: block;
-  border-bottom: 1px solid #ccc;
-  background: #eee;
+  border-bottom: 1px solid #cccccc;
+  background: #eeeeee;
   text-align: center;
-  color: #888;
+  color: #888888;
   text-decoration: none;
   font-size: 11px;
   line-height: 30px;
@@ -154,7 +154,7 @@
 }
 .AXSearch.mx .searchGroup {
   position: relative;
-  background: #fff;
+  background: #ffffff;
   min-height: 40px;
 }
 .AXSearch.mx .searchGroup.gray {
@@ -163,7 +163,7 @@
   min-height: 25px;
 }
 .AXSearch.mx .searchGroup.gray .searchItem.searchLabel {
-  background: #eee;
+  background: #eeeeee;
 }
 .AXSearch.mx .searchGroup .searchItem {
   float: none;
@@ -228,10 +228,10 @@
   background: #f3f3f3;
   font-weight: bold;
   font-size: 11px;
-  color: #444;
+  color: #444444;
 }
 .AXSearch.mx .searchGroup .searchItem.searchLink {
-  color: #ccc;
+  color: #cccccc;
 }
 .AXSearch.mx .searchGroup .searchItem.searchLink .searchLinkItem {
   color: #616161;
@@ -250,7 +250,7 @@
   font-size: 1px;
   line-height: 1px;
   height: 1px;
-  background: #ccc;
+  background: #cccccc;
   clear: both;
 }
 .AXSearchTable {
@@ -269,7 +269,7 @@
   height: 36px;
   overflow: visible;
   border-bottom: 1px solid #c1c1c1;
-  color: #666;
+  color: #666666;
   background: url('images/dx-grid-body-border.png') repeat-y 100% 0px;
 }
 .AXSearchTable tbody th {
@@ -277,9 +277,9 @@
   height: 36px;
   overflow: visible;
   border-bottom: 1px solid #c1c1c1;
-  color: #444;
+  color: #444444;
   text-align: center;
-  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #fff;
+  background: url('images/dx-grid-body-border.png') repeat-y 100% 0px #ffffff;
 }
 .AXSearchTable tbody tr .gray td,
 .AXSearchTable tbody tr .gray th {
@@ -287,19 +287,19 @@
 }
 .AXSearchTable tbody tr .red td,
 .AXSearchTable tbody tr .red th {
-  background-color: #FFE8E8;
+  background-color: #ffe8e8;
 }
 .AXSearchTable tbody tr .green td,
 .AXSearchTable tbody tr .green th {
-  background-color: #F7FDEA;
+  background-color: #f7fdea;
 }
 .AXSearchTable tbody tr .blue td,
 .AXSearchTable tbody tr .blue th {
-  background-color: #EAF5FD;
+  background-color: #eaf5fd;
 }
 .AXSearchTable tbody tr .yellow td,
 .AXSearchTable tbody tr .yellow th {
-  background-color: #FEFEE9;
+  background-color: #fefee9;
 }
 .AXSearchTable tbody td.last,
 .AXSearchTable tbody th.last {

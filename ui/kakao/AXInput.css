@@ -22,7 +22,7 @@
 }
 .AXInput {
   border: 1px solid #b6b6b6;
-  background: #fff;
+  background: #ffffff;
   color: #523636;
   box-shadow: inset 0px 1px 2px #dddddd;
   -webkit-border-radius: 3px 3px 3px 3px;
@@ -45,7 +45,7 @@
 .AXInput[disabled] {
   background: url('images/dx-default-regular.png') repeat-x;
   background-position: 0px -78px;
-  color: #fff;
+  color: #ffffff;
   text-shadow: 0px -1px #b7b7b7;
   box-shadow: inset 0px 1px 2px #b1b1b1;
 }
@@ -56,13 +56,13 @@
   box-shadow: inset 0px 1px 2px #b1b1b1;
 }
 .AXInput::-webkit-input-placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .AXInput::-moz-placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .AXInput:-ms-input-placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .AXInput.Round {
   -webkit-border-radius: 15px 15px 15px 15px;
@@ -71,7 +71,7 @@
 }
 .AXInputSmall {
   border: 1px solid #b6b6b6;
-  background: #fff;
+  background: #ffffff;
   color: #523636;
   box-shadow: inset 0px 1px 1px #dddddd;
   -webkit-border-radius: 3px 3px 3px 3px;
@@ -94,7 +94,7 @@
 .AXInputSmall[disabled] {
   background: url('images/dx-default-small.png') repeat-x;
   background-position: 0px -60px;
-  color: #fff;
+  color: #ffffff;
   text-shadow: 0px -1px #b7b7b7;
   box-shadow: inset 0px 1px 2px #b1b1b1;
 }
@@ -105,13 +105,13 @@
   box-shadow: inset 0px 1px 2px #b1b1b1;
 }
 .AXInputSmall::-webkit-input-placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .AXInputSmall::-moz-placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .AXInputSmall:-ms-input-placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .AXInputSmall.Round {
   -webkit-border-radius: 15px 15px 15px 15px;
@@ -302,7 +302,7 @@
   height: 18px;
   overflow: hidden;
   text-indent: -2000px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #cccccc;
 }
 .AXanchorNumberContainer .AXanchorIncrease:active {
   background-image: url('images/dx-up-arrow-on.png');
@@ -316,7 +316,7 @@
   height: 18px;
   overflow: hidden;
   text-indent: -2000px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #cccccc;
 }
 .AXanchorNumberContainer .AXanchorDecrease:active {
   background-image: url('images/dx-down-arrow-on.png');
@@ -469,7 +469,7 @@
   bottom: -22px;
   display: block;
   text-decoration: none;
-  color: #444;
+  color: #444444;
   text-align: center;
   font-size: 11px;
   font-family: "Nanum Gothic";
@@ -541,7 +541,7 @@
   top: 0px;
   height: 22px;
   border: 1px solid #b6b6b6;
-  background: #fff;
+  background: #ffffff;
   box-shadow: inset 0px 1px 2px #dddddd;
   border-radius: 14px;
   padding: 0px;
@@ -585,7 +585,7 @@
   padding-left: 0px;
   padding-right: 18px;
   font-size: 11px;
-  color: #fff;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -677,7 +677,7 @@
   /*For IE7-8-9*/
   -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#cecece, endColorstr=#cecece);
   /*For IE7-8-9*/
-  color: #fff;
+  color: #ffffff;
 }
 .AXanchorDateHandle {
   position: absolute;
@@ -693,7 +693,7 @@
   left: 0px;
   top: 0px;
   padding: 5px;
-  background: #fff;
+  background: #ffffff;
   border: 1px solid #cecece;
   border-radius: 5px;
   box-shadow: 0px 1px 3px #ccc;
@@ -780,7 +780,7 @@
   left: 0px;
   top: 0px;
   padding: 5px;
-  background: #fff;
+  background: #ffffff;
   border: 1px solid #cecece;
   border-radius: 5px;
   box-shadow: 0px 1px 3px #ccc;
@@ -841,7 +841,7 @@
   font-size: 12px;
 }
 .AXbindTwinDateExpandBox .dateDisplayBox {
-  background: #fff;
+  background: #ffffff;
   border: none;
   border-top: 0px none;
   width: 181px;

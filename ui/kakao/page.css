@@ -12,7 +12,7 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   color: #523636;
-  background: #fff;
+  background: #ffffff;
 }
 html a,
 body a {
@@ -133,7 +133,7 @@ body h3 {
   display: block;
   height: 40px;
   overflow: hidden;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #000000;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu h3 {
   float: left;
@@ -142,9 +142,9 @@ body h3 {
   line-height: 40px;
   font-size: 12px;
   font-weight: normal;
-  border-right: 1px solid #000;
+  border-right: 1px solid #000000;
   background: #3a2121;
-  color: #fff;
+  color: #ffffff;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu h3 a {
   display: block;
@@ -163,7 +163,7 @@ body h3 {
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu ul li {
   float: left;
-  border-right: 1px solid #000;
+  border-right: 1px solid #000000;
   display: block;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu ul li a {
@@ -200,13 +200,13 @@ body h3 {
   margin: 0px;
   display: block;
   position: relative;
-  border-top: 1px solid #000;
+  border-top: 1px solid #000000;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu .childMenu ul li {
   float: none;
   padding: 0px;
   margin: 0px;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-top: 0px none;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu .childMenu ul li a {
@@ -379,7 +379,7 @@ body h3 {
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme {
   height: 30px;
   overflow: hidden;
-  border-top: 1px solid #000;
+  border-top: 1px solid #000000;
 }
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme h3 {
   float: left;
@@ -389,9 +389,9 @@ body h3 {
   font-size: 12px;
   font-weight: normal;
   padding: 0 20px;
-  border-right: 1px solid #000;
+  border-right: 1px solid #000000;
   background: #3a2121;
-  color: #fff;
+  color: #ffffff;
 }
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme ul {
   list-style: none;
@@ -400,7 +400,7 @@ body h3 {
 }
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme ul li {
   float: left;
-  border-right: 1px solid #000;
+  border-right: 1px solid #000000;
 }
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme ul li a {
   font-size: 10px;
@@ -504,7 +504,7 @@ body h3 {
 }
 .method {
   position: relative;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-radius: 4px;
   overflow: hidden;
   line-height: 1.6em;
@@ -513,7 +513,7 @@ body h3 {
   padding: 10px;
   font-size: 14px;
   font-weight: bold;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #000000;
   background: #523636;
   color: #fee834;
 }
@@ -539,15 +539,15 @@ body h3 {
 }
 .method .methodDesc .methodDescContent {
   padding: 5px 10px;
-  color: 1px solid #000;
-  border: 1px solid #000;
+  color: 1px solid #000000;
+  border: 1px solid #000000;
   border-radius: 5px;
   background: #fee834;
 }
 .method .methodExam {
   padding: 10px;
-  border-top: 1px solid #000;
-  background: #fff;
+  border-top: 1px solid #000000;
+  background: #ffffff;
   position: relative;
 }
 .method table {

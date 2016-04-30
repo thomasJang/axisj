@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.2 - 2016-04-21 
+axisj - v1.1.2 - 2016-05-01 
 */
 /*! 
-axisj - v1.1.2 - 2016-04-21 
+axisj - v1.1.2 - 2016-05-01 
 */
 
 if(!window.AXConfig){
@@ -12098,13 +12098,13 @@ var AXSplit = Class.create(AXJ, {
 var AXGrid = Class.create(AXJ, {
     initialize: function (AXJ_super) {
         AXJ_super();
-        
+
         this.Observer = null;
         this.list = [];
         this.removedList = [];
         this.pageActive = false;
         this.page = {pageNo: 0, pageSize: 100, pageCount: "", listCount: 0};
-        
+
         this.moveSens = 0;
         this.config.viewMode = "grid"; // icon, mobile
         this.config.moveSens = 1;
@@ -12119,7 +12119,7 @@ var AXGrid = Class.create(AXJ, {
         this.config.scrollContentBottomMargin = "10";
         this.config.listCountMargin = 12;
         this.config.headTdHeight = (AXConfig.AXGrid.headTdHeight || 30);
-        
+
         this.config.mergeCells = false; // cells merge option
         this.config.control_lock_status = 0; // 0 : 모든 기능 사용가능, 1: 컨트롤(데이터는 변경가능하지만 내부 속성변경 금지), 2: 컨트롤+update(데이터와 속성 모두 변경 금지)
         this.selectedCells = [];
@@ -12128,7 +12128,7 @@ var AXGrid = Class.create(AXJ, {
         this.clipBoard = {
             type: "copy", list: []
         };
-        
+
         this.isMobile = AXUtil.browser.mobile;
         this.cachedDom = {};
         this.virtualScroll = {
@@ -12145,11 +12145,13 @@ var AXGrid = Class.create(AXJ, {
             sub_list: "list",
             hidden: "_hidden"
         };
-        
+
         this.config.resizeable = true; // 2016-06-12 reisze 안되는 옵션 추가.
-        
+
         this.mobileContextMenu = new AXContextMenuClass();
-        
+
+        this.windowEvents = []; // removeGrid(); 메서드에서 window에 걸린 이벤트를 제거하기 위한 프로퍼티
+
         window.AXGrid_instances = window.AXGrid_instances || [];
         window.AXGrid_instances.push(this);
     },
@@ -12161,7 +12163,7 @@ var AXGrid = Class.create(AXJ, {
             console.log("colGrpup is empty)");
             return;
         }
-        
+
         /* col너비 합계 구하기 */
         var colWidth = 0;
         var hasHiddenCell = false;
@@ -12170,7 +12172,7 @@ var AXGrid = Class.create(AXJ, {
         var bodyWidth = this.body.width();
         if (bodyWidth == 0) bodyWidth = this.target.innerWidth();
         var astricCount = 0;
-        
+
         for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
             if (CG.colSeq == undefined) CG.colSeq = cidx;
             if (CG.display == undefined) CG.display = true;
@@ -12192,7 +12194,7 @@ var AXGrid = Class.create(AXJ, {
                         astricCount++;
                     }
                 }
-                
+
                 if (typeof CG._owidth == "undefined") CG._owidth = CG.width;
                 colWidth += (CG._owidth || 0).number();
                 showColLen += 1;
@@ -12205,10 +12207,10 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
         }
-        
+
         if (!cfg.fitToWidth) {
             /* width * 예외처리 구문 ------------ s */
-            
+
             if ((bodyWidth - cfg.fitToWidthRightMargin) > (colWidth + 100 * astricCount)) {
                 var remainsWidth = (bodyWidth - cfg.fitToWidthRightMargin) - colWidth;
                 for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
@@ -12240,10 +12242,10 @@ var AXGrid = Class.create(AXJ, {
             }
         }
         this.colWidth = colWidth;
-        
+
         if (cfg.fitToWidth) { /*너비 자동 맞춤버전의 경우 */
             if (bodyWidth > this.colWidth) {
-                
+
                 var _bodyWidth = bodyWidth - cfg.fitToWidthRightMargin;
                 var zoomRatio = bodyWidth / this.colWidth;
                 colWidth = 0;
@@ -12258,7 +12260,7 @@ var AXGrid = Class.create(AXJ, {
                 this.colWidth = colWidth;
             }
             else {
-                
+
                 colWidth = 0;
                 for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
                     if (CG.display) {
@@ -12270,18 +12272,18 @@ var AXGrid = Class.create(AXJ, {
                 this.colWidth = colWidth;
             }
         }
-        
+
         this.showColLen = showColLen;
         /* col너비 합계 구하기 ~~~~~~~~~~~~~~ 구해진 너비합은 그리드 head, body 의 너비로 지정됨. */
-        
+
         if (rewrite && cfg.colHead.rows) cfg._colHead_rows = axf.copyObject(cfg.colHead.rows);
-        
+
         if (!cfg.colHead) cfg.colHead = {};
         if (!cfg.body) cfg.body = {};
         if (!cfg.page) cfg.page = {display: false, paging: false, status: {formatter: null}};
         if (cfg.colHead.rowsEmpty) cfg.colHead.rows = undefined;
         if (cfg.body.rowsEmpty) cfg.body.rows = undefined;
-        
+
         /* colHead rows ----------------------------------------------------------------------------------------------------- */
         if (cfg.colHead.rows) {
             /* colHeadRow 정해진 경우 */
@@ -12378,12 +12380,12 @@ var AXGrid = Class.create(AXJ, {
                     appendPosToColHeadMap(CH.rowspan, CH.colspan, r, {r: r, c: CHidx});
                 }
             }
-            
+
             /*colHead._maps 마지막 줄에 해당하는 cfg.colHead.rows 에 속성부여 */
             for (var m, midx = 0, __arr = cfg.colHead._maps.last(); (midx < __arr.length && (m = __arr[midx])); midx++) {
                 if (m) cfg.colHead.rows[m.r][m.c].isLastCell = true;
             }
-            
+
             if (hasHiddenCell) { /* colGroup 중에 숨겨진 col 이 존재하는 경우 */
                 /* colspan 감소 시키기 */
                 for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
@@ -12408,7 +12410,7 @@ var AXGrid = Class.create(AXJ, {
             var colHeadRows = [
                 []
             ];
-            
+
             for (var CG, cidx = 0, __arr = cfg.colGroup; (cidx < __arr.length && (CG = __arr[cidx])); cidx++) {
                 var adder = {
                     key: CG.key,
@@ -12446,7 +12448,7 @@ var AXGrid = Class.create(AXJ, {
         }
 
         /* colHead rows ----------------------------------------------------------------------------------------------------- */
-        
+
         /* body rows ------------------------------------------------------------------------------------------------------- */
         if (cfg.body.rows) {
             /* bodyRow 정해진 경우 */
@@ -13606,7 +13608,12 @@ var AXGrid = Class.create(AXJ, {
         });
         /* page event bind */
 
-        axdom(window).bind("resize", this.windowResizeApply.bind(this));
+        var windowResizeApplyEvent = this.windowResizeApply.bind(this);
+        this.windowEvents.push({
+          "event":"resize",
+           "fn":windowResizeApplyEvent
+         });
+        axdom(window).bind("resize", windowResizeApplyEvent);
 
         //this.printList();  printList는 setBody 에서 자동 실행 됨
     },
@@ -16939,9 +16946,9 @@ var AXGrid = Class.create(AXJ, {
      * ```
      */
     removeList: function (removeList) {
-        
+
         console.log(removeList);
-        
+
         var cfg = this.config;
         if (cfg.passiveMode) {
 
@@ -19936,7 +19943,7 @@ var AXGrid = Class.create(AXJ, {
             getDataSet = this.getFootDataSet.bind(this),
             _tdHeight,
             po = [];
-        
+
         this.hasFoot = true;
 
         po.push('<div class="gridFootContent">');
@@ -19964,7 +19971,7 @@ var AXGrid = Class.create(AXJ, {
         this.gridFoot.css({height: this.gridFoot_content.height()});
 
         _tdHeight = undefined;
-        
+
         this.gridFoot.find(".bodyTd").each(function () {
             var td_dom = $(this),
                 rowspan = td_dom.attr("rowspan"),
@@ -22347,6 +22354,36 @@ var AXGrid = Class.create(AXJ, {
          console.log(cfg.foot);
          console.log(cfg.editor);
          */
+    },
+
+    /**
+     * 그리드 제거. DOM, event, global variable을 제거한다.
+     * @method AXGrid.removeGrid
+     * @returns {Class} AXGrid instance
+     * @example
+     * ```js
+     * myGrid.removeGrid();
+     * myGrid = null;
+     * ```
+     */
+    removeGrid: function(){
+      // remove window event
+      axf.each(this.windowEvents, function(i, we){
+        axdom(window).unbind(we.event, we.fn);
+      });
+
+      // remove dom
+      axdom('#' + myGrid.config.targetID).remove();
+
+      axf.each(AXGrid_instances, function(i, instance){
+        if(instance === this) {
+          var klass = AXGrid_instances.splice(i, 1);
+          delete klass;
+          return false;
+        }
+      });
+
+      return this;
     }
 });
 

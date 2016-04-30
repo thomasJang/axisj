@@ -24,7 +24,7 @@
   display: block;
   line-height: 24px;
   font-size: 12px;
-  color: #444;
+  color: #444444;
   padding: 0px 3px;
 }
 .AXInputLabel.fullWidth {
@@ -81,7 +81,7 @@
   padding: 5px 15px;
   height: 20px;
   line-height: 20px;
-  background: #fff url('images/dx-dialog-title.png') repeat-x;
+  background: #ffffff url('images/dx-dialog-title.png') repeat-x;
   text-align: center;
 }
 .AXNotification .AXNotificationTable {
@@ -132,7 +132,7 @@
 }
 .AXNotificationTrayDialog .AXNotification {
   width: 280px;
-  border: 1px solid #444;
+  border: 1px solid #444444;
   background: #ebebeb;
   padding: 0px;
   margin: 0px auto;
