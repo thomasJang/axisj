@@ -8,7 +8,7 @@ body {
   font-size: 12px;
   line-height: 1.6em;
   color: #5c382c;
-  background: #ffffff;
+  background: #fff;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
   text-stroke: 0.6px;
   font-smoothing: antialiased;
@@ -144,7 +144,7 @@ body h3 {
   font-weight: normal;
   border-right: 1px solid #99847d;
   background: #99847d;
-  color: #ffffff;
+  color: #fff;
 }
 #AXPage #AXPageHead .ax-layer-1 .ax-unit .navMenu h3 a {
   display: block;
@@ -389,7 +389,7 @@ body h3 {
   padding: 0 20px;
   border-right: 1px solid #99847d;
   background: #99847d;
-  color: #ffffff;
+  color: #fff;
 }
 #AXPage #AXPageFoot .ax-layer-1 .ax-unit .navTheme ul {
   list-style: none;

@@ -14,7 +14,7 @@
 }
 .AXSelect {
   border: 1px solid #e6e6e6;
-  background: #ffffff;
+  background: #fff;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -31,7 +31,7 @@
 }
 .AXSelectSmall {
   border: 1px solid #e6e6e6;
-  background: #ffffff;
+  background: #fff;
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -52,7 +52,7 @@
 }
 .AXTextarea {
   border: 1px solid #e6e6e6;
-  background: #ffffff;
+  background: #fff;
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -102,7 +102,7 @@
   box-shadow: none;
 }
 .AXanchorSelect .selectedTextBox.focus {
-  background: #ffffff;
+  background: #fff;
 }
 .AXanchorSelect.disable .selectedTextBox {
   display: block;
@@ -132,7 +132,7 @@
   width: 24px;
   height: 18px;
   background: url('images/dx-slide-down-arrow.png') center center no-repeat;
-  background-color: #bbbbbb;
+  background-color: #bbb;
   -webkit-border-radius: 2px 2px 2px 2px;
   -moz-border-radius: 2px 2px 2px 2px;
   border-radius: 2px 2px 2px 2px;
@@ -141,7 +141,7 @@
 }
 .AXanchorSelect .selectBoxArrow.on {
   background: url('images/dx-slide-up-arrow.png') center center no-repeat;
-  background-color: #bbbbbb;
+  background-color: #bbb;
 }
 .AXselectExpandBox {
   z-index: 5002;
@@ -150,7 +150,7 @@
   top: 0px;
   border: 1px solid #b9babc;
   border-radius: 2px;
-  background: #ffffff;
+  background: #fff;
   box-shadow: 0px 1px #e9eced;
   overflow: hidden;
 }
@@ -162,15 +162,15 @@
   padding: 3px 8px;
   font-size: 12px;
   line-height: 18px;
-  color: #888888;
+  color: #888;
   text-decoration: none;
   border-bottom: 1px solid #d8d9db;
-  background: #ffffff;
+  background: #fff;
 }
 .AXselectExpandBox a.on {
   background: #d7dde3;
 }
 .AXselectExpandBox a:hover {
   background: #00bc9c;
-  color: #ffffff;
+  color: #fff;
 }
