@@ -83,7 +83,7 @@ button:hover {
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   color: #eaeaea;
-  border: 2px solid #cccccc;
+  border: 2px solid #ccc;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -111,7 +111,7 @@ button:hover {
 .axbutton-event-normal:focus {
   background: #856b62;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
 }
 .axbutton-event-normal:active {
   box-shadow: none;
@@ -150,7 +150,7 @@ button:hover {
 .axbutton-event-blue:hover,
 .axbutton-event-blue:focus {
   background: #4a8fc7;
-  color: #ffffff;
+  color: #fff;
 }
 .axbutton-event-blue:active {
   box-shadow: none;
@@ -166,7 +166,7 @@ button:hover {
 .axbutton-event-green:hover,
 .axbutton-event-green:focus {
   background: #7aa95e;
-  color: #ffffff;
+  color: #fff;
 }
 .axbutton-event-green:active {
   box-shadow: none;
@@ -182,7 +182,7 @@ button:hover {
 .axbutton-event-red:hover,
 .axbutton-event-red:focus {
   background: #a73c40;
-  color: #ffffff;
+  color: #fff;
 }
 .axbutton-event-red:active {
   box-shadow: none;
@@ -194,7 +194,7 @@ button:hover {
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   color: #eaeaea;
-  border: 2px solid #cccccc;
+  border: 2px solid #ccc;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -237,7 +237,7 @@ button:hover {
 .AXButton:focus {
   background: #856b62;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButton:active {
   box-shadow: none;
@@ -276,7 +276,7 @@ button:hover {
 .AXButton.Blue:hover,
 .AXButton.Blue:focus {
   background: #4a8fc7;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButton.Blue:active {
   box-shadow: none;
@@ -292,7 +292,7 @@ button:hover {
 .AXButton.Green:hover,
 .AXButton.Green:focus {
   background: #7aa95e;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButton.Green:active {
   box-shadow: none;
@@ -308,7 +308,7 @@ button:hover {
 .AXButton.Red:hover,
 .AXButton.Red:focus {
   background: #a73c40;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButton.Red:active {
   box-shadow: none;
@@ -320,7 +320,7 @@ button:hover {
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   color: #eaeaea;
-  border: 2px solid #cccccc;
+  border: 2px solid #ccc;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -363,7 +363,7 @@ button:hover {
 .AXButtonSmall:focus {
   background: #856b62;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonSmall:active {
   box-shadow: none;
@@ -402,7 +402,7 @@ button:hover {
 .AXButtonSmall.Blue:hover,
 .AXButtonSmall.Blue:focus {
   background: #4a8fc7;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonSmall.Blue:active {
   box-shadow: none;
@@ -418,7 +418,7 @@ button:hover {
 .AXButtonSmall.Green:hover,
 .AXButtonSmall.Green:focus {
   background: #7aa95e;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonSmall.Green:active {
   box-shadow: none;
@@ -434,7 +434,7 @@ button:hover {
 .AXButtonSmall.Red:hover,
 .AXButtonSmall.Red:focus {
   background: #a73c40;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonSmall.Red:active {
   box-shadow: none;
@@ -446,7 +446,7 @@ button:hover {
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   color: #eaeaea;
-  border: 2px solid #cccccc;
+  border: 2px solid #ccc;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -489,7 +489,7 @@ button:hover {
 .AXButtonLarge:focus {
   background: #856b62;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonLarge:active {
   box-shadow: none;
@@ -528,7 +528,7 @@ button:hover {
 .AXButtonLarge.Blue:hover,
 .AXButtonLarge.Blue:focus {
   background: #4a8fc7;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonLarge.Blue:active {
   box-shadow: none;
@@ -544,7 +544,7 @@ button:hover {
 .AXButtonLarge.Green:hover,
 .AXButtonLarge.Green:focus {
   background: #7aa95e;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonLarge.Green:active {
   box-shadow: none;
@@ -560,7 +560,7 @@ button:hover {
 .AXButtonLarge.Red:hover,
 .AXButtonLarge.Red:focus {
   background: #a73c40;
-  color: #ffffff;
+  color: #fff;
 }
 .AXButtonLarge.Red:active {
   box-shadow: none;
@@ -572,7 +572,7 @@ button:hover {
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
   color: #eaeaea;
-  border: 2px solid #cccccc;
+  border: 2px solid #ccc;
   -webkit-appearance: none;
   -moz-appearance: none;
 }

@@ -25,7 +25,7 @@
   overflow: auto;
 }
 .userSelectBox .readyDrag {
-  border: 1px solid #000000;
+  border: 1px solid #000;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fee834, #fee834);
   /* For Safari */
@@ -58,7 +58,7 @@
   width: auto;
   height: 1px;
   margin: 5px 0px;
-  border: 1px solid #000000;
+  border: 1px solid #000;
   /*background: @stop;*/
   background-image: -webkit-linear-gradient(#fee834, #fee834);
   /* For Safari */

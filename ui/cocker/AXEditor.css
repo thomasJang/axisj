@@ -19,7 +19,7 @@
   position: relative;
   padding: 0px;
   margin: 0px;
-  background: #ffffff;
+  background: #fff;
   overflow: hidden;
   border: 2px solid #bebebe;
   font-family: "Nanum Gothic";
@@ -62,7 +62,7 @@
   text-align: center;
 }
 .AXEditor .editorHead .me___tabContainer .me___item a.me____btn:hover {
-  color: #cccccc;
+  color: #ccc;
 }
 .AXEditor .editorHead .me___tabContainer .me___item a.me____tab {
   display: block;
@@ -103,14 +103,14 @@
   height: 22px;
   line-height: 22px;
   text-align: center;
-  color: #000000;
+  color: #000;
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .AXEditor .editorHead .me___headPanel a:hover {
-  color: #0080ff;
+  color: #0080FF;
 }
 .AXEditor .editorHead .me___headPanel a.me___btnL {
   width: 23px;
@@ -387,7 +387,7 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  background: #ffffff;
+  background: #fff;
   border: 2px solid #bebebe;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -440,8 +440,8 @@
   cursor: pointer;
 }
 .AXEditor .editorHead .me___headPanel .me___selecterBox .me___selecterTitleTabTray A.on {
-  border-bottom: 1px solid #ffffff;
-  background: #ffffff;
+  border-bottom: 1px solid #fff;
+  background: #fff;
   font-weight: bold;
 }
 .AXEditor .editorHead .me___headPanel .me___selecterBox .me___selecterTray {
@@ -457,7 +457,7 @@
   line-height: 15px;
 }
 .AXEditor .editorHead .me___headPanel .me___selecterBox .me___selecterBot a {
-  color: #888888;
+  color: #888;
 }
 .AXEditor .editorHead .me___headPanel .me___selecterBox .me___selecterArrow {
   position: absolute;
@@ -496,7 +496,7 @@
   text-overflow: ellipsis;
 }
 .AXEditor .editorHead .me___headPanel .me___selecterBox .ffItem:hover {
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #ccc;
 }
 .AXEditor .editorHead .me___headPanel .me___selecterBox .me___inputUrl {
   position: absolute;
@@ -539,7 +539,7 @@
 }
 .AXEditor .editorHead .me___headPanel .me___headDivPanel_attch .me___headDivPanel_attch_btns {
   float: none;
-  background: #ffffff;
+  background: #fff;
   height: 22px;
   border-bottom: 1px solid #bebebe;
   padding: 4px 0px;
@@ -561,7 +561,7 @@
   text-align: left;
   background: #e0e0e0;
   height: 118px;
-  border-bottom: 1px solid #777777;
+  border-bottom: 1px solid #777;
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
@@ -581,7 +581,7 @@
   border-radius: 3px 5px 5px 5px;
   margin-top: 5px;
   margin-left: 8px;
-  background: #ffffff;
+  background: #fff;
   cursor: pointer;
 }
 .AXEditor .editorHead .me___headPanel .me___headDivPanel_attch .me___headDivPanel_attch_CT .attchItem .attchItemName {
@@ -624,8 +624,8 @@
   clear: both;
 }
 .AXEditor .editorHead .me___headPanel .me___headDivPanel_attch .me___headDivPanel_attch_CT .attchItemON {
-  border: 1px solid #0080ff;
-  color: #0080ff;
+  border: 1px solid #0080FF;
+  color: #0080FF;
   background: #eee;
 }
 .AXEditor .editorHead .me___headPanel .me___headDivPanel_attch .me___headDivPanel_attch_CT .componentItem {
@@ -643,7 +643,7 @@
   border-radius: 3px 5px 5px 5px;
   margin-top: 5px;
   margin-left: 8px;
-  background: #ffffff;
+  background: #fff;
   cursor: pointer;
 }
 .AXEditor .editorHead .me___headPanel .me___headDivPanel_attch .me___headDivPanel_attch_CT .componentItem .componentItemName {
@@ -674,7 +674,7 @@
   z-index: 1;
 }
 .AXEditor .editorBody .me___AXMask {
-  background: #ffffff;
+  background: #fff;
   -moz-opacity: 0.3;
   opacity: .30;
   filter: alpha(opacity=30);
@@ -690,7 +690,7 @@
   margin: 0px;
   padding: 0px 0px;
   background: #f3f3f3;
-  color: #000000;
+  color: #000;
   font-size: 12px;
   font-family: Consolas;
   line-height: 18px;
