@@ -302,7 +302,11 @@ var sampleTreeMenu = new AXTopDownMenu();
 
             var gt = AXUtil.getCookie("AXISTHEME");
             if(gt){
-                pageObj.changeTheme(gt);
+                setTimeout(function(){
+                    console.log(gt);
+                    //pageObj.changeTheme(gt);
+                }, 1000);
+
                 //pageObj.changeThemeButton(gt);
             }
         },
@@ -318,7 +322,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 
 	    (adsbygoogle = window.adsbygoogle || []).push({});
 
-	    $("#"+pageObj.theme).addClass("on");
+
 
         if (window["prettyPrint"]) {
 	        $("#AXPageFoot").before($("#pretty").css({margin:"0px 10px 50px 10px"}));
@@ -341,19 +345,20 @@ var sampleTreeMenu = new AXTopDownMenu();
 
 
     // theme 선언
-    pageObj.theme = AXUtil.getCookie("AXISTHEME") || pageObj.theme;
-    if(pageObj.theme == "null") pageObj.theme = "arongi";
-    jQuery("link").each(function(){
-        var re = new RegExp("/ui/(.*)/","ig"); //정규식 패턴입니다.
-        var str = this.href;             //검색할 문자열입니다.
-        var arr = re.exec(str);
-        var myTheme = RegExp.$1;
-        if(myTheme){
-            this.href = str.replace("/"+myTheme+"/", "/"+pageObj.theme+"/");
-        }
-    });
-
-
+    setTimeout(function(){
+        pageObj.theme = AXUtil.getCookie("AXISTHEME") || pageObj.theme;
+        if(pageObj.theme == "null") pageObj.theme = "arongi";
+        jQuery("link").each(function(){
+            var re = new RegExp("/ui/(.*)/","ig"); //정규식 패턴입니다.
+            var str = this.href;             //검색할 문자열입니다.
+            var arr = re.exec(str);
+            var myTheme = RegExp.$1;
+            if(myTheme != pageObj.theme){
+                this.href = str.replace("/"+myTheme+"/", "/"+pageObj.theme+"/");
+            }
+        });
+        $("#"+pageObj.theme).addClass("on");
+    }, 200);
 })();
 
 
