@@ -434,17 +434,24 @@
   text-decoration: none;
   border-bottom: 1px solid #d8d9db;
   background: #fff;
+  white-space: nowrap;
+}
+.AXanchorSelectorExpandBox a span {
+  color: #aaa;
+  padding-left: 7px;
 }
 .AXanchorSelectorExpandBox a.on {
   background: #d7dde3;
+}
+.AXanchorSelectorExpandBox a.on span {
+  color: #878787;
 }
 .AXanchorSelectorExpandBox a:hover {
   background: #5ea3db;
   color: #fff;
 }
-.AXanchorSelectorExpandBox a span {
-  color: #aaa;
-  padding-left: 7px;
+.AXanchorSelectorExpandBox a:hover span {
+  color: #f3f3f3;
 }
 .AXanchorSelectorExpandBox .empty {
   display: block;

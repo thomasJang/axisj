@@ -316,16 +316,25 @@
 		display:block;padding:3px 8px;
 		font-size:12px;line-height:20px;color:#888888;text-decoration:none;
 		border-bottom:1px solid #d8d9db;background:#fff;
-		&.on{
-			background:#d7dde3;
-		}
-		&:hover{
-			background:#5ea3db;color:#fff;
-		}
+		white-space: nowrap;
 		span{
 			color:#aaa;
 			padding-left:7px;
 		}
+
+		&.on{
+			background:#d7dde3;
+			span{
+				color: #878787;
+			}
+		}
+		&:hover{
+			background:#5ea3db;color:#fff;
+			span{
+				color:#f3f3f3;
+			}
+		}
+
 	}
 	.empty{
 		display:block;padding:3px 8px;

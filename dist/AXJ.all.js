@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.2 - 2016-05-01 
+axisj - v1.1.2 - 2016-05-02 
 */
 /*! 
-axisj - v1.1.2 - 2016-05-01 
+axisj - v1.1.2 - 2016-05-02 
 */
 
 if(!window.AXConfig){
@@ -22956,7 +22956,8 @@ var AXInputConverter = Class.create(AXJ, {
             options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
             optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
             optionText: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionText) || "optionText",
-            optionData: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionData) || "optionData"
+            optionData: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionData) || "optionData",
+            optionDesc: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionDesc) || "optionDesc"
         };
     },
     init: function () {
@@ -22966,7 +22967,8 @@ var AXInputConverter = Class.create(AXJ, {
         this.config.reserveKeys = {
             options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
             optionValue: (AXConfig.AXInput && AXConfig.AXInput.keyOptionValue) || "optionValue",
-            optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText"
+            optionText: (AXConfig.AXInput && AXConfig.AXInput.keyOptionText) || "optionText",
+            optionDesc: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionDesc) || "optionDesc"
         };
     },
     windowResize: function () {
@@ -24079,7 +24081,7 @@ var AXInputConverter = Class.create(AXJ, {
             // options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
             O[reserveKeys.optionText] = (O[reserveKeys.optionText] ? O[reserveKeys.optionText].dec() : "");
             O.desc = (O.desc ? O.desc.dec() : "");
-            O.optionDesc = (O.optionDesc ? O.optionDesc.dec() : "");
+            O.optionDesc = (O[reserveKeys.optionDesc] ? O[reserveKeys.optionDesc].dec() : "");
             
             var descStr = O.desc || O.optionDesc;
             if (descStr != "") descStr = "<span>" + descStr + "</span>";
