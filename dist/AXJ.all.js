@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.2 - 2016-05-02 
+axisj - v1.1.2 - 2016-05-03 
 */
 /*! 
-axisj - v1.1.2 - 2016-05-02 
+axisj - v1.1.2 - 2016-05-03 
 */
 
 if(!window.AXConfig){
@@ -23343,10 +23343,14 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").css({width: h, height: h});
         }
         else if (obj.bindType == "twinDate") {
-            
+            var handleWidth = h - 2;
+            if (handleWidth > 20) handleWidth = 20;
+            axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").css({width: h, height: h});
         }
         else if (obj.bindType == "twinDateTime") {
-            
+            var handleWidth = h - 2;
+            if (handleWidth > 20) handleWidth = 20;
+            axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").css({width: h, height: h});
         }
         else if (obj.bindType == "checked") {
             
