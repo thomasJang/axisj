@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.2 - 2016-05-03 
+axisj - v1.1.2 - 2016-05-10 
 */
 /*! 
-axisj - v1.1.2 - 2016-05-03 
+axisj - v1.1.2 - 2016-05-10 
 */
 
 if(!window.AXConfig){
@@ -22951,7 +22951,7 @@ var AXInputConverter = Class.create(AXJ, {
         this.config.anchorCheckedContainerClassName = "AXbindCheckedHandle";
         /* 모바일 반응 너비 */
         this.config.responsiveMobile = AXConfig.mobile.responsiveWidth;
-        
+
         this.config.reserveKeys = {
             options: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptions) || "options",
             optionValue: (AXConfig.AXSelect && AXConfig.AXSelect.keyOptionValue) || "optionValue",
@@ -22962,7 +22962,7 @@ var AXInputConverter = Class.create(AXJ, {
     },
     init: function () {
         axdom(window).resize(this.alignAllAnchor.bind(this));
-        
+
         // 예약어 초기화
         this.config.reserveKeys = {
             options: (AXConfig.AXInput && AXConfig.AXInput.keyOptions) || "options",
@@ -23023,11 +23023,11 @@ var AXInputConverter = Class.create(AXJ, {
             trace("bind 대상이 없어 bind 처리할 수 없습니다.");
             return;
         }
-        
+
         if (obj.reserveKeys) cfg.reserveKeys = jQuery.extend(cfg.reserveKeys, obj.reserveKeys, true);
         var objID = obj.id;
         var objSeq = null;
-        
+
         axf.each(this.objects, function (idx, O) {
             //if (this.id == objID && this.isDel == true) objSeq = idx;
             if (this.id == objID) {
@@ -23035,9 +23035,9 @@ var AXInputConverter = Class.create(AXJ, {
                 return false;
             }
         });
-        
+
         if (obj.href == undefined) obj.href = cfg.href;
-        
+
         if (objSeq == null) {
             objSeq = this.objects.length;
             this.objects.push({
@@ -23051,13 +23051,13 @@ var AXInputConverter = Class.create(AXJ, {
             this.objects[objSeq].isDel = undefined;
             this.objects[objSeq].config = obj;
         }
-        
+
         //if (obj.bindType != "checked") {
         //	this.appendAnchor(objID, objSeq, obj.bindType);
         //}
         // bind checked anchor 연결
         this.appendAnchor(objID, objSeq, obj.bindType);
-        
+
         if (obj.bindType == "placeHolder") {
             this.bindPlaceHolder(objID, objSeq);
         }
@@ -23116,7 +23116,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         });
-        
+
         var objID = obj.id;
         var obj = this.objects[removeIdx];
         if (obj) {
@@ -23128,19 +23128,19 @@ var AXInputConverter = Class.create(AXJ, {
             objDom.unbind("focus.AXInput");
             objDom.unbind("blur.AXInput");
         }
-        
+
         if (removeAnchorId) {
             this.objects[removeIdx].isDel = true;
             axdom("#" + obj.id).removeAttr("data-axbind");
             axdom("#" + removeAnchorId).remove();
-            
+
             if (obj.bindSliderMouseMove) axdom(document.body).unbind("mousemove.AXInput", obj.bindSliderMouseMove);
             if (obj.bindSliderMouseUp) axdom(document.body).unbind("mouseup.AXInput", obj.bindSliderMouseUp);
             if (obj.bindSliderTouchMove) document.removeEventListener("touchmove.AXInput", obj.bindSliderTouchMove, false);
             if (obj.bindSliderTouchEnd) document.removeEventListener("touchend.AXInput", obj.bindSliderTouchEnd, false);
             if (obj.bindTwinSliderMouseMove) axdom(document.body).unbind("mousemove.AXInput", obj.bindTwinSliderMouseMove);
             if (obj.bindTwinSliderMouseUp) axdom(document.body).unbind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
-            
+
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
@@ -23156,7 +23156,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
         ;
-        
+
         if (findIndex == null) {
             //trace("바인드 된 오브젝트를 찾을 수 없습니다.");
             return;
@@ -23164,19 +23164,19 @@ var AXInputConverter = Class.create(AXJ, {
         else {
             var obj = this.objects[findIndex];
             var cfg = this.config;
-            
+
             if (typeof _disabled == "boolean") {
                 axf.getId(objID).disabled = _disabled;
             }
             else {
                 axf.getId(objID).disabled = !AXgetId(objID).disabled;
             }
-            
+
             obj.bindAnchorTarget.data("disabled", axf.getId(objID).disabled);
             if (axf.getId(objID).disabled) {
                 obj.bindAnchorTarget.addClass("disable");
                 obj.bindAnchorTarget.attr("disable", "disable");
-                
+
                 obj.bindAnchorTarget.find("a").bind("mousedown.AXInputDisabled", function (e) {
                     //alert("block");
                     var event = window.event || e;
@@ -23189,7 +23189,7 @@ var AXInputConverter = Class.create(AXJ, {
             else {
                 obj.bindAnchorTarget.removeClass("disable");
                 obj.bindAnchorTarget.removeAttr("disable");
-                
+
                 obj.bindAnchorTarget.find("a").unbind("mousedown.AXInputDisabled");
             }
         }
@@ -23203,14 +23203,14 @@ var AXInputConverter = Class.create(AXJ, {
         var iobj = axdom("#" + objID);
         iobj.attr("data-axbind", bindType);
         iobj.after(anchorNode);
-        
+
         obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         obj.bindTarget = iobj;
-        
+
         //var offSetParent = iobj.offsetParent();
         var iobjPosition = iobj.position();
         var l = iobjPosition.left, t = iobjPosition.top, w = 0, h = 0;
-        
+
         var borderW = iobj.css("border-left-width").number();
         var borderH = iobj.css("border-top-width").number();
         var marginW = iobj.css("margin-left").number();
@@ -23220,12 +23220,12 @@ var AXInputConverter = Class.create(AXJ, {
         /*t = t;*/
         w = iobj.outerWidth();
         h = (iobj.css("box-sizing") == "content-box") ? iobj.outerHeight() : iobj.height();
-        
+
         var css = {left: l, top: t, width: w, height: 0};
 
         obj.bindAnchorTarget.css(css);
         obj.bindAnchorTarget.data("height", h);
-        
+
         var _this = this;
         setTimeout(function () {
             _this.alignAnchor(objID, objSeq);
@@ -23236,7 +23236,7 @@ var AXInputConverter = Class.create(AXJ, {
     },
     alignAnchor: function (objID, objSeq) {
         var cfg = this.config;
-        
+
         if (typeof objSeq == "undefined") {
             for (var i = 0; i < this.objects.length; i++) {
                 if (this.objects[i].id == objID && !this.objects[i].isDel) {
@@ -23245,17 +23245,17 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         }
-        
+
         var obj = this.objects[objSeq];
-        
+
         if (!AXgetId(objID)) return;
         /* 엘리먼트 존재 여부 확인 */
-        
+
         if (!obj.bindTarget) {
             obj.bindTarget = axdom("#" + objID);
             obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         }
-        
+
         var iobjPosition = obj.bindTarget.position();
         var l = iobjPosition.left, t = iobjPosition.top;
         var w = obj.bindTarget.outerWidth();
@@ -23276,12 +23276,12 @@ var AXInputConverter = Class.create(AXJ, {
             obj.bindAnchorTarget.css(css);
             obj.bindAnchorTarget.data("height", h);
         }
-        
+
         if (obj.bindType == "placeHolder") {
-            
+
         }
         else if (obj.bindType == "search") {
-            
+
         }
         else if (obj.bindType == "number") {
             var UPh = parseInt((h - 2) / 2) - 1;
@@ -23298,23 +23298,23 @@ var AXInputConverter = Class.create(AXJ, {
             //trace({top:(UPh+1), width:h, height:DNh});
         }
         else if (obj.bindType == "money") {
-            
+
         }
         else if (obj.bindType == "selector") {
             h -= 2;
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer").css({width: h, height: h});
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").css({width: h, height: h});
-            
+
             if (obj.config.finder) {
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_FinderContainer").css({right: h, width: h, height: h});
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").css({width: h, height: h});
             }
         }
         else if (obj.bindType == "slider") {
-            
+
         }
         else if (obj.bindType == "twinSlider") {
-            
+
         }
         else if (obj.bindType == "switch") {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").css({width: w, height: h});
@@ -23353,7 +23353,7 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").css({width: h, height: h});
         }
         else if (obj.bindType == "checked") {
-            
+
         }
     },
     bindSetValue: function (objID, value) {
@@ -23371,7 +23371,7 @@ var AXInputConverter = Class.create(AXJ, {
         }
         else {
             var obj = this.objects[objSeq];
-            
+
             if (obj.bindType == "search") {
                 //	this.bindSearch(objID, objSeq);
             }
@@ -23404,22 +23404,22 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
     },
-    
+
     // onlyHolder ~~~~~~~~~~~~~~~
     bindPlaceHolder: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         // 브라우저 체크
         if (AXUtil.browser.name != "ie") return;
         if (AXUtil.browser.name == "ie" && AXUtil.browser.version > 9) return;
-        
+
         var w = axdom("#" + cfg.targetID + "_AX_" + objID).width();
         var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
-        
+
         var placeholder = axdom("#" + objID).attr("placeholder");
         if (placeholder == "undefined") placeholder = "";
-        
+
         var po = ["<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;line-height:" + h + "px;\">" + placeholder + "</a>"];
         //append to anchor
         axdom("#" + cfg.targetID + "_AX_" + objID).append(po.join(''));
@@ -23448,18 +23448,18 @@ var AXInputConverter = Class.create(AXJ, {
         }
     },
     // onlyHolder ~~~~~~~~~~~~~~
-    
+
     // search
     bindSearch: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var w = axdom("#" + cfg.targetID + "_AX_" + objID).width();
         var h = axdom("#" + cfg.targetID + "_AX_" + objID).data("height");
         var placeholder = axdom("#" + objID).attr("placeholder");
         if (placeholder == undefined) placeholder = "";
         var po = [];
-        
+
         if (AXUtil.browser.name == "ie" && AXUtil.browser.version < 10 && placeholder != "") {
             po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder\" class=\"" + cfg.anchorPlaceHolderClassName + "\" ");
             po.push(" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;line-height:" + h + "px;\">" + placeholder + "</a>");
@@ -23484,7 +23484,7 @@ var AXInputConverter = Class.create(AXJ, {
     bindSearchSyncAnchor: function (objID, objSeq) {
         var cfg = this.config;
         axdom("#" + cfg.targetID + "_AX_" + objID).show();
-        
+
         if (axdom("#" + objID).val() == "") {
             //if(AXgetId(cfg.targetID+"_AX_"+objID).style.display != "none") axdom("#"+cfg.targetID+"_AX_"+objID).hide();
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Search").hide();
@@ -23496,15 +23496,15 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_PlaceHolder").hide();
         }
     },
-    
+
     // number
     bindNumber: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         var h = obj.bindAnchorTarget.data("height");
         //trace(objID+"//"+h);
         var po = [];
@@ -23513,7 +23513,7 @@ var AXInputConverter = Class.create(AXJ, {
         //trace(UPh+"//"+DNh);
         var handleWidth = h - 2;
         if (handleWidth > 20) handleWidth = 20;
-        
+
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"" + cfg.anchorNumberContainerClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + (h - 2) + "px;\" onselectstart=\"return false;\">");
         po.push("	<a id=\"" + cfg.targetID + "_AX_" + objID + "_AX_increase\" class=\"" + cfg.anchorIncreaseClassName + "\" style=\"right:0px;top:0px;width:" + handleWidth + "px;height:" + UPh + "px;\">increase</a>");
         po.push("	<a id=\"" + cfg.targetID + "_AX_" + objID + "_AX_decrease\" class=\"" + cfg.anchorDecreaseClassName + "\" style=\"right:0px;top:" + (UPh + 1) + "px;width:" + handleWidth + "px;height:" + DNh + "px;\">decrease</a>");
@@ -23521,7 +23521,7 @@ var AXInputConverter = Class.create(AXJ, {
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.show();
         //alert("show");
-        
+
         var bindNumberAdd = this.bindNumberAdd.bind(this);
         var bindNumberCheck = this.bindNumberCheck.bind(this);
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_increase").unbind("mousedown.AXInput").bind("mousedown.AXInput", function (event) {
@@ -23591,7 +23591,7 @@ var AXInputConverter = Class.create(AXJ, {
             else {
                 nval = obj.bindTarget.val().number();
             }
-            
+
             if (maxval != undefined && maxval != null) {
                 if ((nval) > maxval) {
                     obj.bindTarget.val("");
@@ -23630,11 +23630,11 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
             obj.bindTarget.trigger("change");
-            
+
             if (event && event.type == "mousedown") {
                 obj.bindTarget.setCaret();
             }
-            
+
             if (obj.config.onChange) {
                 obj.config.onChange.call({objID: objID, objSeq: objSeq, value: axdom("#" + objID).val()});
             }
@@ -23642,9 +23642,9 @@ var AXInputConverter = Class.create(AXJ, {
                 obj.config.onchange.call({objID: objID, objSeq: objSeq, value: axdom("#" + objID).val()});
             }
         }, 1);
-        
+
     },
-    
+
     // money
     bindMoney: function (objID, objSeq) {
         var obj = this.objects[objSeq];
@@ -23653,7 +23653,7 @@ var AXInputConverter = Class.create(AXJ, {
         var val = obj.bindTarget.val().trim();
         if (val != "") val = obj.bindTarget.val().number().money();
         obj.bindTarget.val(val);
-        
+
         obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
             if ((event.ctrlKey || event.metaKey)) {
                 obj.bindTarget.data("ctrlKey", "T");
@@ -23664,16 +23664,15 @@ var AXInputConverter = Class.create(AXJ, {
         });
         obj.bindTarget.unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
             var elem = obj.bindTarget.get(0);
-            
+
             if (elem.type != "number") {
                 event = window.event || event;
-                
+
                 // ignore tab & shift key 스킵 & ctrl
                 if (
                     (!event.keyCode || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 17) ||
                     ((obj.bindTarget.data("ctrlKey") == "T") && (event.keyCode == 65 || event.keyCode == 91))
-                )
-                {
+                ) {
                     jQuery.removeData(obj.bindTarget.get(0), "focusPosition");
                 }
                 else {
@@ -23692,10 +23691,10 @@ var AXInputConverter = Class.create(AXJ, {
                     }
                     //trace(elemFocusPosition);
                     // 계산된 포커스 위치 앞에 쉼표 갯수를 구합니다.
-                    
+
                     obj.bindTarget.data("focusPosition", elemFocusPosition);
                     obj.bindTarget.data("prevLen", elem.value.length);
-                    
+
                     if (event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
                         bindMoneyCheck(objID, objSeq, "keyup");
                     }
@@ -23705,7 +23704,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         });
-        
+
         /* blur 이벤트 처리 이상 작동으로 제거 - 15-01-16
          obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", function (event) {
          if(obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable"){
@@ -23726,7 +23725,7 @@ var AXInputConverter = Class.create(AXJ, {
             return false;
         }
         if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
-        
+
         if (obj.bindTarget.val() == "") {
             if (minval != undefined && minval != null) {
                 nval = minval;
@@ -23787,36 +23786,36 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
         obj.bindTarget.trigger("change");
-        
+
         if (!axf.isEmpty(obj.bindTarget.data("focusPosition"))) {
             obj.bindTarget.setCaret(obj.bindTarget.data("focusPosition").number() + ( obj.bindTarget.val().length - obj.bindTarget.data("prevLen") ));
         }
-        
+
         if (obj.config.onChange) {
             obj.config.onChange.call({objID: objID, objSeq: objSeq, value: obj.bindTarget.val().number()});
         }
-        
+
         if (eventType == "change") {
             if (obj.bindTarget.val() == "-") obj.bindTarget.val('');
         }
     },
-    
+
     // selector
     bindSelector: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         obj.bindTarget.data("val", obj.bindTarget.val());
-        
+
         var reserveKeys = jQuery.extend({}, cfg.reserveKeys);
         if (typeof obj.config.reserveKeys == "undefined") obj.config.reserveKeys = {};
         obj.config.reserveKeys = jQuery.extend(reserveKeys, obj.config.reserveKeys, true);
-        
+
         var h = obj.bindAnchorTarget.data("height") - 2;
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_HandleContainer\" class=\"bindSelectorNodes " + cfg.anchorSelectorHandleContainerClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">");
@@ -23827,13 +23826,13 @@ var AXInputConverter = Class.create(AXJ, {
             po.push("	<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_Finder\" class=\"bindSelectorNodes " + cfg.anchorSelectorFinderClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">finder</a>");
             po.push("</div>");
         }
-        
+
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.show();
-        
+
         var bindSelectorExpand = this.bindSelectorExpand.bind(this);
         var bindSelectorClose = this.bindSelectorClose.bind(this);
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").unbind("click.AXInput").bind("click.AXInput", function (event) {
             if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                 axdom("#" + objID).focus();
@@ -23865,7 +23864,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
         });
 
-        
+
         if (obj.config.finder) {
             if (obj.config.finder.onclick) {
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Finder").unbind("click.AXInput").bind("click.AXInput", function (event) {
@@ -23880,7 +23879,7 @@ var AXInputConverter = Class.create(AXJ, {
                 });
             }
         }
-        
+
         /*
          var bindSelectorInputChange = this.bindSelectorInputChange.bind(this);
          obj.inputChange = function(event){
@@ -23897,21 +23896,21 @@ var AXInputConverter = Class.create(AXJ, {
             return false;
         }
         obj.bindTarget.data("val", obj.bindTarget.val().enc());
-        
+
         //alert(obj.bindTarget.data("val").end());
-        
+
         if (this.opendExpandBox) {
             this.bindSelectorClose(this.opendExpandBox.objID, this.opendExpandBox.objSeq, event); // 셀럭터 외의 영역이 므로 닫기
         }
-        
+
         var jqueryTargetObjID = axdom("#" + cfg.targetID + "_AX_" + objID);
         //trace({objID:objID, objSeq:objSeq});
-        
+
         if (axdom("#" + cfg.targetID + "_AX_" + objID).data("blurEvent")) {
             //blur event 발생 상태 메소드 작동 중지
             return;
         }
-        
+
         //Selector Option box Expand
         if (isToggle) { // 활성화 여부가 토글 이면
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -23930,7 +23929,7 @@ var AXInputConverter = Class.create(AXJ, {
         styles.push("top:" + anchorHeight + "px");
         styles.push("width:" + (obj.config.anchorWidth || anchorWidth) + "px");
         styles.push("z-index:5100");
-        
+
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"bindSelectorNodes " + cfg.anchorSelectorExpandBoxClassName + "\" style=\"" + styles.join(";") + "\">");
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll\" class=\"bindSelectorNodes " + cfg.anchorSelectorExpandScrollClassName + "\">");
@@ -23939,7 +23938,7 @@ var AXInputConverter = Class.create(AXJ, {
         po.push("</div>");
         axdom(document.body).append(po.join(''));
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").addClass("on");
-        
+
         var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
         if (obj.config.positionFixed) {
             expandBox.css({"position": "fixed"});
@@ -23957,12 +23956,12 @@ var AXInputConverter = Class.create(AXJ, {
         if (obj.config.direction == "bottom") {
             css.top -= expandBox.outerHeight();
         }
-        
+
         css.left = offset.left;
         expandBox.css(css);
-        
+
         this.opendExpandBox = {objID: objID, objSeq: objSeq};
-        
+
         //_AX_expandBox set options
         //trace(obj.config.ajaxUrl);
         if (obj.config.onsearch) {
@@ -23980,13 +23979,13 @@ var AXInputConverter = Class.create(AXJ, {
             this.bindSelectorSetOptions(objID, objSeq);
             this.bindSelectorKeyupChargingUp(objID, objSeq, event);
         }
-        
+
         var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
         obj.documentclickEvent = function (event) {
             bindSelectorOptionsClick(objID, objSeq, event);
         };
         axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
-        
+
     },
     bindSelectorBlur: function (objID) {
         var cfg = this.config;
@@ -24000,40 +23999,40 @@ var AXInputConverter = Class.create(AXJ, {
         if (objSeq != null) this.bindSelectorClose(objID, objSeq);
     },
     bindSelectorClose: function (objID, objSeq, event, originChangeCall) {
-        
+
         var cfg = this.config;
         var obj = this.objects[objSeq];
         var reserveKeys = obj.config.reserveKeys;
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         if (obj.inProgress) AXReqAbort(); // AJAX 호출 중지 하기
-        
+
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-            
+
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
-            
+
             //비활성 처리후 메소드 종료
-            
+
             axdom(document).unbind("click.AXInput");
             obj.bindTarget.unbind("keydown.AXInput");
             obj.bindTarget.unbind("change.AXInput");
-            
+
             if (obj.bindTarget.data("val") == obj.bindTarget.val().enc() && !obj.config.isSelectorClick) {
                 //return obj.bindTarget.val();
             }
-            
+
             if (obj.config.isChangedSelect) {
-                
+
                 var myVal = "";
                 if (obj.config.selectedObject) {
                     myVal = obj.config.selectedObject[reserveKeys.optionText];
                 }
-                
+
                 if (obj.config.appendable) {
                     //trace(myVal);
                     if (myVal != "") axdom("#" + objID).val(myVal);
@@ -24041,7 +24040,7 @@ var AXInputConverter = Class.create(AXJ, {
                 else {
                     axdom("#" + objID).val(myVal);
                 }
-                
+
                 if (obj.config.onChange) {
                     var sendObj = {
                         targetID: objID,
@@ -24073,7 +24072,7 @@ var AXInputConverter = Class.create(AXJ, {
         var maxHeight = obj.config.maxHeight || 130;
         var optionPrintLength = obj.config.optionPrintLength || 100;
         if (!obj.config.options) return;
-        
+
         var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
         var jqueryTargetObjID = axdom("#" + cfg.targetID + "_AX_" + objID);
         var po = [];
@@ -24081,12 +24080,12 @@ var AXInputConverter = Class.create(AXJ, {
             if (!isNaN(optionPrintLength)) {
                 if (index > optionPrintLength - 1) return false;
             }
-            
+
             // options의 optionText, optionDesc의 참조값을 디코딩해서 디코딩은 한 번만 사용하도록 변경
             O[reserveKeys.optionText] = (O[reserveKeys.optionText] ? O[reserveKeys.optionText].dec() : "");
             O.desc = (O.desc ? O.desc.dec() : "");
             O.optionDesc = (O[reserveKeys.optionDesc] ? O[reserveKeys.optionDesc].dec() : "");
-            
+
             var descStr = O.desc || O.optionDesc;
             if (descStr != "") descStr = "<span>" + descStr + "</span>";
             po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_" + index + "_AX_option\" class=\"bindSelectorNodes\">" + O[reserveKeys.optionText] + descStr + "</a>");
@@ -24098,11 +24097,11 @@ var AXInputConverter = Class.create(AXJ, {
         }
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").html(po.join(''));
         obj.config.isSelectorClick = false;
-        
+
         var expandScrollHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandScroll").outerHeight();
         if (expandScrollHeight > maxHeight) expandScrollHeight = maxHeight;
         expandBox.css({height: expandScrollHeight + "px"});
-        
+
         var bindSelectorOptionsClick = this.bindSelectorOptionsClick.bind(this);
         obj.documentclickEvent = function (event) {
             bindSelectorOptionsClick(objID, objSeq, event);
@@ -24111,10 +24110,10 @@ var AXInputConverter = Class.create(AXJ, {
         obj.inputKeyup = function (event) {
             bindSelectorKeyup(objID, objSeq, event);
         };
-        
+
         axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
         axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
-        
+
         if (obj.myUIScroll) obj.myUIScroll.unbind();
         obj.myUIScroll = new AXScroll();
         obj.myUIScroll.setConfig({
@@ -24124,13 +24123,13 @@ var AXInputConverter = Class.create(AXJ, {
             touchDirection: false
         });
         obj.myUIScroll.scrollTop(0);
-        
+
         if (obj.config.selectedIndex != undefined) {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option").addClass("on");
             obj.myUIScroll.focusElement(cfg.targetID + "_AX_" + objID + "_AX_" + obj.config.selectedIndex + "_AX_option"); //focus
             obj.config.focusedIndex = obj.config.selectedIndex;
         }
-        
+
         if (obj.config.direction == "bottom") {
             var offset = (obj.config.positionFixed) ? jqueryTargetObjID.position() : jqueryTargetObjID.offset();
             if (obj.config.position) {
@@ -24148,7 +24147,7 @@ var AXInputConverter = Class.create(AXJ, {
         var reserveKeys = obj.config.reserveKeys;
         var eid = event.target.id.split(/_AX_/g);
         var eventTarget = event.target;
-        
+
         var myTarget = this.getEventTarget({
             evt: eventTarget,
             until: function (evt, evtIDs) {
@@ -24170,7 +24169,7 @@ var AXInputConverter = Class.create(AXJ, {
         }
         else {
             eid = myTarget.id.split(/_AX_/g);
-            
+
             if (eid.last() == "option") {
                 var selectedIndex = eid[eid.length - 2];
                 obj.config.selectedIndex = selectedIndex;
@@ -24190,13 +24189,13 @@ var AXInputConverter = Class.create(AXJ, {
             obj.inProgressReACT = true;
             return;
         }
-        
+
         if (event.keyCode == AXUtil.Event.KEY_TAB) {
             this.bindSelectorClose(objID, objSeq, event); // 닫기
             this.stopEvent(event);
             return;
         }
-        
+
         if (event.keyCode == AXUtil.Event.KEY_UP) {
             if (!obj.config.options) return;
             if (obj.config.options.length == 0) return;
@@ -24226,7 +24225,7 @@ var AXInputConverter = Class.create(AXJ, {
             this.stopEvent(event);
         }
         else if (event.keyCode == AXUtil.Event.KEY_RETURN) {
-            
+
             if (obj.config.focusedIndex == null) {
                 /*axdom("#" + objID).blur();*/
                 _this.bindSelectorClose(objID, objSeq, event); // 닫기
@@ -24258,110 +24257,110 @@ var AXInputConverter = Class.create(AXJ, {
         var objVal = axdom("#" + objID).val();
         var bindSelectorSearch = this.bindSelectorSearch.bind(this);
         https://github.com/axisj/axisj/issues/781
-        if (obj.config.onsearch) {
-            
-            var res = obj.config.onsearch.call(
-                {
-                    id: objID,
-                    value: objVal
-                },
-                objID,
-                objVal,
-                (function (res) {
+            if (obj.config.onsearch) {
+
+                var res = obj.config.onsearch.call(
+                    {
+                        id: objID,
+                        value: objVal
+                    },
+                    objID,
+                    objVal,
+                    (function (res) {
+                        obj.config.options = res.options;
+                        obj.config.focusedIndex = null;
+                        this.bindSelectorSetOptions(objID, objSeq);
+                        this.bindSelectorSearch(objID, objSeq, objVal);
+                    }).bind(this)
+                );
+
+                /*
+                 callBack 함수를 이용하는 경우와 return 하는 두 가지 경우가 존재 하겠다. 아래는 obj.config.onsearch 에서 return 한 경우이고 위의 함수는 callBack 함수인 경우이다.
+                 */
+                if (res) {
+                    res.options = res.options || [];
                     obj.config.options = res.options;
                     obj.config.focusedIndex = null;
                     this.bindSelectorSetOptions(objID, objSeq);
                     this.bindSelectorSearch(objID, objSeq, objVal);
-                }).bind(this)
-            );
-            
-            /*
-             callBack 함수를 이용하는 경우와 return 하는 두 가지 경우가 존재 하겠다. 아래는 obj.config.onsearch 에서 return 한 경우이고 위의 함수는 callBack 함수인 경우이다.
-             */
-            if (res) {
-                res.options = res.options || [];
-                obj.config.options = res.options;
-                obj.config.focusedIndex = null;
-                this.bindSelectorSetOptions(objID, objSeq);
-                this.bindSelectorSearch(objID, objSeq, objVal);
-            }
-            
-        }
-        else if (obj.config.ajaxUrl) {
-            // AJAX호출
-            // 2. AJAX request
-            // 3. AJAX 결과로 bindSelectorSetOptions 처리하기
-            //this.bindSelectorSetOptions(objID, objSeq);
-            // 4. 입력어로 bindSelectorSearch 실행하기
-            obj.inProgress = true; //진행중 상태 변경
-            var bindSelectorSetOptions = this.bindSelectorSetOptions.bind(this);
-            var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
-            
-            var url = obj.config.ajaxUrl;
-            var pars = obj.config.ajaxPars || {};
-            var _method = "post";
-            var _headers = {};
-            var _contentType = AXConfig.AXReq.contentType;
-            var _responseType = AXConfig.AXReq.responseType;
-            var _dataType = AXConfig.AXReq.dataType;
-            var _async = AXConfig.AXReq.async;
-            
-            // ajax 옵션 확장
-            if (obj.config.method) _method = obj.config.method;
-            if (obj.config.headers) _headers = obj.config.headers;
-            if (obj.config.contentType) _contentType = obj.config.contentType;
-            if (obj.config.responseType) _responseType = obj.config.responseType;
-            if (obj.config.dataType) _dataType = obj.config.dataType;
-            if (obj.config.ajaxAsync) _async = obj.config.ajaxAsync;
-            
-            var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
-            if (pars == "") {
-                pars = selectorName + "=" + (objVal || "").enc();
-            }
-            else if ((typeof pars).toLowerCase() == "string") {
-                pars += "&" + selectorName + "=" + objVal.enc();
-            }
-            else if ((typeof pars).toLowerCase() == "object") {
-                pars[selectorName] = objVal.enc();
-            }
-            
-            var msgAlert = this.msgAlert.bind(this);
-            new AXReq(url, {
-                type: _method,
-                headers: _headers,
-                contentType: _contentType,
-                responseType: _responseType,
-                dataType: _dataType,
-                async: _async,
-                debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
-                pars: pars,
-                onsucc: function (res) {
-                    if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
-                        
-                        //obj.config.options = (res.options || []);
-                        obj.config.options = (res[reserveKeys.options] || []);
-                        obj.config.focusedIndex = null;
-                        
-                        bindSelectorSetOptions(objID, objSeq);
-                        bindSelectorSearch(objID, objSeq, objVal);
-                        
-                        if (obj.inProgressReACT) {
-                            bindSelectorKeyupChargingUp(objID, objSeq, event);
-                        }
-                    }
-                    else {
-                        msgAlert(res);
-                    }
-                    obj.inProgress = false;
-                    obj.inProgressReACT = false;
                 }
-            });
-        }
-        else {
-            // 입력어로 bindSelectorSearch 실행하기
 
-            bindSelectorSearch(objID, objSeq, objVal);
-        }
+            }
+            else if (obj.config.ajaxUrl) {
+                // AJAX호출
+                // 2. AJAX request
+                // 3. AJAX 결과로 bindSelectorSetOptions 처리하기
+                //this.bindSelectorSetOptions(objID, objSeq);
+                // 4. 입력어로 bindSelectorSearch 실행하기
+                obj.inProgress = true; //진행중 상태 변경
+                var bindSelectorSetOptions = this.bindSelectorSetOptions.bind(this);
+                var bindSelectorKeyupChargingUp = this.bindSelectorKeyupChargingUp.bind(this);
+
+                var url = obj.config.ajaxUrl;
+                var pars = obj.config.ajaxPars || {};
+                var _method = "post";
+                var _headers = {};
+                var _contentType = AXConfig.AXReq.contentType;
+                var _responseType = AXConfig.AXReq.responseType;
+                var _dataType = AXConfig.AXReq.dataType;
+                var _async = AXConfig.AXReq.async;
+
+                // ajax 옵션 확장
+                if (obj.config.method) _method = obj.config.method;
+                if (obj.config.headers) _headers = obj.config.headers;
+                if (obj.config.contentType) _contentType = obj.config.contentType;
+                if (obj.config.responseType) _responseType = obj.config.responseType;
+                if (obj.config.dataType) _dataType = obj.config.dataType;
+                if (obj.config.ajaxAsync) _async = obj.config.ajaxAsync;
+
+                var selectorName = obj.config.selectorName || axdom("#" + objID).attr("name");
+                if (pars == "") {
+                    pars = selectorName + "=" + (objVal || "").enc();
+                }
+                else if ((typeof pars).toLowerCase() == "string") {
+                    pars += "&" + selectorName + "=" + objVal.enc();
+                }
+                else if ((typeof pars).toLowerCase() == "object") {
+                    pars[selectorName] = objVal.enc();
+                }
+
+                var msgAlert = this.msgAlert.bind(this);
+                new AXReq(url, {
+                    type: _method,
+                    headers: _headers,
+                    contentType: _contentType,
+                    responseType: _responseType,
+                    dataType: _dataType,
+                    async: _async,
+                    debug: ((typeof obj.config.debug !== "undefined") ? obj.config.debug : false),
+                    pars: pars,
+                    onsucc: function (res) {
+                        if ((res.result && res.result == AXConfig.AXReq.okCode) || (res.result == undefined && !res.error)) {
+
+                            //obj.config.options = (res.options || []);
+                            obj.config.options = (res[reserveKeys.options] || []);
+                            obj.config.focusedIndex = null;
+
+                            bindSelectorSetOptions(objID, objSeq);
+                            bindSelectorSearch(objID, objSeq, objVal);
+
+                            if (obj.inProgressReACT) {
+                                bindSelectorKeyupChargingUp(objID, objSeq, event);
+                            }
+                        }
+                        else {
+                            msgAlert(res);
+                        }
+                        obj.inProgress = false;
+                        obj.inProgressReACT = false;
+                    }
+                });
+            }
+            else {
+                // 입력어로 bindSelectorSearch 실행하기
+
+                bindSelectorSearch(objID, objSeq, objVal);
+            }
     },
     bindSelectorInputChange: function (objID, objSeq, event) {
         var obj = this.objects[objSeq];
@@ -24381,20 +24380,20 @@ var AXInputConverter = Class.create(AXJ, {
         var obj = this.objects[objSeq];
         var cfg = this.config;
         var reserveKeys = obj.config.reserveKeys;
-        
+
         if (!obj.config.options) return;
-        
+
         var selectedIndex = null;
         axf.each(obj.config.options, function (oidx, opt) {
             if (opt[reserveKeys.optionValue] == value) selectedIndex = oidx;
         });
-        
+
         if (selectedIndex != null) {
             obj.config.focusedIndex = selectedIndex;
             obj.config.selectedObject = obj.config.options[selectedIndex];
             obj.config.isChangedSelect = true;
             axdom("#" + objID).val(obj.config.selectedObject[reserveKeys.optionText]);
-            
+
             if (obj.config.onChange || obj.config.onchange) {
                 var sendObj = {
                     targetID: objID,
@@ -24418,7 +24417,7 @@ var AXInputConverter = Class.create(AXJ, {
         kword = kword.replace(/\//g, "\\\/");
         var sw = AXUtil.consonantKR((kword || "").dec());
         var reAt = new RegExp("^" + sw + ".*", "i");
-        
+
         var ix = null;
         for (var a = 0; a < obj.config.options.length; a++) {
             if (reAt.test((obj.config.options[a][reserveKeys.optionText] || ""))) {
@@ -24459,26 +24458,26 @@ var AXInputConverter = Class.create(AXJ, {
         obj.config.selectedObject = null;
         obj.config.isChangedSelect = true;
     },
-    
+
     // slider
     bindSlider: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox").remove();
-        
+
         var w = obj.bindAnchorTarget.width();
         var h = obj.bindAnchorTarget.data("height");
         //trace(h);
         var objVal = obj.bindTarget.val().number().money();
         if (objVal.number() < obj.config.min.number()) objVal = obj.config.min;
         else if (objVal.number() > obj.config.max.number()) objVal = obj.config.max;
-        
+
         if (!obj.config.unit) obj.config.unit = "";
-        
+
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox\" class=\"" + cfg.anchorSliderBoxClassName + "\" style=\"left:0px;width:" + w + "px;height:" + h + "px;\">");
         po.push("	<div class=\"AXanchorSliderMinTitle\">" + obj.config.min.number().money() + obj.config.unit + "</div>");
@@ -24488,7 +24487,7 @@ var AXInputConverter = Class.create(AXJ, {
         po.push("	</div>");
         po.push("	<div class=\"AXanchorSliderMaxTitle\">" + obj.config.max.number().money() + obj.config.unit + "</div>");
         po.push("</div>");
-        
+
         //append to anchor
         obj.bindAnchorTarget.append(po.join(''));
         //obj.bindAnchorTarget.css({ height: h + "px", "position": "relative", display: "inline-block", left: "auto", top: "auto" });
@@ -24500,7 +24499,7 @@ var AXInputConverter = Class.create(AXJ, {
             top: "auto"
         });
         //, background:"#eee"
-        
+
         var maxTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
         var minTitleWidth = axdom("#" + cfg.targetID + "_AX_" + objID).find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
         if (maxTitleWidth < 30) maxTitleWidth = 30;
@@ -24519,7 +24518,7 @@ var AXInputConverter = Class.create(AXJ, {
         obj.config._handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").width();
         obj.config._trackWidth = sliderBarWidth;
         this.bindSliderSetValue(objID, objSeq);
-        
+
         var onmousedown = this.bindSliderMouseDown.bind(this);
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").unbind("mousedown.AXInput").bind("mousedown.AXInput", function () {
             onmousedown(objID, objSeq);
@@ -24528,18 +24527,20 @@ var AXInputConverter = Class.create(AXJ, {
             event.stopPropagation(); // disable  event
             return false;
         });
-        
+
         //add touch event
         if (document.addEventListener) {
             var ontouchstart = this.sliderTouchStart.bind(this);
-            obj.bindSliderTouchStart = function (event) { ontouchstart(objID, objSeq); }
-            
+            obj.bindSliderTouchStart = function (event) {
+                ontouchstart(objID, objSeq);
+            }
+
             AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").addEventListener("touchstart", obj.bindSliderTouchStart, false);
         }
-        
+
         obj.bindAnchorTarget.show();
         obj.bindTarget.hide();
-        
+
     },
     bindSliderMouseDown: function (objID, objSeq) {
         var cfg = this.config;
@@ -24560,23 +24561,23 @@ var AXInputConverter = Class.create(AXJ, {
             axdom(document.body).unbind("mouseup.AXInput").bind("mouseup.AXInput", obj.bindSliderMouseUp);
             obj.config.isMoving = true;
         }
-        
+
     },
     bindSliderMouseMove: function (objID, objSeq, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var eX = event.pageX;
         var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
-        
+
         var rX = eX - cX;
-        
+
         var valueWidth = obj.config.max.number() - obj.config.min.number();
         var pixelWidth = obj.config._trackWidth;
         var objVal = (rX * valueWidth) / pixelWidth;
         var snap = obj.config.snap;
         if (typeof snap == "undefined") snap = 1;
-        
+
         if (snap >= 1) {
             objVal = (objVal.number() + obj.config.min.number()).round();
             objVal = (parseInt(objVal / (snap), 10) * (snap));
@@ -24585,9 +24586,9 @@ var AXInputConverter = Class.create(AXJ, {
             objVal = (objVal.number() + obj.config.min.number()).round((snap.toString().length - 2));
             objVal = (parseFloat(objVal / (snap)) * (snap)).round((snap.toString().length - 2));
         }
-        
+
         var rX = ((objVal - obj.config.min) * pixelWidth) / valueWidth;
-        
+
         if (objVal < obj.config.min) {
             objVal = obj.config.min;
             rX = 0;
@@ -24597,10 +24598,10 @@ var AXInputConverter = Class.create(AXJ, {
             rX = pixelWidth;
         }
         if (rX > pixelWidth) rX = pixelWidth;
-        
+
         var sX = rX - (obj.config._handleWidth / 2);
         var stX = rX - (obj.config._maxTitleWidth / 2);
-        
+
         //trace({rX:rX, pixelWidth:pixelWidth, objVal:objVal, valueWidth:valueWidth});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({left: sX});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({width: rX});
@@ -24616,10 +24617,10 @@ var AXInputConverter = Class.create(AXJ, {
             var onchange = obj.config.onChange || obj.config.onchange;
             onchange.call({id: objID, value: objVal}, objID, objVal);
         }
-        
+
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         obj.bindTarget.change();
-        
+
         axdom(document.body).unbind("mousemove.AXInput");
         axdom(document.body).unbind("mouseup.AXInput");
         obj.config.isMoving = false;
@@ -24627,25 +24628,25 @@ var AXInputConverter = Class.create(AXJ, {
     bindSliderSetValue: function (objID, objSeq, value) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (value != undefined) {
             var objVal = value;
         }
         else {
             var objVal = axdom("#" + objID).val();
         }
-        
+
         if (objVal.number() < obj.config.min.number()) objVal = obj.config.min;
         else if (objVal.number() > obj.config.max.number()) objVal = obj.config.max;
         var valueWidth = obj.config.max.number() - obj.config.min.number();
         var pixelWidth = obj.config._trackWidth;
         var pixelLeft = ((objVal - obj.config.min) * pixelWidth) / valueWidth;
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({left: pixelLeft - (obj.config._handleWidth / 2)});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({width: pixelLeft});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").css({left: pixelLeft - (obj.config._maxTitleWidth / 2)});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleTitle").text(objVal.number().money() + obj.config.unit);
-        
+
         axdom("#" + objID).val(objVal);
     },
     sliderTouchStart: function (objID, objSeq) {
@@ -24664,28 +24665,28 @@ var AXInputConverter = Class.create(AXJ, {
             obj.bindSliderTouchEnd = function (event) {
                 bindSliderTouchEnd(objID, objSeq, event);
             };
-            
+
             if (document.addEventListener) {
                 document.addEventListener("touchmove", obj.bindSliderTouchMove, false);
                 document.addEventListener("touchend", obj.bindSliderTouchEnd, false);
-                
+
             }
             obj.config.isMoving = true;
-            
+
         }
-        
+
     },
     sliderTouchMove: function (objID, objSeq, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         event.preventDefault();
         var touch = event.touches[0];
-        
+
         var eX = touch.pageX;
         var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
         var rX = eX - cX;
-        
+
         var valueWidth = obj.config.max.number() - obj.config.min.number();
         var pixelWidth = obj.config._trackWidth;
         var objVal = (rX * valueWidth) / pixelWidth;
@@ -24694,7 +24695,7 @@ var AXInputConverter = Class.create(AXJ, {
         objVal = (objVal.number() + obj.config.min.number()).round();
         objVal = parseInt(objVal / (snap)) * (snap);
         var rX = ((objVal - obj.config.min) * pixelWidth) / valueWidth;
-        
+
         if (objVal < obj.config.min) {
             objVal = obj.config.min;
             rX = 0;
@@ -24704,10 +24705,10 @@ var AXInputConverter = Class.create(AXJ, {
             rX = pixelWidth;
         }
         if (rX > pixelWidth) rX = pixelWidth;
-        
+
         var sX = rX - (obj.config._handleWidth / 2);
         var stX = rX - (obj.config._maxTitleWidth / 2);
-        
+
         //trace({rX:rX, pixelWidth:pixelWidth, objVal:objVal, valueWidth:valueWidth});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandle").css({left: sX});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({width: rX});
@@ -24716,7 +24717,7 @@ var AXInputConverter = Class.create(AXJ, {
         axdom("#" + objID).val(objVal);
         if (obj.config.onChange) obj.config.onChange(objID, objVal);
         else if (obj.config.onchange) obj.config.onchange(objID, objVal);
-        
+
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         obj.bindTarget.change();
     },
@@ -24724,21 +24725,21 @@ var AXInputConverter = Class.create(AXJ, {
         var cfg = this.config;
         var obj = this.objects[objSeq];
         var objVal = axdom("#" + objID).val();
-        
+
         if (obj.config.onChange || obj.config.onchange) {
             var onchange = obj.config.onChange || obj.config.onchange;
             onchange.call({id: objID, value: objVal}, objID, objVal);
         }
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         obj.bindTarget.change();
-        
+
         if (document.addEventListener) {
             document.removeEventListener("touchmove", obj.bindSliderTouchMove, false);
             document.removeEventListener("touchend", obj.bindSliderTouchEnd, false);
         }
         obj.config.isMoving = false;
     },
-    
+
     // twinSlider
     bindTwinSliderGetVals: function (objValString, separator) {
         var objVals = objValString.split(separator);
@@ -24754,24 +24755,24 @@ var AXInputConverter = Class.create(AXJ, {
     bindTwinSlider: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         var w = obj.bindAnchorTarget.width();
         var h = obj.bindAnchorTarget.data("height");
         var objValString = obj.bindTarget.val();
         var separator = obj.config.separator || "~";
         var objVal = this.bindTwinSliderGetVals(objValString, separator);
         obj.vals = objVal;
-        
+
         if (objVal.min.number() < obj.config.min.number()) objVal.min = obj.config.min;
         else if (objVal.min.number() > obj.config.max.number()) objVal.min = obj.config.max;
         if (objVal.max.number() < obj.config.min.number()) objVal.max = obj.config.min;
         else if (objVal.max.number() > obj.config.max.number()) objVal.max = obj.config.max;
-        
+
         if (!obj.config.unit) obj.config.unit = "";
-        
+
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderBox\" class=\"" + cfg.anchorSliderBoxClassName + "\" style=\"left:0px;width:" + w + "px;height:" + h + "px;\">");
         po.push("	<a " + obj.config.href + " class=\"AXanchorSliderMinTitle\">" + obj.config.min.number().money() + obj.config.unit + "</a>");
@@ -24784,7 +24785,7 @@ var AXInputConverter = Class.create(AXJ, {
         po.push("		<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax\" class=\"AXanchorSliderHandleMax\">&nbsp;</a>");
         po.push("	</div>");
         po.push("</div>");
-        
+
         //append to anchor
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.css({
@@ -24797,7 +24798,7 @@ var AXInputConverter = Class.create(AXJ, {
         //, background:"#eee"
         obj.bindAnchorTarget.show();
         obj.bindTarget.hide();
-        
+
         var maxTitleWidth = obj.bindAnchorTarget.find(".AXanchorSliderMaxTitle").outerWidth().number() + 10;
         var minTitleWidth = obj.bindAnchorTarget.find(".AXanchorSliderMinTitle").outerWidth().number() + 10;
         obj.bindAnchorTarget.find(".AXanchorSliderMinTitle").css({width: minTitleWidth + "px"});
@@ -24815,7 +24816,7 @@ var AXInputConverter = Class.create(AXJ, {
         obj.config._handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").width();
         obj.config._trackWidth = sliderBarWidth;
         this.bindTwinSliderSetValue(objID, objSeq);
-        
+
         var onmousedown = this.bindTwinSliderMouseDown.bind(this);
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").unbind("mousedown.AXInput").bind("mousedown.AXInput", function () {
             onmousedown(objID, objSeq, "min");
@@ -24823,7 +24824,7 @@ var AXInputConverter = Class.create(AXJ, {
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").unbind("mousedown.AXInput").bind("mousedown.AXInput", function () {
             onmousedown(objID, objSeq, "max");
         });
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").unbind("dragstart.AXInput").bind("dragstart.AXInput", function (event) {
             event.stopPropagation(); // disable  event
             return false;
@@ -24832,17 +24833,21 @@ var AXInputConverter = Class.create(AXJ, {
             event.stopPropagation(); // disable  event
             return false;
         });
-        
+
         //add touch event
         if (document.addEventListener) {
             var ontouchstart = this.twinSliderTouchStart.bind(this);
-            obj.bindTwinSliderTouchStartMin = function (event) { ontouchstart(objID, objSeq, "min"); }
-            obj.bindTwinSliderTouchStartMax = function (event) { ontouchstart(objID, objSeq, "max"); }
-            
+            obj.bindTwinSliderTouchStartMin = function (event) {
+                ontouchstart(objID, objSeq, "min");
+            }
+            obj.bindTwinSliderTouchStartMax = function (event) {
+                ontouchstart(objID, objSeq, "max");
+            }
+
             AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").addEventListener("touchstart", obj.bindTwinSliderTouchStartMin, false);
             AXgetId(cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").addEventListener("touchstart", obj.bindTwinSliderTouchStartMax, false);
         }
-        
+
     },
     bindTwinSliderMouseDown: function (objID, objSeq, handleName) {
         var cfg = this.config;
@@ -24863,17 +24868,17 @@ var AXInputConverter = Class.create(AXJ, {
             axdom(document.body).unbind("mouseup.AXInput").bind("mouseup.AXInput", obj.bindTwinSliderMouseUp);
             obj.config.isMoving = true;
         }
-        
+
     },
     bindTwinSliderMouseMove: function (objID, objSeq, event, handleName) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var eX = event.pageX;
         var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
-        
+
         var rX = eX - cX;
-        
+
         var valueWidth = obj.config.max.number() - obj.config.min.number();
         var pixelWidth = obj.config._trackWidth;
         var objVal = (rX * valueWidth) / pixelWidth;
@@ -24882,7 +24887,7 @@ var AXInputConverter = Class.create(AXJ, {
         objVal = (objVal.number() + obj.config.min.number()).round();
         objVal = parseInt(objVal / (snap)) * (snap);
         var rX = ((objVal - obj.config.min) * pixelWidth) / valueWidth;
-        
+
         if (objVal < obj.config.min) {
             objVal = obj.config.min;
             rX = 0;
@@ -24892,7 +24897,7 @@ var AXInputConverter = Class.create(AXJ, {
             rX = pixelWidth;
         }
         if (rX > pixelWidth) rX = pixelWidth;
-        
+
         //trace({rX:rX, pixelWidth:pixelWidth, objVal:objVal, valueWidth:valueWidth});
         if (handleName == "min") {
             if (objVal > obj.vals.max) {
@@ -24933,12 +24938,12 @@ var AXInputConverter = Class.create(AXJ, {
         }
         var separator = obj.config.separator || "~";
         axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
-        
+
     },
     bindTwinSliderMouseUp: function (objID, objSeq, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var objVal = axdom("#" + objID).val();
         if (obj.config.onChange || obj.config.onchange) {
             var onchange = obj.config.onChange || obj.config.onchange;
@@ -24946,7 +24951,7 @@ var AXInputConverter = Class.create(AXJ, {
         }
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         obj.bindTarget.change();
-        
+
         axdom(document.body).unbind("mousemove.AXInput");
         axdom(document.body).unbind("mouseup.AXInput");
         obj.config.isMoving = false;
@@ -24960,36 +24965,36 @@ var AXInputConverter = Class.create(AXJ, {
         else {
             var objValString = axdom("#" + objID).val();
         }
-        
+
         var separator = obj.config.separator || "~";
         var objVal = this.bindTwinSliderGetVals(objValString, separator);
         obj.vals = objVal;
-        
+
         if (objVal.min.number() < obj.config.min.number()) objVal.min = obj.config.min;
         else if (objVal.min.number() > obj.config.max.number()) objVal.min = obj.config.max;
         if (objVal.max.number() < obj.config.min.number()) objVal.max = obj.config.min;
         else if (objVal.max.number() > obj.config.max.number()) objVal.max = obj.config.max;
-        
+
         var valueWidth = obj.config.max.number() - obj.config.min.number();
         var pixelWidth = obj.config._trackWidth;
         var pixelMinLeft = ((objVal.min - obj.config.min) * pixelWidth) / valueWidth;
         var pixelMaxLeft = ((objVal.max - obj.config.min) * pixelWidth) / valueWidth;
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMin").css({left: pixelMinLeft - (obj.config._handleWidth)});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").css({left: pixelMinLeft - (obj.config._maxTitleWidth)});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMinTitle").text(objVal.min.number().money() + obj.config.unit);
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMax").css({left: pixelMaxLeft});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").css({left: pixelMaxLeft});
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderHandleMaxTitle").text(objVal.max.number().money() + obj.config.unit);
-        
+
         obj.handleMinLeft = pixelMinLeft;
         obj.handleMaxLeft = pixelMaxLeft;
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderInside").css({
             left: pixelMinLeft,
             width: pixelMaxLeft - pixelMinLeft
         });
-        
+
         axdom("#" + objID).val(obj.vals.min + separator + obj.vals.max);
     },
     // -- add touch event
@@ -24999,7 +25004,7 @@ var AXInputConverter = Class.create(AXJ, {
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         if (!obj.config.isMoving) {
             var bindTwinSliderTouchMove = this.twinSliderTouchMove.bind(this);
             obj.bindTwinSliderTouchMove = function (event) {
@@ -25009,29 +25014,29 @@ var AXInputConverter = Class.create(AXJ, {
             obj.bindTwinSliderTouchEnd = function (event) {
                 bindTwinSliderTouchEnd(objID, objSeq, event, handleName);
             };
-            
+
             if (document.addEventListener) {
                 document.addEventListener("touchmove", obj.bindTwinSliderTouchMove, false);
                 document.addEventListener("touchend", obj.bindTwinSliderTouchEnd, false);
-                
+
             }
             obj.config.isMoving = true;
-            
+
         }
-        
+
     },
     twinSliderTouchMove: function (objID, objSeq, event, handleName) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         event.preventDefault();
         var touch = event.touches[0];
-        
+
         //var eX = event.pageX;
         var eX = touch.pageX;
         var cX = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SliderBar").offset().left;
         var rX = eX - cX;
-        
+
         var valueWidth = obj.config.max.number() - obj.config.min.number();
         var pixelWidth = obj.config._trackWidth;
         var objVal = (rX * valueWidth) / pixelWidth;
@@ -25040,7 +25045,7 @@ var AXInputConverter = Class.create(AXJ, {
         objVal = (objVal.number() + obj.config.min.number()).round();
         objVal = parseInt(objVal / (snap)) * (snap);
         var rX = ((objVal - obj.config.min) * pixelWidth) / valueWidth;
-        
+
         if (objVal < obj.config.min) {
             objVal = obj.config.min;
             rX = 0;
@@ -25050,9 +25055,9 @@ var AXInputConverter = Class.create(AXJ, {
             rX = pixelWidth;
         }
         if (rX > pixelWidth) rX = pixelWidth;
-        
+
         //trace({rX:rX, pixelWidth:pixelWidth, objVal:objVal, valueWidth:valueWidth});
-        
+
         if (handleName == "min") {
             if (objVal > obj.vals.max) {
                 objVal = obj.vals.max;
@@ -25100,7 +25105,7 @@ var AXInputConverter = Class.create(AXJ, {
     twinSliderTouchEnd: function (objID, objSeq, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var objVal = axdom("#" + objID).val();
         if (obj.config.onChange || obj.config.onchange) {
             var onchange = obj.config.onChange || obj.config.onchange;
@@ -25110,18 +25115,18 @@ var AXInputConverter = Class.create(AXJ, {
         obj.bindTarget.change();
         document.removeEventListener("touchmove", obj.bindTwinSliderTouchMove, false);
         document.removeEventListener("touchend", obj.bindTwinSliderTouchEnd, false);
-        
+
         obj.config.isMoving = false;
     },
-    
+
     // switch
     bindSwitch: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         var w = obj.bindAnchorTarget.width();
         var h = obj.bindAnchorTarget.data("height");
         var objVal = obj.bindTarget.val();
@@ -25134,13 +25139,13 @@ var AXInputConverter = Class.create(AXJ, {
             obj.switchValue = "off";
         }
         obj.bindTarget.val(switchValue);
-        
+
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox\" class=\"" + cfg.anchorSwitchBoxClassName + "\" style=\"left:0px;top:0px;width:" + w + "px;height:" + h + "px;\">");
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchDisplay\" class=\"AXanchorSwitchDisplay\" style=\"height:" + h + "px;line-height:" + h + "px;\">" + switchValue + "</div>");
         po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SwitchHandle\" class=\"AXanchorSwitchHandle\" style=\"height:" + h + "px;\">&nbsp;</a>");
         po.push("</div>");
-        
+
         //append to anchor
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.css({
@@ -25150,34 +25155,34 @@ var AXInputConverter = Class.create(AXJ, {
             left: "auto",
             top: "auto"
         });
-        
+
         obj.bindTarget_switchBox = obj.bindAnchorTarget.find("." + cfg.anchorSwitchBoxClassName);
         obj.bindTarget_switchDisplay = obj.bindAnchorTarget.find(".AXanchorSwitchDisplay");
         obj.bindTarget_switchHandle = obj.bindAnchorTarget.find(".AXanchorSwitchHandle");
-        
+
         if (obj.switchValue == "on") {
             obj.bindAnchorTarget.find("." + cfg.anchorSwitchBoxClassName).addClass("on");
         }
-        
+
         //, background:"#eee"
         obj.bindAnchorTarget.show();
         obj.bindTarget.hide();
-        
+
         var bindSwitchClick = this.bindSwitchClick.bind(this);
         obj.bindSwitchClick = function (event) {
             bindSwitchClick(objID, objSeq, event);
         };
         obj.bindAnchorTarget.find("." + cfg.anchorSwitchBoxClassName).unbind("click.AXInput").bind("click.AXInput", obj.bindSwitchClick);
-        
+
     },
     bindSwitchClick: function (objID, objSeq, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         if (obj.switchValue == "on") {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
             obj.switchValue = "off";
@@ -25206,7 +25211,7 @@ var AXInputConverter = Class.create(AXJ, {
     bindSwitchSetValue: function (objID, objSeq, value) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var objVal = value;
         var switchValue = obj.config.on;
         if (objVal == switchValue) {
@@ -25217,7 +25222,7 @@ var AXInputConverter = Class.create(AXJ, {
             obj.switchValue = "off";
         }
         axdom("#" + objID).val(switchValue);
-        
+
         if (obj.switchValue == "off") {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SwitchBox").removeClass("on");
             obj.switchValue = "off";
@@ -25244,23 +25249,23 @@ var AXInputConverter = Class.create(AXJ, {
         obj.bindTarget.change();
     },
     bindSwitch_touchstart: function () {
-        
+
     },
     bindSwitch_touchMove: function () {
-        
+
     },
     bindSwitch_touchEnd: function () {
-        
+
     },
-    
+
     // segment
     bindSegment: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         var w = obj.bindAnchorTarget.width();
         var h = obj.bindAnchorTarget.data("height");
         var objVal = obj.bindTarget.val();
@@ -25278,7 +25283,7 @@ var AXInputConverter = Class.create(AXJ, {
             obj.selectedSegment = segmentOptions[0];
         }
         obj.bindTarget.val(obj.selectedSegment.optionValue);
-        
+
         var handleWidth = (w / segmentOptions.length).round() - 2;
         var po = [];
         var theme = obj.config.theme || cfg.anchorSegmentBoxClassName;
@@ -25292,7 +25297,7 @@ var AXInputConverter = Class.create(AXJ, {
             po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + idx + "\" class=\"AXanchorSegmentHandle" + addClass + "\" style=\"width:" + handleWidth + "px;\">" + seg.optionText + "</a>");
         });
         po.push("</div>");
-        
+
         //append to anchor
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.css({
@@ -25308,31 +25313,31 @@ var AXInputConverter = Class.create(AXJ, {
             height: (obj.bindAnchorTarget.innerHeight() - borderTop - borderBot) + "px",
             "line-height": (obj.bindAnchorTarget.innerHeight() - borderTop - borderBot) + "px"
         });
-        
+
         //, background:"#eee"
         obj.bindAnchorTarget.show();
         obj.bindTarget.hide();
-        
+
         var bindSegmentClick = this.bindSegmentClick.bind(this);
         obj.bindSegmentClick = function (event) {
             bindSegmentClick(objID, objSeq, event);
         };
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentBox").find(".AXanchorSegmentHandle").unbind("click.AXInput").bind("click.AXInput", obj.bindSegmentClick);
     },
     bindSegmentClick: function (objID, objSeq, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         var segmentOptions = obj.config.options;
-        
+
         var myTarget = axf.get_event_target(event.target, {tagname: "a", clazz: "AXanchorSegmentHandle"});
         if (myTarget) {
-            
+
             var seq = myTarget.id.split(/_AX_/g).last();
             if (obj.selectedSegmentIndex != seq) {
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).removeClass("on");
@@ -25360,9 +25365,9 @@ var AXInputConverter = Class.create(AXJ, {
     bindSegmentSetValue: function (objID, objSeq, value) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         var selectedSegmentIndex = obj.selectedSegmentIndex;
-        
+
         var objVal = value;
         var segmentOptions = obj.config.options;
         obj.selectedSegmentIndex = null;
@@ -25377,12 +25382,12 @@ var AXInputConverter = Class.create(AXJ, {
             obj.selectedSegment = segmentOptions[0];
         }
         axdom("#" + objID).val(obj.selectedSegment.optionValue);
-        
+
         if (selectedSegmentIndex != obj.selectedSegmentIndex) {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + selectedSegmentIndex).removeClass("on");
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SegmentHandle_AX_" + obj.selectedSegmentIndex).addClass("on");
         }
-        
+
         if (obj.config.onChange || obj.config.onchange) {
             var sendObj = {
                 targetID: objID,
@@ -25396,21 +25401,21 @@ var AXInputConverter = Class.create(AXJ, {
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         obj.bindTarget.change();
     },
-    
+
     // date
     bindDate: function (objID, objSeq) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        
+
         var h = obj.bindAnchorTarget.data("height");
         var po = [];
         po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:0px;top:0px;width:" + h + "px;height:" + h + "px;\">&nbsp;</a>");
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.show();
-        
+
         var bindDateExpand = this.bindDateExpand.bind(this);
         var bindDateExpandClose = this.bindDateExpandClose.bind(this);
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").unbind("click.AXInput").bind("click.AXInput", function (event) {
@@ -25426,11 +25431,11 @@ var AXInputConverter = Class.create(AXJ, {
                 obj.bindTarget.select();
             }, 1);
         });
-        
+
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-        
+
         //trace(obj.config);
-        
+
         obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
             var _this = this;
             setTimeout(function () {
@@ -25490,12 +25495,12 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             });
         });
-        
+
         var bindDateInputBlur = this.bindDateInputBlur.bind(this);
         obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
             bindDateInputBlur(objID, objSeq, event);
         });
-        
+
         // config.expand : true, 속성 bindDateExpand
         if (obj.config.expand === true) {
             bindDateExpand(objID, objSeq, true, event);
@@ -25507,18 +25512,18 @@ var AXInputConverter = Class.create(AXJ, {
     bindDateExpand: function (objID, objSeq, isToggle, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         for (var OO, oidx = 0, __arr = this.objects; (oidx < __arr.length && (OO = __arr[oidx])); oidx++) {
             if (OO.expandBox_axdom) {
                 OO.expandBox_axdom.remove();
                 OO.expandBox_axdom = null;
             }
         }
-        
+
         if (AXUtil.clientWidth() < cfg.responsiveMobile) {
             this.bindDateExpandMobile(objID, objSeq, isToggle, event);
             return;
@@ -25526,7 +25531,7 @@ var AXInputConverter = Class.create(AXJ, {
         }
         var obj = this.objects[objSeq];
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-        
+
         //Selector Option box Expand
         if (isToggle) { // 활성화 여부가 토글 이면
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -25537,11 +25542,11 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
-        
+
         //Expand Box 생성 구문 작성
         var objVal = axdom("#" + objID).val(), objHours = "";
         if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
-        
+
         var today = new Date();
         if (obj.config.selectType == "y") {
             if (objVal != "") {
@@ -25553,13 +25558,13 @@ var AXInputConverter = Class.create(AXJ, {
                 objVal = objVal + separator + "02";
             }
         }
-        
+
         var dfDate = (obj.config.defaultDate || "").date();
         var myDate = objVal.date(separator, dfDate);
-        
+
         var myYear = myDate.getUTCFullYear();
         var myMonth = (myDate.getUTCMonth() + 1).setDigit(2);
-        
+
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
         po.push("	<div>");
@@ -25575,10 +25580,10 @@ var AXInputConverter = Class.create(AXJ, {
         }
         po.push("	</div>");
         po.push("</div>");
-        
+
         axdom(document.body).append(po.join('')); // bindDateExpandBox append
         //axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
-        
+
         // AXCalendar display
         obj.nDate = myDate;
         obj.mycalendar = new AXCalendar();
@@ -25605,7 +25610,7 @@ var AXInputConverter = Class.create(AXJ, {
             var myTimes = myDate.print("hh:mi").split(":");
             var myHH = myTimes[0].number();
             var myMI = myTimes[1];
-            
+
             if (myHH == 12 && myMI > 0) {
                 apm = "PM";
             }
@@ -25615,19 +25620,17 @@ var AXInputConverter = Class.create(AXJ, {
             }
             obj.mycalendartime.printTimePage(myHH.setDigit(2) + ":" + myMI.setDigit(2) + " " + apm);
         }
-        
+
         var printDate = "";
         if (obj.config.selectType == "y") {
             obj.mycalendarPageType = "y";
             obj.mycalendar.printYearPage(myDate.print("yyyy"));
             printDate = myDate.print("yyyy");
-            axdom("#" + objID).val(printDate);
         }
         else if (obj.config.selectType == "m") {
             obj.mycalendarPageType = "m";
             obj.mycalendar.printMonthPage(myDate);
             printDate = myDate.print("yyyy" + separator + "mm");
-            axdom("#" + objID).val(printDate);
         }
         else {
             if (obj.config.defaultSelectType) {
@@ -25647,8 +25650,6 @@ var AXInputConverter = Class.create(AXJ, {
                 if (obj.config.expandTime) {
                     printDate += " " + myDate.print("hh:mi");
                 }
-                axdom("#" + objID).val(printDate);
-                
             }
             else {
                 obj.mycalendarPageType = "d";
@@ -25657,11 +25658,14 @@ var AXInputConverter = Class.create(AXJ, {
                 if (obj.config.expandTime) {
                     printDate += " " + myDate.print("hh:mi");
                 }
-                axdom("#" + objID).val(printDate);
+
             }
         }
+        if (obj.config.expandSetValue) {
+            axdom("#" + objID).val(printDate);
+        }
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AXCalendar display
-        
+
         // expandBox set Position ~~~~~~~~~~~~~~~~~~~~~~~~~
         var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
         var expBoxWidth = expandBox.outerWidth();
@@ -25669,7 +25673,7 @@ var AXInputConverter = Class.create(AXJ, {
         var offset = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").offset();
         var handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").width();
         var handleHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").height();
-        
+
         var css = {};
         if (obj.config.align == "left") {
             css.left = offset.left.number() - expBoxWidth;
@@ -25695,40 +25699,40 @@ var AXInputConverter = Class.create(AXJ, {
         else {
             css.top = offset.top;
         }
-        
+
         if (obj.config.customPos != undefined) {
             css.top = css.top + obj.config.customPos.top;
             css.left = css.left + obj.config.customPos.left;
         }
-        
+
         var pElement = expandBox.offsetParent();
         var pBox = {width: pElement.width(), height: pElement.height()};
-        
+
         var clientHeight = (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight;
         var clienWidth = (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth;
         if (clienWidth > pBox.width) pBox.width = clienWidth;
         if (clientHeight > pBox.height) pBox.height = clientHeight;
         var _box = {width: expandBox.outerWidth() + 10, height: expandBox.outerHeight() + 10};
-        
+
         if ((_box.height.number() + css.top.number()) > pBox.height) {
             css.top = css.top - ((_box.height.number() + css.top.number()) - pBox.height);
         }
         if (css.top < 0) {
             css.top = 0;
         }
-        
+
         if ((_box.width.number() + css.left.number()) > pBox.width) {
             css.left = css.left - ((_box.width.number() + css.left.number()) - pBox.width);
         }
         if (css.left < 0) {
             css.left = 0;
         }
-        
+
         expandBox.css(css);
         obj.expandBox_axdom = expandBox;
-        
+
         // ~~~~~~~~~~~~~~~~~~~~~~~~~ expandBox set Position ~~~~~~~~~~~~~~~~~~~~~~~~~
-        
+
         var bindDateExpandBoxClick = this.bindDateExpandBoxClick.bind(this);
         obj.documentclickEvent = function (event) {
             //trace(objID);
@@ -25742,7 +25746,7 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").css({left: "70px"});
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").hide();
         }
-        
+
         //trace("event bind");
         axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
         axdom("#" + objID).bind("keydown.AXInput", obj.inputKeyup);
@@ -25751,13 +25755,13 @@ var AXInputConverter = Class.create(AXJ, {
     bindDateExpandMobile: function (objID, objSeq, isToggle, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
-        
+
         //Selector Option box Expand
         if (isToggle) { // 활성화 여부가 토글 이면
             if (obj.modal && obj.modal.opened) {
@@ -25767,7 +25771,7 @@ var AXInputConverter = Class.create(AXJ, {
                 return;
             }
         }
-        
+
         /* mobile modal ready */
         obj.modal = new AXMobileModal();
         obj.modal.setConfig({
@@ -25775,9 +25779,10 @@ var AXInputConverter = Class.create(AXJ, {
             height: (obj.config.expandTime) ? 532 : 388,
             width: 300,
             head: {},
-            onclose: function () { }
+            onclose: function () {
+            }
         });
-        
+
         var initBindDateMobileModal = this.initBindDateMobileModal.bind(this);
         var onLoad = function (modalObj) {
             initBindDateMobileModal(objID, objSeq, modalObj);
@@ -25788,11 +25793,11 @@ var AXInputConverter = Class.create(AXJ, {
         var cfg = this.config;
         var obj = this.objects[objSeq];
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-        
+
         //Expand Box 생성 구문 작성
         var objVal = axdom("#" + objID).val();
         if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정			
-        
+
         var today = new Date();
         if (obj.config.selectType == "y") {
             if (objVal != "") {
@@ -25804,13 +25809,13 @@ var AXInputConverter = Class.create(AXJ, {
                 objVal = objVal + separator + "01";
             }
         }
-        
+
         var dfDate = (obj.config.defaultDate || "").date();
         var myDate = objVal.date(separator, dfDate);
-        
+
         var myYear = myDate.getFullYear();
         var myMonth = (myDate.getMonth() + 1).setDigit(2);
-        
+
         /* head 만들기 */
         var headPo = [];
         /* 현재 선택된 메뉴 선택 하는 기능구현 필요 */
@@ -25820,7 +25825,7 @@ var AXInputConverter = Class.create(AXJ, {
         headPo.push("	<a " + obj.config.href + " class=\"AXDateControl prevbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandPrev\">P</a>");
         headPo.push("	<a " + obj.config.href + " class=\"AXDateControl nextbutton\" id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandNext\">N</a>");
         headPo.push("</div>");
-        
+
         var bodyPo = [];
         bodyPo.push('<div class="AXDateContainer">');
         bodyPo.push('<div class="AXDateDisplayBox" id="' + cfg.targetID + '_AX_' + objID + '_AX_displayBox"></div>');
@@ -25828,12 +25833,12 @@ var AXInputConverter = Class.create(AXJ, {
             bodyPo.push('		<div class="AXTimeDisplayBox" id="' + cfg.targetID + '_AX_' + objID + '_AX_displayTimeBox"></div>');
         }
         bodyPo.push('</div>');
-        
+
         var footPo = [];
         footPo.push('<div class="AXDateButtonBox" id="' + cfg.targetID + '_AX_' + objID + '_AX_buttonBox">');
         footPo.push('	<button class="AXButtonSmall W80 AXBindDateConfirm" type="button" id="' + cfg.targetID + '_AX_' + objID + '_AX_button_AX_confirm">' + (AXConfig.AXInput.confirmText || "확인") + '</button>');
         footPo.push('</div>');
-        
+
         /* modal에 캘린더 장착 */
         modalObj.modalHead.empty();
         modalObj.modalHead.append(headPo.join(''));
@@ -25841,7 +25846,7 @@ var AXInputConverter = Class.create(AXJ, {
         modalObj.modalBody.append(bodyPo.join(''));
         modalObj.modalFoot.empty();
         modalObj.modalFoot.append(footPo.join(''));
-        
+
         /* 캘린더 클래스 로드 */
         // AXCalendar display
         obj.nDate = myDate;
@@ -25866,7 +25871,7 @@ var AXInputConverter = Class.create(AXJ, {
             var myTimes = myDate.print("hh:mi").split(":");
             var myHH = myTimes[0].number();
             var myMI = myTimes[1];
-            
+
             if (myHH == 12 && myMI > 0) {
                 apm = "PM";
             }
@@ -25876,7 +25881,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
             obj.mycalendartime.printTimePage(myHH.setDigit(2) + ":" + myMI.setDigit(2) + " " + apm);
         }
-        
+
         var printDate = "";
         if (obj.config.selectType == "y") {
             obj.mycalendarPageType = "y";
@@ -25909,7 +25914,7 @@ var AXInputConverter = Class.create(AXJ, {
                     printDate += " " + myDate.print("hh:mi");
                 }
                 axdom("#" + objID).val(printDate);
-                
+
             }
             else {
                 obj.mycalendarPageType = "d";
@@ -25922,7 +25927,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AXCalendar display
-        
+
         // control event bind
         var _this = this;
         /*var bindDateMobileModalHeadClick = this.bindDateMobileModalHeadClick.bind(this);*/
@@ -25946,13 +25951,17 @@ var AXInputConverter = Class.create(AXJ, {
         var eventTarget = event.target;
         var myTarget = this.getEventTarget({
             evt: eventTarget, evtIDs: eid,
-            until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXDateControlBox")) ? true : false; },
-            find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXDateControl")) ? true : false; }
+            until: function (evt, evtIDs) {
+                return (axdom(evt.parentNode).hasClass("AXDateControlBox")) ? true : false;
+            },
+            find: function (evt, evtIDs) {
+                return (axdom(evt).hasClass("AXDateControl")) ? true : false;
+            }
         });
         if (myTarget) {
             var act = myTarget.id.split(/_AX_/g).last();
             var nDate = obj.nDate;
-            
+
             if (act == "controlYear") {
                 this.bindDateChangePage(objID, objSeq, nDate, "y");
             }
@@ -25992,8 +26001,12 @@ var AXInputConverter = Class.create(AXJ, {
         var eventTarget = event.target;
         var myTarget = this.getEventTarget({
             evt: eventTarget, evtIDs: eid,
-            until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXDateContainer")) ? true : false; },
-            find: function (evt, evtIDs) { return (axdom(evt).hasClass("calendarDate") || axdom(evt).hasClass("calendarMonth")) ? true : false; }
+            until: function (evt, evtIDs) {
+                return (axdom(evt.parentNode).hasClass("AXDateContainer")) ? true : false;
+            },
+            find: function (evt, evtIDs) {
+                return (axdom(evt).hasClass("calendarDate") || axdom(evt).hasClass("calendarMonth")) ? true : false;
+            }
         });
         if (myTarget) {
             var ids = myTarget.id.split(/_AX_/g);
@@ -26043,7 +26056,7 @@ var AXInputConverter = Class.create(AXJ, {
                     this.bindDateChangePage(objID, objSeq, obj.nDate, "m");
                 }
             }
-            
+
         }
     },
     bindDateMobileModalFootClick: function (objID, objSeq, event) {
@@ -26053,8 +26066,12 @@ var AXInputConverter = Class.create(AXJ, {
         var eventTarget = event.target;
         var myTarget = this.getEventTarget({
             evt: eventTarget, evtIDs: eid,
-            until: function (evt, evtIDs) { return (axdom(evt.parentNode).hasClass("AXDateButtonBox")) ? true : false; },
-            find: function (evt, evtIDs) { return (axdom(evt).hasClass("AXBindDateConfirm")) ? true : false; }
+            until: function (evt, evtIDs) {
+                return (axdom(evt.parentNode).hasClass("AXDateButtonBox")) ? true : false;
+            },
+            find: function (evt, evtIDs) {
+                return (axdom(evt).hasClass("AXBindDateConfirm")) ? true : false;
+            }
         });
         if (myTarget) {
             var act = myTarget.id.split(/_AX_/g).last();
@@ -26067,18 +26084,18 @@ var AXInputConverter = Class.create(AXJ, {
     bindDateExpandClose: function (objID, objSeq, event) {
         var obj = this.objects[objSeq];
         var cfg = this.config;
-        
+
         if (!obj) {
             //비활성 처리후 메소드 종료
             axdom(document).unbind("click.AXInput");
             //axdom("#" + objID).unbind("keydown.AXInput");
             return;
         }
-        
+
         if (obj.modal && obj.modal.opened) { /* mobile modal close */
             var objVal = axdom("#" + objID).val();
             if (objVal == "") {
-                
+
             }
             else {
                 var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
@@ -26097,9 +26114,9 @@ var AXInputConverter = Class.create(AXJ, {
                     axdom("#" + objID).val(printDate);
                 }
             }
-            
+
             if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
-            
+
             if (obj.config.onChange) {
                 if (axdom.isFunction(obj.config.onChange)) {
                     obj.config.onChange.call({
@@ -26124,7 +26141,7 @@ var AXInputConverter = Class.create(AXJ, {
                             return;
                         }
                     }
-                    
+
                     obj.config.onChange.onChange.call({
                         objID: objID,
                         value: axdom("#" + objID).val(),
@@ -26132,13 +26149,13 @@ var AXInputConverter = Class.create(AXJ, {
                     });
                 }
             }
-            
+
             if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
             obj.bindTarget.trigger("change");
-            
+
             obj.modal.close();
             //axdom("#" + objID).unbind("keydown.AXInput");
-            
+
             //비활성 처리후 메소드 종료
             axdom(document).unbind("click.AXInput");
             //axdom("#" + objID).unbind("keydown.AXInput");
@@ -26147,9 +26164,9 @@ var AXInputConverter = Class.create(AXJ, {
         if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
             var objVal = axdom("#" + objID).val();
-            
+
             if (objVal == "") {
-                
+
             }
             else {
                 var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
@@ -26168,9 +26185,9 @@ var AXInputConverter = Class.create(AXJ, {
                     axdom("#" + objID).val(printDate);
                 }
             }
-            
+
             if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
-            
+
             if (obj.config.onChange) {
                 if (axdom.isFunction(obj.config.onChange)) {
                     obj.config.onChange.call({
@@ -26211,15 +26228,15 @@ var AXInputConverter = Class.create(AXJ, {
             }
             if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
             obj.bindTarget.trigger("change");
-            
+
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
             obj.expandBox_axdom = null;
             obj.mycalendartime = null;
-            
+
             //비활성 처리후 메소드 종료
             axdom(document).unbind("click.AXInput");
             //axdom("#" + objID).unbind("keydown.AXInput");
-            
+
             event.stopPropagation(); // disableevent
             return;
         }
@@ -26233,9 +26250,9 @@ var AXInputConverter = Class.create(AXJ, {
          //return false;
          }
          */
-        
+
         if (objVal == "") {
-            
+
         }
         else {
             var clearDate = false;
@@ -26244,26 +26261,26 @@ var AXInputConverter = Class.create(AXJ, {
             if (va.search(/\d+/g) == -1) {
                 clearDate = true;
             }
-            
+
             if (clearDate) {
                 axdom("#" + objID).val("");
             }
             else {
                 var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
                 if (obj.config.selectType == "y") {
-                    
+
                     var yy = va.left(4).number();
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
                     var mm = nDate.getMonth();
                     var dd = nDate.getDate();
                     obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
-                    
+
                     axdom("#" + objID).val(obj.nDate.print("yyyy"));
-                    
+
                 }
                 else if (obj.config.selectType == "m") {
-                    
+
                     if (va.length > 4) {
                         var yy = va.left(4).number();
                         var mm = va.substr(4, 2).number() - 1;
@@ -26277,9 +26294,9 @@ var AXInputConverter = Class.create(AXJ, {
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
                     obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
-                    
+
                     axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
-                    
+
                 }
                 else {
                     var needAlert = false;
@@ -26306,29 +26323,28 @@ var AXInputConverter = Class.create(AXJ, {
                     if (yy == 0) needAlert = true;
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
-                    
+
                     obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
-                    
+
                     //trace(obj.nDate.getFullYear() != yy.number());
                     //trace(obj.nDate.getMonth() != mm.number());
                     //trace(obj.nDate.getDate(), dd.number());
-                    
+
                     if (obj.nDate.getFullYear() != yy.number()
                         || obj.nDate.getMonth() != mm.number()
-                        || obj.nDate.getDate() != dd.number())
-                    {
+                        || obj.nDate.getDate() != dd.number()) {
                         needAlert = true;
                         obj.nDate = new Date();
                     }
-                    
+
                     printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
-                    
+
                     if (obj.config.expandTime) {
                         var hh, mi;
                         try {
                             printDate += " " + obj.mycalendartime.getTime();
                             trace(printDate);
-                            
+
                         } catch (e) {
                             if (va.length > 11) { // hh,mm
                                 hh = va.substr(8, 2).number();
@@ -26345,7 +26361,7 @@ var AXInputConverter = Class.create(AXJ, {
                             printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
                         }
                     }
-                    
+
                     if (needAlert) {
                         this.msgAlert("날짜 형식이 올바르지 않습니다.");
                     }
@@ -26353,12 +26369,12 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         }
-        
+
         if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
         if (obj.config.onChange) {
-            
+
             if (axdom("#" + objID).data("val") && axdom("#" + objID).data("val") != axdom("#" + objID).val()) {
-                
+
                 if (axdom.isFunction(obj.config.onChange)) {
                     obj.config.onChange.call({
                         objID: objID,
@@ -26381,7 +26397,7 @@ var AXInputConverter = Class.create(AXJ, {
                             axdom("#" + objID).val("");
                         }
                     }
-                    
+
                     obj.config.onChange.onChange.call({
                         objID: objID,
                         value: axdom("#" + objID).val(),
@@ -26389,23 +26405,23 @@ var AXInputConverter = Class.create(AXJ, {
                     });
                 }
                 axdom("#" + objID).data("val", axdom("#" + objID).val());
-                
+
             }
         }
 
         /*
-        if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        obj.bindTarget.trigger("change");
-        */
+         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+         obj.bindTarget.trigger("change");
+         */
 
         /* ie10 버그
          axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-         
+
          //비활성 처리후 메소드 종료
          axdom(document).unbind("click.AXInput");
          axdom("#" + objID).unbind("keydown.AXInput");
          */
-        
+
         event.stopPropagation(); // disableevent
         return;
     },
@@ -26413,24 +26429,24 @@ var AXInputConverter = Class.create(AXJ, {
         var cfg = this.config;
         var objID = obj.id;
         var objSeq = null;
-        
+
         axf.each(this.objects, function (oidx, O) {
             if (this.id == objID) {
                 objSeq = oidx;
                 return false;
             }
         });
-        
+
         if (objSeq != null) {
             var obj = this.objects[objSeq];
-            
+
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-            
+
             //비활성 처리후 메소드 종료
             axdom(document).unbind("click.AXInput");
             axdom("#" + objID).unbind("keydown.AXInput");
         }
-        
+
         var collect = [];
         var removeAnchorId;
         axf.each(this.objects, function () {
@@ -26440,9 +26456,9 @@ var AXInputConverter = Class.create(AXJ, {
             }
         });
         this.objects = collect;
-        
+
         axdom("#" + removeAnchorId).remove();
-        
+
     },
     bindDateTimeChange: function (objID, objSeq, myTime) {
         var obj = this.objects[objSeq];
@@ -26458,7 +26474,7 @@ var AXInputConverter = Class.create(AXJ, {
         var obj = this.objects[objSeq];
         var cfg = this.config;
         var isDateClick = false;
-        
+
         var eventTarget = event.target;
         var myTarget = this.getEventTarget({
             evt: eventTarget,
@@ -26476,7 +26492,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         });
-        
+
         isDateClick = (myTarget) ? true : false;
         if (!isDateClick) {
             this.bindDateExpandClose(objID, objSeq, event);
@@ -26485,10 +26501,10 @@ var AXInputConverter = Class.create(AXJ, {
             if (axdom(myTarget).hasClass("disabled")) {
                 return;
             } // disabled 대상은 선택 불가
-            
+
             var ids = myTarget.id.split(/_AX_/g);
             var ename = ids.last();
-            
+
             var nDate = obj.nDate;
             var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
             if (ename == "expandPrev") {
@@ -26567,20 +26583,20 @@ var AXInputConverter = Class.create(AXJ, {
         var obj = this.objects[objSeq];
         var cfg = this.config;
         if (obj.config.selectType == "y") {
-            
+
         }
         else if (obj.config.selectType == "m") {
-            
+
         }
         else {
-            
+
         }
     },
     bindDateChangePage: function (objID, objSeq, setDate, pageType) {
         var obj = this.objects[objSeq];
         var cfg = this.config;
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-        
+
         if (pageType == "m") {
             //alert(setDate);
             obj.mycalendarPageType = "m";
@@ -26605,7 +26621,7 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear").html(myYear + "년");
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth").html(myMonth + "월");
         }
-        
+
         if (obj.config.selectType == "y") {
             axdom("#" + objID).val(obj.nDate.print("yyyy"));
         }
@@ -26621,28 +26637,28 @@ var AXInputConverter = Class.create(AXJ, {
             axdom("#" + objID).val(printDate);
         }
     },
-    
+
     // twinDate
     bindTwinDate: function (objID, objSeq, option) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         obj.bindTargetStart = axdom("#" + obj.config.startTargetID);
-        
+
         var h = obj.bindAnchorTarget.data("height");
         var po = [];
         var handleLeft = 0;
         if (obj.config) handleLeft = (obj.config.handleLeft || 0).number();
-        
+
         po.push("<a " + obj.config.href + " id=\"" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle\" class=\"" + cfg.anchorDateHandleClassName + "\" style=\"right:" + (0 - handleLeft) + "px;top:0px;width:" + h + "px;height:" + h + "px;\">&nbsp;</a>");
         obj.bindAnchorTarget.append(po.join(''));
         obj.bindAnchorTarget.show();
-        
+
         var bindDateExpand = this.bindTwinDateExpand.bind(this);
         var bindTwinDateExpandClose = this.bindTwinDateExpandClose.bind(this);
-        
+
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").unbind("click.AXInput").bind("click.AXInput", function (event) {
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                 bindTwinDateExpandClose(objID, objSeq, event);
@@ -26671,7 +26687,7 @@ var AXInputConverter = Class.create(AXJ, {
              }
              */
         });
-        
+
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
         axdom("#" + objID + ", #" + obj.config.startTargetID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
             //alert(this.value);
@@ -26680,10 +26696,10 @@ var AXInputConverter = Class.create(AXJ, {
                 this.blur();
             }
             else if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-                
+
                 var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
                 var _this = this;
-                
+
                 if (obj.config.selectType == "y") {
                     if (va.length > 4) _this.value = va.left(4);
                 }
@@ -26732,7 +26748,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         });
-        
+
         var bindTwinDateInputBlur = this.bindTwinDateInputBlur.bind(this);
         obj.bindTarget.unbind("blur.AXInput").bind("blur.AXInput", function (event) {
             bindTwinDateInputBlur(objID, objSeq, event, 2);
@@ -26740,7 +26756,7 @@ var AXInputConverter = Class.create(AXJ, {
         axdom("#" + obj.config.startTargetID).unbind("blur.AXInput").bind("blur.AXInput", function (event) {
             bindTwinDateInputBlur(objID, objSeq, event, 1);
         });
-        
+
         var objVal1 = obj.bindTargetStart.val();
         var objVal2 = obj.bindTarget.val();
         var myDate1 = objVal1.date(separator);
@@ -26751,22 +26767,22 @@ var AXInputConverter = Class.create(AXJ, {
     bindTwinDateExpand: function (objID, objSeq, isToggle, event) {
         var cfg = this.config;
         var obj = this.objects[objSeq];
-        
+
         for (var OO, oidx = 0, __arr = this.objects; (oidx < __arr.length && (OO = __arr[oidx])); oidx++) {
             if (OO.expandBox_axdom) {
                 OO.expandBox_axdom.remove();
                 OO.expandBox_axdom = null;
             }
         }
-        
+
         var obj = this.objects[objSeq];
-        
+
         if (obj.bindAnchorTarget.attr("disable") == "disable" || obj.bindTarget.attr("disable") == "disable") {
             return false;
         }
-        
+
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-        
+
         //Selector Option box Expand
         if (isToggle) { // 활성화 여부가 토글 이면
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
@@ -26778,13 +26794,13 @@ var AXInputConverter = Class.create(AXJ, {
         }
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
         //axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").removeClass("on");
-        
+
         //Expand Box 생성 구문 작성
         var objVal1 = axdom("#" + obj.config.startTargetID).val();
         var objVal2 = axdom("#" + objID).val();
-        
+
         if (obj.config.expandTime) obj.config.selectType == "d"; //시간 확장 시 selectType : d 로 고정
-        
+
         var today = new Date();
         var objVal1Empty = false;
         if (obj.config.selectType == "y") {
@@ -26813,7 +26829,7 @@ var AXInputConverter = Class.create(AXJ, {
             objVal1 = "";
             objVal1Empty = true;
         }
-        
+
         /*var myDate1 = (objVal1Empty) ? objVal1.date(separator).add(-1, "m") : objVal1.date(separator);*/
         var myDate1 = objVal1.date(separator);
         var myDate2 = objVal2.date(separator);
@@ -26864,7 +26880,7 @@ var AXInputConverter = Class.create(AXJ, {
         po.push("</div>");
         axdom(document.body).append(po.join('')); // bindDateExpandBox append
         //axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
-        
+
         // AXCalendar display
         obj.nDate1 = myDate1;
         obj.mycalendar1 = new AXCalendar();
@@ -26875,7 +26891,7 @@ var AXInputConverter = Class.create(AXJ, {
             maxDate: obj.config.maxDate,
             onBeforeShowDay: obj.config.onBeforeShowDay
         });
-        
+
         obj.nDate2 = myDate2;
         obj.mycalendar2 = new AXCalendar();
         obj.mycalendar2.setConfig({
@@ -26885,7 +26901,7 @@ var AXInputConverter = Class.create(AXJ, {
             maxDate: obj.config.maxDate,
             onBeforeShowDay: obj.config.onBeforeShowDay
         });
-        
+
         if (obj.config.expandTime) { //시간 선택 기능 확장시
             obj.nDate1 = myDate1;
             var mycalendartimeChange1 = this.bindTwinDateTimeChange.bind(this);
@@ -26906,7 +26922,7 @@ var AXInputConverter = Class.create(AXJ, {
                 myHH -= 12;
             }
             obj.mycalendartime1.printTimePage(myHH.setDigit(2) + ":" + myMI.setDigit(2) + " " + apm);
-            
+
             obj.nDate2 = myDate2;
             var mycalendartimeChange2 = this.bindTwinDateTimeChange.bind(this);
             obj.mycalendartimeChange2 = function (myTime) {
@@ -26927,7 +26943,7 @@ var AXInputConverter = Class.create(AXJ, {
             }
             obj.mycalendartime2.printTimePage(myHH.setDigit(2) + ":" + myMI.setDigit(2) + " " + apm);
         }
-        
+
         var printDate1 = "";
         var printDate2 = "";
         if (obj.config.selectType == "y") {
@@ -26936,8 +26952,6 @@ var AXInputConverter = Class.create(AXJ, {
             obj.mycalendar2.printYearPage(myDate2.print("yyyy"));
             printDate1 = myDate1.print("yyyy");
             printDate2 = myDate2.print("yyyy");
-            axdom("#" + obj.config.startTargetID).val(printDate1);
-            axdom("#" + objID).val(printDate2);
         }
         else if (obj.config.selectType == "m") {
             obj.mycalendarPageType = "m";
@@ -26945,8 +26959,6 @@ var AXInputConverter = Class.create(AXJ, {
             obj.mycalendar2.printMonthPage(myDate2);
             printDate1 = myDate1.print("yyyy" + separator + "mm");
             printDate2 = myDate2.print("yyyy" + separator + "mm");
-            axdom("#" + obj.config.startTargetID).val(printDate1);
-            axdom("#" + objID).val(printDate2);
         }
         else {
             obj.mycalendarPageType = "d";
@@ -26958,11 +26970,14 @@ var AXInputConverter = Class.create(AXJ, {
                 printDate1 += " " + myDate1.print("hh:mi");
                 printDate2 += " " + myDate2.print("hh:mi");
             }
+        }
+        if (obj.config.expandSetValue) {
             axdom("#" + obj.config.startTargetID).val(printDate1);
             axdom("#" + objID).val(printDate2);
         }
+
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AXCalendar display
-        
+
         // expandBox set Position ~~~~~~~~~~~~~~~~~~~~~~~~~
         var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
         var expBoxWidth = expandBox.outerWidth();
@@ -26970,7 +26985,7 @@ var AXInputConverter = Class.create(AXJ, {
         var offset = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").offset();
         var handleWidth = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").width();
         var handleHeight = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_dateHandle").height();
-        
+
         var css = {};
         if (obj.config.align == "left") {
             css.left = offset.left.number() - expBoxWidth;
@@ -26996,40 +27011,40 @@ var AXInputConverter = Class.create(AXJ, {
         else {
             css.top = offset.top;
         }
-        
+
         if (obj.config.customPos != undefined) {
             css.top = css.top + obj.config.customPos.top;
             css.left = css.left + obj.config.customPos.left;
         }
-        
+
         var pElement = expandBox.offsetParent();
         var pBox = {width: pElement.width(), height: pElement.height()};
-        
+
         var clientHeight = (AXUtil.docTD == "Q") ? document.body.scrollHeight : document.documentElement.scrollHeight;
         var clienWidth = (AXUtil.docTD == "Q") ? document.body.scrollWidth : document.documentElement.scrollWidth;
         if (clienWidth > pBox.width) pBox.width = clienWidth;
         if (clientHeight > pBox.height) pBox.height = clientHeight;
         var _box = {width: expandBox.outerWidth() + 10, height: expandBox.outerHeight() + 10};
-        
+
         if ((_box.height.number() + css.top.number()) > pBox.height) {
             css.top = css.top - ((_box.height.number() + css.top.number()) - pBox.height);
         }
         if (css.top < 0) {
             css.top = 0;
         }
-        
+
         if ((_box.width.number() + css.left.number()) > pBox.width) {
             css.left = css.left - ((_box.width.number() + css.left.number()) - pBox.width);
         }
         if (css.left < 0) {
             css.left = 0;
         }
-        
+
         expandBox.css(css);
         obj.expandBox_axdom = expandBox;
-        
+
         // ~~~~~~~~~~~~~~~~~~~~~~~~~ expandBox set Position ~~~~~~~~~~~~~~~~~~~~~~~~~
-        
+
         var bindTwinDateExpandBoxClick = this.bindTwinDateExpandBoxClick.bind(this);
         obj.documentclickEvent = function (event) {
             bindTwinDateExpandBoxClick(objID, objSeq, event);
@@ -27038,14 +27053,14 @@ var AXInputConverter = Class.create(AXJ, {
         obj.inputKeyup = function (event) {
             bindTwinDateKeyup(objID, objSeq, event);
         }
-        
+
         if (obj.config.selectType == "y") {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear1").css({left: "70px"});
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth1").hide();
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlYear2").css({left: "70px"});
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").hide();
         }
-        
+
         axdom(document).unbind("click.AXInput").bind("click.AXInput", obj.documentclickEvent);
         axdom("#" + objID).unbind("keydown.AXInput").bind("keydown.AXInput", obj.inputKeyup);
         var bindTwinDateExpandClose = this.bindTwinDateExpandClose.bind(this);
@@ -27078,65 +27093,67 @@ var AXInputConverter = Class.create(AXJ, {
         var cfg = this.config;
         //trace("bindTwinDateExpandClose");
         if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
-            
+
             //axdom("#"+cfg.targetID+"_AX_"+objID+"_AX_Handle").removeClass("on");
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
             var objVal1 = axdom("#" + obj.config.startTargetID).val();
             var objVal2 = axdom("#" + objID).val();
             var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-            
-            if (obj.config.selectType == "y") {
-                if (objVal1.length < 4) axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
+
+            if(objVal1 != "" || objVal2 != ""){
+                if (obj.config.selectType == "y") {
+                    if (objVal1.length < 4) axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
+                    else {
+                        objVal1 = objVal1.left(4);
+                        axdom("#" + obj.config.startTargetID).val(objVal1);
+                        axdom("#" + obj.config.startTargetID).trigger("change");
+                    }
+                    if (objVal2.length < 4) axdom("#" + objID).val(obj.nDate2.print("yyyy"));
+                    else {
+                        objVal2 = objVal2.left(4);
+                        axdom("#" + objID).val(objVal2);
+                        axdom("#" + objID).trigger("change");
+                    }
+                }
+                else if (obj.config.selectType == "m") {
+                     axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
+                     axdom("#" + obj.config.startTargetID).trigger("change");
+                     axdom("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
+                     axdom("#" + objID).trigger("change");
+                }
                 else {
-                    objVal1 = objVal1.left(4);
-                    axdom("#" + obj.config.startTargetID).val(objVal1);
-                    axdom("#" + obj.config.startTargetID).trigger("change");
+                    printDate1 = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
+                    printDate2 = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
+                    if (obj.config.expandTime) {
+                        printDate1 += " " + obj.mycalendartime1.getTime();
+                        printDate2 += " " + obj.mycalendartime2.getTime();
+                    }
+                     axdom("#" + obj.config.startTargetID).val(printDate1);
+                     axdom("#" + objID).val(printDate2);
+                     axdom("#" + obj.config.startTargetID).trigger("change");
+                     axdom("#" + objID).trigger("change");
                 }
-                if (objVal2.length < 4) axdom("#" + objID).val(obj.nDate2.print("yyyy"));
-                else {
-                    objVal2 = objVal2.left(4);
-                    axdom("#" + objID).val(objVal2);
-                    axdom("#" + objID).trigger("change");
+
+                if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
+                if (obj.config.onChange) {
+                    obj.config.onChange.call({
+                        ST_objID: obj.config.startTargetID,
+                        ED_objID: objID,
+                        ST_value: axdom("#" + obj.config.startTargetID).val(),
+                        ED_value: axdom("#" + objID).val()
+                    });
                 }
+                if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+                obj.bindTarget.trigger("change");
             }
-            else if (obj.config.selectType == "m") {
-                axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy" + separator + "mm"));
-                axdom("#" + obj.config.startTargetID).trigger("change");
-                axdom("#" + objID).val(obj.nDate2.print("yyyy" + separator + "mm"));
-                axdom("#" + objID).trigger("change");
-            }
-            else {
-                printDate1 = obj.nDate1.print("yyyy" + separator + "mm" + separator + "dd");
-                printDate2 = obj.nDate2.print("yyyy" + separator + "mm" + separator + "dd");
-                if (obj.config.expandTime) {
-                    printDate1 += " " + obj.mycalendartime1.getTime();
-                    printDate2 += " " + obj.mycalendartime2.getTime();
-                }
-                axdom("#" + obj.config.startTargetID).val(printDate1);
-                axdom("#" + objID).val(printDate2);
-                axdom("#" + obj.config.startTargetID).trigger("change");
-                axdom("#" + objID).trigger("change");
-            }
-            
+
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-            
-            if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
-            if (obj.config.onChange) {
-                obj.config.onChange.call({
-                    ST_objID: obj.config.startTargetID,
-                    ED_objID: objID,
-                    ST_value: axdom("#" + obj.config.startTargetID).val(),
-                    ED_value: axdom("#" + objID).val()
-                });
-            }
-            if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-            obj.bindTarget.trigger("change");
-            
+
             obj.expandBox_axdom = null;
             //비활성 처리후 메소드 종료
             axdom(document).unbind("click.AXInput");
             axdom("#" + objID).unbind("keydown.AXInput");
-            
+
             event.stopPropagation(); // disableevent
             return;
         }
@@ -27145,7 +27162,7 @@ var AXInputConverter = Class.create(AXJ, {
         var obj = this.objects[objSeq];
         var cfg = this.config;
         var isDateClick = false;
-        
+
         var eventTarget = event.target;
         var myTarget = this.getEventTarget({
             evt: eventTarget,
@@ -27162,7 +27179,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         });
-        
+
         isDateClick = (myTarget) ? true : false;
         if (!isDateClick) {
             this.bindTwinDateExpandClose(objID, objSeq, event);
@@ -27171,7 +27188,7 @@ var AXInputConverter = Class.create(AXJ, {
             if (axdom(myTarget).hasClass("disabled")) {
                 return;
             } // disabled 대상은 선택 불가
-            
+
             var ids = myTarget.id.split(/_AX_/g);
             var ename = ids.last();
             var boxType = ids[ids.length - 3];
@@ -27257,7 +27274,7 @@ var AXInputConverter = Class.create(AXJ, {
                     axdom("#" + objID).val(printDate);
                     obj.mycalendar2.dayPageSetDay(obj.nDate2);
                 }
-                
+
                 if (obj.nDate1.diff(obj.nDate2) < 0) {
                     if (boxType == "displayBox1") {
                         obj.nDate2 = obj.nDate1;
@@ -27278,7 +27295,7 @@ var AXInputConverter = Class.create(AXJ, {
                         obj.mycalendar1.dayPageSetDay(obj.nDate1);
                     }
                 }
-                
+
             }
             else if (ename == "month") {
                 var myMonth = ids[ids.length - 2].number() - 1;
@@ -27316,7 +27333,7 @@ var AXInputConverter = Class.create(AXJ, {
                         this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "d");
                     }
                 }
-                
+
                 if (obj.config.selectType == "m") {
                     if (obj.nDate1.diff(obj.nDate2) < 0) {
                         obj.nDate2 = obj.nDate1;
@@ -27326,7 +27343,7 @@ var AXInputConverter = Class.create(AXJ, {
                         obj.mycalendar2.monthPageSetMonth(obj.nDate2);
                     }
                 }
-                
+
             }
             else if (ename == "year") {
                 var myYear = ids[ids.length - 2];
@@ -27364,7 +27381,7 @@ var AXInputConverter = Class.create(AXJ, {
                         this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "m");
                     }
                 }
-                
+
                 if (obj.config.selectType == "y") {
                     if (obj.nDate1.print("yyyy").number() > obj.nDate2.print("yyyy").number()) {
                         obj.nDate2 = obj.nDate1;
@@ -27380,20 +27397,20 @@ var AXInputConverter = Class.create(AXJ, {
     bindTwinDateKeyup: function (objID, objSeq, event) {
         //trace(event.keyCode);
         if (obj.config.selectType == "y") {
-            
+
         }
         else if (obj.config.selectType == "m") {
-            
+
         }
         else {
-            
+
         }
     },
     bindTwinDateChangePage: function (objID, objSeq, objType, setDate, pageType) {
         var obj = this.objects[objSeq];
         var cfg = this.config;
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-        
+
         if (pageType == "m") {
             if (objType == 1) {
                 //obj.mycalendarPageType = "m";
@@ -27428,9 +27445,9 @@ var AXInputConverter = Class.create(AXJ, {
         }
         else {
             //obj.mycalendarPageType = "d";
-            
+
             //trace({objID:objID, objSeq:objSeq, objType:objType, setDate:setDate, pageType:pageType});
-            
+
             if (objType == 1) {
                 obj.nDate1 = setDate;
                 obj.mycalendar1.printDayPage(setDate);
@@ -27448,7 +27465,7 @@ var AXInputConverter = Class.create(AXJ, {
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_controlMonth2").html(myMonth + "월");
             }
         }
-        
+
         if (objType == 1) {
             if (obj.config.selectType == "y") {
                 axdom("#" + obj.config.startTargetID).val(obj.nDate1.print("yyyy"));
@@ -27492,9 +27509,9 @@ var AXInputConverter = Class.create(AXJ, {
             targetObjID = objID;
             objVal = axdom("#" + objID).val();
         }
-        
+
         if (objVal == "") {
-            
+
         }
         else {
             var clearDate = false;
@@ -27503,27 +27520,26 @@ var AXInputConverter = Class.create(AXJ, {
             if (va.search(/\d+/g) == -1) {
                 clearDate = true;
             }
-            
+
             if (clearDate) {
                 axdom("#" + targetObjID).val("");
             }
             else {
                 var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
                 if (obj.config.selectType == "y") {
-                    
+
                     var yy = va.left(4).number();
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
                     var mm = nDate.getMonth();
                     var dd = nDate.getDate();
                     obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
-                    
+
                     axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy"));
-                    
+
                 }
-                else if (obj.config.selectType == "m")
-                {
-                    
+                else if (obj.config.selectType == "m") {
+
                     if (va.length > 5) {
                         var yy = va.left(4).number();
                         var mm = va.substr(4, 2).number() - 1;
@@ -27537,9 +27553,9 @@ var AXInputConverter = Class.create(AXJ, {
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
                     obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
-                    
+
                     axdom("#" + targetObjID).val(obj["nDate" + seq].print("yyyy" + separator + "mm"));
-                    
+
                 }
                 else {
                     var needAlert = false;
@@ -27564,7 +27580,7 @@ var AXInputConverter = Class.create(AXJ, {
                         mm = nDate.getMonth();
                         dd = va.substr(0, 2).number();
                     }
-                    
+
                     if (va.length >= 9) {
                         hh = va.substr(8, 2).number();
                         mi = va.substr(10, 2).number();
@@ -27573,30 +27589,29 @@ var AXInputConverter = Class.create(AXJ, {
                         hh = "00";
                         mi = "00";
                     }
-                    
+
                     if (yy == 0) needAlert = true;
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
                     obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
-                    
+
                     if (obj["nDate" + seq].getFullYear() != yy.number()
                         || obj["nDate" + seq].getMonth() != mm.number()
-                        || obj["nDate" + seq].getDate() != dd.number())
-                    {
+                        || obj["nDate" + seq].getDate() != dd.number()) {
                         needAlert = true;
                         obj["nDate" + seq] = new Date();
                     }
-                    
+
                     printDate = obj["nDate" + seq].print("yyyy" + separator + "mm" + separator + "dd");
                     if (obj.config.expandTime) {
                         printDate += " " + hh.setDigit(2) + ":" + mi.setDigit(2);
                     }
-                    
+
                     if (needAlert) {
                         this.msgAlert("날짜 형식이 올바르지 않습니다.");
                     }
                     axdom("#" + targetObjID).val(printDate);
-                    
+
                     if (obj.nDate1 == undefined) {
                         var va = axdom("#" + obj.config.startTargetID).val().replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
                         if (va.search(/\d+/g) != -1) {
@@ -27629,7 +27644,7 @@ var AXInputConverter = Class.create(AXJ, {
                         }
                         axdom("#" + objID).val(printDate);
                     }
-                    
+
                     if (obj.nDate1.diff(obj.nDate2) < 0) {
                         if (seq == 1) {
                             obj.nDate2 = obj.nDate1;
@@ -27651,7 +27666,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         }
-        
+
         if (!obj.config.onChange) obj.config.onChange = obj.config.onchange;
         if (obj.config.onChange) {
             obj.config.onChange.call({
@@ -27663,13 +27678,13 @@ var AXInputConverter = Class.create(AXJ, {
             });
         }
         /*
-        if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
-        obj.bindTarget.trigger("change");
-        */
+         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
+         obj.bindTarget.trigger("change");
+         */
 
         /* ie10 버그 픽스
          axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
-         
+
          //비활성 처리후 메소드 종료
          axdom(document).unbind("click.AXInput");
          axdom("#" + objID).unbind("keydown.AXInput");
@@ -27677,24 +27692,24 @@ var AXInputConverter = Class.create(AXJ, {
         event.stopPropagation(); // disableevent
         return;
     },
-    
+
     // checked
     bindChecked: function (objID, objSeq) {
         var cfg = this.config, _this = this;
         var obj = this.objects[objSeq];
-        
+
         if (!obj.bindAnchorTarget) obj.bindAnchorTarget = axdom("#" + cfg.targetID + "_AX_" + objID);
         if (!obj.bindTarget) obj.bindTarget = axdom("#" + objID);
         //var tagName = obj.bindTarget.get(0).tagName.ucase();
         obj.bindTarget.css({opacity: 0});
-        
+
         var h = obj.bindAnchorTarget.data("height"),
             marginWidth = obj.bindTarget.css("margin-left").number() + obj.bindTarget.css("margin-right").number(),
             marginHeight = obj.bindTarget.css("margin-top").number() + obj.bindTarget.css("margin-bottom").number(),
             chk_size = Math.max((h + marginWidth), (h + marginHeight)) - 1,
             left = (obj.bindTarget.css("margin-left").number() - obj.bindTarget.css("margin-right").number()).abs(),
             anchorHandle, linked_items = [];
-        
+
         var onchange = function (e) {
             if (obj.bindTarget.get(0).checked) {
                 anchorHandle.addClass("checked");
@@ -27714,7 +27729,7 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
         };
-        
+
         var po = [];
         po.push('<div id="' + cfg.targetID + '_AX_' + objID + '_AX_HandleContainer"');
         if (obj.bindTarget.attr("type") == "radio") {
@@ -27723,7 +27738,7 @@ var AXInputConverter = Class.create(AXJ, {
         else {
             po.push(' class="' + cfg.anchorCheckedContainerClassName + '" ');
         }
-        
+
         po.push(' style="left:' + left + 'px;top:0px;width:' + chk_size + 'px;height:' + chk_size + 'px;"');
         po.push(' onselectstart="return false;">');
         po.push('<a class="checked-icon"></a>')
@@ -27736,7 +27751,7 @@ var AXInputConverter = Class.create(AXJ, {
         else {
             anchorHandle = obj.bindAnchorTarget.find("." + cfg.anchorCheckedContainerClassName);
         }
-        
+
         obj.bindTarget.unbind("change.AXInput").bind("change.AXInput", onchange);
         anchorHandle.bind("click", function (e) {
             obj.bindTarget.get(0).checked = !obj.bindTarget.get(0).checked;
@@ -27888,7 +27903,7 @@ axdom.fn.bindMoney = function (config) {
     },
     maxHeight   : {Number} [150] - selector panel height
 };
- 
+
  // 서버에서 리턴하는 JSON 구문 예시
  // 아래 형식을 만족 시켜야 합니다.
  // desc 또는 optionDesc 값을 지정하면 option 라벨 뒤에 부가설명글로 표시됩니다.
@@ -27902,7 +27917,7 @@ axdom.fn.bindMoney = function (config) {
 		{optionValue:9, optionText:"Gwangju"}
 	]
 }
- 
+
  axdom("#AXInputSelector").bindSelector(config);
  ```
  **/
