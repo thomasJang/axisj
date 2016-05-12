@@ -318,7 +318,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 
     jQuery(document).ready(function(){
         pageObj.incHeader();
-        pageObj.incFooter();
+        //pageObj.incFooter();
 
 	    (adsbygoogle = window.adsbygoogle || []).push({});
 
@@ -345,6 +345,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 
 
     // theme 선언
+    /*
     setTimeout(function(){
         pageObj.theme = AXUtil.getCookie("AXISTHEME") || pageObj.theme;
         if(pageObj.theme == "null") pageObj.theme = "arongi";
@@ -359,6 +360,7 @@ var sampleTreeMenu = new AXTopDownMenu();
         });
         $("#"+pageObj.theme).addClass("on");
     }, 200);
+    */
 })();
 
 

@@ -1216,6 +1216,9 @@
   font-family: inherit;
   font-size: inherit;
 }
+.AXGrid .inline-editor .inline-editor-checkbox {
+  margin: 0px;
+}
 .AXGrid .inline-editor .finder-handle {
   position: absolute;
   right: 8px;

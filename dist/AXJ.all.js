@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.2 - 2016-05-10 
+axisj - v1.1.3 - 2016-05-13 
 */
 /*! 
-axisj - v1.1.2 - 2016-05-10 
+axisj - v1.1.3 - 2016-05-13 
 */
 
 if(!window.AXConfig){
@@ -15729,7 +15729,7 @@ var AXGrid = Class.create(AXJ, {
                 }
             }
 
-            result = '<input type="' + CH.editor.type + '" name="' + key + '" data-editor-key="' + itemIndex + ',' + CHidx + '" class="inline-editor-checkbox" ' +
+            result = '<input type="' + CH.editor.type + '" name="' + key + '" data-editor-key="' + itemIndex + ',' + CHidx + '" style="margin:0px;" class="inline-editor-checkbox" ' +
                 checkedStr + disabled + ' onfocus="this.blur();" />';
             //"<input type=\"checkbox\" name=\"" + CH.label + "\" class=\"gridCheckBox_body_colSeq" + CH.colSeq + "\" id=\"" + cfg.targetID + "_AX_checkboxItem_AX_" + CH.colSeq + "_AX_" + itemIndex + "\" value=\"" + value + "\" " + checkedStr + disabled + " onfocus=\"this.blur();\" />";
         }
@@ -16019,7 +16019,7 @@ var AXGrid = Class.create(AXJ, {
             }
 
             if (r == 0 && isfix == "n") {
-                tpo.push("<td class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_null_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.rows.length + "\">" +
+                tpo.push("<td "+styles+" class=\"bodyNullTd\" id=\"" + cfg.targetID + "_AX_null_AX_" + itemIndex + "\" rowspan=\"" + cfg.body.rows.length + "\">" +
                     "<div class=\"tdRelBlock\" id=\"" + cfg.targetID + "_AX_tdRelBlock_AX_" + itemIndex + "\">&nbsp;</div>" +
                     "</td>");
             }
@@ -16401,6 +16401,7 @@ var AXGrid = Class.create(AXJ, {
                 if(!$itemTr.get(0)) return; // viewMode grid가 아닌 상황
 
                 itemTrHeight = $itemTr.outerHeight().number();
+                
                 this.scrollContent.css({"padding-bottom": itemTrHeight});
                 // 추가로 출력할 목록 선정
                 po = [];

@@ -129,7 +129,6 @@
 			}
 			.gridFixedScrollContent{
 				overflow:visible;position:absolute;left:0px;top:0px;
-				box-shadow:0px 0px 3px #ccc;
 			}
 			.gridScrollTrackXY{
 				position:absolute;right:0px;bottom:0px;
@@ -746,7 +745,8 @@
 						background:url('images/dx-grid-fixed-body-border.png') repeat-y 100% 0px;
 					}
 					td.selected{
-						background-color:#D2D9DF;box-shadow:inset 0px 0px 2px #000;
+						background-color:#D2D9DF;
+						box-shadow:inset 0px 0px 2px #000;
 					}
 				}
 				tr.noListTr td{
@@ -781,14 +781,16 @@
 							position:relative;
 							line-height:20px;min-height:20px;
 							padding:5px 8px;
-							color:@color-a;text-shadow:0px 1px 0px #fff;
+							color:@color-a;
+							text-shadow:0px 1px 0px #fff;
 							.util-text-ellipsis();
 						}
 						.bodyTdHtml{
 							padding:0px 1px 0px 0px;
 						}
 						.bodyTdCheckBox{
-							line-height:20px;height:20px;
+							line-height:20px;
+							height:20px;
 							padding:5px 1px 5px 0px;
 						}
 					}
