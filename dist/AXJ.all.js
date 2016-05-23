@@ -21368,9 +21368,9 @@ var AXGrid = Class.create(AXJ, {
                     }
                     else {
                         /*radio, check exception */
-                        var rowspan = (CH.rowspan > 1) ? " rowspan=\"" + CH.rowspan + "\"" : "";
-                        var colspan = (CH.colspan > 1) ? " colspan=\"" + CH.colspan + "\"" : "";
-                        var valign = " valign=\"" + CH.valign + "\" style=\"vertical-align:" + CH.valign + ";\"";
+                        var rowspan = (CH.rowspan > 1) ? " rowspan='" + CH.rowspan + "'" : "";
+                        var colspan = (CH.colspan > 1) ? " colspan='" + CH.colspan + "'" : "";
+                        var valign = " valign='" + CH.valign + "' style='vertical-align:" + CH.valign + ";mso-number-format:\\@ ;'";
 
                         var bodyNodeClass = "";
 
@@ -21379,7 +21379,7 @@ var AXGrid = Class.create(AXJ, {
                             tooltipValue = getTooltipValue(CH.tooltip, item, itemIndex, item[CH.key], CH.key, CH);
                         }
 
-                        tpo.push("<td" + valign + rowspan + colspan + " style=\"mso-number-format:'\@';\">");
+                        tpo.push("<td" + valign + rowspan + colspan + ">");
                         if (CH.formatter) {
                             if (Object.isFunction(CH.formatter)) {
                                 var sendObj = {
