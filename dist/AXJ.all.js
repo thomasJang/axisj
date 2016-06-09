@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.3 - 2016-05-23 
+axisj - v1.1.3 - 2016-06-09 
 */
 /*! 
-axisj - v1.1.3 - 2016-05-23 
+axisj - v1.1.3 - 2016-06-09 
 */
 
 if(!window.AXConfig){
@@ -4325,8 +4325,8 @@ var AXNotification = Class.create(AXJ, {
         axdom("#" + config.targetID).prepend(myQue.html.decode());
         breadBox = axdom("#bread_AX_" + breadID);
 
-        axdom("#bread_AX_" + breadID + "_AX_confirm").bind("click", function () {
-            if (obj.onConfirm) obj.onConfirm(obj.data);
+        axdom("#bread_AX_" + breadID + "_AX_confirm").bind("click", (function () {
+            if (this.onConfirm) this.onConfirm(this.data);
             breadBox.find("button, input").hide();
             breadBox.fadeOut({
                 duration: config.easing.close.duration, easing: config.easing.close.easing, complete: function () {
@@ -4334,7 +4334,7 @@ var AXNotification = Class.create(AXJ, {
                     endCheck();
                 }
             });
-        });
+        }).bind(obj));
 
         axdom("#bread_AX_" + breadID).slideDown({
             duration: config.easing.open.duration, easing: config.easing.open.easing, complete: function () {
