@@ -38,7 +38,11 @@
 	 * Based		: jQuery
 	 * Javascript 	: AXJ.js, AXButton.js
 	 * CSS			: AXJ.css, AXButton.css
-	 */	
+	 */
+
+	window.toast = new AXNotification();
+	toast.setConfig({ eatUpTime: 1000, targetID: "basicToast", type: "toast" });
+
 	var pageID = "AXNotification";
 	var fnObj = {
 		pageStart: function(){
@@ -74,7 +78,7 @@
 						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !! 1');toast.push('<b>Complete</b> Complete messange send !! 2');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete x2</button>
 						<button type="button" class="AXButton" onclick="toast.push('<b>Complete</b> Complete messange send !!1');toast.push('<b>Complete</b> Complete messange send !! 2');toast.push('<b>Complete</b> Complete messange send !! 3.');"><i class="fa fa-caret-square-o-down fa-lg"></i> Complete x3</button>	
 						<div class="H10"></div>					
-						<button type="button" class="AXButton Classic" onclick="toast.push({body:'<b>Warning</b> Warning messange send !!', type:'Warning'});" ><i class="fa fa-bell fa-lg"></i> Warning</button>
+						<button type="button" class="AXButton Classic" onclick="toast.push({eatUpTime:1000, body:'<b>Warning</b> Warning messange send !!', type:'Warning'});" ><i class="fa fa-bell fa-lg"></i> Warning</button>
 						<button type="button" class="AXButton Red" onclick="toast.push({body:'<b>Caution</b> Caution messange send !!', type:'Caution', onConfirm:fnObj.btnOnConfirm, data:'onConfirmData'});" ><i class="fa fa-info-circle fa-lg"></i> Caution</button>
 						
 						<div class="H30"></div>
