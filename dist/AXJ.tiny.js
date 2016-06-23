@@ -9218,18 +9218,16 @@ var AXInputConverter = Class.create(AXJ, {
             var obj = this.objects[findIndex];
             var cfg = this.config;
 
-            if (typeof _disabled == "boolean") {
-                axf.getId(objID).disabled = _disabled;
-            }
-            else {
-                axf.getId(objID).disabled = !AXgetId(objID).disabled;
+            var elDisabled = !axf.getId(objID).disabled;
+            axf.getId(objID).disabled = (typeof _disabled == "boolean") ? _disabled : elDisabled;
+            if(obj.bindType == "twinDate"){
+                axf.getId(obj.config.startTargetID).disabled = (typeof _disabled == "boolean") ? _disabled : elDisabled;
             }
 
             obj.bindAnchorTarget.data("disabled", axf.getId(objID).disabled);
             if (axf.getId(objID).disabled) {
                 obj.bindAnchorTarget.addClass("disable");
                 obj.bindAnchorTarget.attr("disable", "disable");
-
                 obj.bindAnchorTarget.find("a").bind("mousedown.AXInputDisabled", function (e) {
                     //alert("block");
                     var event = window.event || e;
@@ -9238,6 +9236,7 @@ var AXInputConverter = Class.create(AXJ, {
                     event.cancelBubble = true;
                     return false;
                 });
+
             }
             else {
                 obj.bindAnchorTarget.removeClass("disable");
@@ -12606,6 +12605,7 @@ var AXInputConverter = Class.create(AXJ, {
                     var yy = nDate.getFullYear();
                     var dd = 1;
                     obj.nDate = new Date(Date.UTC(yy, myMonth, dd, 12));
+                    axdom("#" + objID).val(obj.nDate.print("yyyy" + separator + "mm"));
                     this.bindDateExpandClose(objID, objSeq, event);
                 }
                 else {
@@ -12621,6 +12621,7 @@ var AXInputConverter = Class.create(AXJ, {
                     var mm = 0;
                     var dd = 1;
                     obj.nDate = new Date(Date.UTC(myYear, mm, dd, 12));
+                    axdom("#" + objID).val(obj.nDate.print("yyyy"));
                     this.bindDateExpandClose(objID, objSeq, event);
                 }
                 else {
