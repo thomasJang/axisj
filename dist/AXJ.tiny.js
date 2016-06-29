@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.3 - 2016-06-23 
+axisj - v1.1.4 - 2016-06-29 
 */
 /*! 
-axisj - v1.1.3 - 2016-06-23 
+axisj - v1.1.4 - 2016-06-29 
 */
 
 if(!window.AXConfig){
@@ -11475,7 +11475,11 @@ var AXInputConverter = Class.create(AXJ, {
                 bindDateExpandClose(objID, objSeq, event);
             }
             else {
-                bindDateExpand(objID, objSeq, true, event);
+                var isReadOnly = obj.bindTarget.attr("readonly");
+                var isDisabled = obj.bindTarget.attr("disabled");
+                if(isReadOnly) isReadOnly = (isReadOnly.lcase() == "true") || (isReadOnly.lcase() == "readonly");
+                if(isDisabled) isDisabled = (isDisabled.lcase() == "true") || (isDisabled.lcase() == "disabled");
+                if(!isReadOnly && !isDisabled) bindDateExpand(objID, objSeq, true, event);
             }
         });
         obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
@@ -12718,7 +12722,11 @@ var AXInputConverter = Class.create(AXJ, {
                 bindTwinDateExpandClose(objID, objSeq, event);
             }
             else {
-                bindDateExpand(objID, objSeq, true, event);
+                var isReadOnly = obj.bindTarget.attr("readonly");
+                var isDisabled = obj.bindTarget.attr("disabled");
+                if(isReadOnly) isReadOnly = (isReadOnly.lcase() == "true") || (isReadOnly.lcase() == "readonly");
+                if(isDisabled) isDisabled = (isDisabled.lcase() == "true") || (isDisabled.lcase() == "disabled");
+                if(!isReadOnly && !isDisabled) bindDateExpand(objID, objSeq, true, event);
             }
         });
         obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
