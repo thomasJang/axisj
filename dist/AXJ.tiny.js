@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.4 - 2016-06-29 
+axisj - v1.1.4 - 2016-06-30 
 */
 /*! 
-axisj - v1.1.4 - 2016-06-29 
+axisj - v1.1.4 - 2016-06-30 
 */
 
 if(!window.AXConfig){
@@ -18750,7 +18750,7 @@ var AXTopDownMenu = Class.create(AXJ, {
             var addClass = (T.cn) ? " class = \"" + cfg.childMenu.hasChildClassName + "\"" : "";
 
             if (cfg.onclick) {
-                po.push("<a data-href=\"" + (T.url || cfg.href) + "\"" + addClass + " data-id=\"" + (T._id || "") + "\" id=\"" + (T._id || "") + "\" data-label=\"" + (T.label || "").dec().delHtml() + "\">" + (T.label || "").dec() + "</a>");
+                po.push("<a data-href=\"" + (T.url || cfg.href) + "\"" + addClass + " data-is-top='true' data-id=\"" + (T._id || "") + "\" id=\"" + (T._id || "") + "\" data-label=\"" + (T.label || "").dec().delHtml() + "\">" + (T.label || "").dec() + "</a>");
             }
             else {
                 po.push("<a href=\"" + (T.url || cfg.href) + "\"" + addClass + " id=\"" + (T._id || "") + "\">" + (T.label || "").dec() + "</a>");
@@ -18777,7 +18777,8 @@ var AXTopDownMenu = Class.create(AXJ, {
                 cfg.onclick({
                     id: this.getAttribute("data-id"),
                     href: this.getAttribute("data-href"),
-                    label: this.getAttribute("data-label")
+                    label: this.getAttribute("data-label"),
+                    isTop : this.getAttribute("data-is-top")
                 });
 
                 if (this.getAttribute("data-href") != "#") {
