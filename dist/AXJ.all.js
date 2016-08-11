@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.5 - 2016-08-11 
+axisj - v1.1.6 - 2016-08-11 
 */
 /*! 
-axisj - v1.1.5 - 2016-08-11 
+axisj - v1.1.6 - 2016-08-11 
 */
 
 if(!window.AXConfig){
@@ -26910,7 +26910,7 @@ var AXInputConverter = Class.create(AXJ, {
         });
         obj.bindTarget.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
             setTimeout(function () {
-                obj.bindTarget.select();
+                //obj.bindTarget.select();
             }, 1);
             /*
              if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
@@ -26920,7 +26920,7 @@ var AXInputConverter = Class.create(AXJ, {
         });
         obj.bindTargetStart.unbind("focus.AXInput").bind("focus.AXInput", function (event) {
             setTimeout(function () {
-                obj.bindTargetStart.select();
+                //obj.bindTargetStart.select();
             }, 1);
             /*
              if(!AXgetId(cfg.targetID + "_AX_"+objID+"_AX_expandBox")){
@@ -26932,12 +26932,7 @@ var AXInputConverter = Class.create(AXJ, {
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
         axdom("#" + objID + ", #" + obj.config.startTargetID).unbind("keyup.AXInput").bind("keyup.AXInput", function (event) {
             //alert(this.value);
-            if (event.keyCode == axf.Event.KEY_RETURN) {
-                //bindDateInputBlur(objID, objSeq, event);
-                this.blur();
-            }
-            else if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
-
+            if (event.keyCode != AXUtil.Event.KEY_BACKSPACE && event.keyCode != AXUtil.Event.KEY_DELETE && event.keyCode != AXUtil.Event.KEY_LEFT && event.keyCode != AXUtil.Event.KEY_RIGHT) {
                 var va = this.value.replace(/\D/gi, ""); //숫자 이외의 문자를 제거 합니다.
                 var _this = this;
 
