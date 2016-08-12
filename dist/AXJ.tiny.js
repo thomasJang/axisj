@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.6 - 2016-08-11 
+axisj - v1.1.8 - 2016-08-12 
 */
 /*! 
-axisj - v1.1.6 - 2016-08-11 
+axisj - v1.1.8 - 2016-08-12 
 */
 
 if(!window.AXConfig){
@@ -16982,8 +16982,10 @@ var AXSelectConverter = Class.create(AXJ, {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").removeClass("on");
 
             //비활성 처리후 메소드 종료
-            axdom(document).unbind("click", obj.documentclickEvent);
-            axdom(document).unbind("keydown", obj.documentKeyup);
+            axdom(document).unbind("click.AXSelect");
+            //axdom(document.body).unbind("focus.AXSelect", obj.documentclickEvent);
+            axdom(document).unbind("keydown.AXSelect");
+            axdom(document.body).off("focus.AXSelect", "input,select,button,a,textarea");
 
             if (obj.config.isChangedSelect) {
                 AXgetId(objID).options[obj.selectedIndex].selected = true;
@@ -17015,7 +17017,6 @@ var AXSelectConverter = Class.create(AXJ, {
                 obj.config.isChangedSelect = false;
 
                 this.bindSelectChange(objID, objSeq);
-
             }
         }
     },
@@ -17049,7 +17050,13 @@ var AXSelectConverter = Class.create(AXJ, {
             bindSelectKeyup(objID, objSeq, event);
         };
         axdom(document).bind("click.AXSelect", obj.documentclickEvent);
+        /*
+        axdom(document.body).bind("focus.AXSelect", function(e){
+            console.log(e);
+        });
+        */
         axdom(document).bind("keydown.AXSelect", obj.documentKeyup);
+        axdom(document.body).on("focus.AXSelect", "input,select,button,a,textarea", obj.documentclickEvent);
 
         if (obj.myUIScroll) obj.myUIScroll.unbind();
         obj.myUIScroll = new AXScroll();
@@ -17069,7 +17076,6 @@ var AXSelectConverter = Class.create(AXJ, {
         // 위치 재 정의 필요하면 정의 할 것 ----------------------------------
         var bodyHeight;
         (AXUtil.docTD == "Q") ? bodyHeight = document.body.clientHeight : bodyHeight = document.documentElement.clientHeight;
-        //trace({bodyHeight:bodyHeight, top:css.top});
 
         var anchorHeight = jqueryTargetObjID.data("height") - 1;
         var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
@@ -17355,6 +17361,7 @@ var AXSelectConverter = Class.create(AXJ, {
     bindSelectBlur: function (objID) {
         var cfg = this.config;
         var findIndex = null;
+        var _this = this;
         for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
             if (O.id == objID && O.isDel != true) {
                 findIndex = index;
@@ -17364,7 +17371,6 @@ var AXSelectConverter = Class.create(AXJ, {
 
         if (findIndex != null) {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").removeClass("focus");
-            this.bindSelectClose(objID, findIndex, null); // 닫기
         }
     },
     bindSelectGetAnchorObject: function (objID) {
