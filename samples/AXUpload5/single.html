@@ -109,7 +109,6 @@
 				var pars = "dummy="+AXUtil.timekey();
 				new AXReq(url, {pars:pars, onsucc:function(res){
                     if(!res.error){
-	                    trace(res[0]);
                         myUpload.setUploadedList(res);
                     }else{
                         alert(res.msg.dec());
