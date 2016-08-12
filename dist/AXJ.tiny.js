@@ -17345,7 +17345,7 @@ var AXSelectConverter = Class.create(AXJ, {
             this.bindSelectChange(objID, findIndex);
         }
     },
-    bindSelectFocus: function (objID) {
+    bindSelectFocus: function (objID, elFocus) {
         var cfg = this.config;
         var findIndex = null;
         for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
@@ -17356,6 +17356,7 @@ var AXSelectConverter = Class.create(AXJ, {
         }
         if (findIndex != null) {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").addClass("focus");
+            if(elFocus) axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
         }
     },
     bindSelectBlur: function (objID) {
@@ -17803,7 +17804,8 @@ axdom.fn.bindSelectUpdate = function () {
  */
 axdom.fn.bindSelectFocus = function () {
     axdom.each(this, function () {
-        AXSelect.bindSelectFocus(this.id);
+
+        AXSelect.bindSelectFocus(this.id, true);
     });
     return this;
 };

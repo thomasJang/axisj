@@ -35528,7 +35528,7 @@ var AXSelectConverter = Class.create(AXJ, {
             this.bindSelectChange(objID, findIndex);
         }
     },
-    bindSelectFocus: function (objID) {
+    bindSelectFocus: function (objID, elFocus) {
         var cfg = this.config;
         var findIndex = null;
         for (var O, index = 0; (index < this.objects.length && (O = this.objects[index])); index++) {
@@ -35539,6 +35539,7 @@ var AXSelectConverter = Class.create(AXJ, {
         }
         if (findIndex != null) {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").addClass("focus");
+            if(elFocus) axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectTextBox").focus();
         }
     },
     bindSelectBlur: function (objID) {
@@ -35986,7 +35987,8 @@ axdom.fn.bindSelectUpdate = function () {
  */
 axdom.fn.bindSelectFocus = function () {
     axdom.each(this, function () {
-        AXSelect.bindSelectFocus(this.id);
+
+        AXSelect.bindSelectFocus(this.id, true);
     });
     return this;
 };
@@ -47060,82 +47062,84 @@ var AXUpload5 = Class.create(AXJ, {
         var cfg = this.config, _this = this;
         if (this.supportHtml5) {
             var files = evt.target.files; // FileList object
-            if (cfg.isSingleUpload) {
+            if(files && files.length > 0) {
+                if (cfg.isSingleUpload) {
 
-                var myFile = this.uploadedList.first();
-                if (myFile) {
-                    this.__tempFiles = files[0];
-                    if (!confirm(AXConfig.AXUpload5.deleteConfirm)) return;
-                    var uploadFn = function () {
-                        var itemID = 'AX' + AXUtil.timekey() + '_AX_0';
-                        this.queue.push({_id_: itemID, file: _this.__tempFiles});
+                    var myFile = this.uploadedList.first();
+                    if (myFile) {
+                        this.__tempFiles = files[0];
+                        if (!confirm(AXConfig.AXUpload5.deleteConfirm)) return;
+                        var uploadFn = function () {
+                            var itemID = 'AX' + AXUtil.timekey() + '_AX_0';
+                            this.queue.push({_id_: itemID, file: _this.__tempFiles});
+                            axdom("#" + cfg.targetID + '_AX_display').empty();
+                            axdom("#" + cfg.targetID + '_AX_display').append(_this.getItemTag(itemID, _this.__tempFiles));
+
+                            _this.queueLive = true;
+                            if (cfg.onStart) cfg.onStart.call(_this.queue, _this.queue);
+                            _this.uploadQueue();
+                            itemID = null;
+                            _this.__tempFiles = null;
+                        };
+                        this.deleteFile(myFile, uploadFn.bind(this));
+                        return;
+                    } else {
+                        var i = 0;
+                        var f = files[i];
+                        var itemID = 'AX' + AXUtil.timekey() + '_AX_' + i;
+                        this.queue.push({_id_: itemID, file: f});
                         axdom("#" + cfg.targetID + '_AX_display').empty();
-                        axdom("#" + cfg.targetID + '_AX_display').append(_this.getItemTag(itemID, _this.__tempFiles));
-
-                        _this.queueLive = true;
-                        if (cfg.onStart) cfg.onStart.call(_this.queue, _this.queue);
-                        _this.uploadQueue();
-                        itemID = null;
-                        _this.__tempFiles = null;
-                    };
-                    this.deleteFile(myFile, uploadFn.bind(this));
-                    return;
-                } else {
-                    var i = 0;
-                    var f = files[i];
-                    var itemID = 'AX' + AXUtil.timekey() + '_AX_' + i;
-                    this.queue.push({_id_: itemID, file: f});
-                    axdom("#" + cfg.targetID + '_AX_display').empty();
-                    axdom("#" + cfg.targetID + '_AX_display').append(this.getItemTag(itemID, f));
-                }
-
-            }
-            else {
-                var hasSizeOverFile = false;
-                var sizeOverFile;
-                if (!cfg.file_types) cfg.file_types = ".";
-                if (cfg.file_types == "*.*") cfg.file_types = "*/*";
-
-                for (var i = 0; i < files.length; i++) {
-                    var f = files[i];
-                    if (f.size > cfg.uploadMaxFileSize) {
-                        hasSizeOverFile = true;
-                        sizeOverFile = f;
-                        break;
+                        axdom("#" + cfg.targetID + '_AX_display').append(this.getItemTag(itemID, f));
                     }
+
                 }
-                if (hasSizeOverFile) cfg.onError("fileSize", {name: sizeOverFile.name, size: sizeOverFile.size});
+                else {
+                    var hasSizeOverFile = false;
+                    var sizeOverFile;
+                    if (!cfg.file_types) cfg.file_types = ".";
+                    if (cfg.file_types == "*.*") cfg.file_types = "*/*";
 
-                //todo : 업로드 갯수 제한 확인 1
-                var uploadedCount = this.uploadedList.length;
-                var queueCount = this.queue.length;
-                //trace(uploadedCount, queueCount, (uploadedCount-1+queueCount));
-                for (var i = 0; i < files.length; i++) {
-                    var f = files[i];
-                    if (f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || (cfg.file_types == "*/*" && f.type == "") )) {
-                        if ((uploadedCount + queueCount) < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0) {
-                            var itemID = 'AX' + AXUtil.timekey() + '_AX_' + i;
-                            this.queue.push({_id_: itemID, file: f});
-                            //큐박스에 아이템 추가
-
-                            if (cfg.queueBoxAppendType == "prepend") axdom("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
-                            else axdom("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
-
-                            this.setLocalPreview(itemID, f);
-
-                            axdom("#" + cfg.queueBoxID).find("#" + itemID).fadeIn();
-
-                            uploadedCount++;
-
-                            //trace(uploadedCount, this.queue.length);
-
-                        } else {
-                            cfg.onError("fileCount");
+                    for (var i = 0; i < files.length; i++) {
+                        var f = files[i];
+                        if (f.size > cfg.uploadMaxFileSize) {
+                            hasSizeOverFile = true;
+                            sizeOverFile = f;
                             break;
                         }
                     }
+                    if (hasSizeOverFile) cfg.onError("fileSize", {name: sizeOverFile.name, size: sizeOverFile.size});
+
+                    //todo : 업로드 갯수 제한 확인 1
+                    var uploadedCount = this.uploadedList.length;
+                    var queueCount = this.queue.length;
+                    //trace(uploadedCount, queueCount, (uploadedCount-1+queueCount));
+                    for (var i = 0; i < files.length; i++) {
+                        var f = files[i];
+                        if (f.size <= cfg.uploadMaxFileSize && ( (new RegExp(cfg.file_types.replace(/\*/g, "[a-z]"), "ig")).test(f.type.toString()) || (cfg.file_types == "*/*" && f.type == "") )) {
+                            if ((uploadedCount + queueCount) < cfg.uploadMaxFileCount || cfg.uploadMaxFileCount == 0) {
+                                var itemID = 'AX' + AXUtil.timekey() + '_AX_' + i;
+                                this.queue.push({_id_: itemID, file: f});
+                                //큐박스에 아이템 추가
+
+                                if (cfg.queueBoxAppendType == "prepend") axdom("#" + cfg.queueBoxID).prepend(this.getItemTag(itemID, f));
+                                else axdom("#" + cfg.queueBoxID).append(this.getItemTag(itemID, f));
+
+                                this.setLocalPreview(itemID, f);
+
+                                axdom("#" + cfg.queueBoxID).find("#" + itemID).fadeIn();
+
+                                uploadedCount++;
+
+                                //trace(uploadedCount, this.queue.length);
+
+                            } else {
+                                cfg.onError("fileCount");
+                                break;
+                            }
+                        }
+                    }
+                    ;
                 }
-                ;
             }
         } else {
             alert("not support HTML5");
@@ -47459,11 +47463,11 @@ var AXUpload5 = Class.create(AXJ, {
                 }
             });
             if (myFile) {
-                this.deleteFile(myFile);
+                if(this.deleteFile(myFile) != false){
+                    this.init("reset");
+                }
             }
             myFile = null;
-            //trace("a");
-            this.init("reset");
         } else {
             var myFile;
             axdom.each(this.uploadedList, function () {
@@ -47498,7 +47502,7 @@ var AXUpload5 = Class.create(AXJ, {
     },
     deleteFile: function (file, onEnd, withOutServer) {
         var cfg = this.config;
-        if (!onEnd) if (!confirm(AXConfig.AXUpload5.deleteConfirm)) return;
+        if (!onEnd) if (!confirm(AXConfig.AXUpload5.deleteConfirm)) return false;
         var removeUploadedList = this.removeUploadedList.bind(this);
 
         //trace(file);
