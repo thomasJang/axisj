@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.8 - 2016-08-12 
+axisj - v1.1.9 - 2016-08-23 
 */
 /*! 
-axisj - v1.1.8 - 2016-08-12 
+axisj - v1.1.9 - 2016-08-23 
 */
 
 if(!window.AXConfig){
@@ -18203,7 +18203,25 @@ var AXGrid = Class.create(AXJ, {
                     _val = val[cond.optionValue || "optionValue"];
                 }
                 po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select ' + cond.type + '">');
-                if (cond.options) {
+
+                if($.isFunction(cond.options)){
+                    (function(options){
+                        for (var oi = 0; oi < options.length; oi++) {
+                            var value, text;
+                            value = options[oi][cond.optionValue || "optionValue"], text = options[oi][cond.optionText || "optionText"];
+                            po.push('<option value="' + value + '"');
+                            if (value == _val) {
+                                po.push(' selected="selected"');
+                            }
+                            po.push('>' + text + '</option>');
+                        }
+                    })(cond.options.call({
+                        list: _this.list,
+                        item: _this.list[ii],
+                        value: val
+                    }));
+                }
+                else if (cond.options) {
                     for (var oi = 0; oi < cond.options.length; oi++) {
                         var value, text;
                         value = cond.options[oi][cond.optionValue || "optionValue"], text = cond.options[oi][cond.optionText || "optionText"];
@@ -18324,7 +18342,7 @@ var AXGrid = Class.create(AXJ, {
         var _this = this, cfg = this.config,
             CH = cfg.body.rows[r][c], item = this.list[itemIndex],
             CG = cfg.colGroup[c],
-            that = {grid: this, item: item, index: itemIndex, CG: CG, r: r, c: c};
+            that = {grid: this, item: item, index: itemIndex, value: item[CG.key], CG: CG, r: r, c: c};
 
         if (cfg.control_lock_status > 1) {
             return this;
