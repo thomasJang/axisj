@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.9 - 2016-08-23 
+axisj - v1.1.9 - 2016-08-25 
 */
 /*! 
-axisj - v1.1.9 - 2016-08-23 
+axisj - v1.1.9 - 2016-08-25 
 */
 
 if(!window.AXConfig){
@@ -13678,7 +13678,7 @@ var AXGrid = Class.create(AXJ, {
 
         /* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
         var ol = [];
-        ol.push("<a id=\"" + cfg.targetID + "_AX_grid_focus\" href=\"#axtree\" ></a>");
+        //ol.push("<a id=\"" + cfg.targetID + "_AX_grid_focus\" href=\"#axtree\" ></a>");
         ol.push("<div class=\"" + theme + "\" id=\"" + cfg.targetID + "_AX_grid\" style=\"" + gridCss.join('') + "\">");
         ol.push("	<div class=\"AXgridScrollBody\" id=\"" + cfg.targetID + "_AX_gridScrollBody\" style=\"z-index:2;\">");
         ol.push("		<div class=\"AXGridColHead AXUserSelectNone\" id=\"" + cfg.targetID + "_AX_gridColHead\" onselectstart=\"return false;\"></div>");
@@ -13711,7 +13711,7 @@ var AXGrid = Class.create(AXJ, {
         /* grid 뼈대 그리기 ----------------------------------------------------------------------------------------------------- */
 
         /* 주요 타깃 설정 */
-        this.gridFocus = axdom("#" + cfg.targetID + "_AX_grid_focus");
+        //this.gridFocus = axdom("#" + cfg.targetID + "_AX_grid_focus");
         this.gridBody = axdom("#" + cfg.targetID + "_AX_grid");
         this.scrollBody = axdom("#" + cfg.targetID + "_AX_gridScrollBody");
         this.colHead = axdom("#" + cfg.targetID + "_AX_gridColHead");
@@ -13793,10 +13793,10 @@ var AXGrid = Class.create(AXJ, {
             if (this.editorOpend || this.inline_edit) return;
             var e = e || window.event;
             if (e.target.tagName == "INPUT" || e.target.tagName == "SELECT" || e.target.tagName == "TEXTAREA" || e.target.tagName == "BUTTON") return;
-            this.gridFocus.focus();
+            //this.gridFocus.focus();
         }).bind(this));
 
-        this.gridFocus.unbind("keydown.axgrid").bind("keydown.axgrid", this.onKeydown.bind(this));
+        //this.gridFocus.unbind("keydown.axgrid").bind("keydown.axgrid", this.onKeydown.bind(this));
 
         if (cfg.contextMenu) {
             AXContextMenu.bind({
@@ -21374,7 +21374,6 @@ var AXGrid = Class.create(AXJ, {
                     oi++;
                 }
             }
-            /*alert(axf.getId(cfg.targetID + "_AX_gridPageNo").options[axf.getId(cfg.targetID + "_AX_gridPageNo").options.selectedIndex].value); */
         }
         axdom("#" + cfg.targetID + "_AX_gridPageCount").html("/ " + pgCount.money() + " " + cfg.pageCountMSG);
 
@@ -35075,6 +35074,7 @@ var AXSelectConverter = Class.create(AXJ, {
 
         if (jqueryTargetObjID.data("disabled")) return;
 
+
         if (isToggle) { // 활성화 여부가 토글 이면
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                 if (obj.config.isChangedSelect) {
@@ -35105,10 +35105,12 @@ var AXSelectConverter = Class.create(AXJ, {
         po.push("	<div class=\"AXLoadingSmall\"></div>");
         po.push("</div>");
         po.push("</div>");
+        
         axdom(document.body).append(po.join(''));
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_SelectBoxArrow").addClass("on");
 
         var expandBox = axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox");
+
         if (obj.config.positionFixed) {
             expandBox.css({"position": "fixed"});
         }
@@ -35177,6 +35179,7 @@ var AXSelectConverter = Class.create(AXJ, {
     bindSelectClose: function (objID, objSeq, event) {
         var obj = this.objects[objSeq], options, sendObj;
         //trace("bindSelectorClose");
+
         var cfg = this.config;
         if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
             axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
@@ -35250,14 +35253,14 @@ var AXSelectConverter = Class.create(AXJ, {
         obj.documentKeyup = function (event) {
             bindSelectKeyup(objID, objSeq, event);
         };
-        axdom(document).bind("click.AXSelect", obj.documentclickEvent);
+        axdom(document).unbind("click.AXSelect").bind("click.AXSelect", obj.documentclickEvent);
         /*
         axdom(document.body).bind("focus.AXSelect", function(e){
             console.log(e);
         });
         */
-        axdom(document).bind("keydown.AXSelect", obj.documentKeyup);
-        axdom(document.body).on("focus.AXSelect", "input,select,button,a,textarea", obj.documentclickEvent);
+        axdom(document).unbind("keydown.AXSelect").bind("keydown.AXSelect", obj.documentKeyup);
+        axdom(document.body).off("focus.AXSelect").on("focus.AXSelect", "input,select,button,a,textarea", obj.documentclickEvent);
 
         if (obj.myUIScroll) obj.myUIScroll.unbind();
         obj.myUIScroll = new AXScroll();
