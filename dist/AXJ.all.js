@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.9 - 2016-08-25 
+axisj - v1.1.10 - 2016-10-14 
 */
 /*! 
-axisj - v1.1.9 - 2016-08-25 
+axisj - v1.1.10 - 2016-10-14 
 */
 
 if(!window.AXConfig){
@@ -18204,8 +18204,8 @@ var AXGrid = Class.create(AXJ, {
                 }
                 po.push('<select name="inline_editor_item" id="' + cfg.targetID + '_inline_editor" class="inline_editor_select ' + cond.type + '">');
 
-                if($.isFunction(cond.options)){
-                    (function(options){
+                if ($.isFunction(cond.options)) {
+                    (function (options) {
                         for (var oi = 0; oi < options.length; oi++) {
                             var value, text;
                             value = options[oi][cond.optionValue || "optionValue"], text = options[oi][cond.optionText || "optionText"];
@@ -21409,9 +21409,15 @@ var AXGrid = Class.create(AXJ, {
             var pgCount = this.page.pageCount.number();
             var pageNo = this.page.pageNo.number();
 
-            if (pageNo + pageAdd < 1) pageNo = 1;
-            else if (pageNo + pageAdd > pgCount) pageNo = pgCount;
-            else pageNo += pageAdd;
+            if (pageNo + pageAdd < 1) {
+                return false;
+            }
+            else if (pageNo + pageAdd > pgCount) {
+                return false;
+            }
+            else {
+                pageNo += pageAdd;
+            }
 
             if (cfg.viewMode == "mobile") {
                 axdom("#" + cfg.targetID + "_AX_gridToolTopPageNo").val(pageNo);
@@ -21617,7 +21623,7 @@ var AXGrid = Class.create(AXJ, {
                                     item: item,
                                     page: this.page,
                                     key: CH.key,
-                                    value: item[CH.key]||""
+                                    value: item[CH.key] || ""
                                 };
                                 result = CH.formatter.call(sendObj, itemIndex, item);
                                 result = ("" + result).delHtml();
