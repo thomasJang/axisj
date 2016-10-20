@@ -208,8 +208,10 @@
                                                     type: "calendar",
                                                     config: {
                                                         separator: "-"
-                                                    }
-                                                    ,
+                                                    },
+                                                    disabled: function(){
+                                                        return this.item._CUD != "C";
+                                                    },
                                                     updateWith: ["_CUD"]
                                                 }
                                             },
