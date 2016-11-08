@@ -202,6 +202,11 @@ var sampleTreeMenu = new AXTopDownMenu();
         incFooter:function(){
             var fo = [];
 
+            fo.push('<div style="text-align: center;margin: 20px auto;">');
+            fo.push('<a href="http://axboot.com/" target="_blank" title="AXBOOT Full Stack Framework"><img src="/samples/_img/banner-axboot.png" height="75" alt="AXBOOT Full Stack Framework"></a>');
+            fo.push('<a href="http://ax5.io/" target="_blank" title="jQuery & Bootstrap UI Plugins"><img src="/samples/_img/banner-ax5ui.png" height="75" alt="jQuery & Bootstrap UI Plugins"></a>');
+            fo.push('</div>');
+
 	        /*
             fo.push('<div class="disqus_target">');
             fo.push('<div style="padding:20px 20px 50px 20px;background:#fff;">');
@@ -223,6 +228,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 	        */
 	        //fo.push('</div>');
 
+            /*
             fo.push('<footer id="AXPageFoot">');
                 fo.push('<div class="ax-wrap">');
                     fo.push('<div class="ax-layer-1">');
@@ -254,6 +260,7 @@ var sampleTreeMenu = new AXTopDownMenu();
                     fo.push('</div>');
                 fo.push('</div>');
             fo.push('</footer>');
+            */
             jQuery("#AXPageBody").after(fo.join(""));
 
 
@@ -318,7 +325,7 @@ var sampleTreeMenu = new AXTopDownMenu();
 
     jQuery(document).ready(function(){
         pageObj.incHeader();
-        //pageObj.incFooter();
+        pageObj.incFooter();
 
 	    (adsbygoogle = window.adsbygoogle || []).push({});
 
