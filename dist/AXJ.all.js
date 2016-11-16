@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.10 - 2016-10-14 
+axisj - v1.1.11 - 2016-11-16 
 */
 /*! 
-axisj - v1.1.10 - 2016-10-14 
+axisj - v1.1.11 - 2016-11-16 
 */
 
 if(!window.AXConfig){
@@ -27444,6 +27444,7 @@ var AXInputConverter = Class.create(AXJ, {
             this.bindTwinDateExpandClose(objID, objSeq, event);
         }
         else {
+            
             if (axdom(myTarget).hasClass("disabled")) {
                 return;
             } // disabled 대상은 선택 불가
@@ -27454,6 +27455,7 @@ var AXInputConverter = Class.create(AXJ, {
             var nDate1 = obj.nDate1;
             var nDate2 = obj.nDate2;
             var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
+            
             if (ename == "expandPrev1") {
                 if (obj.mycalendarPageType == "d") {
                     this.bindTwinDateChangePage(objID, objSeq, 1, nDate1.add(-1, "m"), "d");
@@ -27521,6 +27523,7 @@ var AXInputConverter = Class.create(AXJ, {
                     if (obj.config.expandTime) {
                         printDate += " " + obj.mycalendartime1.getTime();
                     }
+
                     axdom("#" + obj.config.startTargetID).val(printDate);
                     obj.mycalendar1.dayPageSetDay(obj.nDate1);
                 }
@@ -27542,7 +27545,8 @@ var AXInputConverter = Class.create(AXJ, {
                             printDate += " " + obj.mycalendartime2.getTime();
                         }
                         axdom("#" + objID).val(printDate);
-                        obj.mycalendar2.dayPageSetDay(obj.nDate2);
+                        obj.mycalendar2.printDayPage(obj.nDate2);
+                        this.bindTwinDateChangePage(objID, objSeq, 2, obj.nDate2, "d");
                     }
                     else {
                         obj.nDate1 = obj.nDate2;
@@ -27551,7 +27555,8 @@ var AXInputConverter = Class.create(AXJ, {
                             printDate += " " + obj.mycalendartime1.getTime();
                         }
                         axdom("#" + obj.config.startTargetID).val(printDate);
-                        obj.mycalendar1.dayPageSetDay(obj.nDate1);
+                        obj.mycalendar1.printDayPage(obj.nDate1);
+                        this.bindTwinDateChangePage(objID, objSeq, 1, obj.nDate1, "d");
                     }
                 }
 
