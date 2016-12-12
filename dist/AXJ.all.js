@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.11 - 2016-11-16 
+axisj - v1.1.11 - 2016-12-13 
 */
 /*! 
-axisj - v1.1.11 - 2016-11-16 
+axisj - v1.1.11 - 2016-12-13 
 */
 
 if(!window.AXConfig){
@@ -1853,7 +1853,7 @@ Object.extend(String.prototype, (function () {
         function local_date(yy, mm, dd, hh, mi, ss) {
             var utc_d, local_d;
             local_d = new Date();
-            if (typeof hh === "undefined") hh = 23;
+            if (typeof hh === "undefined") hh = 11;
             if (typeof mi === "undefined") mi = 59;
             utc_d = new Date(Date.UTC(yy, mm, dd || 1, hh, mi, ss || 0));
 
@@ -1878,7 +1878,7 @@ Object.extend(String.prototype, (function () {
             yy = aDate[0];
             mm = parseFloat(aDate[1]);
             dd = parseFloat(aDate[2]);
-            aTime = aDateTime[1] || "09:00";
+            aTime = aDateTime[1] || "11:59";
             aTimes = aTime.left(5).split(":");
             hh = parseFloat(aTimes[0]);
             mi = parseFloat(aTimes[1]);
@@ -15201,7 +15201,7 @@ var AXGrid = Class.create(AXJ, {
             else {
                 this.list = this.sortList(nsort, myColHead, this.list);
                 this.printList({sort: true});
-                this.contentScrollResize();
+                this.contentScrollResize(false);
             }
 
         }
@@ -26796,8 +26796,11 @@ var AXInputConverter = Class.create(AXJ, {
                 }
             }
             else if (ename == "date") {
-                //trace(ids[ids.length-2]);
+
                 obj.nDate = ids[ids.length - 2].date();
+
+                //trace(ids[ids.length-2] + "///" + obj.nDate);
+
                 var printDate = obj.nDate.print("yyyy" + separator + "mm" + separator + "dd");
                 if (obj.config.expandTime) {
                     printDate += " " + obj.mycalendartime.getTime();

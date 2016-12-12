@@ -63,6 +63,24 @@
                     'lib/AXWaterfall.js'
                 ],
                 dest: 'dist/AXJ.all.js'
+            },
+            dlogis: {
+                src: [
+                    'lib/AXJ.js',
+                    'lib/AXInput.js',
+                    'lib/AXInputPro.js',
+                    'lib/AXSelect.js',
+                    'lib/AXMobileMenu.js',
+                    'lib/AXTopDownMenu.js',
+                    'lib/AXModal.js',
+                    'lib/AXSearch.js',
+                    'lib/AXSelect.js',
+                    'lib/AXTab.js',
+                    'lib/AXMultiSelector.js',
+                    'lib/AXProgress.js',
+                    'lib/AXUpload5.js'
+                ],
+                dest: 'dist/AXJ.dlogis.js'
             }
         },
         uglify: {
@@ -74,6 +92,7 @@
                 files: {
                     'dist/AXJ.min.js': ['dist/AXJ.all.js'],
                     'dist/AXJ.tinymin.js': ['dist/AXJ.tiny.js'],
+                    'dist/AXJ.dlogismin.js': ['dist/AXJ.dlogis.js'],
                     'dist/AXJ.coremin.js': ['lib/AXJ.js']
                 }
             }
