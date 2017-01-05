@@ -1,6 +1,19 @@
-[![axisj-contributed](https://img.shields.io/badge/AXISJ.com-Contributed-green.svg)](https://github.com/axisj) ![](https://img.shields.io/badge/Seowoo-Mondo&Thomas-red.svg)
+## [주의!] 이 프로젝트는 더 이상 추가개발/개선작업을 진행하지 않습니다. 앞으로는 AX5UI를 이용해주세요.
+> This Project will not proceed further development. Please use AX5UI in the future.
 
+[![AX5UI](https://avatars1.githubusercontent.com/u/16002119?v=3&s=100)](http://ax5.io/)
 
+- https://github.com/ax5ui
+- https://github.com/ax5ui/ax5ui-kernel
+- https://github.com/ax5ui/ax5core
+- https://github.com/ax5ui/ax5ui-grid
+- https://github.com/ax5ui/ax5ui-uploader
+- 등등등 ...
+
+현재까지 배포된 버전에 대한 이용에는 문제가 없고, 각종 링크 CDN등은 현재와 동일하게 유지 됩니다.   
+단, 유지보수/하자보수 계약이 된 경우를 위한 버그 픽스는 진행됩니다.
+
+---
 
 # AXISJ
 ###Full-Stack Open-source Javascript UI Framework

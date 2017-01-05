@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.11 - 2016-12-18 
+axisj - v1.1.11 - 2016-12-19 
 */
 /*! 
-axisj - v1.1.11 - 2016-12-18 
+axisj - v1.1.11 - 2016-12-19 
 */
 
 if(!window.AXConfig){
@@ -2748,7 +2748,7 @@ Object.extend(Date.prototype, (function () {
         interval = interval || "d";
         var interval = interval.toLowerCase();
         var DyMilli = ((1000 * 60) * 60) * 24;
-        var aDate = new Date(this.getUTCFullYear(), this.getMonth(), this.getDate(), 12);
+        var aDate = new Date(this.getFullYear(), this.getMonth(), this.getDate(), 12);
 
         if (interval == "d") {
             //trace(aDate.getTime(), (daynum) , (DyMilli));
@@ -2842,12 +2842,12 @@ Object.extend(Date.prototype, (function () {
     function toString(format) {
         if (format == undefined) {
             var sSeper = "-";
-            return this.getUTCFullYear() + sSeper + (this.getMonth() + 1).setDigit(2) + sSeper + this.getDate().setDigit(2);
+            return this.getFullYear() + sSeper + (this.getMonth() + 1).setDigit(2) + sSeper + this.getDate().setDigit(2);
         }
         else {
             var fStr = format;
             var nY, nM, nD, nH, nMM, nS, nDW;
-            nY = this.getUTCFullYear();
+            nY = this.getFullYear();
             nM = (this.getMonth() + 1).setDigit(2);
             nD = this.getDate().setDigit(2);
             nH = this.getHours().setDigit(2);
@@ -5566,6 +5566,7 @@ var AXCalendar = Class.create(AXJ, {
             po.push("<tr>");
             var k = 0;
             while (k < 7) {
+                //console.log(roopDate);
                 var roopTime = roopDate.getTime();
                 var dayValue = roopDate.print(this.config.printFormat);
                 var addClass = [];
@@ -5611,6 +5612,7 @@ var AXCalendar = Class.create(AXJ, {
         po.push("</tbody>");
         po.push("</table>");
         po.push("</div>");
+
         axdom("#" + cfg.targetID).html(po.join(''));
         return this;
     },
@@ -24102,17 +24104,17 @@ var AXInputConverter = Class.create(AXJ, {
                 return false;
             }
 
-            if(event.which == axf.Event.KEY_UP || event.which == axf.Event.KEY_DOWN){
+            if (event.which == axf.Event.KEY_UP || event.which == axf.Event.KEY_DOWN) {
                 if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                     bindSelectorExpand(objID, objSeq, false, event);
                 }
                 _this.stopEvent(event);
                 return false;
             }
-            else if(event.which == axf.Event.KEY_RETURN || event.which == axf.Event.KEY_TAB){
+            else if (event.which == axf.Event.KEY_RETURN || event.which == axf.Event.KEY_TAB) {
 
             }
-            else{
+            else {
                 if (!AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                     bindSelectorExpand(objID, objSeq, false, event);
                 }
@@ -25692,8 +25694,6 @@ var AXInputConverter = Class.create(AXJ, {
 
         var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
 
-        //trace(obj.config);
-
         obj.bindTarget.unbind("keydown.AXInput").bind("keydown.AXInput", function (event) {
             var _this = this;
             setTimeout(function () {
@@ -25795,6 +25795,7 @@ var AXInputConverter = Class.create(AXJ, {
             if (AXgetId(cfg.targetID + "_AX_" + objID + "_AX_expandBox")) {
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 개체 삭제 처리
                 axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_Handle").removeClass("on");
+
                 //비활성 처리후 메소드 종료
                 return;
             }
@@ -25819,9 +25820,8 @@ var AXInputConverter = Class.create(AXJ, {
 
         var dfDate = (obj.config.defaultDate || "").date();
         var myDate = objVal.date(separator, dfDate);
-
-        var myYear = myDate.getUTCFullYear();
-        var myMonth = (myDate.getUTCMonth() + 1).setDigit(2);
+        var myYear = myDate.getFullYear();
+        var myMonth = (myDate.getMonth() + 1).setDigit(2);
 
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
@@ -25840,7 +25840,6 @@ var AXInputConverter = Class.create(AXJ, {
         po.push("</div>");
 
         axdom(document.body).append(po.join('')); // bindDateExpandBox append
-        //axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").addClass("on");
 
         // AXCalendar display
         obj.nDate = myDate;
@@ -25916,7 +25915,6 @@ var AXInputConverter = Class.create(AXJ, {
                 if (obj.config.expandTime) {
                     printDate += " " + myDate.print("hh:mi");
                 }
-
             }
         }
         if (obj.config.expandSetValue) {
@@ -26560,36 +26558,36 @@ var AXInputConverter = Class.create(AXJ, {
                     var needAlert = false;
                     if (va.length > 5) {
                         var yy = va.left(4).number();
-                        var mm = va.substr(4, 2).number() - 1;
+                        var mm = va.substr(4, 2).number();
                         var dd = va.substr(6, 2).number();
                     }
                     else if (va.length > 3) {
                         var yy = "20" + va.substr(0, 2);
-                        var mm = va.substr(2, 2).number() - 1;
+                        var mm = va.substr(2, 2).number();
                         var dd = va.substr(4, 2).number();
                     }
                     else if (va.length > 2) {
                         var yy = nDate.getFullYear();
-                        var mm = va.substr(0, 2).number() - 1;
+                        var mm = va.substr(0, 2).number();
                         var dd = va.substr(2, 2).number();
                     }
                     else {
                         var yy = nDate.getFullYear(); //va.left(4).number();
-                        var mm = nDate.getMonth();
+                        var mm = nDate.getMonth() + 1;
                         var dd = va.substr(0, 2).number();
                     }
                     if (yy == 0) needAlert = true;
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
 
-                    obj.nDate = new Date(Date.UTC(yy, mm, dd, 12));
+                    obj.nDate = (yy + "-" + mm.setDigit(2) + "-" + dd.setDigit(2)).date();
 
-                    //trace(obj.nDate.getFullYear() != yy.number());
-                    //trace(obj.nDate.getMonth() != mm.number());
+                    //trace(obj.nDate.getFullYear(), yy.number());
+                    //trace(obj.nDate.getMonth()+1, mm.number());
                     //trace(obj.nDate.getDate(), dd.number());
 
                     if (obj.nDate.getFullYear() != yy.number()
-                        || obj.nDate.getMonth() != mm.number()
+                        || obj.nDate.getMonth()+1 != mm.number()
                         || obj.nDate.getDate() != dd.number()) {
                         needAlert = true;
                         obj.nDate = new Date();
@@ -26601,8 +26599,6 @@ var AXInputConverter = Class.create(AXJ, {
                         var hh, mi;
                         try {
                             printDate += " " + obj.mycalendartime.getTime();
-                            trace(printDate);
-
                         } catch (e) {
                             if (va.length > 11) { // hh,mm
                                 hh = va.substr(8, 2).number();
@@ -27055,7 +27051,6 @@ var AXInputConverter = Class.create(AXJ, {
             }
         }
         axdom("#" + cfg.targetID + "_AX_" + objID + "_AX_expandBox").remove(); // 활성화 전에 개체 삭제 처리
-        //axdom("#"+cfg.targetID + "_AX_" + objID+"_AX_Handle").removeClass("on");
 
         //Expand Box 생성 구문 작성
         var objVal1 = axdom("#" + obj.config.startTargetID).val();
@@ -27100,6 +27095,7 @@ var AXInputConverter = Class.create(AXJ, {
         var myMonth1 = (myDate1.getMonth() + 1).setDigit(2);
         var myMonth2 = (myDate2.getMonth() + 1).setDigit(2);
         var buttonText = obj.config.buttonText || "OK";
+
         var po = [];
         po.push("<div id=\"" + cfg.targetID + "_AX_" + objID + "_AX_expandBox\" class=\"" + cfg.bindTwinDateExpandBoxClassName + "\" style=\"z-index:5100;\">");
         po.push("	<div>");
@@ -27447,7 +27443,7 @@ var AXInputConverter = Class.create(AXJ, {
             this.bindTwinDateExpandClose(objID, objSeq, event);
         }
         else {
-            
+
             if (axdom(myTarget).hasClass("disabled")) {
                 return;
             } // disabled 대상은 선택 불가
@@ -27458,7 +27454,7 @@ var AXInputConverter = Class.create(AXJ, {
             var nDate1 = obj.nDate1;
             var nDate2 = obj.nDate2;
             var separator = obj.config.separator || AXConfig.AXInput.dateSeparator || "-";
-            
+
             if (ename == "expandPrev1") {
                 if (obj.mycalendarPageType == "d") {
                     this.bindTwinDateChangePage(objID, objSeq, 1, nDate1.add(-1, "m"), "d");
@@ -27829,22 +27825,22 @@ var AXInputConverter = Class.create(AXJ, {
                     var yy, mm, dd, hh, mi;
                     if (va.length > 7) {
                         yy = va.left(4).number();
-                        mm = va.substr(4, 2).number() - 1;
+                        mm = va.substr(4, 2).number();
                         dd = va.substr(6, 2).number();
                     }
                     else if (va.length > 4) {
                         yy = "20" + va.substr(0, 2);
-                        mm = va.substr(2, 2).number() - 1;
+                        mm = va.substr(2, 2).number();
                         dd = va.substr(4, 2).number();
                     }
                     else if (va.length > 2) {
                         yy = nDate.getFullYear();
-                        mm = va.substr(0, 2).number() - 1;
+                        mm = va.substr(0, 2).number();
                         dd = va.substr(2, 2).number();
                     }
                     else {
                         yy = nDate.getFullYear(); //va.left(4).number();
-                        mm = nDate.getMonth();
+                        mm = nDate.getMonth() + 1;
                         dd = va.substr(0, 2).number();
                     }
 
@@ -27860,10 +27856,11 @@ var AXInputConverter = Class.create(AXJ, {
                     if (yy == 0) needAlert = true;
                     if (yy == 0) yy = nDate.getFullYear();
                     if (yy < 1000) yy += 2000;
-                    obj["nDate" + seq] = new Date(Date.UTC(yy, mm, dd, 12));
+
+                    obj["nDate" + seq] = (yy + "-" + mm.setDigit(2) + "-" + dd.setDigit(2)).date();
 
                     if (obj["nDate" + seq].getFullYear() != yy.number()
-                        || obj["nDate" + seq].getMonth() != mm.number()
+                        || obj["nDate" + seq].getMonth()+1 != mm.number()
                         || obj["nDate" + seq].getDate() != dd.number()) {
                         needAlert = true;
                         obj["nDate" + seq] = new Date();
@@ -27884,23 +27881,23 @@ var AXInputConverter = Class.create(AXJ, {
                         if (va.search(/\d+/g) != -1) {
                             if (va.length > 7) {
                                 var yy = va.left(4).number();
-                                var mm = va.substr(4, 2).number() - 1;
+                                var mm = va.substr(4, 2).number();
                                 var dd = va.substr(6, 2).number();
                             }
                             else if (va.length > 5) {
                                 var yy = va.left(4).number();
-                                var mm = va.substr(4, 2).number() - 1;
+                                var mm = va.substr(4, 2).number();
                                 var dd = 1;
                             }
                             else {
                                 var yy = va.left(4).number();
-                                var mm = nDate.getMonth();
+                                var mm = nDate.getMonth() + 1;
                                 var dd = nDate.getDate();
                             }
                             if (yy == 0) needAlert = true;
                             if (yy == 0) yy = nDate.getFullYear();
                             if (yy < 1000) yy += 2000;
-                            obj.nDate1 = new Date(Date.UTC(yy, mm, dd, 12));
+                            obj.nDate1 = (yy + "-" + mm.setDigit(2) + "-" + dd.setDigit(2)).date();
                         }
                     }
                     if (obj.nDate2 == undefined) {
