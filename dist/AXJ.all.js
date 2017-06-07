@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.11 - 2016-12-19 
+axisj - v1.1.12 - 2017-06-07 
 */
 /*! 
-axisj - v1.1.11 - 2016-12-19 
+axisj - v1.1.12 - 2017-06-07 
 */
 
 if(!window.AXConfig){
@@ -18975,6 +18975,7 @@ var AXGrid = Class.create(AXJ, {
      * @description  그리드 스크롤바에 대한 터치 이벤트를 처리 합니다.
      */
     contentScrollTouchstart: function (e) {
+        var _this = this;
         var cfg = this.config;
         var event = window.event || e;
 
@@ -19001,19 +19002,11 @@ var AXGrid = Class.create(AXJ, {
             nl: this.scrollContent.position().left
         };
 
-        var contentScrollTouchEnd = this.contentScrollTouchEnd.bind(this);
-        this.contentScrollTouchEndBind = function () {
-            contentScrollTouchEnd(event);
-        };
-
-        var contentScrollTouchMove = this.contentScrollTouchMove.bind(this);
-        this.contentScrollTouchMoveBind = function () {
-            contentScrollTouchMove(event);
-        };
-
         if (document.addEventListener) {
-            document.addEventListener("touchend", this.contentScrollTouchEndBind, false);
-            document.addEventListener("touchmove", this.contentScrollTouchMoveBind, false);
+            document.addEventListener("touchend", this.contentScrollTouchEnd.bind(this), true);
+            document.addEventListener("touchmove", function (e) {
+                _this.contentScrollTouchMove(e);
+            });
         }
     },
     /**
@@ -19024,16 +19017,15 @@ var AXGrid = Class.create(AXJ, {
     contentScrollTouchMove: function (e) {
         var cfg = this.config;
         var event = window.event || e;
+        var pos = this.getTouchPositionToContentScroll(event);
+        var scrollTouchAttr = this.scrollTouchAttr;
+        var eventCancle = false;
+
         if (this.contentScrollTouchMoved) {
-
-            var pos = this.getTouchPositionToContentScroll(event);
-            var scrollTouchAttr = this.scrollTouchAttr;
-
-            var eventCancle = false;
 
             if (scrollTouchAttr.th > scrollTouchAttr.h && cfg.height != "auto") {
                 var scrollTop = scrollTouchAttr.nt - (pos.y - scrollTouchAttr.y);
-                //console.log(scrollTop);
+
                 if (scrollTop > 0) {
                     scrollTop = 0;
                     eventCancle = true;
@@ -19047,14 +19039,16 @@ var AXGrid = Class.create(AXJ, {
                     eventCancle = true;
                 }
 
-                this.scrollContent.css({top: scrollTop});
-                this.contentScrollContentSync({top: scrollTop}, "touch");
+                if (Math.abs(scrollTop - scrollTouchAttr.nt) > 0) {
+                    this.scrollContent.css({top: scrollTop});
+                    this.contentScrollContentSync({top: scrollTop}, "touch");
+                }
             }
             else {
                 eventCancle = true;
             }
 
-            if (this.show_scrollTrackX && (pos.x - scrollTouchAttr.x).abs() > 8) {
+            if ((pos.x - scrollTouchAttr.x).abs() > 8) {
                 eventCancle = false;
                 var scrollLeft = scrollTouchAttr.nl - (pos.x - scrollTouchAttr.x);
 
@@ -19070,24 +19064,30 @@ var AXGrid = Class.create(AXJ, {
                     scrollLeft = 0;
                     eventCancle = true;
                 }
-                this.scrollContent.css({left: scrollLeft});
-                this.contentScrollContentSync({left: scrollLeft}, "touch");
+
+                if (Math.abs(scrollLeft - scrollTouchAttr.nl) > 0) {
+                    this.scrollContent.css({left: scrollLeft});
+                    this.contentScrollContentSync({left: scrollLeft}, "touch");
+                }
             }
 
-            if (!eventCancle) {
-                if (event.preventDefault) event.preventDefault();
-                //if (event.stopPropagation) event.stopPropagation();
-                //event.cancelBubble = true;
-                //return false;
-            }
-            else {
-                if (scrollTop != 0) {
-                    var contentScrollEnd = this.contentScrollEnd.bind(this);
-                    if (this.contentScrollEndObserver) clearTimeout(this.contentScrollEndObserver);
-                    this.contentScrollEndObserver = setTimeout(function () {
-                        contentScrollEnd();
-                    }, 100);
-                }
+        }
+
+
+        if (!eventCancle) {
+            this.stopEvent(event);
+            //if (event.preventDefault) event.preventDefault();
+            //if (event.stopPropagation) event.stopPropagation();
+            //event.cancelBubble = true;
+            //return false;
+        }
+        else {
+            if (scrollTop != 0) {
+                var contentScrollEnd = this.contentScrollEnd.bind(this);
+                if (this.contentScrollEndObserver) clearTimeout(this.contentScrollEndObserver);
+                this.contentScrollEndObserver = setTimeout(function () {
+                    contentScrollEnd();
+                }, 100);
             }
         }
     },
