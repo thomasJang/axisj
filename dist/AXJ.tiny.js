@@ -1,8 +1,8 @@
 /*! 
-axisj - v1.1.12 - 2017-06-07 
+axisj - v1.1.12 - 2017-07-17 
 */
 /*! 
-axisj - v1.1.12 - 2017-06-07 
+axisj - v1.1.12 - 2017-07-17 
 */
 
 if(!window.AXConfig){
@@ -15803,7 +15803,7 @@ var AXInputConverterPro = Class.create(AXJ, {
 			maxHeight = obj.config.maxHeight || 130,
 			next_fn;
 
-		obj.deletedTagList = [];
+		obj.deletedTagList = obj.deletedTagList || [];
 		next_fn = function() {
 			if (po.length == 0) {
 				var selectorOptionEmpty = "";
