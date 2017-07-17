@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXUpload5 - AXISJ</title>
@@ -16,12 +16,13 @@
     <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
 
     <!-- css block -->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
     <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXCore.js"></script>
+	<script type="text/javascript" src="../../lib/AXUpload5.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -38,7 +39,6 @@
 	
 	var fnObj = {
 		pageStart: function(){
-
 			fnObj.upload.init();
 		},
 		upload: {
@@ -50,7 +50,9 @@
 					file_types:"image/*",  //audio/*|video/*|image/*|MIME_type (accept)
 					dropBoxID:"uploadQueueBox",
 					queueBoxID:"uploadQueueBox", // upload queue targetID
+					//openMode: "view",
 					//queueBoxAppendType:"(prepend || append)",
+					queueBoxAppendType:"prepend",
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
 					flash_url : pageObj.host+"lib/swfupload.swf",
 					flash9_url : pageObj.host+"lib/swfupload_fp9.swf",
@@ -58,7 +60,6 @@
                     flash_file_types_description:"image",
 					// --------- e
 					onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
-						//trace(this);
 						window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
 					},
 					
@@ -72,6 +73,7 @@
 					buttonTxt:"파일올리기",
 					
 					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+						//id:"id",
 						name:"name",
 						type:"type",
 						saveName:"saveName",
@@ -135,9 +137,9 @@
 				trace(list);
 				toast.push(Object.toJSON(list));
 			}
-		}		
+		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -156,7 +158,7 @@
 
 			<div class="title"><h1>AXUpload5</h1></div>
 
-						
+
             <div class="AXUpload5" id="AXUpload5"></div>
 
             <div class="H10"></div>

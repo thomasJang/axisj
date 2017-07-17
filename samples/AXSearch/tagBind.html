@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXSearch - AXISJ</title>
@@ -30,6 +30,7 @@
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
 
     <script type="text/javascript" src="../../lib/AXSearch.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
 
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
@@ -47,15 +48,57 @@
 
 	var fnObj = {
 		pageStart: function(){
+
+            $("#customer").bindSelector({
+                appendable: true,
+                options   : [
+                    {optionValue: 1, optionText: "Seoul"},
+                    {optionValue: 2, optionText: "대구"},
+                    {optionValue: 3, optionText: "대전"},
+                    {optionValue: 4, optionText: "창원"},
+                    {optionValue: 5, optionText: "마산"},
+                    {optionValue: 6, optionText: "구례"},
+                    {optionValue: 7, optionText: "제주도"},
+                    {optionValue: 8, optionText: "전주"},
+                    {optionValue: 4, optionText: "창원"},
+                    {optionValue: 5, optionText: "마산"},
+                    {optionValue: 6, optionText: "구례"},
+                    {optionValue: 7, optionText: "제주도"},
+                    {optionValue: 8, optionText: "전주"},
+                    {optionValue: 9, optionText: "Gwangju"}
+                ]
+            });
+
 			//검색도구 설정 01 ---------------------------------------------------------
 			mySearch.setConfig({
 				targetID:"AXSearchTarget",
 				theme : "AXSearch",
 				onsubmit: function(){
 					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
-				}
+				},
+                keydown_check_classname:"sc-keydown",
+                onkeydown: function(event){
+                    trace("keydown : " + event.keyCode);
+                },
+                keyup_check_classname:"sc-keyup",
+                onkeyup: function(event){
+                    trace("keyup : " + event.keyCode);
+                },
+                change_check_classname:"sc-change",
+                onchange: function(event){
+                    trace("change : " + event.target.tagName);
+                },
+                focus_check_classname:"sc-focus",
+                onfocus: function(event){
+                    trace("focus : " + event.target.tagName);
+                },
+                return_check_classname:"sc-enter",
+                onreturn: function(event){
+                    trace("return : " + event.target.tagName);
+                }
 			});
 			//검색도구 설정 01 ---------------------------------------------------------
+
 
 		},
 		search1: function(){
@@ -64,7 +107,7 @@
 			trace(pars);
 		}	
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
@@ -217,7 +260,11 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">사업장</span>
                             <span class="td inputText" style="" title="">
-                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200"></select>
+                                <select name="apc_cd_sc" id="apc_cd_sc" title="사업장" class="AXSelect W200 sc-change">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
                             </span>
                         </div>
                     </div>
@@ -227,7 +274,7 @@
                             <span class="th" style="min-width:100px;">우편번호</span>
                             <span class="td inputText" style="" title="">
                                 <label class="AXInputLabel" >
-                                    <input type="text" name="zip1" id="zip1" class="AXInput" style="width:40px;" readonly="readonly" /> - <input type="text" name="zip2" id="zip2" class="AXInput" style="width:40px;" readonly="readonly" />
+                                    <input type="text" name="zip1" id="zip1" class="AXInput" style="width:40px;" /> - <input type="text" name="zip2" id="zip2" class="AXInput" style="width:40px;" />
                                     <input type="text" name="addr" id="addr" class="AXInput W400 sc-enter" />
                                     <button type="button" class="AXLabelFinder" id="ax-popup-btn-addr"><i class="axi axi-search2"></i></button>
                                 </label>
@@ -242,8 +289,9 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">거래처</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="customer" id="customer" class="AXInput W400 sc-enter" readonly="readonly" />
+                                <input type="text" name="customer" id="customer" class="AXInput W400 sc-enter sc-change" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-customer"><i class="axi axi-search2"></i>거래처</button>
+                                <input type="checkbox" value="12" class="sc-change" />
                             </span>
                         </div>
                     </div>
@@ -255,7 +303,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">기사명</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter" readonly="readonly" />
+                                <input type="text" name="driver" id="driver" class="AXInput W400 sc-enter sc-focus" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-driver"><i class="axi axi-search2"></i>기사명</button>
                             </span>
                         </div>
@@ -268,7 +316,7 @@
                         <div class="item-lable">
                             <span class="th" style="min-width:100px;">상품명</span>
                             <span class="td inputText" style="" title="">
-                                <input type="text" name="goods" id="goods" class="AXInput W400 sc-enter" readonly="readonly" />
+                                <input type="text" name="goods" id="goods" class="AXInput W400 sc-enter" />
                                 <button type="button" class="AXButton" id="ax-popup-btn-goods"><i class="axi axi-search2"></i>상품명</button>
 
                                 <button class="AXButton Blue">폼 서브밋 테스트</button>

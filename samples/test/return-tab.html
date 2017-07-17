@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/ax5ui/ax5core/master/dist/ax5core.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/thomasJang/jquery.tabbable/master/jquery.tabbable.min.js"></script>
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"-->
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css">
+
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+
+    <style>
+        .form-group{
+            padding: 10px;
+        }
+    </style>
+</head>
+<body style="padding: 20px;">
+
+<form id="myform" onsubmit="return false;">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="AXInput" placeholder="Name" id="imcustom1" data-return-tab-next-focus-id="ax-select" />
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        <select class="AXSelect" id="ax-select" data-return-tab-next-focus-id="imcustom2">
+            <option value="0">000000</option>
+            <option value="1">111111</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="AXInput" placeholder="Name" id="ax-date"/>
+    </div>
+    <div class="form-group">
+        <label>Twin Date</label>
+        <input type="text" name="" id="AXInputDateST" class="AXInput W80" /> ~ <input type="text" name="" id="AXInputDateED" class="AXInput W100" />
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="AXInput" placeholder="Name" id="imcustom2"/>
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="AXInput" placeholder="Name" id="ax-selector"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="AXInput" id="exampleInputEmail1" placeholder="Email" data-return-tab="false"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="AXInput" id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputFile">File input</label>
+        <input type="file" id="exampleInputFile">
+        <p class="help-block">Example block-level help text here.</p>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> Check me out
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+<br/>
+<br/>
+<h1>PAGE-END</h1>
+<br/>
+<br/>
+
+<script>
+    AXConfig.anchorHref = "";
+
+    var return_tab = {
+        "init": function (parent) {
+
+            parent.on("keydown.return-tab", "input, select, [data-ax-anchor]", function (e) {
+                var useTab = this.getAttribute("data-return-tab");
+                var nextFocusElementId = this.getAttribute("data-return-tab-next-focus-id");
+                var prevFocusElementId = this.getAttribute("data-return-tab-prev-focus-id");
+                var $element;
+                if (ax5.info.eventKeys.RETURN == e.which && useTab == "false") return this;
+                if (ax5.info.eventKeys.RETURN == e.which || ax5.info.eventKeys.TAB == e.which) {
+                    ax5.util.stopEvent(e);
+                    if (e.shiftKey) {
+                        if(prevFocusElementId){
+                            $element = $("#" + prevFocusElementId);
+                            if($element.attr("data-axbind") == "select"){
+                                $element.bindSelectFocus();
+                            }else{
+                                $element.focus();
+                            }
+                        }else {
+                            $.focusPrev();
+                        }
+                    } else {
+                        if(nextFocusElementId){
+                            $element = $("#" + nextFocusElementId);
+                            if($element.attr("data-axbind") == "select"){
+                                $element.bindSelectFocus();
+                            }else{
+                                $element.focus();
+                            }
+                        }else {
+                            $.focusNext();
+                        }
+                    }
+                }
+            });
+        },
+        "off": function (parent) {
+            parent.off("keydown.return-tab");
+        }
+    };
+
+    $(document.body).ready(function () {
+
+        $("#ax-selector").bindSelector({
+            options: [
+                {optionValue:1, optionText:"Seoul"},
+                {optionValue:2, optionText:"대구"},
+                {optionValue:3, optionText:"대전"},
+                {optionValue:4, optionText:"(창원"},
+                {optionValue:5, optionText:"[마산"},
+                {optionValue:6, optionText:"구례"},
+                {optionValue:7, optionText:"제주도"},
+                {optionValue:8, optionText:"전주"},
+                {optionValue:4, optionText:"창원"},
+                {optionValue:5, optionText:"마산"},
+                {optionValue:6, optionText:"구례"},
+                {optionValue:7, optionText:"제주도"},
+                {optionValue:8, optionText:"전주"},
+                {optionValue:9, optionText:"Gwangju"}
+            ]
+        });
+
+        $("#ax-select").bindSelect();
+        $("#ax-date").bindDate();
+
+        $("#AXInputDateED").bindTwinDate({
+            startTargetID: "AXInputDateST",
+            // handleLeft: 25,
+            align: "right",
+            valign: "bottom",
+            separator: "/",
+            buttonText: "선택",
+            onChange: function () {
+                //toast.push(Object.toJSON(this));
+            },
+            onBeforeShowDay: function (date) {
+                if (date.getDay() == 3) {
+                    return { isEnable: false, title: "수요일 선택불가", className: "", style: "" };
+                }
+            }
+        });
+
+        return_tab.init($("#myform"));
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindSelector - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdno.axisj.com/axicon/axicon.css" />
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXUtil.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../lib/AXInputPro.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXInput">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+
+			<div class="title"><h1>AXTagSelector</h1></div>
+
+			<form name="send-form" onsubmit="return false;">
+				<h2>Script</h2>
+				<input type="text" name="tags" id="ax-tag-selector" class="AXInput W200" />
+
+				<h2>AJAX</h2>
+				<input type="text" name="tags2" id="ax-tag-selector-02" class="AXInput W200" />
+
+				<h2>onsearch</h2>
+				<input type="text" name="tags3" id="ax-tag-selector-03" class="AXInput W200" />
+
+				<div class="H20"></div>
+				<button class="AXButton" type="button" onclick="fnObj.form.submit();">Submit</button>
+				<button class="AXButton" type="button" onclick="fnObj.form.set();">두번째 필드에 값 채우기</button>
+			</form>
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+<script type="text/javascript">
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXMultiSelector.js
+	 * CSS			: AXJ.css, AXInput.css
+	 */
+	var pageID = "TagSelector";
+	var fnObj = {
+		pageStart: function(){
+
+			$("#ax-tag-selector").bindTagSelector({
+				selectorWidth: false, //selectorWidth 값이 없으면 인풋의 너비를 이용.
+				optionValue_inputName: "tagValue", // 태그가 추가될 때 생성되는 optionValue input hidden name값
+				optionText_inputName: "tagText", // 태그가 추가될 때 생성되는 optionText input hidden name값
+				/*
+				reserveKeys: {
+					options: "options", // ajax 를 이용해서 options 리스트 구성할 때. 사용
+					optionValue: "optionValue",
+					optionText: "optionText"
+				},
+				*/
+				options: [
+					{optionValue:1, optionText:"Seoul"},
+					{optionValue:2, optionText:"대구"},
+					{optionValue:3, optionText:"대전"},
+					{optionValue:4, optionText:"(창원"},
+					{optionValue:5, optionText:"[마산"},
+					{optionValue:6, optionText:"구례"},
+					{optionValue:7, optionText:"제주도"},
+					{optionValue:8, optionText:"전주"},
+					{optionValue:4, optionText:"창원"},
+					{optionValue:5, optionText:"마산"},
+					{optionValue:6, optionText:"구례"},
+					{optionValue:7, optionText:"제주도"},
+					{optionValue:8, optionText:"전주"},
+					{optionValue:9, optionText:"Gwangju"}
+				]
+			});
+
+			$("#ax-tag-selector-02").bindTagSelector({
+				/*
+				reserveKeys: {
+					options: "list",
+					optionValue: "value",
+					optionText: "optionText"
+				},
+				*/
+				//direction: "bottom",
+				appendable: false,
+				ajaxUrl:"selectorData.php",
+				ajaxPars:""
+			});
+
+			$("#ax-tag-selector-03").bindTagSelector({
+				selectorWidth: false, //selectorWidth 값이 없으면 인풋의 너비를 이용.
+				optionValue_inputName: "tagValue", // 태그가 추가될 때 생성되는 optionValue input hidden name값
+				optionText_inputName: "tagText", // 태그가 추가될 때 생성되는 optionText input hidden name값
+				/*
+				 reserveKeys: {
+				 options: "options", // ajax 를 이용해서 options 리스트 구성할 때. 사용
+				 optionValue: "optionValue",
+				 optionText: "optionText"
+				 },
+				 */
+				onsearch: function(objID, kword, callBack){
+					callBack([
+						{optionValue:1, optionText:"Seoul"},
+						{optionValue:2, optionText:"대구"},
+						{optionValue:3, optionText:"대전"},
+						{optionValue:4, optionText:"(창원"},
+						{optionValue:5, optionText:"[마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:4, optionText:"창원"},
+						{optionValue:5, optionText:"마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:9, optionText:"Gwangju"}
+					]);
+
+					/*
+					return [
+						{optionValue:1, optionText:"Seoul"},
+						{optionValue:2, optionText:"대구"},
+						{optionValue:3, optionText:"대전"},
+						{optionValue:4, optionText:"(창원"},
+						{optionValue:5, optionText:"[마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:4, optionText:"창원"},
+						{optionValue:5, optionText:"마산"},
+						{optionValue:6, optionText:"구례"},
+						{optionValue:7, optionText:"제주도"},
+						{optionValue:8, optionText:"전주"},
+						{optionValue:9, optionText:"Gwangju"}
+					];
+					*/
+				}
+			});
+
+		},
+		form: {
+			set: function(){
+				$("#ax-tag-selector-02").bindTagSelector_setItem([
+					{optionValue:8, optionText:"전주"},
+					{optionValue:4, optionText:"창원"},
+					{optionValue:5, optionText:"마산"},
+					{optionValue:6, optionText:"구례"}
+				]);
+			},
+			submit: function(){
+				var frm = document["send-form"];
+				dialog.push( $(frm).serialize() );
+				return false;
+			}
+		}
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+</script>
+</body>
+</html>		

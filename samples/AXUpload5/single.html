@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXUpload(single) - AXISJ</title>
@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXUpload5.js"></script>
     <script type="text/javascript" src="../page.js"></script>
     <script type="text/javascript" src="pageTab.js"></script>
     <!-- js block -->
@@ -48,7 +49,7 @@
 				myUpload.setConfig({
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5",
-					targetButtonClass:"Red",
+					targetButtonClass:"Blue",
 					uploadFileName:"fileData",
 					//dropBoxID:"dropZoneBox", 
 					//queueBoxID:"uploadQueueBox", // upload queue targetID
@@ -115,7 +116,7 @@
 				}});
 				
 				// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
-				/*
+
 				myUpload1.setConfig({
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5_1",
@@ -172,13 +173,16 @@
 						}
 					}
 				});
-				*/
-                /*
+
 				myUpload2.setConfig({
 					isSingleUpload:true, // 싱글 모드
 					targetID:"AXUpload5_2",
 					targetButtonClass:"Red",
 					uploadFileName:"fileData",
+					
+					buttonTxt: "FILE",
+					fileDisplayHide: true,
+					
 					//dropBoxID:"dropZoneBox", 
 					//queueBoxID:"uploadQueueBox", // upload queue targetID
 					// html 5를 지원하지 않는 브라우저를 위한 swf upload 설정 원치 않는 경우엔 선언 하지 않아도 됩니다. ------- s
@@ -230,7 +234,7 @@
 						}
 					}
 				});
-				*/
+
 				
 			},
 			printMethodReturn: function(method, type){
@@ -240,7 +244,7 @@
 			}
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">

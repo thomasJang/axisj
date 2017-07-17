@@ -39,6 +39,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #b1b1b1;
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable {
@@ -53,6 +55,8 @@
   background: linear-gradient(#e2e4e6, #ffffff);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e2e4e6, endColorstr=#ffffff);
   /*For IE7-8-9*/
 }
 .AXTree .AXTreeScrollBody .AXTreeColHead .colHeadTable tbody tr td {
@@ -176,10 +180,10 @@
   width: 9px;
   height: 9px;
   /*
-				border-left:@border-a;
-				border-right:@border-a;
-				background:#f3f3f3;
-				*/
+				  border-left:@border-a;
+				  border-right:@border-a;
+				  background:#f3f3f3;
+				  */
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -211,9 +215,9 @@
   width: 9px;
   height: 9px;
   /*
-				border-top:@border-a;border-bottom:@border-a;
-				background:@bgcolor-c;
-				*/
+				  border-top:@border-a;border-bottom:@border-a;
+				  background:@bgcolor-c;
+				  */
   display: none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -255,16 +259,16 @@
   border-bottom: 0px none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.hover td {
   background-color: #e7f1fa;
@@ -286,6 +290,7 @@
   background: url('images/dx-tree-body-border.png') repeat-y 100% 0px;
   vertical-align: bottom;
   border-bottom: 1px solid #c8c8c8;
+  overflow: hidden;
   cursor: pointer;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr td.selected {
@@ -487,16 +492,16 @@
   border-bottom: 0px none;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.selected td {
   background-color: #d2d9df;
@@ -740,9 +745,9 @@
   width: 9px;
   height: 9px;
   /*
-				border-left:@border-a;border-right:@border-a;
-				background:@bgcolor-c;
-				*/
+				  border-left:@border-a;border-right:@border-a;
+				  background:@bgcolor-c;
+				  */
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle {
@@ -760,9 +765,9 @@
   -moz-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
   /*
-					background:url('images/dx-diagonal-bg.png');
-					border:@border-b;
-					*/
+					  background:url('images/dx-diagonal-bg.png');
+					  border:@border-b;
+					  */
   cursor: pointer;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackY .treeScrollHandle:hover,
@@ -779,9 +784,9 @@
   width: 9px;
   height: 9px;
   /*
-				border-top:@border-a;border-bottom:@border-a;
-				background:@bgcolor-c;
-				*/
+				  border-top:@border-a;border-bottom:@border-a;
+				  background:@bgcolor-c;
+				  */
   display: none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeScrollTrackX .treeScrollHandle {
@@ -822,16 +827,16 @@
   border-bottom: 0px none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeBodyTable tbody tr.hover td {
   background-color: #e7f1fa;
@@ -1046,16 +1051,16 @@
   border-bottom: 0px none;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.red td {
-  background-color: #ffbbcc;
+  background-color: #ffebe1;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.green td {
-  background-color: #f3f3f3;
+  background-color: #eaf3e4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.blue td {
-  background-color: #929292;
+  background-color: #edf6ff;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.yellow td {
-  background-color: #d2d9df;
+  background-color: #fffee4;
 }
 .AXTree_none .AXTreeScrollBody .AXTreeBody .treeFixedBodyTable tbody tr.selected td {
   background-color: #d2d9df;

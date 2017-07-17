@@ -27,7 +27,7 @@
   font-size: 12px;
   height: 26px;
   line-height: 26px;
-  padding: 2px;
+  padding: 0px;
   margin: 0px auto;
   box-sizing: content-box;
   vertical-align: middle;
@@ -47,7 +47,7 @@
   font-size: 11px;
   height: 20px;
   line-height: 20px;
-  padding: 2px;
+  padding: 0px;
   margin: 0px auto;
   box-sizing: content-box;
   outline: none;
@@ -94,6 +94,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fdfdfd, endColorstr=#e8e8e8);
+  /*For IE7-8-9*/
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
@@ -119,6 +121,9 @@
 }
 .AXanchorSelect .selectedTextBox:active {
   box-shadow: none;
+}
+.AXanchorSelect .selectedTextBox.focus {
+  background: #ffffff;
 }
 .AXanchorSelect.disable .selectedTextBox {
   display: block;

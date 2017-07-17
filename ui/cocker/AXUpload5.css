@@ -34,9 +34,7 @@
   text-align: left;
 }
 .AXUpload5 .AXFileSelector {
-  padding-right: 26px;
-  padding-left: 5px;
-  background: url('images/dx-upload5-icon.png') no-repeat 100%;
+  padding: 0px 5px;
 }
 .AXUpload5 .AXFileDisplay {
   white-space: nowrap;
@@ -179,6 +177,10 @@
   color: #888888;
   font-weight: bold;
 }
+.AXUpload5QueueBox .AXUploadItem .AXUploadIcon img.preview {
+  width: 100px;
+  height: 100px;
+}
 .AXUpload5QueueBox .AXUploadItem .AXUploadType {
   white-space: nowrap;
   overflow: hidden;
@@ -300,6 +302,9 @@
   overflow: auto;
   z-index: 100;
 }
+.AXUpload5QueueBox_list .AXUploadItem.view {
+  padding: 0px 5px 0px 20px;
+}
 .AXUpload5QueueBox_list .AXUploadItem.readyselect {
   cursor: pointer;
 }
@@ -355,17 +360,20 @@
   line-height: 24px;
   padding: 0px;
   height: auto;
+  white-space: nowrap;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadSize {
   font-size: 11px;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadProcess {
-  position: absolute;
-  left: 20px;
-  top: 54px;
+  position: relative;
+  left: auto;
+  top: auto;
   height: 8px;
-  width: 78px;
+  width: 80px;
   background: #b2b2b2;
+  float: left;
+  margin: 6px 0px 0px 6px;
   border: 1px solid #b2b2b2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -403,6 +411,9 @@
   left: 24px;
   top: 4px;
   line-height: 1em;
+}
+.AXUpload5QueueBox_list .AXUploadItem .AXUploadLabel.view {
+  left: 0px;
 }
 .AXUpload5QueueBox_list .AXUploadItem .AXUploadLabel .AXUploadMainImage {
   display: none;

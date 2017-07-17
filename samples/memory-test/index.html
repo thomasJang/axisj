@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tbody id="table-test-target"></tbody>
+</table>
+
+<script>
+    var
+        target = document.getElementById("table-test-target"),
+        str = '', tds = ''
+        ;
+
+    for (var i = 0; i < 100; i++) {
+        tds += '<td>테스트 데이터' + i + '</td>';
+    }
+    for (var i = 0; i < 100; i++) {
+        str += '<tr>' + tds + '</tr>';
+    }
+
+    setInterval(function () {
+        if (target.innerHTML == '') {
+            target.innerHTML = str;
+        }
+        else {
+            target.innerHTML = '';
+        }
+    }, 2000);
+</script>
+
+</body>
+</html>

@@ -6,10 +6,10 @@
 // AXU는 크게 "거치형(Heavy-ware)"과 "휴대형(Light-ware)"으로 나누어집니다.
 // 
 // 네임스페이스(ax는 네임스페이스로 사용할 수 없습니다.)
-// Heavy-ware : cx(Watch), mx(Mobile)*, tx(Tablet)
-// light-ware : dx(Desktop)*, wx(Wide), ux(Ultra), fx(4k)
+// Heavy-ware : dx(Desktop)*, wx(Wide), ux(Ultra), fx(4k)
+// light-ware : cx(Watch), mx(Mobile)*, tx(Tablet)
 // * 기준사이즈 mx, dx 기준사이즈임
-// 자세한 사항은 axu.axisj.com의 "AXU UX Guideline"을 참조해주세요.
+// 자세한 사항은 https://www.axisj.com/ko/axu/docs 참조해주세요.
 // 
 // 변수명은 모두 소문자로 작성하면 의미소 단위로 하이픈(-)을 이용하여 구분하여 작성합니다.
 // 변수명 명명법(Common은 예외입니다.)
@@ -168,6 +168,18 @@
 	@radius		:4px;	
 }
 
+// AXToolBar ///////////////////////////////////////////////////
+.dx-axtoolbar-preset-normal(){
+	@bgcolor	:#fdfdfd;
+	@bgcolor-a	:#fdfdfd;
+	@bgcolor-b	:#e8e8e8;
+	@color		:#6e7a85;
+	@color-a	:#6e7a85;
+	@color-c	:#6e7a85;
+	@border		:1px solid #c6cdd3;
+	@radius		:4px;
+}
+
 
 // AXEditor ///////////////////////////////////////////////////
 .dx-axeditor-preset(){
@@ -221,6 +233,7 @@
 	@bgcolor-f	:#f3f3f3;				// Scroll track bgcolor
 	@bgcolor-g	:#929292;				// Scroll handle over bgcolor
 	@bgcolor-h	:#d2d9df;				// Grid body rows over bgcolor
+	@bgcolor-hh	:#bcc1c7;				// Grid body cols over bgcolor
 	@bgcolor-i	:#f7f7f7;				// Grid body rows element-a bgcolor
 	@bgcolor-j	:#fff;					// Grid body rows element-b bgcolor
 	
@@ -320,7 +333,7 @@
 	@bgcolor-c	:#919ea7;	
 }
 
-.dx-axcalenter-preset(){
+.dx-axcalender-preset(){
 	//AXJ.less
 	@font-family:Arial;
 	@color		:#7b7b7b; 	
@@ -331,7 +344,8 @@
 	@color-e	:#fff; 	
 	@color-f	:#bfbfc1;
 	@color-g	:#738089; 	//hour, minute, 
-	
+	@color-disabled :#D0D0D0; //disabled
+
 	@border		:1px solid #b9babc;		//Table body 
 	@border-a	:1px solid #f2f2f3;		//Table head right;
 	@border-b	:1px solid #b9babc;		//Table head left;

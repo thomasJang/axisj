@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
 	<title>AXInput - AXISJ</title>
@@ -36,21 +36,17 @@
 			$(".AXInputSearch").bindSearch();
 			$(".AXInputPlaceHolder").bindPlaceHolder();
 
-            /*
-			$(".AXCheckbox").find("input").bind("click", function(){
-				if(this.checked)this.checked = true;else this.checked = false;
-				if($(this).parent().hasClass("checked")) $(this).parent().removeClass("checked");else $(this).parent().addClass("checked");
-			});
-			*/
-
-            $("#mycheck-target").bindChecked();
+			$('input[type=checkbox]').bindChecked();
+			$('input[type=radio]').bindChecked();
 		}
 	};
-	jQuery(document).ready(fnObj.pageStart.delay(0.1));
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
 	</script>
 
 	<style type="text/css">
-	
+	.AXInput{
+
+	}
 	</style>
 </head>
 	
@@ -69,7 +65,7 @@
 						<h2>AXInput</h2>
 						<h3>Normal</h3>
 						<label>Normal</label>
-						<input type="text" name="input" value="" class="AXInput" />
+						<input type="text" name="input" value="가나다라 ABC abc" class="AXInput" />
 						
 						<div class="H10"></div>						
 						<label>ReadOnly</label>						
@@ -212,11 +208,11 @@
 						-->
                         <form name="input-checked-form">
                             <!-- 직접바인딩 : label에 직접 바인딩 합니다. -->
-                            <label id="mycheck-target">
+                            <label>
                                 <input type="checkbox" name="mycheck" value="yes" />
                                 Javascript
                             </label>
-                            <label id="mycheck-radio-target">
+                            <label>
                                 <input type="radio" name="mycheckRadio" value="yes" />
                                 Javascript
                             </label>
@@ -224,7 +220,7 @@
                             <div class="H10"></div>
 
                             <!-- 간접바인딩 : label을 감싸고 있는 컨테이너 엘리먼트에 바인딩 합니다. -->
-                            <div id="AXInputChecked-target">
+                            <div>
                                 <label>
                                     <input type="checkbox" name="mycheck2" value="3" />
                                     Javascript
@@ -241,7 +237,7 @@
 
                             <div class="H10"></div>
 
-                            <div id="AXInputChecked-target-radio">
+                            <div>
                                 <label>
                                     <input type="radio" name="mycheck3" value="3" />
                                     Javascript
@@ -256,7 +252,15 @@
                                 </label>
                             </div>
                         </form>
-							
+
+						<div class="H10"></div>
+
+						<h2>AXTextarea</h2>
+						<textarea class="AXTextarea W200">Normal</textarea>
+						<textarea class="AXTextarea W200" readonly="readonly">ReadOnly</textarea>
+						<textarea class="AXTextarea W200" disabled="disabled">Disabled</textarea>
+						<textarea class="AXTextarea W200" placeholder="Placeholder"></textarea>
+
 					</div>	
 				</div>								
 				<div class="ax-clear"></div>

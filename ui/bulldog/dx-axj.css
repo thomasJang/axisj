@@ -207,7 +207,7 @@
   width: 140px;
   background: #ffffff;
   border: 1px solid #6c7b8a;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0px 0px 5px #ccc;
 }
 .AXContextMenu .contextMenuItem {
@@ -313,6 +313,24 @@
   background-image: url('images/dx-context-sub-icon.png');
   background-repeat: no-repeat;
   background-position: 0px center;
+}
+.AXContextMenu .contextMenuItem .shot-cut {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  font-size: 11px;
+}
+.AXContextMenu .contextMenuItem .tool-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  background: url('images/mx-item-check.png') no-repeat center center;
+  background-size: 30px 30px;
+}
+.AXContextMenu .contextMenuItem .tool-checkbox.on {
+  background: url('images/mx-item-checkOn.png') no-repeat center center;
+  background-size: 30px 30px;
 }
 .AXContextMenu .hline {
   display: block;
@@ -659,8 +677,10 @@
 .AXNotificationTrayDialog {
   position: fixed;
   left: 0px;
-  top: 50px;
+  top: 0px;
   width: 100%;
+  height: 100%;
+  padding-top: 50px;
   z-index: 5001;
 }
 .AXNotificationTrayDialog .AXNotification {
@@ -739,6 +759,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
+  /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td.setDate {
   /*background: @stop;*/
@@ -751,6 +773,8 @@
   background-image: linear-gradient(#1dbb9a, #1dbb9a);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1dbb9a, endColorstr=#1dbb9a);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1dbb9a, endColorstr=#1dbb9a);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPage tbody td A.calendarDate {
@@ -774,6 +798,9 @@
   background: #758798;
   color: #ffffff;
   box-shadow: inset 0px 0px 4px #3d84bc;
+}
+.AXCalendar table.calendarPage tbody td A.calendarDate.disabled {
+  color: #949494 !important;
 }
 .AXCalendar table.calendarPage tbody td.bodyCol_0 A.calendarDate {
   color: #c78b82;
@@ -808,6 +835,8 @@
   background-image: linear-gradient(#536270, #536270);
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
+  /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#536270, endColorstr=#536270);
   /*For IE7-8-9*/
 }
 .AXCalendar table.calendarPageMonth tbody td.bodyCol_3 {
@@ -1568,6 +1597,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
+  /*For IE7-8-9*/
   border-bottom: 1px solid #6c7b8a;
   border-right: 1px solid #6c7b8a;
   color: #5e5e5e;
@@ -1652,6 +1683,8 @@
   /* Standard syntax */
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
   /*For IE7-8-9*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d9d9d9, endColorstr=#d9d9d9);
+  /*For IE7-8-9*/
   box-sizing: border-box;
 }
 .AXFormTable tbody tr.gray th,
@@ -1688,4 +1721,12 @@
 }
 .AXFormTable tbody tr td.yellow {
   background-color: #FEFEE9;
+}
+.AXWordwrap {
+  word-wrap: break-word;
+  /* IE 5.5-7 */
+  white-space: -moz-pre-wrap;
+  /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;
+  /* current browsers */
 }
