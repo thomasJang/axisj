@@ -195,6 +195,8 @@
         copy: {
             main: {expand: true, src: ['samples/**'], dest: 'docs/'},
             ui: {expand: true, src: ['ui/**'], dest: 'docs/'},
+            jquery: {expand: true, src: ['jquery/**'], dest: 'docs/'},
+            dist: {expand: true, src: ['dist/**'], dest: 'docs/'},
             index: {expand: false, src: ['index.html'], dest: 'docs/'}
         }
     });
