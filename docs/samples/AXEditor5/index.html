@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXEditor - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXEditor5.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXDOMRange.js, AXEditor.js
+	 * CSS			: AXJ.css, AXButton.css, AXSelect.css, AXInput.css, AXEditor.css
+	 */	
+	var pageID = "AXEditor";
+
+	var fnObj = {
+		pageStart: function(){
+			myEditor.setConfig({
+				targetID: "AXEditorTarget",
+				lang: "kr",
+				height:300,
+				frameSrc: pageObj.host+"lib/AXEditor.html",
+				editorFontFamily: "Malgun Gothic",
+				fonts:["Malgun Gothic","Gulim","Dotum","궁서"],
+				onReady: function(){
+					myEditor.setContent($("#editContent"));
+					//myEditor.setContent("ABCDEF");
+				}
+			});
+		},
+        editor:{
+            target: new AXEditor5(),
+            init: function(){
+                this.target.setConfig({
+                    targetID: "AXEditor5-target",
+                    editorContentSrc: "axeditor-html.html",
+                    fontFamilys: [],
+                    fontSizes: [],
+                    onload: function(){
+                        fnObj.editor.target.setContent();
+                    }
+                });
+            },
+            getParam: function(){
+                var myContent = this.target.getContent();
+                var content = [];
+                while(myContent.length > 0){
+                    content.push("content="+myContent.substr(0, 102399).enc());
+                    myContent = myContent.substr(102399);
+                }
+                alert(content);
+            }
+        }
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+			<div class="title"><h1>AXEditor</h1></div>
+
+            <div id="AXEditor5-target"></div>
+            <div id="editContent" style="display:none;"><p>sdfsfsdfdsfd에디터의 사용 법은 ? asdfsdfsdfsd</p></div>
+
+            <div class="H20"></div>
+
+            <div align="center">
+                <input type="button" value="파라미터 추출" class="AXButtonLarge Red" onclick="fnObj.editor.getParam();" />
+            </div>
+
+		</div>
+	</div>
+
+</div>
+
+</body>
+</html>		

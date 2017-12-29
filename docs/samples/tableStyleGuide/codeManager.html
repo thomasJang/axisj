@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ//ui/arongi/XButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/u/ui/arongi/Select.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/ui/arongi/rid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui//ui/arongi/ee.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/d/ui/arongi/ut.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXTabs.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTree.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+</head>
+<body>
+<div style="padding:10px;">
+	<table cellpadding="0" cellspacing="0" style="table-layout:fixed;width:100%;">
+		<colgroup>
+			<col width="300" />
+			<col />
+		</colgroup>
+		<tbody>
+			<tr valign="top">
+				<td>
+					
+					<div>
+						<input type="text" name="inputSelector" id="AXInputSelectorAjax" value="" class="AXInput" style="width:290px;" />
+					</div>
+					<div class="Hspace10"></div>
+					
+					<div id="AXTreeTarget" style="height:400px;border:1px solid #ccc;"></div>
+					<div style="display:none;" class="AXTreeModal">
+						<div id="modalContent" style="padding:10px;">
+							<form name="treeWriteForm" method="post" onsubmit="return false;">
+							<div style="padding:5px;">
+								<input type="hidden" name="writeMode" value="" />
+								<table>
+									<tr>
+										<td>
+											이름
+										</td>
+										<td>
+											<input type="text" name="nodeName" value="" class="AXInput W200" />
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div style="padding:5px;" align="center">
+								<input type="button" value="확인" class="AXButton" onclick="fnObj.tree.appendTree();" />
+								<input type="button" value="취소" class="AXButton" onclick="myModal.close('addTreeModal');" />
+							</div>
+							</form>
+						</div>
+					</div>
+					
+					<div style="padding:10px;">
+						<input type="button" value="추가" class="AXButton" onclick="fnObj.tree.addTree();" />
+						<input type="button" value="자식추가" class="AXButton" onclick="fnObj.tree.addChildTree();" />
+						<input type="button" value="선택삭제" class="AXButton" onclick="fnObj.tree.delTree();" />
+						<input type="button" value="수정" class="AXButton" onclick="fnObj.tree.updateTree();" />
+						<div class="Hspace10"></div>
+						<input type="button" value="위로" class="AXButton" onclick="myTree.moveUpTree();" />
+						<input type="button" value="아래로" class="AXButton" onclick="myTree.moveDownTree();" />
+						<input type="button" value="이동하기" class="AXButton" onclick="fnObj.moveTree();" />
+					</div>
+
+				</td>
+				<td style="padding-left:10px;">
+					<div class="Hspace10" style="height:36px;"></div>	
+					<div id="AXGridTarget" style="height:400px;"></div>
+					
+					<div style="padding:10px 0px;">
+						<input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.grid.appendGrid();" />
+						<input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.grid.removeList();" />
+						<input type="button" value="삭제취소" class="AXButton Red" onclick="fnObj.grid.restoreList();" />
+						<input type="button" value="새로고침" class="AXButton Red" onclick="myGrid.reloadList();" />
+					</div>	
+					
+				</td>
+			</tr>	
+		</tbody>	
+	</table>
+</div>
+<script type="text/javascript">
+var myTree = new AXTree();
+var myGrid = new AXGrid();
+var myModal = new AXModal();
+
+var fnObj = {
+	pageStart: function(){
+
+		$("#AXInputSelectorAjax").bindSelector({
+			appendable:false,
+			ajaxUrl:"AXInput/selectorData.asp", 
+			ajaxPars:"",
+			onChange:function(){
+				toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+			}
+		});
+
+		fnObj.tree.init();
+		fnObj.grid.init();
+		
+	},
+	tree: {
+		init: function(){
+			myTree.setConfig({
+				targetID : "AXTreeTarget",
+				theme: "AXTree_none",
+				//height:"auto",
+				xscroll:false,
+				
+				relation:{
+					parentKey:"parentcd",
+					childKey:"nodeID",
+					parentName:"parentnm",
+					childName:"nodenm"
+				},
+				
+				colGroup: [
+					{key:"no", label:"번호", width:"100", align:"center", display:false},
+					{key:"nodenm", label:"제목", width:"100%", align:"left", indent:true,
+						getIconClass: function(){
+							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+							//var iconNames = "company, folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+							var iconName = "file";
+							if(this.item.type) iconName = this.item.type;
+							return iconName;
+						},
+						formatter:function(){
+							//return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+							//return this.item.nodeName;
+							return (this.item.nodenm||"").dec();
+						}
+					},
+					{key:"writer", label:"작성자", width:"100", align:"center", display:false}
+				],
+				body: {
+					onclick:function(idx, item){
+						toast.push(Object.toJSON(item));
+						//myTree.setEditor(this.item, this.index);
+					}
+				},
+				contextMenu: {
+					theme:"AXContextMenu", // 선택항목
+					width:"150", // 선택항목
+					menu:[
+						{userType:0, label:"위로", className:"up", onclick:function(id){
+							myTree.moveUpTree();
+						}},
+						{userType:0, label:"아래로", className:"down", onclick:function(id){
+							myTree.moveDownTree();
+						}},
+						{userType:0, label:"이동", className:"paste", underLine:true, onclick:function(id){
+							
+							myTree.moveTree({
+								startMove: function(){
+									myTree.addClassItem({
+										className:"disable", 
+										addClass:function(){
+											return (this.nodeID == "N");
+										}
+									});
+								},
+								validate:function(){
+									//this.moveObj
+									//this.targetObj
+									if(this.targetObj.nodeID == "N"){
+										alert("이동할 수 없는 대상을 선택하셨습니다.");
+										return false;
+									}else{
+										return true;	
+									}
+								},
+								endMove: function(){
+									myTree.removeClassItem({
+										className:"disable", 
+										removeClass:function(){
+											return (this.nodeID == "N");
+										}
+									});
+								}
+							});
+							
+						}},
+						{userType:1, label:"추가", className:"plus", onclick:fnObj.tree.addTree},
+						{userType:1, label:"자식추가", className:"plus", onclick:fnObj.tree.addChildTree},
+						{userType:1, label:"삭제하기", className:"", onclick:fnObj.tree.delTree},
+						{userType:1, label:"수정하기", className:"", onclick:fnObj.tree.updateTree}
+					],
+					filter:function(id){
+						//this.menu : 메뉴
+						//this.sendObj : 선택된 tree item
+						if(this.sendObj){ // 선택된 트리 아이템이 있으면
+							if(this.sendObj.nodeType == "company"){ // 선택된 트리 아이템 의 nodeType 이 company 이면
+								return (this.menu.userType == 0);
+							}else{
+								return (this.menu.userType == 1);
+							}
+						}else{
+							return false;
+						}
+					}
+				}
+			});
+
+			var Tree = [
+				{nodeID:"1","nodenm":"ETRI",open:true, nodeType:"company","parentcd":"","parentnm":"","sortnum":1,"ckd":0,"treeno":"l001", subTree:[
+						{nodeID:"2","nodenm":"%ec%9e%84%ec%8b%9c%ec%9a%a9%eb%b6%80%ec%84%9c",open:true, nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":1,"ckd":0,"treeno":"l001_001"},
+						{nodeID:"20130618001","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+						{nodeID:"20130618002","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003"},
+						{nodeID:"20130618003","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004"}
+					]
+				}
+			];
+			myTree.setTree(Tree);
+		},
+		appendTree: function(){
+			var frm = document.treeWriteForm;
+			var writeMode = document.treeWriteForm.writeMode.value;
+			if(writeMode == "child"){
+				var obj = myTree.getSelectedList();
+				myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:'mondo', type:"file", parentcd:obj.item.nodeID}]);
+			}else if(writeMode == "append"){
+				var obj = myTree.getSelectedListParent(); // 선택 아이템의 부모 아이템 가져오기
+				var pno = 0;
+				if(obj.item){
+					pno = obj.item.nodeID;
+				}
+				trace(obj);
+				myTree.appendTree(obj.index, obj.item, [{nodeID:"N", nodenm:frm.nodeName.value, writer:'mondo', type:"file", parentcd:pno}]);
+			}else if(writeMode == "modify"){
+				try{
+					var obj = myTree.getSelectedList();
+					myTree.updateTree(obj.index, obj.item, {nodenm:frm.nodeName.value});
+				}catch(e){
+					alert(e.print());
+				}
+			}
+			myModal.close('addTreeModal');
+            
+			return false;
+		},
+		addTree: function(){
+			document.treeWriteForm.reset();
+			document.treeWriteForm.writeMode.value = "append";
+			myModal.openDiv({
+				modalID:"addTreeModal",
+				targetID:"modalContent",
+				width:300,
+				top:100
+			});	
+			document.treeWriteForm.nodeName.focus();
+		},
+		addChildTree: function(){
+			var obj = myTree.getSelectedList();
+			if(obj.error){
+				alert("부모개체를 선택해 주세요");
+				return;
+			}
+			document.treeWriteForm.reset();
+			document.treeWriteForm.writeMode.value = "child";
+			myModal.openDiv({
+				modalID:"addTreeModal",
+				targetID:"modalContent",
+				width:300,
+				top:100
+			});
+			document.treeWriteForm.nodeName.focus();
+		},
+		delTree: function(){
+			var obj = myTree.getSelectedList();
+			if(obj.error){
+				alert("개체를 선택해 주세요");
+				return;
+			}
+			myTree.removeTree(obj.index, obj.item);
+		},
+		updateTree: function(){
+			var obj = myTree.getSelectedList();
+
+			if(obj.error){
+				alert("개체를 선택해 주세요");
+				return;
+			}
+			
+			document.treeWriteForm.reset();
+			document.treeWriteForm.writeMode.value = "modify";
+			myModal.openDiv({
+				modalID:"addTreeModal",
+				targetID:"modalContent",
+				width:300,
+				top:100
+			});
+			document.treeWriteForm.nodeName.value = obj.item.nodenm;
+			document.treeWriteForm.nodeName.focus();
+		},
+		moveTree: function(){
+			myTree.moveTree({
+				startMove: function(){
+					myTree.addClassItem({
+						className:"disable", 
+						addClass:function(){
+							return (this.nodeID == "N");
+						}
+					});
+				},
+				validate:function(){
+					//this.moveObj
+					//this.targetObj
+					if(this.targetObj.nodeID == "N"){
+						alert("이동할 수 없는 대상을 선택하셨습니다.");
+						return false;
+					}else{
+						return true;	
+					}
+				},
+				endMove: function(){
+					myTree.removeClassItem({
+						className:"disable", 
+						removeClass:function(){
+							return (this.nodeID == "N");
+						}
+					});
+				}
+			});
+		}
+	},
+	grid: {
+		init: function(){
+			myGrid.setConfig({
+				targetID : "AXGridTarget",
+				theme : "AXGrid",
+				//fixedColSeq : 4,
+				fitToWidth:true,
+				passiveMode:true,
+				passiveRemoveHide:false,
+				colGroup : [
+					{
+						key:"no", label:"checkbox", width:"30", align:"center", formatter:"checkbox", 
+						checked:function(){
+							//사용 가능한 변수
+							//this.index
+							//this.item
+							//this.list
+							//return (this.index % 2 == 0);
+							return false;
+						}
+					},
+					{
+						key:"status", label:"상태", width:"40", align:"center", formatter:function(){
+							if(this.item._CUD == "C"){
+								return "신규";
+							}else if(this.item._CUD == "D"){
+								return "삭제";
+							}else if(this.item._CUD == "U"){
+								return "수정";
+							}
+						}
+					}, 
+					{key:"no", label:"번호", width:"50", align:"right"}, 
+					{key:"title", label:"제목", width:"200"},
+					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"regDate", label:"작성일", width:"100", align:"center"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"200"}
+				],
+				body : {
+					addClass: function(){
+						if(this.item._CUD == "C"){
+							return "blue";
+						}else if(this.item._CUD == "D"){
+							return "red";
+						}else if(this.item._CUD == "U"){
+							return "green";
+						}else{
+							return "";
+						}
+					},
+					onclick: function(){
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						myGrid.setEditor(this.item, this.index);
+					},
+					ondblclick: function(){
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+					},
+					oncheck: function(){
+						//사용 가능한 변수
+						//this.itemIndex
+						//this.target
+						//this.checked
+						//this.r
+						//this.c
+						//this.list
+						//this.item
+						toast.push(this.checked);
+					}
+				},
+				page:{
+					paging:true, 
+					status:{formatter: null}
+				},
+				editor: {
+					rows: [
+						[
+							{colSeq:0, align:"center", valign:"middle", formatter: function(){return "";}},
+							{key:"status", align:"center", valign:"middle", form:{type:"hidden", value:"itemValue"}},
+							{colSeq:2, align:"center", valign:"middle", form:{type:"hidden", value:"itemValue"}},
+							{colSeq:3, align:"left", valign:"top", 
+								form:{
+									type:"text", value:function(){
+										return this.value.dec();
+									}
+									, validate:function(){
+										if(this.value == ""){
+											alert("제목은 필수 입력 항목 입니다.");
+											return false;
+										}else{
+											return true;	
+										}
+									}
+								}
+								, AXBind:{type:"selector", config:{
+									appendable:true,
+									ajaxUrl:"/samples/AXInput/selectorData.asp", 
+									ajaxPars:"",
+									onChange:function(){
+										//trace(this.selectedOption);
+										myGrid.setEditorForm({
+											key:"writer",
+											position:[0,4], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
+											value:this.selectedOption.optionText
+										});
+									}
+									}
+								}
+							},
+							{colSeq:4, align:"left", valign:"top", form:{type:"text", value:"itemValue"}},
+							{colSeq:5, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"date"}},
+							{colSeq:6, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"money"}},
+							{colSeq:7, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:1, max:100}}},
+							{colSeq:8, align:"right", valign:"top"},
+							
+							//{colSeq:9, align:"left", valign:"top", form:{type:"textarea", value:"itemValue"}}
+							{colSeq:9, align:"left", valign:"top", 
+								form:{
+									type:"select", value:"itemText", 
+									isspace:true,
+									isspaceTitle:"ABCD",
+									options:[
+										{value:1, optionText:"AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"},
+										{value:2, text:"AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"}
+									],
+									onChange: function(){
+										// abcd	
+										AXUtil.alert(this);
+									}
+								}
+							}
+							
+						]
+					],
+					//request:{ajaxUrl:"saveGrid.asp", ajaxPars:"param1=1&param2=2"},
+					response: function(){ // ajax 응답에 대해 예외 처리 필요시 response 구현
+						// response에서 처리 할 수 있는 객체 들
+						//trace({res:this.res, index:this.index, insertIndex:this.insertIndex, list:this.list, page:this.page});
+						
+						if(this.index == null){ // 추가
+							var pushItem = this.res.item;
+							//pushItem 에 추가 값 지정 가능
+							if(this.res.item.title == ""){
+								alert("제목이 비어 추가 할 수 없습니다.");
+								return;
+							}
+							//pushItem no 값을 추가 해야..
+							myGrid.pushList(pushItem, this.insertIndex);
+						}else{ // 수정
+							AXUtil.overwriteObject(this.list[this.index], this.res.item, true); // this.list[this.index] object 에 this.res.item 값 덮어쓰기
+							myGrid.updateList(this.index, this.list[this.index]);
+						}
+						
+					}
+				},
+				contextMenu: {
+					theme:"AXContextMenu", // 선택항목
+					width:"150", // 선택항목
+					menu:[
+						{
+							userType:1, label:"추가하기", className:"plus", onclick:function(){
+								myGrid.appendList(item);
+								//myGrid.appendList(item, index);
+								/*
+								var removeList = [];
+									removeList.push({no:this.sendObj.item.no});
+								myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+								*/
+							}
+						},
+						{
+							userType:1, label:"삭제하기", className:"minus", onclick:function(){
+								if(this.sendObj){
+									if(!confirm("정말 삭제 하시겠습니까?")) return;
+									var removeList = [];
+										removeList.push({index:this.sendObj.index});
+									myGrid.removeListIndex(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+								}
+							}
+						},
+						{
+							userType:1, label:"수정하기", className:"edit", onclick:function(){
+								//trace(this);
+								if(this.sendObj){
+									myGrid.setEditor(this.sendObj.item, this.sendObj.index);
+								}
+							}
+						}
+					],
+					filter:function(id){
+						return true;
+					}
+				}
+			});	
+		},
+		appendGrid: function(index){
+			var item = {};
+			if(index){
+				myGrid.appendList(item, index);
+			}else{
+				myGrid.appendList(item);
+			}
+		},
+		removeList: function(){
+			var checkedList = myGrid.getCheckedListWithIndex(0);// colSeq
+			if(checkedList.length == 0){
+				alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");	
+				return;
+			}
+			/// something do for server
+			myGrid.removeListIndex(checkedList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+		},
+		restoreList: function(){
+			var checkedList = myGrid.getCheckedList(0);// colSeq
+			if(checkedList.length == 0){
+				alert("선택된 목록이 없습니다. ");	
+				return;
+			}			
+			/// something do for server
+			
+			var removeList = [];
+			$.each(checkedList, function(){
+				removeList.push({no:this.no});
+			});
+			trace(removeList);
+			myGrid.restoreList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+		}
+	}
+};
+
+$(document.body).ready(function(){
+	setTimeout(fnObj.pageStart, 1);
+});
+</script>
+<!-- js block -->
+</html>

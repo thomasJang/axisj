@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXModelControl - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">
+	var pageID = "cursorFocus";
+	var myModel = new AXModelControl();
+	var myModel2 = new AXModelControl();
+	
+	var fnObj = {
+		pageStart: function(){
+			
+			myModel.setConfig({
+				targetID:"AXModelControlTarget", // 필수
+				collectClassName:"", // 선택 -- 빈값이면 모든 입력타입을 수집합니다.
+				//collectSelector:".someClass",
+				excludeClassName:"", // 수집제외 클래스 
+				subModelDetectClassName:"AXModelDetect", //선택 -- 하위 오브젝트를 검색 클래스 (하위 오브젝트의 키네임은 클래스네임_키 의 조합으로 만들어진 엘리먼트 아이디를 인식 합니다.,
+				cursorFocus: true,
+				oncursor: function(){
+					// event, direction, jQueryObj
+					return true; /* 내부 액션을 중지 하고 싶을 때 return false 하세요 */
+				},
+				oncursorEmpty: function(err){
+					if(err.type == "indexOver"){
+						//alert(err.index);
+						if(err.index == -1){
+							//시작
+							
+						}else if(err.index == 1){
+							// 끝
+							myModel2.focus();
+						}
+					}
+				}
+			});
+			
+			myModel2.setConfig({
+				targetID:"AXModelControlTarget2", // 필수
+				collectClassName:"", // 선택 -- 빈값이면 모든 입력타입을 수집합니다.
+				//collectSelector:".someClass",
+				excludeClassName:"", // 수집제외 클래스 
+				subModelDetectClassName:"AXModelDetect", //선택 -- 하위 오브젝트를 검색 클래스 (하위 오브젝트의 키네임은 클래스네임_키 의 조합으로 만들어진 엘리먼트 아이디를 인식 합니다.,
+				cursorFocus: true,
+				oncursor: function(){
+					// event, direction, jQueryObj
+					return true; /* 내부 액션을 중지 하고 싶을 때 return false 하세요 */
+				},
+				oncursorEmpty: function(err){
+					if(err.type == "indexOver"){
+						//alert(err.index);
+						if(err.index == -1){
+							//시작
+							myModel.focus("last");
+						}else if(err.index == 1){
+							// 끝
+							
+						}
+					}
+				}
+			});
+
+            $("#chain").bindSelect();
+            $("#rsvDt").bindDate();
+            $("#clientCate").bindSelect();
+            $("#payMthd").bindSelect();
+            $("#crdCd").bindSelect();
+            $("#crdCls").bindSelect();
+
+            $("#clientId_selector").bindSelector({
+                appendable:false,
+                ajaxUrl:"../AXInput/selectorData.asp",
+                ajaxPars:"",
+                //selectorName:"imselector",
+                onChange:function(){
+                    //toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                    toast.push(Object.toJSON({selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+                }
+            });
+			myModel2.sync();
+			myModel.sync();
+			myModel.focus(); 
+			// myModel.focus([Number:focusItemIndex]);
+			/*
+			default : first
+			first: first of item
+			last: last of item
+			Number: focusItemIndex
+			*/
+		},
+		ok1: function(){
+			var obj = myModel.getData();
+			trace(obj);
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+
+<!-- s.AXPageBody  -->
+<div id="AXPageBody" class="SampleAXSelect">
+
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+		<div class="H10"></div>
+		<table>
+			<tbody>
+				<tr>
+					<td style="vertical-align:top;">
+						<div id="AXModelControlTarget" style="width:250px;">
+							<table class="AXFormTable">
+								<colgroup>
+									<col width="80">
+									<col>
+								</colgroup>
+								<tbody>
+									<tr>
+										<th>
+											<div class="tdRel">Chain</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<select name="chain" title="Chain" class="AXSelectSmall v-req roomfee" id="chain" style="width: 100%;">
+													<option value=""></option>
+													<option selected="selected" value="SEL">1. 서울프린스</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Res.Dt</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<input name="rsvDt" title="Res.Dt" class="AXInputSmall w90 v-req" id="rsvDt" type="text" maxlength="10">
+											</div>
+										</td>
+									</tr>													
+									<tr>
+										<th>
+											<div class="tdRel pk">Market</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<select name="clientCate" title="Market" class="AXSelectSmall v-req" id="clientCate" style="width: 100%;">
+													<option value="1">1. 기업</option>
+													<option value="2">2. 개인</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel pk">Source</div>
+										</th>
+										<td class="last">
+											<div class="tdRel rel">
+				                            <div class="wrapInput">
+				                                <input title="Source" name="Source" class="AXInputSmall v-req" id="clientId_selector" type="text" maxlength="50">
+				                            </div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel pk">Name</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+				                                <div class="wrapInput">
+				                                    <input name="rsvmanNm" title="Name" class="AXInputSmall v-req v-upper possible1 eng" id="rsvmanNm" type="text" maxlength="50">
+				                                </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Email</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+				                            <div class="wrapInput">
+				                                <input name="email" title="Email" class="AXInputSmall v-email v-lower possible1" type="text" maxlength="50">
+				                            </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Tel</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+											    <div class="wrapInput">
+			                                	<input name="tel" class="AXInputSmall possible1" type="text" maxlength="30">
+			                                </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Fax</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+												<div class="wrapInput">
+			                                	<input name="fax" class="AXInputSmall" type="text" maxlength="30" value="">
+			                                </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Language</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+												<div class="wrapInput">
+													<input name="Language" class="AXInputSmall AXSelector" id="reservedby_langCd" type="text" maxlength="50">
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Nationality</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+												<div class="wrapInput">
+													<input class="AXInputSmall" name="Nationality" id="reservedby_nationCd" type="text" maxlength="50">
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Bill</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+											    <input name="rcptChk" id="rcpt1" type="checkbox" value="1"><label for="rcpt1">Email</label>
+				                             <input name="rcptChk" id="rcpt2" type="checkbox" value="2"><label for="rcpt2">Fax</label>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Grt.Method</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<select name="payMthd" class="AXSelectSmall" id="payMthd" style="width: 100%;">
+													<option selected="selected" value=""></option>
+													<option value="Card">1. Card</option>
+													<option value="Cash">2. Cash</option></select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Card</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<select name="crdCd" class="AXSelectSmall" id="crdCd" style="width: 100%;">
+													<option value="">　</option>
+													<option value="0020020001">2. BC CARD</option>
+													<option value="0020020002">3. VISA CARD</option>
+													<option value="0020020003">4. LG CARD</option>
+													<option value="0020020004">5. KOOKMIN CARD</option>
+													<option value="0020020005">6. SAMSUNG CARD</option>
+													<option value="0020020006">7. DINERS CARD</option>
+													<option value="0020020007">8. AMEX CARD</option>
+													<option value="0020020008">9. MASTER CARD</option>
+													<option value="0020020009">10. JCB</option>
+													<option value="0020020010">11. 외환카드</option>
+													<option value="0020020011">12. 해외다이너스</option>
+													<option value="0020020012">13. 롯데카드</option>
+													<option value="0020020013">14. 신한카드</option>
+													<option value="0020020014">15. 외환카드</option>
+													<option value="0020020015">16. 현대카드</option><option value="0020029999">17. 기타카드</option></select>
+											</div>
+										</td>
+									</tr>													
+									<tr>
+										<th>
+											<div class="tdRel">Card No</div>
+										</th>
+										<td class="last">
+										    <div class="tdRel">
+										    	<div class="wrapInput">
+				                                <input name="crdnum" title="Crd No" class="AXInputSmall w80 numtype" id="crdnum" type="text" maxlength="30">
+				                                </div>
+										    </div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Exp Date</div>
+										</th>
+										<td class="last">
+										    <div class="tdRel">
+												<input name="expireMonth" title="Exp Date" class="AXInputSmall W20 v-len" id="expireMonth" type="text" maxlength="2" placeholder="M" minlength="2"> /
+												<input name="expireYr" title="Exp Date" class="AXInputSmall W20 v-len" id="expireYr" type="text" maxlength="2" placeholder="Y" minlength="2">
+												
+												<select name="crdCls" class="AXSelectSmall w60" id="crdCls" style="">
+													<option selected="selected" value=""></option><option value="1">RsvNm</option>
+													<option value="2">Guest</option></select>
+										    </div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Advances</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+				                                <input name="advnYn" id="advn1_yn" type="radio" checked="" value="N"><label for="advn1_yn">No</label>
+				                                <input name="advnYn" id="advn2_yn" type="radio" value="Y"><label for="advn2_yn">Yes</label>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">ZeroTax</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<input name="notaxYn" id="notaxYn1" type="radio" checked="" value="N"><label for="notaxYn1">No</label>
+				                                <input name="notaxYn" id="notaxYn2" type="radio" value="Y"><label for="notaxYn2">Yes</label>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>			
+						</div>
+					</td>
+					<td style="vertical-align:top;">
+						<div id="AXModelControlTarget2" style="width:250px;">
+							<table class="AXFormTable">
+								<colgroup>
+									<col width="80">
+									<col>
+								</colgroup>
+								<tbody>
+									<tr>
+										<th>
+											<div class="tdRel">Res.Dt</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<input name="rsvDt" title="Res.Dt" class="AXInputSmall w90 v-req" type="text" maxlength="10">
+											</div>
+										</td>
+									</tr>													
+									<tr>
+										<th>
+											<div class="tdRel pk">Market</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+												<select name="clientCate" title="Market" class="AXSelectSmall v-req" style="width: 100%;">
+													<option value="1">1. 기업</option>
+													<option value="2">2. 개인</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel pk">Source</div>
+										</th>
+										<td class="last">
+											<div class="tdRel rel">
+				                            <div class="wrapInput">
+				                                <input title="Source" class="AXInputSmall v-req" type="text" maxlength="50">
+				                            </div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel pk">Name</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+				                                <div class="wrapInput">
+				                                    <input name="rsvmanNm" title="Name" class="AXInputSmall v-req v-upper possible1 eng" type="text" maxlength="50">
+				                                </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Email</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+				                            <div class="wrapInput">
+				                                <input name="email" title="Email" class="AXInputSmall v-email v-lower possible1" type="text" maxlength="50">
+				                            </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Tel</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+											    <div class="wrapInput">
+				                                	<input name="tel" class="AXInputSmall possible1" type="text" maxlength="30">
+				                                </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Fax</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+												<div class="wrapInput">
+				                                	<input name="fax" class="AXInputSmall" type="text" maxlength="30" value="">
+				                                </div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Language</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+												<div class="wrapInput">
+													<input class="AXInputSmall AXSelector" id="reservedby_langCd" type="text" maxlength="50">
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr class="reserved">
+										<th>
+											<div class="tdRel">Nationality</div>
+										</th>
+										<td class="last guestSelected">
+											<div class="tdRel">
+												<div class="wrapInput">
+													<input class="AXInputSmall" id="reservedby_nationCd" type="text" maxlength="50">
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											<div class="tdRel">Bill</div>
+										</th>
+										<td class="last">
+											<div class="tdRel">
+											    <input name="rcptChk" id="rcpt1" type="checkbox" value="1"><label for="rcpt1">Email</label>
+				                             <input name="rcptChk" id="rcpt2" type="checkbox" value="2"><label for="rcpt2">Fax</label>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>			
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			
+		<div class="Hspace20"></div>
+		<div>
+			<button type="button" class="AXButton" onclick="fnObj.ok1();">Model1 Test</button>
+		</div>
+		
+	</div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXWaterfall - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+	H2{font-family:consolas;}
+	body{margin:0px;padding:0px;}
+	.containerBox{position:relative;}
+	.fallBox{
+		width:300px;border:1px solid #eee;padding:10px;border-radius:5px;
+		box-shadow:0px 0px 5px #eee;
+	}
+	.fallBox H1{font-size:14px;padding:10px 5px 0px 0px;margin:0px;color:#222;}
+	.fallBox .caption{padding:5px 5px 5px 5px;word-break:break-all;text-align:justify;color:#888;font-family:Consolas;line-height:1.5em;}
+	</style>
+	<!-- css block -->
+
+	<script type="text/javascript">
+	var pageID = "AXWaterfall";
+	var myWaterfall = new AXWaterfall(); // 인스턴스 선언
+	var fnObj = {
+		pageStart: function(){
+			
+			myWaterfall.setConfig({
+				targetID:"UIWaterfallContainer",
+				fallClassName:"fallBox",
+				boxWidth:320,
+				mobileSize:320,
+				boxMargin:10,
+				pageSize:5 // 재 정렬 처리시 1회 처리 갯수
+			});
+			
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="ax-wrap AXdemoPageContent">
+            <div class="H20"></div>
+            <div style="padding:0px 0px 0px 10px;" align="left">
+                <!-- UIWaterfallContainer 개체에 너비 값을 할당 해서는 안됩니다. WaterFall Class 에서 너비를 자동 설정 해줍니다. -->
+                <div class="containerBox" id="UIWaterfallContainer">
+                    <div class="fallBox">
+                        <img src="img/1.jpg" align="middle" alt="" width="300" height="211" />
+                        <div class="caption">
+                            <h1>3-axis gyroscope</h1>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/2.jpg" align="middle" alt="" width="300" height="300" />
+                        <div class="caption">
+                            <h1>Captain Axis</h1>
+                            <p>
+                                Serving under the unsuccessful Nazi regime, Otto Kronsteig turned from a brilliant scientist to a fugitive from the War Crimes Commission. He fled to Latveria where he took a new master, Doctor Doom. Together, Kronsteig and Doom built a device Doom intended to use on his hated enemies, the Fantastic Four. The invention was meant to shrink them out of existence, but first it had to be tested. Doom, paranoid others would try to usurp his position, made Kronsteig his first test subject.
+                                Kronsteig shrunk through universes until he landed on a world controlled by the Shaper of Worlds. There Kronsteig had the chance to live out his dream of a Nazi victory with himself as the Fuhrer. All was proceeding according to plan until the Hulk landed in the middle of his fantasy. Determined to make the Shaper send him back to his one true love, Jarella, Hulk joined the war against Kronsteig's forces. The Shaper refused to have his reality fail because of the man-brute, and from the recesses of Kronsteig's mind, he found a solution to deal with the Hulk.
+                                An unrealized experiment to create a Nazi super soldier, equal to the heroes of the allies, the Shaper of Worlds transformed Kronsteig into Captain Axis, a mountain of a man, to pit against the Hulk. Axis did his best to oppose the Jade Giant, but Kronsteig never figured on opposing a foe as powerful as the Hulk. Once he believed his dreams would come to an end, they did, and he reverted back into a frail old man as the rest of his fantasy quickly unraveled before his eyes. The Shaper transported Hulk off-world before he departed to pursue other ventures, leaving Kronsteig behind.
+
+                                More on Marvel.com: http://marvel.com/universe/Captain_Axis#ixzz2Y85VMQLI
+                            </p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/3.jpg" align="middle" alt="" width="300" height="102" />
+                        <div class="caption">
+                            <h1>2013 Axis A22 Wakeboard Boat</h1>
+                            <p>With a parent company like Malibu at their back, nothing but good can be expected from the 2013 Axis A22. And this boat defines what the Axis Wake Research company is all about. Which is -- not to sound redundant -- to research and develop better wakes. The A22 is a wakeboard boat in it’s most puritanical form -- every single feature on it is made to help wakeboarders progress.</p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/4.jpg" align="middle" alt="" width="300" height="214" />
+                        <div class="caption">
+                            <h1>Martin Luther King Jr.</h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/5.jpg" align="middle" alt="" width="300" height="225" />
+                        <div class="caption">
+                            <h1>AXIS BANK</h1>
+                            <p>Sharma told CNBC-TV18, “I think Axis Bank has done a wonderful job. Usually, stocks do not behave in this kind of a manner when a company announces a qualified institutional buyer (QIB), it is the other way round. So, that tells you the appetite for this stock. I think, the current rate signal, in which the easing has begun once again, augurs well for a company which is otherwise thought aggressive. So, I think the pricing has left something for the investors also on the table. So, from that perspective, Axis Bank can still add another Rs 200 in the current month.</p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/6.jpg" align="middle" alt="" width="300" height="223"  />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/7.jpg" align="middle" alt="" width="300" height="197"  />
+                        <div class="caption">
+                            <h1>Axis Hair Salons</h1>
+                            <p>Website advertising a group of hair salons in Vancouver, Canada.
+
+                                The nav element shouldn’t be used to enclose the social links as they are not main navigation items for the site. Each image is incorrectly enclosed in an div element where a div would have been more appropriate. The section element is often being used here as a wrapper in which case a div would have been a better choice.
+
+                                Use could have been made of the email and tel input types in the contact form. Remember that the type attribute is no longer required for script and link stylesheet elements.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/8.jpg" align="middle" alt="" width="300" height="167"  />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/9.jpg" align="middle" alt="" width="300" height="290"  />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/10.jpg" align="middle" alt="" width="300" height="300"  />
+                        <div class="caption">
+                            <h1>The Jimi Hendrix Experience - Axis: Bold As love</h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/11.jpg" align="middle" alt="" width="300" height="217"  />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/12.jpg" align="middle" alt="" width="300" height="216" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/13.jpg" align="middle" alt="" width="300" height="200" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/14.jpg" align="middle" alt="" width="300" height="107" />
+                        <div class="caption">
+                            <h1>http://axisonhigh.com/</h1>
+                            <p>Celebrate the birth of our nation with a fun and fabulous variety show, Axis’ AMERICANA EXTRAVAGANZA, hosted by Nina West & Virginia West, and featuring Alexis Stevens, Freesia Balls, Cool Ethan, Akasha O’Hara Lords, and introducing the Snatch Sisters – Sharon, Anita, and Honey.
+
+                                Doors at 8 pm, show at 9 pm.
+
+                                Buy Advance Tickets
+
+                                http://www.eventbrite.com/event/7142604723/eorg#
+                            </p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/15.jpg" align="middle" alt="" width="300" height="214" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/16.jpg" align="middle" alt="" width="300" height="200" />
+                        <div class="caption">
+                            <h1>Axis Entertainment is </h1>
+                            <p>Axis Entertainment is  high-end entertainment firm based in Beverly Hills, California specializing in packaging and production for the mobile and digital entertainment industries, including music, television, and film. Axis also offers a vast range of red-carpet services as well as sports marketing and consumer branded services to include PR, marketing & events.</p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/17.jpg" align="middle" alt="" width="300" height="275" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/18.jpg" align="middle" alt="" width="300" height="356" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/19.jpg" align="middle" alt="" width="300" height="209" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="fallBox">
+                        <img src="img/20.jpg" align="middle" alt="" width="300" height="241" />
+                        <div class="caption">
+                            <h1></h1>
+                            <p></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

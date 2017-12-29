@@ -1,0 +1,453 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>AXValidator</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+		<meta name="description" content="Description" />
+
+        <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+        <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+        <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+        <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+        <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+        <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+
+        <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+        <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+        <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+        <script type="text/javascript" src="../../lib/AXValidator.js"></script>
+        <script type="text/javascript" src="../page.js"></script>
+        <script type="text/javascript" src="pageTab.js"></script>
+        <!-- js block -->
+
+		<style type="text/css">
+
+		</style>
+
+		<script type="text/javascript">
+		var pageID = "AXValidator";
+
+		AXConfig.AXValidator.validateErrMessage.required = "[{label}] is required";
+
+		var myValidator = new AXValidator(); // Validator 선언
+		var fnObj = {
+			pageStart: function(){
+
+            $("#isdate").bindDate();
+            $("#regdate").bindDate({
+                align:"left", valign:"top", separator:"-", selectType:"d",
+                onChange:{
+                    earlierThan:"enddate", err:"종료일보다 빠른 날짜를 선택하세요", onChange: function() {
+
+                    }
+                }
+            });
+
+            $("#enddate").bindDate({
+                align:"left", valign:"top", separator:"-", selectType:"d",
+                onChange:{
+                    laterThan:"regdate", err:"시작일보다 느린 날짜를 선택하세요"
+                }
+            });
+
+                //$("#my-select").bindSelect();
+                //$("#my-select").html("<option></option>");
+
+/*
+                setTimeout(function(){
+                    $("#my-select").html("<option value=''>선택</option>");
+                }, 200);
+*/
+
+				myValidator.setConfig({
+					targetFormName : "myForm"
+				});
+
+                /*
+
+				myValidator.add({
+				    id: "userID",
+				    label: "아이디",
+				    config: {
+				        required: true,
+				        minbyte:10,
+				        maxbyte:20
+				    },
+				    realtime: {
+				        event: "keydown",
+				        response: function () {
+				        	if(this.result){
+				        		$("#userID_realtime").html("OK");
+				        	}else{
+				            	$("#userID_realtime").html(this.message);
+				           }
+							if (this.validateKey == "maxbyte" || this.validateKey == "maxlength") {
+							    return false; //키 입력 중지
+							} else {
+							    return true; //키 입력 제어 안함
+							}
+				        }
+				    },
+					onblur: function(){
+						trace(this);
+					}
+				});
+
+				myValidator.add({
+					id:"regdate", label:"등록일",
+					config:{isdate:true, earlierThan:{id:"enddate", label:"종료일"}},
+				    realtime: {
+				        //event: "keyup.validate keypress.validate",
+				        response: function() {
+				            //trace(this);
+				            if (!this.result) { //false 오류 리턴
+				                if (this.validateKey == "number" || this.validateKey == "engonly") {
+				                	//trace(this);
+				                	if (this.validateKey == "number") $("#" + this.element.id).val(this.value.replace(/\D/g, ""));
+				                	if (this.validateKey == "engonly") $("#" + this.element.id).val(this.value.replace(/\W/g, ""));
+				                    AXUtil.alert(this.message);
+				                }
+				                if (this.validateKey == "maxlength") {
+				                    return false;
+				                } else if (this.validateKey == "maxbyte") {
+				                    return false;
+				                } else if (this.validateKey == "number") {
+				                    return false;
+				                } else if (this.validateKey == "money") {
+				                    return false;
+				                } else {
+				                    return true; //키 입력 제어 안함
+				                }
+				            }
+				        }
+				    },
+					onblur: function(){
+
+				    	if (!this.result && this.validateKey != "required") { //false 오류 리턴
+				    		if (this.validateKey == "earlierThan" || this.validateKey == "laterThan") {
+				    			return true;
+				    		} else {
+				    			AXUtil.alert(this.message);
+				    			$("#" + this.element.id).endFocus();
+
+				    			var event = window.event || e;
+				    			if (event.preventDefault) event.preventDefault();
+				    			if (event.stopPropagation) event.stopPropagation();
+				    			event.cancelBubble = true;
+				    			return false;
+				    		}
+
+				        } else if (this.result && this.value != "") {
+				        	var _this = this;
+				        	$.each(_this.config, function(k, v){
+								if (k == "phone") {
+								    var value = _this.value.phone();
+								    $("#" + _this.element.id).val(value);
+								} else if (k == "zip") {
+								    var num = _this.value.replace(/\-/g, "");
+								    var pattern = /([0-9]{3})([0-9]{3})/;
+								    var dataFormat = "$1-$2";
+								    var value = num.replace(pattern, dataFormat);
+								    $("#" + _this.element.id).val(value);
+								} else if (k == "isdate") {
+
+								    //dateObj.setDate(_this.value);
+								    //var value = dateObj.getDate();
+								    //$("#" + _this.element.id).val(value);
+
+								}
+								else if (k == "money") {
+								    var value = _this.value.number().money();
+								    $("#" + _this.element.id).val(value);
+								}
+				        	});
+				        }
+					}
+				});
+
+				myValidator.add({
+					id:"enddate", label:"종료일",
+					config:{isdate:true, laterThan:{id:"regdate", label:"등록일"}},
+					onblur: function(){
+
+					}
+				});
+*/
+			},
+			saveForm: function(){
+				var validateResult = myValidator.validate();
+				if (!validateResult) {
+					var msg = myValidator.getErrorMessage();
+					AXUtil.alert(msg);
+					myValidator.getErrorElement().focus();
+					return false;
+				}else{
+					alert(	validateResult );
+				}
+			},
+            serialize: function(){
+                var frm = document.myForm;
+                prompt("$(frm).serialize()", $(frm).serialize() );
+            }
+		}
+		$(document).ready(fnObj.pageStart);
+		</script>
+	</head>
+	<body>
+    <div id="AXPage">
+        <!-- AXPageBody -->
+        <div id="AXPageBody">
+            <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+            <div class="AXdemoPageContent">
+                <h2>AXValidator</h2>
+
+                <div style="padding:0px;width:800px;">
+                    <form name="myForm" method="post">
+                    <table cellpadding="0" cellspacing="0" class="AXFormTable">
+                        <colgroup>
+                            <col width="100" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+
+                        <tr>
+	                        <th>
+		                        <div class="tdRel">bizno</div>
+	                        </th>
+	                        <td class="last">
+		                        <div class="tdRel">
+			                        <input type="text" name="bizno" placeholder="bizno" value="" class="AXInput W200 av-bizno" />
+		                        </div>
+	                        </td>
+                        </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">realtime</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="userID" id="userID" placeholder="아이디" value="" class="AXInput W200 av-required" />
+                                        <span id="userID_realtime">아이디를 입력하세요</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">required</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="required" placeholder="required" value="" class="AXInput W200 av-required" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">email</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="email" placeholder="email required" value="" class="AXInput W200 av-email av-required" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--
+                            <tr>
+                                <th>
+                                    <div class="tdRel">hangul</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="hangul" placeholder="hangul required" value="" class="AXInput W200 av-hangul av-required" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">engonly</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="engonly" placeholder="engonly" value="" class="AXInput W200 av-engonly" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    <div class="tdRel">bizno</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="bizno" placeholder="bizno" value="" class="AXInput W200 av-bizno" />
+                                    </div>
+                                </td>
+                            </tr>
+                            -->
+<tr>
+    <th>
+        <div class="tdRel">residentno</div>
+    </th>
+    <td class="last">
+        <div class="tdRel">
+            <input type="text" name="residentno" placeholder="residentno" value="" class="AXInput W200 av-residentno av-required" />
+        </div>
+    </td>
+</tr>
+<tr>
+    <th>
+        <div class="tdRel">foreignerno</div>
+    </th>
+    <td class="last">
+        <div class="tdRel">
+            <input type="text" name="foreignerno" placeholder="foreignerno" value="" class="AXInput W200 av-foreignerno" />
+        </div>
+    </td>
+</tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">phone</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="phone" placeholder="phone" value="" class="AXInput W200 av-phone" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">isdate</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="isdate" id="isdate" placeholder="isdate" value="" class="AXInput W200 av-isdate" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">zip</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="zip" placeholder="zip" value="" class="AXInput W200 av-zip" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">money</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <input type="text" name="money" placeholder="money" value="" class="AXInput W200 av-money" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">기간</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label class="AXInputLabel">
+                                            <span>시작일</span>
+                                            <input type="text" name="regdate" id="regdate" class="AXInput W100"  tabindex="5" />
+                                        </label>
+                                        ~
+                                        <label class="AXInputLabel">
+                                            <span>종료일</span>
+                                            <input type="text" name="enddate" id="enddate" class="AXInput W100"  tabindex="5" />
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    <div class="tdRel">select</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <select name="my-select" id="my-select" class="av-required" title="내 셀렉트">
+                                            <option value="1">1</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+<!--
+                            <tr>
+                                <th>
+                                    <div class="tdRel">checkbox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" id="iamcheckbox01" value="01" class="av-required" title="내이름" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="iamcheckbox" value="03" class="av-required" />
+                                            03
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="tdRel">radiobox</div>
+                                </th>
+                                <td class="last">
+                                    <div class="tdRel">
+                                        <label>
+                                            <input type="radio" name="iamradio" value="01" class="av-required" />
+                                            01
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="iamradio" value="02" class="av-required" />
+                                            02
+                                        </label>
+
+                                    </div>
+                                </td>
+                            </tr>
+-->
+                        </tbody>
+                    </table>
+                    </form>
+
+                    <div style="padding:10px;">
+                        <button class="AXButton Blue" onclick="fnObj.saveForm();">저장</button>
+                        <button class="AXButton Blue" onclick="fnObj.serialize();">serialize</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+	</body>
+</html>

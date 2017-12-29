@@ -1,0 +1,10 @@
+{
+	"result": "ok",
+	"list": [
+		{"code_sw":"abc"},
+		{"code_sw":"bdc"},
+		{"code_sw":"qer"},
+		{"code_sw":"gdf"},
+		{"code_sw":"jgh"}
+	]
+}

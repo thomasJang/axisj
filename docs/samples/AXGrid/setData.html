@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid(setData way) - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+
+    <script id="jscode">
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based        : jQuery
+     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
+     */    
+    var pageID = "setData";
+    var myGrid = new AXGrid();
+    var itemSum = 0;
+
+    var fnObj = {
+        pageStart: function(){
+            myGrid.setConfig({
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                colHeadAlign: "center", // 헤드의 기본 정렬 값
+                colGroup : [
+                    {key:"document_srl", label:"번호", width:"100", align:"center"},
+                    {key:"title", label:"제목", width:"*",
+                        formatter:function(){
+                            return this.item.title;
+                        }
+                    },
+                    {key:"nick_name", label:"작성자", width:"100", align:"center"},
+                    {key:"regdate", label:"작성일", width:"100", align:"center",
+                        formatter:function(){
+                            return this.value.left(8).date().print("yyyy/mm/dd");
+                        }
+                    }
+                ],
+
+                body : {
+                    marker: function(){
+                        
+                    },
+                    onclick: function(){
+                        toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+                        //alert(this.list);
+                        //alert(this.page);
+                    }
+                },
+                page:{
+                    paging:true,
+                    onchange: function(pageNo){
+                        dialog.push(Object.toJSON(this));
+                        trace(this, pageNo);
+                    }
+                }
+            });
+
+            var _obj ={
+                message_type:"",
+                document_list: [
+                    {document_srl:46695, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"지구온난화를 이겨내는 숲의 고수, 대나무 '담양 호남기후변화체험관'", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">지난 3월 초순, 전남 담양군 담양 읍내 메타세쿼이아길 옆에 호남기후변화체험관이 문을 열었다. 담양에 대나무박물관이 들어선 지는 이미 오래됐지만, 메타세쿼이아박물관도 아니고 죽순음식체험관도 아니고 왜 기후변화체험관일까? 이런 의문을 품은 채 느린 걸음으로 죽녹원 대숲길, 관방제림 수변길, 메타세쿼이아 가로수길 산책을 1시간 반 정도 즐긴 다음 메타세쿼이아 가로수길 동쪽 끝 가까운 지점에 사각형 대바구니 형상을 하고 있는 기후변화체험관을 찾아갔다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122850", "last_update":"20140425122850", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46693, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"봄바다의 맛과 멋! 서산 삼길포항 우럭 & 간재미", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">겨우내 움츠렸던 몸과 마음이 활짝 기지개를 켜는 봄. 따스한 햇살과 부드럽게 살랑대는 바람을 만끽하기엔 봄바다 여행만한 것이 없다. 서산 삼길포항으로 떠나는 주말 맛기행!</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122826", "last_update":"20140425122843", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46692, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"“동백, 제대로 보고 싶다고요?” 남도로 떠나는 봄맞이 동백 트레킹", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">소리 소문도 없이 찾아온 봄. 춘삼월을 코앞에 둔 3월 중순, 조금 이른 꽃구경에 나섰다. 주인공은 동백. 동백 여행치고는 조금 늦은 감도 있지만 봄맞이 나들이를 겸한 남도 여행을 준비했다. 부산 동백섬부터 그림같은 한려수도 물길을 잇는 통영 장사도와 여수 오동도까지. 이름만 들으면 떠오르는 '동백섬' 대표주자들 중 다도해 최남단에 자리한 거문도를 찾았다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122813", "last_update":"20140425122813", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46691, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"봄꽃이, 강바람이 들뜬 마음의 페달을 밟아 자전거로 즐기는 순천의 봄", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">순천의 봄날은 자전거 여행이 제격이다. 봄빛 어린 동천을 따라 순천만생태공원까지 자전거도로가 내달린다. 4월 초에는 벚꽃이 둑길을 수놓고, 4월 말에는 새단장한 순천만정원이 그 길목에 문을 연다. 그럼에도 서둘러 지나는 봄날이 아쉽다면, 우선은 3월의 금둔사와 선암사의 매화를 위안 삼아도 좋겠다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122759", "last_update":"20140425122759", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46690, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"예쁘고 아기자기한 것이 좋아! 여자들이 좋아하는 제주 여행", content:"<span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">웅장하고 아름다운 자연과 천혜의 비경이 가득한 곳. 제주를 이야기할 때 빠지지 않는 수식어다. 하지만 제주에는 볼거리와 즐길거리가 자연만 있는 건 아니다. 예쁘고 아기자기한 것을 좋아하는 이들에게 권하는 또 다른 제주 여행. 이들을 위한 큐트한 제주 여행이 시작된다.</span><div><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\"><br /></span></div>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122746", "last_update":"20140425122746", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46689, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"장사도해상공원 까멜리아로 떠나는 봄날의 달콤한 데이트", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">아무도 없는 곳으로 떠나고 싶을 때가 있다. 좋은 사람이 곁에 있다면 그와 함께, 좋은 사람과 더 이상 볼 수 없게 됐다면 오롯이 나 홀로. 위의 대사는 지난 겨울 끝자락, 우리네 마음에 달달한 봄바람을 불어주던 &lt;별에서 온 그대&gt;라는 드라마 주인공들의 대사이다. 시끄러운 세상을 피해 '서로' 말고는 아무도 없는 곳으로 떠나간 공간, 경남 통영의 장도해상공원을 소개한다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122728", "last_update":"20140425122728", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46688, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"봄날의 작은 섬, 인천 세어도", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">인천시 서구에 자리한 세어도는 육지로부터 1.2km 떨어진 가깝고도 먼 섬이다. 섬과 육지를 잇는 교통수단은 서구청의 행정선이 유일하다. 덕분에 여행자는 오롯이 자신과 섬만 즐길 수 있다. 별다른 편의시설도 없다. 그저 섬으로 들고나는 파도와 여행자를 푸근히 맞아주는 36명의 섬사람들뿐이다. 그들과 함께 봄날의 섬을 누려보자.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122713", "last_update":"20140425122713", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46687, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"“고마, 퍼뜩 오이소~” 오감이 즐거운 4월의 부산 축제", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">오는 4월 24일부터 27일까지 멸치축제가 열리는 기장 대변항은 요즘 멸치잡이 어선들이 한창이다. 남해 미조항과 함께 봄 멸치의 진수를 확인할 수 있는 곳이 바로 기장 대변항이다. 대변항에서 생산되는 일명 왕멸치는 국내 생산량의 65~70%를 차지할 정도로 수확량이 많다. 그야말로 멸치 1번지다. 대변항에서 잡히는 멸치는 멸치볶음을 해 먹는 잔멸치가 아니라 회로 먹고, 찌개 끓여 먹고, 쌈 싸먹는 대멸치다. 대변항에는 60~70개의 멸치횟집이 즐비한데, 여느 항구의 횟집들과는 달리 모두 멸치회와 무침을 주 메뉴로 내건다. 젓갈용 멸치도 상자마다 그득하다. ‘대변항=멸치’라는 공식은 아는 사람은 다 아는 상식이다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122657", "last_update":"20140425122657", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46686, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"연둣빛 일렁이는 옛길을 거닐다, 괴산 산막이옛길 걷기", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">봄이 손을 흔든다. 가깝다. 저만치 있던 봄이 어느덧 가까이 왔다. 이른 봄 다녀왔지만, 연둣빛 일렁일 때쯤이면 참 아름답겠다 싶었다. 산막이옛길, 사계절을 막론하고 아름다운 풍경을 찾는 이들로 늘 붐비는 길로 어느덧 명품 길의 반열에 올랐다. 이제 막 봄이 시작된 괴산의 산막이옛길을 조심스레 걸어본다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122639", "last_update":"20140425122639", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46685, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"“우리는 한국관광공사 대학생 기자단, 트래블리더에요!” 트래블리더 6기 발대식 동행 취재기", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">지난 3월21일부터 나흘간 2014년 한국관광공사 대학생 여행기자단 '트래블리더' 6기 발대식을 겸한 첫 번째 취재가 진행됐다. 이번에 선발된 70명의 트래블리더 6기는 오는 12월까지 대한민국 구석구석을 취재하며 SNS와 블로그를 통해 국내 여행지를 소개한다. 발대식을 겸한 팸투어의 목적지 남원․구례 등지 지리산 권역으로 그들을 따라 나섰다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122624", "last_update":"20140425122624", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46684, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"양평딸기축제와 함께하는 농촌체험여행", content:"<div><br /></div><div><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">봄이 오는 경기도 양평에는 새콤달콤 딸기가 한창이다. 따뜻한 봄기운에 딸기도 빨갛게 무르익어가는 중이다. 양평군 전역에서는 5월 말까지 딸기축제가 열린다. 양평딸기축제는 행사장이 따로 없다. 양평군 각지에 있는 농촌체험마을이 바로 딸기축제장이다. 농촌체험마을과 연계된 딸기농장에서 딸기따기체험을 하고, 농촌체험마을에서는 다양한 농촌체험을 진행한다. 온 가족과 함께 봄 과일의 여왕 딸기도 맛보고 신나는 농촌체험도 즐겨보자.</span><br /></div>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122608", "last_update":"20140425122608", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46683, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"봄날의 꽃대궐에 가다 '창덕궁, 경복궁, 덕수궁의 숨은 봄꽃'", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">봄날의 궁궐은 꽃대궐이다. 우리에게 익숙한 꽃들의 잔치다. 그중에서도 몰래 시선을 끄는 몇몇 숨은 꽃들이 있다. 매화, 앵두꽃, 능수벚꽃 등은 진귀한 사연도 더한다. 창덕궁이 손꼽히지만 경복궁과 덕수궁, 창경궁도 아름답다. 봄날에 누리는 왕의 풍류다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122549", "last_update":"20140425122549", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46682, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"서울 구석구석에서 만나는 다섯 가지 별미 김밥", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">소풍 가기 좋을 만큼 화창한 봄날엔 맛있는 김밥이 먹고 싶다. 배가 부르든, 입맛이 없든, 거부할 수 없는 김밥의 마력에는 유년의 입맛이 숨어 있다. 한때 믿을 수 없는 가격에 그 맛도 믿을 수 없었던 국민 김밥이 건강한 재료는 물론이고 한 끼 식사의 영양 밸런스까지 갖춘 프리미엄 김밥으로 변신 중이다. 꽃나물 김밥, 매운 견과류 김밥, 숯불고기 김밥, 계란말이 장아찌 김밥, 유부김밥까지 아이디어가 톡톡 튀는 김밥집 다섯 곳을 찾았다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122537", "last_update":"20140425122537", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46681, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"기암절벽에 매달려 산천을 품은 암자 '산청 정취암'", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">산청군 산청읍에서 동남쪽으로 약 10km. 상서로운 기운이 금강에 비견된다 하여 예부터 소금강이라 불리던 대성산이 있다. 이 산 중턱 기암절벽에 기대어 둥지를 튼 암자가 정취암이다. 해인사 말사인 정취암은 전각이 많지 않은 작은 절이지만, 해인사도 갖지 못한 보물을 품었다. 절 앞으로 펼쳐지는 산천 풍경이 그것이다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122525", "last_update":"20140425122525", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46680, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"경주 시내․보문호․불국사로 떠나는 벚꽃여행 “봄바람 흩날리면, 함께 달려요!”", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">춘광사설이라고 했던가. 영화 &lt;해피투게더&gt;의 또 다른 제목이던 이 글자는 '잠깐 비치는 봄 햇살'을 뜻한다. 기나긴 겨울을 넘어 찾아온 길지 않은 계절 봄, 그리고 그가 품은 찰나의 햇살. 따뜻하지만 영원하지 않고 너무 짧아 지나고 나서야 비로소 알게 되는 순간의 소중함. 봄과 사랑, 그리고 청춘을 얘기할 때 '춘광사설' 만큼 잘 어울리는 표현이 또 있을까 싶다. 꽃비를 맞으며 말없이 흘러가는 섬진강변과 더불어 '봄날'의 쌍두마차로 꼽히는 천년 신라를 품은 경주를 찾았다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122509", "last_update":"20140425122509", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46679, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"청주 무심천 따라 걷는 4km 꽃길, 맛길", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">해마다 봄이면 청주 무심천에 봄의 삼원색이 피어난다. 풀밭과 버드나무의 연둣빛 신록, 노란 개나리, 흰 벚꽃이 만들어내는 봄의 삼원색은 청주를 남북으로 흐르는 무심천을 따라 이어진다. 그 길을 용화사에서 청남교까지 걷고 추억의 맛, 분식집 순례로 여행을 마무리한다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122451", "last_update":"20140425122452", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46678, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"꽃비 속에 하룻밤을 청하다, 팔공산 가산산성야영장", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">해발 600m 팔공산 허리에 둥지를 튼 가산산성야영장은 지금 눈부신 봄날이다. 10만 9,213㎡의 넓고 아늑한 공간이 온통 벚꽃에 둘러싸여 있다. 꽃그늘에 텐트를 내려놓으면 벚꽃잎이 눈처럼 쌓여가고, 밤새 꽃비 내리는 소리를 들으며 달콤한 잠에 빠져든다. 아이들은 벚꽃잎 흩날리며 해먹을 타고, 꽃잎 내려앉은 커피는 두근두근 눈으로 마신다. 봄빛으로 물든 가산산성이 지척이니 가볍게 봄 산행을 곁들여도 좋다. 짧은 봄날, 가산산성야영장에서의 하룻밤이면 충분히 만끽할 수 있다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122439", "last_update":"20140425122439", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46677, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"후루룩 짭짭, 대전 국수 열전", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">대전 사람들의 국수 사랑은 유별나다. 도심의 거리, 골목마다 한 집 걸러 하나씩 국수집이 자리를 잡고 있다 해도 과언이 아니다. 대전 여행지도 중에는 칼국수 지도까지 있을 정도다. 흑백사진 속 한 장면으로 기억되는 대전역 가락국수, 어울리고 섞이는 삶의 맛을 담은 두루치기국수, 영화 속 주인공이 즐겨 먹었던 오랜 전통의 짜장면도 한몫 거든다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122425", "last_update":"20140425122425", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46676, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"잔잔한 수면 위 봄의 찬가, 화순 세량제와 환산정", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">화합과 순함을 담은 이름처럼 전남 화순은 사람, 자연, 문화가 두루 어우러진 고장이다. 일제강점기에 능주군과 동복군이 화순군으로 편입·통합되면서 산간, 평야 문화가 만나 독특한 화합을 이뤘기 때문. 이런 과거를 거쳐 화순은 평화롭고 순박하고 정다운 고장으로 자리 잡아왔다. 갠 하늘의 달, 들의 맑은 바람, 새벽 종소리, 저녁노을, 밥 짓는 연기 등이 화순팔경에 등장하는 것처럼 말이다.</span><br /><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">화순은 지리적으로 산과 바다가 비교적 복잡하게 얽혀 지류가 다양하다. 덕분에 세간의 관심이 쉽게 닿지 않는 곳곳이 천혜의 비경이다. 그중 세량제와 서성제의 환산정을 소개한다. 4월의 화순은 봄과 어떻게 화합하고 있을까.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122410", "last_update":"20140425122410", "extra_vars":"N;", "status":"PUBLIC"},
+                    {document_srl:46675, category_srl:0, member_srl:4, nick_name:"Aliswel", user_id:"aliswel", user_name:"admin", title:"세계인의 입맛과 이색 쇼핑이 한자리에, 평택국제중앙시장", content:"<p><span style=\"color: rgb(85, 85, 85); font-family: 굴림, Gulim, 돋움, Dotum, AppleGothic, sans-serif; text-align: justify;\">드넓은 호수와 평야지대를 품은 평택은 미공군기지와 국제무역항까지 들어서 있어 국제도시의 면모를 두루 갖추었다. 송탄역 인근에 자리한 평택국제중앙시장은 한국전쟁 당시부터 주둔했던 미공군부대 소속 외국인들을 위한 쇼핑촌과 클럽, 음식점 들이 즐비하다. 일명 '경기도의 이태원'이라 불리는 곳으로 볼거리와 즐길거리가 풍성하다. 주말에 열리는 '나이트마켓 헬로'는 이색시장의 묘미를 더한다. 시장 주변 추억의 기찻길과 벽화골목을 탐색해보는 것도 매력적이다.</span></p>", "tags":"", "readed_count":0, "voted_count":0, "blamed_count":0, "comment_count":0, "regdate":"20140425122357", "last_update":"20140425122357", "extra_vars":"N;", "status":"PUBLIC"}
+                ],
+                page_navigation:{
+                    total_count:23, total_page:2, cur_page:1, page_count:2, first_page:1, last_page:2, point:0
+                },
+                error:0, message:"success"
+            };
+
+            var gridData = {
+                list: _obj.document_list,
+                page:{
+                    pageNo: _obj.page_navigation.cur_page,
+                    pageSize: 20,
+                    pageCount: _obj.page_navigation.page_count,
+                    listCount: _obj.page_navigation.total_count
+                }
+            };
+            myGrid.setData(gridData);
+        }
+    };
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
+    </script>
+</head>
+    
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody  -->
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div class="title">
+                <h1>AXGrid (setData way)</h1>
+            </div>
+            <h2>setData 메서드를 이용해서 그리드에 데이터를 설정하는 방법을 설명합니다.</h2>
+
+            <div id="AXGridTarget" style="height:400px;"></div>
+            <div style="padding:10px;"></div>
+            <pre id="pretty" class="prettyprint linenums"></pre>
+
+        </div>
+    </div>
+    <!-- e.AXPageBody  -->
+
+</div>
+
+</body>
+</html>        

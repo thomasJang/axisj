@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXCore.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+
+		<h1>AXContextMenu</h1>
+		
+		<div style="padding:20px;position:relative;">
+			<input type="button" value="컨텍스트메뉴 열기" class="AXButton" id="contextBtn1" />
+			<div style="padding:5px;">
+				event 위치에 모든 컨텍스트 메뉴 열기
+			</div>
+		</div>
+        
+        <div style="padding:20px;position:relative;">
+			<input type="button" value="컨텍스트메뉴 열기(checkbox)" class="AXButton" id="contextBtn4" />
+			<div style="padding:5px;">
+				checkbox 컨텍스트 메뉴 열기
+			</div>
+		</div>
+		
+		<div style="padding:20px;position:relative;">
+			<input type="button" value="컨텍스트메뉴 열기(filtered)" class="AXButton" id="contextBtn2" onclick="fnObj.contextMenuOpen2();" />
+			<div style="padding:5px;">
+				원하는 위치에 컨텍스트 메뉴를 원하는 조건의 메뉴만 오픈하기	
+			</div>
+		</div>
+		
+		<div style="padding:20px;position:relative;">
+			<input type="button" value="여러단계컨텍스트메뉴 열기" class="AXButton" id="contextBtn3" onclick="fnObj.contextMenuOpen3(event);" />
+			<div style="padding:5px;">
+				여러단계로 구성된 컨텐스트 메뉴 열기
+			</div>
+		</div>
+		<div class="Hspace20"></div>
+		<fieldset class="AXscriptSource" id="AXscriptSource1">
+			<legend>AXContext</legend>
+			<textarea class="fieldsetBody" rows="20">
+<!--
+<div style="padding:20px;">
+	<input type="button" value="컨텍스트메뉴 열기" class="AXButton" id="contextBtn1" />
+	<input type="button" value="컨텍스트메뉴 열기(filtered)" class="AXButton" id="contextBtn2" onclick="fnObj.contextMenuOpen2();" />
+</div>
+
+<script type="text/javascript">
+var fnObj = {
+	pageStart: function(){
+		AXContextMenu.bind({
+			id:"myContextMenu", 
+			theme:"AXContextMenu", // 선택항목
+			width:"150", // 선택항목
+			menu:[
+				{userType:0, label:"트리등록", className:"", onclick:function(id){
+					toast.push(Object.toJSON(this));
+					toast.push(id);
+				}},
+				{userType:0, label:"자식트리등록", className:"docline", onclick:function(){
+					toast.push(Object.toJSON(this));
+				}},
+				{userType:1, label:"추가하기", className:"plus", onclick:function(){
+					toast.push(Object.toJSON(this));
+				}},
+				{userType:1, label:"삭제하기", className:"", onclick:function(){
+					toast.push(Object.toJSON(this));
+				}}
+			]
+		});
+
+		//다차원 레벨 메뉴
+		AXContextMenu.bind({
+			id:"myContextMenuTree", 
+			theme:"AXContextMenu", // 선택항목
+			width:"150", // 선택항목
+			menu:[
+				{userType:0, label:"트리등록", onclick:function(id){
+					toast.push(Object.toJSON(this));
+					toast.push(id);
+				}},
+				{userType:0, label:"하위메뉴 선택", className:"docline", 
+					onclick:function(){
+						toast.push(Object.toJSON(this));
+					}, 
+					subMenu:[
+						{userType:0, label:"하위메뉴1", onclick:function(){toast.push(Object.toJSON(this));}},
+						{userType:0, label:"하위메뉴2", onclick:function(){toast.push(Object.toJSON(this));}, 
+							subMenu:[
+								{userType:0, label:"하위메뉴21", onclick:function(){toast.push(Object.toJSON(this));}},
+								{userType:0, label:"하위메뉴22", onclick:function(){toast.push(Object.toJSON(this));}}
+							]
+						},
+						{userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
+						{userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}},
+						{userType:0, label:"하위메뉴3", onclick:function(){toast.push(Object.toJSON(this));}}
+					],
+					upperLine:true,
+					underLine:true
+				},
+				{userType:1, label:"추가하기", className:"plus", onclick:function(){
+					toast.push(Object.toJSON(this));
+				}},
+				{userType:1, label:"삭제하기", onclick:function(){
+					toast.push(Object.toJSON(this));
+				}}
+			]
+		});
+		
+		$("#contextBtn1").bind("click", fnObj.contextMenuOpen);
+	},
+	contextMenuOpen: function(e){
+		var event = window.event || e;
+		AXContextMenu.open({id:"myContextMenu"}, event); // event 직접 연결 방식
+	},
+	contextMenuOpen2: function(e){
+		var pos = $("#contextBtn2").offset();
+		AXContextMenu.open(
+			{
+				id:"myContextMenu", 
+				filter:function(id){
+					return (this.userType == 0);
+				}
+			}, 
+			{left:pos.left, top:pos.top}
+		); // 위치 직접 지정 방식
+	},
+	contextMenuOpen3: function(e){
+		var event = window.event || e;
+		AXContextMenu.open({id:"myContextMenuTree"}, event); // event 직접 연결 방식
+	}
+};
+$(document).ready(fnObj.pageStart);
+</script>
+
+-->
+			</textarea>
+		</fieldset>
+		
+		<div class="Hspace20"></div>
+		<fieldset class="AXscriptSource" id="AXscriptSource2">
+			<legend>AXContext CSS</legend>
+			<textarea class="fieldsetBody" rows="10">
+<!--
+.AXContextMenu .contextMenuItem.docline{ // className:"docline" img width:30px, height:30px
+	background-image:url(/_AXJ/ui/arongi/img/contextMenuIcon_docline.png);
+}
+.AXContextMenu .contextMenuItem.plus{ // className:"plus" img width:30px, height:30px
+	background-image:url(/_AXJ/ui/arongi/img/contextMenuIcon_plus.png);
+}
+-->
+			</textarea>
+		</fieldset>
+		
+		
+		<div style="padding:20px 20px 0px 20px;position:relative;">
+			<input type="button" value="여러단계컨텍스트메뉴 열기" class="AXButton" id="contextBtn4" onclick="fnObj.contextMenuOpen3(event);" />
+			<input type="button" value="여러단계컨텍스트메뉴 열기" class="AXButton" id="contextBtn5" onclick="fnObj.contextMenuOpen3(event);" style="float:right;" />
+		</div>
+		
+	</div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "AXContextMenu";
+    var fnObj = {
+        pageStart: function(){
+            //1레벨 메뉴
+            AXContextMenu.setConfig({responsiveMobile:640}); /* mobile modal 모달 적용 너비 지정 지정하지 않으면 모바일 모드가 작동 되지 않습니다. */
+            AXContextMenu.bind({
+                id:"myContextMenu",
+                theme:"AXContextMenu", // 선택항목
+                width:"150", // 선택항목
+                menu:[
+                    {userType:0, label:"트리등록", className:"", onclick:function(id){
+                        toast.push(Object.toJSON(this));
+                        toast.push(id);
+                    }},
+                    {userType:0, label:"자식트리등록", className:"docline", underLine:true, onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"추가하기", className:"plus", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"수정하기", className:"edit", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"삭제하기", className:"minus", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"group", className:"group", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"copy", className:"copy", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"cut", className:"cut", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"paste", className:"paste", underLine:true, onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"up", className:"up", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"down", className:"down", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"left", className:"left", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"right", className:"right", underLine:true, onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"link", className:"link", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"unlink", className:"unlink", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"openall", className:"openall", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }},
+                    {userType:1, label:"closeall", className:"closeall", onclick:function(){
+                        toast.push(Object.toJSON(this));
+                    }}
+                ]
+            });
+            
+            AXContextMenu.bind({
+                id:"myCheckboxContextMenu",
+                theme:"AXContextMenu", // 선택항목
+                width:"150", // 선택항목
+                checkbox:"checkbox",
+                menu:[
+                    {label:"컨텍스트메뉴"},
+                    {label:"컨텍스트메뉴(checkbox)"},
+                    {label:"컨텍스트메뉴(filterd)"},
+                    {label:"여러단계컨텍스트메뉴"}
+                ],
+                onchange: function(){
+                    toast.push(Object.toJSON(this));
+                }
+            });
+
+            //다차원 레벨 메뉴
+
+            AXContextMenu.bind({
+                id:"myContextMenuTree",
+                theme:"AXContextMenu", // 선택항목
+                width:"150", // 선택항목
+                reserveKeys: {
+                    subMenu: "subTree"
+                },
+                menu:[
+                    {
+                        "parentMenuID":0,
+                        "menuID":1,
+                        "label":"About",
+                        "link":"page://sport.en/overview.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_000",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":1,
+                                "menuID":6,
+                                "label":"Overview",
+                                "link":"page://sport.en/overview.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_000_000",
+                                "__isLastChild":false,
+                                "pHash":"000_000",
+                                "display":true,
+                                "subTree":[
+                                ],
+                                "selected":true
+                            },
+                            {
+                                "parentMenuID":1,
+                                "menuID":7,
+                                "label":"Greeting",
+                                "link":"page://sport.en/greeting.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_000_001",
+                                "__isLastChild":false,
+                                "pHash":"000_000",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":1,
+                                "menuID":8,
+                                "label":"History",
+                                "link":"page://sport.en/history.asp",
+                                "target":"_self",
+                                "open":true,
+                                "pHash":"000_000",
+                                "hash":"000_000_002",
+                                "display":true,
+                                "__isLastChild":false,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":1,
+                                "menuID":9,
+                                "label":"Contacts",
+                                "link":"page://sport.en/contacts.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_000_003",
+                                "__isLastChild":true,
+                                "pHash":"000_000",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }],
+                        "selected":true
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":2,
+                        "label":"Faculty",
+                        "link":"page://sport.en/professors.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_001",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":2,
+                                "menuID":10,
+                                "label":"Professors",
+                                "link":"page://sport.en/professors.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_001_000",
+                                "__isLastChild":true,
+                                "pHash":"000_001",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":3,
+                        "label":"Curriculum",
+                        "link":"page://sport.en/undergraduate.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_002",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":3,
+                                "menuID":11,
+                                "label":"Undergraduate",
+                                "link":"page://sport.en/undergraduate.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_002_000",
+                                "__isLastChild":false,
+                                "pHash":"000_002",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":3,
+                                "menuID":12,
+                                "label":"Curriculum",
+                                "link":"page://sport.en/curriculum.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_002_001",
+                                "__isLastChild":true,
+                                "pHash":"000_002",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":4,
+                        "label":"Graduate Course",
+                        "link":"page://sport.en/graduate_overview.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_003",
+                        "__isLastChild":false,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":4,
+                                "menuID":13,
+                                "label":"Overview",
+                                "link":"page://sport.en/graduate_overview.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_003_000",
+                                "__isLastChild":false,
+                                "pHash":"000_003",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":4,
+                                "menuID":14,
+                                "label":"Curriculum",
+                                "link":"page://sport.en/graduate_curriculum.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_003_001",
+                                "__isLastChild":true,
+                                "pHash":"000_003",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    },
+                    {
+                        "parentMenuID":0,
+                        "menuID":5,
+                        "label":"Current Students",
+                        "link":"page://sport.en/community.asp",
+                        "target":"_self",
+                        "open":true,
+                        "hash":"000_004",
+                        "__isLastChild":true,
+                        "pHash":"000",
+                        "display":true,
+                        "subTree":[
+                            {
+                                "parentMenuID":5,
+                                "menuID":15,
+                                "label":"Community",
+                                "link":"page://sport.en/community.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_004_000",
+                                "__isLastChild":false,
+                                "pHash":"000_004",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            },
+                            {
+                                "parentMenuID":5,
+                                "menuID":16,
+                                "label":"Photo Gallery",
+                                "link":"page://sport.en/gallery.asp",
+                                "target":"_self",
+                                "open":true,
+                                "hash":"000_004_001",
+                                "__isLastChild":true,
+                                "pHash":"000_004",
+                                "display":true,
+                                "subTree":[
+                                ]
+                            }]
+                    }]
+            });
+
+            $("#contextBtn1").bind("click", fnObj.contextMenuOpen);
+            $("#contextBtn4").bind("click", fnObj.contextMenuOpen4);
+        },
+        contextMenuOpen: function(e){
+            var event = window.event || e;
+            AXContextMenu.open({id:"myContextMenu", sendObj:{id:"전달하고싶은 오브젝트", name:"형식은 자유"}}, event); // event 직접 연결 방식
+        },
+        contextMenuOpen2: function(e){
+            var pos = $("#contextBtn2").offset();
+            AXContextMenu.open(
+                    {
+                        id:"myContextMenu",
+                        filter:function(id){
+                            return (this.menu.userType == 0);
+                        }
+                    },
+                    {left:pos.left, top:pos.top}
+            ); // 위치 직접 지정 방식
+        },
+        contextMenuOpen3: function(e){
+            var event = window.event || e;
+            AXContextMenu.open({id:"myContextMenuTree"}, event); // event 직접 연결 방식
+        },
+        contextMenuOpen4: function(e){
+            var event = window.event || e;
+            AXContextMenu.open({id:"myCheckboxContextMenu"}, event); // event 직접 연결 방식
+        }
+    };
+    $(document).ready(fnObj.pageStart.delay(0.5));
+</script>
+<!-- js block -->

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXScroll(X) - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js
+	 * CSS			: AXJ.css
+	 */	
+	var pageID = "xscroll";
+	var myUIScroll4 = new AXScroll(); // 스크롤 인스턴스 선언
+	
+	var fnObj = {
+		pageStart: function(){
+
+			myUIScroll4.setConfig({
+				targetID:"UIScrollContainer4",
+				scrollID:"UIScrollTarget4",
+				yscroll:false,
+				xscroll:true
+			});
+
+		}	
+	};
+	jQuery(document).ready(fnObj.pageStart);
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+			<div class="title"><h1>AXScroll</h1></div>
+
+						<h2>AXScroll (xscroll)</h2>
+						<h3>좌우로 컨텐츠를 스크롤 하고 높이는 자동 맞춤됩니다.</h3>
+						<div class="containerBox" id="UIScrollContainer4" style="border:1px solid #888;box-shadow:inset 1px 1px 3px #ccc;overflow:hidden;position:relative;">
+							<div class="inBox" id="UIScrollTarget4">
+								<div style="width:1000px;padding:20px;font-size:15px;line-height:30px;">
+				AXISJ
+				제이쿼리(JQuery) 라이브러리를 기반으로 하는 웹 애플리케이션을 제작을 위한 자바스크립트 라이브러리입니다. (Javascript UI Library based on JQuery)
+				웹 애플리케이션 이나 웹사이트 제작 시 사용되는 HTML, CSS 및 Javascript 기술을 이용하여 웹 브라우저(Web Browser) 또는 HTML를 이용하여 구동되는 다양한 디바이스에서 동작합니다. 액시스제이를 이용하여 일반적으로 웹에서 구현하기 어려운 다양한 기능과 UI 디자인을 제공하여 보다 쉽고 빠르게 웹 애플리케이션을 제작할 수 있습니다.
+				"액시스제이는 개발자를 위한 코드 입니다."
+				AXISJ 는 axis(축) J(javascript) 의 뜻이지만 애플리케이션 개발경험 Application eXperience AX 를 구현한다는 의미도 함께 담고 있습니다. 액시스제이는 자바스크립트 클래스 코드를 압축하여 하나의 파일로 처리 하지 않고 개발자가 필요한 클래스를 선택적으로 사용할 수 있도록 소스와 파일을 제공하고 소스코드도 압축하지 않고 개발자가 소스코드를 이해하고 개발할 수 있도록 하는데 초점을 맞추고 있습니다. 압축되지 않은 소스코드를 이해 하면서 궁극적으로 액시스제이를 사용하는 개발자들의 개발레벨이 모두 함께 성장해 나가기를 희망합니다.
+				"액시스제이는 대한민국 개발자를 위한 코드 입니다."
+				대한민국 개발자가 대한민국에서 만든 대한민국 자바스크립트 UI 라이브러리 입니다. UI 라이브러리 사용 중 생기는 궁금증과 개선사항을 친구에게 물어보듯 물어볼 수 있습니다. 이해가 안되면 될 때까지 설명도 해드림니다. 무엇보다 이러한 개발자들의 아이디어와 요구사항을 기반으로 하여 자바스크립트 UI 라이브러리가 확장되어 나아간다는 것 입니다. 현재 버전이 해외 유명 자바스크립트 UI 라이브러리에 비해 화려하지 않을 수 있겠지만 대한민국 표준이 세계표준이 될 그날까지 매일 매일 묵묵히 한걸음을 내딛겠습니다.
+				"액시스제이는 무료 입니다"
+				액시스제이를 이용하여 웹애플리케이션 이나 웹사이트를 제작하는데 아무런 제약이 없습니다. 저작권 표시 조차 필요 없습니다. 다만 액시스제이 소스코드를 임의로 수정하여 재 배포 하는 일은 허용되지 않습니다. (액시스제이를 통해 액시스제이의 이름으로 제공되는 경우는 무관합니다.)
+				명칭
+				액시스제이(AXISJ)는 "자바스크립트의 축(Axis of Javascript)"라는 의미와 Application eXperience AX를 지향한다는 의미를 담고 있습니다. 액시스제이는 다음과 같은 명칭으로도 사용됩니다.
+				액시스제이
+								</div>
+							</div>
+						</div>
+						
+						<div class="H30"></div>
+						
+					</div>
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

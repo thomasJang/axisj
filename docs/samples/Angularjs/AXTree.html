@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AX for Angular.js</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/e.css" />
+
+	<!-- css block -->
+
+	<!-- js block -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+	
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+    <script src="../../_AXJ/lib/AXInput.js"></script>
+    <script src="../../_AXJ/lib/AXSelect.js"></script>
+    <script src="../../_AXJ/lib/AXTree.js"></script>
+	
+	<script type="text/javascript" src="pageTab.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+
+	<script type="text/javascript">
+	var pageID = "AXTree";
+	</script>
+	<!-- js block -->
+
+    <script type="text/javascript">
+    var myTree = new AXTree();
+    var ax_myTree_controller = function($element){
+		
+		axdom($element).css({"border":"1px solid #ccc", height:250});
+		
+		myTree.setConfig({
+			target : $element,
+			theme: "AXTree_none",
+			xscroll:false,
+			
+			relation:{
+				parentKey:"parentcd",
+				childKey:"nodeID",
+				parentName:"parentnm",
+				childName:"nodenm"
+			},
+			
+			colGroup: [
+				{key:"no", label:"번호", width:"100", align:"center", display:false},
+				{key:"nodenm", label:"제목", width:"100%", align:"left", indent:true,
+					getIconClass: function(){
+						//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+						//var iconNames = "company, folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+						var iconName = "file";
+						if(this.item.type) iconName = this.item.type;
+						return iconName;
+					},
+					formatter:function(){
+						//return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+						//return this.item.nodeName;
+						return (this.item.nodenm||"").dec();
+					}
+				},
+				{key:"writer", label:"작성자", width:"100", align:"center", display:false}
+			],
+			body: {
+				onclick:function(idx, item){
+					toast.push(Object.toJSON(item));
+					trace(item);
+				},
+				addClass: function(){
+					// this.index, this.item, this.list 으로 프로그램 구문 작성 가능
+					return "myClass";	
+				}
+			},
+			contextMenu: {
+				theme:"AXContextMenu", // 선택항목
+				width:"150", // 선택항목
+				menu:[
+					{userType:0, label:"위로", className:"up", onclick:function(id){
+						myTree.moveUpTree();
+					}},
+					{userType:0, label:"아래로", className:"down", onclick:function(id){
+						myTree.moveDownTree();
+					}},
+					{userType:0, label:"이동", className:"paste", underLine:true, onclick:function(id){
+						
+						myTree.moveTree({
+							startMove: function(){
+								myTree.addClassItem({
+									className:"disable", 
+									addClass:function(){
+										return (this.nodeID == "N");
+									}
+								});
+							},
+							validate:function(){
+								//this.moveObj
+								//this.targetObj
+								if(this.targetObj.nodeID == "N"){
+									alert("이동할 수 없는 대상을 선택하셨습니다.");
+									return false;
+								}else{
+									return true;	
+								}
+							},
+							endMove: function(){
+								myTree.removeClassItem({
+									className:"disable", 
+									removeClass:function(){
+										return (this.nodeID == "N");
+									}
+								});
+							}
+						});
+						
+					}},
+					{userType:1, label:"추가", className:"plus", onclick:null},
+					{userType:1, label:"자식추가", className:"plus", onclick:null},
+					{userType:1, label:"삭제하기", className:"", onclick:null},
+					{userType:1, label:"수정하기", className:"", onclick:null}
+				],
+				filter:function(id){
+					//this.menu : 메뉴
+					//this.sendObj : 선택된 tree item
+					if(this.sendObj){ // 선택된 트리 아이템이 있으면
+						if(this.sendObj.nodeType == "company"){ // 선택된 트리 아이템 의 nodeType 이 company 이면
+							return (this.menu.userType == 0);
+						}else{
+							return (this.menu.userType == 1);
+						}
+					}else{
+						return false;
+					}
+				}
+			}
+		});
+
+		var Tree = [
+			{nodeID:"1","nodenm":"ETRI",open:true, nodeType:"company","parentcd":"","parentnm":"","sortnum":1,"ckd":0,"treeno":"l001", subTree:[
+					{nodeID:"2","nodenm":"%ec%9e%84%ec%8b%9c%ec%9a%a9%eb%b6%80%ec%84%9c",open:true, nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":1,"ckd":0,"treeno":"l001_001"},
+					{nodeID:"20130618001","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					
+					{nodeID:"20130618002","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618003","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618004","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618005","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618006","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618007","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618008","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					
+					{nodeID:"20130618009","nodenm":"ETRI4444",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":2,"ckd":0,"treeno":"l001_002"},
+					{nodeID:"20130618010","nodenm":"%ea%b8%b0%ec%97%85%ec%82%ac%ec%97%85",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":3,"ckd":0,"treeno":"l001_003", subTree:[
+							{nodeID:"20130618011","nodenm":"%ec%b6%94%ea%b0%80",open:true,nodeType:"folder","parentcd":"1","parentnm":"ETRI","sortnum":4,"ckd":0,"treeno":"l001_004"}
+						]}
+					
+				]
+			}
+		];
+		myTree.setTree(Tree);
+
+    };
+    </script>
+
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+    	<h1>AXISJ for Angular</h1>
+      	<div ng-controller="ax_myTree_controller"></div>
+
+	</div>
+</body>
+</html>

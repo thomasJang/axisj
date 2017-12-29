@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXUserSelect</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXUserSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+
+	<script type="text/javascript">	
+	var pageID = "AXUserSelect";
+	var myUserBox = new AXUserSelect();
+	var fnObj = {
+		pageStart: function(){
+			fnObj.userInit();
+		},
+		userInit: function(){
+			myUserBox.setConfig({
+				containerID:"userSelect1",
+				onchange: function(){
+					trace(this);
+				}
+			});
+		},
+		getUserList: function(){
+			return myUserBox.getDS();
+        },
+        add: function(){
+        	var ds = [];
+        	ds.push({
+			    id:AXUtil.timekey(),
+			    nm:AXUtil.timekey(),
+			    desc:"AXISJ"
+		    });
+		    myUserBox.push(ds);
+        },
+        remove: function(){
+            myUserBox.del( myUserBox.getSelect() );
+        },
+        selectedList: function(){
+            dialog.push( Object.toJSON(myUserBox.getSelectDS()) );
+        },
+        printList: function(){
+            dialog.push( Object.toJSON(myUserBox.getDS()) );
+        }
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody -->
+    <div id="AXPageBody" class="SampleAXSelect">
+
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+        <div class="title"><h1>AXUserSelect</h1></div>
+
+        <div style="width:200px;" class="test">
+			<div id="userSelect1" class="userSelectBox readyDrop" oncontextmenu="return false;" style="min-width:150px; height:200px;"></div>
+		</div>
+		
+		<div style="padding:5px;">
+			<button class="AXButton" onclick="fnObj.add();">추가</button>
+            <button class="AXButton" onclick="fnObj.remove();">삭제</button>
+            <button class="AXButton" onclick="fnObj.selectedList();">선택목록</button>
+            <button class="AXButton" onclick="fnObj.printList();">목록확인</button>
+		</div>
+
+	</div>
+
+    </div>
+</div>
+</body>
+</html>

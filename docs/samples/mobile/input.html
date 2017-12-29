@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AX for Mobile</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">	
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+    AXInput.setConfig({ responsiveMobile: 648 });
+
+	var pageID = "mobileInput";
+
+	var fnObj = {
+		pageStart: function(){
+
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+<div id="AXPage">
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h2>AXInput with label</h2>
+
+            <label class="AXInputLabel">
+                <span>AXInput Default</span>
+                <input type="text" name="" value="" class="AXInput" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInput disabeld</span>
+                <input type="text" name="" value="123AXJ엑스제이" class="AXInput" disabled="disabled" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInput readonly</span>
+                <input type="text" name="" value="123AXJ엑스제이" class="AXInput" readonly="readonly" />
+            </label>
+
+            <label class="AXInputLabel fullWidth">
+                <span>AXInputLabel fullWidth</span>
+                <input type="text" name="" value="123AXJ엑스제이" class="AXInput" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInput W50</span>
+                <input type="text" name="" value="" class="AXInput W50" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInput W100 위</span>
+                <input type="text" name="" value="" class="AXInput W100" placeholder="엑시스제이" />
+                <span>AXInput W100 위</span>
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInput Round</span>
+                <input type="text" name="" value="" class="AXInput Round" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel fullWidth">
+                <span>fullWidth - 위</span>
+                <input type="text" name="" value="" class="AXInput" placeholder="엑시스제이" />
+                <span>fullWidth - 아래</span>
+            </label>
+
+            <label class="AXInputLabel">
+                <span class="block">AXInput Default span:block</span>
+                <input type="text" name="" value="" class="AXInput" placeholder="엑시스제이" />
+            </label>
+
+            <div class="AXHspace50"></div>
+            <h2>AXInputSmall with label</h2>
+
+            <label class="AXInputLabel">
+                <span>AXInputSmall Default</span>
+                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInputSmall disabeld</span>
+                <input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" placeholder="엑시스제이" disabled="disabled" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInputSmall readonly</span>
+                <input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" placeholder="엑시스제이" readonly="readonly" />
+            </label>
+
+            <label class="AXInputLabel fullWidth">
+                <span>AXInputLabel fullWidth</span>
+                <input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInputSmall W50</span>
+                <input type="text" name="" value="" class="AXInputSmall W50" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInputSmall W100 위</span>
+                <input type="text" name="" value="" class="AXInputSmall W100" placeholder="엑시스제이" />
+                <span>AXInputSmall W100 위</span>
+            </label>
+
+            <label class="AXInputLabel">
+                <span>AXInputSmall Round</span>
+                <input type="text" name="" value="" class="AXInputSmall Round" placeholder="엑시스제이" />
+            </label>
+
+            <label class="AXInputLabel fullWidth">
+                <span>fullWidth - 위</span>
+                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                <span>fullWidth - 아래</span>
+            </label>
+
+            <label class="AXInputLabel">
+                <span class="block">AXInputSmall Default span:block</span>
+                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+            </label>
+
+            <div class="AXHspace50"></div>
+
+            <h2>AXInput without label</h2>
+
+            <input type="text" name="" value="" class="AXInput" placeholder="엑시스제이" />
+            <input type="text" name="" value="123AXJ엑스제이" class="AXInput" placeholder="엑시스제이" disabled="disabled" />
+            <input type="text" name="" value="123AXJ엑스제이" class="AXInput" placeholder="엑시스제이" readonly="readonly" />
+            <div class="AXHspace10"></div>
+            <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+            <input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" placeholder="엑시스제이" disabled="disabled" />
+            <input type="text" name="" value="123AXJ엑스제이" class="AXInputSmall" placeholder="엑시스제이" readonly="readonly" />
+
+            <div class="AXHspace50"></div>
+
+            <h2>AXInputGroup of table</h2>
+
+            <table class="AXFormTable">
+                <colgroup>
+                    <col width="80" />
+                    <col />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>
+                            normal
+                        </th>
+                        <td>
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInput" placeholder="엑시스제이" />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            fullWidth
+                        </th>
+                        <td>
+                            <label class="AXInputLabel fullWidth">
+                                <input type="text" name="" value="" class="AXInput" placeholder="엑시스제이" />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="red">
+                            small
+                        </th>
+                        <td>
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                            </label>
+
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                            </label>
+
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr class="red">
+                        <th>
+                            small
+                        </th>
+                        <td>
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                            </label>
+
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                            </label>
+
+                            <label class="AXInputLabel">
+                                <input type="text" name="" value="" class="AXInputSmall" placeholder="엑시스제이" />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="blue">
+                            blue
+                        </th>
+                        <td class="gray">
+                            gray
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="green">
+                            green
+                        </th>
+                        <td class="yellow">
+                            yellow
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="AXHspace50"></div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

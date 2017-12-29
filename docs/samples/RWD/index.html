@@ -1,0 +1,165 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>RWD</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+		<meta name="description" content="Description" />
+	    
+	    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<link rel="stylesheet" href="../_css/default_common.css" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+		
+		<style type="text/css">
+		.UILayer{
+			clear: both;
+			padding:0px 5px;
+			margin:0px auto;
+		}
+		.UIColumn{float:left;background:#eee;min-height:50px;margin:1% 0.8% 1% 0.8%;}
+		/*.UIColumn .UIUnit{background:#eee;min-height:50px;margin:5px 5px;padding:10px;}*/
+		.UIColumn.c1{float:none;}
+		.UIColumn.c2{width:48.4%;}
+		.UIColumn.c3{width:31.7334%;}
+		.UIColumn.c4{width:23.4%;}
+		.UIColumn.c6{width:15.0666%;}
+		.UIColumn.c12{width:6.7334%;}
+
+/*
+		.UIGroup:before,
+		.UIGroup:after {
+			content:"";
+			display:table;
+		}
+		.UIGroup:after {
+			clear:both;
+		}
+*/
+
+		@media only screen and (max-width: 760px) {
+			.UIColumn.c4{width:48.4%;}
+			.UIColumn.c6{width:31.7334%;}
+			.UIColumn.c12{width:23.4%;}
+		}
+
+		@media only screen and (max-width: 480px) {
+			.UIColumn.c2 {
+				float:none;
+				width:auto;
+			}
+			.UIColumn.c3 {
+				float:none;
+				width:auto;
+			}
+			.UIColumn.c4 {
+				float:none;
+				width:auto;
+			}
+		}
+
+		</style>
+		
+		<script type="text/javascript">
+		var fnObj = {
+			pageStart: function(){
+				//AXCode.bind(); // 소스보기
+				
+			}
+		};
+		
+		$(document.body).ready(function(){
+			setTimeout(fnObj.pageStart, 1);
+		});
+		</script>
+		
+	</head>
+	<body>
+		<div style="position:relative;padding:0px 10px 0px 10px;">
+			<div class="UILayer UIGroup">
+				1
+			</div>
+			<div class="UILayer UIGroup">
+				<div class="UIColumn c1">
+					
+				</div>
+			</div>
+			<div class="UILayer UIGroup">
+				2
+			</div>
+			<div class="UILayer UIGroup">
+				<div class="UIColumn c2"></div>
+				<div class="UIColumn c2"></div>
+			</div>
+			<div class="UILayer UIGroup">
+				3
+			</div>
+			<div class="UILayer UIGroup">
+				<div class="UIColumn c3">
+					<div class="UIUnit">
+						1<br/>
+						1<br/>
+						1<br/>
+						1<br/>
+						1<br/>
+						1<br/>
+					</div>
+					<div class="UIUnit">
+						1<br/>
+						1<br/>
+						1<br/>
+						1<br/>
+						1<br/>
+						1<br/>
+					</div>
+				</div>
+				<div class="UIColumn c3"></div>
+				<div class="UIColumn c3"></div>
+			</div>
+			<div class="UILayer UIGroup">
+				4
+			</div>
+			<div class="UILayer UIGroup">
+				<div class="UIColumn c4"></div>
+				<div class="UIColumn c4"></div>
+				<div class="UIColumn c4"></div>
+				<div class="UIColumn c4"></div>
+			</div>
+			<div class="UILayer UIGroup">
+				6
+			</div>
+			<div class="UILayer UIGroup">
+				<div class="UIColumn c6"></div>
+				<div class="UIColumn c6"></div>
+				<div class="UIColumn c6"></div>
+				<div class="UIColumn c6"></div>
+				<div class="UIColumn c6"></div>
+				<div class="UIColumn c6"></div>
+			</div>
+			<div class="UILayer UIGroup">
+				12
+			</div>
+			<div class="UILayer UIGroup">
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+				<div class="UIColumn c12"></div>
+			</div>
+		</div>
+	</body>
+</html>

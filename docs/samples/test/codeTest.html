@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+
+    <!--
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    -->
+
+</head>
+<body>
+<div style="padding:20px;">
+
+
+
+    <button class="AXButton">액시스제이</button>
+    <a href="#ax" class="AXButton">액시스제이</a>
+    <input type="button" class="AXButton" value="액시스제이" />
+
+    <div class="AXHspace20"></div>
+
+    <button class="AXButton Red">액시스제이</button>
+    <button class="AXButton Green">액시스제이</button>
+    <button class="AXButton Blue">액시스제이</button>
+    <button class="AXButton Classic">액시스제이</button>
+
+    <div class="AXHspace20"></div>
+
+    <button class="AXButtonLarge Red"><i class="fa fa-camera-retro"></i> 액시스제이</button>
+    <button class="AXButtonSmall Green"><i class="fa fa-camera-retro"></i> 액시스제이</button>
+    <button class="AXButton Blue"><i class="fa fa-camera-retro"></i> 액시스제이</button>
+    <button class="AXButton Classic W200"><i class="fa fa-camera-retro"></i> 액시스제이</button>
+
+
+
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+    var myGrid = new AXGrid();
+    myGrid.setConfig({
+        targetID : "AXGridTarget",
+        theme : "AXGrid",
+        mediaQuery: {
+            mx:{min:0, max:600}, dx:{min:600}
+        },
+        colGroup : [
+            {key:"no", label:"번호", width:"40", align:"center", formatter:"money"},
+            {key:"title", label:"제목", width:"200"},
+            {key:"writer", label:"작성자", width:"100", align:"center"},
+            {key:"date", label:"작성일", width:"100", align:"center"},
+            {key:"desc", label:"비고", width:"*"}
+        ],
+        body : {
+            onclick: function(){
+                toast.push(Object.toJSON({index:this.index, item:this.item}));
+            }
+        },
+        page:{
+            paging:false,
+            status:{formatter: null}
+        }
+    });
+
+    myGrid.setList([]);
+
+    myGrid.setList({
+        ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2", onLoad:function(){
+            //trace(this);
+        }
+    });
+
+    var gridData = {
+        list: _obj.document_list,
+        page:{
+            pageNo: _obj.page_navigation.cur_page,
+            pageSize: 20,
+            pageCount: _obj.page_navigation.page_count,
+            listCount: _obj.page_navigation.total_count
+        }
+    };
+    myGrid.setData(gridData);
+
+
+
+</script>

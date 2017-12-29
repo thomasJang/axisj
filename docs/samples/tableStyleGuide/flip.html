@@ -1,0 +1,166 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Table style guide</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+		<meta name="description" content="Description" />
+	    
+	    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+
+		<link rel="stylesheet" href="../_css/default_common.css" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+		
+		<style type="text/css">
+
+		/* simple */
+		.flip-container {
+			-webkit-perspective: 500;
+			-moz-perspective: 500;
+			perspective: 500;
+
+			border: 1px solid #ccc;
+			box-shadow:1px 1px 5px #888;
+		}
+
+		.flip-container, .front, .back {
+			width: 320px;
+			height: 427px;
+		}
+
+		.flipper {
+
+			-webkit-transition: 0.6s;
+			-webkit-transform-style: preserve-3d;
+
+			-moz-transition: 0.6s;
+			-moz-transform-style: preserve-3d;
+
+			transition: 0.6s;
+			transform-style: preserve-3d;
+
+			position: relative;
+		}
+
+		.front, .back {
+			backface-visibility: hidden;
+			-webkit-backface-visibility:hidden; /* Chrome and Safari */
+			-moz-backface-visibility:hidden; /* Firefox */
+			-ms-backface-visibility:hidden; /* Internet Explorer */
+
+			position: absolute;
+			top: 0px;
+			left: 0px;
+
+			-webkit-transition: 0.6s;
+			-webkit-transform-style: preserve-3d;
+
+			-moz-transition: 0.6s;
+			-moz-transform-style: preserve-3d;
+
+			transition: 0.6s;
+			transform-style: preserve-3d;
+		}
+
+		.front {
+			background: lightgreen;
+			z-index: 2;
+		}
+
+		.back {
+			transform:rotateY(180deg);
+			-ms-transform:rotateY(180deg); /* IE 9 */
+			-moz-transform: rotateY(180deg);
+			-webkit-transform:rotateY(180deg); /* Safari and Chrome */			
+		}
+
+		.flip-container.over .flipper{
+			transform: rotateX(180deg);
+			-ms-transform:rotateX(180deg); /* IE 9 */
+			-moz-transform: rotateX(180deg);
+			-webkit-transform: rotateX(180deg);
+			
+			filter: FlipV(true);
+			-ms-filter: "FlipV";
+		}
+		.flip-container:hover .flipper .front{
+			transform: rotateY(180deg);
+			-ms-transform:rotateY(180deg); /* IE 9 */
+			-moz-transform: rotateY(180deg);
+			-webkit-transform: rotateY(180deg);
+			
+			filter: FlipH(true);
+			-ms-filter: "FlipH";
+		}
+		.flip-container:hover .flipper .back{
+			transform: rotateY(0deg);
+			-ms-transform:rotateY(0deg); /* IE 9 */
+			-moz-transform: rotateY(0deg);
+			-webkit-transform: rotateY(0deg);
+			
+			filter: FlipH(true);
+			-ms-filter: "FlipH";
+		}
+
+		</style>
+		
+		<script type="text/javascript">
+		var fnObj = {
+			pageStart: function(){
+				AXCode.bind(); // 소스보기
+				
+				
+				$(".flip-container").bind("click", function(){
+					$(this).toggleClass("over");
+				});
+			}
+		};
+		
+		$(document.body).ready(function(){
+			setTimeout(fnObj.pageStart, 1);
+		});
+		</script>
+		
+	</head>
+	<body align="center">
+			
+		<div style="padding-top:200px;" align="center">
+				
+			<div class="flip-container">
+				<div class="flipper">
+					<div class="front" style="background: url(/img/axisj_sns.png) no-repeat center center #fff;border:1px solid #000;">
+		
+					</div>
+					<div class="back" style="background:#f8f8f8;border:1px solid #000;">
+						<table width="100%" height="100%">
+							<tr>
+								<td align="center" style="font-size:16px;">
+									Axis of Javascript
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+
+				<table width="100%" height="100%">
+					<tr>
+						<td align="center" style="font-size:16px;">
+							this is flip CSS
+						</td>
+					</tr>
+				</table>								
+			</div>
+		
+		</div>
+
+	</body>
+</html>

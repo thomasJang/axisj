@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindSlider - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js
+	 * CSS			: AXJ.css, AXInput.css
+	 */	
+	var pageID = "Slider";
+	var fnObj = {
+		pageStart: function(){
+
+            trace((1).round(2));
+
+			$("#AXInputSlider").bindSlider({min:0, max:100, snap:10, unit:"%"});
+			$("#AXInputSlider2").bindSlider({min:1000, max:100000, snap:100});
+			$("#AXInputSlider3").bindSlider({min:0, max:1, snap:0.01});
+			$("#AXInputTwinSlider").bindTwinSlider({min:0, max:1000, separator:"~", unit:"", snap:100}); // onChange 함수 바인드
+			
+			// 슬라이더에 값 지정 하기 $("#AXInputSlider2").setValueInput(this.value);
+			
+		}
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXInput">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXInput</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>AXInput</h2>
+						
+						<h3>bind Slider</h3>
+						<input type="text" name="inputSlider" id="AXInputSlider" value="50" class="AXInput W200" />
+						<div class="H20"></div>	
+						<input type="text" name="inputSlider" id="AXInputSlider2" value="10000" class="AXInput" style="width:400px;" />
+						<div class="H20"></div>	
+						<input type="text" name="inputSlider" id="AXInputSlider3" value="0" class="AXInput" style="width:400px;" />
+						
+						<div class="H20"></div>	
+						
+						<h3>bind TwinSlider</h3>
+						<input type="text" name="inputTwinSlider" id="AXInputTwinSlider" value="200~700" class="AXInput W200" />					
+						
+						<div class="H30"></div>	
+						
+					</div>	
+				</div>
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

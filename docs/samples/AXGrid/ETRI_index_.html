@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	
+	.lineRed td{background:#ff3300;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var myGrid = new AXGrid();
+	var fnObj = {
+		pageStart: function(){
+
+			
+						myGrid.setConfig({
+                        targetID: "AXGridTarget",
+                        fitToWidth:false,
+                        colGroup: [
+                            {key:"bsns_year"       , label:"연도"               , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"org_no"          , label:"조직코드"           , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"mng_expitm_no"   , label:"관리비목번호"       , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"main_ct_cd"      , label:"출연기관주비용코드" , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"expitm_cd"       , label:"비목코드"           , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"taxitm_cd"       , label:"세목코드"           , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"sesemk_cd"       , label:"세세목코드"         , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            // 과제정보
+                            {key:"execut_prjct_no" , label:"과제번호"           , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"task_budget_ver" , label:"버전"               , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"trget_plan_ver"  , label:"대상버전"           , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"change_odr"      , label:"변경순번"           , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            // 명칭
+                            {key:"expitm_nm"       , label:"비목"               , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"taxitm_nm"       , label:"세목"               , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"sesemk_nm"       , label:"세세목"             , width:"150", align:"left"     , formatter:"dec"    },
+                            // 변경전
+                            {key:"budget_am"       , label:"금액(천원)"         , width:"100", align:"right"    , formatter:"money"  },
+                            {key:"iem_nm1"         , label:"항목명1"            , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"iem_nm2"         , label:"항목명2"            , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"iem_nm3"         , label:"항목명3"            , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"untpc"           , label:"단가_H"             , width:"100", align:"right"    , formatter:"money"  , display:false },
+                            {key:"unit_nm"         , label:"단위_H"             , width:"50" , align:"center"   , formatter:"dec"    , display:false },
+                            {key:"unit"            , label:"단위_H"             , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"symbl1"          , label:"기호1_H"            , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"unit1"           , label:"단위1_H"            , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            // 변경후
+                            {key:"af_budget_am"    , label:"금액(천원)"         , width:"100", align:"right"    , formatter:"money"  },
+                            {key:"af_iem_nm1"      , label:"항목명1"            , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"af_iem_nm2"      , label:"항목명2"            , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"af_iem_nm3"      , label:"항목명3"            , width:"100", align:"left"     , formatter:"dec"    },
+                            {key:"af_untpc"        , label:"단가_A"             , width:"100", align:"right"    , formatter:"money"  , display:false },
+                            {key:"af_unit_nm"      , label:"단위_A"             , width:"50" , align:"center"   , formatter:"dec"    , display:false },
+                            {key:"af_unit"         , label:"단위_A"             , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"af_symbl1"       , label:"기호1_A"            , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            {key:"af_unit1"        , label:"단위1_A"            , width:"80" , align:"left"     , formatter:"dec"    , display:false },
+                            // 결과
+                            {key:"updown_amount"   , label:"증감(B-A)(천원)"    , width:"150" , align:"right"    , formatter:"money"  }
+                        ],
+                        colHeadAlign: "center",
+                        colHead: {
+                            rows: [
+                                [
+                                    {key:"expitm_nm"     , rowspan:2 , colspan:12,                           align:"center" },
+                                    {key:"taxitm_nm"     , rowspan:2 ,             label:"세목"            , align:"center" },
+                                    {key:"sesemk_nm"     , rowspan:2 ,             label:"세세목"          , align:"center" },
+                                    {colSeq:null         ,             colspan:9 , label:"협약예산(A)"     , align:"center" },
+                                    {colSeq:null         ,             colspan:9 , label:"변경예산(B)"     , align:"center" },
+                                    {key:"updown_amount" , rowspan:2             , label:"증감(B-A)(천원)" , align:"center" }
+                                ],
+                                [
+                                    {key:"budget_am"      },
+                                    {key:"iem_nm1"        },
+                                    {key:"iem_nm2"        },
+                                    {key:"iem_nm3"        },
+                                    {key:"untpc"          },
+                                    {key:"unit_nm"        },
+                                    {key:"unit"           },
+                                    {key:"symbl1"         },
+                                    {key:"unit1"          },
+ 
+                                    {key:"af_budget_am"   },
+                                    {key:"af_iem_nm1"     },
+                                    {key:"af_iem_nm2"     },
+                                    {key:"af_iem_nm3"     },
+                                    {key:"af_untpc"       },
+                                    {key:"af_unit_nm"     },
+                                    {key:"af_unit"        },
+                                    {key:"af_symbl1"      },
+                                    {key:"af_unit1"       }
+                                ]
+                            ]
+                        },
+                        body: {
+                            onclick: function() {
+                            },
+                            ondblclick: function() {
+                            }
+                        },
+                        page: {
+                            paging: false
+                        }
+                    });
+
+			
+			myGrid.setList([]);
+		}
+	};
+
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div class="contentContainer">
+
+
+		<h2>AXGrid</h2>
+
+		<div id="AXGridTarget" style="height:400px;"></div>
+
+
+</body>
+</html>

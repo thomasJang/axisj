@@ -1,0 +1,665 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+			
+		}
+	};
+
+	jQuery(document.body).ready(function() {
+		fnObj.pageStart();
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div class="contentContainer">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="colhead.html" class="AXTab Blue">colHead</a>
+				<a href="fixedColSeq.html" class="AXTab Blue">fixedColSeq</a>
+				<a href="body.html" class="AXTab Blue">body</a>
+				<a href="headfoot.html" class="AXTab Blue">head&foot</a>
+				<a href="marker.html" class="AXTab Blue">marker</a>
+				<a href="editor.html" class="AXTab Blue">editor</a>
+				<a href="ajax.html" class="AXTab Blue">ajax & paging</a>
+				<a href="passive.html" class="AXTab Blue">passive</a>
+				<a href="viewMode.html" class="AXTab Blue">viewMode</a>
+				<a href="help.html" class="AXTab Blue on">도움말</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXGrid Structure</h2>
+		<div>
+			<img src="/img/gridStructure.png" align="middle" />
+		</div>
+		
+		<h2>setConfig</h2>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				setConfig
+			</div>
+			<div class="methodDesc">
+				<div class="desc">AXGrid 초기화 </div>
+				
+				<table cellpadding="3" cellspacing="0" class="setConfig" >
+					<caption>setConfig 속성표</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>targetID</td><td class='tac'>Y</td><td>그리드가 삽입될 HTML tag ID</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>theme</td><td class='tac'></td><td>클래스이름</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>fixedColSeq</td><td class='tac'></td><td>틀고정 컬럼 seq</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>xscroll</td><td class='tac'></td><td>그리드 가로스크롤 여부</td><td>boolean</td><td><pre></pre></td></tr>
+					<tr><td>height</td><td class='tac'></td><td>그리드 높이</td><td>number | string</td><td><pre>500px | "auto"</pre></td></tr>
+					<tr><td>fitToWidth</td><td class='tac'></td><td>초기 화면 사이즈에 그리드 채우기</td><td>boolean</td><td><pre></pre></td></tr>
+					<tr><td>colHeadAlign</td><td class='tac'></td><td>colHead 기본 정렬 값</td><td>string</td><td><pre>"left"|"center"|"right"</pre></td></tr>
+					<tr>
+						<td>passiveMode</td>
+						<td class='tac'></td>
+						<td>
+							아이템 추가/수정/삭제 수동처리 모드
+						</td>
+						<td>boolean</td>
+						<td>
+							<pre>
+true|false
+추가(C) 수정(U) 삭제(D) 처리를 서버에 저장처리하지 않고 사용자가 원하는 시점에 일괄 처리할 수 있는 모드 입니다. 
+신규 추가된 아이템은 _CUD 속성값이 C, 수정 U, 삭제 D 를 가지게 됩니다.</pre>
+						</td>
+					</tr>
+					<tr>
+						<td>passiveRemoveHide</td>
+						<td class='tac'></td>
+						<td>수동처리 모드 상태에서 아이템 삭제 처리옵션</td>
+						<td>boolean</td>
+						<td><pre>true|false
+삭제 요청시 삭제된 아이템을 리스트에 표시 할지 여부
+리스트에 표시 되지 않는 아이템은 삭제되고 .removedList 속성으로 접근할 수 있습니다.
+</pre></td>
+					</tr>
+					<tr><td><a href='#table_colGroup'>colGroup</a></td><td class='tac'>Y</td><td>그리드 컬럼정의</td><td>json object</td><td>
+<pre>[ 
+	{key:""no"", label:""번호"", width:""50"", align:""right""}, 
+	{key:""price"", label:""가격"", width:""100"", align:""right"", formatter:""money""},
+	{key:""cost"", label:""금액"", width:""100"", align:""right"", formatter:function(){
+		return (this.item.price.number() * this.item.amount.number()).money();
+	}}
+]</pre>
+					</td></tr>
+					<tr><td><a href='#table_colHead'>colHead</a></td><td class='tac'></td><td>그리드 컬럼 타이틀 정의</td><td>json object</td><td>
+<pre>rows: 
+	[ 
+		[ 
+			{colSeq:0, rowspan:2}, 
+			{colSeq:null, colspan:2, label:""표현식"", align:""center""},  
+			{colSeq:3, rowspan:2},
+			{colSeq:4, rowspan:2},
+		],
+		[ {colSeq:1}, {colSeq:2} ]
+	],
+	onclick: function(){
+		toast.push(Object.toJSON( { index:this.index, r:this.r, c:this.c, colHead:this.colHead, page:this.page } ) );
+}</pre>
+					</td></tr>
+					<tr><td><a href='#table_body'>body</a></td><td class='tac'></td><td>그리드 바디 내용표현 및 이벤트 정의</td><td>json object</td><td><pre>rows, marker 는 body 안에 정의됩니다. </pre></td></tr>
+					<tr><td class="ti10"><a href='#table_rows'>rows</a></td><td class='tac'></td><td>그리드 바디컬럼값을 정의하는부분</td><td>json object</td><td>
+<pre>rows: [
+	[
+		{colSeq:0, rowspan:2, align:""center""},
+		{colSeq:null, colspan:3, formatter:function(){
+			var mul = (this.index * this.item.no);
+			itemSum += this.item.no;
+			return ""index * no = "" + mul + "", no 누적합은 = "" + itemSum;
+		}, align:""center"", addClass:""""},
+		{colSeq:4, rowspan:2, valign:""bottom"", align:""left""},
+		{colSeq:5, rowspan:2, valign:""middle""},
+		{colSeq:6, rowspan:2, valign:""middle""},
+		{colSeq:7, rowspan:2, valign:""middle""}
+	],
+	[
+		{colSeq:1},
+		{colSeq:2},
+		{colSeq:3}
+	]
+]</pre>
+					</td></tr>
+					<tr><td class="ti10"><a href='#table_marker'>marker</a></td><td class='tac'></td><td>그리드 부분합을 표현하는 부분. 그리드바디 중간에(display에 지정된 위치) 표현됩니다. </td><td>json object</td><td>
+<pre>
+marker: {
+	display: function(){
+		return (this.index == 9 || this.index == 19); // return true 이면 marker 삽입처리
+	},
+	rows: [
+		[
+			{colSeq:null, colspan:4, formatter:function(){ return ""소계""; }, align:""center""}, 
+			{colSeq:4, formatter:function(){
+				var sum = 0;
+				for(var a=this.index-9; a < this.index+1;a++){ sum += this.list[a].price; }
+				return sum.money();
+			}},
+			{colSeq:5, formatter:function(){
+				var sum = 0;
+				for(var a=this.index-9;a < this.index+1;a++){ sum += this.list[a].amount; }
+				return sum.money(); 
+			}},
+			{colSeq:6, formatter:function(){
+				var sum = 0;
+				for(var a=this.index-9; a < this.index+1;a++){ sum += this.list[a].price * this.list[a].amount; }
+				return sum.money(); 
+			}},
+			{colSeq:7, formatter:function(){ return """"; }}
+		]
+	]
+}
+</pre>
+					</td></tr>
+					<tr><td><a href='#table_head'>head</a></td><td class='tac'></td><td>그리드 소계를 표현하는 부분. 그리드 상단에 표현됩니다. </td><td>json object</td><td>
+<pre>head : {
+	rows: [
+		[
+			{colSeq:null, colspan:4, formatter:function(){ return ""계""; }, align:""center""}, 
+			{colSeq:4},
+			{colSeq:5},
+			{colSeq:6},
+			{colSeq:7}
+		]
+	]
+}</pre>
+					</td></tr>
+					<tr><td><a href='#table_foot'>foot</a></td><td class='tac'></td><td>그리드 소계를 표현하는 부분. 그리드 하단에 표현됩니다. </td><td>json object</td><td>
+<pre>foot : {
+	rows: [
+		[ 
+		{colSeq:null, colspan:4, formatter:function(){ return ""계""; }, align:""center""}, 
+		{colSeq:4, formatter:function(){
+			var sum = 0;
+			$.each(this.list, function(){
+				sum += this.price;
+			});
+			return sum.money(); 
+		}},
+		{colSeq:5, formatter:function(){
+			var sum = 0;
+			$.each(this.list, function(){
+				sum += this.amount;
+			});
+			return sum.money(); 
+		}},
+		{colSeq:6, formatter:function(){
+			var sum = 0;
+			$.each(this.list, function(){
+				sum += (this.price * this.amount);
+			});
+			return sum.money(); 
+		}},
+		{colSeq:7}
+		]
+	]
+}</pre>
+					</td></tr>
+					<tr><td><a href='#table_page'>page</a></td><td class='tac'>Y</td><td>페이징관련 내용 정의</td><td>json object</td><td>
+<pre>page:{
+	paging:true,
+	pageNo:1,
+	pageSize:100
+}</pre>
+					</td></tr>
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_colGroup">
+					<caption>colGroup</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>key</td><td class='tac'>Y</td><td>컬럼에 매치될 키값 </td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>label</td><td class='tac'>Y</td><td>컬럼이름</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>width</td><td class='tac'></td><td>컬럼이름</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+					<tr><td>formatter</td><td class='tac'></td><td>컬럼표현 형식</td><td>string | function</td><td>
+<pre>money : 화폐표현 형식. 3자리마다 콤마표시. Ex) 10,000,000
+dec : AXJ 의 decode함수 호출
+checkbox : checkbox 형태로 변환 (displayLabel : true) 를 추가하면 헤드에 체크 박스 대신 라벨이 표시됩니다.
+function : 사용자 정의 함수</pre>
+					</td></tr>
+
+				</table>
+				
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_colHead">
+					<caption>colHead</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td><b>row</b></td><td class='tac'></td><td>그리드 컬럼을 정의 </td><td>json object</td><td><pre>colspan, rowspan속성을 HTML TABLE TAG 와 같은구조로 작성</pre></td></tr>
+					<tr><td class="ti10">colSeq</td><td class='tac'>Y</td><td>컬럼순서</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">rowspan</td><td class='tac'></td><td>세로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">colspan</td><td class='tac'></td><td>가로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">label</td><td class='tac'>Y</td><td>컬럼이름</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+					<tr><td><b>onclick</b></td><td class='tac'></td><td>사용자 지정함수 연결</td><td></td><td><pre></pre></td></tr>
+					<tr><td class="ti10">function</td><td class='tac'></td><td>클릭시 동작할 함수를 작성해서 onclick event에 연결</td><td>function</td><td>
+<pre>money : 화폐표현 형식. 3자리마다 콤마표시. Ex) 10,000,000
+dec : AXJ 의 decode함수 호출
+checkbox : checkbox 형태로 변환
+function : 사용자 정의 함수</pre>
+					</td></tr>
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_body">
+					<caption>body</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td id="table_rows"><b>rows</b></td><td class='tac'></td><td>그리드 컬럼을 정의 </td><td>json object</td><td><pre>colspan, rowspan속성을 HTML TABLE TAG 와 같은구조로 작성</pre></td></tr>
+					<tr><td class="ti10">colSeq</td><td class='tac'>Y</td><td>컬럼순서</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">rowspan</td><td class='tac'></td><td>세로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">colspan</td><td class='tac'></td><td>가로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti10">formatter</td><td class='tac'></td><td>컬럼표현 형식</td><td>string | function</td><td><pre>colHead 와 동일</pre></td></tr>
+					<tr><td class="ti10">align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+					<tr><td id="table_marker"><b>marker</b></td><td class='tac'></td><td>부분합표현</td><td>json object</td><td><pre></pre></td></tr>
+					<tr><td class="ti10"><b>display</b></td><td class='tac'>Y</td><td>사용자 함수가 return true 일때 표현</td><td>function</td><td>
+<pre>display: function(){
+	return (this.index == 9 || this.index == 19); // return true 이면 marker 삽입처리
+}</pre>
+					</td></tr>
+					<tr><td class="ti10"><b>rows</b></td><td class='tac'>Y</td><td>마커 표현정의</td><td>json object</td><td><pre>colspan, rowspan속성을 HTML TABLE TAG 와 같은구조로 작성</pre></td></tr>
+					<tr><td class="ti20">colSeq</td><td class='tac'>Y</td><td>컬럼순서</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti20">rowspan</td><td class='tac'></td><td>세로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti20">colspan</td><td class='tac'></td><td>가로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td class="ti20">formatter</td><td class='tac'></td><td>컬럼표현 형식</td><td>string | function</td><td><pre>colHead 와 동일</pre></td></tr>
+					<tr><td class="ti20">align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+					<tr><td><b>ondblclick</b></td><td class='tac'></td><td>사용자 정의함수 연결</td><td></td><td><pre>클릭이벤트 연결</pre></td></tr>
+					<tr><td class="ti10">function</td><td class='tac'></td><td>클릭시 동작할 함수를 작성해서 ondblclick event에 연결</td><td>function</td><td><pre>사용자정의함수</pre></td></tr>
+					<tr><td><b>onclick</b></td><td class='tac'></td><td>사용자 정의함수 연결</td><td></td><td><pre>더블클릭 이벤트 연결</pre></td></tr>
+					<tr><td class="ti10">function</td><td class='tac'></td><td>클릭시 동작할 함수를 작성해서 onclick event에 연결</td><td>function</td><td><pre>사용자정의함수</pre></td></tr>
+
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_head">
+					<caption>head</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>row</td><td class='tac'></td><td>그리드 컬럼을 정의 </td><td>string</td><td><pre>colspan, rowspan속성을 HTML TABLE TAG 와 같은구조로 작성</pre></td></tr>
+					<tr><td>colSeq</td><td class='tac'>Y</td><td>컬럼순서</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>rowspan</td><td class='tac'></td><td>세로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>colspan</td><td class='tac'></td><td>가로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>formatter</td><td class='tac'></td><td>컬럼표현 형식</td><td>string | function</td><td><pre>colHead 와 동일</pre></td></tr>
+					<tr><td>align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_foot">
+					<caption>foot</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>row</td><td class='tac'></td><td>그리드 컬럼을 정의 </td><td>string</td><td><pre>colspan, rowspan속성을 HTML TABLE TAG 와 같은구조로 작성</pre></td></tr>
+					<tr><td>colSeq</td><td class='tac'>Y</td><td>컬럼순서</td><td>string</td><td><pre></pre></td></tr>
+					<tr><td>rowspan</td><td class='tac'></td><td>세로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>colspan</td><td class='tac'></td><td>가로줄 병합 수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>formatter</td><td class='tac'></td><td>컬럼표현 형식</td><td>string | function</td><td><pre>colHead 와 동일</pre></td></tr>
+					<tr><td>align</td><td class='tac'></td><td>정렬</td><td>string</td><td><pre>right | left | center</pre></td></tr>
+
+				</table>
+				
+				<div class="Hspace10"></div>
+				<table cellpadding="3" cellspacing="0" class="setConfig" id="table_page">
+					<caption>page</caption>
+					<colgroup>
+						<col style="width:100px" />
+						<col style="width:40px" />
+						<col style="width:190px" />
+						<col style="width:130px" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>속성명</th>
+						<th>필수</th>
+						<th>설명</th>
+						<th>자료형</th>
+						<th>사용예</th>
+					</tr>
+					<tr><td>paging</td><td class='tac'>Y</td><td>페이징 기능 사용유무</td><td>boolean</td><td><pre></pre></td></tr>
+					<tr><td>pageNo</td><td class='tac'></td><td>현재페이지번호</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>pageSize</td><td class='tac'></td><td>한페이지당 아이템 갯수</td><td>number</td><td><pre></pre></td></tr>
+					<tr><td>status</td><td class='tac'></td><td>페이징 우측에 나오는 문구</td><td>number</td><td><pre>기본값 : null</pre></td></tr>
+					<tr><td class="ti10">formatter</td><td class='tac'></td><td>사용자 지정함수 연결</td><td>function</td><td><pre></pre></td></tr>
+
+				</table>
+				
+				
+			</div>
+		</div>
+		
+		
+		<div class="Hspace20"></div>
+		<h2>method</h2>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				setList(Array | JSON Object)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">선언된 AXGrid 오브젝트에 리스트를 지정해주는 메소드. 인자로 Array 또는 AJAX 호출을 위한 Object 를 넘겨줄 수 있다. (return null;)</div>
+				<b>setList([{a:1},{a:2}]);</b> //Array <br/>
+				<b>setList({ajaxUrl:"loadGrid.asp", ajaxPars:"param1=1&param2=2", onLoad:function(){} });</b> // AJAX 호출 Object<br/>
+
+				<table cellpadding="5" cellspacing="0">
+					<caption>AJAX 호출 Object</caption>
+					<tr>
+						<th>ajaxUrl</th>
+						<td>ajax호출 URL 주소값</td>
+					</tr>
+					<tr>
+						<th>ajaxPars</th>
+						<td>ajax호출 URL 전달할 파라미터</td>
+					</tr>
+					<tr>
+						<th>onLoad</th>
+						<td>
+							ajax 호출이 완료되었을때 이벤트 함수 this 인자로 서버에서 리턴된 JSON Object를 접근할 수있습니다.<br/>
+<pre>
+setList({
+	ajaxUrl:"loadGrid.asp", 
+	ajaxPars:"param1=1&param2=2", 
+	onLoad:function(){
+		alert(this.list);
+		trace(this); // 서버에서 리턴된 오브젝트를 콘솔창에 출력해 줍니다.
+	}
+});</pre>
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				setDataSet(JSON Object)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					head 와 foot 요소에 값을 전달하고 표현합니다. <br/>
+					setList를 통해 전달된 값과 head와 foot에서 표현할 데이터는 같다고 볼 수 없습니다. 페이징이 고려된 상황을 보았을때 그렇습니다.<br/>
+					하여 head, body 에 표현하고자 하는 값을 setDataSet 메소드를 이용 하여 정의 할 수 있습니다.
+					
+					(return null;)
+				</div>
+				<b>setDataSet({price:123000, amount:10});</b> <br/>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				reloadList()
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					그리드를 새로고침 하여 줍니다. 데이터를 AJAX로 호출한 경우에만 작동하고 스크롤값을 0으로 초기화 되니 주의 하세요.
+					(return null;)
+				</div>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.setEditor(itemObject, itemIndex of List)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					특정 데이터위치에 에디터를 활성화 시켜 수정이 가능한 형태로 준비하여 줍니다. (return null;)<br/>
+					<b class="red">setConfig 선언절 안에 editor 속성이 없는 경우에는 작동하지 않습니다.</b>
+				</div>
+<pre>
+body : {
+	onclick: function(){ // setConfig body > onclick 함수 안에서 에디터를 구현한 방식
+		myGrid.setEditor(this.item, this.index);
+	}
+},
+</pre>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.setEditorForm(JSON object)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					활성화 된 에디터의 특정 폼 요소에 값을 변경 합니다. (return null;)<br/>
+				</div>
+<pre>
+myGrid.setEditorForm({
+	key:"writer",
+	position:[0,3], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
+	value:"String"
+});
+</pre>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.appendList(itemObject[, insertIndex])
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					그리드에 신규 데이터를 삽입하기위해 삽입용 에디터를 활성화 하여 줍니다. (return null;)
+				</div>
+<pre>
+var item = {};
+myGrid.appendList(item);
+myGrid.appendList(item, 3); //데이터를 삽입하고자 하는 index값을 지정합니다.
+</pre>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.removeList(Array)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					삭제하려는 대상과 비교 될수 있는 Array 오브젝트를 전달하여 대상을 삭제 합니다. 비교되는 Array 오브젝트의 키값이 모두 일치하는 아이템을 삭제 됩니다.
+					(return null;)
+				</div>
+
+<pre>
+var checkedList = myGrid.getCheckedList(0);// colSeq
+if(checkedList.length == 0){
+	alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");	
+	return;
+}
+if(!confirm("정말 삭제 하시겠습니까?")) return;
+
+/// something do for server
+
+var removeList = [];
+$.each(checkedList, function(){
+	removeList.push({no:this.no});
+});
+myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.	
+</pre>
+
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.getCheckedList(Number)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					colGroup의 배열순번으로 해당 col의 checked 된 아이템을 반환하여 줍니다.
+					(return Array)
+				</div>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.checkedColSeq(Number, true)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					colGroup의 배열순번에 해당 col의 checked 속성을 변경해 줍니다.
+					(return null)
+				</div>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.getSelectedItem()
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					선택된 아이템개체를 반환 합니다.
+					(return {index:Number, item:JSON Object})
+				</div>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.getCheckedListWithIndex(Number)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					colGroup의 배열순번으로 해당 col의 checked 된 아이템을 index와 함께 반환하여 줍니다.
+					(return [{index:Number, item:JSON Object}])
+				</div>
+			</div>
+		</div>
+		<div class="Hspace10"></div>
+		<div class="method">
+			<div class="methodName">
+				.removeListIndex(Array)
+			</div>
+			<div class="methodDesc">
+				<div class="desc">
+					Index 배열로 해당 아이템 인덱스의 아이템을 제거 합니다.
+					(return null)
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+</body>
+</html>

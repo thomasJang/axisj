@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXMulitiselector - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+	.item{
+		margin:10px 0px 0px 10px;
+		border:1px solid #000;
+		border-radius:5px;
+		box-shadow:0px 0px 5px #888;
+		padding:5px;	
+		width:100px;height:100px;float:left;
+		background:#ffffee;
+	}
+	.item.beSelected{
+		background:#68adcf;color:#fff;
+	}
+	.AX_selecting{
+		background:#CFE4EF;
+	}
+	</style>
+	<!-- css block -->
+
+	<script type="text/javascript">
+	var pageID = "AXMultiSelect";
+	var multiSelector;
+	var fnObj = {
+		pageStart: function(){
+			multiSelector = new AXMultiSelect();
+			multiSelector.setConfig({
+				selectStage       : "selectStageBox",
+				selectClassName   : "readyselect",
+				beselectClassName : "beSelected",
+				selectingClassName: "AX_selecting"
+			});
+			
+		},
+		getSelect: function(){
+			var selectsId = [];
+			var selectedElements = multiSelector.getSelects();
+			$.each(selectedElements, function(){
+				selectsId.push(this.id);
+			});
+			toast.push(selectsId.join(","));
+		}
+	};
+	$(document).ready(fnObj.pageStart.delay(0.5));
+	</script>
+	<!-- js block -->
+	
+</head>
+<body style="position:relative;margin:0px;">
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h1>AXMultiSelect</h1>		
+
+		<div id="selectStageBox" class="" style="height:320px;border:1px solid #000;overflow:auto;">
+				
+			<div class="readyselect item" id="item0">0</div>
+			<div class="readyselect item" id="item1">1</div>
+			<div class="readyselect item" id="item2">2</div>
+			<div class="readyselect item" id="item3">3</div>
+			<div class="readyselect item" id="item4">4</div>
+			<div class="readyselect item" id="item5">5</div>
+			<div class="readyselect item" id="item6">6</div>
+			<div class="readyselect item" id="item7">7</div>
+			<div class="readyselect item" id="item8">8</div>
+			<div class="readyselect item" id="item9">9</div>
+			<div class="readyselect item" id="item10">10</div>
+			<div class="readyselect item" id="item11">11</div>
+			<div class="readyselect item" id="item12">12</div>
+			<div class="readyselect item" id="item13">13</div>
+			<div class="readyselect item" id="item14">14</div>
+			<div class="readyselect item" id="item15">15</div>
+			<div class="readyselect item" id="item16">16</div>
+			<div class="readyselect item" id="item17">17</div>
+			<div class="readyselect item" id="item18">18</div>
+			<div class="readyselect item" id="item19">19</div>
+			<div class="readyselect item" id="item20">20</div>
+			
+			<div class="clear Hspace10"></div>
+			
+		</div>
+		
+		<div style="padding:10px;">
+			<input class="AXButton" type="button" value="getSelects" onclick="fnObj.getSelect();" />
+		</div>
+
+	</div>
+    </div>
+</div>
+</body>
+</html>

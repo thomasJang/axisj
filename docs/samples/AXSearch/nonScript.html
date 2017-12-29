@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXSearch - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXSelect.js, AXSearch.js, AXGrid.js, AXTab.js, AXButton.js
+	 * CSS			: AXJ.css, AXInput.css, AXSelect.css, AXSearch.css, AXGrid.css, AXTab.css, AXButton.css
+	 */	
+	var pageID = "nonScript";
+	
+	var fnObj = {
+		pageStart: function(){
+			jQuery("#expandHandle").click(function(){
+				if(jQuery(this).data("expand") == "open"){
+					jQuery(this).data("expand", "close");
+					jQuery(".expandShowHideTarget").hide();
+					jQuery(this).html("상세검색");
+				}else{
+					jQuery(this).data("expand", "open");
+					jQuery(".expandShowHideTarget").show();
+					jQuery(this).html("상세검색창 닫기");
+				}
+			});
+		}
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<!-- s.AXPageBody -->
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+			<div class="title"><h1>AXSearch</h1></div>
+
+            <h3>style 3 - 스타일시트 가이드</h2>
+            <div>
+                <table cellpadding="0" cellspacing="0" class="AXSearchTable">
+                    <colgroup>
+                        <col width="100" />
+                        <col />
+                        <col width="100" />
+                        <col />
+                    </colgroup>
+                    <tbody>
+                        <tr class="gray">
+                            <th>
+                                <div class="tdRel">검색어</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">
+                                    <input type="text" name="" value="" class="AXInput" />
+                                </div>
+                            </td>
+                            <th>
+                                <div class="tdRel">검색어</div>
+                            </th>
+                            <td class="last">
+                                <div class="tdRel">
+                                    <input type="text" name="" value="" class="AXInput" />
+                                    <input type="button" class="AXButton" value="Search" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expandShowHideTarget" style="display:none;">
+                            <th>
+                                <div class="tdRel">검색어</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">
+                                    <input type="text" name="" value="" class="AXInput" />
+                                </div>
+                            </td>
+                            <th>
+                                <div class="tdRel">검색어</div>
+                            </th>
+                            <td class="last">
+                                <div class="tdRel">
+                                    <input type="text" name="" value="" class="AXInput" />
+                                    <input type="button" class="AXButton" value="Search" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expandShowHideTarget" style="display:none;">
+                            <th>
+                                <div class="tdRel">검색어</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">
+                                    <input type="text" name="" value="" class="AXInput" />
+                                </div>
+                            </td>
+                            <th>
+                                <div class="tdRel">검색어</div>
+                            </th>
+                            <td class="last">
+                                <div class="tdRel">
+                                    <input type="text" name="" value="" class="AXInput" />
+                                    <input type="button" class="AXButton" value="Search" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="AXSearch">
+                    <a href="#axexec" class="expandHandle" id="expandHandle">상세검색</a>
+                </div>
+            </div>
+
+		</div>
+	</div>
+	<!-- e.AXPageBody -->
+
+</div>
+
+</body>
+</html>		

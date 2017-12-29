@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXUpload5</title>    
+
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXUpload.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript">
+
+	// Check for the various File API support.
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+		// Great success! All the File APIs are supported.
+		//alert("File APIs are supported");
+	} else {
+		trace({File:window.File, FileReader:window.FileReader, FileList:window.FileList, Blob:window.Blob});
+		alert('The File APIs are not fully supported in this browser.');
+	}
+	
+	function handleDragOver(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+	
+	function handleFileSelect(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		
+		var files = evt.target.files; // FileList object
+		// files is a FileList of File objects. List some properties.
+		
+		for (var i = 0, f; f = files[i]; i++) {
+			
+			var po = [];			
+			po.push('<div id="file_'+i+'">');
+				po.push('<strong>', (f.name).enc(), '</strong> ');
+				po.push('(', (f.type || 'n/a'), ') - ');
+				po.push(f.size.byte(), ' bytes, ');
+				po.push('modified: ', f.lastModifiedDate ? f.lastModifiedDate.print() : 'n/a' );
+			po.push('</div>');
+			$("#list").append(po.join(''));
+						
+			if (f.type.match('image.*')) {
+				var reader = new FileReader();
+				reader.onload = (function(theFile, targetID) {
+					return function(e) {
+						// Render thumbnail.
+						var rpo = ['<img class="thumb" src="', e.target.result, '" width="100" title="', escape(theFile.name), '"/>'].join('');
+						//document.getElementById('list').insertBefore(span, null);
+						$("#"+targetID).append(rpo);
+					};
+				})(f, "file_"+i);
+				reader.readAsDataURL(f);
+			}
+		}
+	}
+	
+	function handleFileDrop(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		
+		var files = evt.dataTransfer.files; // FileList object.
+		// files is a FileList of File objects. List some properties.
+		
+		for (var i = 0, f; f = files[i]; i++) {
+			var po = [];
+			po.push('<div id="file_'+i+'">');
+				po.push('<strong>', (f.name).enc(), '</strong> ');
+				po.push('(', (f.type || 'n/a'), ') - ');
+				po.push(f.size.byte(), ' bytes, ');
+				po.push('modified: ', f.lastModifiedDate ? f.lastModifiedDate.print() : 'n/a' );
+			po.push('</div>');
+			$("#list").append(po.join(''));
+			
+			if (f.type.match('image.*')) {
+				var reader = new FileReader();
+				reader.onload = (function(theFile, targetID) {
+					return function(e) {
+						// Render thumbnail.
+						var rpo = ['<img class="thumb" src="', e.target.result, '" width="100" title="', escape(theFile.name), '"/>'].join('');
+						//document.getElementById('list').insertBefore(span, null);
+						$("#"+targetID).append(rpo);
+					};
+				})(f, "file_"+i);
+				reader.readAsDataURL(f);
+			}
+		}
+		
+	}
+	
+	var fnObj = {
+		pageStart: function(){
+			$("#files").bind("change", function(e){
+				//uploadFiles('uploadFile.asp', this.files);
+				handleFileSelect(e);
+			});
+
+			// Setup the dnd listeners.
+			var dropZone = document.getElementById('drop_zone');
+			dropZone.addEventListener('dragover', handleDragOver, false);
+			dropZone.addEventListener('drop', handleFileDrop, false);
+
+			/*
+			$("#drop_zone").bind({
+				dragover: function(evt){
+					handleDragOver(evt);
+				},
+				drop: function(evt){
+					handleFileDrop(evt);
+				}
+			});
+			*/			
+			/*
+			$("#drop_zone").bind("dragover", function(e){
+				handleDragOver(e);
+			});
+			$("#drop_zone").bind("drop", function(e){
+				handleFileDrop(e);
+			});
+			*/
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 100);
+	});
+	</script>
+</head>
+<body>
+
+<div id="drop_zone" style="width:500px;height:500px;background:#eee;">
+
+</div>
+
+	<input type="file" id="files" name="files[]" multiple />
+	<div id='list'></div>
+	
+</body>
+</html>
+
+<script>
+
+</script>

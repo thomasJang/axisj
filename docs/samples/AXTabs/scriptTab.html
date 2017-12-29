@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXTab(script) - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="http://cdno.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <!--link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css" /-->
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXConfig.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script type="text/javascript">
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXTab.js
+	 * CSS			: AXJ.css, AXButton.css, AXTabs.css
+	 */	
+
+	var pageID = "scriptTab";
+	var fnObj = {
+		pageStart: function(){
+
+			$("#myTab01").bindTab({
+				theme : "AXTabs",
+				value:"",
+				overflow:"scroll", /* "visible" */
+				options:[
+					{optionValue:"M", optionText:"남성", closable:true}, 
+					{optionValue:"F", optionText:"여성", closable:true}, 
+					{optionValue:"N", optionText:"선택안함"}, 
+					{optionValue:"", optionText:"모두"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onchange: "+Object.toJSON(value));
+				},
+				onclose: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onclose: "+Object.toJSON(value));
+				}
+			});
+			
+			$("#myTab02").bindTab({
+				theme : "AXTabs",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:5,
+				closable:true,
+				options:[
+					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
+					{optionValue:"2", optionText:"2살 선택하기"}, 
+					{optionValue:"3", optionText:"3살 선택하기", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살 선택하기", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살 선택하기", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살 선택하기", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살 선택하기"},
+					{optionValue:"8", optionText:"8살 선택하기"},
+					{optionValue:"9", optionText:"9살 선택하기"},
+					{optionValue:"10", optionText:"★☆★☆★☆ 10살 선택하기 ★☆★☆★☆"},
+					{optionValue:"11", optionText:"★☆★☆★☆ 11살 선택하기 ★☆★☆★☆"},
+					{optionValue:"12", optionText:"★☆★☆★☆ 12살 선택하기 ★☆★☆★☆"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onchange: "+Object.toJSON(value));
+				},
+				onclose: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push("onclose: "+Object.toJSON(value));
+				}
+			});
+			
+			$("#myTab03").bindTab({
+				theme : "AXTabsSmall",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:5,
+				options:[
+					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
+					{optionValue:"2", optionText:"2살 선택하기"}, 
+					{optionValue:"3", optionText:"3살 선택하기", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살 선택하기", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살 선택하기", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살 선택하기", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살 선택하기"},
+					{optionValue:"8", optionText:"8살 선택하기"},
+					{optionValue:"9", optionText:"9살 선택하기"},
+					{optionValue:"10", optionText:"★☆★☆★☆ 10살 선택하기 ★☆★☆★☆"},
+					{optionValue:"11", optionText:"★☆★☆★☆ 11살 선택하기 ★☆★☆★☆"},
+					{optionValue:"12", optionText:"★☆★☆★☆ 12살 선택하기 ★☆★☆★☆"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+			$("#myTab04").bindTab({
+				theme : "AXTabsLarge",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:5,
+				options:[
+					{optionValue:"1", optionText:"★☆★☆★☆ 1살 선택하기 ★☆★☆★☆"}, 
+					{optionValue:"2", optionText:"2살 선택하기"}, 
+					{optionValue:"3", optionText:"3살 선택하기", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살 선택하기", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살 선택하기", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살 선택하기", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살 선택하기"},
+					{optionValue:"8", optionText:"8살 선택하기"},
+					{optionValue:"9", optionText:"9살 선택하기"},
+					{optionValue:"10", optionText:"★☆★☆★☆ 10살 선택하기 ★☆★☆★☆"},
+					{optionValue:"11", optionText:"★☆★☆★☆ 11살 선택하기 ★☆★☆★☆"},
+					{optionValue:"12", optionText:"★☆★☆★☆ 12살 선택하기 ★☆★☆★☆"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+		},
+		tabChange1: function(){
+			$("#myTab01").bindTab({
+				theme : "AXTabs",
+				value:"2",
+				options:[
+					{optionValue:"1", optionText:"1살"}, 
+					{optionValue:"2", optionText:"2살"}, 
+					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+		},
+		tabChange2: function(){
+			$("#myTab01").bindTab({
+				theme : "AXTabs",
+				value:"",
+				options:[
+					{optionValue:"M", optionText:"남성"}, 
+					{optionValue:"F", optionText:"여성"}, 
+					{optionValue:"N", optionText:"선택안함"}, 
+					{optionValue:"", optionText:"모두"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+		},
+		setValueTab: function(tabID, tabValue){
+			$("#"+tabID).setValueTab(tabValue);
+		},
+		addTabs: function(tabID, addCount) {
+			var options = [];
+			var index;
+			for(var i = 0; i < addCount; i++){
+				index = "0" + (i + 1);
+				options.push({optionText: "add " + index, optionValue: index, closable:true});
+			}
+			$("#" + tabID).addTabs(options);
+		},
+		closeTab: function(tabID, tabValue) {
+			$("#" + tabID).closeTab(tabValue);
+		},
+		updateTab: function(tabID){
+		    var options = [
+		        {optionValue:"M", optionText:"남성"},
+		        {optionValue:"F", optionText:"여성"},
+		        {optionValue:"N", optionText:"선택안함"},
+		        {optionValue:"", optionText:"모두"}
+		    ];
+		    $("#" + tabID).updateTabs(options);
+		}
+	};
+	$(document.body).ready(fnObj.pageStart.delay(0.1));
+	</script>	
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXTabs">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+			<div class="title"><h1>AXTabs Script</h1></div>
+
+            <h2>Standard</h2>
+            <div id="myTab01"></div>
+
+            <div style="padding:20px 0px;">
+                <input type="button" value="탭 변경 (나이별)" class="AXButton" onclick="fnObj.tabChange1();" />
+                <input type="button" value="탭 변경 (성별)" class="AXButton" onclick="fnObj.updateTab('myTab01');" />
+                <input type="button" value="탭선택값 강제변경 (여성)" class="AXButton" onclick="fnObj.setValueTab('myTab01','F');" />
+                <input type="button" value="탭선택값 강제변경 (7살)" class="AXButton" onclick="fnObj.setValueTab('myTab01','7');" />
+				<input type="button" value="탭 추가" class="AXButton" onclick="fnObj.addTabs('myTab01', 6);" />
+				<input type="button" value="인덱스[2] 탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01', 2);" />
+				<input type="button" value="여성탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01', 'F');" />
+				<input type="button" value="마지막탭 삭제" class="AXButton" onclick="fnObj.closeTab('myTab01');" />
+                <p>
+                    ※ 탭의 갯수가 탭 컨테이너의 너비보다 넓어져도 스크롤 되지 않고 넘쳐 흐르는 방식입니다.
+                </p>
+            </div>
+
+            <h2>Scroll type</h2>
+            <div id="myTab02"></div>
+
+            <h2>Scroll type (Small)</h2>
+            <div id="myTab03"></div>
+
+            <h2>Scroll type (Large)</h2>
+            <div id="myTab04"></div>
+
+		</div>
+		<div class="h20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

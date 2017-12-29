@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h1>Event Catch</h1>
+
+            <fieldset class="AXscriptSource" id="AXscriptSource1">
+                <legend>event bubble find examples</legend>
+<textarea class="fieldsetBody" style="width:100%;height:400px;">
+var eid = event.target.id.split(/_AX_/g); // event.target 이 존재 하지 않는 경우 에러 발생함.
+var eventTarget = event.target; // event.target
+
+var myTarget = this.getEventTarget({
+    evt : eventTarget,
+    evtIDs : eid,
+    until:function(evt, evtIDs){  // 선택 조건 안줘도 됨
+        // event bubble 탐색 종료 시점 정의 함수 argument 로 받은 eventTarget 과 evtIDs 객체로 부터 다양한 조건으로 설정가능
+        // return true; 하면 버블 탐색 종료 됨.
+        return (evt.parentNode.tagName == "body") ? true:false;
+    },
+    find:function(evt, evtIDs){
+        // return true; 하면 버블탐색 종료 후 현재 eventTarget 리턴
+        if(evt.id == objID || (evtIDs[0] == cfg.targetID && evtIDs[1] == objID)){
+            return true;
+        }else{
+            return false;
+        }
+        // 타겟의 클랙스로 버블링 하는 예제
+        //return ($(evt).hasClass("colHeadTd")) ? true : false;
+    }
+});
+
+if(myTarget){
+    //something
+}
+</textarea>
+            </fieldset>
+
+            <div class="Hspace20"></div>
+            <fieldset class="AXscriptSource" id="AXscriptSource2">
+                <legend>event bubble find examples</legend>
+<textarea class="fieldsetBody" style="width:100%;height:200px;">
+var eid = event.target.id.split(/_AX_/g);
+var eventTarget = event.target;
+var myTarget = this.getEventTarget({
+    evt : eventTarget, evtIDs : eid,
+    until:function(evt, evtIDs){ return ($(evt.parentNode).hasClass("CTclassName")) ? true:false; },
+    find:function(evt, evtIDs){ return ($(evt).hasClass("className")) ? true : false; }
+});
+
+if(myTarget){
+    //something
+}
+</textarea>
+            </fieldset>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "AXJ";
+    var fnObj = {
+        pageStart: function(){
+
+            var a = {
+                a:1,
+                b:function(){
+                    return {a:111, b:"abcd"};
+                },
+                c:function(){
+                    return "abcde";
+                },
+                d:function(){
+                    return [1,2,3];
+                },
+                e:function(){
+                    return [{k:1},2,3];
+                },
+                f:[{k:1},2,3]
+            };
+
+            trace(Object.toJSON(a, false));
+            trace(Object.toJSON(a, true));
+            trace(Object.toJSONfn(a, false));
+            trace(Object.toJSONfn(a, true));
+        }
+    };
+    $(document).ready(fnObj.pageStart);
+</script>
+<!-- js block -->

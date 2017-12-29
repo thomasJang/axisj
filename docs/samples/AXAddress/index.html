@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXAddress</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">
+	var pageID = "AXAddress";
+	var myModal = new AXModal();
+	var fnObj = {
+		pageStart: function(){
+			
+			myModal.setConfig({windowID:"myModalCT"});
+		},
+		addr: {
+			search: function(){
+				myModal.open({
+					method:"get",
+					url:"addrFinder.html",
+					pars:"",
+					top:50, width:500
+				});				
+			},
+			set: function(obj){
+				var frm = document.regForm;
+				frm.zipnum.value = obj.zipnum;
+				frm.addr.value = obj.addr;
+				frm.dtlsaddr.focus();				
+			}	
+		}
+	};
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+            <h2>AXAddress</h2>
+
+            <form name="regForm" method="post">
+            <table cellpadding="0" cellspacing="0" class="AXFormTable">
+                <colgroup>
+                    <col width="100" />
+                    <col />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>
+                            <div class="tdRel">우편번호</div>
+                        </th>
+                        <td class="last">
+                            <div class="tdRel">
+                                <input type="text" name="zipnum" value="" class="AXInput W60" readonly="readonly" />
+                                <input type="button" value="주소검색창 열기" class="AXButton" onclick="fnObj.addr.search();" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="tdRel">주소</div>
+                        </th>
+                        <td class="last">
+                            <div class="tdRel">
+                                <input type="text" name="addr" value="" class="AXInput W200" readonly="readonly" />
+                                <input type="text" name="dtlsaddr" value="" class="AXInput W200" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </form>
+
+            <div class="Hspace20"></div>
+
+            <div>
+                아래의 링크를 참조 하시면 공공데이터 포털에서 관련 서비스 정보를 얻으 실 수 있습니다.
+            </div>
+            <div class="Hspace20"></div>
+
+            <input type="button" value="도로명주소조회 서비스" class="AXButton" onclick="window.open('https://www.data.go.kr/#L2NvbW0vY29tbW9uU2VhcmNoL29wZW5hcGkkQF5tMDIkQF5wYmxvbnNpcFJlc3JjZVBrPXVkZGk6YmRhNzM0ZWYtZWZjYi00YzhiLWIxYmItOTUwN2RlMjM3N2NmJEBeSXJvc1NlYXJjaF9kZXRhaWxGbGFnPU9QRU5BUEk=');" />
+            <input type="button" value="지번주소조회 서비스" class="AXButton" onclick="window.open('https://www.data.go.kr/#L2NvbW0vY29tbW9uU2VhcmNoL29wZW5hcGkkQF5tMDIkQF5wYmxvbnNpcFJlc3JjZVBrPXVkZGk6ODk2ZDVlNzAtNTM2Yi00ZWQzLWIzNzEtZTBlMTk0YjVkNDg2JEBeSXJvc1NlYXJjaF9kZXRhaWxGbGFnPU9QRU5BUEk=');" />
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

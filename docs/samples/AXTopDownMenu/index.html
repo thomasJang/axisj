@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXTopDownMenu - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
+
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+	<script type="text/javascript">
+	(function(){
+		/*Use Object Detection to detect IE6*/
+		var  m = document.uniqueID /*IE*/
+		&& document.compatMode  /*>=IE6*/
+		&& !window.XMLHttpRequest /*<=IE6*/
+		&& document.execCommand ;
+		try{
+			if(!!m){
+				m("BackgroundImageCache", false, true) /* = IE6 only */
+			}
+		}catch(oh){};
+	})();	
+	</script>
+	<style type="text/css">
+		body{margin:0px;padding:0px;}
+		
+		.varrow1 	{position:absolute;background: transparent url('images/allow_menu1.gif') no-repeat;width:19px;height:10px;z-index:2;_margin-top:4px;}
+		.varrow2 	{position:absolute;background: transparent url('images/allow_menu2.gif') no-repeat;width:19px;height:10px;z-index:2;_margin-top:4px;}
+		.harrow 	{position:absolute;background: transparent url('images/allow_menu3.gif') no-repeat;width:9px;height:13px;z-index:2;}
+
+		.AXMenuBox{position:relative;background: #3e4558;height:40px;line-height:40px;padding:0px 20px;min-width:700px;}
+		.AXMenuBox a{
+			transition-delay:0s;
+			transition-timing-function:ease;
+			transition-duration:0.3s;
+			transition-property:all;
+		}
+		.AXMenuBox ul{list-style:none;margin:0px; padding:0px;}
+		.AXMenuBox ul li{list-style:none;margin:0px; padding:0px;float:left;}
+		
+			.AXMenuBox .parentMenu{color:#fff;position:relative;font-size:14px;}
+				.AXMenuBox .parentMenu a{
+					display:block;_display:inline-block;
+					color:#fff;text-decoration:none;
+					height:40px;line-height:40px;font-size:11px;font-style:italic;
+					padding:0px 10px;
+				}
+				.AXMenuBox .parentMenu a:hover{background:#9197a4;}
+				.AXMenuBox .parentMenu a:focus{background:#9197a4;}
+				.AXMenuBox .parentMenu a.on{background:#9197a4;}
+
+		 	.AXMenuBox .childMenu{position:absolute;line-height:25px;font-size:12px;display:none;}
+				.AXMenuBox .childMenu ul{
+					background:#ebebeb;border:1px solid #ccc;border-radius:5px;
+					padding:3px; margin:0px;display:block;position:relative;
+					box-shadow:0px 0px 3px #ccc;
+					}
+					.AXMenuBox .childMenu ul li{float:none;padding:0px; margin:0px;border-bottom:1px solid #ebebeb;}
+						.AXMenuBox .childMenu ul li a{
+							display:block;_width:100%;
+							padding:0px 10px;
+							height:30px;line-height:30px;
+							background:#424a5c;
+							border-radius:3px;
+							color:#fff; text-decoration: none;white-space:nowrap;
+							}
+						.AXMenuBox .childMenu ul li a:hover{background:#9197a4;}
+						
+						.AXMenuBox .childMenu ul li a.on{background:#9197a4;}
+						.AXMenuBox .childMenu ul li a.expand{background-image:url(images/rightArrows.png);background-repeat:no-repeat;background-position:100% 0px;padding-right:30px;}
+						.AXMenuBox .childMenu ul li a.expand:hover{background-image:url(images/rightArrows.png);background-repeat:no-repeat;background-position:100% -30px;padding-right:30px;}
+	
+			.AXMenuBox .childsMenu{position:absolute;line-height:20px;font-size:12px;}
+				.AXMenuBox .childsMenu ul{background:#ebebeb;border:1px solid #ccc;padding:3px; margin:0px;}
+					.AXMenuBox .childsMenu ul li{float:none;padding:0px; margin:0px;border-bottom:1px solid #ebebeb;}
+						.AXMenuBox .childsMenu ul li a{}
+
+		.clear{clear:both;}
+	</style>
+	<script type="text/javascript">
+
+	var myMenu = new AXTopDownMenu();
+	var myMenuForScript = new AXTopDownMenu();
+	var fnObj = {
+		pageStart: function(){
+
+			myMenu.setConfig({
+				menuBoxID:"menuBox",
+				parentMenu:{
+					className:"parentMenu"
+				},
+				childMenu:{
+					className:"childMenu",
+					align:"center",
+					valign:"top",
+					margin:{top:0, left:0},
+					arrowClassName:"varrow2",
+					arrowMargin:{top:1, left:0}
+				},
+				childsMenu:{
+					className:"childsMenu",
+					align:"left",
+					valign:"top",
+					margin:{top:-4, left:0},
+					arrowClassName:"harrow",
+					arrowMargin:{top:13, left:1}
+				},
+                onComplete: function(){
+                    //myMenu.setHighLightMenu(0);
+                    //myMenu.setHighLightMenu([0,1,3,2]);
+                    myMenu.setHighLightOriginID("ID1245");
+                }
+			});
+
+		}
+	}
+	$(document).ready(fnObj.pageStart.delay(0.1));
+	</script>
+</head>
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody -->
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div class="AXMenuBox" style="z-index:5;">
+                <div id="menuBox">
+                    <ul>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#" id="ID1234">AXISJ Menu Expend</a>
+                                <div class="childMenu">
+                                    <ul>
+                                        <li><a href="http://www.mondo.co.kr" target="_blank" id="ID1235">mondo.co.kr</a></li>
+                                        <li>
+                                            <a href="#" id="ID1236" class="expand">AXISJ Simple</a>
+                                            <div class="childsMenu">
+                                                <ul>
+                                                    <li><a href="#" id="ID1237">Feature</a></li>
+                                                    <li><a href="#" id="ID1238">Design</a></li>
+                                                    <li><a href="#" id="ID1239">Application</a></li>
+                                                    <li><a href="#" id="ID1240" class="expand">Options</a>
+                                                        <div class="childsMenu">
+                                                            <ul>
+                                                                <li><a href="#" id="ID1241">Feature</a></li>
+                                                                <li><a href="#" id="ID1242">Design</a></li>
+                                                                <li><a href="#" id="ID1243" class="expand">Applications</a>
+                                                                    <div class="childsMenu">
+                                                                        <ul>
+                                                                            <li><a href="#" id="ID1244">Feature</a></li>
+                                                                            <li><a href="#" id="ID1245">Design</a></li>
+                                                                            <li><a href="#" id="ID1246">Applications</a></li>
+                                                                            <li><a href="#" id="ID1247">Options</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" id="ID1248">Options</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li><a href="#">AXISJ Journey</a></li>
+                                        <li><a href="#">AXInput</a></li>
+                                        <li><a href="#">Jowrney</a></li>
+                                        <li><a href="#">Stacey</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">ABOUT AXISJ Menu Expend</a>
+                                <div class="childMenu">
+                                    <ul>
+                                        <li><a href="http://www.mondo.co.kr" target="_blank">mondo.co.kr</a></li>
+                                        <li><a href="#">AXISJ Simple</a></li>
+                                        <li><a href="#">AXISJ Journey</a></li>
+                                        <li><a href="#">AXWaterfall</a></li>
+                                        <li><a href="#">Squall</a></li>
+                                        <li>
+                                            <a href="#" class="expand">tom@axisj.com</a>
+                                            <div class="childsMenu">
+                                                <ul>
+                                                    <li><a href="#">Feature</a></li>
+                                                    <li><a href="#">Design</a></li>
+                                                    <li><a href="#">Application</a></li>
+                                                    <li><a href="#" class="expand">Options</a>
+                                                        <div class="childsMenu">
+                                                            <ul>
+                                                                <li><a href="#">Feature</a></li>
+                                                                <li><a href="#">Design</a></li>
+                                                                <li><a href="#" class="expand">Applications</a>
+                                                                    <div class="childsMenu">
+                                                                        <ul>
+                                                                            <li><a href="#">Feature</a></li>
+                                                                            <li><a href="#">Design</a></li>
+                                                                            <li><a href="#">Applications</a></li>
+                                                                            <li><a href="#">Options</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">Options</a>
+
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">No Expand Menus</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">No Expand Menus</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="parentMenu">
+                                <a href="#">AXISJ Menu Expend</a>
+                                <div class="childMenu">
+                                    <ul>
+                                        <li><a href="http://www.mondo.co.kr" target="_blank">mondo.co.kr</a></li>
+                                        <li><a href="#">AXISJ Journey</a></li>
+                                        <li><a href="#">AXInput</a></li>
+                                        <li><a href="#">Jowrney</a></li>
+                                        <li><a href="#">Stacey</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+            <div style="padding:10px;z-index:1;">
+                <h2>AXTopDownMenu - TagInit way</h2>
+            </div>
+
+            <div style="padding:10px;z-index:1;">
+                <fieldset class="AXscriptSource">
+                    <legend>Style Sheet</legend>
+                    <textarea class="fieldsetBody" style="height:300px;">
+        .varrow1 	{position:absolute;background: transparent url('images/allow_menu1.gif') no-repeat;width:19px;height:10px;z-index:2;_margin-top:4px;}
+        .varrow2 	{position:absolute;background: transparent url('images/allow_menu2.gif') no-repeat;width:19px;height:10px;z-index:2;_margin-top:4px;}
+        .harrow 	{position:absolute;background: transparent url('images/allow_menu3.gif') no-repeat;width:9px;height:13px;z-index:2;}
+
+        .AXMenuBox{position:relative;background: #3e4558;height:40px;line-height:40px;padding:0px 20px;min-width:700px;}
+        .AXMenuBox a{
+            transition-delay:0s;
+            transition-timing-function:ease;
+            transition-duration:0.3s;
+            transition-property:all;
+        }
+        .AXMenuBox ul{list-style:none;margin:0px; padding:0px;}
+        .AXMenuBox ul li{list-style:none;margin:0px; padding:0px;float:left;}
+
+            .AXMenuBox .parentMenu{color:#fff;position:relative;font-size:14px;}
+                .AXMenuBox .parentMenu a{
+                    display:block;_display:inline-block;
+                    color:#fff;text-decoration:none;
+                    height:40px;line-height:40px;font-family:'Consolas';
+                    padding:0px 10px;
+                }
+                .AXMenuBox .parentMenu a:hover{background:#9197a4;}
+                .AXMenuBox .parentMenu a:focus{background:#9197a4;}
+                .AXMenuBox .parentMenu a.on{background:#9197a4;}
+
+            .AXMenuBox .childMenu{position:absolute;line-height:25px;font-size:12px;display:none;}
+                .AXMenuBox .childMenu ul{
+                    background:#ebebeb;border:1px solid #ccc;border-radius:5px;
+                    padding:3px; margin:0px;display:block;position:relative;
+                    box-shadow:0px 0px 3px #ccc;
+                    }
+                    .AXMenuBox .childMenu ul li{float:none;padding:0px; margin:0px;border-bottom:1px solid #ebebeb;}
+                        .AXMenuBox .childMenu ul li a{
+                            display:block;_width:100%;
+                            padding:0px 10px;
+                            height:30px;line-height:30px;
+                            background:#424a5c;
+                            border-radius:3px;
+                            color:#fff; text-decoration: none;white-space:nowrap;
+                            }
+                        .AXMenuBox .childMenu ul li a:hover{background:#9197a4;}
+
+                        .AXMenuBox .childMenu ul li a.on{background:#9197a4;}
+                        .AXMenuBox .childMenu ul li a.expand{background-image:url(images/rightArrows.png);background-repeat:no-repeat;background-position:100% 0px;padding-right:30px;}
+                        .AXMenuBox .childMenu ul li a.expand:hover{background-image:url(images/rightArrows.png);background-repeat:no-repeat;background-position:100% -30px;padding-right:30px;}
+
+            .AXMenuBox .childsMenu{position:absolute;line-height:20px;font-size:12px;}
+                .AXMenuBox .childsMenu ul{background:#ebebeb;border:1px solid #ccc;padding:3px; margin:0px;}
+                    .AXMenuBox .childsMenu ul li{float:none;padding:0px; margin:0px;border-bottom:1px solid #ebebeb;}
+                        .AXMenuBox .childsMenu ul li a{}
+
+        .clear{clear:both;}
+                    </textarea>
+                </fieldset>
+                <div class="Hspace10"></div>
+                <fieldset class="AXscriptSource">
+                    <legend>Script</legend>
+                    <textarea class="fieldsetBody" style="height:300px;">
+        var myMenu = new AXTopDownMenu();
+        var myMenuForScript = new AXTopDownMenu();
+        var fnObj = {
+            pageStart: function(){
+                AXCode.bind(); // 소스보기
+
+                myMenu.setConfig({
+                    menuBoxID:"menuBox",
+                    parentMenu:{
+                        className:"parentMenu"
+                    },
+                    childMenu:{
+                        className:"childMenu",
+                        align:"center",
+                        valign:"top",
+                        margin:{top:0, left:0},
+                        arrowClassName:"varrow2",
+                        arrowMargin:{top:1, left:0}
+                    },
+                    childsMenu:{
+                        className:"childsMenu",
+                        align:"left",
+                        valign:"top",
+                        margin:{top:-4, left:0},
+                        arrowClassName:"harrow",
+                        arrowMargin:{top:13, left:1}
+                    }
+                });
+                //myMenu.setHighLightMenu(0);
+                //myMenu.setHighLightMenu([0,1,3,2]);
+                myMenu.setHighLightOriginID("ID1245");
+                // script
+
+                myMenuForScript.setConfig({
+                    targetID:"myMenuBox2",
+                    parentMenu:{
+                        className:"parentMenu"
+                    },
+                    childMenu:{
+                        className:"childMenu",
+                        hasChildClassName:"expand", // script 방식에서만 지원 됩니다.
+                        align:"left",
+                        valign:"bottom",
+                        margin:{bottom:-5, left:-5},
+                        arrowClassName:"varrow1",
+                        arrowMargin:{bottom:1, left:20}
+                    },
+                    childsMenu:{
+                        className:"childsMenu",
+                        hasChildClassName:"expand",
+                        align:"left",
+                        valign:"bottom",
+                        margin:{bottom:-4, left:0},
+                        arrowClassName:"harrow",
+                        arrowMargin:{bottom:13, left:1}
+                    }
+                });
+
+                var tree = [
+                    {label:"Bottom Menu", url:"http://www.axisj.com", cn:[
+                        {label:"valign - bottom", url:"http://www.axisj.com"},
+                        {label:"margin - bootom", url:"http://www.axisj.com"},
+                        {label:"margin - top X", url:"http://www.axisj.com"}
+                    ]},
+                    {label:"Script Control Way", url:"http://www.axisj.com", cn:[
+                        {label:"Script Way Use setTree", url:"abhttp://www.axisj.comc"},
+                        {label:"setHighLightMenu", url:"http://www.axisj.com", cn:[
+                            {label:"first : String", url:"http://www.axisj.com"},
+                            {label:"second : Array", url:"http://www.axisj.com"},
+                            {label:"third : setHighLightOriginID", url:"http://www.axisj.com"}
+                        ]},
+                        {label:"myMenu2", url:"http://www.axisj.com"}
+                    ]},
+                    {label:"no Expand Menu", url:"http://www.axisj.combc"},
+                    {label:"no Expand Menu", url:"http://www.axisj.com"},
+                    {label:"no Expand Menu", url:"http://www.axisj.com"}
+                ];
+                myMenuForScript.setTree(tree);
+                myMenuForScript.setHighLightMenu([1,1]);
+            }
+        }
+        $(document).ready(fnObj.pageStart);
+                    </textarea>
+                </fieldset>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Extend Easing</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+		<meta name="description" content="Description" />
+	    
+	    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<!-- css block -->
+		<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+		<![endif]-->
+		
+		<!-- js block -->
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+		<script type="text/javascript" src="pageTab.js"></script>
+		<script type="text/javascript">
+		var pageID = "Easing";
+		var fnObj = {
+			pageStart: function(){
+				AXCode.bind(); // 소스보기
+				
+				
+				
+			},
+			easingPlay: function(){
+				var topEasing = $("#topEasing").val();
+				var duEasing = $("#duEasing").val().number();
+				
+				$("#toggleSlide").slideToggle(duEasing, topEasing);
+				
+				
+
+				if($("#Animate").data("hide") == "true"){
+					$("#Animate").animate(
+						{right:"0px"},
+						duEasing, topEasing, 
+						function(){
+							toast.push("end Animate");	
+							$("#Animate").data("hide", "false");
+						}
+					);
+				}else{
+					$("#Animate").animate(
+						{right:"-300px"},
+						duEasing, topEasing, 
+						function(){
+							toast.push("end Animate");	
+							$("#Animate").data("hide", "true");
+						}
+					);
+				}
+				
+			}
+		}
+		$(document).ready(fnObj.pageStart);
+		</script>
+	</head>
+	<body>
+		<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+			<h2>Animate Easing</h2>
+			
+			<ul>
+				<li>backIn, backOut, backInOut</li>
+				<li>bounceIn, bounceOut</li>
+				<li>circIn, circOut, circInOut</li>
+				<li>cubicIn, cubicOut, cubicInOut</li>
+				<li>elasticIn, elasticOut</li>
+				<li>expoIn, expoOut, expoInOut</li>
+				<li>quadIn, quadOut, quadInOut</li>
+				<li>quartIn, quartOut, quartInOut</li>
+				<li>quintIn, quintOut, quintInOut</li>
+				<li>sineIn, sineOut, sineInOut</li>
+			</ul>
+			
+			<div class="Hspace20"></div>
+			
+			<div style="position:relative;height:500px;overflow:hidden;">
+				
+				<div 
+					id="toggleSlide" 
+					style="
+					position:absolute;left:0px;top:50px;width:300px;height:400px;padding:10px;
+					border:1px solid #ddd;border-radius:10px;
+					box-shadow:0px 0px 3px #ddd;">
+					toggleSlide</div>
+					
+				<div 
+					id="Animate" 
+					style="
+					position:absolute;right:0px;top:50px;width:200px;height:400px;padding:10px;
+					border:1px solid #ddd;border-radius:10px;
+					box-shadow:0px 0px 3px #ddd;background:#eee;">
+					Animate Menu</div>
+				
+			</div>
+
+			<div>
+			    <select name="topEasing" id="topEasing" class="AXSelect">
+			      <option value="backIn">backIn</option>
+			      <option value="backOut">backOut</option>
+			      <option value="backInOut">backInOut</option>
+			      <option value="bounceIn">bounceIn</option>
+			      <option value="bounceOut">bounceOut</option>
+			      <option value="circIn">circIn</option>
+			      <option value="circOut">circOut</option>
+			      <option value="circInOut">circInOut</option>
+			      <option value="cubicIn">cubicIn</option>
+			      <option value="cubicOut">cubicOut</option>
+			      <option value="cubicInOut">cubicInOut</option>
+			      <option value="elasticIn">elasticIn</option>
+			      <option value="elasticOut">elasticOut</option>
+			      <option value="expoIn">expoIn</option>
+			      <option value="expoOut">expoOut</option>
+			      <option value="expoInOut" selected="selected">expoInOut</option>
+			      <option value="quadIn">quadIn</option>
+			      <option value="quadOut">quadOut</option>
+			      <option value="quadInOut">quadInOut</option>
+			      <option value="quartIn">quartIn</option>
+			      <option value="quartOut">quartOut</option>
+			      <option value="quartInOut">quartInOut</option>
+			      <option value="quintIn">quintIn</option>
+			      <option value="quintOut">quintOut</option>
+			      <option value="quintInOut">quintInOut</option>
+			      <option value="sineIn">sineIn</option>
+			      <option value="sineOut">sineOut</option>
+			      <option value="sineInOut">sineInOut</option>
+			    </select>
+			    <select name="duEasing" id="duEasing" class="AXSelect">
+			    	
+			      <option value="500">0.5초</option>
+			      <option value="300">0.3초</option>
+			      <option value="1000">1초</option>
+			      <option value="2000">2초</option>
+			      <option value="2000">3초</option>
+			      
+			    </select>					
+			    
+			    <input type="button" onclick="fnObj.easingPlay();" class="AXButton" value="애니메이션적용" />
+			    
+			</div>
+
+		</div>
+	</body>
+</html>

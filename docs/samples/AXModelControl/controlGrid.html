@@ -1,0 +1,459 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXModelControl - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">
+	var pageID = "AXModelControlGrid";
+	//var myModel = new AXModelControl();
+	var myModelGrid = new AXModelControlGrid();
+	
+	var fnObj = {
+		pageStart: function(){
+
+			myModelGrid.setConfig({
+				theme:"AXModelControlGrid",
+				targetID:"AXModelControlListTarget",
+				colGroup:[
+					{label:"번호", width:"40", align:"center",
+						html:function(){
+							return '<button class="AXButtonSmall Red" onclick="fnObj.del();">del</button>';
+					}},
+					{label:"Name / Email", width:"200", align:"center"},
+					{label:"투숙일", width:"200"},
+					
+					{label:"투숙객", width:"90", align:"center"},
+					{label:"RoomType", width:"70"},
+					{label:"RoomPrice", width:"80"},
+					{label:"R/C", width:"40"},
+					
+					{label:"Smoking", width:"60"},
+					{label:"EXT.BED", width:"80"},
+					{label:"B/F", width:"80"},
+					{label:"Notice", width:"*"}
+				],
+				body:{
+					form:[
+						{ // 체크박스
+							id:"",
+							align:"center",
+							data:{
+								mtdata:111,
+								callback: function(){
+									return "ABC";	
+								}
+							},
+							html:function(){
+								//this.data.mtdata;
+								//기본적으로 오는 아이들
+								/*
+								rowIndex : 줄번호, 
+								colIndex: 열번호, 
+								data: 사용자데이터,
+								item: 현재줄 오브젝트, 
+								list: 전체 리스트
+								*/
+								var po = [];
+								po.push('<input type="checkbox" name="idx" value="'+this.rowIndex+'" />');
+								po.push(this.data.callback());
+								return po.join('');
+							}
+						},
+						{ // 이름과 이메일
+							id:"",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('	<input type="text" name="name" id="myname_' + this.rowIndex + '" value="'+(this.item.name || "")+'" />');
+								po.push('</div>');
+								po.push('<div class="Hspace3"></div>');
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('	<input type="text" name="email" id="myemail_' + this.rowIndex + '" value="'+(this.item.email || "")+'" />');
+								po.push('</div>');
+								return po.join('');
+							}
+						},
+						{ // 투숙일
+							id:"",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<div class="rel inlineBlock">');
+								po.push('<input type="text" name="sttdt" id="sttdt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w70" placeholder="시작일" value="' + (this.item.stdt || "")  + '" />');
+								po.push(' ~ ');
+								po.push('<input type="text" name="enddt" id="enddt_' + this.rowIndex + '" maxlength="10" class="AXInputSmall w90" placeholder="종료일" value="' + (this.item.eddt || "")  + '" />');
+								po.push('<div class="Hspace3"></div>');
+								po.push('<input type="text" name="count" id="count_' + this.rowIndex + '" class="AXInputSmall v-req w20" value="' + (this.item.count || "")  + '" /> D');
+								po.push('</div>');
+								return po.join('');
+							},
+							AXBind: {
+								id:"enddt_@rowIndex",
+								type:"TwinDate",
+								config:{
+									align:"right", valign:"bottom", startTargetID:"sttdt_@rowIndex"
+								},
+								onchange: function(){
+									/*$("#count_"+this.rowIndex).val( this.ST_value.date().diff(this.ED_value).number() + 1 );*/
+									var count = this.ST_value.date().diff(this.ED_value).number() + 1;
+									myModelGrid.updateItem(this.rowIndex, {stdt:this.ST_value, eddt:this.ED_value, count:count});
+									/*
+									해당줄을 업데이트 하는 함수 구문 
+									*/
+								}
+							}
+						},
+						{ // 투숙객
+							id:"",
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<input type="text" name="deptnmA" id="deptnmA_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="A" value="' + (this.item.deptnmA||"") + '" onchange="fnObj.changedata('+this.rowIndex+');" /> / ');
+								po.push('<input type="text" name="deptnmC" id="deptnmC_' + this.rowIndex + '" maxlength="30" class="AXInputSmall v-req w20" placeholder="C" value="' + (this.item.deptnmC||"") + '" />');
+								return po.join('');
+							}
+						},
+						{ // 룸타입
+							id:"roomType",
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<select name="roomType" id="roomType_' + this.rowIndex + '" class="AXSelectSmall" title="전화번호">');
+								po.push('	<option value="01">TBL</option>');
+								po.push('	<option value="02">DXC</option>');
+								po.push('</select>');
+								return po.join('');
+							},
+							AXBind: {
+								id:"roomType_@rowIndex",
+								type:"Select",
+								config:{},
+								onchange: function(){
+									trace(this);
+								}
+							}
+						},
+						{ // 룸가격
+							id:"roomPrice",
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<button class="AXButtonSmall" onclick="toast.push(Object.toJSON(myModelGrid.list[', this.rowIndex,'].subList));">' + (this.item.price * this.item.count).money() + '</button>');
+								po.push('<div class="Hspace3"></div>');
+								po.push('<input type="checkBox" name="comp" id="comp_' + this.rowIndex + '" value="Y" title="comp" ');
+								if(this.item.comp) po.push(' checked="checked" ');
+								po.push('/>');
+								return po.join('');
+							}
+						},
+						{ // R/C
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('<input type="text" name="rc" id="rc_' + this.rowIndex + '" maxlength="2" class="v-req" title="rc" value="" />');
+								po.push('</div>');
+								return po.join('');
+							}
+						},
+						{ // Smoking
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<select name="smoking" id="smoking_' + this.rowIndex + '" class="AXSelectSmall" title="">');
+								po.push('	<option value="Y">Y</option>');
+								po.push('	<option value="N">N</option>');
+								po.push('</select>');
+								return po.join('');
+							},
+							AXBind: {
+								id:"smoking_@rowIndex",
+								type:"Select",
+								config:{},
+								onchange: function(){
+									trace(this);
+								}
+							}
+						},
+						{ // EXT.BED
+							id:"EXT.BED",
+							align:"right",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<div class="AXInputGroup">');
+								po.push('<input type="text" name="extbed" id="extbed_' + this.rowIndex + '" title="extbed" value="" />');
+								po.push('</div>');
+								return po.join('');
+							},
+							AXBind: {
+								id:"extbed_@rowIndex",
+								type:"Money",
+								config:{},
+								onchange: function(){
+									//trace(this);
+									//if(this.value
+									myModelGrid.updateItem(this.rowIndex, {extbed:(this.value||"0")}, true);
+								}
+							}
+						},
+						{ // B/F
+							id:"BF",
+							align:"right",
+							data:{},
+							html:function(){
+								trace(this.item);
+								var po = [];
+								po.push( (this.item.price * this.item.count).money() );
+								//po.push( (this.item.extbed).money() );
+								return po.join('');
+							},
+							updateReload: true
+						},
+						{ // NOTICE
+							id:"NOTICE",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('<div class="AXInputGroupSmall">');
+								po.push('	<input type="text" name="notice" id="notice_' + this.rowIndex + '" value="'+(this.item.notice || "")+'" />');
+								po.push('</div>');
+								return po.join('');
+							}
+						}
+					]
+				},
+				foot:{
+					form:[
+						{
+							colspan:3,
+							align:"center",
+							data:{},
+							html:function(){
+								var po = [];
+								po.push('TOTAL');
+								return po.join('');
+							}
+						},
+						
+						{
+							data:{},
+							align:"center",
+							html:function(){
+								var po = [];
+								
+								var deptnmA = 0, deptnmC = 0;
+								$.each(this.list, function(){
+									deptnmA += (this.deptnmA || 0).number();
+									deptnmC += (this.deptnmC || 0).number();
+								});
+								po.push( deptnmA + " / " + deptnmC );
+								
+								return po.join('');
+							}	
+						},
+						{ // 투숙객
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						{ // room type
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						{ // room price
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						
+						{ // smoking
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						},
+						{
+							data:{},
+							align:"right",
+							html:function(){
+								var po = [];
+								
+								var cost = 0;
+								$.each(this.list, function(){
+									cost += this.extbed.number();
+								});
+								po.push( cost.money() );
+								
+								return po.join('');
+							}	
+						},
+						{
+							data:{},
+							align:"right",
+							html:function(){
+								var po = [];
+								
+								var cost = 0;
+								$.each(this.list, function(){
+									cost += (this.price * this.count);
+								});
+								po.push( cost.money() );
+								
+								return po.join('');
+							}	
+						},
+						{
+							data:{},
+							html:function(){
+								var po = [];
+								return po.join('');
+							}	
+						}
+					]
+				}
+			});
+			
+			myModelGrid.setList([]);
+			
+			/*
+				{
+					name:"장기영",
+					subList:[
+						{name:"abc"}, {name:"abc"}
+					],
+					price:11000,
+					stdt:"2013-12-06",
+					eddt:"2013-12-06",
+					count:1
+				},
+				{
+					name:"장서우",
+					subList:[
+						{name:"abc1"}, {name:"abc1"}
+					],
+					price:11000,
+					stdt:"2013-12-06",
+					eddt:"2013-12-06",
+					count:1
+				},
+				{
+					name:"국정일",
+					subList:[
+						{name:"abc1"}, {name:"abc1"}
+					],
+					price:11000,
+					stdt:"2013-12-06",
+					eddt:"2013-12-06",
+					count:1
+				}
+			]);
+			*/
+
+			//-----------------------
+		},
+		add: function(){
+			var item = {
+				name:"장기영1",
+				subList:[
+					{name:"abc2"}, {name:"abc2"}
+				],
+				price:13000,
+				stdt:"2013-12-06",
+				eddt:"2013-12-08",
+				count:1,
+				extbed:0
+			};
+			myModelGrid.appendList(item);
+		},
+		del: function(){
+			var objs = myModelGrid.getCheckedValue("idx");
+			// input name="rowIndex" 의 값을 가져옵니다.
+			
+			myModelGrid.removeItem(objs);
+			
+			//myModelGrid.removeItem([]);
+			//myModelGrid.removeItem(Number)
+		},
+		output: function(){
+			var list = myModelGrid.getList();
+			trace(list);
+		},
+		changedata: function(rowIndex){
+			//alert(rowIndex);	
+			(function(){
+				trace(myModelGrid.list[rowIndex]);
+				myModelGrid.updateItem(rowIndex, {xxx:"qwe"});
+			}).delay(0.01);
+			
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody  -->
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div style="padding:10px;">
+                <button class="AXButton" onclick="fnObj.add();">add</button>
+            </div>
+
+            <div id="AXModelControlListTarget"></div>
+
+            <div style="padding:10px;">
+                <button class="AXButton" onclick="fnObj.output();">데이터추출</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>String - axisj core</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	<!-- js block -->
+</head>
+<body>
+    <div id="AXPage">
+
+        <div id="AXPageBody">
+
+
+            <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+
+            <div class="AXdemoPageContent">
+
+                <h1>String</h1>
+                <div class="method">
+                    <div class="methodName">
+                        left(number)
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열 시작부터 지정한 글자수 만큼 반환합니다. (반환형식 String)</div>
+                        "AXJ_String".left(3); -> "AXJ"<br/>
+                        toast.push('left(3) : '+$('#AXJleftTest').val().left(3));
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJleftTest" value="AXJ_String" class="AXInput" />
+                        <input type="button" value="left(3)" class="AXButton" onclick="toast.push('left(3) : '+$('#AXJleftTest').val().left(3));" />
+                        <input type="button" value="left(5)" class="AXButton" onclick="toast.push('left(5) : '+$('#AXJleftTest').val().left(5));" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        right(number)
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열 끝부터 지정한 글자수 만큼 반환합니다. (반환형식 String)</div>
+                        "AXJ_String".right(3); -> "ing"<br/>
+                        toast.push('right(3) : '+$('#AXJrightTest').val().left(3));
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJrightTest" value="AXJ_String" class="AXInput" />
+                        <input type="button" value="right(3)" class="AXButton" onclick="toast.push('right(3) : '+$('#AXJrightTest').val().right(3));" />
+                        <input type="button" value="right(5)" class="AXButton" onclick="toast.push('right(5) : '+$('#AXJrightTest').val().right(5));" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        dec()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">URLencode된 문자열을 디코드 합니다. (반환형식 String)</div>
+                        "AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4".dec(); -> "AXJ_String,엑시스제이"
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJdecTest" value="AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4" class="AXInput W300" />
+                        <input type="button" value="dec()" class="AXButton" onclick="toast.push('dec() : '+$('#AXJdecTest').val().dec());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        enc()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열을 URLencode로 인코드 합니다. (반환형식 String)</div>
+                        "AXJ_String,엑시스제이".enc(3); -> "AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJencTest" value="AXJ_String,엑시스제이" class="AXInput W200" />
+                        <input type="button" value="enc()" class="AXButton" onclick="toast.push('enc() : '+$('#AXJencTest').val().enc());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        object()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열을 json 오브젝트로 변환해 줍니다. (반환형식 json object)</div>
+                        "{a:1, b:2, name:'AXJ'}".object(); -> [object Object]
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJObjectTest" value="{a:1, b:2, name:'AXJ'}" class="AXInput W200" />
+                        <input type="button" value="object()" class="AXButton" onclick="toast.push('object() : '+$('#AXJObjectTest').val().object());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        array()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열을 array로 변환해 줍니다. (반환형식 array)</div>
+                        "a,b,c".array(); -> [a,b,c]
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJArrayTest" value="a,b,c" class="AXInput W100" />
+                        <input type="button" value="array()" class="AXButton" onclick="toast.push('array() : '+$('#AXJArrayTest').val().array()+', length:'+$('#AXJArrayTest').val().array().length);" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        date([separator])
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열을 Date 변환해 줍니다. (반환형식 Date)</div>
+                        "2012-01-01".date(); ->  Sun Jan 01 2012 00:00:00 GMT+0900<br/>
+                        "2012/01/01".date('/'); ->  Sun Jan 01 2012 00:00:00 GMT+0900
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJDateTest" value="2012-01-01" class="AXInput W100" />
+                        <input type="button" value="date()" class="AXButton" onclick="toast.push('date() : '+$('#AXJDateTest').val().date());" />
+                        <input type="text" name="" id="AXJDateTest2" value="2012/01/01" class="AXInput W100" />
+                        <input type="button" value="date('/')" class="AXButton" onclick="toast.push('date(\'/\') : '+$('#AXJDateTest2').val().date('/'));" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        number()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열을 Number로 변환해 줍니다. (반환형식 Number)</div>
+                        "1234".number(); ->  1234<br/>
+                        "1,234".number(); ->  1234<br/>
+                        "1,234.1".number(); ->  1234.1<br/>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJNumberTest" value="1,234" class="AXInput W100" />
+                        <input type="button" value="number()" class="AXButton" onclick="toast.push('number() : '+$('#AXJNumberTest').val().number());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        num()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열을 parseFloat처리해 줍니다. (반환형식 Number) Number() 의 경우 쉼표등 비숫자 문자를 제거 후 숫자로 반환하지만 num의 경우 숫자 형식이 아닌 문자열을 무시하여 처리 하게 됩니다.</div>
+                        "1234".num(); ->  1234<br/>
+                        "1,234".num(); ->  1<br/>
+                        "1.11".num(); ->  1.11<br/>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJNumTest" value="1,234" class="AXInput W100" />
+                        <input type="button" value="num()" class="AXButton" onclick="toast.push('num() : '+$('#AXJNumTest').val().num());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        trim()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열의 앞뒤 공백을 제거 하여 줍니다. (반환형식 : String)</div>
+                        " AXJ ".trim(); ->  "AXJ"<br/>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJTrimTest" value="     AXJ " class="AXInput W100" />
+                        <input type="button" value="trim()" class="AXButton" onclick="toast.push('trim() : '+$('#AXJTrimTest').val().trim());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        delHtml()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열에서 HTML 태그를 제거 하여 반환합니다. (반환형식 : String)</div>
+                        "&lt;div>AXJ&lt;/div>".delHtml(); ->  "AXJ"<br/>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJDelHtmlTest" value="<div><font>AXJ</font></div>" class="AXInput W200" />
+                        <input type="button" value="delHtml()" class="AXButton" onclick="toast.push('delHtml() : '+$('#AXJDelHtmlTest').val().delHtml());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        times(Number)
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">원하는 횟수 만큼 문자열을 반복한 문자열을 반환합니다. (반환형식 : String)</div>
+                        "AXJ".times(3); ->  "AXJAXJAXJ"<br/>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJTimesTest" value="AXJ" class="AXInput W100" />
+                        <input type="button" value="times(3)" class="AXButton" onclick="toast.push('times() : '+$('#AXJTimesTest').val().times(3));" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        isBlank()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열이 빈값인지 체크하여 줍니다. 체크할때 공백은 제거후 비교 합니다. (반환형식 : Boolean)</div>
+                        "  ".isBlank(); ->  true<br/>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJBlankTest" value="  " class="AXInput W100" />
+                        <input type="button" value="isBlank()" class="AXButton" onclick="toast.push('isBlank() : '+$('#AXJBlankTest').val().isBlank());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        isJSON()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열이 JSON 구문인지 체크하여 줍니다. (반환형식 : Boolean)</div>
+                        "{a:1}".isJSON(); ->  true<br/>
+                        "adfasdf".isJSON(); -> false
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJJsonTest" value="{a:1}" class="AXInput W100" />
+                        <input type="button" value="isJSON()" class="AXButton" onclick="toast.push('isJSON() : '+$('#AXJJsonTest').val().isJSON());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        queryToObject()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">queryString 형식의 문자열을 json object로 변환하여 줍니다. (반환형식 : json object)</div>
+                        "a=1&b=1".queryToObject(); ->  {a:1,b:1}
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJqueryToObjectTest" value="a=1&b=1" class="AXInput W100" />
+                        <input type="button" value="queryToObject()" class="AXButton" onclick="toast.push('queryToObject() : '+$('#AXJqueryToObjectTest').val().queryToObject());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        crlf()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">줄넘김 문자열 '\n'을 &lt;br/> 태그로 변환하여 줍니다. (반환형식 : String)</div>
+                        "123\n123".crlf(); ->  "123&lt;br/>123"
+                    </div>
+                    <div class="methodExam">
+                        <textarea class="AXTextarea" id="AXJ_crlf" style="vertical-align:middle;">
+                            123
+                            123
+                        </textarea>
+                        <input type="button" value="crlf()" class="AXButton" onclick="toast.push('crlf() : '+$('#AXJ_crlf').val().crlf());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        ecrlf()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">URLencode 된 줄넘김 문자열 '\n'을 &lt;br/> 태그로 변환하여 줍니다. (반환형식 : String)</div>
+                        "123%0A123".ecrlf(); ->  "123&lt;br/>123"
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJ_ecrlf" value="123%0A123" class="AXInput W100" />
+                        <input type="button" value="ecrlf()" class="AXButton" onclick="toast.push('ecrlf() : '+$('#AXJ_ecrlf').val().ecrlf());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        setDigit(Number[, padder])
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">원하는 횟수 만큼 정해지거나 정해지지 않은 경우 '0'으로 자릿수 맞춤 문자열을 반환합니다. (반환형식 : String)</div>
+                        "A".setDigit(3); ->  "00A"<br/>
+                        "A".setDigit(3, '!'); ->  "!!A"
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJ_setDigit" value="A" class="AXInput W100" />
+                        <input type="button" value="setDigit(3)" class="AXButton" onclick="toast.push('setDigit(3) : '+$('#AXJ_setDigit').val().setDigit(3));" />
+                        <input type="button" value="setDigit(3, '!')" class="AXButton" onclick="toast.push('setDigit(3) : '+$('#AXJ_setDigit').val().setDigit(3, '!'));" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        getFileName()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">파일경로에서 파일명을 반환합니다. (반환형식 : String)</div>
+                        "C:\Works\AXISJ_project\css\myfile.zip".getFileName(); ->  "myfile.zip"
+                    </div>
+                    <div class="methodExam">
+                        <input type="file" name="" id="AXJ_getFileName" value="" />
+                        <input type="button" value="getFileName()" class="AXButton" onclick="toast.push('getFileName() : '+$('#AXJ_getFileName').val().getFileName());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+                <div class="method">
+                    <div class="methodName">
+                        toColor(preFix)
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">모질라 브라우저 등에서 사용하는 색상정보 값을 표준색상코드로 변환합니다. <br/>
+                            표준색상코드를 입력하여도 표준색상코드값을 얻을 수 있습니다.
+                            (반환형식 : String)</div>
+                        "rgb(243, 243, 243)".toColor(); ->  "f3f3f3"<br/>
+                        "rgb(243, 243, 243)".toColor('#'); ->  "#f3f3f3"<br/>
+                        "#f3f3f3".toColor(); ->  "f3f3f3"<br/>
+                        "f3f3f3".toColor(); ->  "f3f3f3"<br/>
+                        "f3f3f3".toColor('#'); ->  "#f3f3f3"
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJ_toColor" value="rgb(243, 243, 243)" class="AXInput W100"  />
+                        <input type="button" value="toColor()" class="AXButton" onclick="toast.push('toColor() : '+$('#AXJ_toColor').val().toColor());" />
+                        <input type="button" value="toColor('#')" class="AXButton" onclick="toast.push('toColor(#) : '+$('#AXJ_toColor').val().toColor('#'));" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+
+                <div class="method">
+                    <div class="methodName">
+                        ucase()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">대문자로 변환하여줌</div>
+                    </div>
+                    <div class="methodExam">
+
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+
+                <div class="method">
+                    <div class="methodName">
+                        lcase()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">소문자로 변환하여줌</div>
+                    </div>
+                    <div class="methodExam">
+
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+
+                <div class="method">
+                    <div class="methodName">
+                        getByte()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열의 바이트를 반환하여 줍니다.</div>
+                    </div>
+                    <div class="methodExam">
+
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+
+                <div class="method">
+                    <div class="methodName">
+                        phone()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">숫자형태를 전화번호 양식으로 변환 하여 줍니다.</div>
+                    </div>
+                    <div class="methodExam">
+                        <input type="text" name="" id="AXJ_toPhone" value="" class="AXInput W100"  />
+                        <input type="button" value="phone()" class="AXButton" onclick="toast.push('phone() : '+$('#AXJ_toPhone').val().phone());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+
+
+                <div class="method">
+                    <div class="methodName">
+                        delScript(), removeScript()
+                    </div>
+                    <div class="methodDesc">
+                        <div class="desc">문자열 안에 script 태그를 제거하여 줍니다. (script 외에 on 속성을 제거 하여 주어 클라이언트 스크립트 보안을 강화 할 수 있습니다.</div>
+                    </div>
+                    <div class="methodExam">
+                        <textarea id="AXJ_script" value="" class="AXTextarea" cols=60 rows=12>
+                            <script type="text/javascript">
+                                var fObj = {
+                                    scriptFn: function(){
+                                        alert("i got your cookies");
+                                    }
+                                };
+                            </script>
+                            <body onload="fObj.scriptFn();">
+                            <a href="" onclick="alert('111');">test</a>
+                            </body>
+                        </textarea>
+                        <input type="button" value="delScript()" class="AXButton" onclick="alert($('#AXJ_script').val().delScript());" />
+                    </div>
+                </div>
+                <div class="Hspace10"></div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "String";
+    var fnObj = {
+        pageStart: function(){
+
+        }
+    };
+    $(document).ready(fnObj.pageStart);
+</script>

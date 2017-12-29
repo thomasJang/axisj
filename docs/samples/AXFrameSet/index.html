@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXFrameSet</title>
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXFrameSet.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/import_desktop.css" />
+	<![endif]-->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXModal.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXFrameSet.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<style type="text/css">
+	html, body{height:100%;}
+	</style>
+
+	<script type="text/javascript">
+	var myFrameSet = new AXFrameSet();
+	var fnObj = {
+		pageStart: function () {
+	        AXCode.bind(); // 소스보기
+			
+			myFrameSet.setConfig({
+				targetID:"AXFrameSetTarget",
+				frameSetRows: [
+					{elementId:"", height:""}, /* width 속성은 무시됨 */
+					{
+						frameSetCols:[
+							{elementId:"", width:""},
+							{elementId:"", width:""},
+							{elementId:"", width:""}
+						],
+						height:""
+					},
+					{elementId:"", height:""}
+				]
+			});
+			
+		},
+		pageResize: function () {
+	
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+	<div class="AXFrameSet" id="AXFrameSetTarget">
+		
+		<div id="panel00"></div>
+		
+		<div id="panel01"></div>
+		<div id="panel02"></div>
+		<div id="panel03"></div>
+		
+		<div id="panel04"></div>
+		
+	</div>
+</body>
+</html>

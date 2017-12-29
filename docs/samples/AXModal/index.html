@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1"/>
+    <title>AXModal - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon"/>
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png"/>
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png"/>
+    <meta property="og:image" content="/samples/_img/axisj_sns.png"/>
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com"/>
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery"/>
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <!--script type="text/javascript" src="../../dist/AXJ.min.js"></script-->
+
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../lib/AXTopDownMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXMobileMenu.js"></script>
+    <script type="text/javascript" src="../../lib/AXModal.js"></script>
+    <script type="text/javascript" src="../../lib/AXTab.js"></script>
+
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <script>
+        /**
+         * Require Files for AXISJ UI Component...
+         * Based        : jQuery
+         * Javascript    : AXJ.js, AXModal.js
+         * CSS            : AXJ.css
+         */
+        var pageID = "AXModal";
+        var myModal = new AXModal();
+        var fnObj = {
+            pageStart: function () {
+                myModal.setConfig({
+                    windowID: "myModalCT", width: 740,
+                    mediaQuery: {
+                        mx: {min: 0, max: 767}, dx: {min: 767}
+                    },
+                    displayLoading: true,
+                    scrollLock: true,
+                    onclose: function () {
+                        toast.push("모달 close");
+                    }
+                });
+            },
+            modalOpen: function () {
+                myModal.open({
+                    url: "modal.php",
+                    //url:"/samples/AXgrid/index.html",
+                    pars: "a=1&b=2&c=3".queryToObject(),
+                    top: 100,
+                    closeByEscKey: true
+                });
+            },
+            modalOpenDiv: function () {
+                myModal.openDiv({
+                    modalID: "modalDiv01",
+                    targetID: "modalContent",
+                    width: 300,
+                    top: 100
+                });
+            },
+            modalOpenDiv2: function () {
+                myModal.openDiv({
+                    modalID: "modalDiv02",
+                    targetID: "modalContent2",
+                    width: 300,
+                    top: 100,
+                    closeByEscKey: true
+                });
+            },
+            newOpen: function () {
+                myModal.openNew({
+                    url: "/samples/AXGrid/index.html",
+                    pars: "a=1&b=2&c=3".queryToObject(),
+                    name: "mymodal_new",
+                    options: "width=600,height=400,resizable=yes"
+                });
+            }
+        };
+        jQuery(document.body).ready(function () {
+            fnObj.pageStart()
+        });
+    </script>
+
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="ax-wrap AXdemoPageContent">
+            <div class="title"><h1>AXModal</h1></div>
+            <!-- s.axlayer 1 -->
+            <section class="ax-layer-1">
+                <div class="ax-col-12">
+                    <div class="ax-unit">
+                        <h2>Default</h2>
+                        <input type="button" value="창열기" class="AXButton" onclick="fnObj.modalOpen();"/>
+
+                        <input type="button" value="DIV열기 (1)" class="AXButton" onclick="fnObj.modalOpenDiv();"/>
+                        <input type="button" value="DIV열기 (2)" class="AXButton" onclick="fnObj.modalOpenDiv2();"/>
+
+                        <input type="button" value="새창열기" class="AXButton" onclick="fnObj.newOpen();"/>
+
+                        <div style="display:none;">
+                            <div id="modalContent" style="padding:20px;">
+                                modalOpenDiv()<br/>
+                                #modalContent > open
+                                <br/>
+                                <br/>
+                                <input type="button" value="창닫기" class="AXButton" onclick="myModal.close('modalDiv01');"/>
+                            </div>
+                            <div id="modalContent2" style="padding:20px;">
+                                modalOpenDiv2()<br/>
+                                #modalContent2 > open
+                                <br/>
+                                <br/>
+                                <input type="button" value="창닫기" class="AXButton" onclick="myModal.close('modalDiv02');"/>
+                            </div>
+                        </div>
+
+                        <div class="H30"></div>
+
+                    </div>
+                </div>
+
+                <div class="ax-clear"></div>
+            </section>
+            <!-- e.axlayer 1 -->
+
+            <div class="ax-clear"></div>
+
+        </div>
+        <div class="H20"></div>
+    </div>
+
+</div>
+
+</body>
+</html>		

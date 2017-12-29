@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <!--script type="text/javascript" src="../../lib/AXUtil.js"></script-->
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+
+    <div id="AXPageBody">
+
+        <!-- demoPageTabTarget -->
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h1>Number</h1>
+            <div class="method">
+                <div class="methodName">
+                    left(Number)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">숫자의 시작부터 지정한 글자수 만큼 반환합니다. (반환형식 String)</div>
+                    (1234).left(3); -> "123"
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJleftTest" value="1234" class="AXInput" />
+                    <input type="button" value="left(3)" class="AXButton" onclick="toast.push('left(3) : '+$('#AXJleftTest').val().number().left(3));" />
+                    <input type="button" value="left(5)" class="AXButton" onclick="toast.push('left(5) : '+$('#AXJleftTest').val().number().left(5));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    right(Number)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">숫자의 끝부터 지정한 글자수 만큼 반환합니다. (반환형식 String)</div>
+                    1234.right(3); -> 234
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJrightTest" value="1234" class="AXInput" />
+                    <input type="button" value="right(3)" class="AXButton" onclick="toast.push('right(3) : '+$('#AXJrightTest').val().number().right(3));" />
+                    <input type="button" value="right(5)" class="AXButton" onclick="toast.push('right(5) : '+$('#AXJrightTest').val().number().right(5));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    money()
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">
+                        3자리마다 슆표(,)를 넣은 문자열을 반환합니다. (반환형식 String)<br/>
+                        문자열의 경우에도 money() 를 사용할 수 있습니다. 결과는 숫자와 동일합니다.
+                    </div>
+                    12345678.money(); -> "12,345,678"<br/>
+                    "12345678".money(); -> "12,345,678"
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_moneyTest" value="12345678" class="AXInput W100" />
+                    <input type="button" value="money()" class="AXButton" onclick="toast.push('money() : '+$('#AXJ_moneyTest').val().money());" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    byte()
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">숫자값을 Byte로 인식하여 값에 크기에 따르 KB, MB, GB 의 형식으로 반환합니다. (반환형식 String)</div>
+                    (1234567890).byte(); -> "1.1GB"
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_byteTest" value="1234567890" class="AXInput W100" />
+                    <input type="button" value="byte()" class="AXButton" onclick="toast.push('byte() : '+$('#AXJ_byteTest').val().byte());" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    date()
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">숫자값을 timeserial 값으로 Date를 반환합니다.  (반환형식 Date)</div>
+                    (29000001).date(); ->  Thu Jan 01 1970 17:03:20 GMT+0900
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJDateTest" value="29000001" class="AXInput W100" />
+                    <input type="button" value="date()" class="AXButton" onclick="toast.push('date() : '+$('#AXJDateTest').val().number().date());" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    div(divisor)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">나누기 연산결과를 반환합니다. 단 divisor 가 0인경우 연산결과는 오류 없이 0을 반환합니다. (반환형식 : Number)</div>
+                    (10).div(2); ->  5<br/>
+                    (10).div(0); ->  0<br/>
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_divTest" value="10" class="AXInput W100" />
+                    <input type="button" value="div(2)" class="AXButton" onclick="toast.push('div(2) : '+$('#AXJ_divTest').val().number().div(2));" />
+                    <input type="button" value="div(0)" class="AXButton" onclick="toast.push('div(0) : '+$('#AXJ_divTest').val().number().div(0));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    rangeFrom([Number])
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">숫자값까지 반복되는 배열을 리턴합니다. (반환형식 : Array)</div>
+                    (10).rangeFrom(); ->  [0,1,2,3,4,5,6,7,8,9,10]<br/>
+                    (10).rangeFrom(1); ->  [1,2,3,4,5,6,7,8,9,10]<br/>
+                    (10).rangeFrom(2); ->  [2,3,4,5,6,7,8,9,10]<br/>
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_rangeFromTest" value="10" class="AXInput" />
+                    <input type="button" value="rangeFrom()" class="AXButton" onclick="toast.push('rangeFrom() : '+$('#AXJ_rangeFromTest').val().number().rangeFrom());" />
+                    <input type="button" value="rangeFrom(1)" class="AXButton" onclick="toast.push('rangeFrom(1) : '+$('#AXJ_rangeFromTest').val().number().rangeFrom(1));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    times(Number)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">원하는 횟수 만큼 반복한 문자열을 반환합니다. (반환형식 : String)</div>
+                    (1).times(3); ->  "111"<br/>
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJTimesTest" value="1" class="AXInput W100" />
+                    <input type="button" value="times(3)" class="AXButton" onclick="toast.push('times() : '+$('#AXJTimesTest').val().number().times(3));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    setDigit(Number[, padder, radix])
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">원하는 횟수 만큼 정해지거나 정해지지 않은 경우 '0'으로 자릿수 맞춤 문자열을 반환합니다. (반환형식 : String)</div>
+                    (11).setDigit(3); ->  "011"<br/>
+                    (11).setDigit(3, '!'); ->  "!11"<br/>
+                    (11).setDigit(3, 0, 16); ->  "00b" (16진수값)<br/>
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_setDigit" value="11" class="AXInput W100" />
+                    <input type="button" value="setDigit(3)" class="AXButton" onclick="toast.push('setDigit(3) : '+$('#AXJ_setDigit').val().number().setDigit(3));" />
+                    <input type="button" value="setDigit(3, '!')" class="AXButton" onclick="toast.push('setDigit(3, \'!\') : '+$('#AXJ_setDigit').val().number().setDigit(3, '!'));" />
+                    <input type="button" value="setDigit(3, 0, 16)" class="AXButton" onclick="toast.push('setDigit(2, 0, 16) : '+$('#AXJ_setDigit').val().number().setDigit(3, 0, 16));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
+var floatPart = strNum.substring(0, this.toString().indexOf(".")+digit+1);
+<script type="text/javascript">
+    var pageID = "Number";
+    var fnObj = {
+        pageStart: function(){
+/*
+ var a = 2595000;
+ trace(a.number());
+
+            var nums = [
+                ( 14.29 * 1.05 ),
+                ( ((8.58 + 8.58 + 9.62 + 9.62) - 3.1).round(2) * 1.05 ),
+                ( ((2.7 * 2.3 + 4.4 * 2.3 + 4.4 * 2.3).round(2) - 4) * 1.1 ),
+                ( (48.29 - 5.2).round(2) * 1.05 ),
+                ( ((2.7 * 2.3 + 4.4 * 2.3 + 4.4 * 2.3).round(2) - 4) * 1.1 )
+            ];
+
+            axf.each(nums,  function(){
+               trace(this.number(), this.round(3))
+            });
+*/
+        }
+    };
+    $(document).ready(fnObj.pageStart);
+</script>
+<!-- js block -->

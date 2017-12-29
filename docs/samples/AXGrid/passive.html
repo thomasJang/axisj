@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid(passive) - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+
+    <script id="jscode">
+    /**
+     * Require Files for AXISJ UI Component...
+     * Based        : jQuery
+     * Javascript   : AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+     * CSS          : AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelector.css
+     */    
+    var pageID = "passive";
+
+    var myGrid = new AXGrid();
+    var fnObj = {
+        pageStart: function(){
+
+            myGrid.setConfig({
+                targetID : "AXGridTarget",
+                theme : "AXGrid",
+                //fixedColSeq : 4,
+                fitToWidth:true,
+                passiveMode:true,
+                passiveRemoveHide:false,
+                colGroup : [
+                    {
+                        key:"no", label:"NO", width:"30", align:"center", formatter:"checkbox",
+                        //displayLabel:true, 헤드란에 체크박스를 표시 할지 여부
+                        checked:function(){
+                            //사용 가능한 변수
+                            //this.index
+                            //this.item
+                            //this.list
+                            //return (this.index % 2 == 0);
+                            return false;
+                        }
+                    },
+                    {
+                        key:"status", label:"상태", width:"40", align:"center", formatter:function(){
+                        if(this.item._CUD == "C"){
+                            return "신규";
+                        }else if(this.item._CUD == "D"){
+                            return "삭제";
+                        }else if(this.item._CUD == "U"){
+                            return "수정";
+                        }
+                    }
+                    },
+                    {key:"no", label:"번호", width:"50", align:"right"},
+                    {key:"title", label:"제목", width:"200"},
+                    {key:"writer", label:"작성자", width:"100", align:"center"},
+                    {key:"regDate", label:"작성일", width:"100", align:"center"},
+                    {key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+                    {key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+                    {key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+                        return (this.item.price.number() * this.item.amount.number()).money();
+                    }},
+                    {key:"desc", label:"비고", width:"200"}
+                ],
+                body : {
+                    addClass: function(){
+                        if(this.item._CUD == "C"){
+                            return "blue";
+                        }else if(this.item._CUD == "D"){
+                            return "red";
+                        }else if(this.item._CUD == "U"){
+                            return "green";
+                        }else{
+                            return "";
+                        }
+                    },
+                    onclick: function(){
+                        //toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+                        myGrid.setEditor(this.item, this.index);
+                    },
+                    ondblclick: function(){
+                        //toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+                    },
+                    oncheck: function(){
+                        //사용 가능한 변수
+                        //this.itemIndex
+                        //this.target
+                        //this.checked
+                        //this.r
+                        //this.c
+                        //this.list
+                        //this.item
+                        trace(this.checked);
+                    }
+                },
+                page:{
+                    paging:true
+                },
+                editor: {
+                    rows: [
+                        [
+                            {colSeq:0, align:"center", valign:"middle", formatter: function(){return "";}},
+                            {key:"status", align:"center", valign:"middle", form:{type:"hidden", value:"itemValue"}},
+                            {colSeq:2, align:"center", valign:"middle", form:{type:"hidden", value:"itemValue"}},
+                            {colSeq:3, align:"left", valign:"top",
+                                form:{
+                                    type:"text", value:function(){
+                                        return this.value.dec();
+                                    }
+                                    , validate:function(){
+                                        if(this.value == ""){
+                                            alert("제목은 필수 입력 항목 입니다.");
+                                            return false;
+                                        }else{
+                                            return true;
+                                        }
+                                    }
+                                }
+                                ,AXBind:{type:"selector", config:{
+                                appendable:true,
+                                ajaxUrl:"../../samples/AXInput/selectorData.txt",
+                                ajaxPars:"",
+                                onChange:function(){
+                                    //trace(this.selectedOption);
+                                    if(this.selectedOption){
+                                        myGrid.setEditorForm({
+                                            key:"writer",
+                                            position:[0,4], // editor rows 적용할 대상의 배열 포지션 (다르면 적용되지 않습니다.)
+                                            value:this.selectedOption.optionText
+                                        });
+                                    }
+                                }
+                            }
+                            }
+                            },
+                            {colSeq:4, align:"left", valign:"top", form:{type:"text", value:"itemValue"}},
+                            {colSeq:5, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"date"}},
+                            {colSeq:6, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"money"}},
+                            {colSeq:7, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:1, max:100}}},
+                            {colSeq:8, align:"right", valign:"top"},
+
+                            //{colSeq:9, align:"left", valign:"top", form:{type:"textarea", value:"itemValue"}}
+                            {colSeq:9, align:"left", valign:"top",
+                                form:{
+                                    type:"select", value:"itemText",
+                                    isspace:true,
+                                    isspaceTitle:"ABCD",
+                                    options:[
+                                        {value:1, optionText:"AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"},
+                                        {value:2, text:"AXJ_String%2C%EC%97%91%EC%8B%9C%EC%8A%A4%EC%A0%9C%EC%9D%B4"}
+                                    ],
+                                    onChange: function(){
+                                        // abcd
+                                        AXUtil.alert(this);
+                                    }
+                                }
+                            }
+
+                        ]
+                    ],
+                    //request:{ajaxUrl:"saveGrid.asp", ajaxPars:"param1=1&param2=2"},
+                    response: function(){ // ajax 응답에 대해 예외 처리 필요시 response 구현
+                        // response에서 처리 할 수 있는 객체 들
+                        //trace({res:this.res, index:this.index, insertIndex:this.insertIndex, list:this.list, page:this.page});
+
+                        if(this.index == null){ // 추가
+                            var pushItem = this.res.item;
+                            //pushItem 에 추가 값 지정 가능
+                            if(this.res.item.title == ""){
+                                alert("제목이 비어 추가 할 수 없습니다.");
+                                return;
+                            }
+                            //pushItem no 값을 추가 해야..
+                            myGrid.pushList(pushItem, this.insertIndex);
+                        }else{ // 수정
+                            AXUtil.overwriteObject(this.list[this.index], this.res.item, true); // this.list[this.index] object 에 this.res.item 값 덮어쓰기
+                            myGrid.updateList(this.index, this.list[this.index]);
+                        }
+
+                    }
+                },
+                contextMenu: {
+                    theme:"AXContextMenu", // 선택항목
+                    width:"150", // 선택항목
+                    menu:[
+                        {
+                            userType:1, label:"추가하기", className:"plus", onclick:function(){
+                            myGrid.appendList(item);
+                            //myGrid.appendList(item, index);
+                            /*
+                             var removeList = [];
+                             removeList.push({no:this.sendObj.item.no});
+                             myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+                             */
+                        }
+                        },
+                        {
+                            userType:1, label:"삭제하기", className:"minus", onclick:function(){
+                            if(this.sendObj){
+                                if(!confirm("정말 삭제 하시겠습니까?")) return;
+                                var removeList = [];
+                                removeList.push({index:this.sendObj.index});
+                                myGrid.removeListIndex(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+                            }
+                        }
+                        },
+                        {
+                            userType:1, label:"수정하기", className:"edit", onclick:function(){
+                            //trace(this);
+                            if(this.sendObj){
+                                myGrid.setEditor(this.sendObj.item, this.sendObj.index);
+                            }
+                        }
+                        }
+                    ],
+                    filter:function(id){
+                        return true;
+                    }
+                }
+            });
+
+            myGrid.setList({
+                ajaxUrl:"loadGrid.php", ajaxPars:"param1=1&param2=2",
+                onLoad:function(){
+
+                }
+            });
+
+        },
+        appendGrid: function(index){
+            var item = {};
+            if(index){
+                myGrid.appendList(item, index);
+            }else{
+                myGrid.appendList(item);
+            }
+        },
+        removeList: function(){
+            var checkedList = myGrid.getCheckedListWithIndex(0);// colSeq
+            if(checkedList.length == 0){
+                alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");
+                return;
+            }
+            /// something do for server
+            trace(checkedList);
+
+            myGrid.removeListIndex(checkedList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+        },
+        restoreList: function(){
+            var checkedList = myGrid.getCheckedList(0);// colSeq
+            if(checkedList.length == 0){
+                alert("선택된 목록이 없습니다. ");
+                return;
+            }
+            /// something do for server
+
+            var removeList = [];
+            $.each(checkedList, function(){
+                removeList.push({no:this.no});
+            });
+            trace(removeList);
+            myGrid.restoreList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+        }
+    };
+
+    jQuery(document.body).ready(function() {
+        fnObj.pageStart();
+    });
+    </script>
+
+    <style type="text/css">
+    
+    </style>
+</head>
+    
+<body>
+
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+            <div class="title">
+                <h1>AXGrid (passive)</h1>
+            </div>
+            <h2>passiveMode 속성을 사용해서 추가/수정/삭제 내역을 그리드에 유지 하고 변경 내역을 수동으로 취할 수 있는 방식 입니다.</h2>
+
+            <div id="AXGridTarget" style="height:400px;"></div>
+
+            <div class="H20"></div>
+
+            <div style="padding:10px 0px;">
+                <input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.appendGrid();" />
+                <input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
+                <input type="button" value="삭제취소" class="AXButton Red" onclick="fnObj.restoreList();" />
+                <input type="button" value="새로고침" class="AXButton Red" onclick="myGrid.reloadList();" />
+            </div>
+
+            <div class="H20"></div>
+
+            <div>
+                <b>passiveMode:true </b> 사용시 <br/>
+                myGrid.list[index]._CUD = "C" : 신규 등록된 item<br/>
+                myGrid.list[index]._CUD = "U" : 수정된 item<br/>
+                myGrid.list[index]._CUD = "D" : 삭제된 item<br/>
+                <br/>
+                <b>passiveRemoveHide:true</b> 변경 하면 삭제될 때 리스트가 제거 됩니다. 또한 삭제된 데이터가 myGrid.removedList 에 쌓이게 됩니다.
+                <br/>
+                <br/>
+                AXConfig.AXGrid.passiveMode = true; 로 그리드 기본값을 설정 하실 수도 있습니다.<br/>
+                AXConfig.AXGrid.passiveRemoveHide = true; 로 그리드 기본값을 설정 하실 수도 있습니다.
+            </div>
+
+            <div style="padding:10px 0px;">
+                <input type="button" value="list 추출" class="AXButton Green" onclick="AXUtil.alert(myGrid.list);" />
+                <input type="button" value="removedList 추출" class="AXButton Green" onclick="AXUtil.alert(myGrid.removedList);" />
+            </div>
+
+            <pre id="pretty" class="prettyprint linenums"></pre>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

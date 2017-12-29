@@ -1,0 +1,300 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>AXISJ Table CSS Guide</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+
+		<meta name="description" content="Description" />
+        <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+        <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+        <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+        <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+        <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+        <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+        <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+        <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+        <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+        <script type="text/javascript" src="../page.js"></script>
+        <script type="text/javascript" src="pageTab.js"></script>
+        <!-- js block -->
+		<style type="text/css">
+
+		</style>
+		<script type="text/javascript">
+        var pageID = "table";
+		var fnObj = {
+			pageStart: function(){
+
+			}
+		};
+		
+		$(document.body).ready(function(){
+			setTimeout(fnObj.pageStart, 1);
+		});
+		</script>
+		<style type="text/css">
+			.AXGridTable.AXGridTableSmall td,
+			.AXGridTable.AXGridTableSmall th {
+				min-height: 10px;
+				box-sizing: border-box;
+				padding: 0px;
+			}
+		</style>
+	</head>
+	<body>
+    <div id="AXPage">
+        <!-- AXPageBody -->
+        <div id="AXPageBody">
+            <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+            <div class="AXdemoPageContent">
+
+            <div style="padding:10px">
+                <h1>gridTBL</h1>
+                <table cellpadding="0" cellspacing="0" class="AXGridTable">
+                    <colgroup>
+                        <col width="60" />
+                        <col />
+                        <col width="50" />
+                        <col />
+                        <col width="50" />
+                        <col />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>
+                                <div class="tdRel">
+                                    &nbsp;
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="tdRel">
+                                    발생건수
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="tdRel">
+                                    누계건수
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="tdRel">
+                                    전년대비(누계)
+                                </div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">
+                                    끝
+                                </div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="mytr">
+                            <td>
+                                사고
+                            </td>
+                            <td>
+                                55건
+                            </td>
+                            <td>
+                                99
+                            </td>
+                            <td>
+                                1,022건
+                            </td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                1,022건
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                2
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                사고
+                            </td>
+                            <td>
+                                55건
+                            </td>
+                            <td>
+                                99
+                            </td>
+                            <td>
+                                1,022건
+                            </td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                1,022건
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                2
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                사고
+                            </td>
+                            <td>
+                                55건
+                            </td>
+                            <td>
+                                99
+                            </td>
+                            <td>
+                                1,022건
+                            </td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                1,022건
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                2
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="padding:10px">
+                <h1>viewTBL</h1>
+                <table cellpadding="0" cellspacing="0" class="AXFormTable">
+                    <colgroup>
+                        <col width="100" />
+                        <col />
+                        <col width="100" />
+                        <col />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td>
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div class="tdRel">TH</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td align="center">
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                        <tr class="gray">
+                            <th>
+                                <div class="tdRel">TH</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td align="right">
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                        <tr class="red">
+                            <th>
+                                <div class="tdRel">TH</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td align="center">
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                        <tr class="green">
+                            <th>
+                                <div class="tdRel">TH</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td>
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                        <tr class="blue">
+                            <th>
+                                <div class="tdRel">TH</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td>
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                        <tr class="yellow">
+                            <th>
+                                <div class="tdRel">TH</div>
+                            </th>
+                            <td>
+                                <div class="tdRel">55건</div>
+                            </td>
+                            <td>
+                                <div class="tdRel">TD</div>
+                            </td>
+                            <td class="last">
+                                <div class="tdRel">1,022건</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            </div>
+
+		</div>
+    </div>
+	</body>
+</html>

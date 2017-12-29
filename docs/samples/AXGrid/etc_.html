@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var myGrid = new AXGrid();
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+			myGrid.setConfig({
+				targetID : "AXGridTarget",
+				theme : "AXGrid",
+				fixedColSeq : 4,
+				
+				colGroup : [
+					{
+						key:"no", label:"checkbox", width:"30", align:"center", formatter:"checkbox", 
+						checked:function(){
+							//사용 가능한 변수
+							//this.index
+							//this.item
+							//this.list
+							return (this.index % 2 == 0);
+						}
+					},
+					{key:"no", label:"번호", width:"50", align:"right", pk:true}, 
+					{key:"title", label:"제목", width:"200"},
+					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"regDate", label:"작성일", width:"100", align:"center"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"200"}
+				],
+				
+				body : {
+					onclick: function(){
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						myGrid.setEditor(this.item, this.index);
+					},
+					ondblclick: function(){
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+					},
+					oncheck: function(){
+						//사용 가능한 변수
+						//this.itemIndex
+						//this.target
+						//this.checked
+						//this.r
+						//this.c
+						//this.list
+						//this.item
+						toast.push(this.checked);
+					}
+				},
+				page:{
+					paging:true
+				}
+			});
+			
+			myGrid.setList({
+				ajaxUrl:"loadGrid.asp", ajaxPars:"param1=1&param2=2", 
+				onLoad:function(){
+					
+				}
+			});
+
+		},
+		getCheckedList: function(){
+			var checkedList = myGrid.getCheckedList(0);// colSeq
+			alert(Object.toJSON(checkedList));
+		},
+		removeList: function(){
+			var checkedList = myGrid.getCheckedList(0);// colSeq
+			if(checkedList.length == 0){
+				alert("선택된 목록이 없습니다. 삭제하시려는 목록을 체크하세요");	
+				return;
+			}
+			if(!confirm("정말 삭제 하시겠습니까?")) return;
+			
+			/// something do for server
+			
+			var removeList = [];
+			$.each(checkedList, function(){
+				removeList.push({no:this.no});
+			});
+			myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대상을 제거 합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생 할 수 있습니다.
+		}
+	};
+
+	jQuery(document.body).ready(function() {
+		fnObj.pageStart();
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">Default</a>
+				<a href="colhead.html" class="AXTab Blue">colHead</a>
+				<a href="fixedColSeq.html" class="AXTab Blue">fixedColSeq</a>
+				<a href="body.html" class="AXTab Blue">body</a>
+				<a href="headfoot.html" class="AXTab Blue">head&foot</a>
+				<a href="marker.html" class="AXTab Blue">marker</a>
+				<a href="editor.html" class="AXTab Blue">editor</a>
+				<a href="ajax.html" class="AXTab Blue">ajax & paging</a>
+				<a href="passive.html" class="AXTab Blue on">passive</a>
+				<a href="viewMode.html" class="AXTab Blue">viewMode</a>
+				<a href="help.html" class="AXTab Blue">도움말</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<h2>AXGrid Control</h2>
+
+		<div id="AXGridTarget" style="height:400px;"></div>
+		
+		<div style="padding:10px 0px;">
+			<input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.getCheckedList();" />
+			<input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
+			<input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />
+			<input type="button"	value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
+			<input type="button"	value="새로고침" class="AXButton Red" onclick="myGrid.reloadList();" />
+		</div>
+		
+
+		
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h1>AXCalendar</h1>
+
+
+            <div style="padding:20px;position:relative;">
+                <div id="calendarBody" style="float:left;margin:10px;width:180px;"></div>
+                <div id="calendarBody4" style="float:left;margin:10px;width:180px;"></div>
+                <div id="calendarBody5" style="float:left;margin:10px;width:180px;"></div>
+                <div id="calendarBody2" style="float:left;margin:10px;width:180px;"></div>
+                <div id="calendarBody3" style="float:left;margin:10px;width:180px;"></div>
+                <div id="calendarBody6" style="float:left;margin:10px;width:180px;"></div>
+                <div id="calendarBody7" style="float:left;margin:10px;width:180px;"></div>
+            </div>
+            <div style="clear:both;"></div>
+
+            <div class="Hspace20"></div>
+            <div class="Hspace20"></div>
+            <div class="Hspace20"></div>
+            <fieldset class="AXscriptSource" id="AXscriptSource1">
+                <legend>AXCalendar</legend>
+                <textarea class="fieldsetBody" rows="20" style="width:100%;">
+
+// calendar
+mycalendar.setConfig({
+	targetID:"calendarBody",
+	basicDate:new Date()
+});
+mycalendar2.setConfig({
+	targetID:"calendarBody2",
+	basicDate:new Date()
+});
+mycalendar3.setConfig({
+	targetID:"calendarBody3",
+	basicDate:new Date()
+});
+mycalendar4.setConfig({
+	targetID:"calendarBody4",
+	basicDate:new Date()
+});
+mycalendar5.setConfig({
+	targetID:"calendarBody5",
+	basicDate:new Date()
+});
+mycalendar6.setConfig({
+	targetID:"calendarBody6"
+});
+mycalendar7.setConfig({
+	targetID:"calendarBody7"
+});
+mycalendar.printDayPage("2012-01-29");
+mycalendar2.printDayPage("2012-02-20");
+mycalendar3.printDayPage("2012-03-29");
+mycalendar4.printMonthPage();
+mycalendar5.printYearPage(2012);
+mycalendar6.printTimePage();
+mycalendar7.printTimePage("06:36 AM");
+
+                </textarea>
+            </fieldset>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "AXCalendar";
+    var mycalendar = new AXCalendar();
+    var mycalendar2 = new AXCalendar();
+    var mycalendar3 = new AXCalendar();
+    var mycalendar4 = new AXCalendar();
+    var mycalendar5 = new AXCalendar();
+    var mycalendar6 = new AXCalendar();
+    var mycalendar7 = new AXCalendar();
+
+    var fnObj = {
+        pageStart: function(){
+
+            // calendar
+            mycalendar.setConfig({
+                targetID:"calendarBody",
+                basicDate:new Date()
+            });
+            mycalendar2.setConfig({
+                targetID:"calendarBody2",
+                basicDate:new Date()
+            });
+            mycalendar3.setConfig({
+                targetID:"calendarBody3",
+                basicDate:new Date()
+            });
+            mycalendar4.setConfig({
+                targetID:"calendarBody4",
+                basicDate:new Date()
+            });
+            mycalendar5.setConfig({
+                targetID:"calendarBody5",
+                basicDate:new Date()
+            });
+            mycalendar6.setConfig({
+                targetID:"calendarBody6"
+            });
+            mycalendar7.setConfig({
+                targetID:"calendarBody7"
+            });
+            mycalendar.printDayPage("2012-01-29");
+            mycalendar2.printDayPage("2012-02-20");
+            mycalendar3.printDayPage("2012-03-29");
+            mycalendar4.printMonthPage();
+            mycalendar5.printYearPage(2012);
+            mycalendar6.printTimePage();
+            mycalendar7.printTimePage("06:36 AM");
+
+        }
+    };
+    $(document).ready(fnObj.pageStart.delay(0.5));
+</script>
+<!-- js block -->

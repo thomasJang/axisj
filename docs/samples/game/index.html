@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>Game</title>
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	
+	<style type="text/css">
+	html, body{height:100%;background:#fff;cursor:none;}
+	</style>
+	
+	<script type="text/javascript">
+	var per = 0;
+	var duration = 5000;
+	var er;
+	var fnObj = {
+		pageStart: function(){
+			
+			$(document.body).click(function(){
+				
+				if(per == 0){
+					er = 3400 + Math.random() * 100;
+					fnObj.run();
+				}	
+				
+				/*
+				mask.open();
+				toast.push("click");
+				mask.close(2000);
+				*/
+			});
+
+		},
+		run: function(){
+			setTimeout(function(){
+				var x = jQuery.easing[ "sineInOut" ](
+					per, duration * per, 0, 1
+				);
+				
+				var r = er * x;
+				//trace(r);
+				$("#mycircle").attr("transform", "rotate("+r+", 400, 400)");
+				per += 0.001;
+				if(per <= 1) fnObj.run();
+				else{
+					per = 0;
+				}
+			}, 1);
+		}
+	};
+
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+</head>
+<body>
+	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="98%" height="98%" viewBox="0 0 800 800">
+		 <g transform="rotate(0, 400, 400)" id="mycircle">
+			<circle style="fill:#FFFFFF;stroke:#000000;" cx="400" cy="400" r="300"/>
+			<line style="fill:none;stroke:#000000;" x1="400" y1="400" x2="100" y2="400"/>
+			<line style="fill:none;stroke:#000000;" x1="400" y1="400" x2="400" y2="100"/>
+			<line style="fill:none;stroke:#000000;" x1="400" y1="400" x2="700" y2="400"/>
+			<line style="fill:none;stroke:#000000;" x1="400" y1="400" x2="400" y2="700"/>
+		</g>
+	</svg>
+</body>
+</html>

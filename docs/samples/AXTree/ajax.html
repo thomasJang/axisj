@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXTree - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTree.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXTree.js, AXInput.js, AXSelect.js
+	 * CSS			: AXJ.css, AXTree.css, AXInput.css, AXSelect.css
+	 */	
+	var pageID = "ajax";
+	var myTree = new AXTree();
+	var youTree = new AXTree();
+
+	var fnObj = {
+		pageStart: function(){
+
+			myTree.setConfig({
+				targetID : "AXTreeTarget",
+				theme: "AXTree",
+				//height:"auto",
+				xscroll:false,
+				reserveKeys:{
+					parentHashKey:"pHash", // 부모 트리 포지션
+					hashKey:"hash", // 트리 포지션
+					openKey:"open", // 확장여부
+					subTree:"subTree", // 자식개체키
+					displayKey:"display" // 표시여부
+				},
+				relation:{
+					parentKey:"pno",
+					childKey:"no"
+				},
+				colGroup: [
+					{
+						key:"no", label:"번호", width:"30", align:"center", formatter:"checkbox", 
+						disabled:function(){
+							return (this.item.__subTreeLength > 0) ? true : false;
+						},
+						checked:function(){
+							return false;	
+						}
+					},
+					{
+						key:"nodeName",
+						label:"제목",
+						width:"*", align:"left",
+						indent:true,
+						getIconClass: function(){
+							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+							var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+							var iconName = "file";
+							if(this.item.type) iconName = iconNames[this.item.type];
+							return iconName;
+						},
+						formatter:function(){
+							return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.nodeName + " (" + this.item.writer + ")";
+						}
+					}
+					,{key:"writer", label:"작성자", width:"80", align:"center"}
+				],
+				colHead: {
+					display:true
+				},
+				body: {
+					onclick:function(idx, item){
+						toast.push(Object.toJSON(this.item));
+					},
+					oncheck:function(){
+						//사용 가능한 변수
+						//this.index
+						//this.target
+						//this.checked
+						//this.r
+						//this.c
+						//this.list
+						//this.item
+						alert(this.checked);
+					},
+					onexpand: function(){
+						if(this.subTree.length == 0){ //자식개체가 없으므로.. subTree 호출 처리 합니다.
+							var index = this.index, item = this.item;
+							myTree.setLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+							var url = "loadTree.php";
+							var pars = "no="+this.item.no;
+							new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
+								if(res.result == AXUtil.ajaxOkCode){
+									trace(res.tree);
+									myTree.appendTree(index, item, res.tree);
+								}else{
+									trace(res);
+								}
+								myTree.endLoading(index, item); // 화살표를 loading mark 로 전환 합니다.
+							}, onerr:null});
+						}
+					}
+				}
+			});
+			myTree.setTree({ajaxUrl:"loadTree.php", ajaxPars:"param1=1&param2=2"});			
+		}
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<!-- s.AXPageBody -->
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+			<div class="title"><h1>AXTree(AJAX)</h1></div>
+            <div id="AXTreeTarget" style="height:400px;"></div>
+		</div>
+
+	</div>
+	<!-- e.AXPageBody -->
+
+</div>
+
+</body>
+</html>		

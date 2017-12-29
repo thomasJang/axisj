@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXISJ - 액시스제이</title>
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXGrid.css" />	
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+    <script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<!-- js block -->
+</head>
+<body>
+	<div class="AXdemoPageContent">
+    	<h1>AXISJ AXGrid</h1>
+      	<div id="AXGridTarget"></div>
+	</div>
+	
+	<!-- js block -->
+	<script type="text/javascript">
+	var myGrid = new AXGrid();
+		myGrid.setConfig({
+			targetID : "AXGridTarget",
+			colGroup : [
+				{key:"no", label:"번호", width:"50", align:"right"},
+				{key:"title", label:"제목", width:"200"},
+				{key:"writer", label:"작성자", width:"100"},
+				{key:"regDate", label:"작성일", width:"100"},
+				{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+				{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+				{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+					return (this.item.price.number() * this.item.amount.number()).money();
+				}},
+				{key:"desc", label:"비고", width:"200"}
+			],
+			body : {
+				onclick: function(){
+					trace( {index:this.index, r:this.r, c:this.c, item:this.item} );
+				}
+			},
+			page: true
+	    });
+			    
+		var list = [
+		{no:1, title:"AXGrid 1번째 줄", writer:"장기영", regDate:"2014-01-15", desc:"사용법..", price:123000, amount:10},
+		{no:2, title:"AXGrid 2번째 줄", writer:"김정원", regDate:"2014-01-16", desc:"사용법..", price:12300, amount:7},
+		{no:3, title:"AXGrid 3번째 줄", writer:"국정일", regDate:"2014-01-17", desc:"사용법..", price:12000, amount:5},
+		{no:4, title:"AXGrid 4번째 줄", writer:"김동근", regDate:"2014-01-18", desc:"사용법..", price:12000, amount:5},
+		{no:5, title:"AXGrid 5섯번째 줄", writer:"김동영", regDate:"2014-01-19", desc:"사용법..", price:12000, amount:5},
+		{no:6, title:"AXGrid 6번째 줄", writer:"류재성", regDate:"2014-01-20", desc:"사용법..", price:12000, amount:5},
+		{no:7, title:"AXGrid 7번째 줄", writer:"액시스제이", regDate:"2014-01-21", desc:"사용법..", price:12000, amount:5},
+		{no:8, title:"AXGrid 8번째 줄", writer:"액스제이", regDate:"2014-01-22", desc:"사용법..", price:12000, amount:5},
+		{no:9, title:"AXGrid 9번째 줄", writer:"장기영", regDate:"2014-01-23", desc:"사용법..", price:12000, amount:5},
+		{no:10, title:"AXGrid 10번째 줄", writer:"김정원", regDate:"2014-01-24", desc:"사용법..", price:12000, amount:5},
+		{no:11, title:"AXGrid 11번째 줄", writer:"국정일", regDate:"2014-01-25", desc:"사용법..", price:12000, amount:5},
+		{no:12, title:"AXGrid 12번째 줄", writer:"김동근", regDate:"2014-01-26", desc:"사용법..", price:12000, amount:5},
+		{no:13, title:"AXGrid 13번째 줄", writer:"김동영", regDate:"2014-01-27", desc:"사용법..", price:12000, amount:5},
+		{no:14, title:"AXGrid 14번째 줄", writer:"류재성", regDate:"2014-01-28", desc:"사용법..", price:12000, amount:5},
+		{no:15, title:"AXGrid 15번째 줄", writer:"액시스제이", regDate:"2014-01-29", desc:"사용법..", price:12000, amount:5},
+		{no:16, title:"AXGrid 16번째 줄", writer:"액스제이", regDate:"2014-01-30", desc:"사용법..", price:12000, amount:5},
+		{no:17, title:"AXGrid 17번째 줄", writer:"AXISJ", regDate:"2014-01-31", desc:"사용법..", price:12000, amount:5}
+		];
+		myGrid.setList(list);
+	</script>
+	<!-- js block -->
+</body>
+</html>

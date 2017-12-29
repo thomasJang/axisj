@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXSearch - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXButton.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSelect.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXTabs.css">
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXSearch.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSearch.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXSelect.js, AXSearch.js, AXGrid.js, AXTab.js, AXButton.js
+	 * CSS			: AXJ.css, AXInput.css, AXSelect.css, AXSearch.css, AXGrid.css, AXTab.css, AXButton.css
+	 */	
+	var pageID = "RWD";
+	var mySearch = new AXSearch();
+
+	
+	var fnObj = {
+		pageStart: function(){
+			//검색도구 설정 01 ---------------------------------------------------------
+			mySearch.setConfig({
+				targetID:"AXSearchTarget",
+				theme : "AXSearch",
+                mediaQuery: {
+                    mx:{min:0, max:767}, dx:{min:767}
+                },
+				onsubmit: function(){
+					fnObj.search1(); // 버튼이 선언되지 않았거나 submit 개체가 있는 경우 발동 합니다.
+				},
+				rows:[
+					{display:true, addClass:"gray", style:"", list:[
+						{label:"공개설정", labelWidth:"100", type:"link", width:"", key:"openType", addClass:"", valueBoxStyle:"", value:"open",
+							options:[
+								{optionValue:"all", optionText:"전체보기"},
+								{optionValue:"open", optionText:"공개"},
+								{optionValue:"close", optionText:"비공개"},
+								{optionValue:"close2", optionText:"비공개2", display:false},
+								{optionValue:"close3", optionText:"비공개3", display:false},
+								{optionValue:"close4", optionText:"비공개4", display:false}
+							],
+							onChange: function(selectedObject, value){
+								//아래 3개의 값을 사용 하실 수 있습니다.
+								toast.push(Object.toJSON(this));
+								//dialog.push(Object.toJSON(selectedObject));
+								//dialog.push(value);
+							}
+						}
+					]},
+                    {display:false, addClass:"", style:"", list:[
+                        {label:"체크박스류", labelWidth:"100", type:"checkBox", width:"", key:"checkbox", addClass:"asfasd", valueBoxStyle:"", value:"open,close",
+                            options:[{optionValue:"all", optionText:"전체보기", title:"체크박스"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+                            onChange: function(selectedObject, value){
+                                //아래 3개의 값을 사용 하실 수 있습니다.
+                                dialog.push(Object.toJSON(this));
+                                dialog.push(Object.toJSON(selectedObject));
+                                dialog.push(value);
+                            }
+                        },
+                        {label:"라디오류", labelWidth:"100", type:"radioBox", width:"", key:"radiobox", addClass:"secondItem", valueBoxStyle:"", value:"close",
+                            options:[{optionValue:"all", optionText:"전체보기", title:"라디오타이틀"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+                            onChange: function(selectedObject, value){
+                                //아래 3개의 값을 사용 하실 수 있습니다.
+                                dialog.push(Object.toJSON(this));
+                                dialog.push(Object.toJSON(selectedObject));
+                                dialog.push(value);
+                            }
+                        }
+                    ]},
+					{display:false, addClass:"gray", style:"", list:[
+						{label:"EXIF정보", labelWidth:"100", type:"link", width:"", key:"exif", addClass:"", valueBoxStyle:"", value:"close",
+							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						}
+					]},
+
+					{display:true, addClass:"", style:"", list:[
+						{label:"선택입력", labelWidth:"100", type:"selectBox", width:"", key:"selectbox", addClass:"", valueBoxStyle:"", value:"close",
+							options:[{optionValue:"all", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							AXBind:{
+								type:"select", config:{
+									onChange:function(){
+										//toast.push(Object.toJSON(this));
+										
+									}
+								}
+							}
+						},
+						{label:"", labelWidth:"", type:"inputText", width:"150", key:"inputText", addClass:"secondItem", valueBoxStyle:"padding-left:0px;", value:"ABCD",
+							onChange: function(changedValue){
+								//아래 2개의 값을 사용 하실 수 있습니다.
+								dialog.push(Object.toJSON(this));
+								dialog.push(changedValue);						
+							}
+						},
+						{label:"입력2", labelWidth:"60", type:"inputText", width:"250", key:"inputText2", addClass:"secondItem", valueBoxStyle:"", value:"입력2", title:"타이틀정보",
+							onChange: function(){}
+						}
+					]},
+					{display:false, addClass:"gray", style:"", list:[
+						{label:"생각없이만들기", labelWidth:"100", type:"checkBox", width:"", key:"checkbox2", addClass:"", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"radioBox", width:"", key:"radiobox2", addClass:"secondItem", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						}
+					]},
+					{display:false, addClass:"", style:"", list:[
+						{label:"생각없이만들기", labelWidth:"100", type:"checkBox", width:"", key:"checkbox3", addClass:"", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						},
+						{label:"", labelWidth:"", type:"radioBox", width:"", key:"radiobox3", addClass:"secondItem", valueBoxStyle:"", value:"",
+							options:[{optionValue:"", optionText:"전체보기"}, {optionValue:"open", optionText:"공개"}, {optionValue:"close", optionText:"비공개"}],
+							onChange: function(){}
+						}
+					]}
+				]
+			});
+			//검색도구 설정 01 ---------------------------------------------------------
+
+		},
+		search1: function(){
+			var pars = mySearch.getParam();
+			toast.push("콘솔창에 파라미터 정보를 출력하였습니다.");
+			trace(pars);
+		}	
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<!-- s.AXPageBody -->
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+			<div class="title"><h1>AXSearch</h1></div>
+
+            <div id="AXSearchTarget" style="border-top:1px solid #ccc;"></div>
+
+            <div class="H10"></div>
+
+            <div align="center">
+                <input type="button" value="검색하기" class="AXButtonLarge W100" onclick="fnObj.search1();" />
+            </div>
+
+		</div>
+	</div>
+	<!-- e.AXPageBody -->
+
+</div>
+
+</body>
+</html>		

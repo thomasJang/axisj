@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <title>AXJ</title>
+    <link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+    <script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+  </head>
+  <body>
+  </body>
+</html>
+<script type="text/javascript">
+/* Array.convertTree(parentKey, childKey[, hashDigit]); */
+var arr = [
+	{pno:0, no:1, name:"액시스제이"},
+	{pno:1, no:2, name:"장기영"},
+	{pno:1, no:3, name:"김정원"},
+	{pno:3, no:4, name:"국정일"},
+	{pno:3, no:5, name:"김동근"},
+	{pno:5, no:6, name:"김동영"},
+	{pno:5, no:7, name:"류재성"}
+];
+var myTree = arr.convertTree("pno", "no");
+trace(myTree);
+</script>

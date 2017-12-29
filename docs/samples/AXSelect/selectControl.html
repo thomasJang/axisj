@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>binsSelect - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js, AXSelect.js
+	 * CSS			: AXJ.css, AXInput.css, AXSelect.css
+	 */	
+	var pageID = "AXSelectControl";
+	var fnObj = {
+		pageStart: function(){
+
+            jQuery("#AXSelect1").bindSelect({
+/*
+	            reserveKeys: {
+		            options: "list",
+		            optionValue: "value",
+		            optionText: "optionText"
+	            },
+*/
+				// alwaysOnChange: true, onchange이벤트가 바인드 시점에 발생되는 옵션
+				// maxHeight: 150, expandBox의 최대 높이값
+
+				// ajax
+
+				ajaxUrl: "selectData.php",
+				ajaxPars: "",
+				isspace: true,
+				isspaceTitle: "전체",
+				//setValue: "3",
+
+/*
+				// script set option
+				isspace: true,
+				//isspaceTitle: "전체",
+				options:[
+					{optionValue:1, optionText:"1 : ABCDEFG"},
+					{optionValue:2, optionText:"2 : 09123123"},
+					{optionValue:3, optionText:"3 : 1222"},
+					{optionValue:4, optionText:"4 : AXISJ"},
+					{optionValue:5, optionText:"5 : 액시스 제이"}
+				],
+*/
+				onLoad: function(){
+					trace("load : " + Object.toJSON(this));
+				},
+				onchange: function(){
+					trace("change : " + Object.toJSON(this));
+				}
+            });
+		},
+		updateOptions: function(oidx){
+			if(typeof oidx == "undefined"){
+				jQuery("#AXSelect1").bindSelectUpdateOptions([
+					{optionValue:1, optionText:"abc-1 : ABCDEFG"},
+					{optionValue:2, optionText:"abc-2 : 09123123"},
+					{optionValue:3, optionText:"abc-3 : 1222"},
+					{optionValue:4, optionText:"abc-4 : AXISJ"},
+					{optionValue:5, optionText:"abc-5 : 액시스 제이"}
+				]);
+			}else{
+				jQuery("#AXSelect1").bindSelectUpdateOptions({optionValue:3, optionText:"특별한 값으로 변경"}, 3);
+			}
+
+		}
+	};
+	jQuery(document.body).ready(function(){
+		fnObj.pageStart();
+	});
+
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXSelect</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>AXSelect bind Select</h2>
+						<h3>Default</h3>
+
+						<select name="" class="AXSelect" id="AXSelect1">
+							<option value="">-- 선택하세요 --</option>
+							<option value="1">ABCDE #1</option>
+							<option value="2">ABCDE #2</option>
+							<option value="3">ABCDE #3</option>
+							<option value="4">ABCDE #4</option>
+							<option value="5">ABCDE #5</option>
+							<option value="6">ABCDE #6</option>
+							<option value="7">ABCDE #7</option>
+							<option value="8">ABCDE #8</option>
+						</select>
+						
+						<div class="H10"></div>
+						
+						<input type="button" value="bindSelectSetValue(1)" class="AXButton" onclick="jQuery('#AXSelect1').bindSelectSetValue('1');" />
+						<input type="button" value="bindSelectSetValue(2)" class="AXButton" onclick="jQuery('#AXSelect1').bindSelectSetValue('2');" />
+						<input type="button" value="bindSelectSetValue()" class="AXButton" onclick="jQuery('#AXSelect1').bindSelectSetValue('');" />
+                        <button class="AXButton" onclick="jQuery('#AXSelect1').bindSelectDisabled();">bindSelectDisabled</button>
+						<button type="button" class="AXButton Blue" onclick="fnObj.updateOptions();">updateOptions</button>
+						<button type="button" class="AXButton Blue" onclick="fnObj.updateOptions(3);">updateOptions(3)</button>
+						
+						<div class="H30"></div>
+						
+					</div>	
+				</div>
+
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

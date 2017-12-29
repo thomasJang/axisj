@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+
+        <!-- demoPageTabTarget < --------- -->
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h1>AXUtil, axf (AXUtil은 axf로 대체 하여 사용 하셔도 됩니다.)</h1>
+
+            <div class="method">
+                <div class="methodName">
+                    browser
+                </div>
+                <div class="methodDesc">
+                    AXUtil.browser; -> <br/>
+    <br/>
+    /*	<br/>
+    {"name": "mozilla", "version": 18} //firefox<br/>
+    {"name": "ie", "version": 9} //ie<br/>
+    {"name": "", "version": 24} //chrome<br/>
+    {"name": "webkit", "version": 534.57} // safari<br/>
+    */<br/>
+
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    docTD
+                </div>
+                <div class="methodDesc">
+                    AXUtil.docTD; -> S|Q (표준모드, 호환성모드 모드 구분)<br/>
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    timekey()
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">현재시간을 밀리세컨드 값까지 조합하여 만든 시간고유 문자열</div>
+                    AXUtil.timekey(); -> "A202548347"<br/>
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    overwriteObject(Object1, Object2[, overwrite])
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">Object1을 Object2의 속성을 모두 가지도록 덮어쓰기 하는 함수 (반환형식 Object)</div>
+                    var a = {a:1};<br/>
+                    AXUtil.overwriteObject(a, {a:2, b:1});<br/>
+                    trace(a); -> {"a": 2, "b": 1}<br/>
+                    <br/>
+                    var b = {a:1};<br/>
+                    AXUtil.overwriteObject(b, {a:2, b:1}, false);<br/>
+                    trace(a); -> {"a": 1, "b": 1}<br/>
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    copyObject(Object)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">복제된 Object를 반환합니다.</div>
+                    var a = {a:1};<br/>
+                    var b = AXUtil.copyObject(a);<br/>
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+
+            <div class="method">
+                <div class="methodName">
+                    setCookie(name, value[, expiredays])
+                </div>
+                <div class="methodDesc">
+                    AXUtil.setCookie("mycookie", 1, 1); // 쿠기 만료일 하루 뒤
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    getCookie(name)
+                </div>
+                <div class="methodDesc">
+                    AXUtil.getCookie("mycookie"); -> 1
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    dayLen(year, month)
+                </div>
+                <div class="methodDesc">
+                    AXUtil.dayLen(2013, 1); -> 28 // month 는 2월 인경우 1, 1월 인경우 0
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    Event
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">event.keyCode 와 비교하기 위한 변수</div>
+    AXUtil.Event.KEY_BACKSPACE: 8<br/>
+    AXUtil.Event.KEY_TAB:	   9<br/>
+    AXUtil.Event.KEY_RETURN:   13<br/>
+    AXUtil.Event.KEY_ESC:	  27<br/>
+    AXUtil.Event.KEY_LEFT:	 37<br/>
+    AXUtil.Event.KEY_UP:	   38<br/>
+    AXUtil.Event.KEY_RIGHT:	39<br/>
+    AXUtil.Event.KEY_DOWN:	 40<br/>
+    AXUtil.Event.KEY_DELETE:   46<br/>
+    AXUtil.Event.KEY_HOME:	 36<br/>
+    AXUtil.Event.KEY_END:	  35<br/>
+    AXUtil.Event.KEY_PAGEUP:   33<br/>
+    AXUtil.Event.KEY_PAGEDOWN: 34<br/>
+    AXUtil.Event.KEY_INSERT:   45<br/>
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    alert(Number|String|Object)
+                </div>
+                <div class="methodDesc">
+                    AXUtil.alert("alert");<br/>
+                    AXUtil.alert({a:1,b:1});
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    console(Number|String|Object) || trace(Number|String|Object)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">브라우저 콘솔창에 로그를 출력합니다. AXUtil.console 은 trace로 사용하셔도 같은 결과를 나타냅니다.</div>
+                    AXUtil.console("alert");<br/>
+                    AXUtil.console({a:1,b:1});<br/>
+                    trace({a:1,b:1});
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+
+            <div class="method">
+                <div class="methodName">
+                    importJS(String)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">js 파일을 동적으로 임포트 하여 줌니다.</div>
+                    AXUtil.importJS("/html/js/myjs.js");
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+
+            <div class="method">
+                <div class="methodName">
+                    clientHeight() | scrollHeight() | clientWidth() | scrollWidth()
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">브라우저의 화면 크기를 반환 합니다.</div>
+                    var a = AXUtil.clientHeight();<br/>
+                    var b = AXUtil.scrollHeight();<br/>
+                    var c = AXUtil.clientWidth();<br/>
+                    var d = AXUtil.scrollWidth();<br/>
+                    trace({a:a,b:b,c:c,d:d});
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+    var pageID = "AXUtil";
+    var fnObj = {
+        pageStart: function(){
+
+        }
+    };
+    $(document).ready(fnObj.pageStart);
+</script>
+<!-- js block -->
+

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXInput - AXISJ</title>
+
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXInput.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+
+	var pageID = "Default";
+	var fnObj = {
+		pageStart: function(){
+
+			$(".AXInputSearch").bindSearch();
+			$(".AXInputPlaceHolder").bindPlaceHolder();
+
+			$('input[type=checkbox]').bindChecked();
+			$('input[type=radio]').bindChecked();
+		}
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+	.AXInput{
+
+	}
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXInput">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXInput</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-3">
+					<div class="ax-unit">
+						<h2>AXInput</h2>
+						<h3>Normal</h3>
+						<label>Normal</label>
+						<input type="text" name="input" value="가나다라 ABC abc" class="AXInput" />
+						
+						<div class="H10"></div>						
+						<label>ReadOnly</label>						
+						<input type="text" name="input" value="" class="AXInput" readonly="readonly" />
+
+						<div class="H10"></div>
+						<label>Disabled</label>
+						<input type="text" name="input" value="" class="AXInput" disabled="disabled" />
+
+						<div class="H10"></div>						
+						<label>Placeholder</label>						
+						<input type="text" name="input" value="" class="AXInput" placeholder="placeHolder" />
+						
+						<div class="H20"></div>						
+						
+						<h3>Round</h3>
+						<label>Normal</label>
+						<input type="text" name="input" value="" class="AXInput Round" />
+						
+						<div class="H10"></div>						
+						<label>ReadOnly</label>						
+						<input type="text" name="input" value="" class="AXInput Round" readonly="readonly" />
+
+						<div class="H10"></div>
+						<label>Disabled</label>
+						<input type="text" name="input" value="" class="AXInput Round" disabled="disabled" />
+
+						<div class="H10"></div>						
+						<label>Placeholder</label>						
+						<input type="text" name="input" value="" class="AXInput Round" placeholder="placeHolder" />						
+						
+						<div class="H20"></div>						
+						
+						<h3>Variation</h3>
+						<label>W60</label>
+						<input type="text" name="input" value="" class="AXInput W60" />
+						<div class="H10"></div>						
+						<label>W80</label>						
+						<input type="text" name="input" value="" class="AXInput W80" />						
+						<div class="H10"></div>												
+						<label>W100</label>						
+						<input type="text" name="input" value="" class="AXInput W100" />						
+						
+						<div class="H30"></div>	
+						
+					</div>	
+				</div>
+				<div class="ax-col-3">
+					<div class="ax-unit">
+						<h2>AXInputSmall</h2>
+						<h3>Normal</h3>
+						<label>Normal</label>
+						<input type="text" name="input" value="" class="AXInputSmall" />
+						
+						<div class="H10"></div>						
+						<label>ReadOnly</label>						
+						<input type="text" name="input" value="" class="AXInputSmall" readonly="readonly" />
+
+						<div class="H10"></div>
+						<label>Disabled</label>
+						<input type="text" name="input" value="" class="AXInputSmall" disabled="disabled" />
+
+						<div class="H10"></div>						
+						<label>Placeholder</label>						
+						<input type="text" name="input" value="" class="AXInputSmall" placeholder="placeHolder" />
+						
+						<div class="H20"></div>						
+						
+						<h3>Round</h3>
+						<label>Normal</label>
+						<input type="text" name="input" value="" class="AXInputSmall Round" />
+						
+						<div class="H10"></div>						
+						<label>ReadOnly</label>						
+						<input type="text" name="input" value="" class="AXInputSmall Round" readonly="readonly" />
+
+						<div class="H10"></div>
+						<label>Disabled</label>
+						<input type="text" name="input" value="" class="AXInputSmall Round" disabled="disabled" />
+
+						<div class="H10"></div>						
+						<label>Placeholder</label>						
+						<input type="text" name="input" value="" class="AXInputSmall Round" placeholder="placeHolder" />						
+						
+						<div class="H20"></div>												
+						
+						<h3>Size variation</h3>
+						<label>W60</label>
+						<input type="text" name="input" value="" class="AXInputSmall W60" />
+						<div class="H10"></div>						
+						<label>W80</label>						
+						<input type="text" name="input" value="" class="AXInputSmall W80" />						
+						<div class="H10"></div>												
+						<label>W100</label>						
+						<input type="text" name="input" value="" class="AXInputSmall W100" />						
+						
+						<div class="H30"></div>					
+						
+					</div>	
+				</div>
+				<div class="ax-col-3">
+					<div class="ax-unit">
+						<h2>AXInput bind</h2>
+						<h3>Search</h3>
+						
+						<input type="text" name="SearchValue" id="AXInputSearch" value="" class="AXInput W100 AXInputSearch" placeholder="placeHolder" />
+						<div class="H10"></div>	
+						<input type="text" name="SearchValue" id="AXInputSearch2" value="default Value" class="AXInput W100 AXInputSearch" />
+						<div class="H10"></div>	
+						<input type="text" name="SearchValue" id="AXInputSearch3" value="" class="AXInput W100 Round AXInputSearch" />
+						<div class="H10"></div>							
+						<input type="text" name="SearchValue" id="AXInputSearch4" value="" class="AXInputSmall AXInputSearch" />
+						
+						<div class="H20"></div>																		
+
+						<h3>Placeholder</h3>
+						<input type="text" name="SearchValue" id="AXInputPlaceHolder" value="" class="AXInput AXInputPlaceHolder" placeholder="placeHolder" />
+						<div class="H10"></div>
+						<input type="text" name="SearchValue" id="AXInputPlaceHolder2" value="default Value" class="AXInput AXInputPlaceHolder" placeholder="placeHolder" />
+						<div class="H10"></div>
+						<input type="text" name="SearchValue" id="AXInputPlaceHolder3" value="" class="AXInput Round AXInputPlaceHolder" placeholder="placeHolder" />
+						<div class="H10"></div>
+						<input type="text" name="SearchValue" id="AXInputPlaceHolder4" value="" class="AXInputSmall AXInputPlaceHolder" placeholder="placeHolder" />	
+
+						<div class="H30"></div>					
+						
+					</div>
+				</div>
+				<div class="ax-col-3 bindCheckbox">
+					<div class="ax-unit">
+						<h2>AXInput bind Checkbox</h2>
+						<h3>Normal</h3>
+
+                        <!--
+						<label class="AXCheckbox"><input type="checkbox" name="mycheck" value="T1" id="mycheck0" />Thomas Jang</label>
+						<div class="H10"></div>						
+						<label class="AXCheckbox"><input type="checkbox" name="mycheck" value="T2" id="mycheck1" />AXISJ</label>
+						<div class="H10"></div>						
+						<label class="AXCheckbox"><input type="checkbox" name="mycheck" value="T3" id="mycheck2" />Javascript</label>
+						-->
+                        <form name="input-checked-form">
+                            <!-- 직접바인딩 : label에 직접 바인딩 합니다. -->
+                            <label>
+                                <input type="checkbox" name="mycheck" value="yes" />
+                                Javascript
+                            </label>
+                            <label>
+                                <input type="radio" name="mycheckRadio" value="yes" />
+                                Javascript
+                            </label>
+
+                            <div class="H10"></div>
+
+                            <!-- 간접바인딩 : label을 감싸고 있는 컨테이너 엘리먼트에 바인딩 합니다. -->
+                            <div>
+                                <label>
+                                    <input type="checkbox" name="mycheck2" value="3" />
+                                    Javascript
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="mycheck2" value="2" />
+                                    Javascript
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="mycheck2" value="1" />
+                                    Javascript
+                                </label>
+                            </div>
+
+                            <div class="H10"></div>
+
+                            <div>
+                                <label>
+                                    <input type="radio" name="mycheck3" value="3" />
+                                    Javascript
+                                </label>
+                                <label>
+                                    <input type="radio" name="mycheck3" value="2" />
+                                    Javascript
+                                </label>
+                                <label>
+                                    <input type="radio" name="mycheck3" value="1" />
+                                    Javascript
+                                </label>
+                            </div>
+                        </form>
+
+						<div class="H10"></div>
+
+						<h2>AXTextarea</h2>
+						<textarea class="AXTextarea W200">Normal</textarea>
+						<textarea class="AXTextarea W200" readonly="readonly">ReadOnly</textarea>
+						<textarea class="AXTextarea W200" disabled="disabled">Disabled</textarea>
+						<textarea class="AXTextarea W200" placeholder="Placeholder"></textarea>
+
+					</div>	
+				</div>								
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>

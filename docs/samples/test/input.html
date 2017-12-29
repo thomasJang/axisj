@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXISJ - 액시스제이</title>
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ//ui/arongi/XInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/AXSelect.css" />
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<!-- js block -->
+</head>
+<body>
+	<div class="AXdemoPageContent">
+    	<h1>AXISJ jQuery Extends</h1>
+      	
+      	<h2>bindDate</h2>
+		<label class="AXInputLabel">
+			<span>bindDate</span>
+			<input type="text" name="" id="AXInputDate01" class="AXInput W110" />
+		</label>
+
+		<label class="AXInputLabel">
+			<span>bindDateTime</span>
+			<input type="text" name="" id="AXInputDate02" class="AXInput W160" />
+		</label>
+		
+		<h2>bindSwitch</h2>
+		<label class="AXInputLabel">
+			<span>AM/PM</span>
+			<input type="text" name="" value="AM" id="AXInputSwitch" style="width:50px;height:21px;border:0px none;" />
+		</label>
+		<div style="padding:10px 0px;">
+			<input type="button" value="AM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('AM');" />
+			<input type="button" value="PM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('PM');" />
+		</div>
+		
+		<h2>bindSegment</h2>
+		<label class="AXInputLabel">
+			<span>bindSegment</span>
+			<input type="text" name="" value="0" id="AXInputSegment" style="width:150px;" class="AXInput" />
+		</label>
+		
+		<div style="padding:10px 0px;">
+			<input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('0');" />
+			<input type="button" value="가운데로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('1');" />
+			<input type="button" value="오른쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('2');" />
+		</div>
+		
+		<h2>bindNumber</h2>
+		<label class="AXInputLabel">
+			<span>normal</span>
+			<input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />				
+		</label>
+		<label class="AXInputLabel">
+			<span>range(1~100)</span>
+			<input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
+		</label>
+		<label class="AXInputLabel">
+			<span>range(20~)</span>
+			<input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
+		</label>
+		<label class="AXInputLabel">
+			<span>AXInputSmall</span>
+			<input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />	
+		</label>
+
+		<h2>bindSlider</h2>
+		<label class="AXInputLabel">
+			<input type="text" name="inputSlider" id="AXInputSlider" value="50" class="AXInput W300" />
+		</label>
+		<div class="AXHspace10"></div>
+		<label class="AXInputLabel">
+			<input type="text" name="inputTwinSlider" id="AXInputTwinSlider" value="200~700" class="AXInput W300" />
+		</label>
+      	
+      	<h2>bindSelector</h2>
+		<label class="AXInputLabel">
+			<input type="text" name="inputSelector" id="AXInputSelector" value="" class="AXInput" />
+		</label>
+		
+      	<h2>bindSelect</h2>
+		<label class="AXInputLabel">
+			<select name="" class="AXSelect" id="AXSelect1" tabindex="7">
+				<option value="">-- 선택하세요 --</option>
+				<option value="1">%가나다라마바사</option>
+				<option value="2" selected="selected">abcdefg</option>
+				<option value="3">abcdefg 가나다라마바사</option>
+				<option value="4">abcdefg 가나다라마바사</option>
+				<option value="5">abcdefg 가나다라마바사</option>
+				<option value="6">abcdefg 가나다라마바사</option>
+			</select>
+		</label>
+      	
+	</div>
+	
+	<!-- js block -->
+	<script type="text/javascript">
+	//bindDate
+	$("#AXInputDate01").bindDate();
+	$("#AXInputDate02").bindDateTime();
+	
+	//bindSwitch
+	$("#AXInputSwitch").bindSwitch({off:"AM", on:"PM", onChange:function(){
+		toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));
+	}});
+	
+	//bindSegment
+	$("#AXInputSegment").bindSegment({
+		options:[
+			{optionValue:0, optionText:"왼쪽"},
+			{optionValue:1, optionText:"가운데"},
+			{optionValue:2, optionText:"오른쪽"}
+		], 
+		onChange:function(){
+			//this.targetID, this.options, this.selectedIndex, this.selectedOption
+			toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+		}
+	});
+	
+	//bindNumber
+	$("#AXInputNumber").bindNumber();
+	$("#AXInputNumber2").bindNumber();
+	$("#AXInputNumber3").bindNumber(
+		{
+			min:1, 
+			max:100, 
+			onChange : function(){
+				trace(this);
+			}
+		}
+	);
+	$("#AXInputNumber4").bindNumber({min:20});
+	
+	//bindSlider
+	$("#AXInputSlider").bindSlider({min:0, max:100, snap:10, unit:"%"});
+	$("#AXInputTwinSlider").bindTwinSlider({min:0, max:1000, separator:"~", unit:"", snap:100}); // onChange 함수 바인드
+
+	//bindSelector
+	$("#AXInputSelector").bindSelector({
+		appendable:true,
+		options:[
+			{optionValue:1, optionText:"Seoul"},
+			{optionValue:2, optionText:"대구"},
+			{optionValue:3, optionText:"대전"},
+			{optionValue:4, optionText:"창원"},
+			{optionValue:5, optionText:"마산"},
+			{optionValue:6, optionText:"구례"},
+			{optionValue:7, optionText:"제주도"},
+			{optionValue:8, optionText:"전주"},
+			{optionValue:4, optionText:"창원"},
+			{optionValue:5, optionText:"마산"},
+			{optionValue:6, optionText:"구례"},
+			{optionValue:7, optionText:"제주도"},
+			{optionValue:8, optionText:"전주"},
+			{optionValue:9, optionText:"Gwangju"}
+		]
+	});
+	
+	$("#AXSelect1").bindSelect();
+	</script>
+	<!-- js block -->
+</body>
+</html>

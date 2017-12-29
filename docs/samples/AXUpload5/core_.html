@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXUpload5</title>
+
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXUpload.css" />
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript">
+		
+    //var xhrFileUpload = !!window.XMLHttpRequestUpload
+    var xhrFileReader = !!window.FileReader;
+    var xhrFormDataFileUpload = !!window.FormData;
+	trace({xhrFormDataFileUpload:xhrFormDataFileUpload, xhrFileReader:xhrFileReader});
+	// 위의 개체가 존재 할 경우에만 HTML5 업로드 처리가 가능
+	
+	function uploadFiles(url, files) {
+		var formData = new FormData();
+		for (var i = 0, file; file = files[i]; ++i) {
+			formData.append(file.name, file);
+		}
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.onload = function(e) {
+			toast.push(Object.toJSON(e.target.response));
+		};
+		xhr.upload.onprogress = function(e) {
+			if (e.lengthComputable) {
+				trace( ((e.loaded / e.total) * 100).round(2) );
+				$("#progressBar").text( ((e.loaded / e.total) * 100).round(2) );
+			}
+		};
+		xhr.send(formData);  // multipart/form-data
+	}
+	
+	var fnObj = {
+		pageStart: function(){
+			$("input[type='file']").bind("change", function(e){
+				uploadFiles('uploadFile.asp', this.files);
+			});
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 100);
+	});
+	</script>
+</head>
+<body>
+
+	<input type="file" name="files[]" id="files" value="" multiple />
+	<div id="progressBar"></div>
+
+</body>
+</html>

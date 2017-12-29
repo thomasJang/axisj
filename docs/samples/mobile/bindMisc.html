@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AX for Mobile</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">	
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+    AXInput.setConfig({ responsiveMobile: 648 });
+	
+	var pageID = "bindMisc";
+
+	var fnObj = {
+		pageStart: function(){
+			
+			$("#AXInputSwitch").bindSwitch({off:"AM", on:"PM", onChange:function(){
+				toast.push(Object.toJSON({targetID:this.targetID, on:this.on, off:this.off, value:this.value}));
+			}});
+			
+			$("#AXInputSegment").bindSegment({
+				options:[
+					{optionValue:0, optionText:"왼쪽"},
+					{optionValue:1, optionText:"가운데"},
+					{optionValue:2, optionText:"오른쪽"}
+				], 
+				onChange:function(){
+					//this.targetID, this.options, this.selectedIndex, this.selectedOption
+					toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+				}
+			});
+			
+			//bindNumber
+			$("#AXInputNumber").bindNumber();
+			$("#AXInputNumber2").bindNumber();
+			$("#AXInputNumber3").bindNumber(
+				{
+					min:1, 
+					max:100, 
+					onChange : function(){
+						trace(this);
+					}
+				}
+			);
+			$("#AXInputNumber4").bindNumber({min:20});
+			
+			$("#AXInputSlider").bindSlider({min:0, max:100, snap:10, unit:"%"});
+			$("#AXInputTwinSlider").bindTwinSlider({min:0, max:1000, separator:"~", unit:"", snap:100}); // onChange 함수 바인드
+
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h2>AXInput bind Switch</h2>
+
+            <label class="AXInputLabel">
+                <span>AM/PM</span>
+                <input type="text" name="" value="AM" id="AXInputSwitch" style="width:50px;height:21px;border:0px none;" />
+            </label>
+            <div style="padding:10px 0px;">
+                <input type="button" value="AM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('AM');" />
+                <input type="button" value="PM" class="AXButton" onclick="$('#AXInputSwitch').setValueInput('PM');" />
+            </div>
+
+            <h2>AXInput bind Segment</h2>
+
+            <label class="AXInputLabel">
+                <span>bindSegment</span>
+                <input type="text" name="" value="0" id="AXInputSegment" style="width:150px;" class="AXInput" />
+            </label>
+
+            <div style="padding:10px 0px;">
+                <input type="button" value="왼쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('0');" />
+                <input type="button" value="가운데로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('1');" />
+                <input type="button" value="오른쪽으로" class="AXButton" onclick="$('#AXInputSegment').setValueInput('2');" />
+            </div>
+
+            <h2>AXInput bind Number</h2>
+
+            <label class="AXInputLabel">
+                <span>normal</span>
+                <input type="text" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />
+            </label>
+            <label class="AXInputLabel">
+                <span>range(1~100)</span>
+                <input type="text" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
+            </label>
+            <label class="AXInputLabel">
+                <span>range(20~)</span>
+                <input type="text" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
+            </label>
+            <label class="AXInputLabel">
+                <span>AXInputSmall</span>
+                <input type="text" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />
+            </label>
+
+
+            <h2>AXInput bind Slider</h2>
+            <label class="AXInputLabel">
+                <input type="text" name="inputSlider" id="AXInputSlider" value="50" class="AXInput W300" />
+            </label>
+            <div class="AXHspace10"></div>
+            <label class="AXInputLabel">
+                <input type="text" name="inputTwinSlider" id="AXInputTwinSlider" value="200~700" class="AXInput W300" />
+            </label>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXProgress - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXProgress.js
+	 * CSS			: AXJ.css, AXProgress.css
+	 */	
+	var pageID = "AXProgress";
+	var myProgress = new AXProgress();	
+	var fnObj = {
+		pageStart: function(){
+
+			myProgress.setConfig({
+				theme:"AXlineProgress",
+				totalCount:10, 
+				width:400, 
+				top:100, 
+				title:"AXProgress BAR",
+				duration:299 // 프로세스바의 애니메이션 속도 값 입니다.
+			});
+			
+				
+		},
+		progress: {
+			start: function(){
+				mask.open();
+				myProgress.start(function(){
+					trace(this);
+					if(this.isEnd){
+						myProgress.close();
+						mask.close();
+						toast.push("progress end");
+					}else{
+						// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+						myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+					}
+				});
+			}
+		},
+		progress1: {
+			start: function(){
+				mask.open();
+				myProgress.start(function(){
+					//trace(this);
+					if(this.isEnd){
+						myProgress.close();
+						mask.close();
+						toast.push("progress end");
+					}else{
+						// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+						myProgress.update(); // 프로그레스의 다음 카운트를 시작합니다.
+					}	
+				}, 
+				{
+					totalCount:10,
+					width:500, 
+					top:200, 
+					title:"Set Options Type Progress"
+				});
+			}
+		},
+		progress2: {
+			start: function(){
+				mask.open();
+				myProgress.start(function(){
+					//trace(this);
+					if(this.isEnd){
+						myProgress.close();
+						mask.close();
+						toast.push("progress end");
+					}else{
+						// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+						myProgress.update();
+					}	
+				}, 
+				{
+					totalCount:50,
+					width:500, 
+					top:200, 
+					title:"취소버튼 확장형",
+					cancel: {
+						confirmMsg:"정말 취소하시겠습니까?",
+						oncancel:function(){
+							//myProgress.restart(); //다시 시작하기
+							myProgress.close();
+							mask.close();
+							toast.push("progress stop");	
+						}
+					}
+				});
+			}
+		},
+		progress3: {
+			start: function(){
+				mask.open();
+				myProgress.start(function(){
+					//trace(this);
+					if(this.isEnd){
+						myProgress.close();
+						mask.close();
+						toast.push("progress end");
+					}else{
+						// 무언가 처리를 해줍니다.	대부분 비동기 AJAX 통신 처리 구문을 수행합니다.
+						myProgress.update();
+					}	
+				}, 
+				{
+					totalCount:50,
+					width:66,
+					top:200,
+					title:"Circle",
+					theme:"AXCircleProgress"
+				});
+			}
+		}	
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+        html{}
+
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXProgress</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>Default</h2>
+							<input type="button" value="AXProgress Start" class="AXButton Red" onclick="fnObj.progress.start();" />
+							<input type="button" value="options 지정 방식" class="AXButton Red" onclick="fnObj.progress1.start();" />
+							<input type="button" value="취소버튼 지원형" class="AXButton Blue" onclick="fnObj.progress2.start();" />
+							<input type="button" value="AXProgress Circle" class="AXButton Blue" onclick="fnObj.progress3.start();" />
+
+						
+						<div class="H30"></div>
+						
+					</div>	
+				</div>
+				
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

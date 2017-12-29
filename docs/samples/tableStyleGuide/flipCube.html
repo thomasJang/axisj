@@ -1,0 +1,174 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Table style guide</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+		<meta name="description" content="Description" />
+	    
+	    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+	    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+	    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+
+		<style type="text/css" id="styleContainer">
+		html, body{
+			margin:0px;padding:0px;
+		}
+		</style>
+	</head>
+	<body>
+
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+					<div class="transitions">
+						<div class="transitions-inner">
+							<div id="sidecube0" class="sidecube">
+								<div class="front face outgoing"><div class="boxItem">1</div></div>
+								<div class="top face incoming"><div class="boxItem">2</div></div>
+							</div>
+						</div>
+					</div>	
+				</td>
+				<td>
+					<div class="transitions">
+						<div class="transitions-inner">
+							<div id="sidecube1" class="sidecube">
+								<div class="front face outgoing"><div class="boxItem">1</div></div>
+								<div class="top face incoming"><div class="boxItem">2</div></div>
+							</div>
+						</div>
+					</div>	
+				</td>
+				<td>
+					<div class="transitions">
+						<div class="transitions-inner">
+							<div id="sidecube2" class="sidecube">
+								<div class="front face outgoing"><div class="boxItem">1</div></div>
+								<div class="top face incoming"><div class="boxItem">2</div></div>
+							</div>
+						</div>
+					</div>	
+				</td>
+			</tr>
+		</table>
+
+		<div id="innerDiv" style="display:none;height:200px;"></div>
+
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+					<div class="transitions">
+						<div class="transitions-inner">
+							<div id="sidecube3" class="sidecube">
+								<div class="front face outgoing"><div class="boxItem">1</div></div>
+								<div class="top face incoming"><div class="boxItem">2</div></div>
+							</div>
+						</div>
+					</div>	
+				</td>
+				<td>
+					<div class="transitions">
+						<div class="transitions-inner">
+							<div id="sidecube4" class="sidecube">
+								<div class="front face outgoing"><div class="boxItem">1</div></div>
+								<div class="top face incoming"><div class="boxItem">2</div></div>
+							</div>
+						</div>
+					</div>	
+				</td>
+				<td>
+					<div class="transitions">
+						<div class="transitions-inner">
+							<div id="sidecube5" class="sidecube">
+								<div class="front face outgoing"><div class="boxItem">1</div></div>
+								<div class="top face incoming"><div class="boxItem">2</div></div>
+							</div>
+						</div>
+					</div>	
+				</td>
+			</tr>
+		</table>
+		
+	</body>
+</html>
+
+<script>
+	var onid = "";
+	$(".sidecube").click(function(){
+		if(onid != this.id){
+			if(onid != ""){
+				$("#"+onid).removeClass("active");
+				$("#innerDiv").slideUp();
+			}
+			$(this).addClass("active");
+			$("#innerDiv").slideDown();				
+			onid = this.id;
+		}else{
+			$("#"+onid).removeClass("active");
+			$("#innerDiv").slideUp();
+			onid = "";
+		}
+	});
+	
+var po = [];
+po.push(".transitions {");
+po.push("	margin: 0 auto;");
+po.push("}");
+po.push(".transitions-inner {");
+po.push("	position: relative;");
+po.push("	width: 200px;");
+po.push("	height: 200px;");
+po.push("	margin: 0 auto;");
+po.push("}");
+po.push(".transitions .transitions-inner {");
+po.push("	-webkit-perspective: 1000;");
+po.push("}");
+po.push(".transitions .sidecube {");
+po.push("	-webkit-transform-style: preserve-3d;");
+po.push("	-webkit-transition: 0.6s;");
+po.push("	-webkit-transform-style: preserve-3d;");
+po.push("	width: 200px;");
+po.push("	height: 200px;");
+po.push("	position: absolute;");
+po.push("}");
+po.push(".transitions .sidecube.active {");
+po.push("	-webkit-animation-duration: 1s;");
+po.push("	-webkit-animation-iteration-count: 1;");
+po.push("	-webkit-transform: rotateY(90deg);");
+po.push("}");
+po.push(".transitions .sidecube.deactive {");
+po.push("	-webkit-animation-duration: 1s;");
+po.push("	-webkit-animation-iteration-count: 1;");
+po.push("	-webkit-animation-name: sidecube;");
+po.push("	-webkit-transform: rotateY(90deg);");
+po.push("}");
+po.push(".transitions .sidecube .face {");
+po.push("	position: absolute;");
+po.push("	width: 200px;");
+po.push("	height: 200px;");
+po.push("	display: block;");
+po.push("	overflow: hidden;");
+po.push("}");
+po.push(".transitions .sidecube .front {");
+po.push("	-webkit-transform: scale3d(0.91,0.91,0.91) translateZ(100px);");
+po.push("}");
+po.push(".transitions .sidecube .top {");
+po.push("	-webkit-transform: scale3d(0.91,0.91,0.91) rotateY(-90deg) translateZ(100px);");
+po.push("}");
+po.push("@-webkit-keyframes sidecube {");
+po.push("	0% { -webkit-transform: rotateY(0); -webkit-animation-timing-function: linear; }");
+po.push("	50% { -webkit-transform: rotateY(92deg); -webkit-animation-timing-function: ease-in; }");
+po.push("	70% { -webkit-transform: rotateY(84deg); -webkit-animation-timing-function: ease-in; }");
+po.push("	80% { -webkit-transform: rotateY(90deg); -webkit-animation-timing-function: ease-in; }");
+po.push("	95% { -webkit-transform: rotateY(88deg); -webkit-animation-timing-function: ease-in; }");
+po.push("	100% { -webkit-transform: rotateY(90deg); }");
+po.push("}");
+po.push(".boxItem{");
+po.push("	width:198px;height:198px;color:#000;text-align:center;border:1px solid #ccc;	");
+po.push("}");
+$("#styleContainer").append(po.join(''));
+</script>

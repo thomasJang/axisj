@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="ui/AXJ.png" />
+
+    <link rel="stylesheet" type="text/css" href="ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="ui/arongi/AXJ.min.css" />
+
+    <script type="text/javascript" src="jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="dist/AXJ.min.js"></script>
+
+
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+
+    <div id="AXPage">
+        <!-- AXPageBody -->
+        <div id="AXPageBody">
+            <div class="ax-wrap">
+                <div class="ax-layer-1" id="ax_layer_1"></div>
+            </div>
+        </div>
+        <!-- AXPageBody -->
+    </div>
+
+    <script type="text/javascript" src="samples/page.js"></script>
+    <script type="text/javascript">
+        isIndex = true;
+        jQuery(document).ready(function(){
+
+            new AXReq("samples/AXGrid/selectorData.php",
+                {pars:"", onsucc:function(res){
+                    trace(res);
+                }
+            });
+
+
+            setTimeout(function(){
+                var po = [];
+                axf.each(sampleTree, function(){
+                    po.push('<div class="ax-col-3">');
+                    po.push('<div class="ax-unit secBlock">');
+                    po.push('<h3>', this.label,'</h3>');
+                    po.push('<ul id="comon">');
+                    axf.each(this.cn, function() {
+                        po.push('<li><a href="', this.url,'">', this.label,'</a></li>');
+                    });
+                    po.push('</ul>');
+                    po.push('</div>');
+                    po.push('</div>');
+                });
+                po.push('<div class="ax-clear"></div>');
+                $("#ax_layer_1").html(po.join(''));
+
+                /*
+                 mask.setContent({
+                 width:50, height:50,
+                 html:"<i class='fa fa-circle-o-notch fa-spin' style='font-size:50px;'></i>"
+                 });
+                 mask.open();
+                 */
+            }, 500);
+        });
+    </script>
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-38119279-3', 'axisj.com');
+        ga('send', 'pageview');
+
+    </script>
+
+</body>
+</html>

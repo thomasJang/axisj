@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXModelControl - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">
+	var pageID = "AXModelControl";
+	var myModel = new AXModelControl();
+	var myModelGrid = new AXModelControlGrid();
+	
+	var fnObj = {
+		pageStart: function(){
+
+			myModel.setConfig({
+				targetID:"AXModelControlTarget", // 필수
+				collectClassName:"", // 선택 -- 빈값이면 모든 입력타입을 수집합니다.
+				//collectSelector:".someClass",
+				excludeClassName:"", // 수집제외 클래스 
+				subModelDetectClassName:"AXModelDetect", //선택 -- 하위 오브젝트를 검색 클래스 (하위 오브젝트의 키네임은 클래스네임_키 의 조합으로 만들어진 엘리먼트 아이디를 인식 합니다.,
+			});
+		},
+		addForm: function(){
+			myModel.clearCollect();
+			var po = [];
+			po.push('<tr>');
+			po.push('	<th>SubObject G</th>');
+			po.push('	<td colspan="3">');
+			po.push('		<div class="AXModelDetect" id="AXModelDetect_G">');
+			po.push('			<div>');
+			po.push('				<input type="text" name="A1" placeholder="A1" value="" class="AXInput" />');
+			po.push('				<input type="text" name="B2" placeholder="B2" value="" class="AXInput" />');
+			po.push('				<input type="text" name="B2" placeholder="B2" value="" class="AXInput" />										');
+			po.push('			</div>');
+			po.push('		</div>');
+			po.push('	</td>');
+			po.push('</tr>	');
+			$("#myaddPoint").after(po.join(''));
+		},
+		ok1: function(){
+			var obj = myModel.getData();
+			trace(obj);
+		},
+		ok1_setData: function(){
+
+		}
+	};
+    jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody  -->
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div class="title"><h1>AXModelControl</h1></div>
+
+            <div id="AXModelControlTarget">
+
+                <div style="width:800px;">
+
+                    <table class="AXFormTable">
+                        <colgroup>
+                            <col width="100" />
+                            <col />
+                            <col width="100" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>
+                                    <input type="text" name="name" value="" class="AXInput someClass" />
+                                </td>
+                                <th>middleName</th>
+                                <td>
+                                    <input type="text" name="middleName" value="" class="AXInput someClass" />
+                                    <input type="text" name="middleName" value="" class="AXInput" />
+                                    <input type="text" name="middleName" value="" class="AXInput" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>sex</th>
+                                <td>
+                                    <label><input type="radio" name="sex" value="M" class="someClass" />남자</label>
+                                    <label><input type="radio" name="sex" value="F" class="someClass" />여자</label>
+                                </td>
+                                <th>age</th>
+                                <td>
+                                    <label><input type="checkbox" name="age" value="10" />10</label>
+                                    <label><input type="checkbox" name="age" value="20" />20</label>
+                                    <label><input type="checkbox" name="age" value="30" />30</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>agree</th>
+                                <td colspan="3">
+                                    <label><input type="checkbox" name="agree" value="yes" /> 동의합니다.</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>SubObject G</th>
+                                <td colspan="3">
+                                    <div>
+                                        <div class="AXModelDetect" id="AXModelDetect_G"> <!-- model의 하위 오브젝트로 처리 합니다. -->
+                                            <input type="text" name="A1" placeholder="A1" value="" class="AXInput" />
+                                            <input type="text" name="B1" placeholder="B1" value="" class="AXInput" />
+                                            <input type="text" name="B2" placeholder="B2" value="" class="AXInput" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="myaddPoint">
+                                <th>SubObject G</th>
+                                <td colspan="3">
+                                    <div class="AXModelDetect" id="AXModelDetect_G">
+                                        <div>
+                                            <input type="text" name="A1" placeholder="A1" value="" class="AXInput" />
+                                            <input type="text" name="B1" placeholder="B1" value="" class="AXInput" />
+                                            <input type="text" name="B2" placeholder="B2" value="" class="AXInput" />
+                                            <input Type="button" onclick="fnObj.addForm();" class="AXButton" value="add" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Select</th>
+                                <td>
+                                    <select name="selectType" class="AXSelect">
+                                        <option value="">----</option>
+                                        <option value="A">선택A</option>
+                                        <option value="B">선택B</option>
+                                        <option value="C">선택C</option>
+                                    </select>
+                                </td>
+                                <th>Textarea</th>
+                                <td>
+                                    <textarea name="desc" class="AXTextarea"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="Hspace20"></div>
+            <div>
+                <button class="AXButton" onclick="fnObj.ok1();">Model1 Test</button>
+                <br/>
+                <br/>
+
+                <button class="AXButton" onclick='myModel.setData({key:"name"}, "장기영");'>myModel.setData({key:"name"}, "장기영");</button>
+                <button class="AXButton" onclick='myModel.setData({key:"middleName"}, "이영희");'>myModel.setData({key:"name"}, "이영희");</button>
+                <button class="AXButton" onclick='myModel.setData({key:"middleName", keySeq:1}, "장서우");'>myModel.setData({key:"middleName", keySeq:1}, "장서우");</button>
+                <button class="AXButton" onclick='myModel.setData({key:"middleName", keySeq:2}, "장서우");'>myModel.setData({key:"middleName", keySeq:2}, "장서우");</button>
+                <button class="AXButton" onclick='AXUtil.alert(myModel.setData({key:"middleName", keySeq:3}, "김정원"));'>myModel.setData({key:"middleName", keySeq:3}, "김정원");</button>
+                <hr/>
+                <button class="AXButton" onclick='AXUtil.alert( myModel.setData({key:"sex"}, "F") );'>myModel.setData({key:"sex"}, "F");</button>
+                <button class="AXButton" onclick='AXUtil.alert( myModel.setData({key:"sex"}, "M") );'>myModel.setData({key:"sex"}, "M");</button>
+                <button class="AXButton" onclick='AXUtil.alert( myModel.setData({key:"sex"}, "") );'>myModel.setData({key:"sex"}, "");</button>
+                <button class="AXButton" onclick='AXUtil.alert( myModel.setData({key:"age"}, []) );'>myModel.setData({key:"age"}, []);</button>
+                <button class="AXButton" onclick='AXUtil.alert( myModel.setData({key:"age"}, [10,30]) );'>myModel.setData({key:"age"}, [10,30]);</button>
+                <hr/>
+                <button class="AXButton" onclick='myModel.setData({key:"G.A1", keySeq:0}, "장기영");'>myModel.setData({key:"G.A1", keySeq:0}, "장기영");</button>
+                <button class="AXButton" onclick='myModel.setData({key:"G.B2", keySeq:0}, "장기영");'>myModel.setData({key:"G.B2", keySeq:0}, "장기영");</button>
+                <hr/>
+                <button class="AXButton" onclick='myModel.setData({key:"selectType"}, "A");'>myModel.setData({key:"selectType"}, "A");</button>
+                <button class="AXButton" onclick='myModel.setData({key:"selectType"}, "C");'>myModel.setData({key:"selectType"}, "C");</button>
+                <hr/>
+                <button class="AXButton" onclick='myModel.setData({key:"desc"}, "이건너무심했지");'>myModel.setData({key:"desc"}, "이건너무심했지");</button>
+                <button class="AXButton" onclick='myModel.setData({key:"desc"}, "이게 그때 그노래라도 그렇지");'>myModel.setData({key:"desc"}, "이게 그때 그노래라도 그렇지");</button>
+                <hr/>
+                <button class="AXButton" onclick='myModel.setData({}, {name:"액시스제이"});'>myModel.setData({}, {name:"액시스제이"});</button>
+                <button class="AXButton" onclick='myModel.setData({}, {rowseq:"1234", name:"액시스제이2", middleName:["11", "122", "33"], sex:"F", age:["20", "30", "99"], G:{A1:["1", "1.1"], B1:["2", "2.1"], B2:["3", "3.1"]}, selectType:"B", desc:"Textarea", agree:"yes"});'>myModel.setData({}, JSObject);</button>
+                <button class="AXButton" onclick='myModel.setData({}, {rowseq:"1234", name:"액시스제이2", middleName:["11", "122", "33"], sex:"F", age:["20", "30", "99"], G:{A1:["1", "1.1"], B1:["2", "2.1"], B2:["3", "3.1"]}, selectType:"B", desc:"Textarea", agree:""});'>myModel.setData({}, JSObject);</button>
+                <br/>
+                <br/>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

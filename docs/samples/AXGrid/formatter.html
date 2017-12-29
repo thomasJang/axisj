@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+    <title>AXGrid - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="http://cdno.axisj.com/axicon/axicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXGrid.css" />
+
+    <style type="text/css">
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXUtil.js"></script>
+    <script type="text/javascript" src="../../lib/AXGrid.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../../lib/AXSelect.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+    <script id="jscode">
+        /**
+         * Require Files for AXISJ UI Component...
+         * Based		: jQuery
+         * Javascript 	: AXJ.js, AXGrid.js, AXInput.js, AXSelect.js
+         * CSS			: AXJ.css, AXGrid.css, AXButton.css, AXInput.css, AXSelect.css
+         */
+        var pageID = "formatter";
+        var fnObj = {
+            pageStart: function(){
+                fnObj.grid.bind();
+            },
+            grid: {
+                target: new AXGrid(),
+                bind: function(){
+                    window.myGrid = fnObj.grid.target;
+
+                    myGrid.setConfig({
+                        targetID : "AXGridTarget",
+                        sort:false,
+                        colGroup : [
+                            {key:"checkbox", label:"checkbox", width:"50", align:"center", formatter:"checkbox"},
+                            {key:"no", label:"번호", width:"50", align:"right"},
+                            {key:"wordwrap", label:"wordwrap", width:"200", formatter:"wordwrap"},
+                            {key:"select", label:"select", width:"100", align:"center",
+                                formatter: "select", /* 반드시 editor AXSelect와 같이 사용하셔야 합니다. */
+                                editor: {
+                                    type: "AXSelect",
+                                    options: [
+                                        {optionValue: "1", optionText: "서울"},
+                                        {optionValue: "2", optionText: "대전"},
+                                        {optionValue: "3", optionText: "대구"},
+                                        {optionValue: "4", optionText: "부산"}
+                                    ]
+                                }
+                            },
+                            {key:"date", label:"custom", width:"120", align:"center", formatter:"custom-date"},
+                            {key:"money", label:"money", width:"100", align:"right", formatter:"money"}
+                        ],
+                        colHeadAlign: "center", // 헤드의 기본 정렬 값 ( colHeadAlign 을 지정하면 colGroup 에서 정의한 정렬이 무시되고 colHeadAlign : false 이거나 없으면 colGroup 에서 정의한 속성이 적용됩니다.
+                        page: { paging: false }
+                    });
+
+                    var list = [
+                        {no:1, wordwrap: "AXGrid 첫번째 줄 입니다.\n두 번째 줄입니다\n세   번째 줄입니다.", select: "1", date: 1451486280169, money: 1709401},
+                        {no:2, wordwrap: "AXGrid 첫번째 줄 입니다.\n두 번째 줄입니다\n세   번째 줄입니다.", select: "2", date: 1451486280169, money: 1709401},
+                        {no:3, wordwrap: "AXGrid 첫번째 줄 입니다.\n두 번째 줄입니다\n세   번째 줄입니다.", select: "3", date: 1451486280169, money: 1709401}
+                    ];
+                    myGrid.setList(list);
+                }
+            }
+        };
+        jQuery(document.body).ready(function() {
+            fnObj.pageStart();
+        });
+
+        /**
+         * 원하는 커스텀 포멧터를 정의할 수 있습니다.
+         * 공통 js 파일에 작성하시면 한 번 정의로 여러번 사용하실 수 있습니다.
+         */
+        Object.extend(AXGrid.prototype.formatter, {
+            "custom-date": function (formatter, item, itemIndex, value, key, CH, CHidx) {
+                if (!value) return '';
+
+                return (value).date().print("yyyy년 mm월 dd일");
+            }
+        });
+
+    </script>
+</head>
+
+<body>
+
+<div id="AXPage">
+
+    <div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <div id="grid0">
+                <h2>AXGrid (formatter)</h2>
+                <div id="AXGridTarget" style="height:300px;"></div>
+            </div>
+            <div style="padding:10px;"></div>
+            <pre id="pretty" class="prettyprint linenums"></pre>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>		

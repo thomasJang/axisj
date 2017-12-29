@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>MISC - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+	.item{
+		margin:10px;
+		border:1px solid #000;
+		border-radius:5px;
+		box-shadow:0px 0px 5px #888;
+		padding:5px;	
+		width:200px;height:200px;
+		background:#ffffee;
+		float:left;
+	}
+	.item.beSelected{background:#68adcf;color:#fff;}
+	.AX_selecting{background:#CFE4EF;}
+	</style>
+	<!-- css block -->
+
+	<script type="text/javascript">
+	var pageID = "Misc";
+	var fnObj = {
+		pageStart: function(){
+			
+			$("#resizableBox_0").bindAXResizable();
+			
+			$("#resizableBox_1").bindAXResizable({
+				minWidth:50, minHeight:50, 
+				maxWidth:200, maxHeight:200
+			});
+			$("#resizableBox_2").bindAXResizable({
+				snap:50
+			});
+			$("#resizableBox_3").bindAXResizable({
+				animate: {easing:"bounceOut", duration:500},
+				onChange: function(){
+					toast.push(this.id);
+				}
+			});
+			$("#resizableBox_4").bindAXResizable({
+				animate: {easing:"bounceOut", duration:500},
+				aspectRatio: 9 / 16,
+				snap:10,
+				onChange: function(){
+					toast.push(this.id);
+				}
+			});
+			$("#resizableBox_5").bindAXResizable({
+				minWidth:50, minHeight:50, 
+				maxWidth:200, maxHeight:200,
+				animate: {easing:"bounceOut", duration:500},
+				aspectRatio: 2/1,
+				snap:10,
+				onChange: function(){
+					toast.push(this.id);
+				}
+			});
+		}
+	};
+	$(document).ready(fnObj.pageStart);
+	</script>
+	<!-- js block -->
+	
+</head>
+<body style="position:relative;margin:0px;">
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+
+		<h1>AXResizable</h1>
+		
+		<div class="item" id="resizableBox_0">
+			Default
+		</div>
+
+		<div class="item" id="resizableBox_1">
+			min & max (50~200)
+		</div>
+
+		<div class="item" id="resizableBox_2">
+			snap 50
+		</div>
+		
+		<div class="item" id="resizableBox_3">
+			animate
+		</div>
+		
+		<div class="item" id="resizableBox_4">
+			aspectRatio
+		</div>
+		
+		<div class="item" id="resizableBox_5">
+			all
+		</div>
+		
+		<div class="clear"></div>
+	</div>
+    </div>
+</div>
+</body>
+</html>

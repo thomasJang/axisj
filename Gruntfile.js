@@ -191,6 +191,10 @@
                     ]
                 }
             }
+        },
+        copy: {
+            main: {expand: true, src: ['samples/**'], dest: 'docs/'},
+            index: {expand: false, src: ['index.html'], dest: 'docs/'}
         }
     });
 
@@ -199,8 +203,10 @@
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('js-concat', ['concat']);
     grunt.registerTask('js', ['concat', 'uglify']);
     grunt.registerTask('css', ['less', 'cssmin']);
+    grunt.registerTask('sample-copy', ['copy']);
 };

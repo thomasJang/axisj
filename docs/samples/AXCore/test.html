@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    
+	<!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript">
+	var fnObj = {
+		pageStart: function(){
+			
+//AXUtil.setCookie("myname", "tomas", 10);
+trace( AXUtil.getUrlInfo() );
+
+
+		}
+	};
+	$(document).ready(fnObj.pageStart);
+	</script>
+	<!-- js block -->
+	
+</head>
+<body style="position:relative;margin:0px;">
+	<div style="padding:20px;">
+<a id="tester"></a>
+<div id="tester2"></div>
+	</div>	
+</body>
+</html>

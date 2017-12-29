@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>API Tester</title>
+	
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXProgress.css" />
+	
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/import_desktop.css" />
+	<![endif]-->
+	<!-- css block -->
+
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXProgress.js"></script>
+	<script type="text/javascript" src="apiTab.js"></script>
+	<script type="text/javascript">
+	var pageID = "gitHub";
+	
+	var apiServer = "https://github.com";
+	//var apiServer = "http://192.168.0.8:9000";
+	
+	var myProgress = new AXProgress();
+	var fnObj = {
+		pageStart: function(){
+			$("#ajaxMethod").bindSelect();
+			myProgress.setConfig({
+				theme:"AXCircleProgress",
+				totalCount:2, 
+				width:400, 
+				top:100, 
+				title:"AXProgress BAR",
+				duration:50 // 프로세스바의 애니메이션 속도 값 입니다.
+			});
+		},
+		callAPI: function(){
+			var frm = document.sendForm;
+			var _method = frm.method.value;
+			var _url = frm.url.value;
+			var _url = frm.url.value;
+			var _param = frm.param.value;
+
+			var _headers = {};
+			_headers["X-Service-Type"] = frm.X_Service_Type.value;
+			if(frm.X_BMG_AccessToken.value != "") _headers["X-BMG-AccessToken"] = frm.X_BMG_AccessToken.value;
+			if(frm.X_User_Token.value != "") _headers["X-User-Token"] = frm.X_User_Token.value;
+			
+			mask.open();
+			myProgress.start(function(){
+				//myProgress.update();	
+			});
+			$("#resultArea").val("API 서버와 통신을 진행중입니다. 잠시만 기다려 주세요.");
+			
+			new AXReq(apiServer + "/" + _url, 
+			{
+				debug: false, 
+				pars: _param, 
+				type: _method,
+				contentType: "application/json",
+				headers: _headers,
+				onsucc: function (res) {
+					$("#resultJsonArea").val(Object.toJSON(res));
+					$("#resultArea").html(fnObj.printJSON(res));
+					
+					if(res.user_token){
+						frm.X_User_Token.value = res.user_token;
+					}
+					
+					myProgress.close();
+					mask.close();
+					toast.push("API 통신 성공");
+				},
+				onerr: function(e){
+					trace(e);
+					$("#resultJsonArea").val(Object.toJSON(e));
+					$("#resultArea").html(fnObj.printJSON(e));
+					myProgress.close();
+					mask.close();
+					toast.push("서버에서 에러가 발생 하였습니다.");
+				}
+			});
+			
+			/*
+			$.ajax({
+				type:_method,
+				url:"http://" + apiServer + "/" + _url,      
+				data: _param,
+				contentType:"application/json",
+				headers : _headers,
+				success:function(res){
+					//trace(res);
+					$("#resultJsonArea").val(Object.toJSON(res));
+					$("#resultArea").html(fnObj.printJSON(res));
+					
+					if(res.user_token){
+						frm.X_User_Token.value = res.user_token;
+					}
+					
+					myProgress.close();
+					mask.close();
+					toast.push("API 통신 성공");
+				},
+				error:function(e){
+					trace(e);
+					$("#resultJsonArea").val(Object.toJSON(e));
+					$("#resultArea").html(fnObj.printJSON(e));
+					myProgress.close();
+					mask.close();
+					toast.push("서버에서 에러가 발생 하였습니다.");
+				}
+			});
+			*/
+			return false;			
+		},
+		printJSON: function(json){
+			var po = [];
+			po.push('<table class="AXFormTable">');
+			po.push('	<colgroup><col width="80" /><col /></colgroup>');
+			po.push('	<tbody>');
+			
+			$.each(json, function(k, v){
+				if(v != undefined && v != "undefined" && !Object.isFunction(v)){
+					po.push('		<tr>');
+						po.push('		<th class="gray" style="word-break:break-all;">'+ k +'</th>');
+						if(Object.isObject(v)){
+							po.push('		<td>'+ fnObj.printJSON(v) +'</td>');
+						}else{
+							po.push('		<td>'+ Object.toJSON(v) +'</td>');
+						}
+					po.push('		</tr>');
+				}
+			});
+			
+			po.push('	</tbody>');
+			po.push('</table>');
+			return po.join('');
+		},
+		gitTryCode: function(){
+			window.open("https://github.com/login/oauth/authorize?client_id=527d66e731a96c5921ce&redirect_uri=http://localhost:2013/samples/APIExp/getGitHubCode.asp", "gitHubAuth", "width=1024, height=600");
+		},
+		gitGetCode: function(code){
+			//alert(code);
+			new AXReq("https://github.com/login/oauth/access_token", 
+			{
+				pars: "client_id=527d66e731a96c5921ce&client_secret=b19773fe1f1855051d263f8d192f5833454a2099&code="+code, 
+				type: "post",
+				crossDomain: true,
+				onsucc: function (res) {
+					//
+					trace(res);
+					toast.push("git OK");
+				},
+				onerr: function(e){
+					toast.push("서버에서 에러가 발생 하였습니다.");
+				}
+			});
+			
+			
+			
+		}
+	}	
+	$(document.body).ready(fnObj.pageStart);
+	</script>
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+	
+	<form name="sendForm" method="post" onsubmit="return fnObj.callAPI();">
+	<table class="AXFormTable">
+		<colgroup>
+			<col width="80" />
+			<col />
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="gray">Auth</th>	
+				<td>
+					"https://github.com/login/oauth/authorize"
+					<button type="button" class="AXButton Blue W100" onclick="fnObj.gitTryCode();">access_token</button>
+				</td>
+			</tr>
+			<tr>
+				<th class="gray">
+					Method
+				</th>
+				<td>
+					<label class="AXInputLabel">
+						<select name="method" class="AXSelect" id="ajaxMethod">
+							<option value="GET">GET</option>
+							<option value="POST">POST</option>
+							<option value="PUT">PUT</option>
+							<option value="DELETE">DELETE</option>
+						</select>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<th class="gray">
+					Url
+				</th>
+				<td>
+					<label class="AXInputLabel fullWidth">
+						<span>https://github.com/</span>
+						<input type="text" name="url" class="AXInput" placeholder="Input API URL" value="login/oauth/access_token" />
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<th class="gray">
+					Param
+				</th>
+				<td>
+					<label class="AXInputLabel fullWidth">
+						<textarea name="param" class="AXTextarea" placeholder="json / parameter" style="width:100%;height:50px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;"></textarea>
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<th class="gray">
+					Headers
+				</th>
+				<td>
+					<label class="AXInputLabel" style="padding:5px 0px;">
+						<span>X-Service-Type</span>
+						<input type="text" name="X_Service_Type" class="AXInput" value="AXBrain/BMG" />
+					</label>
+					<label class="AXInputLabel" style="padding:5px 0px;">
+						<span>X-BMG-AccessToken</span>
+						<input type="text" name="X_BMG_AccessToken" class="AXInput W100" value="AXBrain" />
+					</label>
+					<label class="AXInputLabel" style="padding:5px 0px;">
+						<span>X-User-Token</span>
+						<input type="text" name="X_User_Token" class="AXInput W200" value="" />
+					</label>					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div style="padding:10px;text-align:center;">
+		<button class="AXButton Blue W100">확인</button>
+	</div>
+
+	</form>
+	
+	<div id="resultArea"></div>
+	<div class="AXHspace10"></div>
+	<textarea class="AXTextarea" id="resultJsonArea" style="width:100%;height:100px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;"></textarea>
+	
+	
+</div>
+<!-- js block -->
+</html>

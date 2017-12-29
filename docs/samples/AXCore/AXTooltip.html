@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<style type="text/css">
+
+	</style>
+	<!-- css block -->
+
+
+	
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+
+		<h1>AXPopOver</h1>
+		
+		<h2>AXPopOver (menu)</h2>
+		
+		<div style="padding:20px 50px;position:relative;text-align: center;">
+			<input type="button" value="popover 열기" class="AXButton" id="popoverBtn1" />
+		</div>
+		
+		<h2>AXPopOverTooltip (script)</h2>
+		<div style="padding:20px 50px;position:relative;">	
+			<button class="AXButton" onclick="" id="helpme">도움말 <i class="fa fa-question-circle"></i></button>
+		</div>
+		
+		<h2>AXPopOverTooltip (bindTooltip)</h2>
+		<div style="padding:20px 50px;position:relative;">	
+			<button class="AXButton tooltipbind" onclick="" id="tooltip0">도움말 <i class="fa fa-question-circle"></i></button>
+			<div id="tooltip0_AX_tooltip" class="AXTooltipContent">
+				AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드, 
+				AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스, 
+				AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다. 
+			</div>
+			<button class="AXButton tooltipbind" onclick="" id="tooltip2">도움말 <i class="fa fa-question-circle"></i></button>
+			<div id="tooltip2_AX_tooltip" class="AXTooltipContent">
+				<div style="border:1px dashed #ccc;padding:10px;background:#fff;">
+				2가지 파일 <b>(/_AXJ/lib/AXJ.js, /_AXJ/ui/[themeName]/AXJ.css)</b>을 html 페이지에 <br/>
+				import 한 경우 사용이 가능한 core 기능에 대한 설명 입니다. 
+				</div>
+			</div>
+			<button class="AXButton tooltipbind" onclick="" id="tooltip3">도움말 <i class="fa fa-question-circle"></i></button>
+			<div id="tooltip3_AX_tooltip" class="AXTooltipContent">
+				AXJ.css에는 기본 버튼 스타일, AXButton.css 에는 색이 들어간 버튼스타일이 정의 되어있습니다. 
+				<input type="button" value="버튼" class="AXButton" />
+			</div>
+		</div>
+		
+		<div>
+			$(".tooltipbind").bindTooltip(); 또는 $("#tooltipbind").bindTooltip();
+			을 사용하기 위해서는 
+
+<pre>
+&lt;input type="button" value="도움말1" class="AXButton tooltipbind" id="tooltip0" />
+&lt;div id="tooltip0_AX_tooltip" class="AXTooltipContent">
+	tooltip의 내용이 될 부분
+&lt;/div>
+tooltip 핸들이 되는 tooltip0 이 있어야 하고 그와 쌍을 이루며 본문영역이 될 tooltip0_AX_tooltip 이 HTML 본문에 준비 되어 있어야 합니다. 본문영역의 아이디는 핸들아이디+"_AX_tooltip" 형식이어야 합니다.
+</pre>
+		</div>
+		
+		<div class="Hspace20"></div>
+		
+		<h2>AXPopOverTooltip (bindTooltip direction)</h2>
+		<div style="padding:20px 50px;position:relative;">	
+			<button class="AXButton" onclick="" id="tooltip4"><div class="black_help">Bottom</div></button>
+			<div id="tooltip4_AX_tooltip" class="AXTooltipContent">
+				AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드, 
+				AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스, 
+				AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다. 
+			</div>
+			<button class="AXButton" onclick="" id="tooltip5"><div class="black_help">Top</div></button>
+			<div id="tooltip5_AX_tooltip" class="AXTooltipContent">
+				AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드, 
+				AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스, 
+				AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다. 
+			</div>
+			<button class="AXButton" onclick="" id="tooltip6"><div class="black_help">Auto</div></button>
+			<div id="tooltip6_AX_tooltip" class="AXTooltipContent">
+				AXCore 에서는 자바스크립트 자료형에 대한 prototype 확장 메소드, 
+				AXJ 클래스 원형, AXUtil 개체, AXReq(AJAX통신용) 클래스, AXCalendar 클래스, AXContext 클래스, AXPopOver 클래스, AXMask 클래스, AXNotification 클래스, 
+				AXScroll 클래스, AXMultiSelect 클래스, jQuery extend(eventType, easing) 구문 등을 포함하고 있습니다. 
+			</div>
+		</div>
+		
+	</div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "AXTooltip";
+    var fnObj = {
+        pageStart: function(){
+
+            //AXPopOver (menu)
+            AXPopOver.setConfig({responsiveMobile:640}); /* mobile modal 모달 적용 너비 지정 지정하지 않으면 모바일 모드가 작동 되지 않습니다. */
+            AXPopOver.bind({
+                id:"myContextMenu",
+                theme:"AXPopOver", // 선택항목
+                width:"200", // 선택항목
+                menu:[
+                    {userType:0, label:"Friends", className:"groupName"},
+                    {userType:0, label:"Invite friends", className:"", onclick:function(){}},
+                    {userType:0, label:"Find friends", className:"", onclick:function(){}},
+                    {userType:0, label:"Photo", className:"groupName"},
+                    {userType:0, label:"Cut", className:"", onclick:function(){}},
+                    {userType:0, label:"Roll", className:"", onclick:function(){}},
+                    {userType:0, label:"Equipment", className:"groupName"},
+                    {userType:0, label:"Setting", className:""},
+                    {userType:0, label:"Screen", className:"", onclick:function(){}},
+                    {userType:0, label:"Securities", className:"groupName"},
+                    {userType:0, label:"Account", className:"", onclick:function(){}},
+                    {userType:0, label:"Logout", className:"", onclick:function(){}},
+                ]
+            });
+            $("#popoverBtn1").bind("mouseover", function(){
+                var pos = $(this).offset();
+                AXPopOver.open({id:"myContextMenu", sendObj:{id:"전달하고싶은 오브젝트", name:"형식은 자유"}}, {left:pos.left-60, top:pos.top+30}); // event 직접 연결 방식
+            });
+
+            //AXPopOverTooltip
+            AXPopOver.bind({
+                id:"myPopOver2",
+                theme:"AXPopOverTooltip", // 선택항목
+                width:"", // 선택항목
+                body:"설명입니다.<br/>액시스제이는 이렇게 유용 합니다."
+            });
+            $("#helpme").bind("mouseover", function(event){
+                AXPopOver.open({id:"myPopOver2", sendObj:{}}, event); // event 직접 연결 방식
+            });
+
+            //AXPopOverTooltip (bindTooltip) 다중바인드 형식 지원됨.
+            $(".tooltipbind").bindTooltip({width:300});
+
+            //AXPopOverTooltip (bindTooltip) 방향설정 방식
+            $("#tooltip4").bindTooltip({direction:"bottom", width:300}); //{direction:"[auto|top|bottom]"}
+            $("#tooltip5").bindTooltip({direction:"top", width:300}); //{direction:"[auto|top|bottom]"}
+            $("#tooltip6").bindTooltip({direction:"auto", width:300}); //{direction:"[auto|top|bottom]"}
+        }
+    };
+    $(document).ready(fnObj.pageStart);
+</script>
+<!-- js block -->

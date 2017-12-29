@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXButton - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css" />
+    <style type="text/css">
+
+    </style>
+    <!-- css block -->
+
+    <!-- js block -->
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+    <script type="text/javascript">
+        var pageID = "AXButton";
+        var fnObj = {
+            pageStart: function(){
+
+            }
+        };
+        $(document).ready(fnObj.pageStart.delay(0.5));
+    </script>
+</head>
+	
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody" class="SampleAXButton">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+
+        <div class="AXdemoPageContent">
+            <div class="ax-wrap">
+                <div class="title"><h1>AXButton</h1></div>
+                <!-- s.axlayer 1 -->
+                <section class="ax-layer-1">
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Basic</h2>
+                            <h3>Normal</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButton">AXButton</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButton" class="AXButton" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButton" id="button">AXButton</button>
+                            <div class="H10"></div>
+                            <label for="input">Disabled</label>
+                            <input type="button" value="AXButton" class="AXButton" id="input" disabled="disabled" />
+
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonSmall">AXButtonSmall</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonSmall" class="AXButtonSmall" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonSmall" id="button">AXButtonSmall</button>
+                            <div class="H10"></div>
+                            <label for="input">Disabled</label>
+                            <input type="button" value="AXButtonSmall" class="AXButtonSmall" id="input" disabled="disabled" />
+
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonLarge">AXButtonLarge</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonLarge" class="AXButtonLarge" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonLarge" id="button">AXButtonLarge</button>
+                            <div class="H10"></div>
+                            <label for="input">Disabled</label>
+                            <input type="button" value="AXButtonLarge" class="AXButtonLarge" id="input" disabled="disabled" />
+
+
+                            <div class="H30"></div>
+                        </div>
+                    </div>
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Red</h2>
+                            <h3>Normal</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButton Red">AXButton</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButton" class="AXButton Red" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButton Red" id="button">AXButton</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonSmall Red">AXButtonSmall</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonSmall" class="AXButtonSmall Red" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonSmall Red" id="button">AXButtonSmall</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonLarge Red">AXButtonLarge</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonLarge" class="AXButtonLarge Red" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonLarge Red" id="button">AXButtonLarge</button>
+
+                            <div class="H30"></div>
+
+                        </div>
+                    </div>
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Green</h2>
+                            <h3>Normal</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButton Green">AXButton</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButton" class="AXButton Green" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButton Green" id="input">AXButton</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonSmall Green">AXButtonSmall</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonSmall" class="AXButtonSmall Green" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonSmall Green" id="input">AXButtonSmall</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonLarge Green">AXButtonLarge</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonLarge" class="AXButtonLarge Green" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonLarge Green" id="input">AXButtonLarge</button>
+
+                            <div class="H30"></div>
+
+                        </div>
+                    </div>
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Blue</h2>
+                            <h3>Normal</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButton Blue">AXButton</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButton" class="AXButton Blue" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButton Blue" id="input">AXButton</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonSmall Blue">AXButtonSmall</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonSmall" class="AXButtonSmall Blue" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonSmall Blue" id="input">AXButtonSmall</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <label for="input">link</label>
+                            <a href="#ax" class="AXButtonLarge Blue">AXButtonLarge</a>
+                            <div class="H10"></div>
+                            <label for="input">Input</label>
+                            <input type="button" value="AXButtonLarge" class="AXButtonLarge Blue" id="input" />
+                            <div class="H10"></div>
+                            <label for="button">Button</label>
+                            <button type="button" class="AXButtonLarge Blue" id="input">AXButtonLarge</button>
+
+                            <div class="H30"></div>
+
+                        </div>
+                    </div>
+                    <div class="ax-clear"></div>
+                </section>
+                <!-- e.axlayer 1 -->
+
+                <div class="h50"></div>
+
+                <!-- s.axlayer 2 -->
+                <section class="ax-layer-2 withIcons">
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Classic with Icons</h2>
+                            <h3>Normal</h3>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-commnet fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButton Classic"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-check-circle fa-1"></i> Done</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-search fa-1"></i> Search</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-heart fa-1"></i> Like</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-th fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-trash-o fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-arrow-circle-o-down fa-1"></i> Download</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-pencil fa-1"></i> Write</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-print fa-1"></i> Print</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-comments fa-1"></i> Comment</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-align-justify fa-1"></i> List</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-hand-o-up fa-1"></i> Submit</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-times fa-1"></i> Stop</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-repeat fa-1"></i> Reload</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-share-square fa-1"></i> Share</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-leaf fa-1"></i> Source</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-envelope fa-1"></i> Mail</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-picture-o fa-1"></i> Gallery</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-comment fa-1"></i> Kakao</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-twitter fa-1"></i> Twitter</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-facebook-square fa-1"></i> Facebook</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-github-alt fa-1"></i> Github</button>
+                            <button type="button" class="AXButtonSmall Classic"><i class="fa fa-vimeo-square fa-1"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButtonLarge Classic"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H30"></div>
+
+                        </div>
+                    </div>
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Variation1 with Icons</h2>
+                            <h3>Normal</h3>
+                            <button type="button" class="AXButton Red"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButton Red"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-check-circle fa-1"></i> Done</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-search fa-1"></i> Search</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-heart fa-1"></i> Like</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-th fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-trash-o fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-arrow-circle-o-down fa-1"></i> Download</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-pencil fa-1"></i> Write</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-print fa-1"></i> Print</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-comments fa-1"></i> Comment</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-align-justify fa-1"></i> List</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-hand-o-up fa-1"></i> Submit</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-times fa-1"></i> Stop</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-repeat fa-1"></i> Reload</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-share-square fa-1"></i> Share</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-leaf fa-1"></i> Source</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-envelope fa-1"></i> Mail</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-picture-o fa-1"></i> Gallery</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-comment fa-1"></i> Kakao</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-twitter fa-1"></i> Twitter</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-facebook-square fa-1"></i> Facebook</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-github-alt fa-1"></i> Github</button>
+                            <button type="button" class="AXButtonSmall Red"><i class="fa fa-vimeo-square fa-1"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButtonLarge Red"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H30"></div>
+                        </div>
+                    </div>
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Variation2 with Icons</h2>
+                            <h3>Normal</h3>
+                            <button type="button" class="AXButton Green"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButton Green"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-check-circle fa-1"></i> Done</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-search fa-1"></i> Search</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-heart fa-1"></i> Like</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-th fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-trash-o fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-arrow-circle-o-down fa-1"></i> Download</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-pencil fa-1"></i> Write</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-print fa-1"></i> Print</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-comments fa-1"></i> Comment</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-align-justify fa-1"></i> List</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-hand-o-up fa-1"></i> Submit</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-times fa-1"></i> Stop</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-repeat fa-1"></i> Reload</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-share-square fa-1"></i> Share</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-leaf fa-1"></i> Source</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-envelope fa-1"></i> Mail</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-picture-o fa-1"></i> Gallery</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-comment fa-1"></i> Kakao</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-twitter fa-1"></i> Twitter</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-facebook-square fa-1"></i> Facebook</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-github-alt fa-1"></i> Github</button>
+                            <button type="button" class="AXButtonSmall Green"><i class="fa fa-vimeo-square fa-1"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButtonLarge Green"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H30"></div>
+                        </div>
+                    </div>
+                    <div class="ax-col-3">
+                        <div class="ax-unit">
+                            <h2>Variation3 with Icons</h2>
+                            <h3>Normal</h3>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButton Blue"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Small</h3>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-check-circle fa-1"></i> Done</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-search fa-1"></i> Search</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-heart fa-1"></i> Like</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-th fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-trash-o fa-1"></i> Menu</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-arrow-circle-o-down fa-1"></i> Download</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-pencil fa-1"></i> Write</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-print fa-1"></i> Print</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-comments fa-1"></i> Comment</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-align-justify fa-1"></i> List</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-hand-o-up fa-1"></i> Submit</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-times fa-1"></i> Stop</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-repeat fa-1"></i> Reload</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-share-square fa-1"></i> Share</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-leaf fa-1"></i> Source</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-envelope fa-1"></i> Mail</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-picture-o fa-1"></i> Gallery</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-comment fa-1"></i> Kakao</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-twitter fa-1"></i> Twitter</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-facebook-square fa-1"></i> Facebook</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-github-alt fa-1"></i> Github</button>
+                            <button type="button" class="AXButtonSmall Blue"><i class="fa fa-vimeo-square fa-1"></i> Vimeo</button>
+
+                            <div class="H20"></div>
+
+                            <h3>Large</h3>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-check-circle fa-lg"></i> Done</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-search fa-lg"></i> Search</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-heart fa-lg"></i> Like</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-th fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-trash-o fa-lg"></i> Menu</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-arrow-circle-o-down fa-lg"></i> Download</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-pencil fa-lg"></i> Write</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-print fa-lg"></i> Print</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-comments fa-lg"></i> Comment</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-align-justify fa-lg"></i> List</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-hand-o-up fa-lg"></i> Submit</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-times fa-lg"></i> Stop</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-repeat fa-lg"></i> Reload</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-share-square fa-lg"></i> Share</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-leaf fa-lg"></i> Source</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-envelope fa-lg"></i> Mail</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-picture-o fa-lg"></i> Gallery</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-comment fa-lg"></i> Kakao</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-twitter fa-lg"></i> Twitter</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-facebook-square fa-lg"></i> Facebook</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-github-alt fa-lg"></i> Github</button>
+                            <button type="button" class="AXButtonLarge Blue"><i class="fa fa-vimeo-square fa-lg"></i> Vimeo</button>
+
+                            <div class="H30"></div>
+                        </div>
+                    </div>
+                    <div class="ax-clear"></div>
+                </section>
+                <!-- e.axlayer 2 -->
+
+                <div class="ax-clear"></div>
+
+            </div>
+            <div class="h20"></div>
+
+        </div>
+	</div>
+</div>
+</div>
+
+</body>
+</html>		

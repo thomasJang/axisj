@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXUpload</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" />
+	
+	<!-- css block -->
+	
+	<!--link rel="stylesheet" type="text/css" href="foundation.min.css" /-->
+	
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ//ui/arongi/XTabs.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/u/ui/arongi/Button.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/ui/arongi/pload5.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/default/import_desktop.css" />
+	<![endif]-->
+	<style type="text/css">
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+	
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js?v=001"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXUpload5.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXTab.js"></script>
+	<script type="text/javascript" src="pageTab.js"></script>
+	
+	<script type="text/javascript">
+	var pageID = "AXUpload5";
+	</script>
+	
+	<script type="text/javascript">
+	var ax_upload_controller = function($scope, $element){
+		$scope.uploader = new AXUpload5();
+		
+        // Upload Init
+        $scope.initFileUploader = function() {
+            $scope.uploader.setConfig({
+
+					target: axdom($element).find(".AXUpload5").get(0),
+					targetButtonClass:"Green",
+					uploadFileName:"files[]",
+					file_types:"*.*",  //audio/*|video/*|image/*|MIME_type (accept)
+					dropBoxTarget: axdom($element).find(".AXUpload5QueueBox").get(0),
+					queueBoxTarget: axdom($element).find(".AXUpload5QueueBox").get(0),
+					
+					flash_url : "../../_AXJ/lib/swfupload.swf",
+					flash9_url : "../../_AXJ/lib/swfupload_fp9.swf",
+					
+					// --------- e
+					onClickUploadedItem: function(){ // 업로드된 목록을 클릭했을 때.
+						//trace(this);
+						window.open(this.uploadedPath.dec() + this.saveName.dec(), "_blank", "width=500,height=500");
+					},
+					uploadMaxFileSize:(10*1024*1024), // 업로드될 개별 파일 사이즈 (클라이언트에서 제한하는 사이즈 이지 서버에서 설정되는 값이 아닙니다.)
+					uploadMaxFileCount:10, // 업로드될 파일갯수 제한 0 은 무제한
+					uploadUrl:"uploadFile.asp",
+					uploadPars:{userID:'tom', userName:'액시스'},
+					deleteUrl:"deleteFile.asp",
+					deletePars:{userID:'tom', userName:'액시스'},
+					buttonTxt:"파일올리기",
+					
+					fileKeys:{ // 서버에서 리턴하는 json key 정의 (id는 예약어 사용할 수 없음)
+						name:"name",
+						type:"type",
+						saveName:"saveName",
+						fileSize:"fileSize",
+						uploadedPath:"uploadedPath",
+						thumbPath:"thumbUrl" // 서버에서 키값을 다르게 설정 할 수 있다는 것을 확인 하기 위해 이름을 다르게 처리한 예제 입니다.
+					},
+					onbeforeFileSelect: function(){
+						//trace(this);
+						return true;
+					},
+					onUpload: function(){
+						//trace(this);
+						//trace($scope.uploader.uploadedList);
+						//trace("onUpload");
+					},
+					onComplete: function(){
+						//trace(this);
+						//trace("onComplete");
+						//$("#uploadCancelBtn").get(0).disabled = true; // 전송중지 버튼 제어
+					},
+					onStart: function(){
+						//trace(this);
+						//trace("onStart");
+						//$("#uploadCancelBtn").get(0).disabled = false; // 전송중지 버튼 제어
+					},
+					onDelete: function(){
+						trace(this);
+						trace("onDelete");
+					},
+					onError: function(errorType, extData){
+						if(errorType == "html5Support"){
+							//dialog.push('The File APIs are not fully supported in this browser.');
+						}else if(errorType == "fileSize"){
+							//trace(extData);
+							alert("파일사이즈가 초과된 파일을 업로드 할 수 없습니다. 업로드 목록에서 제외 합니다.\n("+extData.name+" : "+extData.size.byte()+")");
+						}else if(errorType == "fileCount"){
+							alert("업로드 갯수 초과 초과된 아이템은 업로드 되지 않습니다.");
+						}
+					}
+            });
+        };
+
+        // load fileList
+        $scope.loadFileList = function(){
+			// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- s
+			new AXReq(
+				"loadFileList.asp", 
+				{
+					pars:"", 
+					onsucc:function(res){
+						if(res.result == "ok"){
+							trace(res.ds);
+							$scope.uploader.setUploadedList(res.ds);
+						}else{
+							alert(res.msg.dec());
+						}
+					}
+				}
+			);
+			// 서버에 저장된 파일 목록을 불러와 업로드된 목록에 추가 합니다. ----------------------------- e
+        };
+        
+        // Upload delete
+        $scope.deleteSelect = function(type){
+        	$scope.uploader.deleteSelect(type);
+        };
+        
+        // 실행
+        $scope.initFileUploader();
+        $scope.loadFileList();
+	};
+	</script>
+	<!-- js block -->
+</head>
+<body>
+	<div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	<div class="AXdemoPageContent">
+		
+		<h2>AXUpload5</h2>
+
+		<div ng-controller="ax_upload_controller">
+			<div class="AXUpload5"></div>
+			<div class="Hspace10"></div>
+			<div class="AXUpload5QueueBox" style="height:188px;"></div>
+			<div class="Hspace10"></div>
+			<div style="padding-top:5px;">
+				<button class="AXButton" ng-click="deleteSelect()">선택삭제</button>
+				<button class="AXButton" ng-click="deleteSelect('all')">모두삭제</button>
+			</div>
+		</div>
+
+		<div class="Hspace20"></div>
+
+		<div ng-controller="ax_upload_controller">
+			<div class="AXUpload5"></div>
+			<div class="Hspace10"></div>
+			<div class="AXUpload5QueueBox" style="height:188px;"></div>
+			<div class="Hspace10"></div>
+			<div style="padding-top:5px;">
+				<button class="AXButton" ng-click="deleteSelect()">선택삭제</button>
+				<button class="AXButton" ng-click="deleteSelect('all')">모두삭제</button>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

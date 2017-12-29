@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXSlideViewer - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+
+    <script type="text/javascript" src="pageTab.js"></script>
+
+    <!-- prettify block -->
+    <link type="text/css" rel="stylesheet"  href="http://newdoc.axisj.com/styles/prettify-tomorrow.css">
+    <script src="http://newdoc.axisj.com/scripts/prettify/prettify.js"></script>
+    <script src="http://newdoc.axisj.com/scripts/prettify/lang-css.js"></script>
+    <!-- prettify block -->
+
+    <!-- js block -->
+    <script type="text/javascript">
+        var pageID = "AXSlideViewer";
+
+        var myViewer = new AXSlideViewer();
+        myViewer.setConfig({
+            id:"myViewer01",
+            fitToHeight: false
+        });
+
+        /*
+         // 이미지 list 의 키 네임을 변경해야 한다면. setConfig 에
+         myViewer.setConfig({
+         id:"myViewer01",
+         fitToHeight: false // true 로 하면 이미지가 꽉찬 형태로 표시 됩니다.
+         reserveKeys = {
+         title: "title", // 값을 변경 하세요.
+         description: "description",
+         url: "url"
+         }
+         });
+
+         //이미지 뷰어를 오픈하려면 아래의 메소드를 이용 하세요.
+         // list 는 이미지 배열 전체.
+         // selectedIndex 는 오픈되자 마자 봐야할 이미지 순번
+         myViewer.open({id:"myViewer01", list:slides, selectedIndex:itemIndex});
+         */
+
+        var slides = [
+            {title:"젓병뚜겅 먹어버릴 테다.", description:"아빠와 즐거운 한때.", url:"source/01.jpg", thumb:"source/thumb/01.png"},
+            {title:"씨익", description:"씩씩한 우리 서우 살인미소", url:"source/02.jpg", thumb:"source/thumb/02.png"},
+            {title:"밥줘!", description:"맛있는 빵을 맛본 서우 더 달라고 시위중", url:"source/03.jpg", thumb:"source/thumb/03.png"},
+            {title:"천사", description:"활짝 웃는 서우", url:"source/04.jpg", thumb:"source/thumb/04.png"},
+            {title:"05", description:"잠 깨우지 말라고", url:"source/05.jpg", thumb:"source/thumb/05.png"},
+            {title:"06", description:"소풍가기전날 새옷이 너무 좋아요", url:"source/06.jpg", thumb:"source/thumb/06.png"},
+            {title:"엄마 여기가 어디에요?", description:"헤이리 예술 마을에 외출한 우리 가족", url:"source/07.jpg", thumb:"source/thumb/07.png"},
+            {title:"08 어린이집에서", description:"혼자서도 잘해요", url:"source/08.jpg", thumb:"source/thumb/08.png"},
+            {title:"09 어린이집에서", description:"응? 당황하지 않아요", url:"source/09.jpg", thumb:"source/thumb/09.png"},
+            {title:"10", description:"못난이 서우 1", url:"source/10.jpg", thumb:"source/thumb/10.png"},
+            {title:"외출준비중", description:"못난이 서우 2", url:"source/11.jpg", thumb:"source/thumb/11.png"}
+        ];
+
+
+        var fnObj = {
+            pageStart: function(){
+                fnObj.slidePreview();
+                prettyPrint();
+            },
+            slidePreview: function(){
+                var po = [];
+
+                for (var item, itemIndex = 0; (itemIndex < slides.length && (item = slides[itemIndex])); itemIndex++) {
+                    po.push( '<img src="'+item.thumb+'" id="item_AX_'+ itemIndex +'" ');
+                    po.push( 'style="float:left;border:1px solid #666;border-radius:8px;box-shadow:0px 0px 3px #888;margin:5px;height:100px;">' );
+                }
+
+                $("#sliderIcons").append(po.join(''));
+                $("#sliderIcons").find("img").bind("click", function(event){
+                    var itemIndex = event.target.id.split(/_AX_/gi).last();
+                    fnObj.sliderView(itemIndex);
+                });
+            },
+            sliderView: function(itemIndex){
+                myViewer.open({id:"myViewer01", list:slides, selectedIndex:itemIndex});
+            }
+        };
+        $(document.body).ready(fnObj.pageStart.delay(0.1));
+
+    </script>
+</head>
+<body>
+<div id="AXPage">
+    <div id="AXPageBody">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+
+            <h2>AXSlideViewer</h2>
+
+            <p>
+                <b>이미지를 자세히 보고 싶다면 아래 이미지 아이콘을 클릭해 주세요.</b>
+            </p>
+            <div class="AXHspace20 clear"></div>
+            <div id="sliderIcons"></div>
+            <div class="AXHspace20 clear"></div>
+
+    <pre class="prettyprint" style="padding:20px;">
+    var myViewer = new AXSlideViewer();
+    myViewer.setConfig({
+        id:"myViewer01",
+        fitToHeight: false
+    });
+
+    /*
+    // 이미지 list 의 키 네임을 변경해야 한다면. setConfig 에
+    myViewer.setConfig({
+        id:"myViewer01",
+        fitToHeight: false // true 로 하면 이미지가 꽉찬 형태로 표시 됩니다.
+        reserveKeys = {
+            title: "title", // 값을 변경 하세요.
+            description: "description",
+            url: "url"
+        },
+        onClose: function(){
+
+        }
+    });
+    */
+
+    //이미지 뷰어를 오픈하려면 아래의 메소드를 이용 하세요.
+    // list 는 이미지 배열 전체.
+    // selectedIndex 는 오픈되자 마자 봐야할 이미지 순번
+    myViewer.open({id:"myViewer01", list:slides, selectedIndex:itemIndex});
+    </pre>
+
+
+            <p>
+                AXSlideViewer는 deskTop, mobile을 모두 지원하는 이미지 뷰어 입니다.
+                터치 혹은 마우스로 이미지를 이동 및 확대 축소 시킬 수 있습니다. <br/>
+
+            <ul>
+                <li>이미지를 더블클릭하면 이미지가 확대/축소 됩니다.</li>
+                <li>이미지를 클릭하면 컨트롤러 활성 비활성 처리 됩니다. </li>
+                <li>마우스 휠을 조작하면 이미지가 확대/축소 됩니다.</li>
+                <li>끝으로 이미지뷰어 하단 중앙에 핸들은 한번 눌러 보시면 압니다.</li>
+            </ul>
+
+            이미지뷰어에 기능이 맘에 안들거나 보강을 원하시면 깃 허브 이슈에 남겨주세요. 감사합니다.
+
+
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

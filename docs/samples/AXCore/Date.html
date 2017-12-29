@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXJ.js"></script>
+
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h1>Date</h1>
+            <div class="method">
+                <div class="methodName">
+                    add(Number[, interval])
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">(반환형식 Date)</div>
+                    "2013-05-05".date().add(3); -> "Sat May 08 2013 00:00:00 GMT+0900"<br/>
+                    "2013-05-05".date().add(2, 'm'); -> "Fri Jul 05 2013 00:00:00 GMT+0900"<br/>
+                    "2013-05-05".date().add(2, 'y'); -> "Tue May 05 2015 00:00:00 GMT+0900"<br/>
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_dateAddTest" value="2013-05-05" class="AXInput W100" />
+                    <input type="button" value="add(3)" class="AXButton" onclick="toast.push('add(3) : '+$('#AXJ_dateAddTest').val().date().add(3));" />
+                    <input type="button" value="add(2, 'm')" class="AXButton" onclick="toast.push('add(2, \'m\') : '+$('#AXJ_dateAddTest').val().date().add(2, 'm'));" />
+                    <input type="button" value="add(2, 'y')" class="AXButton" onclick="toast.push('add(2, \'y\') : '+$('#AXJ_dateAddTest').val().date().add(2, 'y'));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    diff(Date), diff(String)
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">(반환형식 Number)</div>
+                    "2013-05-05".date().diff("2013-05-08"); -> 3<br/>
+                    "2013-05-05".date().diff("2013-05-08".date()); -> 3
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_dateDiffTest" value="2013-05-05" class="AXInput W100" />
+                    <input type="button" value="diff('2013-05-08')" class="AXButton" onclick="toast.push('diff(\'2013-05-08\') : '+$('#AXJ_dateDiffTest').val().date().diff('2013-05-08'));" />
+                    <input type="button" value="diff('2013-05-08'.date())" class="AXButton" onclick="toast.push('diff(\'2013-05-08\'.date()) : '+$('#AXJ_dateDiffTest').val().date().diff('2013-05-08'.date()));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+            <div class="method">
+                <div class="methodName">
+                    print([format])
+                </div>
+                <div class="methodDesc">
+                    <div class="desc">
+                        yyyy:년도, mm:월, dd:일, hh:시, mi:분, ss:초, dw:요일 을 조합하여 format으로 지정하면 그에 맞는 날짜형식 문자열이 반환됩니다. (반환형식 String)
+                    </div>
+                    "2013-05-05".date().print(); -> "2013-05-05"<br/>
+                    "2013-05-05".date().print('yyyy년 mm월 dd일'); -> "2013년 05월 05일"<br/>
+                    "2013-05-05".date().print('yyyy년 mm월 dd일 (dw)'); -> "2013년 05월 05일 (일)"<br/>
+                </div>
+                <div class="methodExam">
+                    <input type="text" name="" id="AXJ_datePrintTest" value="2013-05-05" class="AXInput W100" />
+                    <input type="button" value="print()" class="AXButton" onclick="toast.push('print() : '+$('#AXJ_datePrintTest').val().date().print());" />
+                    <input type="button" value="print('yyyy년 mm월 dd일')" class="AXButton" onclick="toast.push('print(\'yyyy년 mm월 dd일\') : '+$('#AXJ_datePrintTest').val().date().print('yyyy년 mm월 dd일'));" />
+                    <input type="button" value="print('yyyy년 mm월 dd일 (dw)')" class="AXButton" onclick="toast.push('print(\'yyyy년 mm월 dd일 (dw)\') : '+$('#AXJ_datePrintTest').val().date().print('yyyy년 mm월 dd일 (dw)'));" />
+                </div>
+            </div>
+            <div class="Hspace10"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "Date";
+    var fnObj = {
+        pageStart: function(){
+            AXInput.setConfig({responsiveMobile:640});
+            $("#AXJ_dateAddTest").bindDate();
+            $("#AXJ_dateDiffTest").bindDate();
+            $("#AXJ_datePrintTest").bindDate();
+
+            var nd = new Date();
+            //trace(nd.print("dd"));
+            nd = nd.add(1);
+            trace(nd.print("dd"));
+
+            nd = nd.add(1);
+            trace(nd.print("dd"));
+
+        }
+    };
+    $(document).ready(fnObj.pageStart.delay(0.5));
+</script>
+<!-- js block -->

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	
+</head>
+<body>
+<div id="AXPage">
+    <!-- AXPageBody -->
+    <div id="AXPageBody">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+
+            <h1>AXReq</h1>
+
+            <fieldset class="AXscriptSource" id="AXscriptSource1">
+			<legend>AXReq</legend>
+<textarea class="fieldsetBody" style="width:100%;height:600px;">
+var url = "";
+var pars = "";
+new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
+		if(res.result == AXUtil.ajaxOkCode){
+			//trace("requestOk");	
+		}else{
+			AXUtil.alert(res);
+		}
+	},
+	onerr:null
+});
+
+var url = "";
+var pars = "";
+new AXReq(url, {debug:false, pars:pars, onsucc:function(res){
+		if(res.result == AXUtil.ajaxOkCode){
+			//trace("requestOk");	
+		}else{
+			AXUtil.alert(res);
+		}
+	},
+	onerr:function(res){
+		alert("onFail:" + req.responseText);
+	}
+});
+
+
+// 속성정의 사항
+AXReq.config = {
+	pars: "",
+	type: "post",
+	onsucc: "",
+	onerr: "",
+	async: true,
+	responseType: "",
+	debug:false
+};
+
+</textarea>
+		</fieldset>
+
+	    </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pageID = "AXReq";
+    var fnObj = {
+        pageStart: function(){
+
+
+
+        }
+    };
+    $(document).ready(fnObj.pageStart.delay(0.5));
+</script>
+<!-- js block -->

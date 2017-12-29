@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AXTree - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXTree.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXTree.js, AXInput.js, AXSelect.js
+	 * CSS			: AXJ.css, AXTree.css, AXInput.css, AXSelect.css
+	 */	
+	var pageID = "AXTree";
+	var myTree = new AXTree();
+	var youTree = new AXTree();
+
+	var fnObj = {
+		pageStart: function(){
+
+			fnObj.tree1();
+			fnObj.tree2();
+			
+			/*
+			var Tree = [
+				{no:1, nodeName:"LEVEL 1-1", writer:"tom", type:"0", open:false, subTree:[
+					{no:11, nodeName:"LEVEL 2-1", writer:"tom", type:"1", open:true, subTree:[
+						{no:11, nodeName:"LEVEL 2-1-1", writer:"tom", type:"1", subTree:[]},
+						{no:12, nodeName:"LEVEL 2-1-2", writer:"tom", type:"2", open:false, subTree:[
+							{no:11, nodeName:"LEVEL 2-1-2-1", writer:"tom", type:"1", subTree:[]},
+							{no:12, nodeName:"LEVEL 2-1-2-2", writer:"tom", type:"2", subTree:[]},
+							{no:13, nodeName:"LEVEL 2-1-2-3", writer:"tom", type:"3", subTree:[]},
+							{no:14, nodeName:"LEVEL 2-1-2-4", writer:"tom", type:"4", subTree:[]}
+						]},
+						{no:13, nodeName:"LEVEL 2-1-3", writer:"tom", type:"3", subTree:[]},
+						{no:14, nodeName:"LEVEL 2-1-4", writer:"tom", type:"4", subTree:[]}
+					]},
+					{no:12, nodeName:"LEVEL 2-2", writer:"tom", type:"2", subTree:[]},
+					{no:13, nodeName:"LEVEL 2-3", writer:"tom", type:"3", subTree:[]},
+					{no:14, nodeName:"LEVEL 2-4", writer:"tom", type:"4", subTree:[]}
+				]},
+				{no:2, nodeName:"LEVEL 1-1", writer:"tom", type:"5", subTree:[
+					{no:11, nodeName:"LEVEL 2-1", writer:"tom", type:"6", subTree:[]},
+					{no:12, nodeName:"LEVEL 2-2", writer:"tom", type:"7", subTree:[]},
+					{no:13, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:14, nodeName:"LEVEL 2-4", writer:"tom", subTree:[]}
+				]},
+				{no:3, nodeName:"LEVEL 1-1", writer:"tom", subTree:[
+					{no:11, nodeName:"LEVEL 2-1", writer:"tom", subTree:[]},
+					{no:12, nodeName:"LEVEL 2-2", writer:"tom", subTree:[]},
+					{no:13, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:14, nodeName:"LEVEL 2-1", writer:"tom", subTree:[]},
+					{no:15, nodeName:"LEVEL 2-2", writer:"tom", subTree:[]},
+					{no:16, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:17, nodeName:"LEVEL 2-1", writer:"tom", subTree:[]},
+					{no:18, nodeName:"LEVEL 2-2", writer:"tom", subTree:[]},
+					{no:19, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:20, nodeName:"LEVEL 2-1", writer:"tom", subTree:[]},
+					{no:21, nodeName:"LEVEL 2-2", writer:"tom", subTree:[]},
+					{no:22, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:23, nodeName:"LEVEL 2-1", writer:"tom", subTree:[]},
+					{no:24, nodeName:"LEVEL 2-2", writer:"tom", subTree:[]},
+					{no:25, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:26, nodeName:"LEVEL 2-1", writer:"tom", subTree:[]},
+					{no:27, nodeName:"LEVEL 2-2", writer:"tom", subTree:[]},
+					{no:28, nodeName:"LEVEL 2-3", writer:"tom", subTree:[]},
+					{no:29, nodeName:"LEVEL 2-4", writer:"tom", subTree:[]}
+				]}
+			];
+			*/
+			
+			var Tree = [
+				{no:"1", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[
+					{no:"1.1", type:"phase", activity:"기획 및 설계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
+						{no:"1.1.1", type:"process", activity:"기획단계", desc:"M", charger:"최인석", admin:"", docs:"", open:true, subTree:[
+							{no:"1.1.1.1", type:"activity", activity:"요구사항정의", desc:"M", charger:"최인석/PM", admin:"홍길동", docs:"[필수]요구사항정의서", open:false, subTree:[]},
+							{no:"1.1.1.2", type:"activity", activity:"업무분할", desc:"M", charger:"한승욱/기획", admin:"", docs:"[권고]요구사항정의서", open:false, subTree:[]}
+						]}
+					]}
+				]},
+				{AXTreeSplit:true},
+				{no:"9", type:"WBS", activity:"WBS 이름", desc:"", charger:"", admin:"", docs:"", open:true, subTree:[]}
+			];
+			myTree.setTree(Tree);
+			youTree.setTree(Tree);			
+		},
+		tree1: function(){
+
+			myTree.setConfig({
+				targetID : "AXTreeTarget",
+				theme: "AXTree",
+				//height:"auto",
+				//width:"auto",
+				xscroll:true,
+				fitToWidth:true, // 너비에 자동 맞춤
+				indentRatio:1,
+				reserveKeys:{
+					parentHashKey:"pHash", // 부모 트리 포지션
+					hashKey:"hash", // 트리 포지션
+					openKey:"open", // 확장여부
+					subTree:"subTree", // 자식개체키
+					displayKey:"display" // 표시여부
+				},
+				colGroup: [
+					{key:"no", label:"코드", width:"60", align:"left"},
+					{key:"type", label:"유형", width:"80", align:"center"},
+					{
+						key:"activity",
+						label:"액티비티",
+						width:"200", align:"left",
+						indent:true,
+						getIconClass: function(){
+							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+							//var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+							var iconName = "file";
+							//if(this.item.type) iconName = iconNames[this.item.type];
+							return iconName;
+						},
+						formatter:function(){
+							return "<u>" + this.item.activity + "</u>";
+						},
+						tooltip:function(){
+							return this.item.activity;
+						}
+					}
+					,{key:"desc", label:"설명", width:"50", align:"center"}
+					,{key:"charger", label:"담당자", width:"70", align:"center"}
+					,{key:"admin", label:"승인자", width:"60", align:"center"}
+					,{key:"docs", label:"표준산출물", width:"150", align:"left"}
+				],
+				colHead: {
+					display:true
+				},
+				body: {
+					onclick:function(idx, item){
+						toast.push(Object.toJSON(this.item));
+					},
+					addClass: function(){
+						// red, green, blue, yellow
+						// 중간에 구분선으로 나오는 AXTreeSplit 도 this.index 가 있습니다. 색 지정 클래스를 추가하는 식을 넣으실때 고려해 주세요.
+						/*
+						if(this.index % 2 == 0){
+							return "green";
+						}else{
+							return "red";
+						}
+						*/						
+					}
+				}
+			});
+
+		},
+		tree2: function(){
+
+			youTree.setConfig({
+				targetID : "AXTreeTarget2",
+				theme: "AXTree_none",
+				//height:"auto",
+                //width:"auto",
+				//xscroll:true,
+				indentRatio:0.7,
+				reserveKeys:{
+					parentHashKey:"pHash", // 부모 트리 포지션
+					hashKey:"hash", // 트리 포지션
+					openKey:"open", // 확장여부
+					subTree:"subTree", // 자식개체키
+					displayKey:"display" // 표시여부
+				},
+				colGroup: [
+					{
+						key:"nodeName",
+						label:"제목",
+						width:"100%", align:"left",
+						indent:true,
+						getIconClass: function(){
+							//folder, AXfolder, movie, img, zip, file, fileTxt, fileTag
+							var iconNames = "folder, AXfolder, movie, img, zip, file, fileTxt, fileTag".split(/, /g);
+							var iconName = "file";
+							//if(this.item.type) iconName = iconNames[this.item.type];
+							return iconName;
+						},
+						formatter:function(){
+							if(this.item.no){
+								return "<b>"+this.item.no.setDigit(2) + "</b> : " + this.item.activity + " (" + this.item.charger + ")";
+							}else{ //treeSplit 을 사용한 경우
+								return "";
+							}
+						}
+					}
+				],
+				body: {
+					onclick:function(idx, item){
+						toast.push(Object.toJSON(this.item));
+					},
+					addClass: function(){
+						// red, green, blue, yellow
+						// 중간에 구분선으로 나오는 AXTreeSplit 도 this.index 가 있습니다. 색 지정 클래스를 추가하는 식을 넣으실때 고려해 주세요.
+						/*
+						if(this.index % 2 == 0){
+							return "yellow"+this.index;
+						}else{
+							return "blue"+this.index;
+						}
+						*/
+					}
+				}
+			});
+
+		}
+	
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<!-- s.AXPageBody -->
+	<div id="AXPageBody" class="SampleAXSelect">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="AXdemoPageContent">
+			<div class="title"><h1>AXTree</h1></div>
+			<!-- s.axlayer 1 -->		
+
+            <table cellpadding="0" cellspacing="0" style="table-layout:fixed;width:100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="AXTreeTarget" style="height:400px;"></div>
+                        </td>
+                        <td width="20"></td>
+                        <td>
+                            <div id="AXTreeTarget2" style="height:400px;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+		</div>
+	</div>
+	<!-- e.AXPageBody -->
+
+</div>
+
+</body>
+</html>		

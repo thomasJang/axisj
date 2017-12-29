@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindNumber - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js
+	 * CSS			: AXJ.css, AXInput.css
+	 */	
+	var pageID = "Number";
+	var fnObj = {
+		pageStart: function(){
+
+			$("#AXInputNumber").bindNumber();
+            /*
+            $("#AXInputNumber").bind("change", function(){
+               trace("change");
+            });
+            */
+
+			$("#AXInputNumber2").bindNumber();
+			$("#AXInputNumber3").bindNumber(
+				{
+					min:1, 
+					max:100, 
+					onChange : function(){
+						trace(this);
+					}
+				}
+			);
+			$("#AXInputNumber4").bindNumber({min:20});
+
+			$("#AXInputMoney").bindMoney({
+				min:0,
+				max:900000000,
+				onchange : function(){
+					trace(this);
+				}
+			});
+
+		}
+	};
+    $(document).ready(fnObj.pageStart.delay(0.1));
+	</script>
+
+	<style type="text/css">
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXInput">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXInput</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>AXInput</h2>
+						<h3>bind Number</h3>
+
+						<label>Normal</label>
+						<input type="tel" name="NumberValue" id="AXInputNumber" value="" class="AXInput W50" />
+						
+						<div class="H10"></div>						
+						<label>Range(1~100)</label>						
+						<input type="tel" name="NumberValue" id="AXInputNumber3" value="" class="AXInput W50" />
+
+						<div class="H10"></div>
+						<label>Range(20~)</label>
+						<input type="tel" name="NumberValue" id="AXInputNumber4" value="" class="AXInput W50" />
+
+						<div class="H10"></div>						
+						<label>AXInputSmall</label>						
+						<input type="tel" name="NumberValue" id="AXInputNumber2" value="" class="AXInputSmall W50" />
+						
+						<div class="H20"></div>						
+						
+						<h3>bind Money</h3>
+						<label>Normal</label>
+						<input type="tel" name="inputMoney" id="AXInputMoney" value="" class="AXInput" />
+						
+						<div class="H30"></div>	
+						
+					</div>	
+				</div>
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

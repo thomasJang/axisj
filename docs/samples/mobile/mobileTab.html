@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AX for Mobile</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<!-- js block -->
+	<script type="text/javascript">
+	var pageID = "AXMobileTab";	
+	</script>
+</head>
+<body>
+
+<div id="AXPage">
+
+    <!-- s.AXPageBody -->
+    <div id="AXPageBody" class="SampleAXSelect">
+	    <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+	    <div class="AXdemoPageContent">
+
+            <div class="title"><h1>AXMobileTab</h1></div>
+            <div class="Hspace10"></div>
+            <div id="myTab01"></div>
+            <div class="Hspace10"></div>
+            <div id="myTab02"></div>
+            <div class="Hspace10"></div>
+            <div id="myTab03"></div>
+
+	    </div>
+    </div>
+</div>
+	
+	<script type="text/javascript">
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+	AXConfig.mobile.responsiveWidth = 648;
+	
+	var pageID = "AXMobileTab";
+	var fnObj = {
+		pageStart: function(){
+			//AXUtil.readyMobileConsole();
+			
+			$("#myTab01").bindTab({
+				theme : "AXTabs",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"1살"}, 
+					{optionValue:"2", optionText:"2살"}, 
+					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살"},
+					{optionValue:"8", optionText:"8살"},
+					{optionValue:"9", optionText:"9살"},
+					{optionValue:"10", optionText:"10살 선택하기"},
+					{optionValue:"11", optionText:"11살 선택하기"},
+					{optionValue:"12", optionText:"12살 선택하기"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+			$("#myTab02").bindTab({
+				theme : "AXTabsSmall",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"1살"}, 
+					{optionValue:"2", optionText:"2살"}, 
+					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살"},
+					{optionValue:"8", optionText:"8살"},
+					{optionValue:"9", optionText:"9살"},
+					{optionValue:"10", optionText:"10살 선택하기"},
+					{optionValue:"11", optionText:"11살 선택하기"},
+					{optionValue:"12", optionText:"12살 선택하기"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+			
+			
+			$("#myTab03").bindTab({
+				theme : "AXTabsLarge",
+				value:"1",
+				overflow:"scroll",
+				scrollAmount:2,
+				options:[
+					{optionValue:"1", optionText:"1살"}, 
+					{optionValue:"2", optionText:"2살"}, 
+					{optionValue:"3", optionText:"3살", addClass:"Red"}, 
+					{optionValue:"4", optionText:"4살", addClass:"Blue"}, 
+					{optionValue:"5", optionText:"5살", addClass:"Green"}, 
+					{optionValue:"6", optionText:"6살", addClass:"Classic"}, 
+					{optionValue:"7", optionText:"7살"},
+					{optionValue:"8", optionText:"8살"},
+					{optionValue:"9", optionText:"9살"},
+					{optionValue:"10", optionText:"10살 선택하기"},
+					{optionValue:"11", optionText:"11살 선택하기"},
+					{optionValue:"12", optionText:"12살 선택하기"},
+					{optionValue:"13", optionText:"13살 선택하기"},
+					{optionValue:"14", optionText:"14살 선택하기"},
+					{optionValue:"15", optionText:"15살 선택하기"},
+					{optionValue:"16", optionText:"16살 선택하기"}
+				],
+				onchange: function(selectedObject, value){
+					//toast.push(Object.toJSON(this));
+					//toast.push(Object.toJSON(selectedObject));
+					toast.push(Object.toJSON(value));
+				}
+			});
+
+		}
+	};
+	$(document.body).ready(fnObj.pageStart.delay(0.1));
+	</script>
+	
+</body>
+</html>

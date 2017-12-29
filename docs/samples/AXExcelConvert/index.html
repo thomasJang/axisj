@@ -1,0 +1,98 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>labs - AXISJ</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+		<meta name="description" content="Description" />
+
+        <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+        <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+        <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+        <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+        <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+        <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+		<!-- css block -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+        <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+        <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+        <script type="text/javascript" src="../page.js"></script>
+		
+		<style type="text/css">
+			
+		</style>
+		<script type="text/javascript">
+		var myExcel = new AXExcelConvert();
+		var fnObj = {
+			pageStart: function(){
+				myExcel.setConfig({
+					targetID:"excelConverter",
+					ctWidth:1090, ctHeight:310,
+					colnames:[
+						{nm:"inDate", val:"입고일"},
+						{nm:"inNo", val:"입고번호"},
+						{nm:"styleNo", val:"구매오더번호"},
+						{nm:"styleNM", val:"제지(스타일)번호"},
+						{nm:"CScode", val:"자재코드"},
+						{nm:"oAmt", val:"구매오더수량"},
+						{nm:"calcAmt", val:"정산수량"},
+						{nm:"danga", val:"단가"},
+						{nm:"price", val:"금액"},
+						{nm:"taxNo", val:"세금계산서번호"},
+						{nm:"deliNo", val:"송장번호"}
+					],
+					onClose: fnObj.myExcel.onClose, //닫기
+					onConvert: fnObj.myExcel.onConvert //변환완료
+				});
+
+			},
+			myExcel: {
+				ds:[],
+				cs:[],
+				open: function(){
+					$("#excelConverter").fadeIn();
+					myExcel.readyData();
+				},
+				onClose: function(){
+					$("#excelConverter").hide();
+				},
+				onConvert: function(res){
+					fnObj.myExcel.ds = res.ds; //데이터 복제
+					fnObj.myExcel.cs = res.cols;
+					AXUtil.alert(res);
+				}
+			}
+		}
+		$(document).ready(fnObj.pageStart.delay(0.1));
+		</script>
+	</head>
+	<body>
+
+    <div id="AXPage">
+
+        <!-- s.AXPageBody  -->
+        <div id="AXPageBody" class="SampleAXSelect">
+            <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+            <div class="AXdemoPageContent">
+
+                <h1>AXExcelConvert</h1>
+
+                <div style="padding:20px;">
+                    <div class="divFinder" id="excelConverter" style="left:0px;top:0px;width:1100px;height:400px;z-index:1001;display:none;overflow:auto;"></div>
+                    <input type="button" class="AXButton" value="엑셀변환기 열기" class="AXButton" onclick="fnObj.myExcel.open();" />
+                </div>
+            </div>
+        </div>
+        <!-- e.AXPageBody  -->
+
+    </div>
+
+	</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<title>AXGrid</title>
+    
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />  
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" /> 
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+	<link rel="stylesheet" type="text/css" href="../_css/default_common.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXJ.css" />
+	
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXButton.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXSelect.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXGrid.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXInput.css" />
+	<link rel="stylesheet" type="text/css" href="../../_AXJ/ui/arongi/AXTabs.css" />
+	<style type="text/css">
+	
+	H2, H3{font-family:consolas;}
+	</style>
+	<!-- css block -->
+	
+	<!-- js block -->
+	<script type="text/javascript" src="../../_AXJ/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXJ.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXInput.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXSelect.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXGrid.js"></script>
+	<script type="text/javascript" src="../../_AXJ/lib/AXCodeView.js"></script>
+	
+	<script type="text/javascript">
+	var myGrid = new AXGrid();
+	var itemSum = 0;
+	var fnObj = {
+		pageStart: function(){
+			AXCode.bind(); // 소스보기
+
+			myGrid.setConfig({
+				targetID : "AXGridTarget",
+				theme : "AXGrid",
+				width : "600px", 
+				height: "auto", 
+				fixedColSeq:3,
+				//sort:false, 정렬을 원하지 않을 경우
+				colGroup : [
+					{key:"no", label:"checkbox", width:"30", align:"center", formatter:"checkbox"}, 
+					{key:"no", label:"번호", width:"50", align:"right"}, 
+					{key:"name", label:"이름", width:"200"},
+					{key:"writer", label:"작성자", width:"100", align:"center"},
+					{key:"price", label:"가격", width:"100", align:"right", formatter:"money"},
+					{key:"amount", label:"수량", width:"80", align:"right", formatter:"money"},
+					{key:"cost", label:"금액", width:"100", align:"right", formatter:function(){
+						return (this.item.price.number() * this.item.amount.number()).money();
+					}},
+					{key:"desc", label:"비고", width:"200"}
+				],
+				/*
+				colHead : {
+					rows: [
+						[
+							{colSeq:0, rowspan:2},
+							{colSeq:null, colspan:3, label:"표현식", align:"center"}, 
+							{colSeq:4, rowspan:2},
+							{colSeq:5, rowspan:2},
+							{colSeq:6, rowspan:2},
+							{colSeq:7, rowspan:2}
+						],
+						[
+							{colSeq:1},
+							{colSeq:2},
+							{colSeq:3}
+						]
+					]
+				},
+				*/
+				body : {
+					/*
+					rows: [
+						[
+							{colSeq:0, rowspan:2, align:"center"},
+							{colSeq:null, colspan:3, formatter:function(){
+								var mul = (this.index * this.item.no);
+								itemSum += this.item.no;
+								return "index * no = " + mul + ", no 누적합은 = " + itemSum;
+							}, align:"center", addClass:""}, 
+							{colSeq:4, rowspan:2, valign:"bottom", align:"left"},
+							{colSeq:5, rowspan:2, valign:"middle"},
+							{colSeq:6, rowspan:2, valign:"middle"},
+							{colSeq:7, rowspan:2, valign:"middle"}
+						],
+						[
+							{colSeq:1},
+							{colSeq:2},
+							{colSeq:3}
+						]
+					],
+					*/
+					marker: function(){
+						
+					},
+					onclick: function(){
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						//alert(this.list);
+						//alert(this.page);
+					},
+					ondblclick: function(){
+						//toast.push(Object.toJSON({index:this.index, r:this.r, c:this.c, item:this.item}));
+						//alert(this.list);
+						//alert(this.page);
+					}
+				},
+				/*
+				head : {
+					rows: [
+						[
+							{colSeq:null, colspan:4, formatter:function(){
+								return "계";	
+							}, align:"center"}, 
+							{colSeq:4, formatter:function(){
+								var sum = 0;
+								$.each(this.list, function(){
+									sum += this.price;
+								});
+								return sum.money();	
+							}},
+							{colSeq:5, formatter:function(){
+								var sum = 0;
+								$.each(this.list, function(){
+									sum += this.amount;
+								});
+								return sum.money();	
+							}},
+							{colSeq:6, formatter:function(){
+								var sum = 0;
+								$.each(this.list, function(){
+									sum += (this.price * this.amount);
+								});
+								return sum.money();	
+							}},
+							{colSeq:7}
+						]
+					]
+				},
+				*/
+				
+				foot : {
+					rows: [
+						[
+							{colSeq:null, colspan:4, formatter:function(){
+								return "계";	
+							}, align:"center"}, 
+							{colSeq:4},
+							{colSeq:5, formatter:function(){
+								var sum = 0;
+								$.each(this.list, function(){
+									sum += this.amount;
+								});
+								return sum.money();	
+							}},
+							{colSeq:6, formatter:function(){
+								var sum = 0;
+								$.each(this.list, function(){
+									sum += (this.price * this.amount);
+								});
+								return sum.money();	
+							}},
+							{colSeq:7}
+						]
+					]
+				},
+
+				page:{
+					paging:true, 
+					status:{formatter: null}
+				},
+				
+				editor: {
+					rows: [
+						[
+							{colSeq:0, formatter: function(){return "";}, align:"center", valign:"top"},
+							{colSeq:1, form:{type:"hidden", value:"itemValue"}, align:"center", valign:"top"},
+							{colSeq:2, align:"left", valign:"top", form:{type:"text", value:"itemValue"}},
+							{colSeq:3, align:"left", valign:"top", form:{type:"text", value:"itemValue"}},
+							{colSeq:4, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"money"}},
+							{colSeq:5, align:"left", valign:"top", form:{type:"text", value:"itemValue"}, AXBind:{type:"number", config:{min:1}}},
+							{colSeq:6, align:"right", valign:"top"},
+							{colSeq:7, align:"left", valign:"top", form:{type:"textarea", value:"itemValue"}}
+						]
+					],
+					request:{ajaxUrl:"", ajaxPars:""},
+					response: function(){
+						return true;
+					}
+				}
+			});
+			
+			var list = [
+				{no:1, name:"AXGrid 첫번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10}, // item
+				{no:2, name:"AXGrid 두번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:3, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:4, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:5, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:6, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:7, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:8, name:"AXGrid 첫번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+				{no:9, name:"AXGrid 두번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:10, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:11, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:12, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:13, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:14, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:15, name:"AXGrid 두번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:16, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:17, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:18, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:19, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:20, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1},
+				{no:21, name:"AXGrid 첫번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:10},
+				{no:22, name:"AXGrid 두번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12300, amount:7},
+				{no:23, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:12000, amount:5},
+				{no:24, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:13000, amount:4},
+				{no:25, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:3000, amount:3},
+				{no:26, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:123000, amount:2},
+				{no:27, name:"AXGrid 세번째 줄 입니다.", writer:"장기영", desc:"myGrid.setList 의 첫번째 사용법 list json 직접 지정 법", price:129500, amount:1}
+			];
+			myGrid.setList(list);
+			myGrid.setDataSet({});
+			
+		},
+		appendGrid: function(){
+			var item = {
+				no:999
+			};
+			myGrid.appendList(item);	
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+	</script>
+	<!-- js block -->
+	
+</head>
+<body>
+
+	<div style="padding:20px;">
+
+		<div class="AXTabs">
+			<div class="AXTabsTray">
+				<a href="index.html" class="AXTab Blue">AXGrid default</a>
+				<a href="colhead.html" class="AXTab Blue on">AXGrid colHead</a>
+				<a href="body.html" class="AXTab Blue">AXGrid body</a>
+				<a href="headfoot.html" class="AXTab Blue">AXGrid head&foot</a>
+				<a href="editor.html" class="AXTab Blue">AXGrid editor</a>
+			</div>
+		</div>
+
+		<h2>AXGrid</h2>
+
+		<div id="AXGridTarget" style="height:400px;"></div>
+
+		<div style="padding:10px 0px;">
+			<input type="button"	value="추가하기" class="AXButton Red" onclick="fnObj.appendGrid();" />
+			<input type="button"	value="getCheckedList" class="AXButton Blue" onclick="fnObj.appendGrid();" />
+			<input type="button"	value="checkedColSeq(0, true)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, true);" />
+			<input type="button"	value="checkedColSeq(0, false)" class="AXButton Blue" onclick="myGrid.checkedColSeq(0, false);" />
+		</div>
+
+		<div class="Hspace20"></div>
+		
+		<fieldset class="AXscriptSource" id="AXscriptSource1">
+			<legend>fomatter reserve word</legend>
+			<textarea class="fieldsetBody">
+money: 세자리마다 , 를 표현
+html : html tag
+function : 함수
+checkbox : input type checkbox
+radio : input type radio
+
+List > item
+dataSet > data
+body : {rows:"", marker:"", onclick:""}
+
+1. editor 설정 (ok)
+** wheel 처리 방식 변경 / contentScrollContentSync 개발 (ok)
+1.1 editor > append, remove, modify  (ok)
+2. ajax 데이터 통신 설정 (ok)
+2.1 page 표시 / status 표시 설정  (ok)
+	* body > marker 구현 
+3. getChecked list 구현 (ok)
+4. radio 지원
+5. 정렬기능 지원
+			</textarea>
+		</fieldset>				
+		
+		<div class="Hspace20"></div>
+		
+		<fieldset class="AXscriptSource" id="AXscriptSource2">
+			<legend>AXGrid configs</legend>
+			<textarea class="fieldsetBody">
+	var myGrid = new AXGrid();
+	var fnObj = {
+		pageStart: function(){
+			
+		}
+	};
+	
+	$(document.body).ready(function(){
+		setTimeout(fnObj.pageStart, 1);
+	});
+			</textarea>
+		</fieldset>
+
+	</div>
+
+</body>
+</html>

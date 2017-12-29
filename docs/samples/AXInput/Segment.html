@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>bindSegment - AXISJ</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+    <script type="text/javascript" src="../../lib/AXInput.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script>
+	/**
+	 * Require Files for AXISJ UI Component...
+	 * Based		: jQuery
+	 * Javascript 	: AXJ.js, AXInput.js
+	 * CSS			: AXJ.css, AXInput.css
+	 */	
+	var pageID = "Segment";
+	var fnObj = {
+		pageStart: function(){
+
+			$("#AXInputSegment").bindSegment({
+				options:[
+					{optionValue:0, optionText:"왼쪽"},
+					{optionValue:1, optionText:"가운데"},
+					{optionValue:2, optionText:"오른쪽"}
+				], 
+				onChange:function(){
+					//this.targetID, this.options, this.selectedIndex, this.selectedOption
+					toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+				}
+			});
+			
+			$("#AXInputSegmentForImage").bindSegment({
+				theme:"AXSegmentCustom",
+				options:[
+					{optionValue:0, optionText:"왼쪽", addClass:"type1"},
+					{optionValue:1, optionText:"가운데", addClass:"type2"},
+					{optionValue:2, optionText:"오른쪽", addClass:"type3"}
+				], 
+				onChange:function(){
+					//this.targetID, this.options, this.selectedIndex, this.selectedOption
+					toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+				}
+			});
+			
+			$("#AXInputSegmentForImage2").bindSegment({
+				theme:"AXSegmentCustom2",
+				options:[
+					{optionValue:0, optionText:"1", addClass:"type1"},
+					{optionValue:1, optionText:"2", addClass:"type2"},
+					{optionValue:2, optionText:"3", addClass:"type3"},
+					{optionValue:3, optionText:"4", addClass:"type4"},
+					{optionValue:4, optionText:"5", addClass:"type5"},
+					{optionValue:5, optionText:"6", addClass:"type6"},
+					{optionValue:6, optionText:"7", addClass:"type7"}
+				], 
+				onChange:function(){
+					//this.targetID, this.options, this.selectedIndex, this.selectedOption
+					toast.push(Object.toJSON({targetID:this.targetID, options:this.options, selectedIndex:this.selectedIndex, selectedOption:this.selectedOption}));
+				}
+			});				
+		
+		}
+	};
+	jQuery(document.body).ready(function(){fnObj.pageStart()});
+	</script>
+
+	<style type="text/css">
+	.AXSegmentCustom{
+		position:absolute;left:0px;top:0px;height:30px;
+		padding:0px;margin:0px;
+	}
+		/* 각각의 버튼 */
+		.AXSegmentCustom .AXanchorSegmentHandle{
+			cursor:pointer;
+			display:block;float:left;
+			padding:0px 0px;margin:0px;height:28px;
+			border-top:1px solid #888;border-left:1px solid #888;border-bottom:1px solid #888;
+			text-indent:-1000px;
+			overflow:hidden;
+		}
+		 /* 버튼 왼쪽 끝 */
+		.AXSegmentCustom .AXanchorSegmentHandle.segmentLeft{
+			border-top-left-radius:3px;border-bottom-left-radius:3px;
+		}
+		/* 버튼 오픈쪽 끝 */
+		.AXSegmentCustom .AXanchorSegmentHandle.segmentRight{
+			border-right:1px solid #888;
+			border-top-right-radius:3px;border-bottom-right-radius:3px;
+		}
+		.AXSegmentCustom .AXanchorSegmentHandle.type1{
+			background:url('../../ui/icons/white_allow.png') no-repeat center center #A2A2A2;
+		}
+		.AXSegmentCustom .AXanchorSegmentHandle.type2{
+			background:url('../../ui/icons/white_close.png') no-repeat center center #A2A2A2;
+		}
+		.AXSegmentCustom .AXanchorSegmentHandle.type3{
+			background:url('../../ui/icons/white_copy.png') no-repeat center center #A2A2A2;
+		}
+		.AXSegmentCustom .AXanchorSegmentHandle.type1.on{
+			background:url('../../ui/icons/black_allow.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom .AXanchorSegmentHandle.type2.on{
+			background:url('../../ui/icons/black_close.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom .AXanchorSegmentHandle.type3.on{
+			background:url('../../ui/icons/black_copy.png') no-repeat center center #f8f8f8;
+		}
+			
+			
+	/* AXSegmentCustom2 */
+
+	.AXSegmentCustom2{
+		position:absolute;left:0px;top:0px;height:30px;
+		padding:0px;margin:0px;
+	}
+		/* 각각의 버튼 */
+		.AXSegmentCustom2 .AXanchorSegmentHandle{
+			cursor:pointer;
+			display:block;float:left;
+			padding:0px 0px;margin:0px;height:28px;
+			border-top:1px solid #888;border-left:1px solid #888;border-bottom:1px solid #888;
+			text-align:center;color:#666;text-decoration:none;line-height:90px !important;
+			text-shadow:0px 1px #ccc;
+		}
+		 /* 버튼 왼쪽 끝 */
+		.AXSegmentCustom2 .AXanchorSegmentHandle.segmentLeft{
+			border-top-left-radius:10px;border-bottom-left-radius:10px;
+		}
+		/* 버튼 오픈쪽 끝 */
+		.AXSegmentCustom2 .AXanchorSegmentHandle.segmentRight{
+			border-right:1px solid #888;
+			border-top-right-radius:10px;border-bottom-right-radius:10px;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle{
+			box-shadow:inset 0px 0px 3px #aaa;	
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.on{
+			box-shadow:0px 0px 3px #aaa;
+			color:#ff3300;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type1{
+			background:url('../../ui/icons/smiley.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type2{
+			background:url('../../ui/icons/smiley-confuse.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type3{
+			background:url('../../ui/icons/smiley-cool.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type4{
+			background:url('../../ui/icons/smiley-roll.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type5{
+			background:url('../../ui/icons/smiley-cry.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type6{
+			background:url('../../ui/icons/smiley-eek.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type7{
+			background:url('../../ui/icons/smiley-evil.png') no-repeat center center #D0D0D0;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type1.on{
+			background:url('../../ui/icons/smiley.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type2.on{
+			background:url('../../ui/icons/smiley-confuse.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type3.on{
+			background:url('../../ui/icons/smiley-cool.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type4.on{
+			background:url('../../ui/icons/smiley-roll.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type5.on{
+			background:url('../../ui/icons/smiley-cry.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type6.on{
+			background:url('../../ui/icons/smiley-eek.png') no-repeat center center #f8f8f8;
+		}
+		.AXSegmentCustom2 .AXanchorSegmentHandle.type7.on{
+			background:url('../../ui/icons/smiley-evil.png') no-repeat center center #f8f8f8;
+		}
+	
+	</style>
+</head>
+	
+<body>
+
+<div id="AXPage">
+
+	<div id="AXPageBody" class="SampleAXInput">
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+		<div class="ax-wrap AXdemoPageContent">
+			<div class="title"><h1>AXInput</h1></div>
+			<!-- s.axlayer 1 -->		
+			<section class="ax-layer-1">
+				<div class="ax-col-12">
+					<div class="ax-unit">
+						<h2>AXInput</h2>
+						<h3>bind Segment</h3>
+
+						<input type="text" name="" value="0" id="AXInputSegment" class="AXInput" style="width:150px;" />
+						
+						<div style="padding:10px 0px;">
+							<input type="button" value="왼쪽으로" class="AXButton" onclick="jQuery('#AXInputSegment').setValueInput('0');" />
+							<input type="button" value="가운데로" class="AXButton" onclick="jQuery('#AXInputSegment').setValueInput('1');" />
+							<input type="button" value="오른쪽으로" class="AXButton" onclick="jQuery('#AXInputSegment').setValueInput('2');" />
+						</div>
+						
+						<h3>bind Segment(custom css)</h3>
+
+						<input type="text" name="" value="0" id="AXInputSegmentForImage" style="width:150px;height:30px;" />
+						
+						<div style="padding:10px 0px;">
+							<input type="button" value="왼쪽으로" class="AXButton" onclick="jQuery('#AXInputSegmentForImage').setValueInput('0');" />
+							<input type="button" value="가운데로" class="AXButton" onclick="jQuery('#AXInputSegmentForImage').setValueInput('1');" />
+							<input type="button" value="오른쪽으로" class="AXButton" onclick="jQuery('#AXInputSegmentForImage').setValueInput('2');" />
+
+                            <button class="AXButton" onclick="jQuery('#AXInputSegmentForImage').bindInputDisabled(true);">Disabled</button>
+                            <button class="AXButton" onclick="jQuery('#AXInputSegmentForImage').bindInputDisabled(false);">Enable</button>
+
+						</div>
+					
+						<h3>AXInput bind Switch (custom css)</h3>
+
+						<input type="text" name="" value="0" id="AXInputSegmentForImage2" style="width:260px;height:30px;" />						
+
+						
+						<div class="H30"></div>	
+						
+					</div>	
+				</div>
+				<div class="ax-clear"></div>
+			</section>
+			<!-- e.axlayer 1 -->
+			<div class="ax-clear"></div>							
+	
+		</div>
+		<div class="H20"></div>		
+	</div>
+
+</div>
+
+</body>
+</html>		

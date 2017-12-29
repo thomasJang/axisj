@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+	<title>AX for Mobile</title>
+
+    <link rel="shortcut icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="icon" href="../../ui/axisj.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../ui/AXJ.png" />
+    <link rel="apple-touch-icon-precomposed" href="../../ui/AXJ.png" />
+    <meta property="og:image" content="/samples/_img/axisj_sns.png" />
+    <meta property="og:site_name" content="Axis of Javascript - axisj.com" />
+    <meta property="og:description" id="meta_description" content="Javascript UI Library based on JQuery" />
+
+	<!-- css block -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/page.css">
+    <link rel="stylesheet" type="text/css" href="../../ui/arongi/AXJ.min.css">
+
+    <script type="text/javascript" src="../../jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../dist/AXJ.min.js"></script>
+	<script type="text/javascript" src="../../lib/AXCore.js"></script>
+    <script type="text/javascript" src="../page.js"></script>
+    <script type="text/javascript" src="pageTab.js"></script>
+    <!-- js block -->
+
+	<script type="text/javascript">
+	/* 모바일 스크립트 적용 너비 사용자 설정 구문 */
+	AXConfig.mobile.responsiveWidth = 648;
+	
+	var pageID = "AXMobileModal";
+	var myMobileModal = new AXMobileModal();
+	var fnObj = {
+		pageStart: function(){
+			myMobileModal.setConfig({
+				width:300, height:300,
+				head:{
+					close:{
+						onclick:function(){
+							
+						}
+					}
+				},
+				onclose: function(){
+					trace("close bind");
+				}
+			});
+		},
+		openMobileModal: function(){
+			var obj = myMobileModal.open();
+			obj.modalHead.html("자유Head 설정테스트");
+			obj.modalBody.html("<div style='height:250px;background:#fff;text-align: center;line-height:30px;'>자유body 테스트</div>");
+			//obj.modalFoot.html("자유footer 테스트");
+		}
+	};
+	$(document.body).ready(function(){
+		fnObj.pageStart.delay(0.1);
+	});
+	</script>
+	<!-- js block -->
+
+</head>
+<body>
+
+<div id="AXPage">
+    <div id="AXPageBody" class="SampleAXSelect">
+
+        <div id="demoPageTabTarget" class="AXdemoPageTabTarget"></div>
+        <div class="AXdemoPageContent">
+            <div class="title"><h1>AXMobileModal</h1></div>
+            <button class="AXButton" onclick="fnObj.openMobileModal();">open mobileModal</button>
+            <!--
+            <button class="AXButton" id="longPressTarget">long press</button>
+            -->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
