@@ -194,6 +194,7 @@
         },
         copy: {
             main: {expand: true, src: ['samples/**'], dest: 'docs/'},
+            ui: {expand: true, src: ['ui/**'], dest: 'docs/'},
             index: {expand: false, src: ['index.html'], dest: 'docs/'}
         }
     });
